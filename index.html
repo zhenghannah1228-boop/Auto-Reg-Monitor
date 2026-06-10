@@ -377,7 +377,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" onclick="document.getElementById('txtfolder').click()">📁 按整个文件夹载入(适合上千文件)</button>
         <select class="csel" id="txtcty"><option value="auto">归属国家:自动识别</option></select>
         <button class="btn light" id="reconexp" onclick="exportRecon()" disabled>↓ 导出对账结果</button>
-        <button class="btn light" onclick="clearTexts()">清空文本</button>
+        <button class="btn light" onclick="clearTexts()" title="清空范围跟随下方对账区的国家筛选:选定某国=只清空该国;全部国家=整体清空">清空文本</button>
         <input type="file" id="txtfolder" webkitdirectory multiple>
         <input type="file" id="txtfiles" multiple>
       </div>
@@ -1253,10 +1253,28 @@ async function addTexts(list){
 }
 async function clearTexts(){
   if(!textFiles.length){toast("没有已登记的文本");return;}
-  if(!confirm("将清空数据库中全团队共享的文本登记(共 "+textFiles.length+" 条),确定?"))return;
-  try{await sbReq("DELETE","text_files?id=gt.0",undefined,"return=minimal");}
-  catch(err){toast("清空失败:"+err.message);return;}
-  textFiles=[];recs().forEach(r=>r.textFiles=[]);renderRecon();toast("文本登记已清空");
+  const sel=window._reconCty&&window._reconCty!=="all"?window._reconCty:null;
+  const scope=sel?textFiles.filter(t=>(sel==="未知国"?!t.country:t.country===sel)):textFiles;
+  if(!scope.length){toast("「"+sel+"」下没有已登记的文本");return;}
+  if(!confirm(sel
+    ?("将清空「"+sel+"」的文本登记("+scope.length+" 条),其他国家不受影响。\n清空作用于全团队共享库,确定?")
+    :("将清空【全部国家】的文本登记(共 "+scope.length+" 条),全团队生效。\n\n提示:先在下方对账区的国家下拉框选定某个国家,再点「清空文本」即可只清空该国。\n\n确定全部清空?")))return;
+  try{
+    if(!sel){await sbReq("DELETE","text_files?id=gt.0",undefined,"return=minimal");}
+    else{
+      const idRows=await sbFetchAll("text_files","id,path");
+      const pm={};idRows.forEach(r=>{pm[r.path]=r.id;});
+      const ids=scope.map(t=>pm[t.path]).filter(Boolean);
+      for(let i=0;i<ids.length;i+=200)
+        await sbReq("DELETE","text_files?id=in.("+ids.slice(i,i+200).join(",")+")",undefined,"return=minimal");
+    }
+  }catch(err){toast("清空失败:"+err.message);console.error(err);return;}
+  const del=new Set(scope.map(t=>t.path));
+  textFiles=textFiles.filter(t=>!del.has(t.path));
+  recs().forEach(r=>r.textFiles=[]);
+  if(textFiles.length&&recs().length)reconcile();
+  renderRecon();
+  toast(sel?("已清空「"+sel+"」的文本登记 "+scope.length+" 条"):"文本登记已全部清空");
 }
 
 function reconcile(){
@@ -1300,10 +1318,17 @@ function renderRecon(){
   const mByC={};missing.forEach(r=>{(mByC[r.country]=mByC[r.country]||[]).push(r);});
   const oByC={};orphans.forEach(t=>{const c=t.country||"未知国";(oByC[c]=oByC[c]||[]).push(t);});
   const fsel=window._reconCty||"all";
-  const ctyOpts='<option value="all">全部国家 ('+missing.length+')</option>'
-    +Object.entries(mByC).sort((a,b)=>b[1].length-a[1].length)
-    .map(([c,l])=>`<option value="${c}" ${fsel===c?"selected":""}>${c} (${l.length})</option>`).join("");
+  const allC={};
+  Object.entries(mByC).forEach(([c,l])=>{(allC[c]=allC[c]||{m:0,o:0}).m=l.length;});
+  Object.entries(oByC).forEach(([c,l])=>{(allC[c]=allC[c]||{m:0,o:0}).o=l.length;});
+  const ctyOpts='<option value="all">全部国家 (缺'+missing.length+' / 孤'+orphans.length+')</option>'
+    +Object.entries(allC).sort((a,b)=>(b[1].m+b[1].o)-(a[1].m+a[1].o))
+    .map(([c,v])=>`<option value="${c}" ${fsel===c?"selected":""}>${c} (缺${v.m} / 孤${v.o})</option>`).join("");
   const shown=fsel==="all"?missing:(mByC[fsel]||[]);
+  const oGroups=fsel==="all"
+    ?Object.entries(oByC).sort((a,b)=>b[1].length-a[1].length)
+    :(oByC[fsel]?[[fsel,oByC[fsel]]]:[]);
+  const oTotal=oGroups.reduce((s,[,l])=>s+l.length,0);
   body.innerHTML=`
     <div class="deltachips">
       <div class="dchip"><b>${textFiles.length}</b>文本文件</div>
@@ -1311,24 +1336,24 @@ function renderRecon(){
       <div class="dchip del"><b>${missing.length}</b>清单缺文本</div>
       <div class="dchip del"><b>${orphans.length}</b>文本不在清单</div>
       <div class="dchip"><b>${cover}%</b>清单文本覆盖率</div>
+      <div class="dchip" style="display:flex;align-items:center;gap:8px">国家筛选(两栏同时生效,也决定「清空文本」范围)
+        <select class="csel" id="reconcsel" onchange="window._reconCty=this.value;renderRecon()">${ctyOpts}</select></div>
     </div>
     <div class="diffgrid">
-      <div class="card"><h3>清单缺文本 <span class="hint">清单上有,但没找到对应文件 → 待收集原文</span></h3>
-        <div style="margin-bottom:10px"><select class="csel" id="reconcsel"
-          onchange="window._reconCty=this.value;renderRecon()">${ctyOpts}</select></div>
+      <div class="card"><h3>清单缺文本${fsel==="all"?"":" · "+fsel} <span class="hint">清单上有,但没找到对应文件 → 待收集原文</span></h3>
         <div class="dlist" style="max-height:480px;overflow-y:auto">${
           shown.length?shown.slice(0,400).map(r=>`<div class="di"><span class="sign del">✗</span>
             <span class="dc">${r.country}</span><span class="did">${r.regId||"—"}</span>
             <span class="dnm">${(r.cnName||r.origName||"").slice(0,40)}</span></div>`).join("")
           +(shown.length>400?'<div class="bigmsg">仅显示前 400 条,完整名单请导出</div>':"")
           :'<div class="bigmsg">该范围内清单全部有文本 ✓</div>'}</div></div>
-      <div class="card"><h3>文本不在清单 <span class="hint">有文件,清单上找不到条目 → 可能漏录,核对后补录清单</span></h3>
+      <div class="card"><h3>文本不在清单${fsel==="all"?"":" · "+fsel} <span class="hint">有文件,清单上找不到条目 → 可能漏录,核对后补录清单</span></h3>
         <div class="dlist" style="max-height:520px;overflow-y:auto">${
-          orphans.length?Object.entries(oByC).sort((a,b)=>b[1].length-a[1].length).map(([c,l])=>
+          oTotal?oGroups.map(([c,l])=>
             l.slice(0,200).map(t=>`<div class="di"><span class="sign add">？</span>
             <span class="dc">${c}</span><span class="dnm" style="font-family:var(--mono);font-size:11px">${t.name}</span></div>`).join("")
-          ).join("")+(orphans.length>400?'<div class="bigmsg">数量较多,完整名单请导出</div>':"")
-          :'<div class="bigmsg">所有文本都能在清单上找到 ✓</div>'}</div></div>
+          ).join("")+(oTotal>400?'<div class="bigmsg">数量较多,完整名单请导出</div>':"")
+          :'<div class="bigmsg">该范围内所有文本都能在清单上找到 ✓</div>'}</div></div>
     </div>`;
 }
 
