@@ -150,6 +150,7 @@ table.matrix{border-collapse:separate;border-spacing:0;width:100%;font-size:11.5
 .rank .row:last-child{border-bottom:none}
 .rank .cn{font-weight:600;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.12s}
 .rank .cn:hover{color:var(--accent)}
+.rank .cn small{display:block;font-family:var(--mono);font-size:9.5px;color:var(--muted);font-weight:400;line-height:1.4}
 .rank .track{height:15px;background:var(--linesoft);border-radius:8px;overflow:hidden}
 .rank .track i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),#4d7d9c);
   border-radius:8px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
@@ -314,7 +315,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="pane on" id="p-ov">
     <div class="kpis" id="kpis"></div>
     <div class="card">
-      <h3>各国法规收集量 <span class="hint">点击国家名跳转详情 · 色块为10维度覆盖(绿≥3 黄1-2 红0)</span></h3>
+      <h3>各国法规收集量 <span class="hint">点击国家名跳转详情 · 色块为10维度覆盖(绿≥3 黄1-2 红0) · ⟳ 为该国最近入库时间</span>
+        <button class="btn light" onclick="document.getElementById('file').click()">⊞ 上传新的清单</button></h3>
       <div class="rank" id="rank"></div>
     </div>
     <div class="card">
@@ -645,7 +647,7 @@ function ingest(rows,srcFile,forceCountry){
     rec.refs=extractRefs(rec);
     rec.amend=amendInfo(rec);
     rec.date=rec.pubDate||rec.effDate||"";
-    rec.raw=raw;rec.sourceFile=srcFile;
+    rec.raw=raw;rec.sourceFile=srcFile;rec.updatedAt=new Date().toISOString();
     store[keyOf(rec)]=rec;
     if(_batch)_batch.add(keyOf(rec));
     n++;
@@ -715,24 +717,35 @@ function renderKPIs(){
       meta:added===null?"在「新增监控」页选择对比快照后显示":(added>0?'<span class="up">▲ 较基准增加</span>':"与基准持平")},
     {lbl:"近两年新法规",v:recent,meta:"按发布/生效日期"},
     {lbl:"空白超标国家",v:blanks,hot:blanks>0,meta:"维度空白 > 2 处"},
-    {lbl:"草案",v:drafts.length,hot:drafts.length>0,meta:drafts.length?"详见下方「草案监控」":"状态列与关键词均未识别到"},
+    {lbl:"草案",v:drafts.length,hot:drafts.length>0,
+      meta:drafts.length?("覆盖 "+new Set(drafts.map(r=>r.country)).size+" 国 · 详见草案监控"):"状态列与关键词均未识别到"},
   ];
   $("#kpis").innerHTML=k.map(x=>`<div class="kpi${x.hot?' hot':''}"><div class="lbl">${x.lbl}</div>
     <div class="v">${x.v}</div><div class="meta">${x.meta}</div></div>`).join("");
 }
 function renderRank(){
-  const data=Object.entries(byCountry()).map(([c,l])=>({c,n:l.length,dc:dimCounts(l)})).sort((a,b)=>b.n-a.n);
+  const data=Object.entries(byCountry()).map(([c,l])=>({c,n:l.length,dc:dimCounts(l),
+    t:l.reduce((m,r)=>(r.updatedAt||"")>m?r.updatedAt:m,"")})).sort((a,b)=>b.n-a.n);
   const max=Math.max(...data.map(d=>d.n),1);
   $("#rank").innerHTML=data.map(d=>`<div class="row">
-    <span class="cn" onclick="gotoCountry('${d.c}')">${d.c}</span>
+    <span class="cn" onclick="gotoCountry('${d.c}')">${d.c}${d.t?`<small title="该国记录最近一次入库/更新:${d.t.slice(0,16).replace("T"," ")}">⟳ ${d.t.slice(0,10)}</small>`:""}</span>
     <div class="track"><i style="width:${d.n/max*100}%"></i></div>
     <span class="ct">${d.n}</span>
     <div class="minidims">${d.dc.map(c=>`<i class="md${c===0?0:c<3?1:2}" title="${c}条"></i>`).join("")}</div>
   </div>`).join("");
 }
 function renderDrafts(){
-  const list=recs().filter(isDraft).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-  $("#drafts").innerHTML=list.length?list.slice(0,200).map(r=>{
+  const all=recs().filter(isDraft);
+  const byC={};all.forEach(r=>{(byC[r.country]=byC[r.country]||[]).push(r);});
+  const fsel=(window._draftCty&&byC[window._draftCty])?window._draftCty:"all";
+  const opts='<option value="all">全部国家 ('+all.length+')</option>'
+    +Object.entries(byC).sort((a,b)=>b[1].length-a[1].length)
+    .map(([c,l])=>`<option value="${c}" ${fsel===c?"selected":""}>${c} (${l.length})</option>`).join("");
+  const list=(fsel==="all"?all:(byC[fsel]||[])).slice()
+    .sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  const sel=all.length?`<div style="margin-bottom:10px"><select class="csel"
+    onchange="window._draftCty=this.value;renderDrafts()">${opts}</select></div>`:"";
+  $("#drafts").innerHTML=sel+(list.length?list.slice(0,200).map(r=>{
     const src=(r.status||"").includes("草案")?"状态列":"关键词";
     return `<div class="di">
     <span class="sign" style="color:var(--warn)">△</span><span class="dc">${r.country}</span>
@@ -740,7 +753,8 @@ function renderDrafts(){
     <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}</span>
     <span class="dc">${src}</span><span class="dc">${r.date||""}</span></div>`;}).join("")
     +(list.length>200?'<div class="bigmsg">仅显示前 200 条草案</div>':"")
-    :'<div class="bigmsg">未识别到草案:状态列(正式法规 or 草案)无标记,且 编号/名称/备注 中没有 草案/draft/proposal 字样。</div>';
+    :(all.length?'<div class="bigmsg">「'+fsel+'」暂无草案</div>'
+      :'<div class="bigmsg">未识别到草案:状态列(正式法规 or 草案)无标记,且 编号/名称/备注 中没有 草案/draft/proposal 字样。</div>'));
 }
 function renderMatrix(){
   const data=Object.entries(byCountry()).map(([c,l])=>({c,l,dc:dimCounts(l)})).sort((a,b)=>b.l.length-a.l.length);
@@ -1408,7 +1422,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   try{
     const cols="id,country,reg_id,cn_name,orig_name,en_name,lang,dim_text,domain,"
       +"ref_cn,ref_eu,ref_us,pub_date,eff_date,status,remark,source,link,"
-      +"parents_raw,dims,refs,amend,rec_date,source_file";
+      +"parents_raw,dims,refs,amend,rec_date,source_file,updated_at";
     const [regRows,tfRows,logRows]=await Promise.all([
       sbFetchAll("regulations",cols),
       sbFetchAll("text_files","filename,base,path,country"),
@@ -1426,7 +1440,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
         dims:Array.isArray(row.dims)?row.dims:[],
         refs:Array.isArray(row.refs)?row.refs:[],
         amend:row.amend||null,date:row.rec_date||"",
-        sourceFile:row.source_file||"",id:row.id};
+        sourceFile:row.source_file||"",updatedAt:row.updated_at||"",id:row.id};
       if(rec.parentsRaw.length)hasParentCol=true;
       store[keyOf(rec)]=rec;
     });
