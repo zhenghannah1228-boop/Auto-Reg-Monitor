@@ -387,7 +387,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <input type="file" id="txtfolder" webkitdirectory multiple>
         <input type="file" id="txtfiles" multiple>
       </div>
-      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.8">匹配优先级:文件名含法规编号 → 标准识别(UN R/GTR/FMVSS/GB) → 文件名含中文名<br>文件夹路径中含国家名时自动归属该国;按「国家名/」分文件夹存放文本,对账更快更准</div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.8">匹配优先级:文件名含法规编号 → 编号宽松匹配(忽略 / - _ . 等符号差异,如 EU 2010/1003 ↔ EU 2010-1003)→ 标准识别(UN R/GTR/FMVSS/GB)→ 文件名含中文名<br>文件夹路径中含国家名时自动归属该国;按「国家名/」分文件夹存放文本,对账更快更准</div>
     </div>
     <div id="reconbody"></div>
   </div>
@@ -484,6 +484,8 @@ let store={},files=[],baseline=null,hasParentCol=false;
 let snapshots=[],curSnapId=null,importLogs=[],_batch=null;
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const norm=s=>String(s||"").replace(/\s+/g,"").toUpperCase();
+/* 宽松键:去掉全部非字母数字汉字字符(/ - _ . 等),用于符号写法不一致时的对账兜底 */
+const loose=s=>norm(s).replace(/[^0-9A-Z一-鿿]/g,"");
 const keyOf=r=>r.country+"|"+norm(r.regId||r.cnName);
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2800);}
@@ -1316,7 +1318,7 @@ async function clearTexts(){
 
 function reconcile(){
   const all=recs(); if(!all.length||!textFiles.length)return;
-  all.forEach(r=>{r.textFiles=[];r._ni=norm(r.regId);r._nc=norm(r.cnName);r._sr=selfRefs(r.regId);});
+  all.forEach(r=>{r.textFiles=[];r._ni=norm(r.regId);r._li=loose(r.regId);r._nc=norm(r.cnName);r._sr=selfRefs(r.regId);});
   const bc=byCountry(),countries=Object.keys(bc);
   // 路径国家匹配:优先最长国家名,避免"中国"误吞"中国台湾"
   const sorted=[...countries].sort((a,b)=>b.length-a.length);
@@ -1324,7 +1326,7 @@ function reconcile(){
   textFiles.forEach(tf=>{
     tf.matchKey=null;tf.score=0;
     tf.country=sorted.find(c=>tf.path.includes(c))||(manual!=="auto"?manual:null);
-    const nb=norm(tf.base),fr=selfRefs(tf.base);
+    const nb=norm(tf.base),lb=loose(tf.base),fr=selfRefs(tf.base);
     const scope=tf.country?(bc[tf.country]||[]):all;
     let best=null,bs=0;
     for(const r of scope){
@@ -1334,6 +1336,9 @@ function reconcile(){
         else if(nb.includes(r._ni))s=90;
         else if(nb.length>=6&&r._ni.includes(nb))s=70;
       }
+      /* 宽松匹配:忽略 / - _ . 等符号差异,只比对字母数字序列(优先级低于精确) */
+      if(s<85&&r._li&&r._li.length>=4&&lb===r._li)s=85;
+      if(s<80&&r._li&&r._li.length>=6&&lb.includes(r._li))s=80;
       if(s<60&&fr.size&&r._sr.size&&[...fr].some(x=>r._sr.has(x)))s=Math.max(s,60);
       if(s<55&&r._nc&&r._nc.length>=4&&nb.includes(r._nc))s=55;
       if(s>bs||(s===bs&&s>0&&best&&(r._ni||"").length>(best._ni||"").length)){bs=s;best=r;}
@@ -1398,7 +1403,7 @@ function exportRecon(){
   const wb=XLSX.utils.book_new();
   const matched=textFiles.filter(t=>t.matchKey).map(t=>{const r=store[t.matchKey];
     return {国家:r.country,法规编号:r.regId,法规中文名:r.cnName,文本文件:t.name,
-      匹配方式:t.score>=90?"编号精确":t.score>=60?"标准识别":"名称匹配",文件路径:t.path};});
+      匹配方式:t.score>=90?"编号精确":t.score>=80?"编号宽松(忽略符号)":t.score>=60?"标准识别":"名称匹配",文件路径:t.path};});
   const missing=recs().filter(r=>!(r.textFiles&&r.textFiles.length))
     .map(r=>({国家:r.country,法规编号:r.regId,法规中文名:r.cnName,法规原文名:r.origName,数据来源:r.source}));
   const orphans=textFiles.filter(t=>!t.matchKey)
