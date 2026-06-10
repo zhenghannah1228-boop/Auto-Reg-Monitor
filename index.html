@@ -367,6 +367,10 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="pane" id="p-tree">
     <div class="netctrl">
+      <div class="seg">
+        <button id="tm-tax" class="on" onclick="setTreeMode('tax')">法规分类</button>
+        <button id="tm-parent" onclick="setTreeMode('parent')">上位法规</button>
+      </div>
       <select class="csel" id="treecsel" onchange="renderTree()"></select>
       <button class="btn" style="border-color:var(--line);color:var(--ink)" onclick="treeToggleAll(true)">全部展开</button>
       <button class="btn" style="border-color:var(--line);color:var(--ink)" onclick="treeToggleAll(false)">全部折叠</button>
@@ -428,6 +432,65 @@ const KW=[
   [/三角架|灭火器|急救包|first.?aid|备胎|warning triangle|随车/i,9],
 ];
 function kwDims(text){const s=new Set();KW.forEach(([re,i])=>{if(re.test(text))s.add(i);});return s;}
+
+/* ================= 法规分类框架(5→20→51,源自业主提供的分类表) ================= */
+const TAX=[["准入与认证","框架法规","","准入基础、认证要求、车型分类、整车、零部件产品型式认证、生产一致性","《道路机动车辆生产企业及产品准入管理办法》 (EU) 2018/858 49 CFR Part 567 (美标认证)"],["准入与认证","其他","","其他管理条例",""],["产品安全","整车安全","通用要求","通用安全要求、车质量、轴荷分配、外观尺寸、最高车速限制、侧倾稳定角","GB 7258 (运行安全技术条件)、GB 1589 (外廓尺寸) (EU) 1230/2012 (质量尺寸)、GSR FMVSS 571.1xx (General)、SAE J2181"],["产品安全","整车安全","碰撞保护","正碰、侧碰、后碰、柱碰、翻滚保护、行人保护、碰撞吸能件、碰撞保护件","GB 11551 (正碰)、GB 20071 (侧碰)、GB 24550 (行人保护) UN ECE R94 / R95 / R127 / R137 FMVSS 201 / 208 / 214"],["产品安全","整车安全","防火安全","整车防火性能、材料阻燃性","GB 38031 / GB 8410 UN ECE R118 FMVSS 302"],["产品安全","整车安全","视野与操作安全","驾驶员前方视野、后视镜视野范围、除霜除雾性能","GB 11562 (前方视野)、GB 15084 (间接视野) UN ECE R46 / R125 FMVSS 111"],["产品安全","主动安全","防抱死制动系统","ABS、防抱死制动","GB 21670 UN ECE R13-H FMVSS 135 / 121"],["产品安全","主动安全","电子稳定程序","ESC、ESP、电子稳定程序","GB/T 30677 UN ECE R140 / ISO 26262 FMVSS 126"],["产品安全","被动安全关键部件","安全气囊","安全气囊、侧气囊、气帘","GB/T 19949 ISO 12097 FMVSS 208"],["产品安全","被动安全关键部件","安全带","安全带、三点式安全带","GB 14166 UN ECE R16 FMVSS 209"],["产品安全","被动安全关键部件","座椅结构与头枕","座椅、儿童安全座椅、头枕、防鞭打头枕","GB 15083 / GB 11550 UN ECE R17 / R25 FMVSS 202a / 207"],["产品安全","底盘与行驶系统","转向系统","方向盘、转向柱、EPS、电动助力转向","GB 17675 UN ECE R79 FMVSS 203"],["产品安全","底盘与行驶系统","制动系统","防抱死制动ABS、刹车片、制动盘、制动液、电子稳定程序ESC","GB 12676 / GB 21670 UN ECE R13-H FMVSS 105 / 135"],["产品安全","底盘与行驶系统","悬架系统","前、后悬架、减震器、空气弹簧、摆臂传动轴、半轴、车桥","GB/T 13061 ISO 16053 SAE J157"],["产品安全","底盘与行驶系统","车轮","轮胎、轮毂、气门嘴","GB 9743 / GB/T 3487 UN ECE R30 / R124 FMVSS 109 / 139"],["产品安全","发动机与动力系统","内燃机基础机构","活塞、活塞环、曲轴、气缸盖","GB/T 1147 (内燃机通用技术条件)、QC/T 554 (活塞技术条件) ISO 6621 (活塞环系列标准) SAE J929"],["产品安全","发动机与动力系统","燃油供给与过滤系统","滤清器、喷油嘴、高压油泵、燃油箱","GB 18296 (燃油箱安全)、QC/T 970 (滤清器) UN ECE R34 (防漏油/防火) FMVSS 301"],["产品安全","发动机与动力系统","进排气与热管理系统","散热风扇、进气歧管、排气管、中冷器","GB/T 12542 (热管理)、QC/T 468 (散热器) ISO 16232 SAE J638"],["产品安全","发动机与动力系统","动力传动总成","离合器、变速器、换挡锁止","GB/T 19055 (总成可靠性)、QC/T 568 (变速器) UN ECE R102 SAE J645"],["产品安全","车身结构与附件","车身结构","乘员舱强度、顶部强度、车门保持力","GB 11551 / GB 26134 UN ECE R94 / R95 FMVSS 214 / 216"],["产品安全","车身结构与附件","车门车窗","门锁及门铰链、玻璃升降防夹","GB 15086 (门锁铰链) UN ECE R11 FMVSS 206"],["产品安全","车身结构与附件","车辆用玻璃","透光率、碎片状态、安全属性","GB 9656 (强制认证件) UN ECE R43 FMVSS 205"],["产品安全","车身结构与附件","车身附件","后视镜、挡泥板、装饰条、保险杠、格栅、地毯、空调、前翼、后翼子板、发动机罩","GB 15084 (后视镜) / GB 8410 (阻燃) UN ECE R46 / R26 (凸出物) FMVSS 111 / 302"],["产品安全","灯光与信号装置","灯具总成","前照灯、信号灯、雾灯、日间行车灯、牌照灯、倒车灯","GB 4599 (前照灯)、GB 17509 (信号灯) UN ECE R149 (前照灯)、R148 (信号灯) FMVSS 108"],["产品安全","灯光与信号装置","安装要求","灯光安装位置、光束指向","GB 4785 (安装规定) UN ECE R48 FMVSS 108"],["产品安全","灯光与信号装置","反射器","回复反射装置","GB 11564 UN ECE R150 FMVSS 108"],["产品安全","汽车电子","基础电器与电子硬件","仪表、中控屏（硬件）、传感器、ECU、线束、车速表、里程表","GB 15082 UN ECE R39 FMVSS 101"],["产品安全","汽车电子","电磁兼容","EMC、火花塞、点火系统干扰、抗扰度测试","GB 14023 / GB/T 18387 UN ECE R10 SAE J1113"],["产品安全","汽车电子","无线电与远程通讯","蓝牙、Wi-Fi、4G、5G、广播频段","GB/T 35075 UN ECE R144 SAE J3061"],["产品安全","新能源","动力电池安全","电芯、PACK、热失控、过充、针刺、单体安全","GB 38031 UN ECE R100 SAE J2464"],["产品安全","新能源","电驱动系统安全","电机、电控、逆变器、机械可靠性","GB/T 18488 ISO 19453 SAE J2907"],["产品安全","新能源","高压安全","绝缘监测、碰撞断电、人员触电防护","GB 18384 UN ECE R100 FMVSS 305"],["产品安全","新能源","充电系统安全","充电接口、互操作性、通信协议","GB/T 20234 IEC 62196 SAE J1772"],["产品安全","智能网联","环境感知与驾驶辅助","自动驾驶、高级驾驶辅助系统ADAS、车道偏离预警LDWS、自适应巡航ACC、车道保持辅助LKA、盲区监测BSD、BSM、毫米波雷达、超声波雷达、自动紧急制动AEB、碰撞预警FCW","GB/T 39901 / 39323 UN ECE R131 / R157 SAE J3029 / J3048"],["产品安全","智能网联","车辆防盗系统","电子锁止系统、远程防盗报警系统、数字钥匙","GB 15740 / GB/T 21055 UN ECE R116 / R161 FMVSS 114"],["产品安全","智能网联","软件与网络安全","软件、算法、紧急呼叫系统 (e-call)、远程控制、OTA升级、数据脱敏、防火墙、关键指令防护","GB/T 40856 UN ECE R155 / R156 ISO 21434"],["产品节能","传统汽车","整车能耗与油耗","油耗测试、整车燃油经济性标签","GB 19578 (限值) / GB/T 19233 UN ECE R101"],["产品节能","新能源汽车","能耗与续航","电池能量消耗、电机效率、车辆续航测试方法、CNG、LNG、氢燃料汽车能耗测试、燃料消耗标准","GB/T 18386.1 (电动) / GB/T 37340 (燃料电池) EU 2017/1151 (WLTP)"],["产品节能","新能源汽车","能效相关系统","BMS、电机控制器、电池热管理系统、燃气发动机控制系统、能量优化系统、热管理及储气系统","GB/T 18488 (电机) / GB/T 31467 (电池) ISO 21782"],["产品环保","排放","排放限值","尾气、噪声、NOx、PM排放限值、蒸发排放","GB 18352 (国六/七)、GB 1495 (噪声) Euro 6e / Euro 7 EPA 40 CFR"],["产品环保","排放","排放系统","排气消声器、OBM车载监测系统","GB 18352 (附件J/K) UN ECE R103"],["产品环保","禁限用物质","","RoHS、REACH、石棉禁令","GB/T 30512 (汽车禁用物质要求) 2000/53/EC TSCA"],["产品环保","回收与报废","ELV与回收利用","回收利用率、拆解手册","GB/T 19515 2005/64/EC"],["产品环保","回收与报废","动力电池回收","溯源管理、阶梯利用","GB/T 33598 (动力电池回收拆解) EU 2023/1542 (新电池法) -"],["其他","海关","入关管理条例","进口许可","《海关总署关于进口汽车检验监管有关事项的公告》"],["其他","海关","关税","税率","《中华人民共和国进出口税则》"],["其他","使用与售后","上牌与注册","车辆登记","《机动车登记规定》 (公安部164号令)"],["其他","使用与售后","标识与铭牌","VIN识别码、铭牌","GB 16735 / GB 15082 ISO 3779 FMVSS 115"],["其他","使用与售后","标签打印张贴要求","","GB 22757 (能耗标识要求) EU 1222/2009 (轮胎标签)"],["其他","使用与售后","车辆检验制度","年检、周期性检验","GB 38900 (机动车检验项目及方法)"],["其他","使用与售后","召回与处罚制度","召回计划、三包政策、处罚规定","《缺陷汽车产品召回管理条例》 / 《汽车三包规定》  49 CFR Part 573 (美国召回)"],["其他","政策","税收政策","新能源购置税减免","《关于延续和优化新能源汽车车辆购置税减免政策的公告》"],["其他","政策","补贴政策","国补、地方补贴、以旧换新","《汽车以旧换新补贴实施细则》  Inflation Reduction Act (美国IRA)"],["其他","政策","其他政策","双积分政策（CAFC & NEV）、碳足迹管理","《乘用车企业平均燃料消耗量与新能源汽车积分并行管理办法》"]];
+const TAX_ALIAS={
+ "排放限值":["排放","尾气","废气","二氧化碳","碳排放","CO2","NOx","污染物"],
+ "ELV与回收利用":["回收","报废","拆解"],
+ "动力电池回收":["动力电池回收","电池溯源"],
+ "召回与处罚制度":["召回","三包","处罚","缺陷调查","缺陷"],
+ "车辆防盗系统":["防盗","防溜车","锁止","数字钥匙"],
+ "动力电池安全":["动力电池","锂电池","电芯","电池组","热失控"],
+ "车门车窗":["车门","门锁","门铰链","车窗"],
+ "标识与铭牌":["VIN","识别号","识别代号","铭牌","标识"],
+ "标签打印张贴要求":["标签","环境标签","能耗标识"],
+ "充电系统安全":["充电"],
+ "整车能耗与油耗":["油耗","燃料经济性","燃油经济"],
+ "能耗与续航":["续航","能量消耗","氢燃料","燃料电池能耗"],
+ "上牌与注册":["上牌","注册登记","车辆登记"],
+ "入关管理条例":["入关","进口许可","清关","海关"],
+ "禁限用物质":["REACH","RoHS","禁用物质","石棉"],
+ "高压安全":["高压","触电","绝缘"],
+ "软件与网络安全":["网络安全","OTA","数据脱敏","软件升级","紧急呼叫"],
+ "环境感知与驾驶辅助":["自动驾驶","ADAS","车道","紧急制动","巡航"],
+ "车身结构":["车顶","车身接头","翻滚结构","乘员舱"]
+};
+/* 从示例标准串提取规范化标准 token(支持 "FMVSS 201 / 208 / 214" 连写) */
+function taxStd(s){
+  s=String(s||"");const out=new Set();
+  [...s.matchAll(/(?:UN[\s-]*R|ECE[\s-]*R?|R)\s*\.?\s*(\d{1,3})(?!\d)/gi)].forEach(m=>{const n=+m[1];if(n>=1&&n<=200)out.add("UNR"+n);});
+  [...s.matchAll(/GB(?:\/T)?\s*(\d{4,5})/g)].forEach(m=>out.add("GB"+m[1]));
+  [...s.matchAll(/FMVSS\s*(?:No\.?\s*)?((?:\d{1,3}[a-z]?\s*\/\s*)*\d{1,3}[a-z]?)/gi)].forEach(m=>{[...m[1].matchAll(/(\d{1,3})/g)].forEach(x=>out.add("FMVSS"+(+x[1])));});
+  [...s.matchAll(/GTR\s*(?:No\.?\s*)?((?:\d{1,2}\s*\/\s*)*\d{1,2})/gi)].forEach(m=>{[...m[1].matchAll(/(\d{1,2})/g)].forEach(x=>out.add("GTR"+(+x[1])));});
+  return out;
+}
+/* 预处理每个末级节点:标准 token 集 + 关键词集(框架关键词 + 节点名 + 别名) */
+const TAXN=TAX.map(([l1,l2,l3,kw,std])=>{
+  const kws=new Set(kw.split("、").map(k=>k.trim()).filter(Boolean));
+  if(l3)kws.add(l3); kws.add(l2);
+  (TAX_ALIAS[l3||l2]||[]).forEach(a=>kws.add(a));
+  return {l1,l2,l3,std:taxStd(std),kw:[...kws]};
+});
+/* 把一条法规归入最匹配的末级节点;返回 {idx,score,basis} 或 null(未分类) */
+function classifyTax(rec){
+  const refSet=new Set((rec.refs||[]).map(t=>String(t).replace(/\s+/g,"").toUpperCase()));
+  const text=[rec.cnName,rec.enName,rec.origName,rec.regId].filter(Boolean).join(" ");
+  let bi=-1,bs=0,basis="";
+  TAXN.forEach((L,i)=>{
+    let s=0,hit=0;
+    L.std.forEach(t=>{if(refSet.has(t))hit++;});
+    let kwhit=0;
+    for(const k of L.kw){
+      const ascii=/^[\x00-\x7f]+$/.test(k);
+      if(ascii&&k.length<=4){if(new RegExp("\\b"+k.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","i").test(text))kwhit++;}
+      else if(k.length>=2&&text.includes(k))kwhit++;
+    }
+    s=hit*100+kwhit*3;
+    if(s>bs){bs=s;bi=i;basis=hit?("标准引用"+(kwhit?"+关键词":"")):"关键词";}
+  });
+  return bi>=0?{idx:bi,score:bs,basis}:null;
+}
 
 function extractRefs(rec){
   const pool=[rec.regId,rec.refEU,rec.refUS,rec.refCN,rec.origName].filter(Boolean).join(" ");
@@ -1129,10 +1192,18 @@ function showSide(i){
 }
 
 /* ================= 层级树 ================= */
+let treeMode="tax";
+function setTreeMode(m){
+  treeMode=m;
+  $("#tm-tax").classList.toggle("on",m==="tax");
+  $("#tm-parent").classList.toggle("on",m==="parent");
+  renderTree();
+}
 function renderTree(){
   const c=$("#treecsel").value; if(!c)return;
   const list=byCountry()[c]||[];
   const tree=$("#tree");
+  if(treeMode==="tax"){renderTaxTree(c,list,tree);return;}
   const anyParent=list.some(r=>r.parentsRaw&&r.parentsRaw.length);
   if(!anyParent){
     tree.innerHTML=`<div class="bigmsg">该国数据中没有「上位法规」列或该列为空。<br><br>
@@ -1187,6 +1258,74 @@ function treeToggleAll(open){
   const tree=$("#tree");
   tree.querySelectorAll(".tkids").forEach(kd=>kd.classList.toggle("open",open));
   tree.querySelectorAll(".tog").forEach(t=>{if(t.textContent!=="·")t.textContent=open?"▾":"▸";});
+}
+
+/* ================= 法规分类树(按业主分类框架自动归类) ================= */
+function renderTaxTree(c,list,tree){
+  // 归类:leafIdx -> [recs];未命中进 unclassified
+  const byLeaf={},unc=[];
+  list.forEach(r=>{const h=classifyTax(r);
+    if(h){(byLeaf[h.idx]=byLeaf[h.idx]||[]).push({r,basis:h.basis});}else unc.push(r);});
+  // 构建层级:l1 -> l2 -> (l3|直接) -> regs,按 TAX 原始顺序
+  const L1=[];const l1map={},l2map={};
+  TAXN.forEach((L,i)=>{
+    if(!l1map[L.l1]){l1map[L.l1]={name:L.l1,kids:[],n:0};L1.push(l1map[L.l1]);}
+    const o1=l1map[L.l1];
+    const k2=L.l1+"›"+L.l2;
+    if(!l2map[k2]){l2map[k2]={name:L.l2,kids:[],regs:[],n:0};o1.kids.push(l2map[k2]);}
+    const o2=l2map[k2];
+    const regs=(byLeaf[i]||[]);
+    if(L.l3){o2.kids.push({name:L.l3,regs,n:regs.length});}
+    else{o2.regs=o2.regs.concat(regs);}
+  });
+  // 统计计数(自底向上)
+  let total=0;
+  L1.forEach(o1=>{o1.n=0;o1.kids.forEach(o2=>{
+    o2.n=(o2.regs?o2.regs.length:0)+o2.kids.reduce((s,o3)=>s+o3.n,0);o1.n+=o2.n;});total+=o1.n;});
+
+  const regRow=({r,basis})=>`<div class="tnode"><div class="trow">
+    <span class="tog">·</span>
+    <span class="tdot" style="background:${DIMCOL[r.dims.length?r.dims[0]:8]}"></span>
+    <span class="tid" style="cursor:pointer" onclick="gotoCountry('${c}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
+    <span class="tnm">${r.cnName||r.origName||""}</span>
+    <span class="tct">${basis}${r.date?" · "+r.date:""}</span></div></div>`;
+  let kid=0;
+  const grp=(name,n,inner,depth)=>{
+    const id="x"+(kid++);
+    return `<div class="tnode ${depth===0?'troot':''}"><div class="trow">
+      <span class="tog" data-k="${id}">${n?"▸":"·"}</span>
+      <span class="tdot" style="background:${depth===0?'var(--accent)':depth===1?'var(--blue)':'var(--muted)'}"></span>
+      <span class="tid">${name}</span><span class="tnm"></span>
+      <span class="tct">${n} 条</span></div>
+      ${n?`<div class="tkids" data-kids="${id}">${inner}</div>`:""}</div>`;
+  };
+  let html=L1.filter(o1=>o1.n).map(o1=>{
+    const inner2=o1.kids.filter(o2=>o2.n).map(o2=>{
+      let inner3="";
+      if(o2.kids.length) inner3=o2.kids.filter(o3=>o3.n).map(o3=>grp(o3.name,o3.n,o3.regs.map(regRow).join(""),2)).join("");
+      // l2 直接挂的法规(无 l3)
+      inner3+=(o2.regs||[]).map(regRow).join("");
+      return grp(o2.name,o2.n,inner3,1);
+    }).join("");
+    return grp(o1.name,o1.n,inner2,0);
+  }).join("");
+  if(unc.length){
+    html+=grp("未分类(框架内未匹配到 · 可补充对标标准或人工归类)",unc.length,
+      unc.map(r=>regRow({r,basis:"未匹配"})).join(""),0);
+  }
+  tree.innerHTML=html||'<div class="bigmsg">该国暂无可分类的法规。</div>';
+  $("#tree-meta").textContent=`${total} 条已归类 · ${unc.length} 条未分类 · 共 ${list.length} 条`;
+  // 折叠交互(复用)
+  tree.querySelectorAll(".tog").forEach(t=>{
+    if(!t.dataset.k)return;
+    t.addEventListener("click",()=>{
+      const kd=tree.querySelector(`.tkids[data-kids="${CSS.escape(t.dataset.k)}"]`);
+      if(!kd)return;kd.classList.toggle("open");
+      t.textContent=kd.classList.contains("open")?"▾":"▸";});
+  });
+  // 默认展开一级
+  tree.querySelectorAll(".troot>.tkids").forEach(kd=>{kd.classList.add("open");
+    const tog=kd.parentNode.querySelector(".tog");if(tog.textContent==="▸")tog.textContent="▾";});
 }
 
 /* ================= 全局搜索 ================= */
