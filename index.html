@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>汽车法规库监控台 · 60国×10维度</title>
+<script src="./xlsx.full.min.js"></script>
+<script src="./config.js"></script>
+<style>
+:root{
+  --ink:#1a2420; --ink2:#27332e; --paper:#f4f1e8; --panel:#fcfbf6; --panel2:#f7f4ec;
+  --line:#ddd6c6; --line2:#eae5d7; --linesoft:#f0ebdd;
+  --accent:#c6502a; --accent2:#a8401f; --blue:#3a6b8a; --green:#5a8a4a; --gold:#c79a2e;
+  --good:#5a8a4a; --warn:#b8891f; --bad:#c6502a; --muted:#8d8674; --faint:#b3ac99;
+  --mono:'SF Mono',ui-monospace,'Cascadia Mono',Menlo,Consolas,'Courier New',monospace;
+  --serif:'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif;
+  --sans:'Inter','Segoe UI',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif;
+  --shadow:0 1px 2px rgba(26,36,32,.04),0 8px 28px rgba(26,36,32,.05);
+  --d1:#3a6b8a; --d2:#5a8a4a; --d3:#7a5ba0; --d4:#2a8a85; --d5:#c79a2e;
+  --d6:#c6502a; --d7:#b04a6e; --d8:#6e7f3c; --d9:#5d6b8a; --d10:#8a6a4a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;
+  -webkit-font-smoothing:antialiased;padding-bottom:90px}
+.wrap{max-width:1340px;margin:0 auto;padding:0 28px}
+
+/* ============ masthead (dark band) ============ */
+.mast{background:var(--ink);color:var(--paper);position:sticky;top:0;z-index:50;
+  box-shadow:0 2px 16px rgba(26,36,32,.25)}
+.mast .inner{max-width:1340px;margin:0 auto;padding:14px 28px;display:flex;
+  align-items:center;gap:22px;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:1px;min-width:200px}
+.brand .eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--accent);font-weight:600}
+.brand h1{font-family:var(--serif);font-size:19px;font-weight:900;letter-spacing:.02em;
+  color:var(--paper);line-height:1.25}
+
+/* search */
+.searchbox{flex:1;max-width:460px;position:relative;min-width:240px}
+.searchbox input{width:100%;background:rgba(252,251,246,.08);border:1px solid rgba(252,251,246,.18);
+  border-radius:6px;padding:9px 38px 9px 36px;color:var(--paper);font-size:13px;
+  font-family:var(--sans);transition:.2s;outline:none}
+.searchbox input::placeholder{color:rgba(244,241,232,.45)}
+.searchbox input:focus{background:rgba(252,251,246,.13);border-color:var(--accent)}
+.searchbox .sic{position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  color:rgba(244,241,232,.5);font-size:13px;pointer-events:none}
+.searchbox kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  font-family:var(--mono);font-size:10px;color:rgba(244,241,232,.45);
+  border:1px solid rgba(252,251,246,.22);border-radius:4px;padding:1px 6px}
+.sresults{position:absolute;top:calc(100% + 8px);left:0;right:0;background:var(--panel);
+  border:1px solid var(--line);border-radius:8px;box-shadow:0 12px 40px rgba(26,36,32,.18);
+  max-height:430px;overflow-y:auto;display:none;color:var(--ink)}
+.sresults.on{display:block}
+.sgroup{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);padding:10px 14px 4px;border-bottom:1px solid var(--linesoft)}
+.sitem{padding:9px 14px;cursor:pointer;display:flex;gap:10px;align-items:baseline;
+  border-bottom:1px solid var(--linesoft);transition:.12s}
+.sitem:hover{background:var(--panel2)}
+.sitem:last-child{border-bottom:none}
+.sitem .si-id{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--blue);
+  white-space:nowrap}
+.sitem .si-nm{font-size:12.5px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sitem .si-c{font-family:var(--mono);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.sitem .si-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0;align-self:center}
+.sempty{padding:18px 14px;color:var(--muted);font-size:12.5px;text-align:center}
+
+.hctrl{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.btn{font-family:var(--mono);font-size:11px;border:1px solid rgba(252,251,246,.25);
+  background:transparent;padding:8px 14px;border-radius:6px;cursor:pointer;
+  color:var(--paper);transition:.18s;letter-spacing:.02em}
+.btn:hover{border-color:var(--accent);color:#e8967a}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.btn.primary:hover{background:var(--accent2);color:#fff}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.light{border-color:var(--line);color:var(--ink);background:var(--panel);box-shadow:var(--shadow)}
+.btn.light:hover{border-color:var(--accent);color:var(--accent)}
+input[type=file]{display:none}
+
+.filebar{display:flex;margin-top:14px;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{font-family:var(--mono);font-size:10.5px;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;padding:4px 12px;display:flex;gap:7px;align-items:center;box-shadow:var(--shadow)}
+.chip b{color:var(--accent)}
+.chip.base{border-color:var(--blue);color:var(--blue)}
+
+.empty{text-align:center;padding:90px 20px 50px;color:var(--muted)}
+.empty .glyph{font-family:var(--serif);font-size:40px;color:var(--faint);font-weight:700}
+.empty .big{font-family:var(--mono);font-size:12px;letter-spacing:.14em;margin-top:14px}
+.empty p{margin-top:12px;font-size:13px;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.7}
+.empty b{color:var(--ink)}
+
+#board{display:none}#board.on{display:block}
+
+/* ============ tabs ============ */
+.tabs{display:flex;gap:26px;margin-top:24px;border-bottom:1px solid var(--line);
+  overflow-x:auto;scrollbar-width:none}
+.tab{font-size:13px;font-weight:600;padding:11px 2px;cursor:pointer;color:var(--muted);
+  position:relative;white-space:nowrap;transition:color .18s}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--ink)}
+.tab::after{content:"";position:absolute;left:0;right:100%;bottom:-1px;height:2.5px;
+  background:var(--accent);transition:right .25s cubic-bezier(.2,.7,.2,1)}
+.tab.on::after{right:0}
+.tab .tn{font-family:var(--mono);font-size:9.5px;color:var(--faint);margin-right:6px}
+.tab.on .tn{color:var(--accent)}
+.pane{display:none;padding-top:26px}.pane.on{display:block;animation:fadein .3s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ============ KPI ============ */
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+  padding:18px 20px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--line2)}
+.kpi.hot::before{background:var(--accent)}
+.kpi .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kpi .v{font-family:var(--serif);font-size:36px;font-weight:900;letter-spacing:-.01em;
+  margin-top:6px;font-variant-numeric:tabular-nums;line-height:1;color:var(--ink)}
+.kpi .meta{font-size:11px;color:var(--muted);margin-top:8px}
+.kpi .meta .up{color:var(--good);font-weight:700}.kpi .meta .dn{color:var(--bad)}
+
+.card{border:1px solid var(--line);background:var(--panel);border-radius:8px;
+  padding:20px 22px;margin-bottom:22px;box-shadow:var(--shadow)}
+.card h3{font-size:13px;font-weight:700;letter-spacing:.02em;margin-bottom:16px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+  font-family:var(--serif)}
+.card h3 .hint{font-family:var(--mono);font-size:10px;color:var(--muted);font-weight:400}
+
+/* matrix */
+.mwrap{overflow:auto;max-height:640px;border-radius:6px}
+table.matrix{border-collapse:separate;border-spacing:0;width:100%;font-size:11.5px;min-width:860px}
+.matrix th{font-family:var(--mono);font-size:9.5px;letter-spacing:.03em;color:var(--muted);
+  font-weight:600;padding:8px 4px;text-align:center;border-bottom:1.5px solid var(--line);
+  position:sticky;top:0;background:var(--panel);white-space:nowrap;z-index:2}
+.matrix th.cn{text-align:left;padding-left:8px;left:0;z-index:3}
+.matrix td{padding:5px 4px;text-align:center;border-bottom:1px solid var(--linesoft)}
+.matrix td.cn{text-align:left;font-weight:600;padding-left:8px;white-space:nowrap;cursor:pointer;
+  position:sticky;left:0;background:var(--panel);z-index:1}
+.matrix td.cn:hover{color:var(--accent)}
+.matrix td.tt{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--muted)}
+.cell{display:inline-block;min-width:32px;padding:2.5px 6px;border-radius:5px;
+  font-family:var(--mono);font-size:10.5px;font-variant-numeric:tabular-nums;font-weight:600}
+.c0{background:#f5ded4;color:var(--bad)}
+.c1{background:#f5ecce;color:#8a6a14}
+.c2{background:#deead5;color:#3d6630}
+.matrix tbody tr:hover td{background:#f2eee1}
+
+/* rank */
+.rank .row{display:grid;grid-template-columns:118px 1fr 54px 132px;gap:12px;align-items:center;
+  padding:8px 0;border-bottom:1px solid var(--linesoft);font-size:12.5px}
+.rank .row:last-child{border-bottom:none}
+.rank .cn{font-weight:600;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.12s}
+.rank .cn:hover{color:var(--accent)}
+.rank .track{height:15px;background:var(--linesoft);border-radius:8px;overflow:hidden}
+.rank .track i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),#4d7d9c);
+  border-radius:8px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.rank .ct{font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.minidims{display:flex;gap:2.5px}
+.minidims i{width:10px;height:10px;border-radius:3px;display:block}
+.md0{background:#ecc9bb}.md1{background:#eddaa6}.md2{background:#b9d2ab}
+
+/* country detail */
+.detgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+select.csel{font-family:var(--mono);font-size:12.5px;background:var(--panel);border:1px solid var(--line);
+  padding:8px 14px;border-radius:6px;color:var(--ink);cursor:pointer;min-width:170px;box-shadow:var(--shadow)}
+.netctrl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.dimbars .dr{display:grid;grid-template-columns:100px 1fr 44px;gap:10px;align-items:center;margin-bottom:9px;font-size:12px}
+.dimbars .bar{height:13px;background:var(--linesoft);border-radius:7px;overflow:hidden}
+.dimbars .bar i{display:block;height:100%;border-radius:7px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+.dimbars .ct{font-family:var(--mono);font-size:11px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.dimbars .dn{display:flex;align-items:center;gap:7px}
+.dimbars .dn .dot{width:8px;height:8px;border-radius:3px;flex-shrink:0}
+.dimbars .stat{font-size:10px;font-family:var(--mono)}
+
+.revlist .ri{padding:10px 0;border-bottom:1px solid var(--linesoft);font-size:12.5px}
+.revlist .ri:last-child{border-bottom:none}
+.revlist .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.revlist .rid{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--blue)}
+.revlist .rdate{font-family:var(--mono);font-size:10.5px;color:var(--muted);white-space:nowrap}
+.revlist .rnm{color:var(--ink2);margin-top:2px;font-size:12px}
+.rtag{font-family:var(--mono);font-size:9px;background:#f5ded4;color:var(--bad);
+  padding:1.5px 7px;border-radius:8px;margin-left:7px;font-weight:600}
+.rtag.amd{background:#f5ecce;color:#8a6a14}
+.rtag.parent{background:#dce6ee;color:var(--blue)}
+
+.focusreg{border:1.5px solid var(--accent);background:#fdf5f0;border-radius:8px;
+  padding:14px 18px;margin-bottom:18px;animation:flash 1.2s ease}
+@keyframes flash{0%{background:#f8dccc}100%{background:#fdf5f0}}
+.focusreg .fid{font-family:var(--mono);font-weight:600;color:var(--accent);font-size:13px}
+.focusreg .fnm{font-size:13px;margin-top:3px}
+.focusreg .fmeta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:5px}
+.focusreg .cls{float:right;cursor:pointer;color:var(--muted);font-weight:700}
+
+/* diff */
+.diffgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.dlist .di{padding:8px 0;border-bottom:1px solid var(--linesoft);font-size:12.5px;display:flex;gap:10px;align-items:baseline}
+.dlist .di:last-child{border-bottom:none}
+.dlist .sign{font-family:var(--mono);font-weight:700;width:15px;flex-shrink:0}
+.dlist .sign.add{color:var(--good)}.dlist .sign.del{color:var(--bad)}
+.dlist .dc{font-family:var(--mono);font-size:10.5px;color:var(--muted);min-width:58px}
+.dlist .did{font-family:var(--mono);font-size:11.5px;color:var(--blue);font-weight:600}
+.dlist .dnm{color:var(--ink2)}
+.bigmsg{padding:34px 10px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
+.deltachips{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.dchip{border:1px solid var(--line);background:var(--panel);padding:11px 18px;border-radius:8px;
+  font-size:11.5px;box-shadow:var(--shadow);color:var(--muted)}
+.dchip b{font-family:var(--serif);font-size:21px;display:block;font-variant-numeric:tabular-nums;color:var(--ink)}
+.dchip.add b{color:var(--good)}.dchip.del b{color:var(--bad)}
+
+/* network */
+.seg{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;box-shadow:var(--shadow)}
+.seg button{font-family:var(--mono);font-size:11px;padding:8px 16px;border:none;background:var(--panel);
+  cursor:pointer;color:var(--muted);transition:.15s}
+.seg button.on{background:var(--ink);color:var(--paper);font-weight:600}
+#netcanvas{width:100%;height:620px;border:1px solid var(--line);border-radius:8px;
+  background:var(--panel2);cursor:grab;display:block;box-shadow:var(--shadow)}
+#netcanvas:active{cursor:grabbing}
+.netinfo{font-size:11px;color:var(--muted);margin-top:9px;font-family:var(--mono);
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.netlegend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:11px}
+.netlegend .li{display:flex;gap:6px;align-items:center;color:var(--ink2)}
+.netlegend .sw{width:10px;height:10px;border-radius:50%}
+.netlegend .ln{width:18px;height:0;border-top:2px solid var(--accent)}
+.netside{position:absolute;right:14px;top:14px;width:268px;background:rgba(252,251,246,.97);
+  border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-size:12px;display:none;
+  box-shadow:0 8px 32px rgba(26,36,32,.14)}
+.netside.on{display:block}
+.netside h4{font-size:12px;margin-bottom:6px;font-weight:600}
+.netside .nid{font-family:var(--mono);font-size:11px;color:var(--blue);font-weight:600}
+.netside ul{list-style:none;margin-top:8px;max-height:210px;overflow-y:auto}
+.netside li{padding:3px 0;border-bottom:1px dotted var(--line2);font-size:11px}
+.netside .cls{position:absolute;top:9px;right:12px;cursor:pointer;color:var(--muted);font-weight:700}
+.netwrap{position:relative}
+
+/* hierarchy tree */
+.treewrap{max-height:640px;overflow:auto;padding:4px 2px}
+.tnode{margin-left:0}
+.tnode .trow{display:flex;align-items:baseline;gap:9px;padding:6px 8px;border-radius:6px;
+  cursor:default;font-size:12.5px;transition:.12s;position:relative}
+.tnode .trow:hover{background:var(--panel2)}
+.tnode .tog{font-family:var(--mono);font-size:10px;color:var(--muted);cursor:pointer;
+  width:16px;text-align:center;flex-shrink:0;user-select:none}
+.tnode .tog:hover{color:var(--accent)}
+.tnode .tdot{width:8px;height:8px;border-radius:3px;flex-shrink:0;align-self:center}
+.tnode .tid{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--blue);white-space:nowrap}
+.tnode .tnm{color:var(--ink2);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.tnode .tct{font-family:var(--mono);font-size:10px;color:var(--muted);white-space:nowrap}
+.tkids{margin-left:24px;border-left:1.5px solid var(--line2);padding-left:6px;display:none}
+.tkids.open{display:block}
+.troot>.trow>.tid{color:var(--ink);font-weight:700}
+.tghost .tid,.tghost .tnm{color:var(--faint);font-style:italic}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--ink);color:var(--paper);font-size:12.5px;padding:12px 22px;border-radius:8px;
+  opacity:0;transition:.3s;font-family:var(--mono);z-index:99;box-shadow:0 8px 30px rgba(26,36,32,.3)}
+.toast.on{transform:translateX(-50%) translateY(0);opacity:1}
+
+footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;
+  color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media(max-width:980px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .detgrid,.diffgrid{grid-template-columns:1fr}
+  .rank .row{grid-template-columns:88px 1fr 44px}
+  .rank .minidims{display:none}
+  #netcanvas{height:460px}
+  .mast .inner{gap:12px}
+  .searchbox{order:3;max-width:none;flex-basis:100%}
+}
+</style>
+</head>
+<body>
+
+<div class="mast"><div class="inner">
+  <div class="brand">
+    <span class="eyebrow">Reg-Library Monitor</span>
+    <h1>汽车法规库监控台</h1>
+  </div>
+  <div class="searchbox">
+    <span class="sic">⌕</span>
+    <input id="search" type="text" placeholder="搜索法规编号、名称、国家、国际标准…" autocomplete="off">
+    <kbd>/</kbd>
+    <div class="sresults" id="sresults"></div>
+  </div>
+  <div class="hctrl">
+    <button class="btn primary" onclick="document.getElementById('file').click()">⊞ 载入法规清单</button>
+    <button class="btn primary" style="background:var(--blue);border-color:var(--blue)" onclick="document.getElementById('txtfiles').click()">📄 载入法规文本</button>
+    <input type="file" id="file" accept=".xlsx,.xls,.xlsb,.csv" multiple>
+    <input type="file" id="basefile" accept=".json">
+  </div>
+</div></div>
+
+<div class="wrap">
+<div class="filebar" id="filebar"></div>
+
+<div class="empty" id="empty">
+  <div class="glyph">法</div>
+  <div class="big" id="empty-big">[ 正在连接团队数据库… ]</div>
+  <p><b>⊞ 载入法规清单</b> — Excel 清单文件(8列国家清单 / 28列提取文件,含 .xlsb,可多选合并去重),解析后自动入库,全团队共享<br>
+  <b>📄 载入法规文本</b> — 多选 PDF/Word 等任意格式的原文文件;上千个文件可在「文本对账」页按整个文件夹载入。只登记文件名(不上传文件本体),自动与清单对账</p>
+  <p>PDF/Word 格式的<b>清单</b>无法在浏览器中解析表格——把文件发给 Claude 转成 28 列 Excel 后再载入。<br>若数据中包含「<b>上位法规</b>」列(填上位法规编号,多个用半角分号分隔),层级树与上下位关系自动激活。</p>
+</div>
+
+<div id="board">
+  <div class="tabs">
+    <div class="tab on" data-p="p-ov"><span class="tn">01</span>总览排行</div>
+    <div class="tab" data-p="p-dim"><span class="tn">02</span>维度矩阵</div>
+    <div class="tab" data-p="p-cty"><span class="tn">03</span>国家详情</div>
+    <div class="tab" data-p="p-new"><span class="tn">04</span>新增监控</div>
+    <div class="tab" data-p="p-net"><span class="tn">05</span>关系网络</div>
+    <div class="tab" data-p="p-tree"><span class="tn">06</span>层级树</div>
+    <div class="tab" data-p="p-txt"><span class="tn">07</span>文本对账</div>
+  </div>
+
+  <div class="pane on" id="p-ov">
+    <div class="kpis" id="kpis"></div>
+    <div class="card">
+      <h3>各国法规收集量 <span class="hint">点击国家名跳转详情 · 色块为10维度覆盖(绿≥3 黄1-2 红0)</span></h3>
+      <div class="rank" id="rank"></div>
+    </div>
+  </div>
+
+  <div class="pane" id="p-dim">
+    <div class="card">
+      <h3>国家 × 10维度覆盖矩阵 <span class="hint">✓≥3 · ⚠1-2弱覆盖 · ✗空白 — 目标:空白≤2处/国</span></h3>
+      <div class="mwrap"><table class="matrix" id="matrix"></table></div>
+    </div>
+  </div>
+
+  <div class="pane" id="p-cty">
+    <div class="netctrl">
+      <select class="csel" id="csel" onchange="renderCountry()"></select>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)" id="cty-meta"></span>
+    </div>
+    <div id="focuswrap"></div>
+    <div class="detgrid">
+      <div class="card"><h3>10维度法规量</h3><div class="dimbars" id="cty-dims"></div></div>
+      <div class="card"><h3>最新修订 / 最近生效 <span class="hint">日期倒序 · 标注修订系列</span></h3><div class="revlist" id="cty-rev"></div></div>
+    </div>
+    <div class="card"><h3>国际标准引用 <span class="hint">UN R · GTR · FMVSS · GB</span></h3><div class="rank" id="cty-refs"></div></div>
+  </div>
+
+  <div class="pane" id="p-new"><div id="newbody"></div></div>
+
+  <div class="pane" id="p-net">
+    <div class="netctrl">
+      <div class="seg">
+        <button class="on" id="m-global" onclick="setNetMode('global')">跨国联动</button>
+        <button id="m-country" onclick="setNetMode('country')">单国内部</button>
+      </div>
+      <select class="csel" id="netcsel" style="display:none" onchange="buildNet()"></select>
+      <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">拖拽 · 滚轮缩放 · 点击看关联</span>
+    </div>
+    <div class="netwrap">
+      <canvas id="netcanvas"></canvas>
+      <div class="netside" id="netside"><span class="cls" onclick="this.parentNode.classList.remove('on')">✕</span><div id="netside-body"></div></div>
+    </div>
+    <div class="netinfo"><span id="netstats"></span><span>边 = 引用/转化 + 上下位关系</span></div>
+    <div class="netlegend" id="netlegend"></div>
+  </div>
+
+  <div class="pane" id="p-tree">
+    <div class="netctrl">
+      <select class="csel" id="treecsel" onchange="renderTree()"></select>
+      <button class="btn" style="border-color:var(--line);color:var(--ink)" onclick="treeToggleAll(true)">全部展开</button>
+      <button class="btn" style="border-color:var(--line);color:var(--ink)" onclick="treeToggleAll(false)">全部折叠</button>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)" id="tree-meta"></span>
+    </div>
+    <div class="card"><div class="treewrap" id="tree"></div></div>
+  </div>
+
+  <div class="pane" id="p-txt">
+    <div class="card">
+      <h3>载入法规文本 <span class="hint">只读取文件名做对账,不上传文件内容 · 登记结果存入团队库共享</span></h3>
+      <div class="netctrl" style="margin-bottom:8px">
+        <button class="btn light" onclick="document.getElementById('txtfiles').click()">⊕ 选择文本文件(任意格式可多选)</button>
+        <button class="btn light" onclick="document.getElementById('txtfolder').click()">📁 按整个文件夹载入(适合上千文件)</button>
+        <select class="csel" id="txtcty"><option value="auto">归属国家:自动识别</option></select>
+        <button class="btn light" id="reconexp" onclick="exportRecon()" disabled>↓ 导出对账结果</button>
+        <button class="btn light" onclick="clearTexts()">清空文本</button>
+        <input type="file" id="txtfolder" webkitdirectory multiple>
+        <input type="file" id="txtfiles" multiple>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.8">匹配优先级:文件名含法规编号 → 标准识别(UN R/GTR/FMVSS/GB) → 文件名含中文名<br>文件夹路径中含国家名时自动归属该国;按「国家名/」分文件夹存放文本,对账更快更准</div>
+    </div>
+    <div id="reconbody"></div>
+  </div>
+
+  <footer>
+    <span id="foot-src">数据源:—</span>
+    <span>数据存储于团队数据库 · Excel 解析在本地浏览器完成后入库共享 · 法规原文只登记文件名</span>
+  </footer>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================= 维度框架 ================= */
+const DIMS=["整车准入","环保全链条","射频认证","充电电池","EV补贴","网络安全","ADAS","标签标识","注册监管","随车工具"];
+const DIMCOL=["#3a6b8a","#5a8a4a","#7a5ba0","#2a8a85","#c79a2e","#c6502a","#b04a6e","#6e7f3c","#5d6b8a","#8a6a4a"];
+const DOMAIN_MAP={"安全":[0],"节能环保":[1],"汽车电子":[2],"电动汽车":[3,4],"智能网联":[5,6],
+  "标识要求":[7],"入关":[8],"上牌":[8],"其他":[8],"照明":[0],"生产一致性要求":[8],"维修保养售后":[8]};
+function parseDimText(t){
+  const out=new Set(); if(!t)return out;
+  const pats=[/整车准入/,/环保/,/射频/,/充电|电池/,/EV补贴|补贴/,/网络安全/,/ADAS/,/标签|标识/,/注册|监管/,/随车工具/];
+  pats.forEach((p,i)=>{if(p.test(t))out.add(i);});
+  const cn="一二三四五六七八九十";
+  [...t.matchAll(/[(（]([一二三四五六七八九十])[)）]/g)].forEach(m=>{
+    const i=cn.indexOf(m[1]); if(i>=0)out.add(i);});
+  return out;
+}
+const KW=[
+  [/UN\s*R(?!1?5[567])\d|FMVSS|CMVSS|ADR\b|KMVSS|TIS\b|type.?approval|整车|安全带|碰撞|制动/i,0],
+  [/排放|emission|ELV|REACH|CBAM|油耗|fuel|噪声|noise|VIAQ|空气质量|回收/i,1],
+  [/RED\b|EMC|电波|radio|TPMS|蓝牙|bluetooth|RFID|无线|射频/i,2],
+  [/充电|charging|R100|R136|电池|battery|REESS|UN\s*38\.3|护照/i,3],
+  [/补贴|subsidy|incentive|IRA\b|ZEV|FAME|iZEV|税收减免|关税豁免/i,4],
+  [/R155|R156|CSMS|SUMS|OTA|TARA|网络安全|cyber|数据保护|GDPR|PDPA|APPI|privacy/i,5],
+  [/R157|ALKS|AEB|ADAS|自动驾驶|autonomous|车道保持|SOTIF|智能网联/i,6],
+  [/VIN\b|铭牌|标签|label|能效标|Monroney|EnerGuide|Sticker/i,7],
+  [/注册|登记|年检|召回|recall|清关|customs|COC\b|海关/i,8],
+  [/三角架|灭火器|急救包|first.?aid|备胎|warning triangle|随车/i,9],
+];
+function kwDims(text){const s=new Set();KW.forEach(([re,i])=>{if(re.test(text))s.add(i);});return s;}
+
+function extractRefs(rec){
+  const pool=[rec.regId,rec.refEU,rec.refUS,rec.refCN,rec.origName].filter(Boolean).join(" ");
+  const refs=new Set();
+  [...pool.matchAll(/(?:UN[\s-]*R|ECE[\s-]*R?|R)\s*\.?\s*(\d{1,3})(?!\d)/gi)].forEach(m=>{
+    const n=+m[1]; if(n>=1&&n<=200)refs.add("UN R"+n);});
+  [...pool.matchAll(/GTR\s*(?:No\.?\s*)?(\d{1,2})/gi)].forEach(m=>refs.add("GTR "+(+m[1])));
+  [...pool.matchAll(/FMVSS\s*(?:No\.?\s*)?(\d{1,3})/gi)].forEach(m=>refs.add("FMVSS "+(+m[1])));
+  [...pool.matchAll(/GB(?:\/T)?\s*(\d{4,5})/g)].forEach(m=>refs.add("GB "+m[1]));
+  return [...refs];
+}
+function amendInfo(rec){
+  const s=(rec.regId+" "+(rec.origName||"")).toLowerCase();
+  const m=s.match(/(\d{2})\s*(?:series|系列)/)||s.match(/amd\.?\s*(\d+)/)||s.match(/amendment\s*(\d+)/)
+    ||rec.regId.match(/\.(\d{2})\b/);
+  return m?("修订系列 "+m[1]):null;
+}
+
+/* ================= 数据库访问层(Supabase PostgREST,纯 fetch 无依赖) ================= */
+const SB=window.REGMON_CONFIG;
+async function sbReq(method,pathq,body,prefer){
+  const headers={apikey:SB.anonKey,Authorization:"Bearer "+SB.anonKey,"Content-Type":"application/json"};
+  if(prefer)headers.Prefer=prefer;
+  const res=await fetch(SB.url+"/rest/v1/"+pathq,{method,headers,
+    body:body===undefined?undefined:JSON.stringify(body)});
+  if(!res.ok)throw new Error(method+" "+pathq.split("?")[0]+" HTTP "+res.status+" "
+    +(await res.text().catch(()=>"" )).slice(0,180));
+  return res;
+}
+/* 全量读取:首页带 count,其余页并行(万级记录 ≤2s) */
+async function sbFetchAll(table,select,extra){
+  const page=1000;
+  const q=off=>table+"?select="+encodeURIComponent(select)+(extra?"&"+extra:"")+"&limit="+page+"&offset="+off;
+  const first=await sbReq("GET",q(0),undefined,"count=exact");
+  let rows=await first.json();
+  const cr=first.headers.get("content-range");
+  const total=cr&&cr.split("/")[1]!=="*"?+cr.split("/")[1]:rows.length;
+  if(total>page){
+    const jobs=[];
+    for(let off=page;off<total;off+=page)jobs.push(sbReq("GET",q(off)).then(r=>r.json()));
+    (await Promise.all(jobs)).forEach(r=>{rows=rows.concat(r);});
+  }
+  return rows;
+}
+async function sbInsert(table,rows){return sbReq("POST",table,rows,"return=minimal");}
+async function sbUpsert(table,rows,onConflict){
+  for(let i=0;i<rows.length;i+=400)
+    await sbReq("POST",table+"?on_conflict="+onConflict,rows.slice(i,i+400),
+      "resolution=merge-duplicates,return=minimal");
+}
+
+/* ================= 数据层 ================= */
+let store={},files=[],baseline=null,hasParentCol=false;
+let snapshots=[],curSnapId=null,importLogs=[],_batch=null;
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const norm=s=>String(s||"").replace(/\s+/g,"").toUpperCase();
+const keyOf=r=>r.country+"|"+norm(r.regId||r.cnName);
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2800);}
+
+$("#file").addEventListener("change",e=>handleFiles(e.target.files));
+$("#basefile").addEventListener("change",e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{try{const b=JSON.parse(ev.target.result);
+    baseline={date:b.date||"?",label:"本地JSON "+(b.date||"?"),keys:b.keys||[],names:b.names||{}};
+    curSnapId="";
+    toast("对比基准已载入:"+(baseline.date||"?")+" · "+baseline.keys.length+"条");renderAll();}
+    catch(err){toast("基准文件解析失败");}};
+  r.readAsText(f);
+  e.target.value="";
+});
+
+function handleFiles(list){
+  const arr=[...list]; if(!arr.length)return;
+  _batch=new Set();
+  const fileStats=[];
+  let pending=arr.length;
+  arr.forEach(f=>{
+    const r=new FileReader();
+    r.onload=e=>{
+      try{
+        const wb=XLSX.read(e.target.result,{type:"array"});
+        const before=new Set(Object.keys(store));
+        let added=0;
+        wb.SheetNames.forEach(sn=>{
+          if(/维度涵盖|报告|说明/.test(sn))return;
+          added+=ingest(XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:""}),f.name);
+        });
+        const fresh=Object.keys(store).filter(k=>!before.has(k)).length;
+        files.push({name:f.name,count:added});
+        fileStats.push({name:f.name,rows:added,added:fresh});
+      }catch(err){toast("解析失败:"+f.name);console.error(err);}
+      if(--pending===0){resolveParents();syncImport(fileStats);}
+    };
+    r.readAsArrayBuffer(f);
+  });
+  $("#file").value="";
+}
+
+/* 导入落库:去重 upsert + 导入日志 + 自动快照(验收标准 2) */
+async function syncImport(fileStats){
+  const batch=_batch||new Set();_batch=null;
+  renderAll();
+  if(!batch.size){if(fileStats.length)toast("文件中没有可入库的有效记录");return;}
+  toast("正在写入团队数据库…");
+  try{
+    const rows=[...batch].map(k=>{const r=store[k];return{
+      country:r.country,reg_key:norm(r.regId||r.cnName),
+      reg_id:r.regId,cn_name:r.cnName,orig_name:r.origName,en_name:r.enName,
+      lang:r.lang,dim_text:r.dimText,domain:r.domain,
+      ref_cn:r.refCN,ref_eu:r.refEU,ref_us:r.refUS,
+      pub_date:r.pubDate,eff_date:r.effDate,status:r.status,
+      source:r.source,link:r.link,parents_raw:r.parentsRaw,
+      dims:r.dims,refs:r.refs,amend:r.amend||null,rec_date:r.date,
+      raw:r.raw||null,source_file:r.sourceFile||""};});
+    await sbUpsert("regulations",rows,"country,reg_key");
+    await sbInsert("import_logs",fileStats.map(f=>({filename:f.name,row_count:f.rows,added_count:f.added})));
+    const names=Object.fromEntries(recs().map(r=>[keyOf(r),(r.regId||"")+" "+(r.cnName||"").slice(0,30)]));
+    await sbInsert("snapshots",[{reg_keys:recs().map(keyOf),names,key_count:recs().length,auto:true,
+      note:"导入:"+fileStats.map(f=>f.name).join("、")}]);
+    await syncIds();
+    await refreshSnapshots(true);
+    importLogs=await sbFetchAll("import_logs","filename,created_at,added_count","order=created_at.desc");
+    toast("已入库 "+rows.length+" 条(新增 "+fileStats.reduce((s,f)=>s+f.added,0)+")· 自动快照已生成");
+  }catch(err){toast("写入数据库失败:"+err.message);console.error(err);}
+  if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
+  renderAll();
+}
+/* upsert 后回填数据库 id(文本登记的外键要用) */
+async function syncIds(){
+  const idRows=await sbFetchAll("regulations","id,country,reg_key");
+  const m={};idRows.forEach(r=>{m[r.country+"|"+r.reg_key]=r.id;});
+  recs().forEach(r=>{const id=m[keyOf(r)];if(id)r.id=id;});
+}
+
+/* ================= 快照(基准存数据库) ================= */
+async function refreshSnapshots(selectPrev){
+  snapshots=await sbFetchAll("snapshots","id,snap_date,key_count,auto,note,created_at","order=created_at.desc");
+  if(selectPrev||curSnapId===null){
+    // 默认对比"上一次快照":最新一份等于当前库,取第二新的做基准
+    if(snapshots[1])await useSnapshot(snapshots[1].id,true);
+    else{curSnapId="";baseline=null;}
+  }
+}
+async function useSnapshot(id,silent){
+  curSnapId=id?String(id):"";
+  if(!id){baseline=null;if(!silent)renderAll();return;}
+  try{
+    const rows=await sbFetchAll("snapshots","reg_keys,names,snap_date,created_at","id=eq."+id);
+    const s=rows[0];
+    baseline=s?{date:s.snap_date,label:(s.created_at||"").slice(0,16).replace("T"," "),
+      keys:s.reg_keys||[],names:s.names||{}}:null;
+  }catch(err){toast("快照载入失败:"+err.message);baseline=null;}
+  if(!silent)renderAll();
+}
+async function saveSnapshotDB(){
+  if(!recs().length)return;
+  try{
+    const names=Object.fromEntries(recs().map(r=>[keyOf(r),(r.regId||"")+" "+(r.cnName||"").slice(0,30)]));
+    await sbInsert("snapshots",[{reg_keys:recs().map(keyOf),names,key_count:recs().length,
+      auto:false,note:"手动快照"}]);
+    await refreshSnapshots(false);
+    renderNew();renderFilebar();
+    toast("手动快照已保存到数据库");
+  }catch(err){toast("保存快照失败:"+err.message);}
+}
+function nk(o,names){for(const n of names){for(const k of Object.keys(o)){
+  if(String(k).trim()===n)return String(o[k]??"").trim();}}return "";}
+
+function ingest(rows,srcFile){
+  let n=0;
+  rows.forEach(raw=>{
+    const country=nk(raw,["国家"]);
+    const regId=nk(raw,["法规编号"]);
+    const cnName=nk(raw,["法规中文名","法规中文名称"]);
+    if(!country||(!regId&&!cnName))return;
+    const parentRaw=nk(raw,["上位法规","上位法规编号"]);
+    if(parentRaw)hasParentCol=true;
+    const rec={country,regId,cnName,
+      origName:nk(raw,["法规原文名","法规原文名称"]),
+      enName:nk(raw,["法规英文名称"]),
+      lang:nk(raw,["语言","原文语言"]),
+      dimText:nk(raw,["对标维度"]),
+      domain:nk(raw,["法规领域"]),
+      refCN:nk(raw,["对应国标"]),refEU:nk(raw,["对应欧标"]),refUS:nk(raw,["对应美标"]),
+      pubDate:nk(raw,["发布日期"]),effDate:nk(raw,["生效日期"]),
+      status:nk(raw,["正式法规 or 草案","正式法规or草案"]),
+      source:nk(raw,["数据来源"])||srcFile,
+      link:nk(raw,["链接"]),
+      parentsRaw:parentRaw?parentRaw.split(/[;；、,，]/).map(s=>s.trim()).filter(Boolean):[],
+    };
+    let dims=parseDimText(rec.dimText);
+    if(!dims.size&&rec.domain&&DOMAIN_MAP[rec.domain])DOMAIN_MAP[rec.domain].forEach(i=>dims.add(i));
+    if(!dims.size)dims=kwDims([rec.regId,rec.cnName,rec.origName,rec.enName].join(" "));
+    kwDims([rec.regId,rec.cnName].join(" ")).forEach(i=>{if(i===9||i===5||i===6)dims.add(i);});
+    rec.dims=[...dims];
+    rec.refs=extractRefs(rec);
+    rec.amend=amendInfo(rec);
+    rec.date=rec.pubDate||rec.effDate||"";
+    rec.raw=raw;rec.sourceFile=srcFile;
+    store[keyOf(rec)]=rec;
+    if(_batch)_batch.add(keyOf(rec));
+    n++;
+  });
+  return n;
+}
+
+/* 上位法规解析:同国内按编号/中文名匹配 */
+function resolveParents(){
+  const byC=byCountry();
+  Object.values(byC).forEach(list=>{
+    const idIdx={},nmIdx={};
+    list.forEach(r=>{if(r.regId)idIdx[norm(r.regId)]=keyOf(r);if(r.cnName)nmIdx[norm(r.cnName)]=keyOf(r);});
+    list.forEach(r=>{
+      r.parentKeys=[];r.parentGhosts=[];
+      r.parentsRaw.forEach(p=>{
+        const np=norm(p);
+        const hitK=idIdx[np]||nmIdx[np];
+        if(hitK&&hitK!==keyOf(r))r.parentKeys.push(hitK);
+        else r.parentGhosts.push(p); // 库内未找到 → 幽灵节点(可能是国际标准或未收录)
+      });
+    });
+  });
+}
+const recs=()=>Object.values(store);
+const byCountry=()=>{const m={};recs().forEach(r=>{(m[r.country]=m[r.country]||[]).push(r);});return m;};
+
+/* ================= 渲染 ================= */
+function renderAll(){
+  renderFilebar();
+  if(!recs().length){$("#board").classList.remove("on");$("#empty").style.display="block";
+    $("#empty-big").textContent="[ 数据库为空 · 等待首次导入 ]";return;}
+  $("#empty").style.display="none";$("#board").classList.add("on");
+  const last=importLogs[0];
+  $("#foot-src").textContent="数据源:团队数据库 "+recs().length+" 条"
+    +(last?" · 最近导入 "+String(last.created_at||"").slice(0,10)+" "+last.filename:"")
+    +(files.length?" · 本次会话:"+files.map(f=>f.name).join("、"):"");
+  renderKPIs();renderRank();renderMatrix();fillCountrySelects();renderCountry();renderNew();buildNet();renderTree();
+  if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
+  if(typeof renderRecon==="function")renderRecon();
+}
+function renderFilebar(){
+  let html=recs().length?`<span class="chip">◉ 库内 <b>${recs().length}</b> 条 · ${Object.keys(byCountry()).length} 国</span>`:"";
+  html+=files.map(f=>`<span class="chip">📄 ${f.name} <b>+${f.count}</b></span>`).join("");
+  if(baseline)html+=`<span class="chip base">◷ 对比基准 ${baseline.label||baseline.date||""} · ${baseline.keys.length}条</span>`;
+  $("#filebar").innerHTML=html;
+}
+function dimCounts(list){const c=Array(10).fill(0);list.forEach(r=>r.dims.forEach(i=>c[i]++));return c;}
+
+function renderKPIs(){
+  const rs=recs(),bc=byCountry();
+  let fullCover=0,blanks=0;
+  Object.values(bc).forEach(l=>{const b=dimCounts(l).filter(c=>c===0).length;
+    if(b===0)fullCover++;if(b>2)blanks++;});
+  const baseSet=baseline?new Set(baseline.keys):null;
+  const added=baseSet?rs.filter(r=>!baseSet.has(keyOf(r))).length:null;
+  const recent=rs.filter(r=>{const m=r.date.match(/^(\d{4})/);return m&&+m[1]>=new Date().getFullYear()-1;}).length;
+  const k=[
+    {lbl:"法规总条数",v:rs.length,meta:"团队数据库实时数据"},
+    {lbl:"覆盖国家",v:Object.keys(bc).length,meta:fullCover+" 国 10/10 全覆盖"},
+    {lbl:"本次新增",v:added===null?"—":added,hot:added>0,
+      meta:added===null?"在「新增监控」页选择对比快照后显示":(added>0?'<span class="up">▲ 较基准增加</span>':"与基准持平")},
+    {lbl:"近两年新法规",v:recent,meta:"按发布/生效日期"},
+    {lbl:"空白超标国家",v:blanks,hot:blanks>0,meta:"维度空白 > 2 处"},
+  ];
+  $("#kpis").innerHTML=k.map(x=>`<div class="kpi${x.hot?' hot':''}"><div class="lbl">${x.lbl}</div>
+    <div class="v">${x.v}</div><div class="meta">${x.meta}</div></div>`).join("");
+}
+function renderRank(){
+  const data=Object.entries(byCountry()).map(([c,l])=>({c,n:l.length,dc:dimCounts(l)})).sort((a,b)=>b.n-a.n);
+  const max=Math.max(...data.map(d=>d.n),1);
+  $("#rank").innerHTML=data.map(d=>`<div class="row">
+    <span class="cn" onclick="gotoCountry('${d.c}')">${d.c}</span>
+    <div class="track"><i style="width:${d.n/max*100}%"></i></div>
+    <span class="ct">${d.n}</span>
+    <div class="minidims">${d.dc.map(c=>`<i class="md${c===0?0:c<3?1:2}" title="${c}条"></i>`).join("")}</div>
+  </div>`).join("");
+}
+function renderMatrix(){
+  const data=Object.entries(byCountry()).map(([c,l])=>({c,l,dc:dimCounts(l)})).sort((a,b)=>b.l.length-a.l.length);
+  let html=`<thead><tr><th class="cn">国家</th>${DIMS.map((d,i)=>`<th>(${"一二三四五六七八九十"[i]})${d}</th>`).join("")}<th>合计</th><th>空白</th></tr></thead><tbody>`;
+  html+=data.map(d=>{
+    const blank=d.dc.filter(c=>c===0).length;
+    return `<tr><td class="cn" onclick="gotoCountry('${d.c}')">${d.c}</td>
+      ${d.dc.map(c=>`<td><span class="cell ${c===0?'c0':c<3?'c1':'c2'}">${c===0?'✗':c}</span></td>`).join("")}
+      <td class="tt">${d.l.length}</td>
+      <td><span class="cell ${blank>2?'c0':blank>0?'c1':'c2'}">${blank}</span></td></tr>`;
+  }).join("")+"</tbody>";
+  $("#matrix").innerHTML=html;
+}
+function fillCountrySelects(){
+  const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
+  const opts=cs.map(c=>`<option value="${c}">${c}</option>`).join("");
+  ["csel","netcsel","treecsel"].forEach(id=>{
+    const el=document.getElementById(id),cur=el.value;
+    el.innerHTML=opts;if(cs.includes(cur))el.value=cur;});
+  const t=document.getElementById("txtcty"),tc=t.value;
+  t.innerHTML='<option value="auto">归属国家:自动识别</option>'+opts;
+  if([...t.options].some(o=>o.value===tc))t.value=tc;
+}
+function switchTab(pid){
+  $$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.p===pid));
+  $$(".pane").forEach(p=>p.classList.toggle("on",p.id===pid));
+}
+function gotoCountry(c,focusKey){
+  $("#csel").value=c;switchTab("p-cty");
+  window._focusKey=focusKey||null;renderCountry();
+}
+
+function renderCountry(){
+  const c=$("#csel").value; if(!c)return;
+  const list=byCountry()[c]||[];
+  const dc=dimCounts(list),blank=dc.filter(x=>x===0).length;
+  $("#cty-meta").textContent=`共 ${list.length} 条 · 空白维度 ${blank} 处 ${blank>2?"⚠ 超标":"✓"}`;
+
+  // 搜索定位高亮
+  const fw=$("#focuswrap");
+  if(window._focusKey&&store[window._focusKey]){
+    const r=store[window._focusKey];
+    fw.innerHTML=`<div class="focusreg"><span class="cls" onclick="window._focusKey=null;this.parentNode.remove()">✕</span>
+      <div class="fid">⌕ ${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${(r.status||"").includes("草案")?'<span class="rtag">草案</span>':""}</div>
+      <div class="fnm">${r.cnName||r.origName||""}</div>
+      <div class="fmeta">${r.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${r.date?" · "+r.date:""}${r.refs.length?" · 引用:"+r.refs.join(", "):""}${r.parentsRaw.length?" · 上位:"+r.parentsRaw.join("; "):""}</div></div>`;
+  }else fw.innerHTML="";
+
+  const max=Math.max(...dc,1);
+  $("#cty-dims").innerHTML=DIMS.map((d,i)=>{
+    const st=dc[i]===0?["✗","var(--bad)"]:dc[i]<3?["⚠","var(--warn)"]:["✓","var(--good)"];
+    return `<div class="dr"><div class="dn"><span class="dot" style="background:${DIMCOL[i]}"></span>${d}</div>
+      <div class="bar"><i style="width:${dc[i]/max*100}%;background:${DIMCOL[i]}"></i></div>
+      <div class="ct"><span class="stat" style="color:${st[1]}">${st[0]}</span> ${dc[i]}</div></div>`;
+  }).join("");
+
+  const dated=list.filter(r=>r.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
+  if(dated.length){
+    $("#cty-rev").innerHTML=dated.map(r=>`<div class="ri">
+      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${(r.status||"").includes("草案")?'<span class="rtag">草案</span>':""}</span>
+      <span class="rdate">${r.date}</span></div>
+      <div class="rnm">${r.cnName||r.origName||""}</div></div>`).join("");
+  }else{
+    const amds=list.filter(r=>r.amend).slice(0,10);
+    $("#cty-rev").innerHTML=amds.length?amds.map(r=>`<div class="ri">
+      <div class="top"><span class="rid">${r.regId}<span class="rtag amd">${r.amend}</span></span></div>
+      <div class="rnm">${r.cnName||r.origName||""}</div></div>`).join("")
+      :'<div class="bigmsg">该国数据无日期字段(8列清单格式)。<br>载入 28 列提取文件可获得发布/生效日期排序。</div>';
+  }
+
+  const refCount={};
+  list.forEach(r=>r.refs.forEach(f=>{refCount[f]=(refCount[f]||0)+1;}));
+  const refData=Object.entries(refCount).sort((a,b)=>b[1]-a[1]).slice(0,14);
+  const rmax=Math.max(...refData.map(d=>d[1]),1);
+  $("#cty-refs").innerHTML=refData.length?refData.map(([f,n])=>`<div class="row">
+    <span class="cn">${f}</span><div class="track"><i style="width:${n/rmax*100}%;background:linear-gradient(90deg,var(--accent),#d4744f)"></i></div>
+    <span class="ct">${n}</span><div class="minidims"></div></div>`).join("")
+    :'<div class="bigmsg">未识别到国际标准引用</div>';
+}
+
+/* ================= 快照/新增 ================= */
+function exportSnapshot(){
+  const snap={date:new Date().toISOString().slice(0,10),keys:recs().map(keyOf),
+    names:Object.fromEntries(recs().map(r=>[keyOf(r),(r.regId||"")+" "+(r.cnName||"").slice(0,30)]))};
+  const blob=new Blob([JSON.stringify(snap)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download="法规库基准_"+snap.date+".json";a.click();
+  toast("基准已保存 · 下次在「新增监控」页载入即可对比新增");
+}
+function renderNew(){
+  const body=$("#newbody");
+  const opts='<option value="">— 不对比 —</option>'+snapshots.map(s=>
+    `<option value="${s.id}" ${curSnapId===String(s.id)?"selected":""}>${String(s.created_at||"").slice(0,16).replace("T"," ")} · ${s.key_count}条 · ${s.auto?"自动":"手动"}</option>`).join("")
+    +(curSnapId===""&&baseline?'<option value="" selected>本地JSON基准</option>':"");
+  const ctrl=`<div class="card"><h3>对比基准 <span class="hint">每次导入清单后自动生成快照存入数据库;默认对比上一次快照</span></h3>
+    <div class="netctrl" style="margin-bottom:6px">
+      <select class="csel" onchange="useSnapshot(this.value)">${opts}</select>
+      <button class="btn light" onclick="saveSnapshotDB()">✓ 保存手动快照</button>
+      <button class="btn light" onclick="exportSnapshot()">↓ 导出基准JSON</button>
+      <button class="btn light" onclick="document.getElementById('basefile').click()">◷ 载入基准JSON对比</button>
+      <span style="font-family:var(--mono);font-size:11px;color:${baseline?'var(--good)':'var(--muted)'}">${baseline?("对比基准:"+(baseline.label||baseline.date||"?")+" · "+baseline.keys.length+"条"):"未选择对比基准"}</span>
+    </div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.9">每次导入清单 Excel 后系统自动保存一份快照(库的目录底账)。下拉框默认选中<b style="color:var(--ink)">上一次快照</b>,下方即列出本次导入相对上次的 <b style="color:var(--good)">新增</b> 与 <b style="color:var(--bad)">移除</b>;也可手选任意历史快照对比。「导出/载入基准JSON」与一期格式兼容,供离线留档。</div></div>`;
+  if(!baseline){body.innerHTML=ctrl+(snapshots.length<=1?'<div class="bigmsg">还没有可对比的历史快照——每次导入清单会自动生成一份,导入两次后即可对比。</div>':"");return;}
+  const baseSet=new Set(baseline.keys),curSet=new Set(recs().map(keyOf));
+  const added=recs().filter(r=>!baseSet.has(keyOf(r)));
+  const removed=baseline.keys.filter(k=>!curSet.has(k));
+  const addByC={};added.forEach(r=>{(addByC[r.country]=addByC[r.country]||[]).push(r);});
+  body.innerHTML=ctrl+`<div class="deltachips">
+      <div class="dchip add"><b>+${added.length}</b>新增法规</div>
+      <div class="dchip del"><b>−${removed.length}</b>较基准移除</div>
+      <div class="dchip"><b>${Object.keys(addByC).length}</b>有新增的国家</div>
+      <div class="dchip"><b>${baseline.date||"?"}</b>基准日期</div></div>
+    <div class="diffgrid">
+      <div class="card"><h3>新增明细 <span class="hint">按国家分组</span></h3><div class="dlist">${
+        added.length?Object.entries(addByC).sort((a,b)=>b[1].length-a[1].length).map(([c,l])=>
+          l.map(r=>`<div class="di"><span class="sign add">+</span><span class="dc">${c}</span>
+          <span class="did">${r.regId||"—"}</span><span class="dnm">${(r.cnName||r.origName||"").slice(0,40)}</span></div>`).join("")
+        ).join(""):'<div class="bigmsg">无新增</div>'}</div></div>
+      <div class="card"><h3>移除明细 <span class="hint">上次基准里有,但本次清单没有</span></h3><div class="dlist">${
+        removed.length?removed.slice(0,200).map(k=>{const [c]=k.split("|");
+          return `<div class="di"><span class="sign del">−</span><span class="dc">${c}</span>
+          <span class="dnm">${(baseline.names&&baseline.names[k])||k.split("|")[1]}</span></div>`;}).join("")
+        :'<div class="bigmsg">无移除</div>'}</div></div></div>`;
+}
+
+/* ================= 关系网络 ================= */
+let netMode="global",net={nodes:[],edges:[]},view={x:0,y:0,k:1},dragN=null,panning=false,pstart=null,warm=0,selNode=null;
+const canvas=$("#netcanvas"),ctx=canvas.getContext("2d");
+function setNetMode(m){
+  netMode=m;
+  $("#m-global").classList.toggle("on",m==="global");
+  $("#m-country").classList.toggle("on",m==="country");
+  $("#netcsel").style.display=m==="country"?"":"none";
+  buildNet();
+}
+function buildNet(){
+  const rs=recs(); if(!rs.length)return;
+  const nodes=[],edges=[],idx={};
+  function addNode(id,type,label,size,color,data){
+    if(idx[id]!==undefined)return idx[id];
+    idx[id]=nodes.length;
+    nodes.push({id,type,label,size,color,data,x:(Math.random()-.5)*600,y:(Math.random()-.5)*400,vx:0,vy:0});
+    return idx[id];
+  }
+  function addEdge(a,b,w,kind){edges.push({a,b,w:w||1,kind:kind||"ref"});}
+
+  if(netMode==="global"){
+    const bc=byCountry(),hubCount={};
+    Object.entries(bc).forEach(([c,list])=>list.forEach(r=>r.refs.forEach(f=>{
+      (hubCount[f]=hubCount[f]||{})[c]=(hubCount[f][c]||0)+1;})));
+    const hubs=Object.entries(hubCount).filter(([f,m])=>Object.keys(m).length>=2)
+      .sort((a,b)=>Object.keys(b[1]).length-Object.keys(a[1]).length).slice(0,40);
+    Object.entries(bc).forEach(([c,list])=>
+      addNode("C:"+c,"country",c,Math.min(9+Math.sqrt(list.length)*1.6,26),"#1a2420",{count:list.length}));
+    hubs.forEach(([f,m])=>{
+      const deg=Object.keys(m).length;
+      let col="#c6502a";
+      if(/^UN R/.test(f))col="#3a6b8a";else if(/^GTR/.test(f))col="#5a8a4a";
+      else if(/^FMVSS/.test(f))col="#7a5ba0";else if(/^GB/.test(f))col="#c79a2e";
+      const h=addNode("H:"+f,"hub",f,Math.min(6+deg*1.4,20),col,{deg});
+      Object.entries(m).forEach(([c,n])=>addEdge(idx["C:"+c],h,Math.min(n,6)));
+    });
+    $("#netlegend").innerHTML=`
+      <div class="li"><span class="sw" style="background:#1a2420"></span>国家(大小∝法规量)</div>
+      <div class="li"><span class="sw" style="background:#3a6b8a"></span>UN R</div>
+      <div class="li"><span class="sw" style="background:#5a8a4a"></span>GTR</div>
+      <div class="li"><span class="sw" style="background:#7a5ba0"></span>FMVSS</div>
+      <div class="li"><span class="sw" style="background:#c79a2e"></span>GB 国标</div>`;
+  }else{
+    const c=$("#netcsel").value||Object.keys(byCountry())[0];
+    const list=(byCountry()[c]||[]);
+    const withLink=list.filter(r=>r.refs.length||r.parentKeys&&r.parentKeys.length||list.some(o=>(o.parentKeys||[]).includes(keyOf(r))));
+    const noLink=list.filter(r=>!withLink.includes(r));
+    const chosen=[...withLink,...noLink].slice(0,160);
+    const chosenKeys=new Set(chosen.map(keyOf));
+    const hubSet={};
+    chosen.forEach(r=>{
+      const di=r.dims.length?r.dims[0]:8;
+      addNode("R:"+keyOf(r),"reg",(r.regId||r.cnName||"").slice(0,22),5.5,DIMCOL[di],r);
+    });
+    chosen.forEach(r=>{
+      const ni=idx["R:"+keyOf(r)];
+      r.refs.forEach(f=>{
+        if(hubSet[f]===undefined)hubSet[f]=addNode("H:"+f,"hub",f,9,"#1a2420",{});
+        addEdge(ni,hubSet[f],1.5,"ref");
+      });
+      (r.parentKeys||[]).forEach(pk=>{
+        if(chosenKeys.has(pk))addEdge(idx["R:"+pk],ni,2.2,"parent"); // 上位 → 下位
+      });
+    });
+    const byDim={};
+    nodes.forEach((n,i)=>{if(n.type==="reg"){const d=n.data.dims[0]??8;(byDim[d]=byDim[d]||[]).push(i);}});
+    Object.values(byDim).forEach(arr=>{for(let i=1;i<arr.length;i++)addEdge(arr[i-1],arr[i],0.25,"cluster");});
+    $("#netlegend").innerHTML=DIMS.map((d,i)=>
+      `<div class="li"><span class="sw" style="background:${DIMCOL[i]}"></span>${d}</div>`).join("")
+      +`<div class="li"><span class="sw" style="background:#1a2420"></span>国际标准枢纽</div>
+       <div class="li"><span class="ln"></span>上位→下位</div>`;
+  }
+  net={nodes,edges};view={x:0,y:0,k:1};selNode=null;$("#netside").classList.remove("on");
+  $("#netstats").textContent=`节点 ${nodes.length} · 边 ${edges.length} · 模式:${netMode==="global"?"跨国联动":"单国内部"}`;
+  warm=240;
+}
+function step(){
+  const N=net.nodes,E=net.edges; if(!N.length)return;
+  const alpha=warm>0?Math.min(warm/240,1)*0.9+0.05:0.02;
+  for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){
+    const a=N[i],b=N[j];
+    let dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy; if(d2<1)d2=1;
+    const f=1400*alpha/d2,d=Math.sqrt(d2);
+    dx/=d;dy/=d;a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;
+  }
+  E.forEach(e=>{
+    const a=N[e.a],b=N[e.b];
+    const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+    const f=(d-(e.kind==="parent"?55:70))*0.012*alpha*Math.min(e.w,3);
+    a.vx+=dx/d*f;a.vy+=dy/d*f;b.vx-=dx/d*f;b.vy-=dy/d*f;
+  });
+  N.forEach(n=>{
+    n.vx-=n.x*0.004*alpha;n.vy-=n.y*0.004*alpha;
+    if(n!==dragN){n.x+=n.vx;n.y+=n.vy;}
+    n.vx*=0.82;n.vy*=0.82;
+  });
+  if(warm>0)warm--;
+}
+function draw(){
+  const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;
+  if(canvas.width!==w*dpr){canvas.width=w*dpr;canvas.height=h*dpr;}
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  ctx.save();ctx.translate(w/2+view.x,h/2+view.y);ctx.scale(view.k,view.k);
+  const neigh=new Set();
+  if(selNode!==null)net.edges.forEach(e=>{if(e.a===selNode)neigh.add(e.b);if(e.b===selNode)neigh.add(e.a);});
+  net.edges.forEach(e=>{
+    const a=net.nodes[e.a],b=net.nodes[e.b];
+    const hot=selNode!==null&&(e.a===selNode||e.b===selNode);
+    if(e.kind==="parent"){
+      ctx.strokeStyle=hot?"rgba(198,80,42,.9)":"rgba(198,80,42,"+(selNode!==null?".12":".55")+")";
+      ctx.lineWidth=(hot?2.2:1.8)/view.k;
+    }else{
+      ctx.strokeStyle=hot?"rgba(198,80,42,.7)":"rgba(90,84,70,"+(selNode!==null?".05":(e.kind==="cluster"?".08":".16"))+")";
+      ctx.lineWidth=(hot?1.6:Math.min(e.w*.5,1.4))/view.k;
+    }
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
+    if(e.kind==="parent"&&(!selNode||hot)){ // 箭头
+      const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;
+      const ux=dx/d,uy=dy/d,px=b.x-ux*(b.size+4),py=b.y-uy*(b.size+4),s=4.5/Math.max(view.k,.6);
+      ctx.fillStyle=hot?"rgba(198,80,42,.95)":"rgba(198,80,42,.6)";
+      ctx.beginPath();ctx.moveTo(px,py);
+      ctx.lineTo(px-ux*s*2-uy*s,py-uy*s*2+ux*s);
+      ctx.lineTo(px-ux*s*2+uy*s,py-uy*s*2-ux*s);ctx.closePath();ctx.fill();
+    }
+  });
+  net.nodes.forEach((n,i)=>{
+    const dim=selNode!==null&&i!==selNode&&!neigh.has(i);
+    ctx.globalAlpha=dim?0.16:1;
+    ctx.fillStyle=n.color;
+    ctx.beginPath();ctx.arc(n.x,n.y,n.size,0,7);ctx.fill();
+    if(n.type==="hub"){ctx.strokeStyle="#fcfbf6";ctx.lineWidth=1.5/view.k;ctx.stroke();}
+    const showLbl=n.type!=="reg"||view.k>1.4||i===selNode||neigh.has(i);
+    if(showLbl&&!dim){
+      ctx.font=(n.type==="country"?"600 11px":"10px")+" 'IBM Plex Mono',Menlo,monospace";
+      ctx.fillStyle="#1a2420";
+      ctx.fillText(n.label,n.x+n.size+3,n.y+3.5);
+    }
+    ctx.globalAlpha=1;
+  });
+  ctx.restore();
+}
+(function loop(){step();draw();requestAnimationFrame(loop);})();
+
+function toWorld(px,py){const r=canvas.getBoundingClientRect();
+  return {x:(px-r.left-r.width/2-view.x)/view.k,y:(py-r.top-r.height/2-view.y)/view.k};}
+function hit(px,py){
+  const p=toWorld(px,py);
+  for(let i=net.nodes.length-1;i>=0;i--){
+    const n=net.nodes[i],dx=p.x-n.x,dy=p.y-n.y;
+    if(dx*dx+dy*dy<=(n.size+4)*(n.size+4))return i;}
+  return null;
+}
+canvas.addEventListener("mousedown",e=>{
+  const i=hit(e.clientX,e.clientY);
+  if(i!==null){dragN=net.nodes[i];dragN._moved=false;}
+  else{panning=true;pstart={x:e.clientX-view.x,y:e.clientY-view.y};}
+});
+window.addEventListener("mousemove",e=>{
+  if(dragN){const p=toWorld(e.clientX,e.clientY);dragN.x=p.x;dragN.y=p.y;dragN.vx=0;dragN.vy=0;dragN._moved=true;warm=Math.max(warm,30);}
+  else if(panning){view.x=e.clientX-pstart.x;view.y=e.clientY-pstart.y;}
+});
+window.addEventListener("mouseup",()=>{
+  if(dragN&&!dragN._moved){const i=net.nodes.indexOf(dragN);
+    selNode=selNode===i?null:i;showSide(i);}
+  dragN=null;panning=false;
+});
+canvas.addEventListener("wheel",e=>{e.preventDefault();
+  view.k=Math.max(.25,Math.min(4,view.k*(e.deltaY<0?1.12:0.89)));},{passive:false});
+function centerOn(n){view.k=1.3;view.x=-n.x*view.k;view.y=-n.y*view.k;}
+function showSide(i){
+  const sd=$("#netside");
+  if(selNode===null){sd.classList.remove("on");return;}
+  const n=net.nodes[i];
+  const links=net.edges.filter(e=>e.a===i||e.b===i).map(e=>({n:net.nodes[e.a===i?e.b:e.a],k:e.kind,dir:e.a===i?"out":"in"}));
+  let body=`<div class="nid">${n.label}</div>`;
+  if(n.type==="country")body+=`<h4>${n.data.count} 条法规</h4>`;
+  if(n.type==="hub")body+=`<h4>被 ${links.length} 个节点引用</h4>`;
+  if(n.type==="reg"){
+    body+=`<h4>${n.data.cnName||n.data.origName||""}</h4>
+    <div style="font-size:11px;color:var(--muted)">${n.data.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${n.data.date?" · "+n.data.date:""}</div>`;
+    const ups=links.filter(l=>l.k==="parent"&&l.dir==="in"),downs=links.filter(l=>l.k==="parent"&&l.dir==="out");
+    if(ups.length)body+=`<div style="margin-top:6px;font-size:11px"><b style="color:var(--accent)">↑上位:</b> ${ups.map(l=>l.n.label).join(", ")}</div>`;
+    if(downs.length)body+=`<div style="font-size:11px"><b style="color:var(--accent)">↓下位:</b> ${downs.length} 条</div>`;
+  }
+  body+=`<ul>${links.filter(l=>l.k!=="cluster").slice(0,30).map(l=>`<li>${l.k==="parent"?(l.dir==="in"?"↑ ":"↓ "):""}${l.n.label}</li>`).join("")}
+    ${links.length>30?`<li style="color:var(--muted)">… 共 ${links.length} 个关联</li>`:""}</ul>`;
+  $("#netside-body").innerHTML=body;sd.classList.add("on");
+}
+
+/* ================= 层级树 ================= */
+function renderTree(){
+  const c=$("#treecsel").value; if(!c)return;
+  const list=byCountry()[c]||[];
+  const tree=$("#tree");
+  const anyParent=list.some(r=>r.parentsRaw&&r.parentsRaw.length);
+  if(!anyParent){
+    tree.innerHTML=`<div class="bigmsg">该国数据中没有「上位法规」列或该列为空。<br><br>
+      在数据文件中加一列 <b style="color:var(--ink)">上位法规</b>,填上位法规的<b style="color:var(--ink)">法规编号</b>(找不到编号时填准确中文名),多个上位用半角分号 <b style="color:var(--ink)">;</b> 分隔。<br>
+      重新载入后,此处会生成 框架法规 → 技术法规 → 实施细则 的层级树。</div>`;
+    $("#tree-meta").textContent="";return;
+  }
+  // children map
+  const kids={};let linked=0;
+  list.forEach(r=>{(r.parentKeys||[]).forEach(pk=>{(kids[pk]=kids[pk]||[]).push(keyOf(r));linked++;});});
+  const childSet=new Set(Object.values(kids).flat());
+  // roots: 有下位 或 自身无上位但有 parentsRaw 的库外幽灵上位
+  const roots=list.filter(r=>!(r.parentKeys&&r.parentKeys.length)).map(keyOf);
+  // 把没有任何层级关系的独立法规排最后并折叠成提示
+  const inTree=new Set();
+  function mark(k){if(inTree.has(k))return;inTree.add(k);(kids[k]||[]).forEach(mark);}
+  roots.forEach(k=>{if((kids[k]||[]).length||store[k].parentGhosts.length)mark(k);});
+  const isolated=roots.filter(k=>!inTree.has(k));
+
+  function nodeHTML(k,depth){
+    const r=store[k],ks=kids[k]||[];
+    const di=r.dims.length?r.dims[0]:8;
+    const ghost=r.parentGhosts&&r.parentGhosts.length?` <span class="rtag parent">上位库外: ${r.parentGhosts.join("; ")}</span>`:"";
+    return `<div class="tnode ${depth===0?'troot':''}">
+      <div class="trow">
+        <span class="tog" data-k="${k}">${ks.length?"▸":"·"}</span>
+        <span class="tdot" style="background:${DIMCOL[di]}"></span>
+        <span class="tid">${r.regId||"—"}</span>
+        <span class="tnm">${r.cnName||r.origName||""}${ghost}</span>
+        <span class="tct">${ks.length?ks.length+" 下位":""}${r.date?" · "+r.date:""}</span>
+      </div>
+      ${ks.length?`<div class="tkids" data-kids="${k}">${ks.map(ck=>nodeHTML(ck,depth+1)).join("")}</div>`:""}
+    </div>`;
+  }
+  let html=[...inTree].length?roots.filter(k=>inTree.has(k)).map(k=>nodeHTML(k,0)).join(""):"";
+  if(isolated.length)html+=`<div class="bigmsg" style="padding:16px">另有 ${isolated.length} 条法规无上下位关系(未显示)</div>`;
+  tree.innerHTML=html;
+  $("#tree-meta").textContent=`${[...inTree].length} 条入树 · ${linked} 条上下位关系 · ${isolated.length} 条独立`;
+  tree.querySelectorAll(".tog").forEach(t=>{
+    t.addEventListener("click",()=>{
+      const kd=tree.querySelector(`.tkids[data-kids="${CSS.escape(t.dataset.k)}"]`);
+      if(!kd)return;
+      kd.classList.toggle("open");
+      t.textContent=kd.classList.contains("open")?"▾":"▸";
+    });
+  });
+  // 默认展开第一层
+  tree.querySelectorAll(".troot>.tkids").forEach(kd=>{kd.classList.add("open");
+    const tog=kd.parentNode.querySelector(".tog");if(tog.textContent==="▸")tog.textContent="▾";});
+}
+function treeToggleAll(open){
+  const tree=$("#tree");
+  tree.querySelectorAll(".tkids").forEach(kd=>kd.classList.toggle("open",open));
+  tree.querySelectorAll(".tog").forEach(t=>{if(t.textContent!=="·")t.textContent=open?"▾":"▸";});
+}
+
+/* ================= 全局搜索 ================= */
+const sInput=$("#search"),sRes=$("#sresults");
+document.addEventListener("keydown",e=>{
+  if(e.key==="/"&&document.activeElement!==sInput){e.preventDefault();sInput.focus();}
+  if(e.key==="Escape"){sRes.classList.remove("on");sInput.blur();}
+});
+sInput.addEventListener("input",()=>doSearch(sInput.value.trim()));
+sInput.addEventListener("focus",()=>{if(sInput.value.trim())doSearch(sInput.value.trim());});
+document.addEventListener("click",e=>{if(!e.target.closest(".searchbox"))sRes.classList.remove("on");});
+
+function doSearch(q){
+  if(!q||!recs().length){sRes.classList.remove("on");return;}
+  const ql=q.toLowerCase(),qn=norm(q);
+  // 国家
+  const ctys=Object.keys(byCountry()).filter(c=>c.includes(q)).slice(0,5);
+  // 法规:编号优先,再名称
+  const scored=[];
+  recs().forEach(r=>{
+    const idn=norm(r.regId),fields=[r.cnName,r.enName,r.origName].join(" ").toLowerCase();
+    let s=0;
+    if(idn&&idn===qn)s=100;
+    else if(idn&&idn.startsWith(qn))s=80;
+    else if(idn&&idn.includes(qn))s=60;
+    else if(fields.includes(ql))s=40;
+    if(s)scored.push([s,r]);
+  });
+  scored.sort((a,b)=>b[0]-a[0]);
+  const regs=scored.slice(0,12).map(x=>x[1]);
+  // 国际标准枢纽
+  const hubSet=new Set();
+  recs().forEach(r=>r.refs.forEach(f=>{if(norm(f).includes(qn))hubSet.add(f);}));
+  const hubs=[...hubSet].slice(0,5);
+
+  if(!ctys.length&&!regs.length&&!hubs.length){
+    sRes.innerHTML='<div class="sempty">没有匹配结果</div>';sRes.classList.add("on");return;}
+  let html="";
+  if(ctys.length)html+=`<div class="sgroup">国家</div>`+ctys.map(c=>
+    `<div class="sitem" onclick="searchGoCountry('${c}')"><span class="si-id">◉</span>
+     <span class="si-nm">${c}</span><span class="si-c">${(byCountry()[c]||[]).length} 条</span></div>`).join("");
+  if(regs.length)html+=`<div class="sgroup">法规</div>`+regs.map(r=>{
+    const di=r.dims.length?r.dims[0]:8;
+    return `<div class="sitem" onclick="searchGoReg('${keyOf(r).replace(/'/g,"\\'")}')">
+     <span class="si-dot" style="background:${DIMCOL[di]}"></span>
+     <span class="si-id">${r.regId||"—"}</span>
+     <span class="si-nm">${r.cnName||r.origName||""}</span>
+     <span class="si-c">${r.country}</span></div>`;}).join("");
+  if(hubs.length)html+=`<div class="sgroup">国际标准(联动枢纽)</div>`+hubs.map(f=>
+    `<div class="sitem" onclick="searchGoHub('${f}')"><span class="si-id">⬡</span>
+     <span class="si-nm">${f}</span><span class="si-c">查看联动网络</span></div>`).join("");
+  sRes.innerHTML=html;sRes.classList.add("on");
+}
+function searchGoCountry(c){sRes.classList.remove("on");sInput.value="";gotoCountry(c);}
+function searchGoReg(k){sRes.classList.remove("on");sInput.value="";
+  const r=store[k];if(r)gotoCountry(r.country,k);}
+function searchGoHub(f){
+  sRes.classList.remove("on");sInput.value="";
+  switchTab("p-net");setNetMode("global");
+  // 网络稳定后选中并居中
+  setTimeout(()=>{
+    const i=net.nodes.findIndex(n=>n.id==="H:"+f);
+    if(i>=0){selNode=i;showSide(i);centerOn(net.nodes[i]);}
+  },600);
+}
+
+/* ================= 文本对账 ================= */
+let textFiles=[];
+$("#txtfolder").addEventListener("change",e=>addTexts(e.target.files));
+$("#txtfiles").addEventListener("change",e=>addTexts(e.target.files));
+$("#txtcty").addEventListener("change",()=>{reconcile();renderRecon();});
+function stripExt(n){return n.replace(/\.[A-Za-z0-9]{1,6}$/,"");}
+function selfRefs(s){
+  const refs=new Set(); if(!s)return refs;
+  [...String(s).matchAll(/(?:UN[\s-]*R|ECE[\s-]*R?|R)\s*\.?\s*(\d{1,3})(?!\d)/gi)].forEach(m=>{
+    const n=+m[1]; if(n>=1&&n<=200)refs.add("UN R"+n);});
+  [...String(s).matchAll(/GTR\s*(?:No\.?\s*)?(\d{1,2})/gi)].forEach(m=>refs.add("GTR "+(+m[1])));
+  [...String(s).matchAll(/FMVSS\s*(?:No\.?\s*)?(\d{1,3})/gi)].forEach(m=>refs.add("FMVSS "+(+m[1])));
+  [...String(s).matchAll(/GB(?:\/T)?\s*(\d{4,5})/g)].forEach(m=>refs.add("GB "+m[1]));
+  return refs;
+}
+async function addTexts(list){
+  let n=0;const fresh=[];
+  [...list].forEach(f=>{
+    if(/^\./.test(f.name)||/\.(json|ds_store)$/i.test(f.name))return;
+    const path=f.webkitRelativePath||f.name;
+    if(textFiles.some(t=>t.path===path))return;
+    const tf={name:f.name,base:stripExt(f.name),path};
+    textFiles.push(tf);fresh.push(tf);n++;
+  });
+  $("#txtfolder").value="";$("#txtfiles").value="";
+  if(!n){toast("没有新文件(可能已登记过)");return;}
+  if(recs().length){reconcile();}
+  renderRecon();switchTab("p-txt");
+  /* 文件名登记共享到数据库(只存文件名,不上传文件本体) */
+  try{
+    await sbUpsert("text_files",fresh.map(t=>({filename:t.name,base:t.base,path:t.path,
+      country:t.country||null,
+      matched_reg_id:(t.matchKey&&store[t.matchKey]&&store[t.matchKey].id)||null,
+      match_score:t.score||0})),"path");
+    toast("已登记并共享 "+n+" 个文本文件"+(recs().length?"":" · 请再载入法规清单,将自动对账"));
+  }catch(err){toast("文本登记入库失败:"+err.message);console.error(err);}
+}
+async function clearTexts(){
+  if(!textFiles.length){toast("没有已登记的文本");return;}
+  if(!confirm("将清空数据库中全团队共享的文本登记(共 "+textFiles.length+" 条),确定?"))return;
+  try{await sbReq("DELETE","text_files?id=gt.0",undefined,"return=minimal");}
+  catch(err){toast("清空失败:"+err.message);return;}
+  textFiles=[];recs().forEach(r=>r.textFiles=[]);renderRecon();toast("文本登记已清空");
+}
+
+function reconcile(){
+  const all=recs(); if(!all.length||!textFiles.length)return;
+  all.forEach(r=>{r.textFiles=[];r._ni=norm(r.regId);r._nc=norm(r.cnName);r._sr=selfRefs(r.regId);});
+  const bc=byCountry(),countries=Object.keys(bc);
+  // 路径国家匹配:优先最长国家名,避免"中国"误吞"中国台湾"
+  const sorted=[...countries].sort((a,b)=>b.length-a.length);
+  const manual=$("#txtcty").value;
+  textFiles.forEach(tf=>{
+    tf.matchKey=null;tf.score=0;
+    tf.country=sorted.find(c=>tf.path.includes(c))||(manual!=="auto"?manual:null);
+    const nb=norm(tf.base),fr=selfRefs(tf.base);
+    const scope=tf.country?(bc[tf.country]||[]):all;
+    let best=null,bs=0;
+    for(const r of scope){
+      let s=0;
+      if(r._ni&&r._ni.length>=4){
+        if(nb===r._ni)s=100;
+        else if(nb.includes(r._ni))s=90;
+        else if(nb.length>=6&&r._ni.includes(nb))s=70;
+      }
+      if(s<60&&fr.size&&r._sr.size&&[...fr].some(x=>r._sr.has(x)))s=Math.max(s,60);
+      if(s<55&&r._nc&&r._nc.length>=4&&nb.includes(r._nc))s=55;
+      if(s>bs||(s===bs&&s>0&&best&&(r._ni||"").length>(best._ni||"").length)){bs=s;best=r;}
+      if(bs===100)break;
+    }
+    if(best&&bs>=55){tf.matchKey=keyOf(best);tf.score=bs;best.textFiles.push(tf.name);}
+  });
+}
+
+function renderRecon(){
+  const body=$("#reconbody"); if(!body)return;
+  $("#reconexp").disabled=!textFiles.length;
+  if(!recs().length){body.innerHTML='<div class="card"><div class="bigmsg">请先载入法规清单数据,再载入文本文件进行对账。</div></div>';return;}
+  if(!textFiles.length){body.innerHTML='<div class="card"><div class="bigmsg">尚未载入文本文件。<br><br>「选择文本文件」可多选 PDF/Word 等任意格式;文件特别多时用「按整个文件夹载入」一次全收。两种方式都只登记文件名,不上传内容。</div></div>';return;}
+  const matched=textFiles.filter(t=>t.matchKey);
+  const orphans=textFiles.filter(t=>!t.matchKey);
+  const missing=recs().filter(r=>!(r.textFiles&&r.textFiles.length));
+  const cover=recs().length?Math.round((recs().length-missing.length)/recs().length*100):0;
+  const mByC={};missing.forEach(r=>{(mByC[r.country]=mByC[r.country]||[]).push(r);});
+  const oByC={};orphans.forEach(t=>{const c=t.country||"未知国";(oByC[c]=oByC[c]||[]).push(t);});
+  const fsel=window._reconCty||"all";
+  const ctyOpts='<option value="all">全部国家 ('+missing.length+')</option>'
+    +Object.entries(mByC).sort((a,b)=>b[1].length-a[1].length)
+    .map(([c,l])=>`<option value="${c}" ${fsel===c?"selected":""}>${c} (${l.length})</option>`).join("");
+  const shown=fsel==="all"?missing:(mByC[fsel]||[]);
+  body.innerHTML=`
+    <div class="deltachips">
+      <div class="dchip"><b>${textFiles.length}</b>文本文件</div>
+      <div class="dchip add"><b>${matched.length}</b>已匹配清单</div>
+      <div class="dchip del"><b>${missing.length}</b>清单缺文本</div>
+      <div class="dchip del"><b>${orphans.length}</b>文本不在清单</div>
+      <div class="dchip"><b>${cover}%</b>清单文本覆盖率</div>
+    </div>
+    <div class="diffgrid">
+      <div class="card"><h3>清单缺文本 <span class="hint">清单上有,但没找到对应文件 → 待收集原文</span></h3>
+        <div style="margin-bottom:10px"><select class="csel" id="reconcsel"
+          onchange="window._reconCty=this.value;renderRecon()">${ctyOpts}</select></div>
+        <div class="dlist" style="max-height:480px;overflow-y:auto">${
+          shown.length?shown.slice(0,400).map(r=>`<div class="di"><span class="sign del">✗</span>
+            <span class="dc">${r.country}</span><span class="did">${r.regId||"—"}</span>
+            <span class="dnm">${(r.cnName||r.origName||"").slice(0,40)}</span></div>`).join("")
+          +(shown.length>400?'<div class="bigmsg">仅显示前 400 条,完整名单请导出</div>':"")
+          :'<div class="bigmsg">该范围内清单全部有文本 ✓</div>'}</div></div>
+      <div class="card"><h3>文本不在清单 <span class="hint">有文件,清单上找不到条目 → 可能漏录,核对后补录清单</span></h3>
+        <div class="dlist" style="max-height:520px;overflow-y:auto">${
+          orphans.length?Object.entries(oByC).sort((a,b)=>b[1].length-a[1].length).map(([c,l])=>
+            l.slice(0,200).map(t=>`<div class="di"><span class="sign add">？</span>
+            <span class="dc">${c}</span><span class="dnm" style="font-family:var(--mono);font-size:11px">${t.name}</span></div>`).join("")
+          ).join("")+(orphans.length>400?'<div class="bigmsg">数量较多,完整名单请导出</div>':"")
+          :'<div class="bigmsg">所有文本都能在清单上找到 ✓</div>'}</div></div>
+    </div>`;
+}
+
+function exportRecon(){
+  const wb=XLSX.utils.book_new();
+  const matched=textFiles.filter(t=>t.matchKey).map(t=>{const r=store[t.matchKey];
+    return {国家:r.country,法规编号:r.regId,法规中文名:r.cnName,文本文件:t.name,
+      匹配方式:t.score>=90?"编号精确":t.score>=60?"标准识别":"名称匹配",文件路径:t.path};});
+  const missing=recs().filter(r=>!(r.textFiles&&r.textFiles.length))
+    .map(r=>({国家:r.country,法规编号:r.regId,法规中文名:r.cnName,法规原文名:r.origName,数据来源:r.source}));
+  const orphans=textFiles.filter(t=>!t.matchKey)
+    .map(t=>({推测国家:t.country||"",文件名:t.name,路径:t.path}));
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(matched.length?matched:[{说明:"无匹配"}]),"已匹配");
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(missing.length?missing:[{说明:"清单全部有文本"}]),"清单缺文本");
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(orphans.length?orphans:[{说明:"无孤儿文本"}]),"文本不在清单");
+  XLSX.writeFile(wb,"法规文本对账_"+new Date().toISOString().slice(0,10)+".xlsx");
+  toast("对账结果已导出 Excel");
+}
+
+/* tabs */
+$$(".tab").forEach(t=>t.addEventListener("click",()=>{
+  switchTab(t.dataset.p);
+  if(t.dataset.p==="p-net")buildNet();
+  if(t.dataset.p==="p-tree")renderTree();
+}));
+
+/* ================= 启动:打开网页即从数据库读取 ================= */
+(async function init(){
+  try{
+    const cols="id,country,reg_id,cn_name,orig_name,en_name,lang,dim_text,domain,"
+      +"ref_cn,ref_eu,ref_us,pub_date,eff_date,status,source,link,"
+      +"parents_raw,dims,refs,amend,rec_date,source_file";
+    const [regRows,tfRows,logRows]=await Promise.all([
+      sbFetchAll("regulations",cols),
+      sbFetchAll("text_files","filename,base,path,country"),
+      sbFetchAll("import_logs","filename,created_at,added_count","order=created_at.desc"),
+    ]);
+    regRows.forEach(row=>{
+      const rec={country:row.country,regId:row.reg_id||"",cnName:row.cn_name||"",
+        origName:row.orig_name||"",enName:row.en_name||"",lang:row.lang||"",
+        dimText:row.dim_text||"",domain:row.domain||"",
+        refCN:row.ref_cn||"",refEU:row.ref_eu||"",refUS:row.ref_us||"",
+        pubDate:row.pub_date||"",effDate:row.eff_date||"",status:row.status||"",
+        source:row.source||"",link:row.link||"",
+        parentsRaw:Array.isArray(row.parents_raw)?row.parents_raw:[],
+        dims:Array.isArray(row.dims)?row.dims:[],
+        refs:Array.isArray(row.refs)?row.refs:[],
+        amend:row.amend||null,date:row.rec_date||"",
+        sourceFile:row.source_file||"",id:row.id};
+      if(rec.parentsRaw.length)hasParentCol=true;
+      store[keyOf(rec)]=rec;
+    });
+    textFiles=tfRows.map(r=>({name:r.filename,base:r.base,path:r.path,country:r.country||null}));
+    importLogs=logRows;
+    resolveParents();
+    await refreshSnapshots(false);
+    if(textFiles.length&&recs().length)reconcile();
+  }catch(err){
+    console.error(err);
+    $("#empty-big").textContent="[ 数据库连接失败 ]";
+    $("#empty").innerHTML='<div class="glyph">!</div><div class="big">[ 数据库连接失败 ]</div>'
+      +'<p>'+String(err.message||err).replace(/</g,"&lt;")+'<br>请检查网络后刷新重试。若长期失败,联系管理员确认 Supabase 项目状态。</p>';
+    return;
+  }
+  renderAll();
+})();
+</script>
+</body>
+</html>
