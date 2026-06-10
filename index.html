@@ -107,7 +107,7 @@ input[type=file]{display:none}
 @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
 /* ============ KPI ============ */
-.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:26px}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:26px}
 .kpi{background:var(--panel);border:1px solid var(--line);border-radius:8px;
   padding:18px 20px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .kpi::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--line2)}
@@ -316,6 +316,10 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="card">
       <h3>各国法规收集量 <span class="hint">点击国家名跳转详情 · 色块为10维度覆盖(绿≥3 黄1-2 红0)</span></h3>
       <div class="rank" id="rank"></div>
+    </div>
+    <div class="card">
+      <h3>草案监控 <span class="hint">「正式法规 or 草案」列标记为草案的条目 · 日期倒序 · 点击跳转详情</span></h3>
+      <div class="dlist" id="drafts"></div>
     </div>
   </div>
 
@@ -678,7 +682,7 @@ function renderAll(){
   $("#foot-src").textContent="数据源:团队数据库 "+recs().length+" 条"
     +(last?" · 最近导入 "+String(last.created_at||"").slice(0,10)+" "+last.filename:"")
     +(files.length?" · 本次会话:"+files.map(f=>f.name).join("、"):"");
-  renderKPIs();renderRank();renderMatrix();fillCountrySelects();renderCountry();renderNew();buildNet();renderTree();
+  renderKPIs();renderRank();renderDrafts();renderMatrix();fillCountrySelects();renderCountry();renderNew();buildNet();renderTree();
   if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
   if(typeof renderRecon==="function")renderRecon();
 }
@@ -690,8 +694,10 @@ function renderFilebar(){
 }
 function dimCounts(list){const c=Array(10).fill(0);list.forEach(r=>r.dims.forEach(i=>c[i]++));return c;}
 
+const isDraft=r=>(r.status||"").includes("草案");
 function renderKPIs(){
   const rs=recs(),bc=byCountry();
+  const drafts=rs.filter(isDraft);
   let fullCover=0,blanks=0;
   Object.values(bc).forEach(l=>{const b=dimCounts(l).filter(c=>c===0).length;
     if(b===0)fullCover++;if(b>2)blanks++;});
@@ -705,6 +711,7 @@ function renderKPIs(){
       meta:added===null?"在「新增监控」页选择对比快照后显示":(added>0?'<span class="up">▲ 较基准增加</span>':"与基准持平")},
     {lbl:"近两年新法规",v:recent,meta:"按发布/生效日期"},
     {lbl:"空白超标国家",v:blanks,hot:blanks>0,meta:"维度空白 > 2 处"},
+    {lbl:"草案",v:drafts.length,hot:drafts.length>0,meta:drafts.length?"详见下方「草案监控」":"清单中无草案标记"},
   ];
   $("#kpis").innerHTML=k.map(x=>`<div class="kpi${x.hot?' hot':''}"><div class="lbl">${x.lbl}</div>
     <div class="v">${x.v}</div><div class="meta">${x.meta}</div></div>`).join("");
@@ -718,6 +725,16 @@ function renderRank(){
     <span class="ct">${d.n}</span>
     <div class="minidims">${d.dc.map(c=>`<i class="md${c===0?0:c<3?1:2}" title="${c}条"></i>`).join("")}</div>
   </div>`).join("");
+}
+function renderDrafts(){
+  const list=recs().filter(isDraft).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+  $("#drafts").innerHTML=list.length?list.slice(0,200).map(r=>`<div class="di">
+    <span class="sign" style="color:var(--warn)">△</span><span class="dc">${r.country}</span>
+    <span class="did" style="cursor:pointer" onclick="gotoCountry('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
+    <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}</span>
+    <span class="dc">${r.date||""}</span></div>`).join("")
+    +(list.length>200?'<div class="bigmsg">仅显示前 200 条草案</div>':"")
+    :'<div class="bigmsg">库中暂无草案记录。<br><br>当前导入的清单缺少「正式法规 or 草案」列(实际只有 25 列)。在 Excel 中补上这一列,草案行填「草案」,重新导入同一文件即可——同主键原地更新,不会重复。</div>';
 }
 function renderMatrix(){
   const data=Object.entries(byCountry()).map(([c,l])=>({c,l,dc:dimCounts(l)})).sort((a,b)=>b.l.length-a.l.length);
