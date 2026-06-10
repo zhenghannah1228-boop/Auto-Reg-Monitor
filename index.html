@@ -523,11 +523,35 @@ function handleFiles(list){
         const sheets=[];
         wb.SheetNames.forEach(sn=>{
           if(/维度涵盖|报告|说明/.test(sn))return;
-          sheets.push(XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:""}));
+          const rows=XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:""});
+          if(rows.length)sheets.push({sn,rows});
         });
-        const force=resolveFileCountry(f.name,sheets.flat());
         let added=0;
-        sheets.forEach(rows=>{added+=ingest(rows,f.name,force);});
+        if(sheets.length<=1){
+          // 单表:沿用文件名归属(业主确认的规则,带确认弹窗)
+          const force=resolveFileCountry(f.name,sheets[0]?sheets[0].rows:[]);
+          sheets.forEach(s=>{added+=ingest(s.rows,f.name,force);});
+        }else{
+          // 多表:按 sheet 拆分归属 —— sheet名含国家名 → 该国;否则按行内「国家」列;都没有再用文件名兜底
+          const rowCs=new Set();
+          sheets.forEach(s=>s.rows.forEach(o=>{const c=nk(o,["国家"]);if(c)rowCs.add(c);}));
+          const cand=[...new Set([...Object.keys(byCountry()),...rowCs])].sort((a,b)=>b.length-a.length);
+          const fileForce=cand.find(c=>f.name.includes(c))||null;
+          // 通用表名(非国家)不拿来当国家
+          const generic=sn=>/^(sheet\s*\d*|表\d*|数据|清单|汇总|总表|明细|模板|目录|首页|封面)$/i.test(String(sn).trim());
+          const hitCtys=new Set();
+          sheets.forEach(s=>{
+            const hasRowC=s.rows.some(o=>nk(o,["国家"]));
+            // sheet名含已知国家 → 该国;否则行内无国家列时直接用 sheet名(排除通用表名);再否则按行内列/文件名
+            let c=cand.find(x=>s.sn.includes(x))||null;
+            if(!c&&!hasRowC&&!generic(s.sn))c=s.sn.trim();
+            if(!c&&!hasRowC)c=fileForce;
+            if(c)hitCtys.add(c);
+            added+=ingest(s.rows,f.name,c);
+          });
+          toast("「"+f.name+"」含 "+sheets.length+" 个表,已按表拆分入库"
+            +(hitCtys.size?(" · "+hitCtys.size+" 个表按表名归国"):" · 按行内国家列归属"));
+        }
         const fresh=Object.keys(store).filter(k=>!before.has(k)).length;
         files.push({name:f.name,count:added});
         fileStats.push({name:f.name,rows:added,added:fresh});
