@@ -145,18 +145,20 @@ table.matrix{border-collapse:separate;border-spacing:0;width:100%;font-size:11.5
 .matrix tbody tr:hover td{background:#f2eee1}
 
 /* rank */
-.rank .row{display:grid;grid-template-columns:118px 1fr 54px 132px;gap:12px;align-items:center;
+.rank .row{display:grid;grid-template-columns:150px 1fr 54px 132px;gap:12px;align-items:center;
   padding:8px 0;border-bottom:1px solid var(--linesoft);font-size:12.5px}
 .rank .row:last-child{border-bottom:none}
-.rank .cn{font-weight:600;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:.12s}
+.rank .cn{font-weight:600;cursor:pointer;min-width:0;transition:.12s}
 .rank .cn:hover{color:var(--accent)}
-.rank .cn small{display:block;font-family:var(--mono);font-size:9.5px;color:var(--muted);font-weight:400;line-height:1.4}
+.rank .cnline{display:flex;align-items:center;gap:5px;min-width:0}
+.rank .cname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.rank .cn small{display:block;font-family:var(--mono);font-size:9.5px;color:var(--muted);font-weight:400;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rank .cn.fresh{color:var(--accent);font-weight:800;background:#f8e3da;border-radius:5px;
   padding:1px 7px;margin-left:-7px}
 .rank .cn.fresh small{color:var(--accent2);font-weight:700}
 .upbtn{font-family:var(--mono);font-size:9.5px;border:1px solid var(--line);background:var(--panel);
-  color:var(--muted);border-radius:5px;padding:1.5px 7px;cursor:pointer;margin-left:7px;
-  vertical-align:1px;transition:.15s}
+  color:var(--muted);border-radius:5px;padding:1.5px 7px;cursor:pointer;flex-shrink:0;
+  white-space:nowrap;transition:.15s}
 .upbtn:hover{border-color:var(--accent);color:var(--accent)}
 .rank .track{height:15px;background:var(--linesoft);border-radius:8px;overflow:hidden}
 .rank .track i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),#4d7d9c);
@@ -763,9 +765,10 @@ function renderRank(){
   $("#rank").innerHTML=data.map(d=>{
     const fresh=d.t&&Date.parse(d.t)>monthAgo;
     return `<div class="row">
-    <span class="cn${fresh?' fresh':''}" onclick="gotoCountry('${d.c}')">${d.c}<button class="upbtn"
-      title="为该国上传新的清单(文件名含国家名即自动归属)"
-      onclick="event.stopPropagation();document.getElementById('file').click()">⊞ 上传</button>${
+    <span class="cn${fresh?' fresh':''}" onclick="gotoCountry('${d.c}')">
+      <span class="cnline"><span class="cname" title="${d.c}">${d.c}</span><button class="upbtn"
+        title="为该国上传新的清单(文件名含国家名即自动归属)"
+        onclick="event.stopPropagation();document.getElementById('file').click()">⊞ 上传</button></span>${
       d.t?`<small title="该国记录最近一次入库/更新:${d.t.slice(0,16).replace("T"," ")}">⟳ ${d.t.slice(0,10)}${fresh?" · 本月有更新":""}</small>`:""}</span>
     <div class="track"><i style="width:${d.n/max*100}%"></i></div>
     <span class="ct">${d.n}</span>
