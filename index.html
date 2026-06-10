@@ -318,7 +318,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="rank" id="rank"></div>
     </div>
     <div class="card">
-      <h3>草案监控 <span class="hint">「正式法规 or 草案」列标记为草案的条目 · 日期倒序 · 点击跳转详情</span></h3>
+      <h3>草案监控 <span class="hint">状态列标记草案,或 编号/名称/备注 含 草案·draft·proposal · 日期倒序 · 点击编号跳转</span></h3>
       <div class="dlist" id="drafts"></div>
     </div>
   </div>
@@ -556,7 +556,7 @@ async function syncImport(fileStats){
       reg_id:r.regId,cn_name:r.cnName,orig_name:r.origName,en_name:r.enName,
       lang:r.lang,dim_text:r.dimText,domain:r.domain,
       ref_cn:r.refCN,ref_eu:r.refEU,ref_us:r.refUS,
-      pub_date:r.pubDate,eff_date:r.effDate,status:r.status,
+      pub_date:r.pubDate,eff_date:r.effDate,status:r.status,remark:r.remark||"",
       source:r.source,link:r.link,parents_raw:r.parentsRaw,
       dims:r.dims,refs:r.refs,amend:r.amend||null,rec_date:r.date,
       raw:r.raw||null,source_file:r.sourceFile||""};});
@@ -632,6 +632,7 @@ function ingest(rows,srcFile,forceCountry){
       refCN:nk(raw,["对应国标"]),refEU:nk(raw,["对应欧标"]),refUS:nk(raw,["对应美标"]),
       pubDate:nk(raw,["发布日期"]),effDate:nk(raw,["生效日期"]),
       status:nk(raw,["正式法规 or 草案","正式法规or草案"]),
+      remark:nk(raw,["备注"]),
       source:nk(raw,["数据来源"])||srcFile,
       link:nk(raw,["链接"]),
       parentsRaw:parentRaw?parentRaw.split(/[;；、,，]/).map(s=>s.trim()).filter(Boolean):[],
@@ -694,7 +695,10 @@ function renderFilebar(){
 }
 function dimCounts(list){const c=Array(10).fill(0);list.forEach(r=>r.dims.forEach(i=>c[i]++));return c;}
 
-const isDraft=r=>(r.status||"").includes("草案");
+/* 草案识别:状态列标记,或 编号/名称/原文名/备注 含草案关键词 */
+const DRAFT_RE=/草案|提案|\bdraft\b|\bproposal\b|\bproposed\b/i;
+const isDraft=r=>(r.status||"").includes("草案")
+  ||DRAFT_RE.test([r.regId,r.cnName,r.enName,r.origName,r.remark].filter(Boolean).join(" "));
 function renderKPIs(){
   const rs=recs(),bc=byCountry();
   const drafts=rs.filter(isDraft);
@@ -711,7 +715,7 @@ function renderKPIs(){
       meta:added===null?"在「新增监控」页选择对比快照后显示":(added>0?'<span class="up">▲ 较基准增加</span>':"与基准持平")},
     {lbl:"近两年新法规",v:recent,meta:"按发布/生效日期"},
     {lbl:"空白超标国家",v:blanks,hot:blanks>0,meta:"维度空白 > 2 处"},
-    {lbl:"草案",v:drafts.length,hot:drafts.length>0,meta:drafts.length?"详见下方「草案监控」":"清单中无草案标记"},
+    {lbl:"草案",v:drafts.length,hot:drafts.length>0,meta:drafts.length?"详见下方「草案监控」":"状态列与关键词均未识别到"},
   ];
   $("#kpis").innerHTML=k.map(x=>`<div class="kpi${x.hot?' hot':''}"><div class="lbl">${x.lbl}</div>
     <div class="v">${x.v}</div><div class="meta">${x.meta}</div></div>`).join("");
@@ -728,13 +732,15 @@ function renderRank(){
 }
 function renderDrafts(){
   const list=recs().filter(isDraft).sort((a,b)=>(b.date||"").localeCompare(a.date||""));
-  $("#drafts").innerHTML=list.length?list.slice(0,200).map(r=>`<div class="di">
+  $("#drafts").innerHTML=list.length?list.slice(0,200).map(r=>{
+    const src=(r.status||"").includes("草案")?"状态列":"关键词";
+    return `<div class="di">
     <span class="sign" style="color:var(--warn)">△</span><span class="dc">${r.country}</span>
     <span class="did" style="cursor:pointer" onclick="gotoCountry('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
     <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}</span>
-    <span class="dc">${r.date||""}</span></div>`).join("")
+    <span class="dc">${src}</span><span class="dc">${r.date||""}</span></div>`;}).join("")
     +(list.length>200?'<div class="bigmsg">仅显示前 200 条草案</div>':"")
-    :'<div class="bigmsg">库中暂无草案记录。<br><br>当前导入的清单缺少「正式法规 or 草案」列(实际只有 25 列)。在 Excel 中补上这一列,草案行填「草案」,重新导入同一文件即可——同主键原地更新,不会重复。</div>';
+    :'<div class="bigmsg">未识别到草案:状态列(正式法规 or 草案)无标记,且 编号/名称/备注 中没有 草案/draft/proposal 字样。</div>';
 }
 function renderMatrix(){
   const data=Object.entries(byCountry()).map(([c,l])=>({c,l,dc:dimCounts(l)})).sort((a,b)=>b.l.length-a.l.length);
@@ -778,7 +784,7 @@ function renderCountry(){
   if(window._focusKey&&store[window._focusKey]){
     const r=store[window._focusKey];
     fw.innerHTML=`<div class="focusreg"><span class="cls" onclick="window._focusKey=null;this.parentNode.remove()">✕</span>
-      <div class="fid">⌕ ${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${(r.status||"").includes("草案")?'<span class="rtag">草案</span>':""}</div>
+      <div class="fid">⌕ ${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}</div>
       <div class="fnm">${r.cnName||r.origName||""}</div>
       <div class="fmeta">${r.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${r.date?" · "+r.date:""}${r.refs.length?" · 引用:"+r.refs.join(", "):""}${r.parentsRaw.length?" · 上位:"+r.parentsRaw.join("; "):""}</div></div>`;
   }else fw.innerHTML="";
@@ -794,7 +800,7 @@ function renderCountry(){
   const dated=list.filter(r=>r.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
   if(dated.length){
     $("#cty-rev").innerHTML=dated.map(r=>`<div class="ri">
-      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${(r.status||"").includes("草案")?'<span class="rtag">草案</span>':""}</span>
+      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}</span>
       <span class="rdate">${r.date}</span></div>
       <div class="rnm">${r.cnName||r.origName||""}</div></div>`).join("");
   }else{
@@ -1401,7 +1407,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
 (async function init(){
   try{
     const cols="id,country,reg_id,cn_name,orig_name,en_name,lang,dim_text,domain,"
-      +"ref_cn,ref_eu,ref_us,pub_date,eff_date,status,source,link,"
+      +"ref_cn,ref_eu,ref_us,pub_date,eff_date,status,remark,source,link,"
       +"parents_raw,dims,refs,amend,rec_date,source_file";
     const [regRows,tfRows,logRows]=await Promise.all([
       sbFetchAll("regulations",cols),
@@ -1414,6 +1420,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
         dimText:row.dim_text||"",domain:row.domain||"",
         refCN:row.ref_cn||"",refEU:row.ref_eu||"",refUS:row.ref_us||"",
         pubDate:row.pub_date||"",effDate:row.eff_date||"",status:row.status||"",
+        remark:row.remark||"",
         source:row.source||"",link:row.link||"",
         parentsRaw:Array.isArray(row.parents_raw)?row.parents_raw:[],
         dims:Array.isArray(row.dims)?row.dims:[],
