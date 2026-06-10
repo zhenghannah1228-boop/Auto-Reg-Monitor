@@ -337,6 +337,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="card"><h3>最新修订 / 最近生效 <span class="hint">日期倒序 · 标注修订系列</span></h3><div class="revlist" id="cty-rev"></div></div>
     </div>
     <div class="card"><h3>国际标准引用 <span class="hint">UN R · GTR · FMVSS · GB</span></h3><div class="rank" id="cty-refs"></div></div>
+    <div class="card"><h3>数据管理 <span class="hint">删除错误归属或作废的记录 · 删除作用于团队共享库,需二次确认</span></h3><div id="cty-manage"></div></div>
   </div>
 
   <div class="pane" id="p-new"><div id="newbody"></div></div>
@@ -505,11 +506,14 @@ function handleFiles(list){
       try{
         const wb=XLSX.read(e.target.result,{type:"array"});
         const before=new Set(Object.keys(store));
-        let added=0;
+        const sheets=[];
         wb.SheetNames.forEach(sn=>{
           if(/维度涵盖|报告|说明/.test(sn))return;
-          added+=ingest(XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:""}),f.name);
+          sheets.push(XLSX.utils.sheet_to_json(wb.Sheets[sn],{defval:""}));
         });
+        const force=resolveFileCountry(f.name,sheets.flat());
+        let added=0;
+        sheets.forEach(rows=>{added+=ingest(rows,f.name,force);});
         const fresh=Object.keys(store).filter(k=>!before.has(k)).length;
         files.push({name:f.name,count:added});
         fileStats.push({name:f.name,rows:added,added:fresh});
@@ -519,6 +523,21 @@ function handleFiles(list){
     r.readAsArrayBuffer(f);
   });
   $("#file").value="";
+}
+
+/* 清单归属国家:文件名含国家名 → 整个文件归该国(单国清单里转化引用的他国法规也算本国),
+   行内「国家」列与文件名不一致时弹窗确认;文件名不含国家名(多国汇总文件)→ 按行内国家列 */
+function resolveFileCountry(fileName,rows){
+  const rowCs=new Set();rows.forEach(o=>{const c=nk(o,["国家"]);if(c)rowCs.add(c);});
+  const cand=[...new Set([...Object.keys(byCountry()),...rowCs])].sort((a,b)=>b.length-a.length);
+  const fc=cand.find(c=>fileName.includes(c));
+  if(!fc)return null;
+  const mis=rows.filter(o=>{const c=nk(o,["国家"]);return c&&c!==fc;}).length;
+  if(!mis)return fc;
+  return confirm("文件「"+fileName+"」按文件名识别为「"+fc+"」的清单,"
+    +"但其中 "+mis+" 行的「国家」列标注为其他国家(如转化引用的他国法规)。\n\n"
+    +"确定 → 全部归入「"+fc+"」(推荐:清单属于哪国,法规就算哪国)\n"
+    +"取消 → 按行内「国家」列分别归属")?fc:null;
 }
 
 /* 导入落库:去重 upsert + 导入日志 + 自动快照(验收标准 2) */
@@ -591,10 +610,10 @@ async function saveSnapshotDB(){
 function nk(o,names){for(const n of names){for(const k of Object.keys(o)){
   if(String(k).trim()===n)return String(o[k]??"").trim();}}return "";}
 
-function ingest(rows,srcFile){
+function ingest(rows,srcFile,forceCountry){
   let n=0;
   rows.forEach(raw=>{
-    const country=nk(raw,["国家"]);
+    const country=forceCountry||nk(raw,["国家"]);
     const regId=nk(raw,["法规编号"]);
     const cnName=nk(raw,["法规中文名","法规中文名称"]);
     if(!country||(!regId&&!cnName))return;
@@ -777,6 +796,61 @@ function renderCountry(){
     <span class="cn">${f}</span><div class="track"><i style="width:${n/rmax*100}%;background:linear-gradient(90deg,var(--accent),#d4744f)"></i></div>
     <span class="ct">${n}</span><div class="minidims"></div></div>`).join("")
     :'<div class="bigmsg">未识别到国际标准引用</div>';
+
+  renderManage(c,list);
+}
+
+/* ================= 数据管理:删除记录(双重确认,影响共享库) ================= */
+let _manageOpen=false;
+function toggleManage(){_manageOpen=!_manageOpen;renderCountry();}
+function renderManage(c,list){
+  const el=$("#cty-manage"); if(!el)return;
+  if(!_manageOpen){
+    el.innerHTML=`<button class="btn light" onclick="toggleManage()">🗑 管理 / 删除「${c}」的记录(${list.length} 条)</button>`;
+    return;
+  }
+  el.innerHTML=`<div class="netctrl" style="margin-bottom:10px">
+      <button class="btn light" onclick="toggleManage()">收起</button>
+      <label style="font-size:12px;cursor:pointer;display:flex;gap:6px;align-items:center">
+        <input type="checkbox" onchange="document.querySelectorAll('#cty-manage .delck').forEach(x=>{if(!x.disabled)x.checked=this.checked;})"> 全选</label>
+      <button class="btn light" style="border-color:var(--accent);color:var(--accent)" onclick="deleteChecked('${c}')">删除所选</button>
+      <button class="btn light" style="border-color:var(--accent);color:var(--accent)" onclick="deleteCountry('${c}')">删除整国全部记录</button>
+      <span style="font-family:var(--mono);font-size:10.5px;color:var(--muted)">第三列为来源文件,便于识别误归属的记录</span>
+    </div>
+    <div class="dlist" style="max-height:420px;overflow-y:auto">${
+      list.map(r=>`<div class="di"><input type="checkbox" class="delck" value="${r.id||""}" ${r.id?"":"disabled"}>
+        <span class="did">${r.regId||"—"}</span>
+        <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}</span>
+        <span class="dc" style="min-width:0">${(r.sourceFile||r.source||"").slice(0,28)}</span></div>`).join("")}</div>`;
+}
+async function deleteChecked(c){
+  const ids=[...$$("#cty-manage .delck")].filter(x=>x.checked&&x.value).map(x=>+x.value);
+  await deleteRegs(ids,`「${c}」中所选记录`);
+}
+async function deleteCountry(c){
+  const ids=(byCountry()[c]||[]).map(r=>r.id).filter(Boolean);
+  await deleteRegs(ids,`「${c}」全部记录`);
+}
+async function deleteRegs(ids,label){
+  if(!ids.length){toast("未勾选可删除的记录");return;}
+  if(!confirm("将从团队数据库永久删除"+label+",共 "+ids.length+" 条,所有人都会看到删除结果。确定?"))return;
+  if(!confirm("再次确认:删除不可撤销(需要时只能重新导入)。继续删除 "+ids.length+" 条?"))return;
+  try{
+    for(let i=0;i<ids.length;i+=200)
+      await sbReq("DELETE","regulations?id=in.("+ids.slice(i,i+200).join(",")+")",undefined,"return=minimal");
+    const idSet=new Set(ids);
+    Object.keys(store).forEach(k=>{if(idSet.has(store[k].id))delete store[k];});
+    resolveParents();
+    if(recs().length){
+      const names=Object.fromEntries(recs().map(r=>[keyOf(r),(r.regId||"")+" "+(r.cnName||"").slice(0,30)]));
+      await sbInsert("snapshots",[{reg_keys:recs().map(keyOf),names,key_count:recs().length,
+        auto:true,note:"删除 "+ids.length+" 条后"}]);
+    }
+    await refreshSnapshots(false);
+    toast("已删除 "+ids.length+" 条");
+  }catch(err){toast("删除失败:"+err.message);console.error(err);return;}
+  if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
+  renderAll();
 }
 
 /* ================= 快照/新增 ================= */
