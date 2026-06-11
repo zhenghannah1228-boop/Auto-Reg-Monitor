@@ -957,6 +957,7 @@ async function editNote(key){
     await sbReq("PATCH","regulations?id=eq."+r.id,{note:v.trim()},"return=minimal");
     r.note=v.trim();
     renderCountry();renderDrafts();
+    if($("#p-tree")&&$("#p-tree").classList.contains("on"))renderTree();
     toast(r.note?"备注已保存(全团队可见)":"备注已清除");
   }catch(err){toast("备注保存失败:"+err.message);console.error(err);}
 }
@@ -1229,8 +1230,9 @@ function renderTree(){
     <span class="tog">·</span>
     <span class="tdot" style="background:${DIMCOL[r.dims.length?r.dims[0]:8]}"></span>
     <span class="tid" style="cursor:pointer" onclick="gotoCountry('${c}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
-    <span class="tnm">${r.cnName||r.origName||""}</span>
-    <span class="tct">${r.note?"📝 ":""}${isDraft(r)?"草案 · ":""}${r.date||""}</span></div></div>`;
+    <span class="tnm">${r.cnName||r.origName||""}${r.note?` <span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
+    <button class="upbtn" onclick="event.stopPropagation();editNote('${keyOf(r).replace(/'/g,"\\'")}')" title="添加/修改备注(团队共享)">✎</button>
+    <span class="tct">${isDraft(r)?"草案 · ":""}${r.date||""}</span></div></div>`;
   tree.innerHTML=keys.length?keys.map(d=>{
     const regs=groups[d].slice().sort((a,b)=>(b.date||"").localeCompare(a.date||""));
     const id="g"+(kid++);
