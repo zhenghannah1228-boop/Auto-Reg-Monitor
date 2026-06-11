@@ -23,6 +23,46 @@
       }
     ]
   },
+  "EU 2019/2144": {
+    "reg_no": "EU 2019/2144",
+    "match_key": "EU 2019/2144",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 29,
+        "reg_no": "EU 2019/2144",
+        "cn_name": "关于通用安全要求的法规（GSR II）"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-001",
+        "title": "(EU) 2021/1958 ISA 智能速度辅助系统",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "EU 2023/1675": {
+    "reg_no": "EU 2023/1675",
+    "match_key": "EU 2023/1675",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-001",
+        "title": "(EU) 2021/1958 ISA 智能速度辅助系统",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
   "GB 1589": {
     "reg_no": "GB 1589",
     "match_key": "GB 1589",
@@ -67,6 +107,46 @@
         "id": "INS-2026-004",
         "title": "GB 15083 座椅安全法规升级：加严头枕、引入零重力座椅、鞭打测试与假人碰撞",
         "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "工信部50号令/54号令": {
+    "reg_no": "工信部50号令/54号令",
+    "match_key": "工信部50号令",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2022-005",
+        "title": "中欧汽车认证与法规比较",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "EU 2018/858": {
+    "reg_no": "EU 2018/858",
+    "match_key": "EU 2018/858",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 28,
+        "reg_no": "EU 2018/858",
+        "cn_name": "欧盟整车准入框架法规"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2022-005",
+        "title": "中欧汽车认证与法规比较",
+        "type": "compare",
         "url": ""
       }
     ]
@@ -192,6 +272,12 @@
         "title": "国内首个车载HUD法规正式发布：区域1和区域2要求详解",
         "type": "interpret",
         "url": ""
+      },
+      {
+        "id": "INS-2026-015",
+        "title": "驾驶员前方视野校核指南 | GB 11562-2025",
+        "type": "interpret",
+        "url": ""
       }
     ]
   },
@@ -243,6 +329,12 @@
       {
         "id": "INS-2026-008",
         "title": "国内首个车载HUD法规正式发布：区域1和区域2要求详解",
+        "type": "interpret",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-015",
+        "title": "驾驶员前方视野校核指南 | GB 11562-2025",
         "type": "interpret",
         "url": ""
       }
@@ -516,6 +608,37 @@
         "id": "INS-2026-014",
         "title": "车速/里程表法规修订解读 | GB 15082-2026 与 UN R39.2",
         "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 125": {
+    "reg_no": "UN Regulation No. 125",
+    "match_key": "UN R125",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 99,
+        "reg_no": "UN Regulation No. 125 ",
+        "cn_name": "关于批准机动车驾驶员前方视野的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 108,
+        "reg_no": "UN R125 ",
+        "cn_name": "关于批准机动车驾驶员前方视野的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-015",
+        "title": "驾驶员前方视野校核指南 | GB 11562-2025",
+        "type": "interpret",
         "url": ""
       }
     ]

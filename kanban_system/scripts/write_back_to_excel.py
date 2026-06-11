@@ -77,7 +77,9 @@ def main():
             target = src
         else:
             target = os.path.join(out_dir, os.path.basename(src))
-            shutil.copy(src, target)
+            # 库目录与副本目录相同时(本仓库默认指向 library_linked)原地写,跳过复制
+            if os.path.abspath(src) != os.path.abspath(target):
+                shutil.copy(src, target)
         wb = openpyxl.load_workbook(target)
         for sheet in sheets:
             ws = wb[sheet]
