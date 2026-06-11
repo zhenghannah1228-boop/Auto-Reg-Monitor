@@ -144,6 +144,14 @@ table.matrix{border-collapse:separate;border-spacing:0;width:100%;font-size:11.5
 .c1{background:#f5ecce;color:#8a6a14}
 .c2{background:#deead5;color:#3d6630}
 .matrix tbody tr:hover td{background:#f2eee1}
+/* 条件适用矩阵格子 */
+.condcell{display:inline-flex;flex-direction:column;gap:4px;min-width:74px;padding:7px 9px;
+  background:var(--panel);border:1px solid var(--line2);border-radius:7px;cursor:default}
+.condcell .cc-n{font-variant-numeric:tabular-nums;line-height:1}
+.condcell .cc-n b{font-size:16px;color:#3d6630;font-family:var(--serif)}
+.condcell .cc-n i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted)}
+.condcell .cc-bar{display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--linesoft)}
+.condcell .cc-bar i{display:block;height:100%}
 
 /* rank */
 .rank .row{display:grid;grid-template-columns:150px 1fr 54px 132px;gap:12px;align-items:center;
@@ -392,9 +400,29 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   </div>
 
   <div class="pane" id="p-dim">
-    <div class="card">
+    <div class="netctrl">
+      <div class="seg">
+        <button id="dv-classic" class="on" onclick="setDimView('classic')">国家 × 维度</button>
+        <button id="dv-cond" onclick="setDimView('cond')">条件适用(动力 × 领域)</button>
+      </div>
+      <span id="cond-ctrl" style="display:none">
+        <select class="csel" id="cond-cty" onchange="renderCondMatrix()"></select>
+        <select class="csel" id="cond-vt" onchange="renderCondMatrix()"></select>
+      </span>
+    </div>
+    <div class="card" id="dim-classic">
       <h3>国家 × 10维度覆盖矩阵 <span class="hint">✓≥3 · ⚠1-2弱覆盖 · ✗空白 — 目标:空白≤2处/国</span></h3>
       <div class="mwrap"><table class="matrix" id="matrix"></table></div>
+    </div>
+    <div class="card" id="dim-cond" style="display:none">
+      <h3>条件适用矩阵 <span class="hint">格子 = 该动力下真正适用条数/该领域总数 · 色条 = 适用(绿)/豁免(灰)/待研判(橙)</span></h3>
+      <div class="mwrap"><table class="matrix" id="condmatrix"></table></div>
+      <div class="netlegend" style="margin-top:10px">
+        <div class="li"><span class="sw" style="background:#5a8a4a;border-radius:3px"></span>适用</div>
+        <div class="li"><span class="sw" style="background:#c9b8a4;border-radius:3px"></span>豁免/不适用(动力列明确标注且不含该动力)</div>
+        <div class="li"><span class="sw" style="background:#d98a3a;border-radius:3px"></span>待研判(动力列为空——不伪装成覆盖)</div>
+      </div>
+      <div id="cond-stat" style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:8px"></div>
     </div>
   </div>
 
@@ -750,6 +778,15 @@ async function saveSnapshotDB(){
 }
 function nk(o,names){for(const n of names){for(const k of Object.keys(o)){
   if(String(k).trim()===n)return String(o[k]??"").trim();}}return "";}
+/* 字段别名层:先精确匹配,再"列名包含核心词"兜底
+   (覆盖 适用车型类型(在马来西亚)/实施日期(在泰国)/新认证车 等变体,零硬编码国家) */
+function nkAlias(o,names){
+  const exact=nk(o,names); if(exact)return exact;
+  const keys=Object.keys(o);
+  for(const n of names){for(const k of keys){
+    if(String(k).trim().includes(n))return String(o[k]??"").trim();}}
+  return "";
+}
 
 function ingest(rows,srcFile,forceCountry){
   let n=0;
@@ -767,7 +804,7 @@ function ingest(rows,srcFile,forceCountry){
       dimText:nk(raw,["对标维度"]),
       domain:nk(raw,["法规领域"]),region:nk(raw,["区域"]),
       refCN:nk(raw,["对应国标"]),refEU:nk(raw,["对应欧标"]),refUS:nk(raw,["对应美标"]),
-      pubDate:nk(raw,["发布日期"]),effDate:nk(raw,["生效日期"]),
+      pubDate:nk(raw,["发布日期"]),effDate:nkAlias(raw,["生效日期","实施日期"]),
       status:nk(raw,["正式法规 or 草案","正式法规or草案"]),
       remark:nk(raw,["备注"]),
       source:nk(raw,["数据来源"])||srcFile,
@@ -783,6 +820,11 @@ function ingest(rows,srcFile,forceCountry){
     rec.amend=amendInfo(rec);
     rec.date=rec.pubDate||rec.effDate||"";
     rec.raw=raw;rec.sourceFile=srcFile;rec.updatedAt=new Date().toISOString();
+    // 条件适用字段(第0步别名表):新导入行直接解析;历史行由 loadCondFields 从 raw 懒加载
+    rec.powerTypes=nkAlias(raw,["适用动力类型"]);
+    rec.vehicleTypes=nkAlias(raw,["适用车型类型"]);
+    rec.newCertDate=nkAlias(raw,["新认证车具体生效日期","新认证车"]);
+    rec.inProdDate=nkAlias(raw,["在产车具体生效日期","在产车"]);
     store[keyOf(rec)]=rec;
     if(_batch)_batch.add(keyOf(rec));
     n++;
@@ -1612,6 +1654,128 @@ async function delMemo(id){
   catch(err){toast("删除失败:"+err.message);}
 }
 $("#memo-text").addEventListener("keydown",e=>{if(e.key==="Enter")addMemo();});
+
+/* ================= 条件适用矩阵(02 新视图:动力×领域,字段别名见第0步映射表) ================= */
+let dimView="classic",_condLoaded=false,_condLoading=false;
+const POWER_ORDER=["汽油","柴油","BEV","PHEV","HEV","FCEV","EREV","CNG","LNG","LPG"];
+const UNLIMITED_RE=/不限/;
+const splitToks=s=>String(s||"").split(/[,，、/;；]+/).map(t=>t.trim()).filter(Boolean);
+const vBase=t=>String(t).replace(/[((].*$/,"").trim(); // M2(≤3500kg) → M2,注记进 tooltip
+
+/* 懒加载条件字段:从 raw jsonb 拉 动力/车型/新认证车/在产车/实施日期,变体列用 nkAlias 兜底 */
+async function loadCondFields(){
+  if(_condLoaded)return true;
+  if(_condLoading)return false;
+  _condLoading=true;
+  try{
+    const rows=await sbFetchAll("regulations",
+      "id,pw:raw->>适用动力类型,vt:raw->>适用车型类型,"
+      +"nc:raw->>新认证车具体生效日期,nc2:raw->>新认证车,"
+      +"ip:raw->>在产车具体生效日期,ip2:raw->>在产车,im:raw->>实施日期");
+    const byId={};recs().forEach(r=>{if(r.id)byId[r.id]=r;});
+    const needRaw=[];
+    rows.forEach(x=>{const r=byId[x.id];if(!r)return;
+      if(r.powerTypes===undefined)r.powerTypes=x.pw==null?"":String(x.pw).trim();
+      if(r.vehicleTypes===undefined)r.vehicleTypes=x.vt==null?"":String(x.vt).trim();
+      if(!r.newCertDate)r.newCertDate=String(x.nc??x.nc2??"").trim();
+      if(!r.inProdDate)r.inProdDate=String(x.ip??x.ip2??"").trim();
+      if(!r.effDate&&x.im)r.effDate=String(x.im).trim();
+      if(x.vt==null)needRaw.push(x.id); // 该行无标准列名 → 可能是变体列(马来西亚/泰国等),拉 raw 兜底
+    });
+    for(let i=0;i<needRaw.length;i+=100){
+      const part=await sbFetchAll("regulations","id,raw","id=in.("+needRaw.slice(i,i+100).join(",")+")");
+      part.forEach(x=>{const r=byId[x.id];if(!r||!x.raw)return;
+        const vt=nkAlias(x.raw,["适用车型类型"]);if(vt)r.vehicleTypes=vt;
+        const pw=nkAlias(x.raw,["适用动力类型"]);if(!r.powerTypes&&pw)r.powerTypes=pw;
+        const im=nkAlias(x.raw,["实施日期","生效日期"]);if(!r.effDate&&im)r.effDate=im;
+        const nc=nkAlias(x.raw,["新认证车具体生效日期","新认证车"]);if(!r.newCertDate&&nc)r.newCertDate=nc;
+        const ip=nkAlias(x.raw,["在产车具体生效日期","在产车"]);if(!r.inProdDate&&ip)r.inProdDate=ip;
+      });
+    }
+    _condLoaded=true;
+  }catch(e){console.error("cond load",e);toast("条件字段载入失败:"+e.message);}
+  _condLoading=false;
+  return _condLoaded;
+}
+/* 判定规则(业主确认):
+   ① 动力列明确标注 → 含该动力=适用(绿),不含=豁免(灰)
+   ② 动力列为空/缺失 → 待研判(橙),绝不默认豁免或伪装覆盖
+   「不限」类写法 → 全部适用 */
+function powerStatus(r,power){
+  const v=r.powerTypes;
+  if(v==null||String(v).trim()==="")return "tbd";
+  if(UNLIMITED_RE.test(v))return "apply";
+  return splitToks(v).map(t=>t.toUpperCase()).includes(power.toUpperCase())?"apply":"exempt";
+}
+/* 车型:明确标注且不含选定车型 → 整条不计入本视图;为空/「不适用」→ 计入但全行待研判 */
+function vehicleStatus(r,vt){
+  const v=r.vehicleTypes;
+  if(v==null||String(v).trim()===""||/不适用/.test(v))return "tbd";
+  if(UNLIMITED_RE.test(v))return "in";
+  return splitToks(v).some(t=>vBase(t)===vt||t.trim()===vt)?"in":"out";
+}
+function setDimView(m){
+  dimView=m;
+  $("#dv-classic").classList.toggle("on",m==="classic");
+  $("#dv-cond").classList.toggle("on",m==="cond");
+  $("#dim-classic").style.display=m==="classic"?"":"none";
+  $("#dim-cond").style.display=m==="cond"?"":"none";
+  $("#cond-ctrl").style.display=m==="cond"?"":"none";
+  if(m==="cond"){
+    $("#condmatrix").innerHTML='<tbody><tr><td style="padding:30px;color:var(--muted)">正在载入条件字段(动力/车型,来自原始列)…</td></tr></tbody>';
+    loadCondFields().then(ok=>{if(ok){fillCondSelectors();renderCondMatrix();}});
+  }
+}
+function fillCondSelectors(){
+  const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
+  const ctyEl=$("#cond-cty"),cur=ctyEl.value;
+  ctyEl.innerHTML='<option value="">全部国家</option>'+cs.map(c=>`<option value="${c}" ${cur===c?"selected":""}>${c}</option>`).join("");
+  // 目标车型选项 = 全库 vehicleTypes token 并集(基类),按出现频次排序,动态生成
+  const freq={};
+  recs().forEach(r=>{const v=r.vehicleTypes;if(!v||UNLIMITED_RE.test(v)||/不适用/.test(v))return;
+    splitToks(v).forEach(t=>{const b=vBase(t);if(b)freq[b]=(freq[b]||0)+1;});});
+  const vts=Object.keys(freq).sort((a,b)=>freq[b]-freq[a]);
+  const vtEl=$("#cond-vt"),vcur=vtEl.value;
+  vtEl.innerHTML='<option value="">全部车型</option>'+vts.map(t=>`<option value="${esc(t)}" ${vcur===t?"selected":""}>${esc(t)}</option>`).join("");
+}
+function renderCondMatrix(){
+  const cty=$("#cond-cty").value,vt=$("#cond-vt").value;
+  let list=recs().filter(r=>!cty||r.country===cty);
+  let vtTbd=0,vtOut=0;
+  if(vt){
+    list=list.filter(r=>{const s=vehicleStatus(r,vt);
+      if(s==="out"){vtOut++;return false;}
+      if(s==="tbd")vtTbd++;
+      return true;});
+  }
+  // 列 = 法规领域(沿用层级树的固定顺序,其余按量,未填写垫底)
+  const dset={};
+  list.forEach(r=>{const d=(r.domain||"").trim()||"未填写";(dset[d]=dset[d]||[]).push(r);});
+  const extras=Object.keys(dset).filter(d=>!DOMAIN_ORDER.includes(d)&&d!=="未填写").sort((a,b)=>dset[b].length-dset[a].length);
+  const cols=[...DOMAIN_ORDER.filter(d=>dset[d]),...extras,...(dset["未填写"]?["未填写"]:[])];
+  // 行 = 动力类型(常见六种保底 + 数据中出现的其余)
+  const present=new Set();
+  list.forEach(r=>splitToks(r.powerTypes||"").forEach(t=>present.add(t.toUpperCase())));
+  const powers=POWER_ORDER.filter(p=>["汽油","柴油","BEV","PHEV","HEV","FCEV"].includes(p)||present.has(p.toUpperCase()));
+  let totA=0,totE=0,totT=0;
+  let html=`<thead><tr><th class="cn">动力 \\ 领域</th>${cols.map(d=>`<th>${esc(d)}</th>`).join("")}</tr></thead><tbody>`;
+  html+=powers.map(p=>{
+    const cells=cols.map(d=>{
+      let a=0,e=0,t=0;
+      dset[d].forEach(r=>{const s=powerStatus(r,p);if(s==="apply")a++;else if(s==="exempt")e++;else t++;});
+      totA+=a;totE+=e;totT+=t;
+      const n=dset[d].length,w=x=>n?Math.round(x/n*100):0;
+      return `<td><div class="condcell" title="${esc(p)} × ${esc(d)}:适用 ${a} · 豁免 ${e} · 待研判 ${t}(共 ${n} 条)">
+        <span class="cc-n"><b>${a}</b><i>/${n}</i></span>
+        <span class="cc-bar"><i style="width:${w(a)}%;background:#5a8a4a"></i><i style="width:${w(e)}%;background:#c9b8a4"></i><i style="width:${w(t)}%;background:#d98a3a"></i></span>
+      </div></td>`;
+    }).join("");
+    return `<tr><td class="cn">${esc(p)}</td>${cells}</tr>`;
+  }).join("")+"</tbody>";
+  $("#condmatrix").innerHTML=html;
+  $("#cond-stat").textContent=`范围:${cty||"全部国家"} · ${vt?("车型 "+vt+"(已排除明确不含该车型的 "+vtOut+" 条;车型列为空计入 "+vtTbd+" 条待研判)"):"全部车型"} · 共 ${list.length} 条`
+    +` · 格子合计:适用 ${totA} / 豁免 ${totE} / 待研判 ${totT}`;
+}
 
 /* ================= 认证体系金字塔(纯数据驱动 data/cert_pyramid.json) ================= */
 let CERT=null,_certLoading=false,_pyrCountry=null,_pyrLevel=0;
