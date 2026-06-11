@@ -832,7 +832,7 @@ function renderDrafts(){
     return `<div class="di">
     <span class="sign" style="color:var(--warn)">△</span><span class="dc">${r.country}</span>
     <span class="did" style="cursor:pointer" onclick="gotoCountry('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
-    <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}</span>
+    <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}${r.note?` <span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
     <span class="dc">${src}</span><span class="dc">${r.date||""}</span></div>`;}).join("")
     +(list.length>200?'<div class="bigmsg">仅显示前 200 条草案</div>':"")
     :(all.length?'<div class="bigmsg">「'+fsel+'」暂无草案</div>'
@@ -879,10 +879,13 @@ function renderCountry(){
   const fw=$("#focuswrap");
   if(window._focusKey&&store[window._focusKey]){
     const r=store[window._focusKey];
+    const fk=window._focusKey.replace(/'/g,"\\'");
     fw.innerHTML=`<div class="focusreg"><span class="cls" onclick="window._focusKey=null;this.parentNode.remove()">✕</span>
-      <div class="fid">⌕ ${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}</div>
+      <div class="fid">⌕ ${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}
+        <button class="upbtn" onclick="editNote('${fk}')" title="给这条法规添加/修改团队共享备注">✎ 备注</button></div>
       <div class="fnm">${r.cnName||r.origName||""}</div>
-      <div class="fmeta">${r.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${r.date?" · "+r.date:""}${r.refs.length?" · 引用:"+r.refs.join(", "):""}${r.parentsRaw.length?" · 上位:"+r.parentsRaw.join("; "):""}</div></div>`;
+      <div class="fmeta">${r.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${r.date?" · "+r.date:""}${r.refs.length?" · 引用:"+r.refs.join(", "):""}${r.parentsRaw.length?" · 上位:"+r.parentsRaw.join("; "):""}</div>
+      ${r.note?`<div class="fmeta" style="color:var(--blue);margin-top:6px">📝 ${esc(r.note)}</div>`:""}</div>`;
   }else fw.innerHTML="";
 
   const max=Math.max(...dc,1);
@@ -896,7 +899,7 @@ function renderCountry(){
   const dated=list.filter(r=>r.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
   if(dated.length){
     $("#cty-rev").innerHTML=dated.map(r=>`<div class="ri">
-      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}</span>
+      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}${r.note?`<span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
       <span class="rdate">${r.date}</span></div>
       <div class="rnm">${r.cnName||r.origName||""}</div></div>`).join("");
   }else{
@@ -939,8 +942,23 @@ function renderManage(c,list){
     <div class="dlist" style="max-height:420px;overflow-y:auto">${
       list.map(r=>`<div class="di"><input type="checkbox" class="delck" value="${r.id||""}" ${r.id?"":"disabled"}>
         <span class="did">${r.regId||"—"}</span>
-        <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}</span>
-        <span class="dc" style="min-width:0">${(r.sourceFile||r.source||"").slice(0,28)}</span></div>`).join("")}</div>`;
+        <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}${r.note?` <span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
+        <span class="dc" style="min-width:0">${(r.sourceFile||r.source||"").slice(0,28)}</span>
+        <button class="upbtn" onclick="editNote('${keyOf(r).replace(/'/g,"\\'")}')" title="添加/修改备注(团队共享)">✎</button></div>`).join("")}</div>`;
+}
+/* 单条法规备注:团队共享,存 regulations.note;重复导入不会覆盖(导入不带该列) */
+async function editNote(key){
+  const r=store[key];
+  if(!r){toast("未找到该记录");return;}
+  if(!r.id){toast("该记录尚未同步到数据库,稍后再试");return;}
+  const v=prompt("法规备注(全团队共享,清空内容则删除备注):\n"+(r.regId||r.cnName),r.note||"");
+  if(v===null)return;
+  try{
+    await sbReq("PATCH","regulations?id=eq."+r.id,{note:v.trim()},"return=minimal");
+    r.note=v.trim();
+    renderCountry();renderDrafts();
+    toast(r.note?"备注已保存(全团队可见)":"备注已清除");
+  }catch(err){toast("备注保存失败:"+err.message);console.error(err);}
 }
 async function deleteChecked(c){
   const ids=[...$$("#cty-manage .delck")].filter(x=>x.checked&&x.value).map(x=>+x.value);
@@ -1212,7 +1230,7 @@ function renderTree(){
     <span class="tdot" style="background:${DIMCOL[r.dims.length?r.dims[0]:8]}"></span>
     <span class="tid" style="cursor:pointer" onclick="gotoCountry('${c}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
     <span class="tnm">${r.cnName||r.origName||""}</span>
-    <span class="tct">${isDraft(r)?"草案 · ":""}${r.date||""}</span></div></div>`;
+    <span class="tct">${r.note?"📝 ":""}${isDraft(r)?"草案 · ":""}${r.date||""}</span></div></div>`;
   tree.innerHTML=keys.length?keys.map(d=>{
     const regs=groups[d].slice().sort((a,b)=>(b.date||"").localeCompare(a.date||""));
     const id="g"+(kid++);
@@ -1539,7 +1557,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
 (async function init(){
   try{
     const cols="id,country,reg_id,cn_name,orig_name,en_name,lang,dim_text,domain,"
-      +"ref_cn,ref_eu,ref_us,pub_date,eff_date,status,remark,source,link,"
+      +"ref_cn,ref_eu,ref_us,pub_date,eff_date,status,remark,note,source,link,"
       +"parents_raw,dims,refs,amend,rec_date,source_file,updated_at";
     const [regRows,tfRows,logRows]=await Promise.all([
       sbFetchAll("regulations",cols),
@@ -1554,7 +1572,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
         dimText:row.dim_text||"",domain:row.domain||"",
         refCN:row.ref_cn||"",refEU:row.ref_eu||"",refUS:row.ref_us||"",
         pubDate:row.pub_date||"",effDate:row.eff_date||"",status:row.status||"",
-        remark:row.remark||"",
+        remark:row.remark||"",note:row.note||"",
         source:row.source||"",link:row.link||"",
         parentsRaw:Array.isArray(row.parents_raw)?row.parents_raw:[],
         dims:Array.isArray(row.dims)?row.dims:[],
