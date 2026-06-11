@@ -158,6 +158,28 @@ table.matrix{border-collapse:separate;border-spacing:0;width:100%;font-size:11.5
   display:flex;flex-direction:column;box-shadow:0 12px 50px rgba(26,36,32,.3);overflow:hidden}
 .modal-h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .modal-b{overflow:auto;padding:6px 16px 16px}
+/* 10 版本时间链 */
+.fam-row{display:grid;grid-template-columns:230px 1fr;gap:14px;align-items:center;
+  padding:10px 0;border-bottom:1px solid var(--linesoft)}
+.fam-row:last-of-type{border-bottom:none}
+.fam-meta .rid{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--blue)}
+.fam-meta .fam-nm{font-size:11.5px;color:var(--ink2);margin-top:2px;line-height:1.4}
+.fam-meta .fam-dm{font-family:var(--mono);font-size:9.5px;color:var(--accent);margin-top:2px}
+.tl{position:relative;height:64px;min-width:320px}
+.tl-axis{position:absolute;left:2%;right:2%;top:18px;height:2px;background:var(--line);border-radius:1px}
+.tl-node{position:absolute;top:0;transform:translateX(-50%);text-align:center;cursor:pointer;width:86px}
+.tl-node .dot{display:block;width:12px;height:12px;border-radius:50%;background:#b3ac99;margin:13px auto 4px;
+  border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line)}
+.tl-node.cur .dot{background:var(--accent);width:15px;height:15px;margin-top:11.5px;box-shadow:0 0 0 3px #f3d9cb}
+.tl-node .dot.hollow{background:var(--panel);border:2px solid #d98a3a}
+.tl-node b{display:block;font-size:10px;color:var(--muted);font-weight:600}
+.tl-node.cur b{color:var(--accent)}
+.tl-node u{display:block;font-family:var(--mono);font-size:10px;color:var(--ink2);text-decoration:none;font-weight:600}
+.tl-node.cur u{color:var(--accent)}
+.tl-node:hover .dot{filter:brightness(.85)}
+.fam-det{margin-top:10px;padding:10px 14px;background:var(--panel2);border:1px solid var(--line2);
+  border-radius:7px;font-size:12px;line-height:1.7}
+@media(max-width:760px){.fam-row{grid-template-columns:1fr}.tl{min-width:280px}}
 
 /* rank */
 .rank .row{display:grid;grid-template-columns:150px 1fr 54px 132px;gap:12px;align-items:center;
@@ -386,6 +408,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-txt"><span class="tn">07</span>文本对账</div>
     <div class="tab" data-p="p-memo"><span class="tn">08</span>备忘录</div>
     <div class="tab" data-p="p-pyr"><span class="tn">09</span>认证金字塔</div>
+    <div class="tab" data-p="p-chain"><span class="tn">10</span>版本时间链</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -533,6 +556,21 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">选国家看其汽车型式认证体系金字塔(顶=母法/框架 → 底=最终证书)</span>
     </div>
     <div id="pyr-body"><div class="bigmsg">正在载入认证体系数据…</div></div>
+  </div>
+
+  <div class="pane" id="p-chain">
+    <div class="netctrl">
+      <select class="csel" id="chain-cty" onchange="renderChain()"></select>
+      <input id="chain-q" type="text" placeholder="搜编号 / 名称…" autocomplete="off" oninput="renderChain()"
+        style="font-family:var(--sans);font-size:12px;border:1px solid var(--line);border-radius:6px;
+        padding:7px 12px;width:190px;background:var(--panel);color:var(--ink);outline:none">
+      <label style="font-size:12px;display:flex;gap:5px;align-items:center;cursor:pointer">
+        <input type="checkbox" id="chain-multi" onchange="renderChain()"> 只看多成员族</label>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)" id="chain-meta"></span>
+    </div>
+    <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:12px">
+      每条法规一行:发布 → 实施 → 新认证车 → 在产车,按真实日期间隔拉开 · 灰点=历史阶段,橙点=最末/当前生效阶段 · 点节点看详情 · 族内 current=最新版,superseded=被取代</div>
+    <div id="chain-body"><div class="bigmsg">正在载入日期字段…</div></div>
   </div>
 
   <footer>
@@ -946,6 +984,7 @@ function renderDrafts(){
     <span class="sign" style="color:var(--warn)">△</span><span class="dc">${r.country}</span>
     <span class="did" style="cursor:pointer" onclick="gotoCountry('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
     <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}${r.note?` <span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
+    <button class="upbtn" onclick="gotoChain('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')" title="版本时间链">⏱</button>
     <span class="dc">${src}</span><span class="dc">${r.date||""}</span></div>`;}).join("")
     +(list.length>200?'<div class="bigmsg">仅显示前 200 条草案</div>':"")
     :(all.length?'<div class="bigmsg">「'+fsel+'」暂无草案</div>'
@@ -995,7 +1034,8 @@ function renderCountry(){
     const fk=window._focusKey.replace(/'/g,"\\'");
     fw.innerHTML=`<div class="focusreg"><span class="cls" onclick="window._focusKey=null;this.parentNode.remove()">✕</span>
       <div class="fid">⌕ ${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}
-        <button class="upbtn" onclick="editNote('${fk}')" title="给这条法规添加/修改团队共享备注">✎ 备注</button></div>
+        <button class="upbtn" onclick="editNote('${fk}')" title="给这条法规添加/修改团队共享备注">✎ 备注</button>
+        <button class="upbtn" onclick="gotoChain('${r.country}','${fk}')" title="查看这条法规的版本时间链(发布→实施→新认证→在产)">⏱ 版本链</button></div>
       <div class="fnm">${r.cnName||r.origName||""}</div>
       <div class="fmeta">${r.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${r.date?" · "+r.date:""}${r.refs.length?" · 引用:"+r.refs.join(", "):""}${r.parentsRaw.length?" · 上位:"+r.parentsRaw.join("; "):""}</div>
       ${r.note?`<div class="fmeta" style="color:var(--blue);margin-top:6px">📝 ${esc(r.note)}</div>`:""}</div>`;
@@ -1012,7 +1052,8 @@ function renderCountry(){
   const dated=list.filter(r=>r.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
   if(dated.length){
     $("#cty-rev").innerHTML=dated.map(r=>`<div class="ri">
-      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}${r.note?`<span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
+      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}${r.note?`<span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}
+        <button class="upbtn" onclick="gotoChain('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')" title="版本时间链">⏱</button></span>
       <span class="rdate">${r.date}</span></div>
       <div class="rnm">${r.cnName||r.origName||""}</div></div>`).join("");
   }else{
@@ -1821,6 +1862,195 @@ function exportTbd(){
   toast("已导出 "+recsT.length+" 条待研判清单");
 }
 
+/* ================= 10 版本时间链(纵向生命周期轴 + 横向法规族对比) ================= */
+/* 日期归一:ISO/斜杠/中文/Excel序列号(5位)/纯年份 → {t,label};自由文本只显示不排序 */
+function normDate(s){
+  s=String(s??"").trim();
+  if(!s)return null;
+  let m;
+  if(m=s.match(/^(\d{4})[-/.年]\s*(\d{1,2})(?:[-/.月]\s*(\d{1,2}))?/)){
+    const y=m[1],mo=String(+m[2]).padStart(2,"0"),d=m[3]?String(+m[3]).padStart(2,"0"):null;
+    return {t:Date.parse(y+"-"+mo+"-"+(d||"01")),label:y+"-"+mo+(d?"-"+d:"")};
+  }
+  if(/^\d{5}$/.test(s)){const t=new Date(Date.UTC(1899,11,30)).getTime()+(+s)*86400000;
+    return {t,label:new Date(t).toISOString().slice(0,10)};}
+  if(/^\d{4}$/.test(s))return {t:Date.parse(s+"-01-01"),label:s};
+  return {t:null,label:s}; // 待定/已实施等自由文本
+}
+/* 编号主干提取:决定族归并。同号不同修订/H变体=同族;数字不同(R10/R13/R100)=不同族 */
+function regTrunk(r){
+  const id=String(r.regId||"");
+  let m;
+  if(m=id.match(/(?:UN|ECE)[\s-]*(?:Regulation|Reg\.?|R)?\.?\s*(?:No\.?\s*)?(\d{1,3})[\s-]*(H)?(?!\d)/i))
+    return {key:"UN R"+(+m[1]),variant:m[2]?"H":""};
+  if(m=id.match(/GTR\s*(?:No\.?\s*)?(\d{1,2})(?!\d)/i))return {key:"GTR "+(+m[1]),variant:""};
+  if(m=id.match(/(?:FMVSS\s*(?:No\.?\s*)?|571\.)(\d{1,3})\s*([a-z])?(?!\d)/i))
+    return {key:"FMVSS "+(+m[1]),variant:(m[2]||"").toLowerCase()};
+  if(m=id.match(/GB(?:\/T)?\s*(\d{4,5})(?!\d)/))return {key:"GB "+m[1],variant:""};
+  // 兜底:仅剥「.NN」式尾部修订号(不动 /1003 这类本体数字)后取宽松键;无编号→中文名自成一族
+  const base=id.replace(/\.(\d{2})\s*$/,"");
+  const lk=loose(base||id);
+  if(lk&&lk.length>=3)return {key:"L:"+lk,variant:""};
+  return {key:"N:"+norm(r.cnName||"").slice(0,20),variant:""};
+}
+const trunkLabel=k=>k.startsWith("L:")||k.startsWith("N:")?"":k;
+
+let _famCache={};
+/* 法规族归并(同国范围):优先级① 上位法规连通(parentKeys 并查集);② 编号主干相同 */
+function buildFamilies(country){
+  if(_famCache[country])return _famCache[country];
+  const list=byCountry()[country]||[];
+  const idx=new Map();list.forEach((r,i)=>idx.set(keyOf(r),i));
+  const pa=list.map((_,i)=>i);
+  const find=x=>pa[x]===x?x:(pa[x]=find(pa[x]));
+  const uni=(a,b)=>{a=find(a);b=find(b);if(a!==b)pa[b]=a;};
+  const parentPairs=[];
+  list.forEach((r,i)=>(r.parentKeys||[]).forEach(pk=>{
+    const j=idx.get(pk);if(j!==undefined){parentPairs.push([i,j]);uni(i,j);}}));
+  const trunkFirst={};
+  list.forEach((r,i)=>{r._trunk=regTrunk(r);
+    const k=r._trunk.key;
+    if(trunkFirst[k]!==undefined)uni(i,trunkFirst[k]);else trunkFirst[k]=i;});
+  const parentRoots=new Set(parentPairs.map(([a])=>find(a)));
+  const groups={};
+  list.forEach((r,i)=>{const root=find(i);(groups[root]=groups[root]||[]).push(r);});
+  const fams=Object.entries(groups).map(([root,members])=>{
+    const via=members.length<2?"single":(parentRoots.has(+root)?"parent":"trunk");
+    // 族名:取成员中最常见的可读主干,否则最短编号
+    const tk={};members.forEach(r=>{const lb=trunkLabel(r._trunk.key);if(lb)tk[lb]=(tk[lb]||0)+1;});
+    const label=Object.keys(tk).sort((a,b)=>tk[b]-tk[a])[0]
+      ||members.map(r=>r.regId).filter(Boolean).sort((a,b)=>a.length-b.length)[0]
+      ||(members[0].cnName||"").slice(0,18);
+    // current/superseded:同主干同变体内比修订系列(amend 数字)→ 比最新阶段日期;变体(H等)各自 current
+    const byVar={};
+    members.forEach(r=>{const vk=r._trunk.key+"§"+(r._trunk.variant||"");(byVar[vk]=byVar[vk]||[]).push(r);});
+    Object.values(byVar).forEach(arr=>{
+      arr.forEach(r=>{
+        const rev=(String(r.amend||"").match(/(\d+)/)||[])[1];
+        const ts=[r.pubDate,r.effDate,r.newCertDate,r.inProdDate].map(normDate).filter(d=>d&&d.t).map(d=>d.t);
+        r._rank=[rev?+rev:-1,ts.length?Math.max(...ts):-Infinity];
+      });
+      arr.sort((a,b)=>(b._rank[0]-a._rank[0])||(b._rank[1]-a._rank[1]));
+      arr.forEach((r,i)=>{r._ver=i===0?"current":"superseded";});
+    });
+    return {country,label,members,via};
+  });
+  fams.sort((a,b)=>b.members.length-a.members.length||String(a.label).localeCompare(String(b.label),"zh"));
+  _famCache[country]=fams;
+  return fams;
+}
+/* 单条法规的四阶段时间轴(族内共用时间标尺) */
+const CHAIN_STAGES=[["pubDate","发布"],["effDate","实施"],["newCertDate","新认证"],["inProdDate","在产"]];
+function memberStages(r){
+  return CHAIN_STAGES.map(([k,nm])=>{const d=normDate(r[k]);return d?{stage:nm,key:k,...d}:null;})
+    .filter(Boolean);
+}
+function renderChainTimeline(r,minT,maxT){
+  const sts=memberStages(r);
+  if(!sts.length)return '<div class="tl"><span style="font-size:11px;color:var(--muted)">无日期字段(只列名录,不画轴)</span></div>';
+  const span=Math.max(maxT-minT,1);
+  const dated=sts.filter(s=>s.t!=null),undated=sts.filter(s=>s.t==null);
+  // 按真实日期间隔定位;重叠时最小推开 7%
+  let nodes=dated.map(s=>({...s,x:4+((s.t-minT)/span)*88}));
+  nodes.sort((a,b)=>a.x-b.x);
+  for(let i=1;i<nodes.length;i++)if(nodes[i].x<nodes[i-1].x+7)nodes[i].x=nodes[i-1].x+7;
+  nodes.forEach(n=>{if(n.x>94)n.x=94;});
+  const lastIdx=nodes.length-1;
+  let html='<div class="tl"><i class="tl-axis"></i>';
+  nodes.forEach((n,i)=>{
+    html+=`<span class="tl-node${i===lastIdx&&!undated.length?" cur":""}" style="left:${n.x}%"
+      onclick="event.stopPropagation();chainNode(this,'${esc(r.country)}','${keyOf(r).replace(/'/g,"\\'")}','${n.stage}','${esc(n.label)}')">
+      <i class="dot"></i><b>${n.stage}</b><u>${esc(n.label)}</u></span>`;
+  });
+  undated.forEach((n,i)=>{ // 自由文本日期(待定等):挂在轴尾,空心点
+    html+=`<span class="tl-node tbd" style="left:${Math.min(94,(nodes.length?nodes[lastIdx].x:10)+9+i*9)}%"
+      title="${esc(n.stage)}:${esc(n.label)}(无法解析为日期,待研判)">
+      <i class="dot hollow"></i><b>${n.stage}</b><u>${esc(n.label)}</u></span>`;
+  });
+  return html+'</div>';
+}
+function chainNode(el,country,key,stage,date){
+  const r=store[key];if(!r)return;
+  const card=el.closest(".fam-card");if(!card)return;
+  const det=card.querySelector(".fam-det");
+  det.innerHTML=`<b>${esc(r.regId||r.cnName)}</b> · ${esc(stage)}阶段 · ${esc(date)}
+    ${r.refs&&r.refs.length?` · 引用:${r.refs.map(esc).join(", ")}`:""}
+    ${r.remark?`<br>备注:${esc(String(r.remark).slice(0,160))}`:""}`;
+  det.style.display="block";
+}
+function renderChain(){
+  const body=$("#chain-body");if(!body)return;
+  const cty=$("#chain-cty").value;if(!cty){body.innerHTML='<div class="bigmsg">请选择国家</div>';return;}
+  const q=norm($("#chain-q").value),multi=$("#chain-multi").checked;
+  let fams=buildFamilies(cty);
+  if(multi)fams=fams.filter(f=>f.members.length>1);
+  if(q)fams=fams.filter(f=>norm(f.label).includes(q)||f.members.some(r=>norm(r.regId).includes(q)||norm(r.cnName).includes(q)));
+  const total=fams.length;fams=fams.slice(0,60);
+  const stats=famStats(cty);
+  $("#chain-meta").textContent=`${cty}:${stats.fams} 族 / ${stats.regs} 条 · 上位法规归并 ${stats.parent} 族 · 编号主干归并 ${stats.trunk} 族 · 单条 ${stats.single}`;
+  body.innerHTML=fams.length?fams.map(f=>{
+    const ts=f.members.flatMap(memberStages).filter(s=>s.t!=null).map(s=>s.t);
+    const minT=ts.length?Math.min(...ts):0,maxT=ts.length?Math.max(...ts):1;
+    return `<div class="card fam-card" data-fam="${esc(f.label)}">
+      <h3>${esc(f.label||f.members[0].regId||"(无编号族)")} <span class="hint">${f.members.length} 个版本/成员 · ${f.via==="parent"?"按上位法规归并":f.via==="trunk"?"按编号主干归并":"独立条目"}</span></h3>
+      ${f.members.map(r=>`<div class="fam-row" id="fr-${cssId(keyOf(r))}">
+        <div class="fam-meta">
+          <span class="rid">${esc(r.regId||"—")}</span>
+          ${r._trunk&&r._trunk.variant?`<span class="rtag amd">${esc(r._trunk.variant.toUpperCase())} 变体</span>`:""}
+          ${f.members.length>1?(r._ver==="current"?'<span class="rtag" style="background:#deead5;color:#3d6630">current</span>':'<span class="rtag parent">superseded</span>'):""}
+          ${r.amend?`<span class="rtag amd">${esc(r.amend)}</span>`:""}
+          <div class="fam-nm">${esc((r.cnName||r.origName||"").slice(0,46))}</div>
+          <div class="fam-dm">${esc(r.domain||"")}</div>
+        </div>
+        ${renderChainTimeline(r,minT,maxT)}
+      </div>`).join("")}
+      <div class="fam-det" style="display:none"></div>
+    </div>`;
+  }).join("")+(total>60?`<div class="bigmsg">共 ${total} 族,仅显示前 60——用搜索/筛选缩小范围</div>`:"")
+  :'<div class="bigmsg">没有匹配的法规族</div>';
+}
+function famStats(cty){
+  const fams=buildFamilies(cty);
+  return {fams:fams.length,regs:(byCountry()[cty]||[]).length,
+    parent:fams.filter(f=>f.via==="parent").length,
+    trunk:fams.filter(f=>f.via==="trunk").length,
+    single:fams.filter(f=>f.via==="single").length};
+}
+const cssId=s=>String(s).replace(/[^a-zA-Z0-9一-鿿]/g,"_");
+function fillChainSelect(){
+  const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
+  const el=$("#chain-cty"),cur=el.value;
+  el.innerHTML=cs.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+  if(cur&&cs.includes(cur))el.value=cur;
+  else if(cs.includes("UN ECE"))el.value="UN ECE";
+}
+async function openChainTab(){
+  switchTab("p-chain");
+  const ok=await loadCondFields(); // 时间链需要 新认证/在产 日期
+  if(!ok){$("#chain-body").innerHTML='<div class="bigmsg">日期字段载入失败,请重试</div>';return;}
+  _famCache={};fillChainSelect();renderChain();
+}
+/* 入口联动:从 01/03/09 跳到某条法规所在族 */
+async function gotoChain(country,key){
+  switchTab("p-chain");
+  const ok=await loadCondFields();if(!ok)return;
+  _famCache={};fillChainSelect();
+  if($("#chain-cty").value!==country)$("#chain-cty").value=country;
+  const r=store[key];
+  $("#chain-q").value=r?(r.regId||r.cnName||""):"";
+  $("#chain-multi").checked=false;
+  renderChain();
+  setTimeout(()=>{const el=document.getElementById("fr-"+cssId(key));
+    if(el){el.scrollIntoView({block:"center"});el.style.background="#fdf5f0";}},80);
+}
+function gotoChainByRegNo(regNo){
+  const lk=loose(regNo);
+  if(!lk||lk.length<3){toast("编号过短,无法定位");return;}
+  const hit=recs().find(r=>loose(r.regId).includes(lk))||recs().find(r=>lk.includes(loose(r.regId))&&loose(r.regId).length>=4);
+  if(!hit){toast("库中未找到编号匹配「"+regNo+"」的法规");return;}
+  gotoChain(hit.country,keyOf(hit));
+}
+
 /* ================= 认证体系金字塔(纯数据驱动 data/cert_pyramid.json) ================= */
 let CERT=null,_certLoading=false,_pyrCountry=null,_pyrLevel=0;
 const SYS_LABEL={own_full:"自有完整型式批准",hybrid:"混合型",recognition:"采信外部型"};
@@ -1900,7 +2130,8 @@ function renderPyrDetail(d){
     ${lv.title_local?`<div class="pd-local">${esc(lv.title_local)}</div>`:""}
     <div class="pd-desc">${esc(lv.desc||"")}</div>
     ${(lv.refs&&lv.refs.length)?`<div style="margin-top:12px">${lv.refs.map(r=>
-      `<div class="pyr-ref"><span class="rn">${esc(r.reg_no||"")}</span><span>${esc(r.name||"")}</span></div>`).join("")}</div>`:""}`;
+      `<div class="pyr-ref"><span class="rn">${esc(r.reg_no||"")}</span><span>${esc(r.name||"")}</span>
+       <button class="upbtn" style="margin-left:auto" onclick="gotoChainByRegNo('${esc(r.reg_no||"").replace(/'/g,"\\'")}')" title="在法规库中定位此编号并打开版本时间链">⏱ 版本链</button></div>`).join("")}</div>`:""}`;
 }
 function renderPyrSections(d){
   const s=d.sections||{};
@@ -1934,6 +2165,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-net")buildNet();
   if(t.dataset.p==="p-tree")renderTree();
   if(t.dataset.p==="p-pyr")loadCert();
+  if(t.dataset.p==="p-chain")openChainTab();
 }));
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
