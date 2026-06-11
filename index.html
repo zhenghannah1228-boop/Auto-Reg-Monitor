@@ -1240,12 +1240,15 @@ function renderTree(){
   }).join(""):'<div class="bigmsg">该国暂无数据。</div>';
   $("#tree-meta").textContent=list.length+" 条 · "+keys.length+" 个领域"
     +(groups["未填写"]?(" · 未填写领域 "+groups["未填写"].length+" 条"):"");
-  tree.querySelectorAll(".tog").forEach(t=>{
-    if(!t.dataset.k)return;
-    t.addEventListener("click",()=>{
-      const kd=tree.querySelector(`.tkids[data-kids="${CSS.escape(t.dataset.k)}"]`);
-      if(!kd)return;kd.classList.toggle("open");
-      t.textContent=kd.classList.contains("open")?"▾":"▸";});
+  // 整行可点:点击领域行任意位置展开/折叠(不止小箭头)
+  tree.querySelectorAll(".troot>.trow").forEach(row=>{
+    row.style.cursor="pointer";
+    row.addEventListener("click",()=>{
+      const kd=row.nextElementSibling;
+      if(!kd||!kd.classList.contains("tkids"))return;
+      const open=kd.classList.toggle("open");
+      const tog=row.querySelector(".tog");if(tog)tog.textContent=open?"▾":"▸";
+    });
   });
   // 默认全部展开
   tree.querySelectorAll(".troot>.tkids").forEach(kd=>{kd.classList.add("open");
