@@ -319,6 +319,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-net"><span class="tn">05</span>关系网络</div>
     <div class="tab" data-p="p-tree"><span class="tn">06</span>层级树</div>
     <div class="tab" data-p="p-txt"><span class="tn">07</span>文本对账</div>
+    <div class="tab" data-p="p-memo"><span class="tn">08</span>备忘录</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -403,6 +404,37 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.8">匹配优先级:文件名含法规编号 → 编号宽松匹配(忽略 / - _ . 等符号差异,如 EU 2010/1003 ↔ EU 2010-1003)→ 标准识别(UN R/GTR/FMVSS/GB)→ 文件名含中文名<br>文件夹路径中含国家名时自动归属该国;按「国家名/」分文件夹存放文本,对账更快更准</div>
     </div>
     <div id="reconbody"></div>
+  </div>
+
+  <div class="pane" id="p-memo">
+    <div class="card">
+      <h3>新增备忘 <span class="hint">全团队共享 · 跟踪法规动态、待办与提醒 · 带时间与国家/地区标签</span></h3>
+      <div class="netctrl" style="margin-bottom:4px">
+        <input id="memo-text" type="text" placeholder="备忘内容,如:跟进 GSO 电池新规草案表决结果…" autocomplete="off"
+          style="flex:1;min-width:260px;font-family:var(--sans);font-size:12.5px;border:1px solid var(--line);
+          border-radius:6px;padding:8px 12px;background:var(--panel);color:var(--ink);outline:none">
+        <input id="memo-cty" list="memo-ctylist" placeholder="国家/地区(可选)" class="csel" style="min-width:150px" autocomplete="off">
+        <datalist id="memo-ctylist"></datalist>
+        <input id="memo-date" type="date" class="csel" title="时间标签:到期日 / 关注日(可选)">
+        <input id="memo-author" type="text" placeholder="署名(可选)" autocomplete="off"
+          style="width:100px;font-family:var(--sans);font-size:12.5px;border:1px solid var(--line);
+          border-radius:6px;padding:8px 12px;background:var(--panel);color:var(--ink);outline:none">
+        <button class="btn light" onclick="addMemo()">✚ 添加备忘</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.8">时间标签:到期日 ≤ 今天标红「已到期」,7 天内标黄「临近」 · 国家/地区可输入清单外的自定义标签(如 GSO、东盟)</div>
+    </div>
+    <div class="card">
+      <h3>备忘列表 <span class="hint">勾选=完成 · ✕=删除(共享库,删除影响全团队)</span></h3>
+      <div class="netctrl" style="margin-bottom:8px">
+        <select class="csel" id="memo-fcty" onchange="renderMemos()"><option value="">全部国家/地区</option></select>
+        <select class="csel" id="memo-fst" onchange="renderMemos()">
+          <option value="open">未完成</option>
+          <option value="all">全部</option>
+          <option value="done">已完成</option>
+        </select>
+      </div>
+      <div class="dlist" id="memo-list"></div>
+    </div>
   </div>
 
   <footer>
@@ -725,6 +757,7 @@ function renderAll(){
     +(last?" · 最近导入 "+String(last.created_at||"").slice(0,10)+" "+last.filename:"")
     +(files.length?" · 本次会话:"+files.map(f=>f.name).join("、"):"");
   renderKPIs();renderRank();renderDrafts();renderMatrix();fillCountrySelects();renderCountry();renderNew();buildNet();renderTree();
+  if(typeof renderMemos==="function")renderMemos();
   if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
   if(typeof renderRecon==="function")renderRecon();
 }
@@ -1450,6 +1483,67 @@ function exportRecon(){
   toast("对账结果已导出 Excel");
 }
 
+/* ================= 备忘录(团队共享,带时间/国家标签) ================= */
+let memos=[];
+const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+async function loadMemos(){
+  memos=await sbFetchAll("memos","id,content,country,tag_date,author,done,created_at","order=created_at.desc");
+}
+function fillMemoSelects(){
+  const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
+  $("#memo-ctylist").innerHTML=cs.map(c=>`<option value="${esc(c)}">`).join("");
+  const all=[...new Set([...cs,...memos.map(m=>m.country).filter(Boolean)])];
+  const cur=$("#memo-fcty").value;
+  $("#memo-fcty").innerHTML='<option value="">全部国家/地区</option>'
+    +all.map(c=>`<option value="${esc(c)}" ${cur===c?"selected":""}>${esc(c)}</option>`).join("");
+}
+function renderMemos(){
+  if(!$("#memo-list"))return;
+  fillMemoSelects();
+  const fc=$("#memo-fcty").value,fs=$("#memo-fst").value;
+  const today=new Date().toISOString().slice(0,10);
+  const soon=new Date(Date.now()+7*86400e3).toISOString().slice(0,10);
+  const list=memos.filter(m=>(!fc||m.country===fc)&&(fs==="all"||(fs==="done"?m.done:!m.done)));
+  $("#memo-list").innerHTML=list.length?list.map(m=>{
+    const dd=m.tag_date?(m.tag_date<=today?`<span class="rtag">已到期 ${m.tag_date}</span>`
+      :(m.tag_date<=soon?`<span class="rtag amd">临近 ${m.tag_date}</span>`
+      :`<span class="rtag parent">${m.tag_date}</span>`)):"";
+    return `<div class="di" style="align-items:center;${m.done?'opacity:.5':''}">
+      <input type="checkbox" ${m.done?"checked":""} onchange="toggleMemo(${m.id},this.checked)" title="标记完成/取消完成">
+      ${m.country?`<span class="dc" style="cursor:pointer;min-width:74px" title="跳转国家详情" onclick="gotoCountry('${esc(m.country).replace(/'/g,"\\'")}')">${esc(m.country)}</span>`:'<span class="dc" style="min-width:74px">—</span>'}
+      <span class="dnm" style="flex:1;${m.done?'text-decoration:line-through':''}">${esc(m.content)}</span>
+      ${dd}
+      <span class="dc" title="创建时间${m.author?" · "+esc(m.author):""}">${String(m.created_at||"").slice(0,10)}${m.author?" · "+esc(m.author):""}</span>
+      <span style="cursor:pointer;color:var(--muted);font-weight:700;padding:0 4px" title="删除(全团队生效)" onclick="delMemo(${m.id})">✕</span>
+    </div>`;}).join("")
+    :'<div class="bigmsg">'+(fs==="open"?"没有未完成的备忘 ✓":"暂无备忘")+'</div>';
+}
+async function addMemo(){
+  const content=$("#memo-text").value.trim();
+  if(!content){toast("请填写备忘内容");return;}
+  const m={content,country:$("#memo-cty").value.trim(),
+    tag_date:$("#memo-date").value||"",author:$("#memo-author").value.trim()};
+  try{localStorage.setItem("regmon_author",m.author);}catch(e){}
+  try{
+    await sbInsert("memos",[m]);
+    await loadMemos();renderMemos();
+    $("#memo-text").value="";$("#memo-date").value="";$("#memo-cty").value="";
+    toast("备忘已添加并共享给团队");
+  }catch(err){toast("添加失败:"+err.message);console.error(err);}
+}
+async function toggleMemo(id,done){
+  try{await sbReq("PATCH","memos?id=eq."+id,{done},"return=minimal");
+    const m=memos.find(x=>x.id===id);if(m)m.done=done;renderMemos();}
+  catch(err){toast("更新失败:"+err.message);renderMemos();}
+}
+async function delMemo(id){
+  if(!confirm("删除这条共享备忘?全团队都会看到删除结果。"))return;
+  try{await sbReq("DELETE","memos?id=eq."+id,undefined,"return=minimal");
+    memos=memos.filter(m=>m.id!==id);renderMemos();toast("备忘已删除");}
+  catch(err){toast("删除失败:"+err.message);}
+}
+$("#memo-text").addEventListener("keydown",e=>{if(e.key==="Enter")addMemo();});
+
 /* tabs */
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
@@ -1467,7 +1561,9 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
       sbFetchAll("regulations",cols),
       sbFetchAll("text_files","filename,base,path,country"),
       sbFetchAll("import_logs","filename,created_at,added_count","order=created_at.desc"),
+      loadMemos().catch(err=>console.error("memos",err)), // 备忘录并行加载,失败不阻塞主数据
     ]);
+    try{$("#memo-author").value=localStorage.getItem("regmon_author")||"";}catch(e){}
     regRows.forEach(row=>{
       const rec={country:row.country,regId:row.reg_id||"",cnName:row.cn_name||"",
         origName:row.orig_name||"",enName:row.en_name||"",lang:row.lang||"",
