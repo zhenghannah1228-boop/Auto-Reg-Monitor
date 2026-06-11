@@ -152,6 +152,12 @@ table.matrix{border-collapse:separate;border-spacing:0;width:100%;font-size:11.5
 .condcell .cc-n i{font-style:normal;font-family:var(--mono);font-size:10px;color:var(--muted)}
 .condcell .cc-bar{display:flex;height:5px;border-radius:3px;overflow:hidden;background:var(--linesoft)}
 .condcell .cc-bar i{display:block;height:100%}
+.modal-bg{position:fixed;inset:0;background:rgba(26,36,32,.4);z-index:200;display:flex;
+  align-items:center;justify-content:center;padding:24px}
+.modal{background:var(--panel);border-radius:10px;max-width:760px;width:100%;max-height:82vh;
+  display:flex;flex-direction:column;box-shadow:0 12px 50px rgba(26,36,32,.3);overflow:hidden}
+.modal-h{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.modal-b{overflow:auto;padding:6px 16px 16px}
 
 /* rank */
 .rank .row{display:grid;grid-template-columns:150px 1fr 54px 132px;gap:12px;align-items:center;
@@ -1697,15 +1703,23 @@ async function loadCondFields(){
   _condLoading=false;
   return _condLoaded;
 }
+/* 动力类型继承(子型继承父型适用集):增程式 EREV 在法规上属插混 PHEV 子型。
+   数据实证:库内标 EREV 必同时标 PHEV,且 4507 条只写 PHEV 未单列 EREV——
+   故 EREV 适用 = 含 EREV 或含其父型 PHEV。可扩展(键=子型,值=向上继承的父型链)。 */
+const POWER_PARENT={"EREV":["PHEV"]};
+function powerAncestors(p){const out=[p];let cur=POWER_PARENT[p.toUpperCase()];
+  while(cur){out.push(...cur);cur=cur.map(x=>POWER_PARENT[x.toUpperCase()]||[]).flat();if(!cur.length)break;}
+  return out.map(x=>x.toUpperCase());}
 /* 判定规则(业主确认):
-   ① 动力列明确标注 → 含该动力=适用(绿),不含=豁免(灰)
+   ① 动力列明确标注 → 含该动力(或其父型)=适用(绿),不含=豁免(灰)
    ② 动力列为空/缺失 → 待研判(橙),绝不默认豁免或伪装覆盖
    「不限」类写法 → 全部适用 */
 function powerStatus(r,power){
   const v=r.powerTypes;
   if(v==null||String(v).trim()==="")return "tbd";
   if(UNLIMITED_RE.test(v))return "apply";
-  return splitToks(v).map(t=>t.toUpperCase()).includes(power.toUpperCase())?"apply":"exempt";
+  const have=new Set(splitToks(v).map(t=>t.toUpperCase()));
+  return powerAncestors(power).some(a=>have.has(a))?"apply":"exempt";
 }
 /* 车型:明确标注且不含选定车型 → 整条不计入本视图;为空/「不适用」→ 计入但全行待研判 */
 function vehicleStatus(r,vt){
@@ -1773,8 +1787,38 @@ function renderCondMatrix(){
     return `<tr><td class="cn">${esc(p)}</td>${cells}</tr>`;
   }).join("")+"</tbody>";
   $("#condmatrix").innerHTML=html;
-  $("#cond-stat").textContent=`范围:${cty||"全部国家"} · ${vt?("车型 "+vt+"(已排除明确不含该车型的 "+vtOut+" 条;车型列为空计入 "+vtTbd+" 条待研判)"):"全部车型"} · 共 ${list.length} 条`
-    +` · 格子合计:适用 ${totA} / 豁免 ${totE} / 待研判 ${totT}`;
+  // 待研判清单 = 当前范围内「适用动力类型」为空/缺失的法规(逐条人工补数据的依据)
+  const tbdRecs=list.filter(r=>{const v=r.powerTypes;return v==null||String(v).trim()==="";});
+  window._condTbd=tbdRecs;
+  $("#cond-stat").innerHTML=`范围:${cty||"全部国家"} · ${vt?("车型 "+esc(vt)+"(已排除明确不含的 "+vtOut+" 条;车型列为空 "+vtTbd+" 条计入待研判)"):"全部车型"} · 共 ${list.length} 条`
+    +` · 格子合计:适用 ${totA} / 豁免 ${totE} / 待研判 ${totT}`
+    +(tbdRecs.length?` · <b style="color:#d98a3a;cursor:pointer;text-decoration:underline" onclick="showTbdList()">待研判 ${tbdRecs.length} 条(点击查看/导出补数据清单)</b>`:" · 无待研判");
+}
+function showTbdList(){
+  const recsT=window._condTbd||[];
+  if(!recsT.length){toast("当前范围无待研判记录");return;}
+  const rows=recsT.map(r=>[r.country,r.regId||"",(r.cnName||r.origName||"").replace(/\s+/g," ")]);
+  const html=`<div class="modal-bg" onclick="if(event.target===this)this.remove()">
+    <div class="modal">
+      <div class="modal-h"><b>待研判补数据清单 · ${recsT.length} 条</b>
+        <span style="font-size:11px;color:var(--muted)">这些法规「适用动力类型」列为空——补上该列后即可正确判定适用/豁免</span>
+        <span style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn light" onclick="exportTbd()">↓ 导出 CSV</button>
+          <button class="btn light" onclick="this.closest('.modal-bg').remove()">关闭</button></span></div>
+      <div class="modal-b"><table class="matrix" style="min-width:520px"><thead><tr>
+        <th class="cn">国家</th><th class="cn">法规编号</th><th class="cn">名称</th></tr></thead><tbody>
+        ${rows.map(([c,id,nm])=>`<tr><td class="cn">${esc(c)}</td><td class="cn" style="font-family:var(--mono);font-size:11px">${esc(id)||"—"}</td><td class="cn" style="font-weight:400">${esc(nm)}</td></tr>`).join("")}
+      </tbody></table></div>
+    </div></div>`;
+  const d=document.createElement("div");d.innerHTML=html;document.body.appendChild(d.firstElementChild);
+}
+function exportTbd(){
+  const recsT=window._condTbd||[];
+  const csv="﻿国家,法规编号,法规名称,法规领域\n"+recsT.map(r=>
+    [r.country,r.regId||"",(r.cnName||r.origName||""),(r.domain||"")].map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(",")).join("\n");
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  a.download="待研判补数据清单_"+new Date().toISOString().slice(0,10)+".csv";a.click();
+  toast("已导出 "+recsT.length+" 条待研判清单");
 }
 
 /* ================= 认证体系金字塔(纯数据驱动 data/cert_pyramid.json) ================= */
