@@ -268,6 +268,56 @@ select.csel{font-family:var(--mono);font-size:12.5px;background:var(--panel);bor
 footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:11px;
   color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
 
+/* ============ 认证金字塔 ============ */
+.pyr-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.pyr-grid{display:grid;grid-template-columns:minmax(360px,1fr) minmax(300px,1fr);gap:22px;align-items:start}
+.systag{font-family:var(--mono);font-size:11px;font-weight:600;padding:3px 11px;border-radius:14px;color:#fff}
+.systag.own_full{background:#3a6b8a}.systag.hybrid{background:#7a5ba0}.systag.recognition{background:#c79a2e}
+.conf{font-family:var(--mono);font-size:10px;font-weight:700;padding:2px 9px;border-radius:10px;cursor:default}
+.conf.A{background:#deead5;color:#3d6630}.conf.B{background:#f5ecce;color:#8a6a14}
+.conf.C{background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
+.pyr-sum{font-size:12.5px;color:var(--muted);line-height:1.7;margin:6px 0 16px}
+.pyr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
+.pyr-lv{position:relative;cursor:pointer;color:#fff;transition:filter .15s,transform .15s;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  padding:14px 18px;min-height:70px}
+.pyr-lv:hover{filter:brightness(1.08)}
+.pyr-lv.on{outline:2px solid var(--ink);outline-offset:2px}
+.pyr-lv .lv-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;opacity:.85;text-transform:uppercase}
+.pyr-lv .lv-title{font-size:13.5px;font-weight:700;margin-top:3px;line-height:1.25}
+.pyr-lv .lv-local{font-size:10px;opacity:.8;margin-top:2px}
+.pyr-lv .lv-n{position:absolute;left:10px;top:8px;font-family:var(--mono);font-size:10px;opacity:.6}
+.pyr-detail{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:18px 20px;box-shadow:var(--shadow)}
+.pyr-detail .pd-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.pyr-detail .pd-title{font-size:15px;font-weight:700;font-family:var(--serif);margin:3px 0 2px}
+.pyr-detail .pd-local{font-size:11.5px;color:var(--muted);margin-bottom:10px}
+.pyr-detail .pd-desc{font-size:13px;line-height:1.7;color:var(--ink2)}
+.pyr-ref{display:flex;gap:8px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--linesoft);font-size:12.5px}
+.pyr-ref:last-child{border-bottom:none}
+.pyr-ref .rn{font-family:var(--mono);font-size:11.5px;font-weight:600;color:var(--blue);white-space:nowrap}
+.pyr-secs{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pyr-secs .full{grid-column:1/-1}
+.chiprow{display:flex;gap:7px;flex-wrap:wrap;margin:4px 0 10px}
+.chiprow .cp{font-family:var(--mono);font-size:11px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:13px;padding:3px 11px;color:var(--ink2)}
+.authrow{padding:9px 0;border-bottom:1px solid var(--linesoft);font-size:12.5px}
+.authrow:last-child{border-bottom:none}
+.authrow b{color:var(--ink)}.authrow .ab{font-family:var(--mono);font-size:10.5px;color:var(--accent);margin-left:5px}
+.authrow .ar{color:var(--muted);font-size:12px;margin-top:2px;line-height:1.6}
+.regrow{padding:7px 0;font-size:12.5px;border-bottom:1px solid var(--linesoft)}
+.regrow:last-child{border-bottom:none}.regrow b{color:var(--ink2)}
+.steps{counter-reset:st;margin-top:4px}
+.steps .st{position:relative;padding:0 0 14px 30px;border-left:2px solid var(--line2);margin-left:9px}
+.steps .st:last-child{border-left-color:transparent;padding-bottom:2px}
+.steps .st::before{counter-increment:st;content:counter(st);position:absolute;left:-11px;top:0;
+  width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-family:var(--mono);
+  font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700}
+.steps .st .sh{font-weight:700;font-size:12.5px}
+.steps .st .sd{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.6}
+.recog dt{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.recog dd{font-size:12.5px;line-height:1.6;color:var(--ink2);margin:2px 0}
+@media(max-width:880px){.pyr-grid{grid-template-columns:1fr}.pyr-secs{grid-template-columns:1fr}}
+
 @media(max-width:980px){
   .kpis{grid-template-columns:repeat(2,1fr)}
   .detgrid,.diffgrid{grid-template-columns:1fr}
@@ -321,6 +371,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-tree"><span class="tn">06</span>层级树</div>
     <div class="tab" data-p="p-txt"><span class="tn">07</span>文本对账</div>
     <div class="tab" data-p="p-memo"><span class="tn">08</span>备忘录</div>
+    <div class="tab" data-p="p-pyr"><span class="tn">09</span>认证金字塔</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -434,6 +485,20 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       </div>
       <div class="dlist" id="memo-list"></div>
     </div>
+  </div>
+
+  <div class="pane" id="p-pyr">
+    <div class="netctrl">
+      <select class="csel" id="pyr-sel" onchange="renderPyramid(this.value)" style="min-width:180px"></select>
+      <select class="csel" id="pyr-filter" onchange="fillPyrSelect()">
+        <option value="">全部体系类型</option>
+        <option value="own_full">自有完整型式批准</option>
+        <option value="hybrid">混合型</option>
+        <option value="recognition">采信外部型</option>
+      </select>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">选国家看其汽车型式认证体系金字塔(顶=母法/框架 → 底=最终证书)</span>
+    </div>
+    <div id="pyr-body"><div class="bigmsg">正在载入认证体系数据…</div></div>
   </div>
 
   <footer>
@@ -1548,11 +1613,119 @@ async function delMemo(id){
 }
 $("#memo-text").addEventListener("keydown",e=>{if(e.key==="Enter")addMemo();});
 
+/* ================= 认证体系金字塔(纯数据驱动 data/cert_pyramid.json) ================= */
+let CERT=null,_certLoading=false,_pyrCountry=null,_pyrLevel=0;
+const SYS_LABEL={own_full:"自有完整型式批准",hybrid:"混合型",recognition:"采信外部型"};
+const CONF_LABEL={A:"资料充分 A",B:"B",C:"资料有限 C"};
+const PYR_COL={own_full:["#234a63","#3a6b8a","#5a87a6","#86abc3","#b3cad9"],
+  hybrid:["#4a3568","#6a4a92","#8466ad","#a98fc4","#c9b8db"],
+  recognition:["#8a6510","#b8891f","#c79a2e","#d8b35f","#e6cf97"]};
+async function loadCert(){
+  if(CERT||_certLoading)return;
+  _certLoading=true;
+  try{
+    const r=await fetch("./data/cert_pyramid.json");
+    const j=await r.json();
+    CERT=j.cert_systems||{};
+    fillPyrSelect();
+    if(!_pyrCountry){const first=Object.keys(CERT)[0];renderPyramid(first);}
+  }catch(e){console.error("cert load",e);
+    const b=$("#pyr-body");if(b)b.innerHTML='<div class="bigmsg">认证体系数据载入失败:'+esc(String(e.message||e))+'</div>';}
+  _certLoading=false;
+}
+function fillPyrSelect(){
+  if(!CERT)return;
+  const f=$("#pyr-filter")?$("#pyr-filter").value:"";
+  const sel=$("#pyr-sel");if(!sel)return;
+  const cur=_pyrCountry;
+  const keys=Object.keys(CERT).filter(k=>!f||CERT[k].system_type===f);
+  sel.innerHTML=keys.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join("");
+  if(cur&&keys.includes(cur))sel.value=cur;
+  else if(keys.length){_pyrCountry=null;renderPyramid(keys[0]);}
+}
+function renderPyramid(country){
+  if(!CERT||!CERT[country])return;
+  _pyrCountry=country;_pyrLevel=0;
+  const sel=$("#pyr-sel");if(sel&&sel.value!==country)sel.value=country;
+  const d=CERT[country];
+  const cols=PYR_COL[d.system_type]||PYR_COL.own_full;
+  const n=d.pyramid.length;
+  // 倒金字塔:level1 最宽(顶),levelN 最窄(底)。宽度 100%→~46%
+  const step=54/Math.max(n-1,1); // 顶层 100% → 底层约 46%,逐层收窄成倒金字塔
+  const lvHtml=d.pyramid.map((lv,i)=>{
+    const w=100-i*step;
+    const col=cols[Math.min(i,cols.length-1)];
+    return `<div class="pyr-lv${i===_pyrLevel?' on':''}" data-lv="${i}"
+      style="width:${w}%;background:${col};border-radius:${i===0?'8px 8px 0 0':i===n-1?'0 0 8px 8px':'0'}">
+      <span class="lv-n">L${lv.level}</span>
+      <span class="lv-label">${esc(lv.label||"")}</span>
+      <span class="lv-title">${esc(lv.title||"")}</span>
+      ${lv.title_local?`<span class="lv-local">${esc(lv.title_local)}</span>`:""}</div>`;
+  }).join("");
+  const cTip=d.confidence==="C"?' title="该国公开资料有限,部分字段为框架性描述"':"";
+  const body=`
+    <div class="pyr-head">
+      <span style="font-family:var(--serif);font-size:22px;font-weight:900">${esc(d.country)}</span>
+      <span class="systag ${d.system_type}">${SYS_LABEL[d.system_type]||d.system_type}</span>
+      <span class="conf ${d.confidence}"${cTip}>${CONF_LABEL[d.confidence]||d.confidence}</span>
+    </div>
+    <div class="pyr-sum">${esc(d.summary||"")}</div>
+    <div class="pyr-grid">
+      <div class="pyr-wrap" id="pyr-wrap">${lvHtml}</div>
+      <div class="pyr-detail" id="pyr-detail"></div>
+    </div>
+    ${renderPyrSections(d)}
+    <footer style="margin-top:26px"><span>数据来源:${(d.sources||[]).map(esc).join(" · ")||"—"}</span></footer>`;
+  $("#pyr-body").innerHTML=body;
+  $("#pyr-wrap").querySelectorAll(".pyr-lv").forEach(el=>{
+    el.addEventListener("click",()=>{_pyrLevel=+el.dataset.lv;
+      $("#pyr-wrap").querySelectorAll(".pyr-lv").forEach(x=>x.classList.toggle("on",x===el));
+      renderPyrDetail(d);});
+  });
+  renderPyrDetail(d);
+}
+function renderPyrDetail(d){
+  const lv=d.pyramid[_pyrLevel];if(!lv)return;
+  $("#pyr-detail").innerHTML=`
+    <div class="pd-lbl">${esc(lv.label||"")} · 第 ${lv.level} 层</div>
+    <div class="pd-title">${esc(lv.title||"")}</div>
+    ${lv.title_local?`<div class="pd-local">${esc(lv.title_local)}</div>`:""}
+    <div class="pd-desc">${esc(lv.desc||"")}</div>
+    ${(lv.refs&&lv.refs.length)?`<div style="margin-top:12px">${lv.refs.map(r=>
+      `<div class="pyr-ref"><span class="rn">${esc(r.reg_no||"")}</span><span>${esc(r.name||"")}</span></div>`).join("")}</div>`:""}`;
+}
+function renderPyrSections(d){
+  const s=d.sections||{};
+  const auth=(s.authorities||[]).map(a=>
+    `<div class="authrow"><b>${esc(a.name||"")}</b>${a.abbr&&a.abbr!=="—"?`<span class="ab">${esc(a.abbr)}</span>`:""}
+     <div class="ar">${esc(a.role||"")}</div></div>`).join("")||'<div class="ar" style="color:var(--muted)">—</div>';
+  const regGrp=arr=>(arr||[]).map(g=>`<div class="regrow"><b>${esc(g.group||"")}</b>:${esc(g.items||"")}</div>`).join("")||'<div class="regrow" style="color:var(--muted)">—</div>';
+  const steps=arr=>(arr||[]).length?`<div class="steps">${arr.map(p=>
+    `<div class="st"><div class="sh">${esc(p.step||"")}</div><div class="sd">${esc(p.desc||"")}</div></div>`).join("")}</div>`:'<div style="color:var(--muted);font-size:12px">—</div>';
+  const er=d.external_recognition||{};
+  return `<div class="pyr-secs">
+    <div class="card"><h3>主管机构</h3>${auth}</div>
+    <div class="card"><h3>核心法规</h3>
+      <div class="pd-lbl" style="margin-bottom:4px">整车</div>${regGrp(s.core_regs&&s.core_regs.vehicle)}
+      <div class="pd-lbl" style="margin:12px 0 4px">部件</div>${regGrp(s.core_regs&&s.core_regs.component)}</div>
+    <div class="card"><h3>办理流程 · 整车</h3>${steps(s.process_vehicle)}</div>
+    <div class="card"><h3>办理流程 · 部件</h3>${steps(s.process_component)}</div>
+    <div class="card full"><h3>对外采信</h3>
+      <div class="chiprow">${(er.recognizes||[]).map(x=>`<span class="cp">${esc(x)}</span>`).join("")||'<span class="cp">—</span>'}</div>
+      <dl class="recog">
+        ${er.basis?`<dt>依据</dt><dd>${esc(er.basis)}</dd>`:""}
+        ${er.scope?`<dt>范围</dt><dd>${esc(er.scope)}</dd>`:""}
+        ${er.note?`<dt>备注</dt><dd>${esc(er.note)}</dd>`:""}
+      </dl></div>
+  </div>`;
+}
+
 /* tabs */
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
   if(t.dataset.p==="p-net")buildNet();
   if(t.dataset.p==="p-tree")renderTree();
+  if(t.dataset.p==="p-pyr")loadCert();
 }));
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
