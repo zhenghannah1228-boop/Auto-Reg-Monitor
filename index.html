@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>汽车法规库监控台 · 60国×10维度</title>
 <script src="./xlsx.full.min.js"></script>
+<script src="./echarts.min.js"></script>
 <script src="./config.js"></script>
 <style>
 :root{
@@ -365,25 +366,15 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="pane" id="p-net">
     <div class="netctrl">
       <div class="seg">
-        <button class="on" id="m-global" onclick="setNetMode('global')">跨国联动</button>
-        <button id="m-country" onclick="setNetMode('country')">单国内部</button>
+        <button class="on" id="m-cross" onclick="setNetMode('cross')">跨国联动</button>
+        <button id="m-belong" onclick="setNetMode('belongs')">单国内部</button>
       </div>
-      <select class="csel" id="netcsel" style="display:none" onchange="buildNet()"></select>
-      <a class="btn light" style="text-decoration:none" href="./network.html" target="_blank" title="ECharts 版:分区布局、点击高亮、概览/下钻两级视图,支持直接上传新国家清单">⤢ 清晰版网络图</a>
-      <select class="csel" id="nethub" onchange="buildNet()" title="只显示被至少 N 个国家共同引用的国际标准,数值越大图越简洁">
-        <option value="2">枢纽:被≥2国引用</option>
-        <option value="3">枢纽:被≥3国引用</option>
-        <option value="4" selected>枢纽:被≥4国引用</option>
-        <option value="6">枢纽:被≥6国引用</option>
-        <option value="8">枢纽:被≥8国引用(最简洁)</option>
-      </select>
-      <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">拖拽 · 滚轮缩放 · 点击国家=只看它的关联</span>
+      <select class="csel" id="netcsel" onchange="netDrillCountry(this.value)"><option value="">下钻到国家…</option></select>
+      <button class="btn light" onclick="restoreOverview()">⟲ 返回概览</button>
+      <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">拖拽 · 滚轮缩放 · 点击国家/领域气泡下钻明细 · 点空白返回</span>
     </div>
-    <div class="netwrap">
-      <canvas id="netcanvas"></canvas>
-      <div class="netside" id="netside"><span class="cls" onclick="this.parentNode.classList.remove('on')">✕</span><div id="netside-body"></div></div>
-    </div>
-    <div class="netinfo"><span id="netstats"></span><span>边 = 引用/转化 + 上下位关系</span></div>
+    <div id="netchart" style="width:100%;height:640px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)"></div>
+    <div class="netinfo"><span id="netstats"></span><span>气泡=国家×领域(大小∝条数) · 橙边=跨国引用 · 灰边=归属</span></div>
     <div class="netlegend" id="netlegend"></div>
   </div>
 
@@ -709,7 +700,7 @@ function ingest(rows,srcFile,forceCountry){
       enName:nk(raw,["法规英文名称"]),
       lang:nk(raw,["语言","原文语言"]),
       dimText:nk(raw,["对标维度"]),
-      domain:nk(raw,["法规领域"]),
+      domain:nk(raw,["法规领域"]),region:nk(raw,["区域"]),
       refCN:nk(raw,["对应国标"]),refEU:nk(raw,["对应欧标"]),refUS:nk(raw,["对应美标"]),
       pubDate:nk(raw,["发布日期"]),effDate:nk(raw,["生效日期"]),
       status:nk(raw,["正式法规 or 草案","正式法规or草案"]),
@@ -764,7 +755,8 @@ function renderAll(){
   $("#foot-src").textContent="数据源:团队数据库 "+recs().length+" 条"
     +(last?" · 最近导入 "+String(last.created_at||"").slice(0,10)+" "+last.filename:"")
     +(files.length?" · 本次会话:"+files.map(f=>f.name).join("、"):"");
-  renderKPIs();renderRank();renderDrafts();renderMatrix();fillCountrySelects();renderCountry();renderNew();buildNet();renderTree();
+  renderKPIs();renderRank();renderDrafts();renderMatrix();fillCountrySelects();renderCountry();renderNew();renderTree();
+  if($("#p-net")&&$("#p-net").classList.contains("on"))buildNet(); // 网络图较重,仅在其标签可见时构建
   if(typeof renderMemos==="function")renderMemos();
   if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
   if(typeof renderRecon==="function")renderRecon();
@@ -1026,209 +1018,177 @@ function renderNew(){
         :'<div class="bigmsg">无移除</div>'}</div></div></div>`;
 }
 
-/* ================= 关系网络 ================= */
-let netMode="global",net={nodes:[],edges:[]},view={x:0,y:0,k:1},dragN=null,panning=false,pstart=null,warm=0,selNode=null;
-const canvas=$("#netcanvas"),ctx=canvas.getContext("2d");
+/* ================= 关系网络(ECharts:概览/下钻两级 + 分区布局) ================= */
+/* 法规领域归一到固定类别(决定颜色),按顺序匹配命中即止;新增类别只改这里 */
+const NET_DOMAIN_RULES=[
+  {name:"节能环保",test:s=>/环保|节能|排放/.test(s),color:"#27ae60"},
+  {name:"安全",test:s=>/安全/.test(s),color:"#c0392b"},
+  {name:"电动汽车/电池",test:s=>/电动|电池/.test(s),color:"#2980b9"},
+  {name:"照明",test:s=>/照明/.test(s),color:"#f39c12"},
+  {name:"标识要求",test:s=>/标识|标签/.test(s),color:"#8e44ad"},
+  {name:"入关/关税",test:s=>/入关|关税|海关/.test(s),color:"#16a085"},
+  {name:"智能网联",test:s=>/智能网联|自动驾驶|ADAS|网络安全|信息化/i.test(s),color:"#9b59b6"},
+  {name:"汽车电子",test:s=>/电子|射频/.test(s),color:"#1abc9c"},
+  {name:"注册上牌",test:s=>/上牌|注册/.test(s),color:"#7f8c8d"},
+];
+const NET_DOMAIN_OTHER={name:"其他",color:"#bdc3c7"};
+const NET_CATS=[...NET_DOMAIN_RULES.map(r=>({name:r.name,color:r.color})),NET_DOMAIN_OTHER];
+function netDomain(s){s=String(s||"").trim();if(s)for(const r of NET_DOMAIN_RULES)if(r.test(s))return r;return NET_DOMAIN_OTHER;}
+const netPlaceholder=v=>{v=String(v||"").trim();
+  return !v||/^[-—/\\.、,,;;\s]+$/.test(v)||/^(无|没有|暂无|N\/?A|NA|null|none|不适用|未对应|待定)$/i.test(v);};
+const NET_REGION_FALLBACK={UNECE:"国际",GTR:"国际",ARSO:"国际",GSO:"中东","GB标准体系":"国际","欧盟/UNECE体系":"国际","美标体系":"国际"};
+const NET_REGIONS=["亚洲","欧洲","非洲","北美","南美","中东","大洋洲","国际","其他"];
+function netRegion(s,c){s=String(s||"").trim();if(!s)s=NET_REGION_FALLBACK[c]||"";
+  if(/亚太|东亚|东南亚|南亚|中亚|亚洲/.test(s))return"亚洲";
+  if(/欧亚/.test(s))return"亚洲"; if(/欧/.test(s))return"欧洲";
+  if(/非/.test(s))return"非洲"; if(/北美|美国|加拿大/.test(s))return"北美";
+  if(/南美|拉美|拉丁/.test(s))return"南美"; if(/中东|海湾|西亚/.test(s))return"中东";
+  if(/大洋|澳/.test(s))return"大洋洲"; if(/国际|全球/.test(s))return"国际";
+  return NET_REGIONS.includes(s)?s:"其他";}
+
+const SYSTEMS=[["refCN","GB标准体系"],["refEU","欧盟/UNECE体系"],["refUS","美标体系"]];
+const NET_BIG=new Set(["UNECE","GTR","GB标准体系","欧盟/UNECE体系","美标体系"]);
+let netChart=null,NETG=null,netMode="cross",netViewName="overview",netDrill=null;
+
+/* 由 recs() 构建两级图数据 */
+function buildNetData(){
+  const rs=recs();
+  const entities=new Map();
+  rs.forEach(r=>{const c=r.country;if(!c)return;
+    const e=entities.get(c)||{region:"",count:0};e.count++;
+    if(!e.region)e.region=netRegion(r.region,c);entities.set(c,e);});
+  entities.forEach((e,c)=>{if(!e.region)e.region=netRegion("",c);});
+  const catIndex={entity:0};NET_CATS.forEach((d,i)=>catIndex[d.name]=i+1);
+  const categories=[{name:"entity",itemStyle:{color:"#2b2b2b"}},
+    ...NET_CATS.map(d=>({name:d.name,itemStyle:{color:d.color}}))];
+  const entNode=(name,region,big)=>({id:name,name,type:"entity",category:0,区域:region,
+    symbolSize:big?52:40,itemStyle:{color:"#2b2b2b"},label:{show:true,fontWeight:600}});
+  const dNodes=[],dLinks=[],oNodes=[],oLinks=[];
+  entities.forEach((e,c)=>{const n=entNode(c,e.region,NET_BIG.has(c));dNodes.push(n);oNodes.push({...n});});
+  SYSTEMS.forEach(([,sys])=>{const n=entNode(sys,"国际",true);dNodes.push(n);oNodes.push({...n});});
+  const seen=new Set(),crossAgg={},groups={};
+  rs.forEach(r=>{const c=r.country;if(!c||!entities.has(c))return;
+    let key=r.regId||String(r.cnName||"").slice(0,20),id=c+"::"+key,k=2;
+    while(seen.has(id))id=c+"::"+key+"#"+(k++); seen.add(id);
+    const dom=netDomain(r.domain);
+    dNodes.push({id,name:r.cnName||r.regId,type:"regulation",category:catIndex[dom.name],
+      symbolSize:13,itemStyle:{color:dom.color},label:{show:false},
+      attrs:{编号:r.regId,领域:dom.name,日期:r.date,引用:(r.refs||[]).join(" ")}});
+    dLinks.push({source:id,target:c,relation:"belongs"});
+    SYSTEMS.forEach(([col,sys])=>{if(!netPlaceholder(r[col])){
+      dLinks.push({source:id,target:sys,relation:"cross"});
+      crossAgg[c+"→"+sys]=(crossAgg[c+"→"+sys]||0)+1;}});
+    const gk=c+"::"+dom.name;
+    (groups[gk]=groups[gk]||{country:c,dom,count:0,ids:[]}).count++;groups[gk].ids.push(id);
+  });
+  Object.entries(groups).forEach(([gk,g])=>{
+    oNodes.push({id:gk,name:g.dom.name+"("+g.count+")",type:"regulation_group",
+      category:catIndex[g.dom.name],country:g.country,domain:g.dom.name,count:g.count,
+      symbolSize:Math.min(46,10+Math.sqrt(g.count)*4),itemStyle:{color:g.dom.color},label:{show:false}});
+    oLinks.push({source:gk,target:g.country,relation:"belongs"});});
+  Object.entries(crossAgg).forEach(([ck,n])=>{const [c,sys]=ck.split("→");
+    oLinks.push({source:c,target:sys,relation:"cross",value:n,lineStyle:{width:Math.min(1+Math.log2(n+1),5)}});});
+  return {detail:{nodes:dNodes,links:dLinks,categories},overview:{nodes:oNodes,links:oLinks,categories},
+    meta:{entities:entities.size,regulations:seen.size,cross:Object.keys(crossAgg).length},groups};
+}
+
+/* 分区初始坐标:entity 按区域分扇区,法规/气泡环绕所属国家 */
+function netSeed(nodes,links){
+  const H=1000,ra={};NET_REGIONS.forEach((r,i)=>ra[r]=(i/NET_REGIONS.length)*Math.PI*2-Math.PI/2);
+  const byReg={};nodes.filter(n=>n.type==="entity").forEach(n=>{(byReg[n.区域||"其他"]=byReg[n.区域||"其他"]||[]).push(n);});
+  const pos={};
+  Object.entries(byReg).forEach(([reg,list])=>{const a0=ra[reg]??ra["其他"];
+    list.forEach((n,i)=>{const ring=Math.floor(i/8),a=a0+((i%8)-3.5)*0.13,r=H*0.32+ring*92;
+      n.x=Math.cos(a)*r*1.4;n.y=Math.sin(a)*r;pos[n.id]=[n.x,n.y];});});
+  ["GB标准体系","欧盟/UNECE体系","美标体系"].forEach((s,i)=>{const n=nodes.find(x=>x.id===s);
+    if(n){n.x=(i-1)*180;n.y=0;pos[s]=[n.x,n.y];}});
+  const owner={};links.forEach(l=>{if(l.relation==="belongs")owner[l.source]=l.target;});
+  nodes.forEach(n=>{if(n.type==="entity")return;const p=pos[owner[n.id]];
+    const a=Math.random()*6.28,r=30+Math.random()*55;
+    n.x=(p?p[0]:0)+Math.cos(a)*r;n.y=(p?p[1]:0)+Math.sin(a)*r;});
+}
+function netLinkStyles(links){return links.map(l=>{
+  const active=netMode==="cross"?l.relation==="cross":l.relation==="belongs";
+  return {...l,lineStyle:{...(l.lineStyle||{}),opacity:active?0.2:0.04,
+    color:l.relation==="cross"?"#c6502a":"#8d8674",curveness:l.relation==="cross"?0.18:0}};});}
+
+function netRender(nodes,links,viewName){
+  if(!netChart)return;
+  netSeed(nodes,links);
+  const big=nodes.length>1500;
+  netChart.setOption({backgroundColor:"#f7f4ec",
+    tooltip:{confine:true,formatter:p=>{
+      if(p.dataType==="edge")return (p.data.relation==="cross"?"跨国引用":"归属")+(p.data.value?" · "+p.data.value+" 条":"");
+      const d=p.data;
+      if(d.type==="entity")return `<b>${d.name}</b><br>区域:${d.区域||"—"}`;
+      if(d.type==="regulation_group")return `<b>${d.country} · ${d.name}</b><br>点击下钻明细`;
+      const a=d.attrs||{};return `<b>${d.name}</b><br>`+["编号","领域","日期","引用"].filter(k=>a[k]).map(k=>k+":"+a[k]).join("<br>");}},
+    series:[{type:"graph",layout:"force",roam:true,draggable:true,
+      data:nodes,links:netLinkStyles(links),categories:NETG.detail.categories,
+      force:{repulsion:big?60:240,gravity:big?0.08:0.04,edgeLength:big?[28,70]:[60,150],friction:0.25,layoutAnimation:!big},
+      label:{position:"right",fontSize:10,color:"#1a2420"},labelLayout:{hideOverlap:true},
+      emphasis:{focus:"adjacency",lineStyle:{opacity:0.85,width:2},label:{show:true,fontWeight:600}},
+      blur:{itemStyle:{opacity:0.12},lineStyle:{opacity:0.02},label:{show:false}},
+      lineStyle:{width:1},select:{itemStyle:{borderColor:"#c6502a",borderWidth:2}},
+      scaleLimit:{min:0.25,max:8}}]},{notMerge:true});
+  netViewName=viewName;
+  $("#netlegend").innerHTML=NET_CATS.map(d=>`<div class="li"><span class="sw" style="background:${d.color}"></span>${d.name}</div>`).join("")
+    +`<div class="li"><span class="sw" style="background:#2b2b2b"></span>国家/体系</div>`;
+  $("#netstats").textContent=`${viewName==="overview"?"概览":"下钻:"+viewName} · 节点 ${nodes.length} · 边 ${links.length} · 模式:${netMode==="cross"?"跨国联动":"单国内部"}`;
+}
+function renderOverview(){netDrill=null;netRender(NETG.overview.nodes.map(n=>({...n})),NETG.overview.links,"overview");}
+function restoreOverview(){if(NETG)renderOverview();}
+function netDrillInto(country,domain){
+  const ids=new Set();
+  Object.values(NETG.groups).forEach(g=>{if(g.country===country&&(!domain||g.dom.name===domain))g.ids.forEach(id=>ids.add(id));});
+  if(!ids.size)return;
+  const keep=new Set([country,"GB标准体系","欧盟/UNECE体系","美标体系"]);
+  const nodes=NETG.detail.nodes.filter(n=>ids.has(n.id)||keep.has(n.id)).map(n=>({...n}));
+  const links=NETG.detail.links.filter(l=>ids.has(l.source)&&(keep.has(l.target)||ids.has(l.target)));
+  netDrill={country,domain};netRender(nodes,links,country+(domain?" · "+domain:" 全部")+`(${ids.size}条)`);
+}
+function netDrillCountry(c){if(c&&NETG)netDrillInto(c,null);}
 function setNetMode(m){
+  if(m==="global")m="cross"; if(m==="country")m="belongs"; // 兼容旧调用
   netMode=m;
-  $("#m-global").classList.toggle("on",m==="global");
-  $("#m-country").classList.toggle("on",m==="country");
-  $("#netcsel").style.display=m==="country"?"":"none";
-  $("#nethub").style.display=m==="global"?"":"none";
-  buildNet();
+  $("#m-cross").classList.toggle("on",m==="cross");
+  $("#m-belong").classList.toggle("on",m==="belongs");
+  if(!netChart||!netChart.getOption)return;
+  const opt=netChart.getOption();if(opt&&opt.series&&opt.series[0])
+    netChart.setOption({series:[{links:netLinkStyles(opt.series[0].links)}]});
+  if($("#netstats"))$("#netstats").textContent=$("#netstats").textContent.replace(/模式:.+$/,"模式:"+(m==="cross"?"跨国联动":"单国内部"));
 }
+/* 懒加载「国家→区域」映射(分区布局用),失败不影响其他功能 */
+let _netRegionLoaded=false;
+async function loadNetRegions(){
+  if(_netRegionLoaded)return; _netRegionLoaded=true;
+  try{
+    const rows=await sbFetchAll("regulations","country,region:raw->>区域");
+    const m={};rows.forEach(r=>{if(r.region&&!m[r.country])m[r.country]=r.region;});
+    recs().forEach(r=>{if(!r.region&&m[r.country])r.region=m[r.country];});
+    if(netChart&&$("#p-net").classList.contains("on"))buildNet();
+  }catch(e){console.warn("region load skipped",e);}
+}
+/* renderAll / tab 切换调用入口 */
 function buildNet(){
-  const rs=recs(); if(!rs.length)return;
-  const nodes=[],edges=[],idx={};
-  const spread=netMode==="global"?900:600;  // 节点初始铺得更开,减少初始重叠
-  function addNode(id,type,label,size,color,data){
-    if(idx[id]!==undefined)return idx[id];
-    idx[id]=nodes.length;
-    nodes.push({id,type,label,size,color,data,x:(Math.random()-.5)*spread*1.5,y:(Math.random()-.5)*spread,vx:0,vy:0});
-    return idx[id];
+  if(typeof echarts==="undefined"||!recs().length)return;
+  loadNetRegions();
+  if(!netChart){
+    const el=$("#netchart");if(!el)return;
+    netChart=echarts.init(el);
+    netChart.on("click",p=>{if(p.dataType!=="node")return;const d=p.data;
+      if(netViewName==="overview"){
+        if(d.type==="regulation_group")netDrillInto(d.country,d.domain);
+        else if(d.type==="entity"&&!NET_BIG.has(d.id))netDrillInto(d.id,null);}});
+    netChart.getZr().on("click",ev=>{if(!ev.target&&netDrill)restoreOverview();});
+    window.addEventListener("resize",()=>{if(netChart)netChart.resize();});
   }
-  function addEdge(a,b,w,kind){edges.push({a,b,w:w||1,kind:kind||"ref"});}
-
-  if(netMode==="global"){
-    const minDeg=+($("#nethub")&&$("#nethub").value||4);
-    const bc=byCountry(),hubCount={};
-    Object.entries(bc).forEach(([c,list])=>list.forEach(r=>r.refs.forEach(f=>{
-      (hubCount[f]=hubCount[f]||{})[c]=(hubCount[f][c]||0)+1;})));
-    const hubs=Object.entries(hubCount).filter(([f,m])=>Object.keys(m).length>=minDeg)
-      .sort((a,b)=>Object.keys(b[1]).length-Object.keys(a[1]).length).slice(0,40);
-    const hubCtys=new Set();hubs.forEach(([f,m])=>Object.keys(m).forEach(c=>hubCtys.add(c)));
-    // 只显示与所选枢纽有连接的国家,孤立国家不画(进一步减负)
-    Object.entries(bc).forEach(([c,list])=>{ if(!hubCtys.has(c))return;
-      addNode("C:"+c,"country",c,Math.min(9+Math.sqrt(list.length)*1.6,26),"#1a2420",{count:list.length}); });
-    hubs.forEach(([f,m])=>{
-      const deg=Object.keys(m).length;
-      let col="#c6502a";
-      if(/^UN R/.test(f))col="#3a6b8a";else if(/^GTR/.test(f))col="#5a8a4a";
-      else if(/^FMVSS/.test(f))col="#7a5ba0";else if(/^GB/.test(f))col="#c79a2e";
-      const h=addNode("H:"+f,"hub",f,Math.min(6+deg*1.4,20),col,{deg});
-      Object.entries(m).forEach(([c,n])=>{if(idx["C:"+c]!==undefined)addEdge(idx["C:"+c],h,Math.min(n,6));});
-    });
-    $("#netlegend").innerHTML=`
-      <div class="li"><span class="sw" style="background:#1a2420"></span>国家(大小∝法规量)</div>
-      <div class="li"><span class="sw" style="background:#3a6b8a"></span>UN R</div>
-      <div class="li"><span class="sw" style="background:#5a8a4a"></span>GTR</div>
-      <div class="li"><span class="sw" style="background:#7a5ba0"></span>FMVSS</div>
-      <div class="li"><span class="sw" style="background:#c79a2e"></span>GB 国标</div>
-      <div class="li" style="color:var(--muted)">仅显示被≥${minDeg}国共同引用的标准 · 放大查看标准编号</div>`;
-  }else{
-    const c=$("#netcsel").value||Object.keys(byCountry())[0];
-    const list=(byCountry()[c]||[]);
-    const withLink=list.filter(r=>r.refs.length||r.parentKeys&&r.parentKeys.length||list.some(o=>(o.parentKeys||[]).includes(keyOf(r))));
-    const noLink=list.filter(r=>!withLink.includes(r));
-    const chosen=[...withLink,...noLink].slice(0,160);
-    const chosenKeys=new Set(chosen.map(keyOf));
-    const hubSet={};
-    chosen.forEach(r=>{
-      const di=r.dims.length?r.dims[0]:8;
-      addNode("R:"+keyOf(r),"reg",(r.regId||r.cnName||"").slice(0,22),5.5,DIMCOL[di],r);
-    });
-    chosen.forEach(r=>{
-      const ni=idx["R:"+keyOf(r)];
-      r.refs.forEach(f=>{
-        if(hubSet[f]===undefined)hubSet[f]=addNode("H:"+f,"hub",f,9,"#1a2420",{});
-        addEdge(ni,hubSet[f],1.5,"ref");
-      });
-      (r.parentKeys||[]).forEach(pk=>{
-        if(chosenKeys.has(pk))addEdge(idx["R:"+pk],ni,2.2,"parent"); // 上位 → 下位
-      });
-    });
-    const byDim={};
-    nodes.forEach((n,i)=>{if(n.type==="reg"){const d=n.data.dims[0]??8;(byDim[d]=byDim[d]||[]).push(i);}});
-    Object.values(byDim).forEach(arr=>{for(let i=1;i<arr.length;i++)addEdge(arr[i-1],arr[i],0.25,"cluster");});
-    $("#netlegend").innerHTML=DIMS.map((d,i)=>
-      `<div class="li"><span class="sw" style="background:${DIMCOL[i]}"></span>${d}</div>`).join("")
-      +`<div class="li"><span class="sw" style="background:#1a2420"></span>国际标准枢纽</div>
-       <div class="li"><span class="ln"></span>上位→下位</div>`;
-  }
-  net={nodes,edges};view={x:0,y:0,k:1};selNode=null;$("#netside").classList.remove("on");
-  $("#netstats").textContent=`节点 ${nodes.length} · 边 ${edges.length} · 模式:${netMode==="global"?"跨国联动":"单国内部"}`;
-  warm=240;
-}
-function step(){
-  const N=net.nodes,E=net.edges; if(!N.length)return;
-  const alpha=warm>0?Math.min(warm/240,1)*0.9+0.05:0.02;
-  const glob=netMode==="global";
-  const charge=glob?3400:1500;        // 跨国图斥力更强,节点摊得更开
-  const rest=glob?115:70;             // 边的自然长度更长
-  const center=glob?0.0022:0.004;     // 向心力更弱,避免全堆中心
-  for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){
-    const a=N[i],b=N[j];
-    let dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy; if(d2<1)d2=1;
-    const f=charge*alpha/d2,d=Math.sqrt(d2);
-    dx/=d;dy/=d;a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;
-  }
-  E.forEach(e=>{
-    const a=N[e.a],b=N[e.b];
-    const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-    const f=(d-(e.kind==="parent"?55:rest))*0.012*alpha*Math.min(e.w,3);
-    a.vx+=dx/d*f;a.vy+=dy/d*f;b.vx-=dx/d*f;b.vy-=dy/d*f;
-  });
-  N.forEach(n=>{
-    n.vx-=n.x*center*alpha;n.vy-=n.y*center*alpha;
-    if(n!==dragN){n.x+=n.vx;n.y+=n.vy;}
-    n.vx*=0.82;n.vy*=0.82;
-  });
-  if(warm>0)warm--;
-}
-function draw(){
-  const dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;
-  if(canvas.width!==w*dpr){canvas.width=w*dpr;canvas.height=h*dpr;}
-  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
-  ctx.save();ctx.translate(w/2+view.x,h/2+view.y);ctx.scale(view.k,view.k);
-  const neigh=new Set();
-  if(selNode!==null)net.edges.forEach(e=>{if(e.a===selNode)neigh.add(e.b);if(e.b===selNode)neigh.add(e.a);});
-  net.edges.forEach(e=>{
-    const a=net.nodes[e.a],b=net.nodes[e.b];
-    const hot=selNode!==null&&(e.a===selNode||e.b===selNode);
-    if(e.kind==="parent"){
-      ctx.strokeStyle=hot?"rgba(198,80,42,.9)":"rgba(198,80,42,"+(selNode!==null?".12":".55")+")";
-      ctx.lineWidth=(hot?2.2:1.8)/view.k;
-    }else{
-      ctx.strokeStyle=hot?"rgba(198,80,42,.7)":"rgba(90,84,70,"+(selNode!==null?".05":(e.kind==="cluster"?".08":".16"))+")";
-      ctx.lineWidth=(hot?1.6:Math.min(e.w*.5,1.4))/view.k;
-    }
-    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();
-    if(e.kind==="parent"&&(!selNode||hot)){ // 箭头
-      const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-      const ux=dx/d,uy=dy/d,px=b.x-ux*(b.size+4),py=b.y-uy*(b.size+4),s=4.5/Math.max(view.k,.6);
-      ctx.fillStyle=hot?"rgba(198,80,42,.95)":"rgba(198,80,42,.6)";
-      ctx.beginPath();ctx.moveTo(px,py);
-      ctx.lineTo(px-ux*s*2-uy*s,py-uy*s*2+ux*s);
-      ctx.lineTo(px-ux*s*2+uy*s,py-uy*s*2-ux*s);ctx.closePath();ctx.fill();
-    }
-  });
-  net.nodes.forEach((n,i)=>{
-    const dim=selNode!==null&&i!==selNode&&!neigh.has(i);
-    ctx.globalAlpha=dim?0.16:1;
-    ctx.fillStyle=n.color;
-    ctx.beginPath();ctx.arc(n.x,n.y,n.size,0,7);ctx.fill();
-    if(n.type==="hub"){ctx.strokeStyle="#fcfbf6";ctx.lineWidth=1.5/view.k;ctx.stroke();}
-    // 标签:国家名常显;枢纽/法规标签只在放大或选中/相邻时显示,降低文字噪音
-    const sel=i===selNode||neigh.has(i);
-    const showLbl=sel||(n.type==="country"?(selNode===null||sel):(view.k>1.25));
-    if(showLbl&&!dim){
-      ctx.font=(n.type==="country"?"600 11px":"10px")+" 'IBM Plex Mono',Menlo,monospace";
-      // 白色描边底,密集处也能读清
-      ctx.lineWidth=3/view.k;ctx.strokeStyle="rgba(244,241,232,.92)";ctx.lineJoin="round";
-      ctx.strokeText(n.label,n.x+n.size+3,n.y+3.5);
-      ctx.fillStyle="#1a2420";
-      ctx.fillText(n.label,n.x+n.size+3,n.y+3.5);
-    }
-    ctx.globalAlpha=1;
-  });
-  ctx.restore();
-}
-(function loop(){step();draw();requestAnimationFrame(loop);})();
-
-function toWorld(px,py){const r=canvas.getBoundingClientRect();
-  return {x:(px-r.left-r.width/2-view.x)/view.k,y:(py-r.top-r.height/2-view.y)/view.k};}
-function hit(px,py){
-  const p=toWorld(px,py);
-  for(let i=net.nodes.length-1;i>=0;i--){
-    const n=net.nodes[i],dx=p.x-n.x,dy=p.y-n.y;
-    if(dx*dx+dy*dy<=(n.size+4)*(n.size+4))return i;}
-  return null;
-}
-canvas.addEventListener("mousedown",e=>{
-  const i=hit(e.clientX,e.clientY);
-  if(i!==null){dragN=net.nodes[i];dragN._moved=false;}
-  else{panning=true;pstart={x:e.clientX-view.x,y:e.clientY-view.y};}
-});
-window.addEventListener("mousemove",e=>{
-  if(dragN){const p=toWorld(e.clientX,e.clientY);dragN.x=p.x;dragN.y=p.y;dragN.vx=0;dragN.vy=0;dragN._moved=true;warm=Math.max(warm,30);}
-  else if(panning){view.x=e.clientX-pstart.x;view.y=e.clientY-pstart.y;}
-});
-window.addEventListener("mouseup",()=>{
-  if(dragN&&!dragN._moved){const i=net.nodes.indexOf(dragN);
-    selNode=selNode===i?null:i;showSide(i);}
-  dragN=null;panning=false;
-});
-canvas.addEventListener("wheel",e=>{e.preventDefault();
-  view.k=Math.max(.25,Math.min(4,view.k*(e.deltaY<0?1.12:0.89)));},{passive:false});
-function centerOn(n){view.k=1.3;view.x=-n.x*view.k;view.y=-n.y*view.k;}
-function showSide(i){
-  const sd=$("#netside");
-  if(selNode===null){sd.classList.remove("on");return;}
-  const n=net.nodes[i];
-  const links=net.edges.filter(e=>e.a===i||e.b===i).map(e=>({n:net.nodes[e.a===i?e.b:e.a],k:e.kind,dir:e.a===i?"out":"in"}));
-  let body=`<div class="nid">${n.label}</div>`;
-  if(n.type==="country")body+=`<h4>${n.data.count} 条法规</h4>`;
-  if(n.type==="hub")body+=`<h4>被 ${links.length} 个节点引用</h4>`;
-  if(n.type==="reg"){
-    body+=`<h4>${n.data.cnName||n.data.origName||""}</h4>
-    <div style="font-size:11px;color:var(--muted)">${n.data.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${n.data.date?" · "+n.data.date:""}</div>`;
-    const ups=links.filter(l=>l.k==="parent"&&l.dir==="in"),downs=links.filter(l=>l.k==="parent"&&l.dir==="out");
-    if(ups.length)body+=`<div style="margin-top:6px;font-size:11px"><b style="color:var(--accent)">↑上位:</b> ${ups.map(l=>l.n.label).join(", ")}</div>`;
-    if(downs.length)body+=`<div style="font-size:11px"><b style="color:var(--accent)">↓下位:</b> ${downs.length} 条</div>`;
-  }
-  body+=`<ul>${links.filter(l=>l.k!=="cluster").slice(0,30).map(l=>`<li>${l.k==="parent"?(l.dir==="in"?"↑ ":"↓ "):""}${l.n.label}</li>`).join("")}
-    ${links.length>30?`<li style="color:var(--muted)">… 共 ${links.length} 个关联</li>`:""}</ul>`;
-  $("#netside-body").innerHTML=body;sd.classList.add("on");
+  NETG=buildNetData();
+  // 国家下钻下拉
+  const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
+  const ncs=$("#netcsel");if(ncs)ncs.innerHTML='<option value="">下钻到国家…</option>'+cs.map(c=>`<option value="${c}">${c}</option>`).join("");
+  renderOverview();
+  setTimeout(()=>{if(netChart)netChart.resize();},50); // tab 切换后画布尺寸校正
 }
 
 /* ================= 层级树 ================= */
@@ -1339,12 +1299,8 @@ function searchGoReg(k){sRes.classList.remove("on");sInput.value="";
   const r=store[k];if(r)gotoCountry(r.country,k);}
 function searchGoHub(f){
   sRes.classList.remove("on");sInput.value="";
-  switchTab("p-net");setNetMode("global");
-  // 网络稳定后选中并居中
-  setTimeout(()=>{
-    const i=net.nodes.findIndex(n=>n.id==="H:"+f);
-    if(i>=0){selNode=i;showSide(i);centerOn(net.nodes[i]);}
-  },600);
+  switchTab("p-net");setNetMode("cross");buildNet();
+  toast("已切换到关系网络(跨国联动)· 点国家或领域气泡下钻可见 "+f+" 等引用");
 }
 
 /* ================= 文本对账 ================= */
@@ -1601,7 +1557,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
         parentsRaw:Array.isArray(row.parents_raw)?row.parents_raw:[],
         dims:Array.isArray(row.dims)?row.dims:[],
         refs:Array.isArray(row.refs)?row.refs:[],
-        amend:row.amend||null,date:row.rec_date||"",
+        amend:row.amend||null,date:row.rec_date||"",region:"",
         sourceFile:row.source_file||"",updatedAt:row.updated_at||"",id:row.id};
       if(rec.parentsRaw.length)hasParentCol=true;
       store[keyOf(rec)]=rec;
