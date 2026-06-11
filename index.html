@@ -1046,7 +1046,9 @@ function netRegion(s,c){s=String(s||"").trim();if(!s)s=NET_REGION_FALLBACK[c]||"
   if(/大洋|澳/.test(s))return"大洋洲"; if(/国际|全球/.test(s))return"国际";
   return NET_REGIONS.includes(s)?s:"其他";}
 
-const SYSTEMS=[["refCN","GB标准体系"],["refEU","欧盟/UNECE体系"],["refUS","美标体系"]];
+/* 跨国引用落点的标准体系(GB 国标作为出口法规枢纽意义不大,暂不展示;
+   需要时把 ["refCN","GB标准体系"] 加回数组即可) */
+const SYSTEMS=[["refEU","欧盟/UNECE体系"],["refUS","美标体系"]];
 const NET_BIG=new Set(["UNECE","GTR","GB标准体系","欧盟/UNECE体系","美标体系"]);
 let netChart=null,NETG=null,netMode="cross",netViewName="overview",netDrill=null;
 
