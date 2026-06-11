@@ -1895,27 +1895,65 @@ function regTrunk(r){
 }
 const trunkLabel=k=>k.startsWith("L:")||k.startsWith("N:")?"":k;
 
+/* 名称/备注抽取归族(兜底「上位法规」列):欧盟等用 YYYY/N 互相引用,
+   「上位法规」列基本为空,故从 法规中文名称+备注 抽被修订/补充/实施/适用的法规号 */
+const REL_RE=/修订|修正|补充|实施|细则|替代|废止|取代|适用|被修订|监管|纳入/;
+function canonEu(a,b){ // 把 年/号 与 号/年 统一成 "年/号";非年号对返回 null
+  if(/^(19|20)\d{2}$/.test(a))return a+"/"+(+b);
+  if(/^(19|20)\d{2}$/.test(b))return b+"/"+(+a);
+  return null;
+}
+function ownEuNum(r){ // 法规自身的欧盟式编号(从 regId)
+  const mm=String(r.regId||"").match(/(\d{1,4})\s*\/\s*(\d{1,4})/);
+  return mm?canonEu(mm[1],mm[2]):null;
+}
+function extractRefNums(r){ // 从名称+备注抽取被引用的欧盟式编号(需出现关系词)
+  const text=String(r.cnName||"")+" "+String(r.remark||"");
+  if(!REL_RE.test(text))return [];
+  const own=ownEuNum(r),out=new Set();
+  [...text.matchAll(/(\d{1,4})\s*\/\s*(\d{1,4})/g)].forEach(m=>{
+    const c=canonEu(m[1],m[2]);if(c&&c!==own)out.add(c);});
+  return [...out];
+}
+
 let _famCache={};
 /* 法规族归并(同国范围):优先级① 上位法规连通(parentKeys 并查集);② 编号主干相同 */
 function buildFamilies(country){
   if(_famCache[country])return _famCache[country];
   const list=byCountry()[country]||[];
   const idx=new Map();list.forEach((r,i)=>idx.set(keyOf(r),i));
-  const pa=list.map((_,i)=>i);
+  const pa=list.map((_,i)=>i),hubRoot={};
   const find=x=>pa[x]===x?x:(pa[x]=find(pa[x]));
-  const uni=(a,b)=>{a=find(a);b=find(b);if(a!==b)pa[b]=a;};
+  const uni=(a,b)=>{a=find(a);b=find(b);if(a!==b){pa[b]=a;hubRoot[a]=hubRoot[a]||hubRoot[b];}};
+  // 防焊接:两个各自已含「被引用母法」的集合不得合并(避免子法规把独立母法传递性融成一坨)
+  const safeUni=(a,b)=>{const ra=find(a),rb=find(b);if(ra===rb)return false;
+    if(hubRoot[ra]&&hubRoot[rb])return false;uni(a,b);return true;};
+  // ① 上位法规列连通(权威,允许直接合并)
   const parentPairs=[];
   list.forEach((r,i)=>(r.parentKeys||[]).forEach(pk=>{
     const j=idx.get(pk);if(j!==undefined){parentPairs.push([i,j]);uni(i,j);}}));
-  const trunkFirst={};
-  list.forEach((r,i)=>{r._trunk=regTrunk(r);
-    const k=r._trunk.key;
-    if(trunkFirst[k]!==undefined)uni(i,trunkFirst[k]);else trunkFirst[k]=i;});
-  const parentRoots=new Set(parentPairs.map(([a])=>find(a)));
+  // ② 名称/备注抽取:子→被引用母法。先标记母法(被引用过的为 hub),再按母法被引用次数降序连边
+  const euIdx={};list.forEach((r,i)=>{const e=ownEuNum(r);if(e&&euIdx[e]===undefined)euIdx[e]=i;});
+  const rawEdges=[],refCnt={};
+  list.forEach((r,i)=>extractRefNums(r).forEach(n=>{const j=euIdx[n];
+    if(j!==undefined&&j!==i){rawEdges.push([i,j]);refCnt[j]=(refCnt[j]||0)+1;}}));
+  Object.keys(refCnt).forEach(j=>{hubRoot[find(+j)]=true;}); // 被引用者所在集合=母法集合
+  rawEdges.sort((x,y)=>(refCnt[y[1]]||0)-(refCnt[x[1]]||0)); // 子法规优先归入被引用更多的主框架
+  const extractPairs=[];
+  rawEdges.forEach(([i,j])=>{if(safeUni(i,j))extractPairs.push([i,j]);});
+  // ③ 编号主干相同(同样受防焊接保护)
+  const trunkFirst={},trunkPairs=[];
+  list.forEach((r,i)=>{r._trunk=regTrunk(r);const k=r._trunk.key;
+    if(trunkFirst[k]!==undefined){if(safeUni(i,trunkFirst[k]))trunkPairs.push([i,trunkFirst[k]]);}else trunkFirst[k]=i;});
+  // 每个族的归并来源(优先级 上位>抽取>主干)
+  const srcOf={};
+  const mark=(pairs,src)=>pairs.forEach(([a])=>{const root=find(a);
+    if(srcOf[root]===undefined)srcOf[root]=src;});
+  mark(parentPairs,"parent");mark(extractPairs,"extract");mark(trunkPairs,"trunk");
   const groups={};
   list.forEach((r,i)=>{const root=find(i);(groups[root]=groups[root]||[]).push(r);});
   const fams=Object.entries(groups).map(([root,members])=>{
-    const via=members.length<2?"single":(parentRoots.has(+root)?"parent":"trunk");
+    const via=members.length<2?"single":(srcOf[root]||"trunk");
     // 族名:取成员中最常见的可读主干,否则最短编号
     const tk={};members.forEach(r=>{const lb=trunkLabel(r._trunk.key);if(lb)tk[lb]=(tk[lb]||0)+1;});
     const label=Object.keys(tk).sort((a,b)=>tk[b]-tk[a])[0]
@@ -1987,12 +2025,12 @@ function renderChain(){
   if(q)fams=fams.filter(f=>norm(f.label).includes(q)||f.members.some(r=>norm(r.regId).includes(q)||norm(r.cnName).includes(q)));
   const total=fams.length;fams=fams.slice(0,60);
   const stats=famStats(cty);
-  $("#chain-meta").textContent=`${cty}:${stats.fams} 族 / ${stats.regs} 条 · 上位法规归并 ${stats.parent} 族 · 编号主干归并 ${stats.trunk} 族 · 单条 ${stats.single}`;
+  $("#chain-meta").textContent=`${cty}:${stats.fams} 族 / ${stats.regs} 条 · 上位法规列 ${stats.parent} · 名称备注抽取 ${stats.extract} · 编号主干 ${stats.trunk} · 单条 ${stats.single}`;
   body.innerHTML=fams.length?fams.map(f=>{
     const ts=f.members.flatMap(memberStages).filter(s=>s.t!=null).map(s=>s.t);
     const minT=ts.length?Math.min(...ts):0,maxT=ts.length?Math.max(...ts):1;
     return `<div class="card fam-card" data-fam="${esc(f.label)}">
-      <h3>${esc(f.label||f.members[0].regId||"(无编号族)")} <span class="hint">${f.members.length} 个版本/成员 · ${f.via==="parent"?"按上位法规归并":f.via==="trunk"?"按编号主干归并":"独立条目"}</span></h3>
+      <h3>${esc(f.label||f.members[0].regId||"(无编号族)")} <span class="hint">${f.members.length} 个版本/成员 · ${f.via==="parent"?"按上位法规归并":f.via==="extract"?"按名称/备注引用归并":f.via==="trunk"?"按编号主干归并":"独立条目"}</span></h3>
       ${f.members.map(r=>`<div class="fam-row" id="fr-${cssId(keyOf(r))}">
         <div class="fam-meta">
           <span class="rid">${esc(r.regId||"—")}</span>
@@ -2013,6 +2051,7 @@ function famStats(cty){
   const fams=buildFamilies(cty);
   return {fams:fams.length,regs:(byCountry()[cty]||[]).length,
     parent:fams.filter(f=>f.via==="parent").length,
+    extract:fams.filter(f=>f.via==="extract").length,
     trunk:fams.filter(f=>f.via==="trunk").length,
     single:fams.filter(f=>f.via==="single").length};
 }
