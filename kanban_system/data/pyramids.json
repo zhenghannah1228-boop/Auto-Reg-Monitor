@@ -1,0 +1,324 @@
+{
+  "schema_version": "1.0",
+  "description": "认证金字塔数据库 — 一国一塔，按国家索引。来源为 type=system 的体系科普推文，解码后 merge。",
+  "layer_role_palette": {
+    "L1": "母法 / 顶端",
+    "L2": "技术基准",
+    "L3": "审查 / 测试",
+    "L4": "批准 / 证书"
+  },
+  "pyramids": {
+    "马来西亚": {
+      "country": "马来西亚",
+      "country_type": "混合型",
+      "data_grade": "A",
+      "tagline": "拥有自有的车辆型式批准(VTA)制度，同时大量直接承认 ECE/E-mark 证书；UN R 为技术主体。",
+      "layers": [
+        {
+          "level": "L1",
+          "role": "母法 / 顶端",
+          "name_cn": "1987年陆路交通法令",
+          "name_en": "Road Transport Act 1987 (Act 333)",
+          "detail": "最高法律依据，确立车辆注册、使用与安全监管的法定基础，授权 JPJ 执行 VTA。",
+          "regulations": [
+            {
+              "reg_no": "Act 333",
+              "name": "Road Transport Act 1987",
+              "match_key": "Act 333"
+            },
+            {
+              "reg_no": "UU 22/2009",
+              "name": "道路交通与运输法",
+              "match_key": "UU 22/2009"
+            }
+          ]
+        },
+        {
+          "level": "L2",
+          "role": "技术基准",
+          "name_cn": "UN 法规(UNR) + 马来西亚标准(MS)",
+          "name_en": "UN Regulations / Malaysia Standards",
+          "detail": "技术测试基准：直接采用 UN R 系列法规，并辅以本土 MS 标准。",
+          "regulations": []
+        },
+        {
+          "level": "L3",
+          "role": "审查 / 测试",
+          "name_cn": "指定技术服务机构(TS)测试",
+          "name_en": "Designated Technical Services",
+          "detail": "由指定技术服务机构执行型式测试与审查。",
+          "regulations": []
+        },
+        {
+          "level": "L4",
+          "role": "批准 / 证书",
+          "name_cn": "车辆型式批准 VTA / 零部件 CTA",
+          "name_en": "Vehicle Type Approval / Component Type Approval",
+          "detail": "最终签发整车型式批准(VTA)与零部件型式批准(CTA)证书。",
+          "regulations": []
+        }
+      ],
+      "authorities": [
+        {
+          "name": "马来西亚交通部",
+          "abbr": "MOT",
+          "desc": "汽车产品法规的最高决策和主管机构，制定陆路交通、车辆安全与环保宏观政策。"
+        },
+        {
+          "name": "马来西亚陆路交通局",
+          "abbr": "JPJ",
+          "desc": "整车认证的强制管理与批准机构，实施 VTA 制度、颁发 E52 的 ECE 认证证书，代表马来西亚参与 UN WP.29。"
+        }
+      ],
+      "core_regulations": {
+        "整车": [
+          {
+            "group": "被动安全",
+            "items": "正面碰撞 R94、侧面 R95、安全带及固定点 R14/R16、座椅及头枕 R17/R25、行人保护 R127"
+          },
+          {
+            "group": "主动安全",
+            "items": "制动 R13/R13H、转向 R79、电子稳定控制 R140"
+          },
+          {
+            "group": "通用安全",
+            "items": "防盗 R18/R97/R116、防火 R34、车速表 R39、电磁兼容 R10"
+          }
+        ]
+      },
+      "sources": [],
+      "decoded_from_tweet": false,
+      "last_updated": "2026-06-10"
+    },
+    "巴西": {
+      "country": "巴西",
+      "country_type": "混合型",
+      "data_grade": "B",
+      "tagline": "混合借鉴 ECE/UN R 与美国 FMVSS，经 CONTRAN/CONAMA/INMETRO 本土化为强制法规；非1958协议成员国，ECE 无自动效力。",
+      "layers": [
+        {
+          "level": "L1",
+          "role": "母法 / 顶端",
+          "name_cn": "巴西本土强制法规体系",
+          "name_en": "CONTRAN / CONAMA / INMETRO",
+          "detail": "具有法律强制力的本土法规来源。安全由 CONTRAN 决议、环保由 CONAMA、零部件由 INMETRO 分管。巴西非1958协议/WP29成员，ECE 法规无自动法律效力。",
+          "regulations": [
+            {
+              "reg_no": "CONTRAN 721/2018",
+              "name": "动态侧碰测试要求(基于UN R95)",
+              "match_key": "CONTRAN 721"
+            },
+            {
+              "reg_no": "CONTRAN 749/2018",
+              "name": "电动车安全(认可UN R100/R94/R95或FMVSS 305)",
+              "match_key": "CONTRAN 749"
+            },
+            {
+              "reg_no": "SENATRAN 990/2022",
+              "name": "等效ECE/FMVSS接受规则",
+              "match_key": "SENATRAN 990"
+            }
+          ]
+        },
+        {
+          "level": "L2",
+          "role": "技术基准",
+          "name_cn": "国际参考标准(被借鉴)",
+          "name_en": "ECE / UN R / FMVSS",
+          "detail": "技术测试方法标准，被巴西「借鉴」而非直接采纳。安全大量借鉴 ECE，排放轻型车用美标 FTP-75、重型车对标欧标。等效 ECE/FMVSS 自 SENATRAN 990/2022 起不再被默认接受，除非 CONTRAN 明确提及。",
+          "regulations": [
+            {
+              "reg_no": "UN Regulation No. 95",
+              "name": "侧面碰撞保护",
+              "match_key": "UN R95"
+            },
+            {
+              "reg_no": "UN Regulation No. 100",
+              "name": "电动车辆安全",
+              "match_key": "UN R100"
+            },
+            {
+              "reg_no": "FMVSS 305",
+              "name": "电动车电解液泄漏与电击防护",
+              "match_key": "FMVSS 305"
+            }
+          ]
+        },
+        {
+          "level": "L3",
+          "role": "审查 / 测试",
+          "name_cn": "本地或指定实验室测试",
+          "name_en": "Local / Designated Labs (ABNT NBR)",
+          "detail": "CONTRAN 未提及 ECE 等效性的项目、或有巴西特殊要求(防盗/乙醇适配)的项目，必须在巴西或指定实验室完成测试。执行标准部分等效 ECE、部分为 ABNT NBR 国标。",
+          "regulations": []
+        },
+        {
+          "level": "L4",
+          "role": "批准 / 证书",
+          "name_cn": "CAT整车认证 / LCVM排放 / INMETRO零部件",
+          "name_en": "CAT / LCVM / INMETRO Certificates",
+          "detail": "最终强制证书：整车 CAT(合规认证)、排放 LCVM、关键零部件(轮胎/玻璃/蓄电池)由 INMETRO 强制认证并贴标。",
+          "regulations": []
+        }
+      ],
+      "authorities": [
+        {
+          "name": "国家交通委员会",
+          "abbr": "CONTRAN",
+          "desc": "安全法规核心，以决议(Resolução)形式发布强制要求，大量借鉴 ECE 技术内容。"
+        },
+        {
+          "name": "国家环境委员会",
+          "abbr": "CONAMA",
+          "desc": "环保与排放法规主管，PROCONVE 空气污染控制计划的发布机构。"
+        },
+        {
+          "name": "国家计量质量与技术局",
+          "abbr": "INMETRO",
+          "desc": "关键零部件(轮胎/制动衬片/安全玻璃/蓄电池)强制认证与贴标机构。"
+        },
+        {
+          "name": "国家交通秘书处",
+          "abbr": "SENATRAN",
+          "desc": "原 DENATRAN，管理安全认证体系，990/2022 号令规定等效标准接受规则。"
+        }
+      ],
+      "core_regulations": {
+        "整车": [
+          {
+            "group": "被动安全",
+            "items": "侧碰 CONTRAN 721/2018(基于UN R95)、商用车驾驶室强度(ECE R29)"
+          },
+          {
+            "group": "灯光",
+            "items": "CONTRAN 227/2007(参考 ECE R48 前照灯、R27 三角警示牌)"
+          },
+          {
+            "group": "新能源",
+            "items": "CONTRAN 749/2018(认可 UN R100/R94/R95 或 FMVSS 305)"
+          }
+        ],
+        "排放": [
+          {
+            "group": "PROCONVE",
+            "items": "轻型车美标 FTP-75 工况(限值命名对标欧标 L6≈欧V/L7≈欧V+/L8≈欧VI)、重型车欧标 ESC/ETC 循环"
+          }
+        ],
+        "零部件": [
+          {
+            "group": "INMETRO强制",
+            "items": "轮胎(ECE R30/R54)、制动衬片(INMETRO 55/2014 参考 ECE R13/H)、阻燃材料(CONTRAN 498/2014≈ECE R118)"
+          }
+        ]
+      },
+      "sources": [
+        "INS-2026-019"
+      ],
+      "decoded_from_tweet": true,
+      "last_updated": "2026-06-11"
+    },
+    "印度": {
+      "country": "印度",
+      "country_type": "自有型",
+      "data_grade": "A",
+      "tagline": "自有 CMVR 型式认证体系，不认可 E-mark/CCC；AIS 为强制技术标准，ARAI 为核心认证机构，本国制造业保护强。",
+      "layers": [
+        {
+          "level": "L1",
+          "role": "母法 / 顶端",
+          "name_cn": "中央机动车辆法规 CMVR",
+          "name_en": "Central Motor Vehicles Rules (1989)",
+          "detail": "母法，1989颁布、1991实施。规定整车及零部件进入印度前须申请型式认证批准；第126条定义型式认可。标准委员会 CMVR-TSC 隶属印度船舶/道路交通及高速公路管理局。",
+          "regulations": [
+            {
+              "reg_no": "CMVR",
+              "name": "中央机动车辆法规",
+              "match_key": "CMVR"
+            }
+          ]
+        },
+        {
+          "level": "L2",
+          "role": "技术基准",
+          "name_cn": "印度汽车工业标准 AIS + 国家标准 IS",
+          "name_en": "Automotive Industry Standards / Indian Standards",
+          "detail": "技术基准。AIS 由 AISC 制定、是 CMVR 强制组成部分；AIS 未涉及的产品(如雨刮片)参照 BIS 发布的 IS 国家标准。印度不认可 E-mark 等效。",
+          "regulations": [
+            {
+              "reg_no": "AIS 007",
+              "name": "技术规格书/图纸格式",
+              "match_key": "AIS 007"
+            },
+            {
+              "reg_no": "AIS 标准体系",
+              "name": "印度汽车工业标准",
+              "match_key": "AIS"
+            },
+            {
+              "reg_no": "IS 标准(BIS)",
+              "name": "印度国家标准",
+              "match_key": "IS"
+            }
+          ]
+        },
+        {
+          "level": "L3",
+          "role": "审查 / 测试",
+          "name_cn": "ARAI 测试 + 工厂审核",
+          "name_en": "ARAI Testing & Factory Audit",
+          "detail": "ARAI(浦那)依据 CMVR/AIS/IS 测试整车及零部件；样品必须送印度本地实验室，不允许国内测试。初次申请样品测试通过后派员现场工厂审核；获证后每1-2年工厂监督检查。",
+          "regulations": []
+        },
+        {
+          "level": "L4",
+          "role": "批准 / 证书",
+          "name_cn": "ARAI 型式批准 + 强制 ISI 部件认证",
+          "name_en": "ARAI Type Approval / ISI Component Cert",
+          "detail": "ARAI 签发认证证书与测试报告、分配型式批准号(须打在产品上)。强制 ISI 部件须先获认证才能申请整车 ARAI。证书长期有效但依赖年度工厂检查；新车理想45工作日(实际4-6月)，费用约8-15万。",
+          "regulations": []
+        }
+      ],
+      "authorities": [
+        {
+          "name": "印度汽车研究协会",
+          "abbr": "ARAI",
+          "desc": "隶属重工业与公共事业部，位于浦那，印度汽车及零部件认证的核心机构，依据 CMVR/AIS/IS 测试并签发型式批准。"
+        },
+        {
+          "name": "印度汽车工业标准委员会",
+          "abbr": "AISC",
+          "desc": "AIS 标准的制定与修订机构，其标准是 ARAI 测试认证的重要依据。"
+        },
+        {
+          "name": "印度标准局",
+          "abbr": "BIS",
+          "desc": "发布 IS 国家标准，负责 AIS 未涉及产品及强制 ISI 部件的认证。"
+        },
+        {
+          "name": "CMVR 技术常设委员会",
+          "abbr": "CMVR-TSC",
+          "desc": "隶属船舶/道路交通及高速公路管理局，制定实施技术标准与测试要求。"
+        }
+      ],
+      "core_regulations": {
+        "整车": [
+          {
+            "group": "适用类别",
+            "items": "两轮/三轮、四轮乘用及货车(M1/N1)、轻重型商用车(M2/M3/N2/N3)、工程设备车(CEV)、农用拖拉机、挂车、电动车 BOV、CNG/LPG 车"
+          }
+        ],
+        "零部件": [
+          {
+            "group": "强制认证",
+            "items": "安全玻璃、制动软管、轮胎、CNG调压阀、灯泡、后视镜、限速器、安全带、三角警告牌、门锁门铰链、燃油箱、儿童座椅、刹车片、动力电池等"
+          }
+        ]
+      },
+      "sources": [
+        "INS-2024-001"
+      ],
+      "decoded_from_tweet": true,
+      "last_updated": "2026-06-11"
+    }
+  }
+}

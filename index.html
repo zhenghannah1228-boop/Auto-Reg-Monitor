@@ -409,6 +409,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-memo"><span class="tn">08</span>备忘录</div>
     <div class="tab" data-p="p-pyr"><span class="tn">09</span>认证金字塔</div>
     <div class="tab" data-p="p-chain"><span class="tn">10</span>版本时间链</div>
+    <div class="tab" data-p="p-ins"><span class="tn">11</span>解读看板</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -577,6 +578,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:12px">
       每条法规一行:发布 → 实施 → 新认证车 → 在产车,按真实日期间隔拉开 · 灰点=历史阶段,橙点=最末/当前生效阶段 · 点节点看详情 · 族内 current=最新版,superseded=被取代</div>
     <div id="chain-body"><div class="bigmsg">正在载入日期字段…</div></div>
+  </div>
+
+  <div class="pane" id="p-ins">
+    <div class="netctrl">
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">法规解读推文看板(kanban_system 编译)· 四类:对比/文本/修订/体系</span>
+      <a class="btn light" style="text-decoration:none" href="./kanban_system/output/kanban.html" target="_blank">⤢ 新窗口打开</a>
+      <a class="btn light" style="text-decoration:none" href="./kanban_system/output/pyramid_view.html" target="_blank">⤢ 推文解码金字塔</a>
+    </div>
+    <iframe id="ins-frame" data-src="./kanban_system/output/kanban.html"
+      style="width:100%;height:calc(100vh - 220px);min-height:560px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>
   </div>
 
   <footer>
@@ -1065,7 +1076,16 @@ function renderCountry(){
         <button class="upbtn" onclick="gotoChain('${r.country}','${fk}')" title="查看这条法规的版本时间链(发布→实施→新认证→在产)">⏱ 版本链</button></div>
       <div class="fnm">${r.cnName||r.origName||""}</div>
       <div class="fmeta">${r.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${r.date?" · "+r.date:""}${r.refs.length?" · 引用:"+r.refs.join(", "):""}${r.parentsRaw.length?" · 上位:"+r.parentsRaw.join("; "):""}</div>
-      ${r.note?`<div class="fmeta" style="color:var(--blue);margin-top:6px">📝 ${esc(r.note)}</div>`:""}</div>`;
+      ${r.note?`<div class="fmeta" style="color:var(--blue);margin-top:6px">📝 ${esc(r.note)}</div>`:""}
+      <div class="fmeta" id="focus-ins" style="margin-top:6px"></div></div>`;
+    // 解读看板反向链接(懒加载,不阻塞)
+    loadRevLinks().then(()=>{
+      const el=$("#focus-ins");if(!el||!store[window._focusKey])return;
+      const ins=insightsFor(store[window._focusKey]);
+      if(ins.length)el.innerHTML="📖 相关解读:"+ins.slice(0,4).map(i=>
+        `<a href="${i.url?esc(i.url):'./kanban_system/output/kanban.html'}" target="_blank"
+          style="color:var(--blue)" title="${esc(i.title)}">${esc(String(i.title).slice(0,28))}</a>`).join(" · ");
+    });
   }else fw.innerHTML="";
 
   const max=Math.max(...dc,1);
@@ -2140,6 +2160,44 @@ function gotoChainByRegNo(regNo){
   gotoChain(hit.country,keyOf(hit));
 }
 
+/* ================= 解读看板反向链接(kanban_system/output/reverse_links.json) ================= */
+let _revLinks=null,_revLoading=false;
+/* 编号规范化为可比 token 集(UN R/GB/EU/FMVSS/GTR),双边同算从而互相匹配 */
+function canonRegKeys(s){
+  s=String(s||"");const out=new Set();let m;
+  [...s.matchAll(/(?:UN|ECE)[\s-]*(?:Regulation|Reg\.?|R)?\.?\s*(?:No\.?\s*)?(\d{1,3})(?!\d)/gi)].forEach(m=>out.add("UNR"+(+m[1])));
+  [...s.matchAll(/GB(?:\/T)?\s*[-]?\s*(\d{4,5})/g)].forEach(m=>out.add("GB"+m[1]));
+  [...s.matchAll(/(?:EU|EC)\s*\)?\s*(\d{4})\/(\d{1,4})/g)].forEach(m=>out.add("EU"+m[1]+"/"+(+m[2])));
+  [...s.matchAll(/(\d{1,4})\/(\d{4})/g)].forEach(m=>{if(+m[2]>1950)out.add("EU"+m[2]+"/"+(+m[1]));});
+  [...s.matchAll(/FMVSS\s*(?:No\.?\s*)?(\d{1,3})/gi)].forEach(m=>out.add("FMVSS"+(+m[1])));
+  [...s.matchAll(/GTR\s*(?:No\.?\s*)?(\d{1,2})/gi)].forEach(m=>out.add("GTR"+(+m[1])));
+  return out;
+}
+async function loadRevLinks(){
+  if(_revLinks||_revLoading)return _revLinks;
+  _revLoading=true;
+  try{
+    const r=await fetch("./kanban_system/output/reverse_links.json");
+    const d=await r.json();
+    _revLinks=[];
+    Object.values(d).forEach(e=>{
+      const keys=canonRegKeys((e.match_key||"")+" "+(e.reg_no||""));
+      if(keys.size&&e.insights&&e.insights.length)_revLinks.push({keys,insights:e.insights});
+    });
+  }catch(e){console.warn("rev links skip",e);_revLinks=[];}
+  _revLoading=false;
+  return _revLinks;
+}
+function insightsFor(r){
+  if(!_revLinks)return [];
+  const mine=canonRegKeys(String(r.regId||"")+" "+(r.refs||[]).join(" "));
+  if(!mine.size)return [];
+  const out=[];
+  _revLinks.forEach(e=>{for(const k of e.keys)if(mine.has(k)){out.push(...e.insights);break;}});
+  const seen=new Set();
+  return out.filter(i=>{if(seen.has(i.id))return false;seen.add(i.id);return true;});
+}
+
 /* ================= 认证体系金字塔(纯数据驱动 data/cert_pyramid.json) ================= */
 let CERT=null,_certLoading=false,_pyrCountry=null,_pyrLevel=0;
 const SYS_LABEL={own_full:"自有完整型式批准",hybrid:"混合型",recognition:"采信外部型"};
@@ -2255,6 +2313,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-tree")renderTree();
   if(t.dataset.p==="p-pyr")loadCert();
   if(t.dataset.p==="p-chain")openChainTab();
+  if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
 }));
 
 /* ================= 启动:打开网页即从数据库读取 ================= */

@@ -1,0 +1,1200 @@
+{
+  "EU 2021/1958": {
+    "reg_no": "EU 2021/1958",
+    "match_key": "EU 2021/1958",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "欧盟",
+        "sheet": "欧盟",
+        "row": 12,
+        "reg_no": "EU 2021/1958",
+        "cn_name": "智能速度辅助系统实施细则 (ISA)"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-001",
+        "title": "(EU) 2021/1958 ISA 智能速度辅助系统",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "GB 1589": {
+    "reg_no": "GB 1589",
+    "match_key": "GB 1589",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-002",
+        "title": "GB 1589 修订解读：增加车外雷达、摄像头及其支架的尺寸豁免",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "GB 48001-2026": {
+    "reg_no": "GB 48001-2026",
+    "match_key": "GB 48001",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-003",
+        "title": "GB 48001-2026《汽车车门把手安全技术要求》全文公开及解读",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "GB 15083": {
+    "reg_no": "GB 15083",
+    "match_key": "GB 15083",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-004",
+        "title": "GB 15083 座椅安全法规升级：加严头枕、引入零重力座椅、鞭打测试与假人碰撞",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "GB 4094": {
+    "reg_no": "GB 4094",
+    "match_key": "GB 4094",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-006",
+        "title": "车内开关与信号装置的中欧法规差异详解｜2026版",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 121": {
+    "reg_no": "UN Regulation No. 121",
+    "match_key": "UN R121",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 95,
+        "reg_no": "UN Regulation No. 121 ",
+        "cn_name": "关于车辆手操纵件、警示灯和指示器位置及识别的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 104,
+        "reg_no": "UN R121 ",
+        "cn_name": "关于车辆手操纵件、警示灯和指示器位置及识别的统一规定"
+      },
+      {
+        "file": "新加坡",
+        "sheet": "新加坡",
+        "row": 51,
+        "reg_no": "UN R121 ",
+        "cn_name": "关于车辆手操纵件、警示灯和指示器位置及识别的统一规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 42,
+        "reg_no": "UN R121 ",
+        "cn_name": "关于车辆手操纵件、警示灯和指示器位置及识别的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 55,
+        "reg_no": "UN R121",
+        "cn_name": "关于手控装置、信号装置及指示器位置和标识认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-006",
+        "title": "车内开关与信号装置的中欧法规差异详解｜2026版",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "动力蓄电池标牌标签及电子标识(征求意见稿)": {
+    "reg_no": "动力蓄电池标牌标签及电子标识(征求意见稿)",
+    "match_key": "动力蓄电池标牌标签",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-007",
+        "title": "动力电池标牌、标签及电子标识国标解读 | 中国的电池护照",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "EU 2023/1542": {
+    "reg_no": "EU 2023/1542",
+    "match_key": "EU 2023/1542",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "欧盟",
+        "sheet": "欧盟",
+        "row": 151,
+        "reg_no": "EU 2023/1542",
+        "cn_name": "电池和废旧电池管理法规"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-007",
+        "title": "动力电池标牌、标签及电子标识国标解读 | 中国的电池护照",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "GB/T 46926-2025": {
+    "reg_no": "GB/T 46926-2025",
+    "match_key": "GB/T 46926",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-008",
+        "title": "国内首个车载HUD法规正式发布：区域1和区域2要求详解",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "GB 11562-2025": {
+    "reg_no": "GB 11562-2025",
+    "match_key": "GB 11562",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-008",
+        "title": "国内首个车载HUD法规正式发布：区域1和区域2要求详解",
+        "type": "interpret",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-015",
+        "title": "驾驶员前方视野校核指南 | GB 11562-2025",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 176": {
+    "reg_no": "UN Regulation No. 176",
+    "match_key": "UN R176",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 147,
+        "reg_no": "UN Regulation No. 176",
+        "cn_name": "关于视野辅助系统（FVA）的车辆类型批准统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 156,
+        "reg_no": "UN R176",
+        "cn_name": "关于视野辅助系统（FVA）的车辆类型批准统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-008",
+        "title": "国内首个车载HUD法规正式发布：区域1和区域2要求详解",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "工业加速法案(提案)": {
+    "reg_no": "工业加速法案(提案)",
+    "match_key": "工业加速法案",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-009",
+        "title": "欧盟工业加速法案速读：强制技术转让、25%低碳钢铝及70%本地零部件要求",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "GB 15083-2019": {
+    "reg_no": "GB 15083-2019",
+    "match_key": "GB 15083",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-010",
+        "title": "汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 17": {
+    "reg_no": "UN Regulation No. 17",
+    "match_key": "UN R17",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 18,
+        "reg_no": "UN Regulation No. 17 ",
+        "cn_name": "关于车辆座椅、座椅固定装置及头枕认证的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 27,
+        "reg_no": "UN R17 ",
+        "cn_name": "关于车辆座椅、座椅固定装置及头枕认证的统一规定"
+      },
+      {
+        "file": "新加坡",
+        "sheet": "新加坡",
+        "row": 20,
+        "reg_no": "UN R17 ",
+        "cn_name": "关于车辆座椅、座椅固定装置及头枕认证的统一规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 12,
+        "reg_no": "UN R17 ",
+        "cn_name": "关于车辆座椅、座椅固定装置及头枕认证的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 21,
+        "reg_no": "UN R17",
+        "cn_name": "关于座椅、其固定装置及头枕认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-010",
+        "title": "汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "GB 11557-2026": {
+    "reg_no": "GB 11557-2026",
+    "match_key": "GB 11557",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-011",
+        "title": "汽车转向防伤害法规升级，12个变化点详解 | GB 11557-2026",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 12": {
+    "reg_no": "UN Regulation No. 12",
+    "match_key": "UN R12",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 13,
+        "reg_no": "UN Regulation No. 12 ",
+        "cn_name": "关于车辆转向机构对驾驶员碰撞保护性能的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 22,
+        "reg_no": "UN R12 ",
+        "cn_name": "关于车辆转向机构对驾驶员碰撞保护性能的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 16,
+        "reg_no": "UN R12",
+        "cn_name": "关于碰撞事件中保护驾驶员免受转向机构伤害认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-011",
+        "title": "汽车转向防伤害法规升级，12个变化点详解 | GB 11557-2026",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 48": {
+    "reg_no": "UN Regulation No. 48",
+    "match_key": "UN R48",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 44,
+        "reg_no": "UN Regulation No. 48",
+        "cn_name": "关于车辆照明和光信号装置安装认证的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 53,
+        "reg_no": "UN R48",
+        "cn_name": "关于车辆照明和光信号装置安装认证的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 59,
+        "reg_no": "UN R48",
+        "cn_name": "灯具安装"
+      },
+      {
+        "file": "新加坡",
+        "sheet": "新加坡",
+        "row": 34,
+        "reg_no": "UN R48",
+        "cn_name": "关于车辆照明和光信号装置安装认证的统一规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 22,
+        "reg_no": "UN R48",
+        "cn_name": "关于车辆照明和光信号装置安装认证的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 33,
+        "reg_no": "UN R48",
+        "cn_name": "关于车辆照明和光信号装置安装认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-012",
+        "title": "自动近光灯法规修订分析 | UN R48.8",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "GB 15082-2026": {
+    "reg_no": "GB 15082-2026",
+    "match_key": "GB 15082",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-014",
+        "title": "车速/里程表法规修订解读 | GB 15082-2026 与 UN R39.2",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 39": {
+    "reg_no": "UN Regulation No. 39",
+    "match_key": "UN R39",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 38,
+        "reg_no": "UN Regulation No. 39 ",
+        "cn_name": "车辆车速表和里程表设备及其安装的统一批准规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 47,
+        "reg_no": "UN R39 ",
+        "cn_name": "车辆车速表和里程表设备及其安装的统一批准规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 57,
+        "reg_no": "UN R39",
+        "cn_name": "车速表及里程表"
+      },
+      {
+        "file": "新加坡",
+        "sheet": "新加坡",
+        "row": 31,
+        "reg_no": "UN R39 ",
+        "cn_name": "车辆车速表和里程表设备及其安装的统一批准规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 18,
+        "reg_no": "UN R39 ",
+        "cn_name": "车辆车速表和里程表设备及其安装的统一批准规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 30,
+        "reg_no": "UN R39",
+        "cn_name": "关于车速表和里程表设备及其安装认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-014",
+        "title": "车速/里程表法规修订解读 | GB 15082-2026 与 UN R39.2",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 100.04": {
+    "reg_no": "UN Regulation No. 100.04",
+    "match_key": "UN R100",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 77,
+        "reg_no": "UN Regulation No. 100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 86,
+        "reg_no": "UN R100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 63,
+        "reg_no": "UN R100",
+        "cn_name": "电动汽车高压安全"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 37,
+        "reg_no": "UN R100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 50,
+        "reg_no": "UN R100",
+        "cn_name": "关于电动汽车特殊要求认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-016",
+        "title": "2025年度汽车法规全景拆解：UN R100.04与GB 38031实操指南与测试红线",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 13": {
+    "reg_no": "UN Regulation No. 13",
+    "match_key": "UN R13",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 14,
+        "reg_no": "UN Regulation No. 13 ",
+        "cn_name": "关于M、N和O类车辆制动性能的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 23,
+        "reg_no": "UN R13 ",
+        "cn_name": "关于M、N和O类车辆制动性能的统一规定"
+      },
+      {
+        "file": "新加坡",
+        "sheet": "新加坡",
+        "row": 17,
+        "reg_no": "UN R13 ",
+        "cn_name": "关于M、N和O类车辆制动性能的统一规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 8,
+        "reg_no": "UN R13 ",
+        "cn_name": "关于M、N和O类车辆制动性能的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 17,
+        "reg_no": "UN R13",
+        "cn_name": "关于M、N和O类车辆制动认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-016",
+        "title": "2025年度汽车法规全景拆解：UN R100.04与GB 38031实操指南与测试红线",
+        "type": "revision",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-018",
+        "title": "UN R79 转向法规：车企准入合规要点与常见误区",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "GB 38031-2025": {
+    "reg_no": "GB 38031-2025",
+    "match_key": "GB 38031",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-016",
+        "title": "2025年度汽车法规全景拆解：UN R100.04与GB 38031实操指南与测试红线",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 64": {
+    "reg_no": "UN Regulation No. 64",
+    "match_key": "UN R64",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 53,
+        "reg_no": "UN Regulation No. 64 ",
+        "cn_name": "关于车辆装备临时使用备胎单元及缺气保用轮胎的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 62,
+        "reg_no": "UN R64 ",
+        "cn_name": "关于车辆装备临时使用备胎单元及缺气保用轮胎的统一规定"
+      },
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 52,
+        "reg_no": "UN R64 ",
+        "cn_name": "关于车辆装备临时使用备胎单元及缺气保用轮胎的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-017",
+        "title": "【泰测 | 认证知识】UN R64法规：车辆应急轮胎及配套系统简析",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 141": {
+    "reg_no": "UN Regulation No. 141",
+    "match_key": "UN R141",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 114,
+        "reg_no": "UN Regulation No. 141",
+        "cn_name": "关于批准车辆胎压监测系统（TPMS）的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 123,
+        "reg_no": "UN R141",
+        "cn_name": "关于批准车辆胎压监测系统（TPMS）的统一规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 46,
+        "reg_no": "UN R141",
+        "cn_name": "关于批准车辆胎压监测系统（TPMS）的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-017",
+        "title": "【泰测 | 认证知识】UN R64法规：车辆应急轮胎及配套系统简析",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 79": {
+    "reg_no": "UN Regulation No. 79",
+    "match_key": "UN R79",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 62,
+        "reg_no": "UN Regulation No. 79 ",
+        "cn_name": "关于车辆转向设备批准的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 71,
+        "reg_no": "UN R79 ",
+        "cn_name": "关于车辆转向设备批准的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 61,
+        "reg_no": "UN R79",
+        "cn_name": "转向设备"
+      },
+      {
+        "file": "新加坡",
+        "sheet": "新加坡",
+        "row": 43,
+        "reg_no": "UN R79 ",
+        "cn_name": "关于车辆转向设备批准的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 43,
+        "reg_no": "UN R79",
+        "cn_name": "关于车辆转向设备认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-018",
+        "title": "UN R79 转向法规：车企准入合规要点与常见误区",
+        "type": "revision",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-020",
+        "title": "联合国法规UN R79/R171/R157对比学习",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 130": {
+    "reg_no": "UN Regulation No. 130",
+    "match_key": "UN R130",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 104,
+        "reg_no": "UN Regulation No. 130",
+        "cn_name": "关于车辆车道偏离报警系统（LDWS）认证的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 113,
+        "reg_no": "UN R130",
+        "cn_name": "关于车辆车道偏离报警系统（LDWS）认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-018",
+        "title": "UN R79 转向法规：车企准入合规要点与常见误区",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 100": {
+    "reg_no": "UN Regulation No. 100",
+    "match_key": "UN R100",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 77,
+        "reg_no": "UN Regulation No. 100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 86,
+        "reg_no": "UN R100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 63,
+        "reg_no": "UN R100",
+        "cn_name": "电动汽车高压安全"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 37,
+        "reg_no": "UN R100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 50,
+        "reg_no": "UN R100",
+        "cn_name": "关于电动汽车特殊要求认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-019",
+        "title": "巴西认证为何混合联合国、美国法规？ECE、UN R、CONTRAN与RESOLUTION的区别",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 95": {
+    "reg_no": "UN Regulation No. 95",
+    "match_key": "UN R95",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 73,
+        "reg_no": "UN Regulation No. 95 ",
+        "cn_name": "关于车辆侧面碰撞乘员保护的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 82,
+        "reg_no": "UN R95 ",
+        "cn_name": "关于车辆侧面碰撞乘员保护的统一规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 36,
+        "reg_no": "UN R95 ",
+        "cn_name": "关于车辆侧面碰撞乘员保护的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 48,
+        "reg_no": "UN R95",
+        "cn_name": "关于车辆侧面碰撞中乘员保护认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-019",
+        "title": "巴西认证为何混合联合国、美国法规？ECE、UN R、CONTRAN与RESOLUTION的区别",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "FMVSS 305": {
+    "reg_no": "FMVSS 305",
+    "match_key": "FMVSS 305",
+    "region": "美国",
+    "country": "美国",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "中东市场标准",
+        "sheet": "GSO-已更新",
+        "row": 196,
+        "reg_no": "FMVSS 305",
+        "cn_name": "电动汽车：电解液泄漏及电击防护"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 75,
+        "reg_no": "FMVSS 305",
+        "cn_name": "电力驱动车辆"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-019",
+        "title": "巴西认证为何混合联合国、美国法规？ECE、UN R、CONTRAN与RESOLUTION的区别",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "CONTRAN 721/2018": {
+    "reg_no": "CONTRAN 721/2018",
+    "match_key": "CONTRAN 721",
+    "region": "南美",
+    "country": "巴西",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-019",
+        "title": "巴西认证为何混合联合国、美国法规？ECE、UN R、CONTRAN与RESOLUTION的区别",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "CONTRAN 749/2018": {
+    "reg_no": "CONTRAN 749/2018",
+    "match_key": "CONTRAN 749",
+    "region": "南美",
+    "country": "巴西",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "南方共同市场",
+        "sheet": "巴西",
+        "row": 13,
+        "reg_no": "CONTRAN 749-2018",
+        "cn_name": "关于混合动力、插电式混合动力和电动车辆特定要求的法规"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-019",
+        "title": "巴西认证为何混合联合国、美国法规？ECE、UN R、CONTRAN与RESOLUTION的区别",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 171": {
+    "reg_no": "UN Regulation No. 171",
+    "match_key": "UN R171",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 142,
+        "reg_no": "UN Regulation No. 171",
+        "cn_name": "关于驾驶员控制辅助系统（DCAS）的车辆认证统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 151,
+        "reg_no": "UN R171",
+        "cn_name": "关于驾驶员控制辅助系统（DCAS）的车辆认证统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-020",
+        "title": "联合国法规UN R79/R171/R157对比学习",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 157": {
+    "reg_no": "UN Regulation No. 157",
+    "match_key": "UN R157",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 128,
+        "reg_no": "UN Regulation No. 157 ",
+        "cn_name": "关于车辆自动车道保持系统认证的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 137,
+        "reg_no": "UN R157 ",
+        "cn_name": "关于车辆自动车道保持系统认证的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 67,
+        "reg_no": "UN R157",
+        "cn_name": "自动车道保持系统(ALKS)"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-020",
+        "title": "联合国法规UN R79/R171/R157对比学习",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "CMVR": {
+    "reg_no": "CMVR",
+    "match_key": "CMVR",
+    "region": "南亚",
+    "country": "印度",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2024-001",
+        "title": "印度汽车准入认证要求概述：CMVR/AIS/IS 与 ARAI/BIS 体系",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "AIS 007": {
+    "reg_no": "AIS 007",
+    "match_key": "AIS 007",
+    "region": "南亚",
+    "country": "印度",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2024-001",
+        "title": "印度汽车准入认证要求概述：CMVR/AIS/IS 与 ARAI/BIS 体系",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "AIS 标准体系": {
+    "reg_no": "AIS 标准体系",
+    "match_key": "AIS",
+    "region": "南亚",
+    "country": "印度",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2024-001",
+        "title": "印度汽车准入认证要求概述：CMVR/AIS/IS 与 ARAI/BIS 体系",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "IS 标准(BIS)": {
+    "reg_no": "IS 标准(BIS)",
+    "match_key": "IS",
+    "region": "南亚",
+    "country": "印度",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "中东市场标准",
+        "sheet": "GSO-已更新",
+        "row": 106,
+        "reg_no": "ISO 15118-2:2014",
+        "cn_name": "道路车辆——车网通信接口——第2部分：网络和应用协议要求"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 76,
+        "reg_no": "ISO 19157",
+        "cn_name": "地理信息-数据质量"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 77,
+        "reg_no": "ISO 23273",
+        "cn_name": "氢燃料电池车危险防护"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 78,
+        "reg_no": "ISO/IEC 2382-1",
+        "cn_name": "信息技术-术语第1部分"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 79,
+        "reg_no": "ISO/IEC/IEEE 15288",
+        "cn_name": "系统及软件工程-生命周期过程"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 80,
+        "reg_no": "ISO/SAE 21434",
+        "cn_name": "道路车辆-网络安全工程"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 81,
+        "reg_no": "ISO/TS 19158",
+        "cn_name": "地理信息-数据供应质量保证"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 69,
+        "reg_no": "ISO 4209-1:2001",
+        "cn_name": "卡车和客车轮胎和轮辋(米制系列) 第1部分:轮胎(国际标准化组织2001年第6版,由PSQCA采纳)"
+      },
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 39,
+        "reg_no": "ISO 11446",
+        "cn_name": "牵引车与挂车间的电气连接（13芯）"
+      },
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 40,
+        "reg_no": "ISO 12098",
+        "cn_name": "牵引车与挂车间的电气连接（15芯）"
+      },
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 41,
+        "reg_no": "ISO 3779",
+        "cn_name": "车辆识别代号（VIN）内容与结构"
+      },
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 42,
+        "reg_no": "ISO 7638",
+        "cn_name": "牵引车与挂车间的电气连接（ABS/EBS）"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2024-001",
+        "title": "印度汽车准入认证要求概述：CMVR/AIS/IS 与 ARAI/BIS 体系",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  }
+}
