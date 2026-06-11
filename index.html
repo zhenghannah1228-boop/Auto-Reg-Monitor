@@ -369,7 +369,14 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button id="m-country" onclick="setNetMode('country')">单国内部</button>
       </div>
       <select class="csel" id="netcsel" style="display:none" onchange="buildNet()"></select>
-      <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">拖拽 · 滚轮缩放 · 点击看关联</span>
+      <select class="csel" id="nethub" onchange="buildNet()" title="只显示被至少 N 个国家共同引用的国际标准,数值越大图越简洁">
+        <option value="2">枢纽:被≥2国引用</option>
+        <option value="3">枢纽:被≥3国引用</option>
+        <option value="4" selected>枢纽:被≥4国引用</option>
+        <option value="6">枢纽:被≥6国引用</option>
+        <option value="8">枢纽:被≥8国引用(最简洁)</option>
+      </select>
+      <span style="font-size:11px;color:var(--muted);font-family:var(--mono)">拖拽 · 滚轮缩放 · 点击国家=只看它的关联</span>
     </div>
     <div class="netwrap">
       <canvas id="netcanvas"></canvas>
@@ -1026,41 +1033,47 @@ function setNetMode(m){
   $("#m-global").classList.toggle("on",m==="global");
   $("#m-country").classList.toggle("on",m==="country");
   $("#netcsel").style.display=m==="country"?"":"none";
+  $("#nethub").style.display=m==="global"?"":"none";
   buildNet();
 }
 function buildNet(){
   const rs=recs(); if(!rs.length)return;
   const nodes=[],edges=[],idx={};
+  const spread=netMode==="global"?900:600;  // 节点初始铺得更开,减少初始重叠
   function addNode(id,type,label,size,color,data){
     if(idx[id]!==undefined)return idx[id];
     idx[id]=nodes.length;
-    nodes.push({id,type,label,size,color,data,x:(Math.random()-.5)*600,y:(Math.random()-.5)*400,vx:0,vy:0});
+    nodes.push({id,type,label,size,color,data,x:(Math.random()-.5)*spread*1.5,y:(Math.random()-.5)*spread,vx:0,vy:0});
     return idx[id];
   }
   function addEdge(a,b,w,kind){edges.push({a,b,w:w||1,kind:kind||"ref"});}
 
   if(netMode==="global"){
+    const minDeg=+($("#nethub")&&$("#nethub").value||4);
     const bc=byCountry(),hubCount={};
     Object.entries(bc).forEach(([c,list])=>list.forEach(r=>r.refs.forEach(f=>{
       (hubCount[f]=hubCount[f]||{})[c]=(hubCount[f][c]||0)+1;})));
-    const hubs=Object.entries(hubCount).filter(([f,m])=>Object.keys(m).length>=2)
+    const hubs=Object.entries(hubCount).filter(([f,m])=>Object.keys(m).length>=minDeg)
       .sort((a,b)=>Object.keys(b[1]).length-Object.keys(a[1]).length).slice(0,40);
-    Object.entries(bc).forEach(([c,list])=>
-      addNode("C:"+c,"country",c,Math.min(9+Math.sqrt(list.length)*1.6,26),"#1a2420",{count:list.length}));
+    const hubCtys=new Set();hubs.forEach(([f,m])=>Object.keys(m).forEach(c=>hubCtys.add(c)));
+    // 只显示与所选枢纽有连接的国家,孤立国家不画(进一步减负)
+    Object.entries(bc).forEach(([c,list])=>{ if(!hubCtys.has(c))return;
+      addNode("C:"+c,"country",c,Math.min(9+Math.sqrt(list.length)*1.6,26),"#1a2420",{count:list.length}); });
     hubs.forEach(([f,m])=>{
       const deg=Object.keys(m).length;
       let col="#c6502a";
       if(/^UN R/.test(f))col="#3a6b8a";else if(/^GTR/.test(f))col="#5a8a4a";
       else if(/^FMVSS/.test(f))col="#7a5ba0";else if(/^GB/.test(f))col="#c79a2e";
       const h=addNode("H:"+f,"hub",f,Math.min(6+deg*1.4,20),col,{deg});
-      Object.entries(m).forEach(([c,n])=>addEdge(idx["C:"+c],h,Math.min(n,6)));
+      Object.entries(m).forEach(([c,n])=>{if(idx["C:"+c]!==undefined)addEdge(idx["C:"+c],h,Math.min(n,6));});
     });
     $("#netlegend").innerHTML=`
       <div class="li"><span class="sw" style="background:#1a2420"></span>国家(大小∝法规量)</div>
       <div class="li"><span class="sw" style="background:#3a6b8a"></span>UN R</div>
       <div class="li"><span class="sw" style="background:#5a8a4a"></span>GTR</div>
       <div class="li"><span class="sw" style="background:#7a5ba0"></span>FMVSS</div>
-      <div class="li"><span class="sw" style="background:#c79a2e"></span>GB 国标</div>`;
+      <div class="li"><span class="sw" style="background:#c79a2e"></span>GB 国标</div>
+      <div class="li" style="color:var(--muted)">仅显示被≥${minDeg}国共同引用的标准 · 放大查看标准编号</div>`;
   }else{
     const c=$("#netcsel").value||Object.keys(byCountry())[0];
     const list=(byCountry()[c]||[]);
@@ -1098,20 +1111,24 @@ function buildNet(){
 function step(){
   const N=net.nodes,E=net.edges; if(!N.length)return;
   const alpha=warm>0?Math.min(warm/240,1)*0.9+0.05:0.02;
+  const glob=netMode==="global";
+  const charge=glob?3400:1500;        // 跨国图斥力更强,节点摊得更开
+  const rest=glob?115:70;             // 边的自然长度更长
+  const center=glob?0.0022:0.004;     // 向心力更弱,避免全堆中心
   for(let i=0;i<N.length;i++)for(let j=i+1;j<N.length;j++){
     const a=N[i],b=N[j];
     let dx=a.x-b.x,dy=a.y-b.y,d2=dx*dx+dy*dy; if(d2<1)d2=1;
-    const f=1400*alpha/d2,d=Math.sqrt(d2);
+    const f=charge*alpha/d2,d=Math.sqrt(d2);
     dx/=d;dy/=d;a.vx+=dx*f;a.vy+=dy*f;b.vx-=dx*f;b.vy-=dy*f;
   }
   E.forEach(e=>{
     const a=N[e.a],b=N[e.b];
     const dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1;
-    const f=(d-(e.kind==="parent"?55:70))*0.012*alpha*Math.min(e.w,3);
+    const f=(d-(e.kind==="parent"?55:rest))*0.012*alpha*Math.min(e.w,3);
     a.vx+=dx/d*f;a.vy+=dy/d*f;b.vx-=dx/d*f;b.vy-=dy/d*f;
   });
   N.forEach(n=>{
-    n.vx-=n.x*0.004*alpha;n.vy-=n.y*0.004*alpha;
+    n.vx-=n.x*center*alpha;n.vy-=n.y*center*alpha;
     if(n!==dragN){n.x+=n.vx;n.y+=n.vy;}
     n.vx*=0.82;n.vy*=0.82;
   });
@@ -1150,9 +1167,14 @@ function draw(){
     ctx.fillStyle=n.color;
     ctx.beginPath();ctx.arc(n.x,n.y,n.size,0,7);ctx.fill();
     if(n.type==="hub"){ctx.strokeStyle="#fcfbf6";ctx.lineWidth=1.5/view.k;ctx.stroke();}
-    const showLbl=n.type!=="reg"||view.k>1.4||i===selNode||neigh.has(i);
+    // 标签:国家名常显;枢纽/法规标签只在放大或选中/相邻时显示,降低文字噪音
+    const sel=i===selNode||neigh.has(i);
+    const showLbl=sel||(n.type==="country"?(selNode===null||sel):(view.k>1.25));
     if(showLbl&&!dim){
       ctx.font=(n.type==="country"?"600 11px":"10px")+" 'IBM Plex Mono',Menlo,monospace";
+      // 白色描边底,密集处也能读清
+      ctx.lineWidth=3/view.k;ctx.strokeStyle="rgba(244,241,232,.92)";ctx.lineJoin="round";
+      ctx.strokeText(n.label,n.x+n.size+3,n.y+3.5);
       ctx.fillStyle="#1a2420";
       ctx.fillText(n.label,n.x+n.size+3,n.y+3.5);
     }
