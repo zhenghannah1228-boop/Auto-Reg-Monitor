@@ -5,7 +5,7 @@
 ## 更新日志
 - **v1.2**：① 新增「认证金字塔」能力——`decode_pyramid.py` 把 type=system 推文解码成
   4层金字塔(L1母法→L4证书)并 merge 进 `data/pyramids.json`(一国一塔)；
-  `build_pyramid.py` 渲染成与监控台 09 tab 同款视图(`output/pyramid_view.html`)。
+  `build_pyramid.py` 渲染独立视图(已弃用,2026-06 起 system 推文信息直接 merge 进监控台 09 数据源 `data/cert_pyramid.json`)。
   已含印度/巴西(解码自推文)、马来西亚(范本)三塔。
   ② 编号识别扩到新兴市场：AIS/CMVR(印度)、KMVSS(韩)、TIS(泰)、SNI(印尼)、SASO/GSO(中东)。
 - v1.1：新增 system 类型；匹配器支持系列号/修订号；CONTRAN/INMETRO/FMVSS 识别。

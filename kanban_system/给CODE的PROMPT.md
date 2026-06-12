@@ -42,19 +42,21 @@
 - 讲"修订/升级/新增/变化点/新旧/修订版" → **revision**
 - 其余单一法规逐条解读 → **interpret**
 
-## 体系科普类(type=system) → 解码进「09 认证金字塔」
+## 体系科普类(type=system) → 直接编进「09 认证金字塔」(业主指示,2026-06 起)
 
-如果这篇推文 type 被判为 `system`（讲某国认证体系/机构层级/编号区别），多做一步把它解码成金字塔：
+如果这篇推文 type 被判为 `system`(讲某国认证体系/机构层级/编号区别),**不再生成独立的
+pyramid_view,而是把推文信息直接 merge 进 09 标签页的数据源 `data/cert_pyramid.json`**:
 
-1. `scripts/decode_pyramid.py --scan`（或 `--id INS-XXX`）把它解码成对应国家的金字塔，merge 进 `data/pyramids.json`。
-   - 一国一塔：国家已有塔则补 sources + 合并新法规编号；国家没有则建4层骨架。
-2. **精修金字塔**（这步是 LLM 的活，骨架里全是【待精修】占位）：根据推文要点填4层——
-   - L1 母法/顶端、L2 技术基准、L3 审查/测试、L4 批准/证书；每层填 name_cn/name_en/detail/regulations。
-   - 填 `country_type`(自有型/采纳型/混合型)、`tagline`、`authorities`(机构名+abbr+desc)、`core_regulations`(按整车/排放/零部件分组)。
-   - 判断层级归属靠语义：母法/法令/Act/决议→L1；UN R/ECE/FMVSS/AIS/标准→L2；测试/实验室/审核→L3；证书/型式批准/COC→L4。
-3. `scripts/build_pyramid.py` 重建金字塔视图(`output/pyramid_view.html`)，`--check`(decode_pyramid)可校验法规挂链。
-
-> 范本：印度塔(INS-2024-001解码)、巴西塔(INS-2026-019解码)、马来西亚塔(手工录入)，照这个详细程度精修。
+1. **国家已有条目** → 丰富/校对(LLM 的活):
+   - 把推文增量写进对应层的 `desc`/`refs`(新法规编号补进 refs,带名称);
+   - 与推文冲突或更精确的口径,追加到 `external_recognition.note`,统一用
+     **【推文校对】/【推文校丰】** 前缀标注来源性质;
+   - 新机构补进 `sections.authorities`;`sources` 追加 `推文INS-XXX`。
+2. **国家没有条目** → 新建标准四层(L1 母法→L2 技术基准→L3 审查/测试→L4 证书),
+   `confidence` 按推文信息量定(通常 C,note 注明"基于推文的框架性描述,待官方资料核实")。
+3. 改完用 jsdom/浏览器抽查该国渲染(层数/徽标/无 undefined),数据即视图,无需重建脚本。
+4. `decode_pyramid.py`/`build_pyramid.py` 与 `data/pyramids.json` 已弃用为中间草稿工具,
+   不再对外展示(pyramid_view.html 已从站点移除)。
 
 ## 常见需要人工兜底的情况
 - **新法规体系编号**：compile_tweet 已内置 UN R/GB/EU/FMVSS/ADR/CONTRAN/INMETRO/AIS/CMVR/KMVSS/TIS/SNI/SASO/GSO 识别。遇到再没覆盖的(如某国独有标识)，手动补进 `regulations`，并在 `matcher.py`/`compile_tweet.py` 的 `REG_PATTERNS` 加一条。
