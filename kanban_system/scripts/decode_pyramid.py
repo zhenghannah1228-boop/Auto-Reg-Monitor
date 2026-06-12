@@ -45,15 +45,21 @@ ROLE_HINTS = {
 }
 
 def find_country(insight):
-    blob = insight['title'] + ' ' + insight.get('summary','')
+    # 优先级：标题(主角最强信号) > region_focus首个具体国 > 摘要
+    # 摘要常含对照国(如马来西亚/泰国),不能压过标题主体
+    title = insight['title']
     for c in COUNTRY_HINTS:
-        if c in blob:
+        if c in title:
             return c
     rf = insight.get('region_focus', [])
-    # region_focus 可能是大区，取第一个非通用
+    skip = ('通用','欧洲','美国','南美','东盟','中东','非洲','大洋洲')
     for r in rf:
-        if r not in ('通用','欧洲','美国','南美'):
+        if r not in skip:
             return r
+    summary = insight.get('summary','')
+    for c in COUNTRY_HINTS:
+        if c in summary:
+            return c
     return rf[0] if rf else '未知'
 
 def extract_authorities(insight):

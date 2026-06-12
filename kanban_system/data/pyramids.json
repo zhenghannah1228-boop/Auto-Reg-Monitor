@@ -319,6 +319,124 @@
       ],
       "decoded_from_tweet": true,
       "last_updated": "2026-06-11"
+    },
+    "印尼": {
+      "country": "印尼",
+      "country_type": "自有型(国家VTA,正向采纳UN-R过渡)",
+      "data_grade": "B",
+      "tagline": "印尼现行为自有国家型式认证(Uji Tipe)体系,法律链 UU 22/2009→PP 55/2012→PM 33/2018,路试门槛仍沿用1993年KM 63;正按五步路线图(修法→建技术服务→渐进采纳UN-R→加入1958协定→能力建设)向UN法规与东盟MRA靠拢。",
+      "layers": [
+        {
+          "level": "L1",
+          "role": "母法 / 顶端",
+          "name_cn": "道路交通与运输法 UU 22/2009",
+          "name_en": "Law No. 22/2009 on Road Traffic and Transport",
+          "detail": "强制所有上路车辆经型式认证(Uji Tipe)与定期检验(Uji Berkala),是印尼车辆准入的法律基座,授权交通部(Kemenhub)实施。",
+          "regulations": [
+            {
+              "region": "东南亚",
+              "country": "印度尼西亚",
+              "reg_no": "UU 22/2009",
+              "match_key": "UU 22/2009"
+            }
+          ]
+        },
+        {
+          "level": "L2",
+          "role": "技术基准 / 实施条例",
+          "name_cn": "PP 55/2012 + PM 33/2018 + KM 63/1993(过时)+ 渐进采纳UN-R",
+          "name_en": "PP 55/2012, PM 33/2018, KM 63/1993 & progressively adopted UN-Rs",
+          "detail": "PP 55/2012 细化型式认证(含实车测试与设计/工程研究);PM 33/2018 规范VTA;路试门槛仍沿用1993年部长令KM 63/1993(已过时);路线图将优先按东盟MRA首阶段19项UN-R渐进采纳安全/环保标准(如R66/R94/R95),尚未对接WVTA整车型式批准原则。",
+          "regulations": [
+            {
+              "region": "东南亚",
+              "country": "印度尼西亚",
+              "reg_no": "PP 55/2012",
+              "match_key": "PP 55/2012"
+            },
+            {
+              "region": "东南亚",
+              "country": "印度尼西亚",
+              "reg_no": "PM 33/2018",
+              "match_key": "PM 33/2018"
+            },
+            {
+              "region": "东南亚",
+              "country": "印度尼西亚",
+              "reg_no": "KM 63/1993",
+              "match_key": "KM 63/1993"
+            },
+            {
+              "region": "东盟",
+              "country": "东盟",
+              "reg_no": "ASEAN MRA (APMRA, 19项UN-R)",
+              "match_key": "ASEAN MRA"
+            },
+            {
+              "region": "欧洲",
+              "country": "UN ECE",
+              "reg_no": "UN Regulation No. 66",
+              "match_key": "UN R66"
+            },
+            {
+              "region": "欧洲",
+              "country": "UN ECE",
+              "reg_no": "UN Regulation No. 94",
+              "match_key": "UN R94"
+            },
+            {
+              "region": "欧洲",
+              "country": "UN ECE",
+              "reg_no": "UN Regulation No. 95",
+              "match_key": "UN R95"
+            }
+          ]
+        },
+        {
+          "level": "L3",
+          "role": "审查 / 测试",
+          "name_cn": "实车型式测试(BPLJSKB)+ 拟建并认可的技术服务TS",
+          "name_en": "Uji Tipe physical testing by BPLJSKB + Technical Services (ISO 17025/17020/17021)",
+          "detail": "由交通部与BPLJSKB执行实车技术与适路性测试,以及车身/货箱/挂车/改装车的设计工程研究;路线图将建设并认可符合 ISO 17025/17020/17021 的技术服务(TS),并依托Bekasi新建的BPLJSKB试验场开展UN-R测试试点。",
+          "regulations": []
+        },
+        {
+          "level": "L4",
+          "role": "批准 / 证书",
+          "name_cn": "型式认证证书(Uji Tipe / VTA)",
+          "name_en": "Type Approval Certificate (Uji Tipe)",
+          "detail": "新车、改装车与进口车经型式认证测试合格后,由交通部签发型式认证(Uji Tipe)证书作为市场准入依据;在用车另须定期检验(Uji Berkala);现阶段尚不实施1958协定下的型式批准互认。",
+          "regulations": []
+        }
+      ],
+      "authorities": [
+        {
+          "name": "印度尼西亚交通部",
+          "abbr": "Kemenhub/MoT",
+          "desc": "车辆型式认证(Uji Tipe)与定期检验主管,依UU 22/2009授权审批并签发型式认证。"
+        },
+        {
+          "name": "陆路交通工具与环境测试中心",
+          "abbr": "BPLJSKB",
+          "desc": "执行实车型式测试与适路性测试;在Bekasi新建试验场,拟升级为UN-R测试与技术服务能力。"
+        },
+        {
+          "name": "东盟标准与合格评定委员会(汽车产品MRA)",
+          "abbr": "ASEAN ACCSQ/APMRA",
+          "desc": "东盟汽车产品互认安排(2022-01-15生效),以19项UN-R为首阶段统一技术依据,为印尼采纳UN-R提供区域框架。"
+        }
+      ],
+      "core_regulations": {
+        "整车": "UU 22/2009 / PP 55/2012 / PM 33/2018 下的Uji Tipe实车技术与适路性要求(门槛部分仍依KM 63/1993)",
+        "排放与安全": "路线图优先采纳东盟MRA首阶段19项UN-R(安全R94/R95等、环保),目前UN-R采纳有限",
+        "零部件": "现行无独立零部件型式认证体系;路线图参考马来西亚CTA(零部件须先于整车VTA批准)模式"
+      },
+      "decoded_from": [
+        "INS-2026-021"
+      ],
+      "sources": [
+        "推文INS-2026-021 / Sandro Mihradi(ITB)GIIAS 2025 报告"
+      ]
     }
   }
 }

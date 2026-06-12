@@ -1028,6 +1028,12 @@
         "title": "巴西认证为何混合联合国、美国法规？ECE、UN R、CONTRAN与RESOLUTION的区别",
         "type": "system",
         "url": ""
+      },
+      {
+        "id": "INS-2026-021",
+        "title": "印尼车辆型式认证(VTA)体系及向UN法规靠拢路线图｜GIIAS 2025",
+        "type": "system",
+        "url": ""
       }
     ]
   },
@@ -1315,6 +1321,199 @@
       {
         "id": "INS-2024-001",
         "title": "印度汽车准入认证要求概述：CMVR/AIS/IS 与 ARAI/BIS 体系",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UU 22/2009": {
+    "reg_no": "UU 22/2009",
+    "match_key": "UU 22/2009",
+    "region": "东南亚",
+    "country": "印度尼西亚",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "印度尼西亚",
+        "sheet": "印尼",
+        "row": 2,
+        "reg_no": "UU 22/2009",
+        "cn_name": "道路交通与运输法"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-021",
+        "title": "印尼车辆型式认证(VTA)体系及向UN法规靠拢路线图｜GIIAS 2025",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "PP 55/2012": {
+    "reg_no": "PP 55/2012",
+    "match_key": "PP 55/2012",
+    "region": "东南亚",
+    "country": "印度尼西亚",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "印度尼西亚",
+        "sheet": "印尼",
+        "row": 3,
+        "reg_no": "PP  55/2012",
+        "cn_name": "印度尼西亚政府关于车辆的条例"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-021",
+        "title": "印尼车辆型式认证(VTA)体系及向UN法规靠拢路线图｜GIIAS 2025",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "PM 33/2018": {
+    "reg_no": "PM 33/2018",
+    "match_key": "PM 33/2018",
+    "region": "东南亚",
+    "country": "印度尼西亚",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "印度尼西亚",
+        "sheet": "印尼",
+        "row": 5,
+        "reg_no": "PM 33/2018（母法）",
+        "cn_name": "机动车辆型式试验"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-021",
+        "title": "印尼车辆型式认证(VTA)体系及向UN法规靠拢路线图｜GIIAS 2025",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "ASEAN MRA (APMRA)": {
+    "reg_no": "ASEAN MRA (APMRA)",
+    "match_key": "ASEAN MRA",
+    "region": "东盟",
+    "country": "东盟",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 5,
+        "reg_no": "ASEAN MRA Automotive",
+        "cn_name": "东盟汽车产品合格评定互认协议"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-021",
+        "title": "印尼车辆型式认证(VTA)体系及向UN法规靠拢路线图｜GIIAS 2025",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 66": {
+    "reg_no": "UN Regulation No. 66",
+    "match_key": "UN R66",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 55,
+        "reg_no": "UN Regulation No. 66 ",
+        "cn_name": "关于大型客车上部结构强度认证的统一技术规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 64,
+        "reg_no": "UN R66 ",
+        "cn_name": "关于大型客车上部结构强度认证的统一技术规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 28,
+        "reg_no": "UN R66 ",
+        "cn_name": "关于大型客车上部结构强度认证的统一技术规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 39,
+        "reg_no": "UN R66",
+        "cn_name": "关于大型客车上部结构强度认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-021",
+        "title": "印尼车辆型式认证(VTA)体系及向UN法规靠拢路线图｜GIIAS 2025",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 94": {
+    "reg_no": "UN Regulation No. 94",
+    "match_key": "UN R94",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 72,
+        "reg_no": "UN Regulation No. 94 ",
+        "cn_name": "关于车辆正面碰撞中乘员保护的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 81,
+        "reg_no": "UN R94 ",
+        "cn_name": "关于车辆正面碰撞中乘员保护的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 62,
+        "reg_no": "UN R94",
+        "cn_name": "正面碰撞保护"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 35,
+        "reg_no": "UN R94 ",
+        "cn_name": "关于车辆正面碰撞中乘员保护的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 47,
+        "reg_no": "UN R94",
+        "cn_name": "关于车辆正面碰撞中乘员保护认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-021",
+        "title": "印尼车辆型式认证(VTA)体系及向UN法规靠拢路线图｜GIIAS 2025",
         "type": "system",
         "url": ""
       }
