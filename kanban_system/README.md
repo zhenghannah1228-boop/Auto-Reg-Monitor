@@ -76,7 +76,7 @@ compile_tweet 会自动：提取标题/日期/作者、识别法规编号、判�
 
 ### 重建看板与链接
 ```bash
-python3 scripts/build_kanban.py          # 刷新 kanban.html 和 reverse_links
+python3 scripts/build_kanban.py(随后跑 scripts/build_knowledge.py 重建知识体系视图 output/knowledge.html)          # 刷新 kanban.html 和 reverse_links
 python3 scripts/write_back_to_excel.py   # 把链接写进法规库副本（output/library_linked/）
 python3 scripts/write_back_to_excel.py --inplace  # 谨慎：直接改 /mnt/project 原文件
 ```

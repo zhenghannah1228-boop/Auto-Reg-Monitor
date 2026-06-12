@@ -16,7 +16,7 @@
 >    - 核对 `dimensions`：10 维度编号是否贴切（1整车准入/2环保/3射频/4电池/5补贴/6网安/7ADAS/8标签/9注册监管/10随车工具）。
 >    - **补全 `summary`（一句话）、`topics`（3-5个标签）、`key_points`（2-4条核心要点，用我推文里的实际数据/限值/日期，不要泛泛）。**
 >    - 有原文链接就填 `url`；填完把 `needs_review` 改成 `false`。
-> 3. 跑 `scripts/build_kanban.py` 重建看板和反向链接，再跑 `scripts/write_back_to_excel.py` 把"解读链接"列写回法规库副本。
+> 3. 跑 `scripts/build_kanban.py(随后跑 scripts/build_knowledge.py 重建知识体系视图 output/knowledge.html)` 重建看板和反向链接，再跑 `scripts/write_back_to_excel.py` 把"解读链接"列写回法规库副本。
 > 4. 给我一句话小结：新增几篇、各什么类型、命中法规库几条、有哪些编号是法规库里还没有的（待补充）。
 
 ---

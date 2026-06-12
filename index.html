@@ -582,11 +582,15 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="pane" id="p-ins">
     <div class="netctrl">
-      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">法规解读推文看板(kanban_system 编译)· 四类:对比/文本/修订/体系</span>
-      <a class="btn light" style="text-decoration:none" href="./kanban_system/output/kanban.html" target="_blank">⤢ 新窗口打开</a>
+      <div class="seg">
+        <button id="iv-know" class="on" onclick="setInsView('knowledge')">知识体系</button>
+        <button id="iv-flow" onclick="setInsView('kanban')">推文流</button>
+      </div>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">知识体系=维度→主题→法规(合并要点/跨国对照/缺口) · 推文流=按类型四列</span>
+      <a class="btn light" style="text-decoration:none" id="ins-open" href="./kanban_system/output/knowledge.html" target="_blank">⤢ 新窗口打开</a>
       <a class="btn light" style="text-decoration:none" href="./kanban_system/output/pyramid_view.html" target="_blank">⤢ 推文解码金字塔</a>
     </div>
-    <iframe id="ins-frame" data-src="./kanban_system/output/kanban.html"
+    <iframe id="ins-frame" data-src="./kanban_system/output/knowledge.html"
       style="width:100%;height:calc(100vh - 220px);min-height:560px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>
   </div>
 
@@ -2304,6 +2308,15 @@ function renderPyrSections(d){
         ${er.note?`<dt>备注</dt><dd>${esc(er.note)}</dd>`:""}
       </dl></div>
   </div>`;
+}
+
+/* 11 解读看板:知识体系/推文流 视图切换 */
+function setInsView(m){
+  const url="./kanban_system/output/"+(m==="knowledge"?"knowledge.html":"kanban.html");
+  $("#iv-know").classList.toggle("on",m==="knowledge");
+  $("#iv-flow").classList.toggle("on",m==="kanban");
+  const f=$("#ins-frame");f.dataset.src=url;f.src=url;
+  $("#ins-open").href=url;
 }
 
 /* tabs */
