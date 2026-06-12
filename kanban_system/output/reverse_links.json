@@ -1518,5 +1518,133 @@
         "url": ""
       }
     ]
+  },
+  "AIS 156": {
+    "reg_no": "AIS 156",
+    "match_key": "AIS 156",
+    "region": "南亚",
+    "country": "印度",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN 38.3": {
+    "reg_no": "UN 38.3",
+    "match_key": "UN 38.3",
+    "region": "全球",
+    "country": "联合国(运输)",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "IEC 62133": {
+    "reg_no": "IEC 62133",
+    "match_key": "IEC 62133",
+    "region": "国际",
+    "country": "IEC",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "IS 16893": {
+    "reg_no": "IS 16893",
+    "match_key": "IS 16893",
+    "region": "南亚",
+    "country": "印度",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "GB 38031": {
+    "reg_no": "GB 38031",
+    "match_key": "GB 38031",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "GB 31241": {
+    "reg_no": "GB 31241",
+    "match_key": "GB 31241",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UL 2271": {
+    "reg_no": "UL 2271",
+    "match_key": "UL 2271",
+    "region": "北美",
+    "country": "美国/北美",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UL 2580": {
+    "reg_no": "UL 2580",
+    "match_key": "UL 2580",
+    "region": "北美",
+    "country": "美国/北美",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-022",
+        "title": "全球电池认证标准速览:印度/中国/北美/国际六大锂电池安全合规标准｜EV·储能·消费电子",
+        "type": "compare",
+        "url": ""
+      }
+    ]
   }
 }
