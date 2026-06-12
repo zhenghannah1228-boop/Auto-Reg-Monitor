@@ -536,13 +536,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
           border-radius:6px;padding:8px 12px;background:var(--panel);color:var(--ink);outline:none">
         <input id="memo-cty" list="memo-ctylist" placeholder="国家/地区(可选)" class="csel" style="min-width:150px" autocomplete="off">
         <datalist id="memo-ctylist"></datalist>
-        <input id="memo-date" type="date" class="csel" title="时间标签:到期日 / 关注日(可选)">
+        <input id="memo-url" type="text" placeholder="链接(可选)" autocomplete="off"
+          style="width:170px;font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);
+          border-radius:6px;padding:8px 12px;background:var(--panel);color:var(--ink);outline:none">
+        <input id="memo-date" type="date" class="csel" title="时间标签:到期日 / 关注日(可选,可不填)">
         <input id="memo-author" type="text" placeholder="署名(可选)" autocomplete="off"
           style="width:100px;font-family:var(--sans);font-size:12.5px;border:1px solid var(--line);
           border-radius:6px;padding:8px 12px;background:var(--panel);color:var(--ink);outline:none">
         <button class="btn light" onclick="addMemo()">✚ 添加备忘</button>
       </div>
-      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.8">时间标签:到期日 ≤ 今天标红「已到期」,7 天内标黄「临近」 · 国家/地区可输入清单外的自定义标签(如 GSO、东盟)</div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.8">日期、链接、国家、署名均为可选 · 时间标签:到期日 ≤ 今天标红「已到期」,7 天内标黄「临近」 · 国家/地区可输入清单外的自定义标签(如 GSO、东盟) · 列表中 📌 置顶/取消置顶</div>
     </div>
     <div class="card">
       <h3>备忘列表 <span class="hint">勾选=完成 · ✕=删除(共享库,删除影响全团队)</span></h3>
@@ -1060,7 +1063,7 @@ function renderDrafts(){
     return `<div class="di">
     <span class="sign" style="color:var(--warn)">△</span><span class="dc">${r.country}</span>
     <span class="did" style="cursor:pointer" onclick="gotoCountry('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
-    <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}${r.note?` <span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
+    <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}${r.note?` <span class="rtag parent" title="${esc(noteBrief(r.note))}">📝</span>`:""}</span>
     <button class="upbtn" onclick="gotoChain('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')" title="版本时间链">⏱</button>
     <span class="dc">${src}</span><span class="dc">${r.date||""}</span></div>`;}).join("")
     +(list.length>200?'<div class="bigmsg">仅显示前 200 条草案</div>':"")
@@ -1116,7 +1119,7 @@ function renderCountry(){
         <button class="upbtn" onclick="gotoChain('${r.country}','${fk}')" title="查看这条法规的版本时间链(发布→实施→新认证→在产)">⏱ 版本链</button></div>
       <div class="fnm">${r.cnName||r.origName||""}</div>
       <div class="fmeta">${r.dims.map(d=>DIMS[d]).join(" · ")||"未分维度"}${r.date?" · "+r.date:""}${r.refs.length?" · 引用:"+r.refs.join(", "):""}${r.parentsRaw.length?" · 上位:"+r.parentsRaw.join("; "):""}</div>
-      ${r.note?`<div class="fmeta" style="color:var(--blue);margin-top:6px">📝 ${esc(r.note)}</div>`:""}
+      ${r.note?`<div class="fmeta" style="color:var(--blue);margin-top:6px">📝 ${noteHtml(r.note)}</div>`:""}
       <div class="fmeta" id="focus-ins" style="margin-top:6px"></div></div>`;
     // 解读看板反向链接(懒加载,不阻塞)
     loadRevLinks().then(()=>{
@@ -1139,7 +1142,7 @@ function renderCountry(){
   const dated=list.filter(r=>r.date).sort((a,b)=>b.date.localeCompare(a.date)).slice(0,10);
   if(dated.length){
     $("#cty-rev").innerHTML=dated.map(r=>`<div class="ri">
-      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}${r.note?`<span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}
+      <div class="top"><span class="rid">${r.regId||"—"}${r.amend?`<span class="rtag amd">${r.amend}</span>`:""}${isDraft(r)?'<span class="rtag">草案</span>':""}${r.note?`<span class="rtag parent" title="${esc(noteBrief(r.note))}">📝</span>`:""}
         <button class="upbtn" onclick="gotoChain('${r.country}','${keyOf(r).replace(/'/g,"\\'")}')" title="版本时间链">⏱</button></span>
       <span class="rdate">${r.date}</span></div>
       <div class="rnm">${r.cnName||r.origName||""}</div></div>`).join("");
@@ -1183,24 +1186,90 @@ function renderManage(c,list){
     <div class="dlist" style="max-height:420px;overflow-y:auto">${
       list.map(r=>`<div class="di"><input type="checkbox" class="delck" value="${r.id||""}" ${r.id?"":"disabled"}>
         <span class="did">${r.regId||"—"}</span>
-        <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}${r.note?` <span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}</span>
+        <span class="dnm">${(r.cnName||r.origName||"").slice(0,46)}${r.note?` <span class="rtag parent" title="${esc(noteBrief(r.note))}">📝</span>`:""}</span>
         <span class="dc" style="min-width:0">${(r.sourceFile||r.source||"").slice(0,28)}</span>
         <button class="upbtn" onclick="editNote('${keyOf(r).replace(/'/g,"\\'")}')" title="添加/修改备注(团队共享)">✎</button></div>`).join("")}</div>`;
 }
-/* 单条法规备注:团队共享,存 regulations.note;重复导入不会覆盖(导入不带该列) */
-async function editNote(key){
+/* 单条法规备注:团队共享,存 regulations.note;重复导入不会覆盖(导入不带该列)
+   备注文本里以独立行 [img]URL 标记粘贴的截图(传到 Supabase 公开桶 note-images) */
+function noteHtml(note){ // 焦点卡完整渲染:文本+图片
+  return String(note||"").split(/(\[img\]\S+)/).map(seg=>{
+    const m=seg.match(/^\[img\](\S+)$/);
+    if(m)return `<img src="${esc(m[1])}" loading="lazy" style="display:block;max-width:100%;max-height:280px;margin:6px 0;border:1px solid var(--line);border-radius:6px;cursor:zoom-in" onclick="window.open(this.src,'_blank')">`;
+    return esc(seg);
+  }).join("");
+}
+function noteBrief(note){ // 列表 📝 角标的悬停文字:图片标记折叠为「[图片]」
+  return String(note||"").replace(/\[img\]\S+/g,"[图片]").replace(/\s+/g," ").trim();
+}
+async function uploadNoteImg(blob){ // 压缩到 ≤1280px JPEG 再上传,控制流量与存储
+  const img=await new Promise((ok,no)=>{const u=URL.createObjectURL(blob),i=new Image();
+    i.onload=()=>{URL.revokeObjectURL(u);ok(i);};i.onerror=no;i.src=u;});
+  const k=Math.min(1,1280/Math.max(img.naturalWidth,img.naturalHeight));
+  const cv=document.createElement("canvas");
+  cv.width=Math.round(img.naturalWidth*k);cv.height=Math.round(img.naturalHeight*k);
+  cv.getContext("2d").drawImage(img,0,0,cv.width,cv.height);
+  const jpg=await new Promise(ok=>cv.toBlob(ok,"image/jpeg",.82));
+  const name=Date.now()+"-"+Math.random().toString(36).slice(2,8)+".jpg";
+  const res=await fetch(SB.url+"/storage/v1/object/note-images/"+name,{method:"POST",
+    headers:{apikey:SB.anonKey,Authorization:"Bearer "+SB.anonKey,"Content-Type":"image/jpeg"},body:jpg});
+  if(!res.ok)throw new Error("图片上传 HTTP "+res.status+" "+(await res.text().catch(()=>"" )).slice(0,120));
+  return SB.url+"/storage/v1/object/public/note-images/"+name;
+}
+function editNote(key){
   const r=store[key];
   if(!r){toast("未找到该记录");return;}
   if(!r.id){toast("该记录尚未同步到数据库,稍后再试");return;}
-  const v=prompt("法规备注(全团队共享,清空内容则删除备注):\n"+(r.regId||r.cnName),r.note||"");
-  if(v===null)return;
-  try{
-    await sbReq("PATCH","regulations?id=eq."+r.id,{note:v.trim()},"return=minimal");
-    r.note=v.trim();
-    renderCountry();renderDrafts();
-    if($("#p-tree")&&$("#p-tree").classList.contains("on"))renderTree();
-    toast(r.note?"备注已保存(全团队可见)":"备注已清除");
-  }catch(err){toast("备注保存失败:"+err.message);console.error(err);}
+  const bg=document.createElement("div");
+  bg.className="modal-bg";
+  bg.addEventListener("click",e=>{if(e.target===bg)bg.remove();});
+  bg.innerHTML=`<div class="modal" style="max-width:640px">
+    <div class="modal-h"><b>法规备注 · ${esc(r.regId||r.cnName||"")}</b>
+      <span style="margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted)">全团队共享 · 清空内容保存即删除备注</span></div>
+    <div class="modal-b" style="padding:14px 16px 16px">
+      <textarea id="note-ta" style="width:100%;min-height:150px;resize:vertical;font-family:var(--sans);
+        font-size:12.5px;line-height:1.7;border:1px solid var(--line);border-radius:6px;padding:10px 12px;
+        background:var(--paper);color:var(--ink);outline:none;box-sizing:border-box"
+        placeholder="备注内容…&#10;可直接 Ctrl+V 粘贴截图,图片会上传到团队库并以 [img]链接 标记插入"></textarea>
+      <div id="note-prev" style="margin-top:8px"></div>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">
+        <button class="btn" id="note-save">保存(团队共享)</button>
+        <button class="btn light" id="note-cancel">取消</button>
+        <span id="note-st" style="font-family:var(--mono);font-size:11px;color:var(--muted)">粘贴截图即自动上传</span>
+      </div></div></div>`;
+  document.body.appendChild(bg);
+  const ta=bg.querySelector("#note-ta"),st=bg.querySelector("#note-st"),prev=bg.querySelector("#note-prev");
+  ta.value=r.note||"";
+  const refreshPrev=()=>{const imgs=ta.value.match(/\[img\]\S+/g)||[];
+    prev.innerHTML=imgs.map(t=>`<img src="${esc(t.slice(5))}" style="max-height:90px;max-width:160px;margin:0 6px 6px 0;border:1px solid var(--line);border-radius:5px;vertical-align:top">`).join("");};
+  refreshPrev();
+  ta.addEventListener("input",refreshPrev);
+  ta.addEventListener("paste",async e=>{
+    const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));
+    if(!it)return; // 普通文本粘贴不拦截
+    e.preventDefault();
+    st.textContent="图片上传中…";
+    try{
+      const url=await uploadNoteImg(it.getAsFile());
+      const at=ta.selectionStart??ta.value.length;
+      const tok=(at&&ta.value[at-1]!=="\n"?"\n":"")+"[img]"+url+"\n";
+      ta.value=ta.value.slice(0,at)+tok+ta.value.slice(at);
+      ta.selectionStart=ta.selectionEnd=at+tok.length;
+      refreshPrev();st.textContent="图片已上传 ✓ 保存后全团队可见";
+    }catch(err){st.textContent="上传失败:"+err.message;console.error(err);}
+  });
+  bg.querySelector("#note-cancel").addEventListener("click",()=>bg.remove());
+  bg.querySelector("#note-save").addEventListener("click",async()=>{
+    const v=ta.value.trim();
+    try{
+      await sbReq("PATCH","regulations?id=eq."+r.id,{note:v},"return=minimal");
+      r.note=v;bg.remove();
+      renderCountry();renderDrafts();
+      if($("#p-tree")&&$("#p-tree").classList.contains("on"))renderTree();
+      toast(v?"备注已保存(全团队可见)":"备注已清除");
+    }catch(err){toast("备注保存失败:"+err.message);console.error(err);}
+  });
+  ta.focus();
 }
 async function deleteChecked(c){
   const ids=[...$$("#cty-manage .delck")].filter(x=>x.checked&&x.value).map(x=>+x.value);
@@ -1479,7 +1548,7 @@ function renderTree(){
     <span class="tog">·</span>
     <span class="tdot" style="background:${DIMCOL[r.dims.length?r.dims[0]:8]}"></span>
     <span class="tid" style="cursor:pointer" onclick="gotoCountry('${c}','${keyOf(r).replace(/'/g,"\\'")}')">${r.regId||"—"}</span>
-    <span class="tnm">${r.cnName||r.origName||""}${r.note?` <span class="rtag parent" title="${esc(r.note)}">📝</span>`:""}${
+    <span class="tnm">${r.cnName||r.origName||""}${r.note?` <span class="rtag parent" title="${esc(noteBrief(r.note))}">📝</span>`:""}${
       r._famSize>1?(r._ver==="current"?' <span class="rtag" style="background:#deead5;color:#3d6630" title="族内最新版本">current</span>':' <span class="rtag parent" title="已被族内新版本取代">superseded</span>'):""}</span>
     <button class="upbtn" onclick="event.stopPropagation();editNote('${keyOf(r).replace(/'/g,"\\'")}')" title="添加/修改备注(团队共享)">✎</button>
     <span class="tct">${isDraft(r)?"草案 · ":""}${r.date||""}</span></div></div>`;
@@ -1740,7 +1809,7 @@ function exportRecon(){
 /* ================= 备忘录(团队共享,带时间/国家标签) ================= */
 let memos=[];
 async function loadMemos(){
-  memos=await sbFetchAll("memos","id,content,country,tag_date,author,done,created_at","order=created_at.desc");
+  memos=await sbFetchAll("memos","id,content,country,tag_date,author,done,pinned,url,created_at","order=created_at.desc");
 }
 function fillMemoSelects(){
   const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
@@ -1757,17 +1826,19 @@ function renderMemos(){
   const fc=$("#memo-fcty").value,fs=$("#memo-fst").value;
   const today=new Date().toISOString().slice(0,10);
   const soon=new Date(Date.now()+7*86400e3).toISOString().slice(0,10);
-  const list=memos.filter(m=>(!fc||m.country===fc)&&(fs==="all"||(fs==="done"?m.done:!m.done)));
+  const list=memos.filter(m=>(!fc||m.country===fc)&&(fs==="all"||(fs==="done"?m.done:!m.done)))
+    .sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0)); // 置顶优先,组内保持服务端的创建时间倒序(稳定排序)
   $("#memo-list").innerHTML=list.length?list.map(m=>{
     const dd=m.tag_date?(m.tag_date<=today?`<span class="rtag">已到期 ${m.tag_date}</span>`
       :(m.tag_date<=soon?`<span class="rtag amd">临近 ${m.tag_date}</span>`
       :`<span class="rtag parent">${m.tag_date}</span>`)):"";
-    return `<div class="di" style="align-items:center;${m.done?'opacity:.5':''}">
+    return `<div class="di" style="align-items:center;${m.done?'opacity:.5':''}${m.pinned?'background:#fdf6ea;border-left:3px solid var(--accent);padding-left:7px':''}">
       <input type="checkbox" ${m.done?"checked":""} onchange="toggleMemo(${m.id},this.checked)" title="标记完成/取消完成">
       ${m.country?`<span class="dc" style="cursor:pointer;min-width:74px" title="跳转国家详情" onclick="gotoCountry('${esc(m.country).replace(/'/g,"\\'")}')">${esc(m.country)}</span>`:'<span class="dc" style="min-width:74px">—</span>'}
-      <span class="dnm" style="flex:1;${m.done?'text-decoration:line-through':''}">${esc(m.content)}</span>
+      <span class="dnm" style="flex:1;${m.done?'text-decoration:line-through':''}">${m.pinned?'<span class="rtag" style="background:var(--accent);color:#fff;border-color:var(--accent)">置顶</span> ':''}${esc(m.content)}${m.url?` <a href="${esc(m.url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:700;text-decoration:none" title="${esc(m.url)}">🔗 链接</a>`:''}</span>
       ${dd}
       <span class="dc" title="创建时间${m.author?" · "+esc(m.author):""}">${String(m.created_at||"").slice(0,10)}${m.author?" · "+esc(m.author):""}</span>
+      <span style="cursor:pointer;padding:0 4px;${m.pinned?'':'filter:grayscale(1);opacity:.45'}" title="${m.pinned?"取消置顶":"置顶(全团队生效)"}" onclick="togglePin(${m.id},${m.pinned?"false":"true"})">📌</span>
       <span style="cursor:pointer;color:var(--muted);font-weight:700;padding:0 4px" title="删除(全团队生效)" onclick="delMemo(${m.id})">✕</span>
     </div>`;}).join("")
     :'<div class="bigmsg">'+(fs==="open"?"没有未完成的备忘 ✓":"暂无备忘")+'</div>';
@@ -1775,13 +1846,15 @@ function renderMemos(){
 async function addMemo(){
   const content=$("#memo-text").value.trim();
   if(!content){toast("请填写备忘内容");return;}
-  const m={content,country:$("#memo-cty").value.trim(),
+  let url=$("#memo-url").value.trim();
+  if(url&&!/^https?:\/\//i.test(url))url="https://"+url; // 省略协议时补全,保证可点击
+  const m={content,country:$("#memo-cty").value.trim(),url,
     tag_date:$("#memo-date").value||"",author:$("#memo-author").value.trim()};
   try{localStorage.setItem("regmon_author",m.author);}catch(e){}
   try{
     await sbInsert("memos",[m]);
     await loadMemos();renderMemos();
-    $("#memo-text").value="";$("#memo-date").value="";$("#memo-cty").value="";
+    $("#memo-text").value="";$("#memo-date").value="";$("#memo-cty").value="";$("#memo-url").value="";
     toast("备忘已添加并共享给团队");
   }catch(err){toast("添加失败:"+err.message);console.error(err);}
 }
@@ -1789,6 +1862,11 @@ async function toggleMemo(id,done){
   try{await sbReq("PATCH","memos?id=eq."+id,{done},"return=minimal");
     const m=memos.find(x=>x.id===id);if(m)m.done=done;renderMemos();}
   catch(err){toast("更新失败:"+err.message);renderMemos();}
+}
+async function togglePin(id,pinned){
+  try{await sbReq("PATCH","memos?id=eq."+id,{pinned},"return=minimal");
+    const m=memos.find(x=>x.id===id);if(m)m.pinned=pinned;renderMemos();}
+  catch(err){toast("置顶失败:"+err.message);renderMemos();}
 }
 async function delMemo(id){
   if(!confirm("删除这条共享备忘?全团队都会看到删除结果。"))return;
@@ -2241,7 +2319,7 @@ function insightsFor(r){
 }
 
 /* ================= 认证体系金字塔(纯数据驱动 data/cert_pyramid.json) ================= */
-let CERT=null,_certLoading=false,_pyrCountry=null,_pyrLevel=0;
+let CERT=null,CERT_BASE=null,_certOvr=new Set(),_certLoading=false,_pyrCountry=null,_pyrLevel=0;
 const SYS_LABEL={own_full:"自有完整型式批准",hybrid:"混合型",recognition:"采信外部型"};
 const CONF_LABEL={A:"资料充分 A",B:"B",C:"资料有限 C"};
 const PYR_COL={own_full:["#234a63","#3a6b8a","#5a87a6","#86abc3","#b3cad9"],
@@ -2253,7 +2331,13 @@ async function loadCert(){
   try{
     const r=await fetch("./data/cert_pyramid.json");
     const j=await r.json();
-    CERT=j.cert_systems||{};
+    CERT_BASE=j.cert_systems||{};
+    CERT=Object.assign({},CERT_BASE);
+    // 团队修订覆盖层(cert_overrides 表):盖在静态 JSON 之上,删除该行即恢复默认
+    try{
+      const ovr=await sbFetchAll("cert_overrides","country,data");
+      ovr.forEach(o=>{if(o.data&&typeof o.data==="object"){CERT[o.country]=o.data;_certOvr.add(o.country);}});
+    }catch(e){console.error("cert overrides",e);} // 覆盖层读取失败不阻塞静态数据展示
     fillPyrSelect();
     if(!_pyrCountry){const first=Object.keys(CERT)[0];renderPyramid(first);}
   }catch(e){console.error("cert load",e);
@@ -2296,6 +2380,11 @@ function renderPyramid(country){
       <span style="font-family:var(--serif);font-size:22px;font-weight:900">${esc(d.country)}</span>
       <span class="systag ${d.system_type}">${SYS_LABEL[d.system_type]||d.system_type}</span>
       <span class="conf ${d.confidence}"${cTip}>${CONF_LABEL[d.confidence]||d.confidence}</span>
+      ${_certOvr.has(country)?'<span class="rtag amd" title="本国条目已被团队在线修订,与发布版 JSON 不同;「恢复默认」可回退">团队修订</span>':""}
+      <span style="margin-left:auto;display:flex;gap:8px">
+        <button class="upbtn" onclick="editPyr()" title="编辑本国认证体系条目(JSON,保存后全团队可见)">✎ 编辑本国</button>
+        ${_certOvr.has(country)?`<button class="upbtn" onclick="resetPyr()" title="删除团队修订,恢复发布版数据">↺ 恢复默认</button>`:""}
+      </span>
     </div>
     <div class="pyr-sum">${esc(d.summary||"")}</div>
     <div class="pyr-grid">
@@ -2347,6 +2436,62 @@ function renderPyrSections(d){
         ${er.note?`<dt>备注</dt><dd>${esc(er.note)}</dd>`:""}
       </dl></div>
   </div>`;
+}
+
+/* 09 在线编辑:整条国家条目以 JSON 编辑,存 cert_overrides(country 主键),
+   加载时盖在静态 data/cert_pyramid.json 之上;「恢复默认」删除覆盖行即回退 */
+function editPyr(){
+  const c=_pyrCountry;if(!c||!CERT||!CERT[c]){toast("请先选择国家");return;}
+  const bg=document.createElement("div");
+  bg.className="modal-bg";
+  bg.addEventListener("click",e=>{if(e.target===bg)bg.remove();});
+  bg.innerHTML=`<div class="modal" style="max-width:860px">
+    <div class="modal-h"><b>编辑认证体系 · ${esc(c)}</b>
+      <span style="margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted)">保存后全团队可见 · 不改动发布版 JSON,可随时恢复默认</span></div>
+    <div class="modal-b" style="padding:12px 16px 16px">
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-bottom:8px">
+        直接修改下方 JSON:pyramid=金字塔层级(level/label/title/title_local/desc/refs),sections=主管机构/核心法规/办理流程,external_recognition=对外采信,sources=数据来源。<br>
+        必须保持 JSON 格式合法且 pyramid 为非空数组;system_type 取 own_full / hybrid / recognition;confidence 取 A / B / C。</div>
+      <textarea id="pyr-ta" spellcheck="false" style="width:100%;min-height:380px;resize:vertical;font-family:var(--mono);
+        font-size:11.5px;line-height:1.55;border:1px solid var(--line);border-radius:6px;padding:10px 12px;
+        background:var(--paper);color:var(--ink);outline:none;box-sizing:border-box;white-space:pre"></textarea>
+      <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">
+        <button class="btn" id="pyr-save">保存(团队共享)</button>
+        <button class="btn light" id="pyr-cancel">取消</button>
+        <span id="pyr-st" style="font-family:var(--mono);font-size:11px;color:var(--muted)"></span>
+      </div></div></div>`;
+  document.body.appendChild(bg);
+  const ta=bg.querySelector("#pyr-ta"),st=bg.querySelector("#pyr-st");
+  ta.value=JSON.stringify(CERT[c],null,2);
+  bg.querySelector("#pyr-cancel").addEventListener("click",()=>bg.remove());
+  bg.querySelector("#pyr-save").addEventListener("click",async()=>{
+    let d;
+    try{d=JSON.parse(ta.value);}
+    catch(e){st.textContent="JSON 格式错误:"+e.message;st.style.color="var(--accent)";return;}
+    if(!d||typeof d!=="object"||Array.isArray(d)){st.textContent="顶层必须是对象";st.style.color="var(--accent)";return;}
+    if(!Array.isArray(d.pyramid)||!d.pyramid.length){st.textContent="pyramid 必须是非空数组";st.style.color="var(--accent)";return;}
+    d.country=d.country||c; // 展示名缺省回填,但条目仍按所选国家键存储
+    st.textContent="保存中…";st.style.color="var(--muted)";
+    try{
+      await sbUpsert("cert_overrides",[{country:c,data:d,updated_at:new Date().toISOString()}],"country");
+      CERT[c]=d;_certOvr.add(c);
+      bg.remove();fillPyrSelect();renderPyramid(c);
+      toast("「"+c+"」认证体系已保存(全团队可见)");
+    }catch(err){st.textContent="保存失败:"+err.message;st.style.color="var(--accent)";console.error(err);}
+  });
+}
+async function resetPyr(){
+  const c=_pyrCountry;if(!c||!_certOvr.has(c))return;
+  if(!confirm("删除「"+c+"」的团队修订,恢复为发布版数据?全团队都会看到回退结果。"))return;
+  try{
+    await sbReq("DELETE","cert_overrides?country=eq."+encodeURIComponent(c),undefined,"return=minimal");
+    _certOvr.delete(c);
+    if(CERT_BASE[c])CERT[c]=CERT_BASE[c];
+    else{delete CERT[c];_pyrCountry=null;} // 纯团队新增的国家:删除覆盖即整条消失
+    fillPyrSelect();
+    if(CERT[c])renderPyramid(c);
+    toast("已恢复默认");
+  }catch(err){toast("恢复失败:"+err.message);console.error(err);}
 }
 
 /* 11 解读看板:知识体系/推文流 视图切换 */
