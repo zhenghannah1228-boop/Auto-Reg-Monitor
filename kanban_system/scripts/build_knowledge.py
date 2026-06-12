@@ -42,6 +42,18 @@ REGION_ORDER = ["中国","欧盟","欧洲","UN ECE","美国","印度","巴西","
 
 def esc(s): return html.escape(str(s or ""))
 
+IMG_TOKEN = re.compile(r"\[img\](\S+)")
+def kp_html(p):
+    """要点渲染:文本转义,[img]路径 标记转 <img>(点击新窗口看原图)"""
+    out, last = [], 0
+    for m in IMG_TOKEN.finditer(p):
+        if p[last:m.start()].strip(): out.append(esc(p[last:m.start()].strip()))
+        u = esc(m.group(1))
+        out.append(f'<a href="{u}" target="_blank"><img class="kpimg" src="{u}" loading="lazy"></a>')
+        last = m.end()
+    if p[last:].strip(): out.append(esc(p[last:].strip()))
+    return " ".join(out)
+
 def load():
     with open(DATA, encoding="utf-8") as f: ins = json.load(f)["insights"]
     rl = {}
@@ -114,7 +126,7 @@ def render_theme(t, items, rlinks):
     sec_names = [("compare","跨国对照要点"),("revision","版本演变要点"),("interpret","条文解读要点"),("system","体系背景")]
     for k, nm in sec_names:
         if not pts.get(k): continue
-        lis = "".join(f'<li>{esc(p)} <a class="src" href="{esc(it.get("url") or "kanban.html")}" target="_blank" title="{esc(it["title"])}">[{esc(it["id"].split("-")[-1])}]</a></li>'
+        lis = "".join(f'<li>{kp_html(p)} <a class="src" href="{esc(it.get("url") or "kanban.html")}" target="_blank" title="{esc(it["title"])}">[{esc(it["id"].split("-")[-1])}]</a></li>'
                       for p, it in pts[k])
         pt_html += f'<div class="ptsec"><h4>{nm}<i>{len(pts[k])}条</i></h4><ul>{lis}</ul></div>'
     # —— 知识缺口:库缺的编号 + 区域对照缺口
@@ -161,6 +173,7 @@ def main():
     page = f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>法规知识体系 · 主题树</title><style>
+.kpimg{{display:block;max-width:min(640px,96%);max-height:420px;margin:8px 0 4px;border:1px solid #d8d2c0;border-radius:6px;cursor:zoom-in}}
 :root{{--ink:#1a2420;--paper:#f4efe7;--panel:#fcfbf6;--line:#ddd6c6;--accent:#b8754a;--blue:#3a6b8a;
 --good:#5a8a4a;--warn:#d98a3a;--muted:#8d8674;--mono:'SF Mono',ui-monospace,Menlo,monospace;
 --sans:'Inter','Segoe UI',-apple-system,'PingFang SC','Microsoft YaHei',sans-serif}}

@@ -112,6 +112,7 @@ input{flex:1;min-width:200px}
 .box h2{font-size:19px;margin-bottom:8px}
 .box .kp{margin:14px 0}
 .box .kp li{margin:6px 0 6px 18px}
+.kpimg{display:block;max-width:96%;max-height:420px;margin:8px 0 4px;border:1px solid #3a4150;border-radius:6px;cursor:zoom-in}
 .box .reglist a,.box .reglist span{display:inline-block;margin:4px 6px 4px 0;padding:4px 10px;border-radius:8px;background:rgba(255,255,255,.06);color:#a5b4fc;text-decoration:none;font-size:12.5px}
 .close{float:right;cursor:pointer;color:var(--mut);font-size:22px;line-height:1}
 @media(max-width:760px){.board{grid-template-columns:1fr}}
@@ -172,7 +173,7 @@ function openModal(d){
     const label=r.reg_no+(inLib?` · 法规库${r._matched_count}条`:' · 待补充');
     return r.url?`<a href="${r.url}" target="_blank">${label}</a>`:`<span>${label}</span>`;
   }).join('');
-  const kp=(d.key_points||[]).map(p=>`<li>${p}</li>`).join('');
+  const kp=(d.key_points||[]).map(p=>`<li>${p.replace(/\[img\](\S+)/g,'<a href="$1" target="_blank"><img class="kpimg" src="$1" loading="lazy"></a>')}</li>`).join('');
   document.getElementById('box').innerHTML=`<span class="close" onclick="document.getElementById('modal').classList.remove('on')">×</span>
     <h2>${d.title}</h2>
     <div class="meta">${TYPE_LABEL[d.type]} · ${d.publish_date||''} · ${d.author||''} · ${(d.region_focus||[]).join(' / ')}</div>
