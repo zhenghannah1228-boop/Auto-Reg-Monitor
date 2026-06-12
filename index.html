@@ -209,6 +209,13 @@ table.matrix{border-collapse:separate;border-spacing:0;width:100%;font-size:11.5
 .detgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 select.csel{font-family:var(--mono);font-size:12.5px;background:var(--panel);border:1px solid var(--line);
   padding:8px 14px;border-radius:6px;color:var(--ink);cursor:pointer;min-width:170px;box-shadow:var(--shadow)}
+/* 国家下拉的「筛选」输入框(输入即收窄选项,免滚动翻找) */
+.selfilter{font-family:var(--sans);font-size:11.5px;border:1px solid var(--line);border-radius:6px 0 0 6px;
+  padding:7px 9px;width:78px;background:var(--panel);color:var(--ink);outline:none;box-shadow:var(--shadow);
+  border-right:none}
+.selfilter:focus{border-color:var(--accent);width:120px;transition:width .15s}
+.selfilter+select.csel,.selfilter+select{border-radius:0 6px 6px 0;min-width:120px}
+.selfilter.act{border-color:var(--accent);background:#fdf5f0}
 .netctrl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
 .dimbars .dr{display:grid;grid-template-columns:100px 1fr 44px;gap:10px;align-items:center;margin-bottom:9px;font-size:12px}
 .dimbars .bar{height:13px;background:var(--linesoft);border-radius:7px;overflow:hidden}
@@ -684,7 +691,36 @@ async function sbUpsert(table,rows,onConflict){
 let store={},files=[],baseline=null,hasParentCol=false;
 let snapshots=[],curSnapId=null,importLogs=[],_batch=null;
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const norm=s=>String(s||"").replace(/\s+/g,"").toUpperCase();
+
+/* ============ 国家下拉「输入筛选」通用增强(免滚动翻找) ============
+   在原生 select 前插一个筛选输入框,输入即把选项收窄到匹配项;原生 select 的
+   value/onchange/编程赋值/当前选中显示全部不变(零行为风险)。
+   fillXxx 重灌选项后调用 refreshSelFilter(sel) 重新快照并复用当前筛选词。 */
+function snapSel(sel){sel._all=[...sel.options].map(o=>({v:o.value,t:o.textContent}));}
+function applySelFilter(sel){
+  const q=(sel._filter&&sel._filter.value||"").trim();
+  if(sel._filter)sel._filter.classList.toggle("act",!!q);
+  if(!sel._all)snapSel(sel);
+  const cur=sel.value;
+  let list=q?sel._all.filter(o=>o.t.includes(q)||o.v.toUpperCase().includes(q.toUpperCase())):sel._all;
+  if(cur&&!list.some(o=>o.v===cur)){const c=sel._all.find(o=>o.v===cur);if(c)list=[c,...list];}
+  sel.innerHTML=list.map(o=>`<option value="${esc(o.v)}">${esc(o.t)}</option>`).join("");
+  sel.value=cur; // 重建不触发 change,选中值保持
+}
+function enhanceCountrySelect(id){
+  const sel=document.getElementById(id);if(!sel||sel._enh||!sel.parentNode)return;sel._enh=true;
+  snapSel(sel);
+  const f=document.createElement("input");
+  f.type="text";f.className="selfilter";f.placeholder="筛选…";f.autocomplete="off";
+  f.title="输入国家名/编号筛选下拉选项";
+  f.addEventListener("input",()=>applySelFilter(sel));
+  f.addEventListener("focus",()=>snapSel(sel)); // 聚焦时刷新全量快照(防 fill 后未同步)
+  sel.parentNode.insertBefore(f,sel);
+  sel._filter=f;
+}
+function refreshSelFilter(sel){if(sel&&sel._enh){snapSel(sel);applySelFilter(sel);}}
 /* 宽松键:去掉全部非字母数字汉字字符(/ - _ . 等),用于符号写法不一致时的对账兜底 */
 const loose=s=>norm(s).replace(/[^0-9A-Z一-鿿]/g,"");
 const keyOf=r=>r.country+"|"+norm(r.regId||r.cnName);
@@ -1048,10 +1084,11 @@ function fillCountrySelects(){
   const opts=cs.map(c=>`<option value="${c}">${c}</option>`).join("");
   ["csel","netcsel","treecsel"].forEach(id=>{
     const el=document.getElementById(id),cur=el.value;
-    el.innerHTML=opts;if(cs.includes(cur))el.value=cur;});
+    el.innerHTML=opts;if(cs.includes(cur))el.value=cur;refreshSelFilter(el);});
   const t=document.getElementById("txtcty"),tc=t.value;
   t.innerHTML='<option value="auto">归属国家:自动识别</option>'+opts;
   if([...t.options].some(o=>o.value===tc))t.value=tc;
+  refreshSelFilter(t);
 }
 function switchTab(pid){
   $$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.p===pid));
@@ -1418,7 +1455,7 @@ function buildNet(){
   NETG=buildNetData();
   // 国家下钻下拉
   const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
-  const ncs=$("#netcsel");if(ncs)ncs.innerHTML='<option value="">下钻到国家…</option>'+cs.map(c=>`<option value="${c}">${c}</option>`).join("");
+  const ncs=$("#netcsel");if(ncs){ncs.innerHTML='<option value="">下钻到国家…</option>'+cs.map(c=>`<option value="${c}">${c}</option>`).join("");refreshSelFilter(ncs);}
   renderOverview();
   setTimeout(()=>{if(netChart)netChart.resize();},50); // tab 切换后画布尺寸校正
 }
@@ -1702,7 +1739,6 @@ function exportRecon(){
 
 /* ================= 备忘录(团队共享,带时间/国家标签) ================= */
 let memos=[];
-const esc=s=>String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 async function loadMemos(){
   memos=await sbFetchAll("memos","id,content,country,tag_date,author,done,created_at","order=created_at.desc");
 }
@@ -1713,6 +1749,7 @@ function fillMemoSelects(){
   const cur=$("#memo-fcty").value;
   $("#memo-fcty").innerHTML='<option value="">全部国家/地区</option>'
     +all.map(c=>`<option value="${esc(c)}" ${cur===c?"selected":""}>${esc(c)}</option>`).join("");
+  refreshSelFilter($("#memo-fcty"));
 }
 function renderMemos(){
   if(!$("#memo-list"))return;
@@ -1844,6 +1881,7 @@ function fillCondSelectors(){
   const cs=Object.keys(byCountry()).sort((a,b)=>a.localeCompare(b,"zh"));
   const ctyEl=$("#cond-cty"),cur=ctyEl.value;
   ctyEl.innerHTML='<option value="">全部国家</option>'+cs.map(c=>`<option value="${c}" ${cur===c?"selected":""}>${c}</option>`).join("");
+  refreshSelFilter(ctyEl);
   // 目标车型选项 = 全库 vehicleTypes token 并集(基类),按出现频次排序,动态生成
   const freq={};
   recs().forEach(r=>{const v=r.vehicleTypes;if(!v||UNLIMITED_RE.test(v)||/不适用/.test(v))return;
@@ -2135,6 +2173,7 @@ function fillChainSelect(){
   el.innerHTML=cs.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
   if(cur&&cs.includes(cur))el.value=cur;
   else if(cs.includes("UN ECE"))el.value="UN ECE";
+  refreshSelFilter(el);
 }
 async function openChainTab(){
   switchTab("p-chain");
@@ -2230,6 +2269,7 @@ function fillPyrSelect(){
   sel.innerHTML=keys.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join("");
   if(cur&&keys.includes(cur))sel.value=cur;
   else if(keys.length){_pyrCountry=null;renderPyramid(keys[0]);}
+  refreshSelFilter(sel);
 }
 function renderPyramid(country){
   if(!CERT||!CERT[country])return;
@@ -2329,6 +2369,9 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
 }));
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
+/* 给所有国家下拉加输入筛选(免滚动翻找);备忘的国家输入框本就是 datalist 可输入,跳过 */
+["csel","netcsel","treecsel","txtcty","cond-cty","chain-cty","pyr-sel","memo-fcty"].forEach(enhanceCountrySelect);
+
 (async function init(){
   try{
     const cols="id,country,reg_id,cn_name,orig_name,en_name,lang,dim_text,domain,"
