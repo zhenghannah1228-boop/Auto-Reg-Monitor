@@ -117,6 +117,10 @@ Source 选择 "GitHub Actions"(workflow 已带 `enablement: true`,通常会自�
   力布局防堆叠;默认连线近隐形,点击 `focus:adjacency` 高亮邻接。
 - 领域归一为 10 类配色;占位符(`- — / 无 N/A` 等)不生成跨国边。
 - 「跨国联动/单国内部」切换 cross/belongs 边。
+- **认证体系世界地图**(05 顶部视图切换,与关系网络并列):ECharts world map,
+  按各国 `system_type` 着色(自有完整=蓝 / 混合=紫 / 采信外部=金),悬停看该地区
+  体系简介;数据复用 09 的认证金字塔(含团队修订)。底图 `data/world_geo.json`
+  本地化零 CDN;欧盟成员按 EU-WVTA 统一着色。
 
 ## 认证体系金字塔(09 标签页)
 
