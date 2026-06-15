@@ -162,9 +162,13 @@
    视图切换「关系网络 / 认证体系地图」,关系网络原样保留为默认视图,地图为新增
    并列视图(非替换)。地图用 ECharts map(底图 `data/world_geo.json`,本地化的
    世界 GeoJSON,坐标精度压到 2 位约 400KB,运行时 `echarts.registerMap`)。
-   **同一 `system_type` 同色**:own_full 蓝 `#3a6b8a` / hybrid 紫 `#6a4a92` /
-   recognition 金 `#c79a2e`;数据复用 09 的 `CERT`(含团队修订覆盖层),悬停某地区
-   弹出该国体系简介(类型徽标 + 资料档 + summary + 主管机构)。中文认证名→底图
+   **同一体系同色**:hybrid 紫 / recognition 金各一色;**「自有完整型式批准」按实际
+   标准体系细分**(业主 2026-06 指示):EU-WVTA / 美标 FMVSS / 加标 CMVSS / 韩标
+   KMVSS / 澳标 ADR / 日本保安基準 / 中国 GB·CCC / 印度 CMVR·AIS / 欧亚 TR CU(EAEU)
+   / 自有(UN-R·欧盟调和) 各一色,分类表 `STD_FAMILY`+`GROUP_STYLE`(按每条 cert 的
+   summary/core_regs 逐条核对得出),`certGroupOf()`/`certColorOf()` 决定着色与图例分组。
+   数据复用 09 的 `CERT`(含团队修订覆盖层),悬停某地区弹出该国体系简介(标准体系徽标 +
+   「类别:自有完整型式批准」+ 资料档 + summary + 主管机构)。中文认证名→底图
    英文要素名映射表 `CN2GEO`(84 国);欧盟成员无独立条目者按 `欧盟`(EU-WVTA)
    统一着色(`EU_MEMBERS`);中国台湾/香港在该底图并入 China,UNECE/GSO/东盟/
    欧亚经济联盟等组织条目不单独着色。地图懒构建(仅切到地图视图时)。

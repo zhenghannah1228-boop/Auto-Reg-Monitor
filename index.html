@@ -1536,7 +1536,29 @@ function setNetView(v){
 }
 /* 认证体系世界地图:同一 system_type 同色,悬停看简介。数据复用 09 的 CERT(含团队修订覆盖层) */
 let certMapChart=null,_worldGeoReg=false;
-const SYS_MAPCOL={own_full:"#3a6b8a",hybrid:"#6a4a92",recognition:"#c79a2e"};
+/* 「自有完整型式」按实际标准体系细分(EU/FMVSS/KMVSS/ADR/CMVSS/GB/AIS/日本/EAEU/自有UN调和);
+   hybrid、recognition 仍各为一色。分类依据每条 cert 的 summary/core_regs(逐条核对) */
+const STD_FAMILY={
+ "欧盟":"EU","德国":"EU","奥地利":"EU","克罗地亚":"EU","立陶宛":"EU","罗马尼亚":"EU","爱沙尼亚":"EU","意大利":"EU","挪威":"EU","新喀里多尼亚":"EU","留尼汪":"EU",
+ "美国":"FMVSS","加拿大":"CMVSS","韩国":"KMVSS","澳大利亚":"ADR","日本":"JAPAN","中国":"GB","印度":"AIS",
+ "俄罗斯":"EAEU","哈萨克斯坦":"EAEU","白俄罗斯":"EAEU","亚美尼亚":"EAEU","吉尔吉斯斯坦":"EAEU","欧亚经济联盟":"EAEU",
+ "越南":"NAT","印度尼西亚":"NAT","摩洛哥":"NAT","乌克兰":"NAT","突尼斯":"NAT","摩尔多瓦":"NAT","中国台湾":"NAT"};
+const GROUP_STYLE={
+ EU:{label:"欧盟 EU-WVTA(Reg 2018/858)",color:"#2f6d8c"},
+ FMVSS:{label:"美标 FMVSS(自我认证)",color:"#2e7d32"},
+ CMVSS:{label:"加标 CMVSS(自我认证)",color:"#7cb342"},
+ KMVSS:{label:"韩标 KMVSS(自我认证)",color:"#00897b"},
+ ADR:{label:"澳标 ADR",color:"#ef8c2f"},
+ JAPAN:{label:"日本 保安基準",color:"#4db6ac"},
+ GB:{label:"中国 GB/CCC + 公告",color:"#c0392b"},
+ AIS:{label:"印度 CMVR/AIS",color:"#d81b60"},
+ EAEU:{label:"欧亚 TR CU(EAEU/OTTS)",color:"#3f51b5"},
+ NAT:{label:"自有体系(UN-R/欧盟调和)",color:"#7d8aa0"},
+ hybrid:{label:"混合型",color:"#9575cd"},
+ recognition:{label:"采信外部型",color:"#c79a2e"}};
+const GROUP_ORDER=["EU","FMVSS","CMVSS","KMVSS","ADR","JAPAN","GB","AIS","EAEU","NAT","hybrid","recognition"];
+function certGroupOf(rec){return rec.system_type==="own_full"?(STD_FAMILY[rec.country]||"NAT"):rec.system_type;}
+function certColorOf(rec){const g=GROUP_STYLE[certGroupOf(rec)];return g?g.color:"#d8d2c0";}
 /* 中文认证名 → world_geo.json 英文要素名(中国台湾/香港在该底图并入 China,组织条目不着色) */
 const CN2GEO={"马来西亚":"Malaysia","阿尔及利亚":"Algeria","日本":"Japan","韩国":"Korea","泰国":"Thailand","印度":"India","巴西":"Brazil","沙特":"Saudi Arabia","俄罗斯":"Russia","越南":"Vietnam","印度尼西亚":"Indonesia","菲律宾":"Philippines","阿联酋":"United Arab Emirates","土耳其":"Turkey","墨西哥":"Mexico","加拿大":"Canada","英国":"United Kingdom","德国":"Germany","南非":"South Africa","埃及":"Egypt","以色列":"Israel","智利":"Chile","阿根廷":"Argentina","哥伦比亚":"Colombia","秘鲁":"Peru","尼日利亚":"Nigeria","肯尼亚":"Kenya","摩洛哥":"Morocco","巴基斯坦":"Pakistan","孟加拉国":"Bangladesh","科威特":"Kuwait","卡塔尔":"Qatar","阿曼":"Oman","巴林":"Bahrain","约旦":"Jordan","乌克兰":"Ukraine","哈萨克斯坦":"Kazakhstan","乌兹别克斯坦":"Uzbekistan","伊拉克":"Iraq","斯里兰卡":"Sri Lanka","加纳":"Ghana","坦桑尼亚":"Tanzania","埃塞俄比亚":"Ethiopia","厄瓜多尔":"Ecuador","乌拉圭":"Uruguay","巴拉圭":"Paraguay","缅甸":"Myanmar","柬埔寨":"Cambodia","尼泊尔":"Nepal","突尼斯":"Tunisia","危地马拉":"Guatemala","哥斯达黎加":"Costa Rica","玻利维亚":"Bolivia","津巴布韦":"Zimbabwe","乌干达":"Uganda","格鲁吉亚":"Georgia","巴拿马":"Panama","多米尼加":"Dominican Rep.","喀麦隆":"Cameroon","美国":"United States","澳大利亚":"Australia","新西兰":"New Zealand","白俄罗斯":"Belarus","亚美尼亚":"Armenia","吉尔吉斯斯坦":"Kyrgyzstan","塔吉克斯坦":"Tajikistan","阿塞拜疆":"Azerbaijan","伊朗":"Iran","奥地利":"Austria","克罗地亚":"Croatia","立陶宛":"Lithuania","罗马尼亚":"Romania","爱沙尼亚":"Estonia","意大利":"Italy","挪威":"Norway","摩尔多瓦":"Moldova","新加坡":"Singapore","文莱":"Brunei","老挝":"Lao PDR","卢旺达":"Rwanda","布隆迪":"Burundi","新喀里多尼亚":"New Caledonia","萨尔瓦多":"El Salvador","中国":"China"};
 /* 欧盟成员(无独立 cert 条目者按欧盟 EU-WVTA 体系着色,体现「同一体系同色」) */
@@ -1559,12 +1581,11 @@ async function buildCertMap(){
   const fill={};
   for(const cn in CERT){const g=CN2GEO[cn];if(g)fill[g]={cn,rec:CERT[cn]};}
   if(CERT["欧盟"])EU_MEMBERS.forEach(g=>{if(!fill[g])fill[g]={cn:"欧盟",rec:CERT["欧盟"],viaEU:true};});
-  const codeOf={own_full:1,hybrid:2,recognition:3};
-  const cnt={own_full:0,hybrid:0,recognition:0};
+  const cnt={};
   const data=Object.entries(fill).map(([g,o])=>{
-    const st=o.rec.system_type;if(cnt[st]!=null)cnt[st]++;
-    return {name:g,value:codeOf[st]||0,_o:o,
-      itemStyle:{areaColor:SYS_MAPCOL[st]||"#d8d2c0"}};
+    const grp=certGroupOf(o.rec);cnt[grp]=(cnt[grp]||0)+1;
+    return {name:g,value:GROUP_ORDER.indexOf(grp)+1,_o:o,
+      itemStyle:{areaColor:certColorOf(o.rec)}};
   });
   const opt={
     backgroundColor:"transparent",
@@ -1573,14 +1594,15 @@ async function buildCertMap(){
       formatter:p=>{
         const o=p.data&&p.data._o;
         if(!o)return `<b>${esc(p.name)}</b><br><span style="color:#8d8674">暂无认证体系数据</span>`;
-        const d=o.rec,st=d.system_type;
-        const lbl=(typeof SYS_LABEL!=="undefined"&&SYS_LABEL[st])||st;
+        const d=o.rec,st=d.system_type,grp=certGroupOf(d),gs=GROUP_STYLE[grp]||{label:st,color:"#d8d2c0"};
+        const broad=(typeof SYS_LABEL!=="undefined"&&SYS_LABEL[st])||st;
         const conf=(typeof CONF_LABEL!=="undefined"&&CONF_LABEL[d.confidence])||d.confidence||"";
         const title=esc(d.country||o.cn)+(o.viaEU?` <span style="color:#8d8674">(${esc(p.name)} · 欧盟成员)</span>`:"");
         const auth=(d.sections&&d.sections.authorities&&d.sections.authorities[0])?d.sections.authorities[0].name:"";
         return `<div style="font-weight:800;font-size:13px;margin-bottom:3px">${title}</div>`
-          +`<div style="margin:3px 0"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${SYS_MAPCOL[st]||"#d8d2c0"};margin-right:5px"></span>`
-          +`<b style="color:${SYS_MAPCOL[st]||"#1a2420"}">${esc(lbl)}</b>${conf?` · 资料 ${esc(conf)}`:""}</div>`
+          +`<div style="margin:3px 0"><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${gs.color};margin-right:5px"></span>`
+          +`<b style="color:${gs.color}">${esc(gs.label)}</b>${conf?` · 资料 ${esc(conf)}`:""}</div>`
+          +(st==="own_full"?`<div style="color:#8d8674;font-size:11px;margin-top:-1px">类别:自有完整型式批准</div>`:"")
           +(d.summary?`<div style="color:#3a4a44;line-height:1.55;margin-top:4px">${esc(d.summary)}</div>`:"")
           +(auth?`<div style="color:#8d8674;margin-top:5px;font-size:11px">主管机构:${esc(auth)}</div>`:"")
           +`<div style="color:#b3ac99;margin-top:5px;font-size:10.5px">点「09 认证金字塔」看完整体系层级</div>`;
@@ -1596,13 +1618,19 @@ async function buildCertMap(){
   };
   certMapChart.setOption(opt,true);
   setTimeout(()=>{if(certMapChart)certMapChart.resize();},50);
-  const total=cnt.own_full+cnt.hybrid+cnt.recognition;
-  if($("#certmapstats"))$("#certmapstats").textContent=`已着色 ${total} 个国家/地区 · `;
-  if($("#certmaplegend"))$("#certmaplegend").innerHTML=
-    [["own_full",cnt.own_full],["hybrid",cnt.hybrid],["recognition",cnt.recognition]].map(([st,n])=>
-      `<div class="li"><span class="sw" style="border-radius:2px;background:${SYS_MAPCOL[st]}"></span>${esc((typeof SYS_LABEL!=="undefined"&&SYS_LABEL[st])||st)} <b style="color:var(--muted)">${n}</b></div>`).join("")
-    +`<div class="li" style="color:var(--muted)"><span class="sw" style="border-radius:2px;background:#efece1;border:1px solid #cfc9b8"></span>暂无数据</div>`
-    +`<div class="li" style="color:var(--faint)">注:欧盟成员按 EU-WVTA 统一着色;中国台湾/香港在底图并入中国;UNECE/GSO 等组织不单独着色</div>`;
+  const total=Object.values(cnt).reduce((a,b)=>a+b,0);
+  if($("#certmapstats"))$("#certmapstats").textContent=`已着色 ${total} 个国家/地区 · 自有完整型式按标准体系细分 · `;
+  if($("#certmaplegend")){
+    const ownGroups=["EU","FMVSS","CMVSS","KMVSS","ADR","JAPAN","GB","AIS","EAEU","NAT"];
+    const legItem=g=>cnt[g]?`<div class="li"><span class="sw" style="border-radius:2px;background:${GROUP_STYLE[g].color}"></span>${esc(GROUP_STYLE[g].label)} <b style="color:var(--muted)">${cnt[g]}</b></div>`:"";
+    $("#certmaplegend").innerHTML=
+      `<div class="li" style="width:100%;color:var(--ink2);font-weight:700;gap:4px">自有完整型式批准 · 按标准体系</div>`
+      +ownGroups.map(legItem).join("")
+      +`<div class="li" style="width:100%;color:var(--ink2);font-weight:700;gap:4px;margin-top:2px">其他体系</div>`
+      +["hybrid","recognition"].map(legItem).join("")
+      +`<div class="li" style="color:var(--muted)"><span class="sw" style="border-radius:2px;background:#efece1;border:1px solid #cfc9b8"></span>暂无数据</div>`
+      +`<div class="li" style="width:100%;color:var(--faint);margin-top:2px">注:欧盟成员按 EU-WVTA 统一着色;中国台湾/香港在底图并入中国;UNECE/GSO/东盟等组织不单独着色</div>`;
+  }
 }
 /* renderAll / tab 切换调用入口 */
 function buildNet(){
