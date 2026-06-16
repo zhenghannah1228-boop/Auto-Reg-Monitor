@@ -370,6 +370,46 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   .mast .inner{gap:12px}
   .searchbox{order:3;max-width:none;flex-basis:100%}
 }
+/* 12 法规对比 / 13 合规路径 */
+.cmp-ov{display:grid;grid-template-columns:1fr auto 1fr;gap:0;align-items:stretch;margin-bottom:4px}
+.cmp-ov .side{padding:14px 18px}
+.cmp-ov .side.b{text-align:right}
+.cmp-ov .mid{display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:0 18px;border-left:1px dashed var(--line);border-right:1px dashed var(--line)}
+.cmp-ov .nm{font-family:var(--serif);font-size:19px;font-weight:900;color:var(--ink)}
+.cmp-ov .mt{font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.9;margin-top:4px}
+.cmp-ov .mt b{color:var(--ink2);font-size:13px}
+.cmp-ov .sim{font-family:var(--serif);font-size:30px;font-weight:900}
+.cmp-dim{display:grid;grid-template-columns:1fr 40px 132px 40px 1fr;gap:8px;align-items:center;
+  padding:5px 0;border-bottom:1px solid var(--linesoft);font-size:12px}
+.cmp-dim .bar2{height:13px;border-radius:3px;min-width:2px}
+.cmp-dim .dn{text-align:center;font-size:11.5px;color:var(--ink2)}
+.cmp-dim .vn{font-family:var(--mono);font-weight:700;text-align:center}
+.cmp-dim.gap{background:#fbf3ee}
+.refcol h4{margin:0 0 8px;font-size:12.5px}
+.refchips{display:flex;flex-wrap:wrap;gap:6px}
+.refchip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:11px;border:1px solid var(--line);background:var(--panel)}
+.refchip.shared{background:#e2efda;border-color:#b6d6a8;color:#3d6630}
+.eqrow{display:grid;grid-template-columns:130px 1fr 1fr;gap:12px;padding:8px 0;border-bottom:1px solid var(--linesoft);font-size:12px;align-items:start}
+.eqrow .std{font-family:var(--mono);font-weight:700;color:var(--accent)}
+.eqrow .lst{display:flex;flex-direction:column;gap:3px}
+.eqrow .lst span{font-family:var(--mono);font-size:11px;color:var(--ink2);cursor:pointer}
+.eqrow .lst span:hover{color:var(--blue);text-decoration:underline}
+/* 合规路径 tiers */
+.tier{border:1px solid var(--line);border-radius:9px;padding:13px 16px;margin-bottom:13px;background:var(--panel)}
+.tier .th{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.tier .dot{width:13px;height:13px;border-radius:50%}
+.tier .tt{font-weight:800;font-size:14px}
+.tier .tc{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.tier .desc{font-size:11.5px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+.ctry-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px}
+.ctry{border:1px solid var(--line);border-radius:7px;padding:8px 11px;background:var(--panel2);cursor:pointer;transition:.12s}
+.ctry:hover{border-color:var(--blue);box-shadow:var(--shadow)}
+.ctry .cn{font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.ctry .why{font-size:11px;color:var(--muted);line-height:1.5;margin-top:3px}
+.ctry .badge{font-family:var(--mono);font-size:9.5px;padding:1px 6px;border-radius:9px;font-weight:700;white-space:nowrap}
+.anchor-sum{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.anchor-sum .fam{font-family:var(--mono);font-size:11.5px;padding:3px 10px;border-radius:6px;background:#e9f0f4;border:1px solid #c3d6e0;color:#2f5a72}
 </style>
 </head>
 <body>
@@ -417,6 +457,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-pyr"><span class="tn">09</span>认证金字塔</div>
     <div class="tab" data-p="p-chain"><span class="tn">10</span>版本时间链</div>
     <div class="tab" data-p="p-ins"><span class="tn">11</span>解读看板</div>
+    <div class="tab" data-p="p-cmp"><span class="tn">12</span>法规对比</div>
+    <div class="tab" data-p="p-path"><span class="tn">13</span>合规路径</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -615,6 +657,35 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     </div>
     <iframe id="ins-frame" data-src="./kanban_system/output/knowledge.html"
       style="width:100%;height:calc(100vh - 220px);min-height:560px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>
+  </div>
+
+  <div class="pane" id="p-cmp">
+    <div class="card">
+      <h3>法规快速对比 <span class="hint">选两组(按国家/地区,可叠加维度筛选)→ 自动比对维度覆盖、国际标准对标、等效法规映射</span></h3>
+      <div class="netctrl">
+        <select class="csel" id="cmp-a" onchange="renderCmp()" style="min-width:150px"></select>
+        <span style="font-family:var(--serif);font-weight:900;color:var(--accent)">VS</span>
+        <select class="csel" id="cmp-b" onchange="renderCmp()" style="min-width:150px"></select>
+        <select class="csel" id="cmp-dim" onchange="renderCmp()" title="只比对某一维度">
+          <option value="">全部维度</option></select>
+        <button class="btn light" onclick="swapCmp()">⇄ 交换</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">相同点=两组都对标同一国际标准(UN R/GTR/FMVSS/GB)→ 视为等效条款;差异点=仅一方覆盖的维度或仅一方对标的标准。等效映射点编号可跳转国家详情。</div>
+    </div>
+    <div id="cmp-body"><div class="bigmsg">选择左右两个国家/地区开始对比</div></div>
+  </div>
+
+  <div class="pane" id="p-path">
+    <div class="card">
+      <h3>合规路径规划 <span class="hint">告诉它产品已满足哪国准入 → 列出可一证通行 / 可采信免重复测试 / 需本地认证的国家</span></h3>
+      <div class="netctrl">
+        <span style="font-size:12px;color:var(--ink2)">产品已满足:</span>
+        <select class="csel" id="path-anchor" onchange="renderPath()" style="min-width:170px"></select>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">的型式认证/准入要求</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">依据:认证区块(EU-WVTA/EAEU/GCC 一证通行)+ 各国「对外采信」记录(09 认证金字塔数据)。「审批周期」精确工作日暂未入库,此处按<b>额外认证负担</b>分级——负担越低通常越快。</div>
+    </div>
+    <div id="path-body"><div class="bigmsg">选择产品已满足准入的国家/地区</div></div>
   </div>
 
   <footer>
@@ -1109,6 +1180,14 @@ function fillCountrySelects(){
   t.innerHTML='<option value="auto">归属国家:自动识别</option>'+opts;
   if([...t.options].some(o=>o.value===tc))t.value=tc;
   refreshSelFilter(t);
+  // 12 法规对比:左右两组国家 + 维度筛选(默认 中国 vs 欧盟,无则取前两国)
+  ["cmp-a","cmp-b"].forEach((id,i)=>{const el=document.getElementById(id);if(!el)return;const cur=el.value;
+    el.innerHTML=opts;
+    if(cs.includes(cur))el.value=cur;
+    else el.value=i===0?(cs.includes("中国")?"中国":cs[0]||""):(cs.includes("欧盟")?"欧盟":cs.includes("美国")?"美国":cs[1]||cs[0]||"");
+    refreshSelFilter(el);});
+  const cd=document.getElementById("cmp-dim");
+  if(cd){const cv=cd.value;cd.innerHTML='<option value="">全部维度</option>'+DIMS.map((d,i)=>`<option value="${i}">${i+1} ${d}</option>`).join("");cd.value=cv;}
 }
 function switchTab(pid){
   $$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.p===pid));
@@ -2628,6 +2707,152 @@ function setInsView(m){
   $("#ins-open").href=url;
 }
 
+/* ================= 12 法规快速对比 ================= */
+function swapCmp(){const a=$("#cmp-a").value;$("#cmp-a").value=$("#cmp-b").value;$("#cmp-b").value=a;
+  refreshSelFilter($("#cmp-a"));refreshSelFilter($("#cmp-b"));renderCmp();}
+function cmpGroup(c,df){let l=(byCountry()[c]||[]);if(df!=="")l=l.filter(r=>r.dims.includes(+df));return l;}
+function refsSet(l){const s=new Set();l.forEach(r=>r.refs.forEach(f=>s.add(f)));return s;}
+function renderCmp(){
+  const body=$("#cmp-body");if(!body)return;
+  const a=$("#cmp-a").value,b=$("#cmp-b").value,df=$("#cmp-dim").value;
+  if(!a||!b){body.innerHTML='<div class="bigmsg">选择左右两个国家/地区开始对比</div>';return;}
+  if(a===b){body.innerHTML='<div class="bigmsg">请选择两个不同的国家/地区</div>';return;}
+  const la=cmpGroup(a,df),lb=cmpGroup(b,df);
+  const dca=dimCounts(la),dcb=dimCounts(lb),dmax=Math.max(...dca,...dcb,1);
+  const ra=refsSet(la),rb=refsSet(lb);
+  const shared=[...ra].filter(x=>rb.has(x)).sort(),onlyA=[...ra].filter(x=>!rb.has(x)).sort(),onlyB=[...rb].filter(x=>!ra.has(x)).sort();
+  const uni=new Set([...ra,...rb]).size,sim=uni?Math.round(shared.length/uni*100):0;
+  const draftA=la.filter(isDraft).length,draftB=lb.filter(isDraft).length;
+  const dateA=la.reduce((m,r)=>r.date>m?r.date:m,""),dateB=lb.reduce((m,r)=>r.date>m?r.date:m,"");
+  const blankA=dca.filter(x=>x===0).length,blankB=dcb.filter(x=>x===0).length;
+  const simcol=sim>=60?"var(--good)":sim>=30?"var(--warn)":"var(--bad)";
+  // 等效映射(共同对标 → 双方法规),按双方各自命中条数排序
+  const eq=shared.map(std=>({std,
+    a:la.filter(r=>r.refs.includes(std)).map(r=>r.regId||r.cnName||"—"),
+    b:lb.filter(r=>r.refs.includes(std)).map(r=>r.regId||r.cnName||"—")}))
+    .sort((x,y)=>(y.a.length+y.b.length)-(x.a.length+x.b.length));
+  const chips=(arr,cls)=>arr.length?arr.map(s=>`<span class="refchip ${cls}">${esc(s)}</span>`).join(""):'<span style="color:var(--muted);font-size:11px">无</span>';
+  const dimRows=DIMS.map((d,i)=>{
+    const gap=(dca[i]===0)!==(dcb[i]===0);
+    return `<div class="cmp-dim${gap?' gap':''}">
+      <div style="display:flex;justify-content:flex-end"><div class="bar2" style="width:${dca[i]/dmax*100}%;background:${DIMCOL[i]};opacity:${dca[i]?1:.15}"></div></div>
+      <div class="vn" style="color:${dca[i]?'var(--ink)':'var(--faint)'}">${dca[i]}</div>
+      <div class="dn">${d}</div>
+      <div class="vn" style="color:${dcb[i]?'var(--ink)':'var(--faint)'}">${dcb[i]}</div>
+      <div><div class="bar2" style="width:${dcb[i]/dmax*100}%;background:${DIMCOL[i]};opacity:${dcb[i]?1:.15}"></div></div>
+    </div>`;}).join("");
+  const regSpan=(reg,cty)=>`<span onclick="gotoCountry('${cty.replace(/'/g,"\\'")}')" title="跳转 ${esc(cty)} 详情">${esc(reg)}</span>`;
+  body.innerHTML=`
+  <div class="card"><div class="cmp-ov">
+    <div class="side a"><div class="nm">${esc(a)}</div>
+      <div class="mt"><b>${la.length}</b> 条 · 覆盖 ${10-blankA}/10 维 · 草案 ${draftA}${dateA?` · 最新 ${dateA.slice(0,10)}`:""}</div></div>
+    <div class="mid"><div class="sim" style="color:${simcol}">${sim}%</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--muted)">对标重合度</div>
+      <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:6px">共同 ${shared.length}<br>仅 ${esc(a)} ${onlyA.length} · 仅 ${esc(b)} ${onlyB.length}</div></div>
+    <div class="side b"><div class="nm">${esc(b)}</div>
+      <div class="mt"><b>${lb.length}</b> 条 · 覆盖 ${10-blankB}/10 维 · 草案 ${draftB}${dateB?` · 最新 ${dateB.slice(0,10)}`:""}</div></div>
+  </div></div>
+  <div class="card"><h3>维度覆盖对比 <span class="hint">左 ${esc(a)} · 右 ${esc(b)} · 高亮行=一方覆盖、另一方空白</span></h3>${dimRows}</div>
+  <div class="card"><h3>国际标准对标 <span class="hint">同标准=可视为等效条款</span></h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px">
+      <div class="refcol"><h4 style="color:#3d6630">✓ 共同对标 (${shared.length})</h4><div class="refchips">${chips(shared,"shared")}</div></div>
+      <div class="refcol"><h4>仅 ${esc(a)} (${onlyA.length})</h4><div class="refchips">${chips(onlyA,"")}</div></div>
+      <div class="refcol"><h4>仅 ${esc(b)} (${onlyB.length})</h4><div class="refchips">${chips(onlyB,"")}</div></div>
+    </div></div>
+  ${eq.length?`<div class="card"><h3>等效法规映射 <span class="hint">同一国际标准下,两侧对应的本地法规(点编号跳详情)</span></h3>
+    <div class="eqrow" style="font-weight:700;color:var(--muted);border-bottom:2px solid var(--line)"><div>国际标准</div><div>${esc(a)}</div><div>${esc(b)}</div></div>
+    ${eq.map(e=>`<div class="eqrow"><div class="std">${esc(e.std)}</div>
+      <div class="lst">${e.a.map(r=>regSpan(r,a)).join("")||'<span style="color:var(--faint)">—</span>'}</div>
+      <div class="lst">${e.b.map(r=>regSpan(r,b)).join("")||'<span style="color:var(--faint)">—</span>'}</div></div>`).join("")}
+    </div>`:""}`;
+}
+
+/* ================= 13 合规路径规划 ================= */
+/* 认证区块:同区块内一证通行(无需重复测试) */
+const PATH_BLOCS={
+  "EU-WVTA":["欧盟","德国","意大利","奥地利","克罗地亚","立陶宛","罗马尼亚","爱沙尼亚","挪威"],
+  "EAEU":["俄罗斯","白俄罗斯","哈萨克斯坦","亚美尼亚","吉尔吉斯斯坦","欧亚经济联盟"],
+  "GCC":["沙特","阿联酋","科威特","卡塔尔","阿曼","巴林"]};
+/* 各标准体系对外可被识别的关键词(用于匹配他国「对外采信」记录) */
+const PATH_TOKENS={EU:["EU-WVTA","WVTA","E-MARK","ECE","UN R","UN法规","UNECE","IWVTA","1958","欧盟"],
+  EAEU:["EAEU","TR CU","EAC","GOST"],GCC:["GCC","GSO","G-MARK"],FMVSS:["FMVSS"],CMVSS:["CMVSS","FMVSS"],
+  KMVSS:["KMVSS"],JAPAN:["UN R","ECE","E-MARK","IWVTA","1958","WVTA"],GB:["CCC","GB","中国"],
+  AIS:["AIS","CMVR"],NAT:["UN R","ECE","E-MARK"]};
+const ORG_FAMILY={"欧盟":"EU","UNECE":"EU","欧亚经济联盟":"EAEU","GSO":"GCC","GTR":"EU"};
+function anchorConfers(anchor){
+  const rec=CERT&&CERT[anchor];if(!rec)return null;
+  let fam=rec.system_type==="own_full"?(STD_FAMILY[anchor]||"NAT"):(ORG_FAMILY[anchor]||null);
+  const tokens=new Set();let blocs=[];
+  if(fam&&PATH_TOKENS[fam])PATH_TOKENS[fam].forEach(t=>tokens.add(t.toUpperCase()));
+  for(const bn in PATH_BLOCS)if(PATH_BLOCS[bn].includes(anchor)){blocs.push(bn);(PATH_TOKENS[bn==="EU-WVTA"?"EU":bn]||[]).forEach(t=>tokens.add(t.toUpperCase()));}
+  // 采信型/混合型锚点:其准入以本地为主,对外可转移性弱
+  const weak=rec.system_type!=="own_full"&&!blocs.length&&!ORG_FAMILY[anchor];
+  return {fam,tokens,blocs,weak,label:fam&&GROUP_STYLE[fam]?GROUP_STYLE[fam].label:(rec.system_type==="hybrid"?"混合型(本地为主)":"采信外部型(本地为主)")};
+}
+function renderPath(){
+  const body=$("#path-body");if(!body)return;
+  if(typeof CERT==="undefined"||!CERT){body.innerHTML='<div class="bigmsg">正在载入认证体系数据…</div>';loadCert().then(()=>{fillPathAnchor();renderPath();});return;}
+  const anchor=$("#path-anchor").value;
+  if(!anchor){body.innerHTML='<div class="bigmsg">选择产品已满足准入的国家/地区</div>';return;}
+  const conf=anchorConfers(anchor);if(!conf){body.innerHTML='<div class="bigmsg">该条目暂无认证体系数据</div>';return;}
+  const blocSet=new Set();conf.blocs.forEach(bn=>PATH_BLOCS[bn].forEach(c=>blocSet.add(c)));
+  const tiers={mutual:[],recognize:[],partial:[],local:[]};
+  Object.keys(CERT).forEach(c=>{
+    if(c===anchor)return;
+    const rec=CERT[c];
+    const rzn=((rec.external_recognition&&rec.external_recognition.recognizes)||[]).join(" │ ");
+    const rznU=rzn.toUpperCase();
+    const hit=!conf.weak&&[...conf.tokens].some(t=>t&&rznU.includes(t));
+    const why=(rec.external_recognition&&(rec.external_recognition.basis||rec.external_recognition.scope))||"";
+    const item={c,rec,why:why,rzn};
+    if(blocSet.has(c))tiers.mutual.push(item);
+    else if(hit&&rec.system_type==="recognition")tiers.recognize.push(item);
+    else if(hit&&(rec.system_type==="hybrid"||rec.system_type==="own_full"))tiers.partial.push(item);
+    else tiers.local.push(item);
+  });
+  const confOrder={A:0,B:1,C:2};
+  for(const k in tiers)tiers[k].sort((x,y)=>(confOrder[x.rec.confidence]||3)-(confOrder[y.rec.confidence]||3)||x.c.localeCompare(y.c,"zh"));
+  const TIERDEF=[
+    ["mutual","#3d6630","#e2efda","一证通行 · 同认证区块","与锚点同属一个型式批准区块,一份批准全区块通行,无需重复测试。"],
+    ["recognize","#2f5a72","#e2eef5","采信免重复测试","采信外部型国家,接受锚点所持标准的型式认证结果,通常仅需文件核验或少量本地项(如排放)。"],
+    ["partial","#8a6510","#fbf0d8","部分采信 · 减量测试","混合型/自有体系国家,承认锚点的部件/系统型式认证(免重复部件测试),整车仍需本地批准。"],
+    ["local","#8d8674","#efece1","需本地认证","无采信关系,需按该国体系完整办理型式认证/准入。"]];
+  const tierCard=([k,col,bg,tt,desc])=>{
+    const arr=tiers[k];if(!arr.length)return"";
+    return `<div class="tier"><div class="th"><span class="dot" style="background:${col}"></span>
+      <span class="tt" style="color:${col}">${tt}</span><span class="tc">${arr.length} 国/地区</span></div>
+      <div class="desc">${desc}</div>
+      <div class="ctry-grid">${arr.map(it=>{
+        const sl=(typeof SYS_LABEL!=="undefined"&&SYS_LABEL[it.rec.system_type])||it.rec.system_type;
+        const cf=it.rec.confidence?` · 资料${it.rec.confidence}`:"";
+        return `<div class="ctry" onclick="pathGoto('${it.c.replace(/'/g,"\\'")}')" title="点开查看 ${esc(it.c)} 认证金字塔">
+          <div class="cn">${esc(it.c)}<span class="badge" style="background:${bg};color:${col}">${esc(sl)}${cf}</span></div>
+          ${(k!=="mutual"&&it.rzn)?`<div class="why">采信:${esc(it.rzn.slice(0,60))}</div>`:(it.why?`<div class="why">${esc(it.why.slice(0,64))}</div>`:"")}
+        </div>`;}).join("")}</div></div>`;};
+  const reach=tiers.mutual.length+tiers.recognize.length+tiers.partial.length;
+  body.innerHTML=`
+  <div class="card">
+    <h3>已满足:${esc(anchor)} <span class="hint">该准入确立的标准体系 → 据此规划其余 ${Object.keys(CERT).length-1} 个国家/地区的切入路径</span></h3>
+    <div class="anchor-sum">
+      <span class="fam">标准体系:${esc(conf.label)}</span>
+      ${conf.blocs.map(b=>`<span class="fam" style="background:#e2efda;border-color:#b6d6a8;color:#3d6630">区块:${esc(b)}</span>`).join("")}
+      <span style="font-family:var(--mono);font-size:11.5px;color:var(--muted)">可少测/免测覆盖 <b style="color:var(--good);font-size:14px">${reach}</b> 国 · 需本地认证 ${tiers.local.length} 国</span>
+    </div>
+    ${conf.weak?'<div style="font-size:11.5px;color:var(--warn);margin-top:8px">⚠ 该国准入以本地认证为主、对外可转移性有限,持有其证书在他国多数仍需重新认证。建议以 EU-WVTA / UN-R(1958协定)/ GCC 等区块体系作为出海主认证。</div>':''}
+    <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">推荐切入顺序:① 一证通行 → ② 采信免测 → ③ 部分采信减量 → ④ 本地认证(负担最高)。点国家卡看其认证金字塔。</div>
+  </div>
+  ${TIERDEF.map(tierCard).join("")}`;
+}
+function pathGoto(c){if($("#pyr-sel")){switchTab("p-pyr");loadCert().then(()=>{if(CERT&&CERT[c]){$("#pyr-sel").value=c;refreshSelFilter($("#pyr-sel"));renderPyramid(c);}});}}
+function fillPathAnchor(){
+  const sel=$("#path-anchor");if(!sel||typeof CERT==="undefined"||!CERT)return;
+  const cur=sel.value;
+  const keys=Object.keys(CERT).filter(k=>!["GTR"].includes(k)).sort((a,b)=>a.localeCompare(b,"zh"));
+  sel.innerHTML='<option value="">选择国家/地区…</option>'+keys.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join("");
+  if(cur&&keys.includes(cur))sel.value=cur; else if(CERT["欧盟"])sel.value="欧盟";
+  refreshSelFilter(sel);
+}
+
 /* tabs */
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
@@ -2636,11 +2861,13 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-pyr")loadCert();
   if(t.dataset.p==="p-chain")openChainTab();
   if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
+  if(t.dataset.p==="p-cmp")renderCmp();
+  if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
 /* 给所有国家下拉加输入筛选(免滚动翻找);备忘的国家输入框本就是 datalist 可输入,跳过 */
-["csel","netcsel","treecsel","txtcty","cond-cty","chain-cty","pyr-sel","memo-fcty"].forEach(enhanceCountrySelect);
+["csel","netcsel","treecsel","txtcty","cond-cty","chain-cty","pyr-sel","memo-fcty","cmp-a","cmp-b","path-anchor"].forEach(enhanceCountrySelect);
 
 (async function init(){
   try{
