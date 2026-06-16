@@ -2053,5 +2053,133 @@
         "url": ""
       }
     ]
+  },
+  "TDS/PHP 型式指定": {
+    "reg_no": "TDS/PHP 型式指定",
+    "match_key": "日本TDS",
+    "region": "东亚",
+    "country": "日本",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-035",
+        "title": "全球32国/联盟车辆准入许可概览(亚/欧/北美/南美/中东/大洋洲/非洲)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "KMVSS/KC Mark": {
+    "reg_no": "KMVSS/KC Mark",
+    "match_key": "KC Mark",
+    "region": "东亚",
+    "country": "韩国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-035",
+        "title": "全球32国/联盟车辆准入许可概览(亚/欧/北美/南美/中东/大洋洲/非洲)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "ARAI/CMVR": {
+    "reg_no": "ARAI/CMVR",
+    "match_key": "CMVR",
+    "region": "南亚",
+    "country": "印度",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-035",
+        "title": "全球32国/联盟车辆准入许可概览(亚/欧/北美/南美/中东/大洋洲/非洲)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "EAC": {
+    "reg_no": "EAC",
+    "match_key": "EAC",
+    "region": "欧亚",
+    "country": "欧亚经济联盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-035",
+        "title": "全球32国/联盟车辆准入许可概览(亚/欧/北美/南美/中东/大洋洲/非洲)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "DOT/FMVSS + EPA + CARB": {
+    "reg_no": "DOT/FMVSS + EPA + CARB",
+    "match_key": "DOT美国",
+    "region": "北美",
+    "country": "美国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-036",
+        "title": "七大海外市场24国准入政策与趋势:北美/南美/欧盟/欧亚/中东/东盟/非洲",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "CDOT/CMVSS": {
+    "reg_no": "CDOT/CMVSS",
+    "match_key": "CMVSS",
+    "region": "北美",
+    "country": "加拿大",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-036",
+        "title": "七大海外市场24国准入政策与趋势:北美/南美/欧盟/欧亚/中东/东盟/非洲",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "NOM": {
+    "reg_no": "NOM",
+    "match_key": "NOM墨西哥",
+    "region": "北美",
+    "country": "墨西哥",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-036",
+        "title": "七大海外市场24国准入政策与趋势:北美/南美/欧盟/欧亚/中东/东盟/非洲",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "LCVM/CAT": {
+    "reg_no": "LCVM/CAT",
+    "match_key": "LCVM巴西",
+    "region": "南美",
+    "country": "巴西",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-036",
+        "title": "七大海外市场24国准入政策与趋势:北美/南美/欧盟/欧亚/中东/东盟/非洲",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }

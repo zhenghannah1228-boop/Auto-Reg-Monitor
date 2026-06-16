@@ -1747,6 +1747,123 @@
       "source_file": "玻利维亚规范新能源汽车进口.pdf",
       "url": "",
       "needs_review": false
+    },
+    {
+      "id": "INS-2026-035",
+      "type": "system",
+      "title": "全球32国/联盟车辆准入许可概览(亚/欧/北美/南美/中东/大洋洲/非洲)",
+      "summary": "按七大区分类梳理32个国家/联盟的车辆准入制度:亚洲10(日/韩/印/EAC/印尼等)、欧洲3、北美3、南美6、中东5、大洋洲2、非洲3;多数为型式批准或自我认证+强制产品认证组合。",
+      "regulations": [
+        {
+          "region": "东亚",
+          "country": "日本",
+          "reg_no": "TDS/PHP 型式指定",
+          "match_key": "日本TDS"
+        },
+        {
+          "region": "东亚",
+          "country": "韩国",
+          "reg_no": "KMVSS/KC Mark",
+          "match_key": "KC Mark"
+        },
+        {
+          "region": "南亚",
+          "country": "印度",
+          "reg_no": "ARAI/CMVR",
+          "match_key": "CMVR"
+        },
+        {
+          "region": "欧亚",
+          "country": "欧亚经济联盟",
+          "reg_no": "EAC",
+          "match_key": "EAC"
+        }
+      ],
+      "topics": [
+        "认证体系",
+        "准入管理",
+        "型式认证",
+        "型式批准",
+        "EAC",
+        "ARAI"
+      ],
+      "dimensions": [
+        "9"
+      ],
+      "key_points": [
+        "日本:型式指定制度——TDS(型式指定)、共通构造部型式指定、PHP(进口车特别对应制度,仅适用单一车型年销<5000辆);法规母法《道路运输车辆法》《保安基准》《大气污染防治法》,国土交通省监管,整车与部件均需型式指定。",
+        "韩国:强制性认证(环保/能耗)+ 自我认证(KMVSS 安全),分由 MOLIT/MOE/MOTIE 监管;电动车另需 MOE 补贴测试方可获补贴;售后备件除 KMVSS 自我认证打 KC 标识外,部分件需工业部 KC 认证,车载无线设备需 RRA 的 KC 无线电认证。",
+        "印度:ARAI(印度汽车研究协会)依 CMVR 对安全零部件做符合性测试与型式认证(工厂审核+型式认证+生产一致性);CMVR 整车强制范围覆盖两/三轮、M1/N1、M2/M3/N2/N3、工程车、拖拉机、电动车 BOV 等,数十类安全零部件须单独认证。",
+        "欧亚联盟:EAC 认证(欧亚一致性)覆盖俄/白/哈/亚/吉五国,贴 EAC 标志即海关联盟内自由流通;EAEU 已发66条技术法规(48条生效),成员国互认认证机构与实验室、EAC 证书全联盟有效。",
+        "印度尼西亚:整车型式认证由交通部+工业部共同监管(依第22/2009号法规),送 VTCC 检验合格发型式批准证书;零部件须 SNI 国家标准强制认证(安全玻璃/轮胎/轮辋等)。"
+      ],
+      "author": "汽车大发展",
+      "publish_date": "2024",
+      "region_focus": [
+        "全球"
+      ],
+      "source_file": "海外市场车辆准入许可32国联盟.pdf",
+      "url": "",
+      "needs_review": false
+    },
+    {
+      "id": "INS-2026-036",
+      "type": "system",
+      "title": "七大海外市场24国准入政策与趋势:北美/南美/欧盟/欧亚/中东/东盟/非洲",
+      "summary": "汇集北美、南美、欧盟、欧亚、中东、东盟、非洲主要国家汽车产品认证标准:北美 DOT/EPA/CARB 与 CDOT/NOM;南美巴西 LCVM/CAT 及 L7/L8 排放升级;各区强制认证、排放与有害物质趋势。",
+      "regulations": [
+        {
+          "region": "北美",
+          "country": "美国",
+          "reg_no": "DOT/FMVSS + EPA + CARB",
+          "match_key": "DOT美国"
+        },
+        {
+          "region": "北美",
+          "country": "加拿大",
+          "reg_no": "CDOT/CMVSS",
+          "match_key": "CMVSS"
+        },
+        {
+          "region": "北美",
+          "country": "墨西哥",
+          "reg_no": "NOM",
+          "match_key": "NOM墨西哥"
+        },
+        {
+          "region": "南美",
+          "country": "巴西",
+          "reg_no": "LCVM/CAT",
+          "match_key": "LCVM巴西"
+        }
+      ],
+      "topics": [
+        "认证体系",
+        "准入管理",
+        "型式认证",
+        "FMVSS",
+        "NOM",
+        "贸易政策"
+      ],
+      "dimensions": [
+        "9",
+        "2"
+      ],
+      "key_points": [
+        "美国:DOT(1968起,厂家自我检验申报符合 FMVSS、政府事后监督,涉安全/节能/防盗,NHTSA 管)+ EPA(依《清洁空气法》,环保,具自我认证要素);加州另有 CARB 强制(全球最严环保,出口加州须单独 CARB E.O.,资料同寄 EPA 与 CARB)。",
+        "加拿大:CDOT(交通部 TC,类似 DOT),以 CMVSS 为基础,比 FMVSS 更广(整车增噪音、日间行车灯测试);MVTC 试验中心由 PMG Technologies 运营,为境内唯一法规认证试验机构。",
+        "墨西哥:NOM 强制认证(NMX 为非强制推荐标准),不认可他国证书、只认本国 NOM;经济部主管,2015 起新安规 NOM-3-SCFI-2014 将部分 NMX 转强制。",
+        "巴西:环保部(IBAMA)+交通部(DENATRAN)主管,授权机构 CETESB/INMETRO 测试;整车须 LCVM(排放+噪音)+ CAT(安全,须在国家车辆登记处注册)证书方可上市。",
+        "趋势:巴西轻型车排放由 L6 升 L7(2022-01)、L8(2027-01),中重型 P7→P8 并分阶段加严噪声(2023/2027/2033);各区普遍强化排放、有害物质限量与废弃物回收要求。"
+      ],
+      "author": "汽车纵横AutoReview",
+      "publish_date": "2018",
+      "region_focus": [
+        "全球"
+      ],
+      "url": "",
+      "needs_review": false,
+      "source_file": "七大海外市场24国汽车准入政策及趋势.pdf"
     }
   ]
 }
