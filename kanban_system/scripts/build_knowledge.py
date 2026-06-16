@@ -31,7 +31,9 @@ THEME_MAP = [
     {"id":"brake",   "name":"制动系统",          "dims":["1"], "topic_kw":["制动","ABS","衬垫"],                      "reg_kw":["UN R13","GB 12676","GB 21670"]},
     {"id":"battery", "name":"动力电池安全",      "dims":["4"], "topic_kw":["电池热扩散","REESS","刮底","热失控"],      "reg_kw":["GB 38031","UN R100"]},
     {"id":"passport","name":"电池护照与标识",     "dims":["4","8"], "topic_kw":["电池护照","电池标签","电子标识","标牌"],"reg_kw":["EU 2023/1542"]},
+    {"id":"substance","name":"禁限用物质与化学品",  "dims":["2"],     "topic_kw":["RoHS","REACH","POPs","禁限用物质","有害物质","化学品","邻苯二甲酸酯","斯德哥尔摩"],"reg_kw":["EU 2023/1542"]},
     {"id":"adas",    "name":"智能驾驶分级(ADAS→L3)","dims":["7","6"], "topic_kw":["ADAS","DCAS","ALKS","ISA","DMS","自动驾驶","智能速度"],"reg_kw":["UN R79","UN R157","UN R171","UN R130","EU 2021/1958","EU 2019/2144"]},
+    {"id":"icv",     "name":"智能网联测评·座舱·隐私",  "dims":["7","6"], "topic_kw":["C-ICAP","智能网联","行车辅助","泊车辅助","智慧座舱","隐私保护","网络安全","座舱","V2X"],"reg_kw":["UN R155","UN R156"]},
     {"id":"cert",    "name":"认证制度与体系",     "dims":["1","9"], "topic_kw":["认证体系","认证制度","型式认证","准入管理","CCC","CMVR","ARAI","CONTRAN","INMETRO","等效认可"],"reg_kw":["EU 2018/858","CMVR","AIS","CONTRAN","UN R95","FMVSS 305","工信部"]},
     {"id":"policy",  "name":"产业与贸易政策",     "dims":["2","5"], "topic_kw":["工业加速","本地化","低碳","原产地","补贴"],"reg_kw":["工业加速法案"]},
 ]

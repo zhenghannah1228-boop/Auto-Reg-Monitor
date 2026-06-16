@@ -1646,5 +1646,182 @@
         "url": ""
       }
     ]
+  },
+  "TR CU 018/2011": {
+    "reg_no": "TR CU 018/2011",
+    "match_key": "TR CU 018/2011",
+    "region": "中亚",
+    "country": "哈萨克斯坦",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-023",
+        "title": "出海易忽略的冷门强制准入认证清单:中亚/东北亚/东欧/北非/小众岛国 + 新能源专项前置",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UzTR.237-016:2017": {
+    "reg_no": "UzTR.237-016:2017",
+    "match_key": "UzTR.237-016",
+    "region": "中亚",
+    "country": "乌兹别克斯坦",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-023",
+        "title": "出海易忽略的冷门强制准入认证清单:中亚/东北亚/东欧/北非/小众岛国 + 新能源专项前置",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UN R155": {
+    "reg_no": "UN R155",
+    "match_key": "UN R155",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 126,
+        "reg_no": "UN Regulation No. 155",
+        "cn_name": "关于车辆网络安全及网络安全管理体系的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 135,
+        "reg_no": "UN R155",
+        "cn_name": "关于车辆网络安全及网络安全管理体系的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-023",
+        "title": "出海易忽略的冷门强制准入认证清单:中亚/东北亚/东欧/北非/小众岛国 + 新能源专项前置",
+        "type": "system",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-025",
+        "title": "中国智能网联汽车技术规程 C-ICAP(2026年版):行车辅助/泊车辅助/智慧座舱/隐私保护四单元星级测评",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "UN R156": {
+    "reg_no": "UN R156",
+    "match_key": "UN R156",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 127,
+        "reg_no": "UN Regulation No. 156",
+        "cn_name": "关于车辆软件更新及软件更新管理系统认证的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 136,
+        "reg_no": "UN R156",
+        "cn_name": "关于车辆软件更新及软件更新管理系统认证的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 66,
+        "reg_no": "UN R156",
+        "cn_name": "软件更新与管理(SUMS)"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-023",
+        "title": "出海易忽略的冷门强制准入认证清单:中亚/东北亚/东欧/北非/小众岛国 + 新能源专项前置",
+        "type": "system",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-025",
+        "title": "中国智能网联汽车技术规程 C-ICAP(2026年版):行车辅助/泊车辅助/智慧座舱/隐私保护四单元星级测评",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "第33187-2022号总统令(K-RoHS)": {
+    "reg_no": "第33187-2022号总统令(K-RoHS)",
+    "match_key": "韩国RoHS 33187",
+    "region": "东亚",
+    "country": "韩国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-024",
+        "title": "韩国汽车禁/限用物质三大法规:K-RoHS(总统令33187)/ K-REACH(19172号)/ K-POPs(总统令33514)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "19172号法案(K-REACH)": {
+    "reg_no": "19172号法案(K-REACH)",
+    "match_key": "K-REACH 19172",
+    "region": "东亚",
+    "country": "韩国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-024",
+        "title": "韩国汽车禁/限用物质三大法规:K-RoHS(总统令33187)/ K-REACH(19172号)/ K-POPs(总统令33514)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "第33514号总统令(K-POPs)": {
+    "reg_no": "第33514号总统令(K-POPs)",
+    "match_key": "K-POPs 33514",
+    "region": "东亚",
+    "country": "韩国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-024",
+        "title": "韩国汽车禁/限用物质三大法规:K-RoHS(总统令33187)/ K-REACH(19172号)/ K-POPs(总统令33514)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "C-ICAP 2026": {
+    "reg_no": "C-ICAP 2026",
+    "match_key": "C-ICAP 2026",
+    "region": "中国",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-025",
+        "title": "中国智能网联汽车技术规程 C-ICAP(2026年版):行车辅助/泊车辅助/智慧座舱/隐私保护四单元星级测评",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }
