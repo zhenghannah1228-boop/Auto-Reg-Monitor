@@ -8699,31 +8699,36 @@
     },
     "塔吉克斯坦": {
       "country": "塔吉克斯坦",
-      "system_type": "recognition",
-      "summary": "独立国家认证体系(非EAEU正式成员):Tajikstandard为标准与认证主管,以GOST/本国标准与海关进口符合为主;CIS区域内EAC技术护照获认可;无本土型式批准。",
+      "system_type": "hybrid",
+      "summary": "独立国家强制认证体系(非EAEU成员):不属欧亚经济联盟、EAC 不能替代,须单独办理 GOST-TJ 国家强制认证;Tajikstandard 为标准与认证主管,按 GOST/本国标准做强制合格评定 + 海关进口核验,无 EU 式整车型式批准。",
       "pyramid": [
         {
           "level": 1,
           "label": "框架/顶端",
-          "title": "Tajikstandard标准与海关框架",
-          "title_local": "Tajikstandard / Customs Framework",
-          "desc": "塔吉克斯坦为CIS成员但非EAEU正式成员;Tajikstandard主管标准与认证;车辆准入以海关进口符合为主。",
+          "title": "Tajikstandard / GOST-TJ 强制认证框架",
+          "title_local": "Tajikstandard / GOST-TJ Mandatory Certification",
+          "desc": "塔吉克斯坦为CIS成员但非EAEU成员,不能用 EAC 替代;须单独办理 GOST-TJ 国家强制认证,由 Tajikstandard 主管,叠加海关进口核验。",
           "refs": []
         },
         {
           "level": 2,
           "label": "技术标准",
-          "title": "GOST / 塔吉克斯坦标准",
-          "title_local": "GOST / Tajik Standards",
-          "desc": "采GOST与本国标准作合格评定依据;部分采信CIS区域结果。",
-          "refs": []
+          "title": "GOST-TJ / 塔吉克斯坦国家标准",
+          "title_local": "GOST-TJ / Tajik National Standards",
+          "desc": "采 GOST-TJ 与本国标准作强制合格评定依据。",
+          "refs": [
+            {
+              "reg_no": "GOST-TJ",
+              "name": "塔吉克斯坦国家强制认证标准"
+            }
+          ]
         },
         {
           "level": 3,
           "label": "评定/检验",
           "title": "认证评定 + 海关检验",
           "title_local": "Certification / Customs",
-          "desc": "按认证方案评定;CIS区域内EAC技术护照获认可;海关进口核验。",
+          "desc": "按 GOST-TJ 认证方案评定(须本地独立测试);CIS 区域 EAC 技术护照仅作参考/支持文件,不替代 GOST-TJ;海关进口核验。",
           "refs": []
         },
         {
@@ -8752,13 +8757,13 @@
           "vehicle": [
             {
               "group": "安全",
-              "items": "GOST/塔吉克斯坦车辆标准"
+              "items": "GOST-TJ 国家强制认证(整车安全,按 GOST/本国标准)"
             }
           ],
           "component": [
             {
               "group": "部件",
-              "items": "部件按GOST/本国标准取符合证书"
+              "items": "部件按 GOST-TJ/本国标准取强制认证符合证书"
             }
           ]
         },
@@ -8769,7 +8774,7 @@
           },
           {
             "step": "评定",
-            "desc": "按GOST/本国标准评定;可采CIS区域结果。"
+            "desc": "按 GOST-TJ/本国标准评定,须本地独立测试(EAC 不替代)。"
           },
           {
             "step": "发证",
@@ -8789,18 +8794,19 @@
       },
       "external_recognition": {
         "recognizes": [
-          "CIS区域EAC技术护照",
+          "CIS区域EAC技术护照(仅参考)",
           "GOST体系结果",
           "出口国原始资料"
         ],
-        "basis": "采GOST/本国标准;CIS区域内EAC技术护照获认可;非EAEU正式成员。",
-        "scope": "标准符合+海关;CIS采信,独立于EAEU",
-        "note": "独立认证体系(非EAEU正式成员)——Tajikstandard发符合证书,采GOST/本国标准,CIS区域采信EAC技术护照,无本土型式批准。"
+        "basis": "采 GOST-TJ/本国标准作强制认证;非EAEU成员,EAC 认证不能替代 GOST-TJ。",
+        "scope": "GOST-TJ 强制认证 + 海关;独立于EAEU",
+        "note": "混合型——自有 GOST-TJ 国家强制认证为准入核心,CIS 区域 EAC 技术护照仅作参考而非替代。 【推文校丰】据 2026-05《出海冷门强制准入认证清单》:塔吉克斯坦不属于欧亚经济联盟,EAC 认证不能替代,必须单独办理 GOST-TJ 国家强制认证(独立测试 + 审核);该国普遍存在测试标准老旧、审核周期漫长的特点,项目立项阶段须提前预留充足认证周期。"
       },
       "confidence": "C",
       "sources": [
         "法规清单(塔吉克斯坦)",
-        "Tajikstandard/GOST/CIS 公开资料(资料有限)"
+        "Tajikstandard/GOST/CIS 公开资料(资料有限)",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "阿塞拜疆": {
