@@ -209,8 +209,8 @@
     },
     "阿尔及利亚": {
       "country": "阿尔及利亚",
-      "system_type": "recognition",
-      "summary": "暂无自有整车型式认证(批准)体系；以制造业监管+符合性检查为主，技术要求依赖外部标准。",
+      "system_type": "hybrid",
+      "summary": "法定强制 COC 符合性认证(拒收境外报告):整车准入须本地试验取得官方 COC 证书,排放不低于欧5、ABS/ESC 等主动安全强制标配;完全拒收 GCC/EAC 等境外认证,进口商须为工业部授权的特许经销主体;无 EU 式完整型式批准。",
       "pyramid": [
         {
           "level": 1,
@@ -343,12 +343,13 @@
         ],
         "basis": "无成体系的证书互认条款；技术要求事实上参照欧盟/法国体系，以符合性检查为准入闸口。",
         "scope": "无明确整车证书互认",
-        "note": "属于「暂无完善体系」类型——准入靠制造业监管+符合性检查，而非完整型式批准链。待补充官方互认依据。"
+        "note": "属于「暂无完善体系」类型——准入靠制造业监管+符合性检查，而非完整型式批准链。待补充官方互认依据。 【推文校对】阿尔及利亚整车准入为法定强制 COC 符合性认证,必须本地试验、不接受 GCC/EAC 境外报告(原『暂无自有体系』表述据此更正);排放≥欧5,ABS/ESC 强制标配,部分合作车型需提交本地组装承诺,进口商须工业部授权特许经销主体。"
       },
       "confidence": "B",
       "sources": [
         "法规清单",
-        "ARPCE/制造业监管令公开资料"
+        "ARPCE/制造业监管令公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "日本": {
@@ -493,18 +494,19 @@
         ],
         "basis": "1998年加入UN1958协定，应用100+项UN Regulation；缔约方颁发的UN系统/部件型式认证证书可被接受免重复试验。",
         "scope": "部件/系统完全互认；整车经IWVTA(2018.8启用)部分互认",
-        "note": "1958协定仅对系统/部件证书完全互认，整车为部分IWVTA，落地注册仍可能需补充本国附加要求。"
+        "note": "1958协定仅对系统/部件证书完全互认，整车为部分IWVTA，落地注册仍可能需补充本国附加要求。 【推文校丰】型式认定大量引用 JIS 日本工业标准,覆盖整车安全/排放/噪音/EMC 全项试验,且所有车型必须完成右舵专属本地化改制——是全球最严苛体系之一,也是国产车企进军日本市场的最大阻碍。"
       },
       "confidence": "A",
       "sources": [
         "法规清单(日本710条)",
-        "MLIT/NTSEL/JASIC/UNECE WP.29 公开资料"
+        "MLIT/NTSEL/JASIC/UNECE WP.29 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "韩国": {
       "country": "韩国",
       "system_type": "own_full",
-      "summary": "采用美式自我认证(자기인증)体系：2003年由型式承认改为自我认证，制造商自行确认符合KMVSS安全基准。",
+      "summary": "采用美式自我认证(자기인증)体系：2003年由型式承认改为自我认证，制造商自行确认符合KMVSS安全基准。2025-08-14 起新增 KMVSS Article 18-4 网络安全、18-5 软件升级两大强制条款,新申报车型必须满足。",
       "pyramid": [
         {
           "level": 1,
@@ -617,12 +619,13 @@
         ],
         "basis": "自我认证体系，不依赖外部证书互认；技术上参与WP.29并采纳部分UN法规。",
         "scope": "无证书互认(自我认证模式)",
-        "note": "与日本/欧盟的型式批准不同，韩国采美式自我认证——由制造商负责，政府事后抽查。"
+        "note": "与日本/欧盟的型式批准不同，韩国采美式自我认证——由制造商负责，政府事后抽查。 【推文校丰】KMVSS 整车认证由国土交通省主管、仅可通过本土指定代理申报,认证成本高、周期冗长;2025-08-14 正式生效新增 Article 18-4(网络安全)与 18-5(软件升级)两大强制条款,所有新申报车型必须合规。"
       },
       "confidence": "A",
       "sources": [
         "法规清单(韩国409条)",
-        "자동차관리법/KMVSS/KATRI/KAIDA 公开资料"
+        "자동차관리법/KMVSS/KATRI/KAIDA 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "欧盟": {
@@ -1803,12 +1806,13 @@
         ],
         "basis": "QCVN技术规范常与UNECE/ECE/ISO对齐;以本体系VR证书为准入,不直接互认外部整车证书。",
         "scope": "无外部整车证书互认(自有型式认证)",
-        "note": "自有型式认证体系,QCVN与国际标准对齐,VR统一测试认证。"
+        "note": "自有型式认证体系,QCVN与国际标准对齐,VR统一测试认证。 【推文校丰】常见误区是以为东盟 LCI 区域互认可通用,实则越南不认可东盟互认资质,强制本土登检认证(Vietnam Register/VR);法规等效 UNECE,但所有试验必须在越南登检局授权实验室完成,严禁套用其他东盟国家数据与证书。"
       },
       "confidence": "A",
       "sources": [
         "法规清单(越南)",
-        "MOT/Vietnam Register/QCVN 公开资料"
+        "MOT/Vietnam Register/QCVN 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "印度尼西亚": {
@@ -5143,18 +5147,19 @@
         ],
         "basis": "EAEU统一技术规程,成员国间OTTS/EAC互认;TR CU采纳UN法规。",
         "scope": "EAEU内完全互认;采UN法规",
-        "note": "EAEU体系——与俄罗斯同属TR CU 018/OTTS体系,EAC证书全联盟通行,哈另保留国家合格评定体系。"
+        "note": "EAEU体系——与俄罗斯同属TR CU 018/OTTS体系,EAC证书全联盟通行,哈另保留国家合格评定体系。 【推文校丰】整车须取得 EAC 认证 + OTTC 车辆类型批准书方可注册销售;认证申请必须指定 EAEU 境内实体作为连带责任签约方(车企申报的核心卡点)。"
       },
       "confidence": "A",
       "sources": [
         "法规清单(哈萨克斯坦)",
-        "TR CU 018-2011/EAEU/技术规程与计量委员会 公开资料"
+        "TR CU 018-2011/EAEU/技术规程与计量委员会 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "乌兹别克斯坦": {
       "country": "乌兹别克斯坦",
-      "system_type": "recognition",
-      "summary": "独立国家认证体系(非EAEU):Uzstandard为标准与认证主管,发UZ符合证书,采GOST-U/UZ等标准,可采信RF/FAC等外部认证;序列产品证书可直接以厂家名义签发。",
+      "system_type": "hybrid",
+      "summary": "独立国家强制认证体系(非EAEU,不认EAC):须依本国 UzTR.237-016:2017 标准独立完成整车全项测试与工厂审核,由 UZSTANDART(标准、计量与认证署)发 UZ 符合证书;可参考 RF/FAC 等外部结果,证书申请人须为乌境内注册企业。",
       "pyramid": [
         {
           "level": 1,
@@ -5167,13 +5172,13 @@
         {
           "level": 2,
           "label": "技术标准",
-          "title": "GOST-U / UZ 标准",
+          "title": "UzTR.237-016:2017 / GOST-U / UZ 标准",
           "title_local": "GOST-U / UZ Standards",
           "desc": "采GOST-U、UZ等安全标准作合格评定依据。",
           "refs": [
             {
-              "reg_no": "GOST-U / O'z DSt",
-              "name": "乌兹别克斯坦标准"
+              "reg_no": "UzTR.237-016:2017",
+              "name": "乌兹别克斯坦整车强制认证标准"
             }
           ]
         },
@@ -5249,12 +5254,13 @@
         ],
         "basis": "采GOST-U/UZ标准;可采信RF、FAC等外部认证结果。",
         "scope": "采信RF/FAC等外部认证;独立于EAEU",
-        "note": "独立认证体系(非EAEU)——Uzstandard发UZ符合证书,采GOST-U/UZ标准并可采信外部认证,区别于哈萨克斯坦的EAEU体系。"
+        "note": "独立认证体系(非EAEU)——Uzstandard发UZ符合证书,采GOST-U/UZ标准并可采信外部认证,区别于哈萨克斯坦的EAEU体系。 【推文校对】乌兹别克斯坦完全不认可欧亚 EAC 体系,须依 UzTR.237-016:2017 独立完成整车全项测试与工厂审核、由 UZSTANDART 发证,证书申请人必须为乌境内注册企业;随国产皮卡与微型电动车出口升温,已是不可豁免的强制准入项。"
       },
       "confidence": "B",
       "sources": [
         "法规清单(乌兹别克斯坦)",
-        "Uzstandard/GOST-U 公开资料"
+        "Uzstandard/GOST-U 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "伊拉克": {
@@ -6564,12 +6570,13 @@
         ],
         "basis": "接收可凭原产国或国际认可机构出具的type接收报告(经OCT,附阿/法/英译本)。",
         "scope": "采信境外认可机构type报告;自有ATTT接收",
-        "note": "自有法式型式批准——ATTT作réception(par type/à titre isolé),承袭法式homologation,接受境外认可机构type报告。"
+        "note": "自有法式型式批准——ATTT作réception(par type/à titre isolé),承袭法式homologation,接受境外认可机构type报告。 【推文校丰】另设 NT 国家标准认证(由 INNORPI 突尼斯国家标准与质量研究院主管),所有进口车辆须通过 PCAP 符合性评估程序,并要求整车型式批准叠加年度工厂监督审核。"
       },
       "confidence": "B",
       "sources": [
         "法规清单(突尼斯)",
-        "ATTT/OCT/Arrêté 25-01-2000 公开资料"
+        "ATTT/OCT/Arrêté 25-01-2000 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "危地马拉": {
@@ -7892,12 +7899,13 @@
         ],
         "basis": "广泛采信ADR/FMVSS/EU CoC/UN法规等多国型式批准作入境合规依据。",
         "scope": "多体系采信+入境认证;无完整本土型式批准",
-        "note": "采信外部证书/入境认证型——NZTA广泛采信ADR/FMVSS/EU/UN多国标准,大洋洲代表,无完整本土型式批准。"
+        "note": "采信外部证书/入境认证型——NZTA广泛采信ADR/FMVSS/EU/UN多国标准,大洋洲代表,无完整本土型式批准。 【推文校丰】官方承认澳大利亚 ADR 认证作为基础准入依据,但车辆到港后必须完成 NZTA 本地备案登记,并满足右舵改装、车辆识别系统本地化等附加要求。"
       },
       "confidence": "A",
       "sources": [
         "法规清单(新西兰)",
-        "NZTA/Waka Kotahi/Entry Certification 公开资料"
+        "NZTA/Waka Kotahi/Entry Certification 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "UNECE": {
@@ -8689,12 +8697,13 @@
         ],
         "basis": "EAEU统一技术规程,成员国间OTTS/EAC互认;TR CU采纳UN法规。",
         "scope": "EAEU内完全互认;采UN法规",
-        "note": "EAEU体系——与俄罗斯同属TR CU 018/OTTS体系,EAC证书全联盟通行。吉尔吉斯斯坦2015年加入EAEU。"
+        "note": "EAEU体系——与俄罗斯同属TR CU 018/OTTS体系,EAC证书全联盟通行。吉尔吉斯斯坦2015年加入EAEU。 【推文校丰】隶属 EAEU 体系、通用联盟 EAC 认证规则;但普遍存在测试标准老旧、审核周期漫长的特点,立项阶段须预留充足认证周期。"
       },
       "confidence": "A",
       "sources": [
         "法规清单(吉尔吉斯斯坦)",
-        "TR CU 018-2011/EAEU/EEC 公开资料"
+        "TR CU 018-2011/EAEU/EEC 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "塔吉克斯坦": {
@@ -9508,12 +9517,13 @@
         ],
         "basis": "Reg 2018/858下WVTA经一国批准全欧盟/EEA通行;部件采UN法规互认。",
         "scope": "欧盟/EEA完全互认(30国单一护照)",
-        "note": "欧盟WVTA体系——罗马尼亚由RAR执行Reg 2018/858,与德国/意大利等同构,WVTA全欧盟/EEA通行。"
+        "note": "欧盟WVTA体系——罗马尼亚由RAR执行Reg 2018/858,与德国/意大利等同构,WVTA全欧盟/EEA通行。 【推文校丰】量产车持有效 WVTA 即可在欧盟自由流通;但非欧盟来源车辆、小批量定制及特种车辆无法直接用 WVTA,须在当地完成 RAR(罗马尼亚汽车登记处)专项技术核验(VIN 校验 + 整车技术审查补充备案)。"
       },
       "confidence": "A",
       "sources": [
         "法规清单(罗马尼亚)",
-        "Reg (EU) 2018/858/EUR-Lex 公开资料"
+        "Reg (EU) 2018/858/EUR-Lex 公开资料",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     },
     "爱沙尼亚": {
@@ -11068,6 +11078,318 @@
       "confidence": "C",
       "sources": [
         "推文INS-2022-005(中欧汽车认证与法规比较)"
+      ]
+    },
+    "塞尔维亚": {
+      "country": "塞尔维亚",
+      "system_type": "hybrid",
+      "summary": "非欧盟独立认证体系:采用独立的 AAA 强制性合格评定体系,法规基准高度对标 UNECE 但发证机构完全独立,需单独测试与工厂审核;已纳入 E/e-mark 体系,专属代号 E10。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "塞尔维亚 AAA 强制合格评定",
+          "title_local": "Serbia AAA Conformity Assessment",
+          "desc": "非欧盟国家,不强制认可欧盟 WVTA,采用自有 AAA 强制合格评定体系。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "对标 UNECE 法规",
+          "title_local": "UNECE-aligned",
+          "desc": "技术基准高度对标 UNECE/UN 法规,塞为 1958 协定缔约方(代号 E10)。",
+          "refs": [
+            {
+              "reg_no": "UN R 系列",
+              "name": "UNECE 法规(对标)"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "label": "测试/评定",
+          "title": "独立测试 + 工厂审核",
+          "title_local": "Independent Testing / Factory Audit",
+          "desc": "发证机构独立于欧盟,需在塞单独开展测试与工厂审核。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "AAA 合格证书 / E10",
+          "title_local": "AAA Certificate / E10 mark",
+          "desc": "通过评定签发 AAA 合格证书,可发 E10 标志。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "塞尔维亚合格评定主管机构(AAA 体系)",
+            "abbr": "AAA",
+            "role": "独立合格评定与发证。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全",
+              "items": "对标 UNECE 的整车安全要求(AAA 评定)"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "部件按 E/e-mark(E10)与 AAA 评定"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "提交申请",
+            "desc": "向塞 AAA 体系机构提交。"
+          },
+          {
+            "step": "测试与工厂审核",
+            "desc": "独立开展测试与工厂审核(对标 UNECE)。"
+          },
+          {
+            "step": "发证",
+            "desc": "签发 AAA 合格证书 / E10 标志。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件认证",
+            "desc": "部件按本国强制认证取符合证书。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "UNECE/UN 法规(对标)",
+          "E/e-mark(E10)"
+        ],
+        "basis": "基准对标 UNECE,但发证机构完全独立,需单独测试与工厂审核。",
+        "scope": "自有 AAA 强制合格评定;不自动认可欧盟 WVTA",
+        "note": "非欧盟独立认证体系——AAA 强制合格评定,对标 UNECE、纳入 E/e-mark(代号 E10),发证机构独立。 【推文来源】克罗地亚 2013 年入盟执行 WVTA,不属此独立认证范畴。"
+      },
+      "confidence": "C",
+      "sources": [
+        "推文原始资料(资料有限)",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
+      ]
+    },
+    "利比亚": {
+      "country": "利比亚",
+      "system_type": "own_full",
+      "summary": "自有强制认证 + 装船前检验:依《第 12/2010 号法案》管控车辆及零部件进口,执行 LNCS 强制认证叠加 PVOC 装船前检验;法规以 UNECE 为基础并增加适配北非高温、沙尘环境的专属试验项,要求整车型式批准叠加年度工厂监督审核。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "《第 12/2010 号法案》",
+          "title_local": "Law No.12/2010",
+          "desc": "管控车辆及零部件进口的母法。",
+          "refs": [
+            {
+              "reg_no": "Law 12/2010",
+              "name": "利比亚车辆及零部件进口管控法案"
+            }
+          ]
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "UNECE 基础 + 高温沙尘专属试验",
+          "title_local": "UNECE base + desert tests",
+          "desc": "以 UNECE 为基础,额外增加适配北非高温、沙尘环境的专属试验项。",
+          "refs": [
+            {
+              "reg_no": "UN R 系列",
+              "name": "UNECE 法规(基础)"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "label": "测试/评定",
+          "title": "LNCS 强制认证 + PVOC",
+          "title_local": "LNCS + PVOC",
+          "desc": "LNCS 强制认证叠加 PVOC 装船前检验;整车型式批准叠加年度工厂监督审核。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "LNCS 证书 + PVOC 放行",
+          "title_local": "LNCS Certificate + PVOC",
+          "desc": "取得 LNCS 认证与 PVOC 检验后清关放行。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "利比亚国家标准与计量中心(LNCS 体系)",
+            "abbr": "LNCS",
+            "role": "强制认证与标准主管。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全",
+              "items": "UNECE 基础 + 高温/沙尘专属试验(LNCS)"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "零部件须 LNCS 认证 + PVOC 检验"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "型式批准",
+            "desc": "按 LNCS 取得整车型式批准(UNECE 基础 + 专属试验)。"
+          },
+          {
+            "step": "PVOC 装船前检验",
+            "desc": "出口前完成 PVOC 装船前检验。"
+          },
+          {
+            "step": "工厂监督",
+            "desc": "叠加年度工厂监督审核。"
+          },
+          {
+            "step": "清关放行",
+            "desc": "凭 LNCS 证书与 PVOC 放行。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件认证",
+            "desc": "部件按本国强制认证取符合证书。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "UNECE 法规(基础)",
+          "出口国原始资料"
+        ],
+        "basis": "以 UNECE 为基础,但叠加 LNCS 强制认证、PVOC 检验与高温沙尘专属试验。",
+        "scope": "LNCS 强制认证 + PVOC;UNECE 基础",
+        "note": "自有强制认证体系——《第12/2010号法案》下 LNCS 认证叠加 PVOC,以 UNECE 为基础并增北非高温沙尘专属试验,要求整车型式批准 + 年度工厂监督审核。 【推文来源】战后北非市场回暖,国产皮卡/轻卡需求高,准入门槛居高不下。"
+      },
+      "confidence": "C",
+      "sources": [
+        "推文原始资料(资料有限)",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
+      ]
+    },
+    "巴布亚新几内亚": {
+      "country": "巴布亚新几内亚",
+      "system_type": "own_full",
+      "summary": "自有 NICTA 型式认证(右舵专属市场):技术标准对标 ADR 与 GCC 法规,仅接受当地官方机构发证;2025-12 新规明确证书有效期规则。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "NICTA 型式认证",
+          "title_local": "NICTA Type Approval",
+          "desc": "右舵专属准入市场,仅接受当地官方机构(NICTA)发证。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "对标 ADR 与 GCC",
+          "title_local": "ADR / GCC aligned",
+          "desc": "技术标准对标澳标 ADR 与海湾 GCC 法规。",
+          "refs": [
+            {
+              "reg_no": "ADR / GCC",
+              "name": "对标标准"
+            }
+          ]
+        },
+        {
+          "level": 3,
+          "label": "测试/评定",
+          "title": "NICTA 评定",
+          "title_local": "NICTA Assessment",
+          "desc": "由 NICTA 评定发证;旅游客运车、皮卡不存在认证豁免。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "NICTA 型式证书",
+          "title_local": "NICTA Certificate",
+          "desc": "2025-12 新规:2022-01-01 至新系统上线前核发的永久证书有效期统一调整至 2028-06-10,新申请证书有效期固定为三年。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "巴布亚新几内亚 NICTA",
+            "abbr": "NICTA",
+            "role": "型式认证主管与发证。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全",
+              "items": "对标 ADR/GCC 的整车要求(NICTA 型式认证)"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "部件随整车 NICTA 型式认证"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "提交申请",
+            "desc": "向 NICTA 提交型式认证申请(右舵)。"
+          },
+          {
+            "step": "评定",
+            "desc": "对标 ADR/GCC 评定。"
+          },
+          {
+            "step": "发证",
+            "desc": "签发 NICTA 型式证书(新证有效期三年)。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件认证",
+            "desc": "部件按本国强制认证取符合证书。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "ADR(对标)",
+          "GCC(对标)"
+        ],
+        "basis": "技术对标 ADR 与 GCC,仅当地官方机构发证。",
+        "scope": "NICTA 型式认证;右舵专属",
+        "note": "自有 NICTA 型式认证(右舵市场)——对标 ADR/GCC。 【推文来源】2025-12 新规:旧永久证书有效期统一调整至 2028-06-10,新证固定三年;旅游客运车、皮卡无豁免,小众市场法规变动频繁,发运前建议临期复核。"
+      },
+      "confidence": "C",
+      "sources": [
+        "推文原始资料(资料有限)",
+        "推文INS-2026-023(出海冷门强制准入认证清单)"
       ]
     }
   }
