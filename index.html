@@ -363,6 +363,19 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .tariff-card h3 .thint{font-family:var(--mono);font-size:10.5px;font-weight:400;color:var(--muted);margin-left:8px}
 .tariff dt{color:var(--accent2)}
 .tariff dd code,.tariff-card code{font-family:var(--mono);font-size:11.5px;background:var(--panel2);padding:1px 5px;border-radius:4px}
+.pyr-gallery{display:flex;flex-wrap:wrap;gap:12px}
+.pyr-gallery figure{margin:0;width:200px}
+.pyr-gallery img{width:200px;height:140px;object-fit:cover;border:1px solid var(--line);border-radius:6px;cursor:zoom-in;background:var(--panel2);display:block}
+.pyr-gallery figcaption{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45}
+.imgzone{border:1.5px dashed var(--line);border-radius:7px;padding:14px;text-align:center;font-size:12px;
+  color:var(--muted);background:var(--panel2);cursor:text;outline:none}
+.imgzone:focus{border-color:var(--blue);background:#eef3f6}
+.imgzone label{color:var(--blue);text-decoration:underline;cursor:pointer}
+.imgmgr{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0}
+.imgmgr .it{width:138px}
+.imgmgr img{width:138px;height:92px;object-fit:cover;border:1px solid var(--line);border-radius:5px;display:block}
+.imgmgr input{width:100%;font-size:10.5px;border:1px solid var(--line);border-radius:4px;padding:3px 6px;margin-top:4px;background:var(--paper);color:var(--ink);box-sizing:border-box}
+.imgmgr .del{font-size:10px;color:var(--accent);cursor:pointer;margin-top:3px;display:inline-block}
 @media(max-width:880px){.pyr-grid{grid-template-columns:1fr}.pyr-secs{grid-template-columns:1fr}}
 
 @media(max-width:980px){
@@ -2644,8 +2657,12 @@ function renderPyrSections(d){
       </dl>`
     :`<div style="color:var(--muted);font-size:12.5px;line-height:1.7">暂无关税数据 —— 点右上「✎ 编辑本国」,在 <code>tariff</code> 字段补充:<code>cbu_passenger</code>(乘用车整车关税)、<code>cbu_ev</code>、<code>cbu_commercial</code>、<code>vat</code>、<code>excise</code>(消费税)、<code>fta</code>(协定优惠)、<code>note</code>。</div>`)
     +`</div>`;
+  const imgs=Array.isArray(d.images)?d.images.filter(x=>x&&x.url):[];
+  const galleryCard=imgs.length?`<div class="card full"><h3>图示与资料 <span class="thint" style="font-family:var(--mono);font-size:10.5px;font-weight:400;color:var(--muted);margin-left:8px">点击放大 · 认证标志/样证/流程图等</span></h3>
+    <div class="pyr-gallery">${imgs.map(im=>`<figure><a href="${esc(im.url)}" target="_blank" rel="noopener"><img src="${esc(im.url)}" loading="lazy"></a>${im.caption?`<figcaption>${esc(im.caption)}</figcaption>`:""}</figure>`).join("")}</div></div>`:"";
   return `<div class="pyr-secs">
     ${tariffCard}
+    ${galleryCard}
     <div class="card"><h3>主管机构</h3>${auth}</div>
     <div class="card"><h3>核心法规</h3>
       <div class="pd-lbl" style="margin-bottom:4px">整车</div>${regGrp(s.core_regs&&s.core_regs.vehicle)}
@@ -2666,6 +2683,7 @@ function renderPyrSections(d){
    加载时盖在静态 data/cert_pyramid.json 之上;「恢复默认」删除覆盖行即回退 */
 function editPyr(){
   const c=_pyrCountry;if(!c||!CERT||!CERT[c]){toast("请先选择国家");return;}
+  let imgs=Array.isArray(CERT[c].images)?CERT[c].images.map(x=>({url:x.url||"",caption:x.caption||""})).filter(x=>x.url):[];
   const bg=document.createElement("div");
   bg.className="modal-bg";
   bg.addEventListener("click",e=>{if(e.target===bg)bg.remove();});
@@ -2673,10 +2691,13 @@ function editPyr(){
     <div class="modal-h"><b>编辑认证体系 · ${esc(c)}</b>
       <span style="margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted)">保存后全团队可见 · 不改动发布版 JSON,可随时恢复默认</span></div>
     <div class="modal-b" style="padding:12px 16px 16px">
-      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-bottom:8px">
-        直接修改下方 JSON:pyramid=金字塔层级(level/label/title/title_local/desc/refs),sections=主管机构/核心法规/办理流程,external_recognition=对外采信,tariff=进口关税与税费(cbu_passenger/cbu_ev/cbu_commercial/vat/excise/fta/note/source),sources=数据来源。<br>
-        必须保持 JSON 格式合法且 pyramid 为非空数组;system_type 取 own_full / hybrid / recognition;confidence 取 A / B / C。</div>
-      <textarea id="pyr-ta" spellcheck="false" style="width:100%;min-height:380px;resize:vertical;font-family:var(--mono);
+      <div class="pd-lbl" style="margin-bottom:6px">图片资料 <span style="font-family:var(--mono);font-size:10px;font-weight:400;color:var(--muted)">认证标志 / 样证 / 办理流程图等 · 单独管理,不必写进 JSON</span></div>
+      <div id="pyr-imgzone" class="imgzone" tabindex="0">点此后 Ctrl+V 粘贴截图,或 <label>选择图片<input id="pyr-imgfile" type="file" accept="image/*" hidden></label>(自动压缩上传到团队图库)</div>
+      <div id="pyr-imglist" class="imgmgr"></div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin:6px 0 8px">
+        下方 JSON 为除图片外的全部字段:pyramid(level/label/title/title_local/desc/refs)、sections、external_recognition、tariff(cbu_passenger/cbu_ev/cbu_commercial/vat/excise/fta/note/source)、sources。<br>
+        须保持合法 JSON 且 pyramid 非空数组;system_type 取 own_full/hybrid/recognition;confidence 取 A/B/C。</div>
+      <textarea id="pyr-ta" spellcheck="false" style="width:100%;min-height:330px;resize:vertical;font-family:var(--mono);
         font-size:11.5px;line-height:1.55;border:1px solid var(--line);border-radius:6px;padding:10px 12px;
         background:var(--paper);color:var(--ink);outline:none;box-sizing:border-box;white-space:pre"></textarea>
       <div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">
@@ -2686,7 +2707,27 @@ function editPyr(){
       </div></div></div>`;
   document.body.appendChild(bg);
   const ta=bg.querySelector("#pyr-ta"),st=bg.querySelector("#pyr-st");
-  ta.value=JSON.stringify(CERT[c],null,2);
+  const entryNoImg=Object.assign({},CERT[c]);delete entryNoImg.images;
+  ta.value=JSON.stringify(entryNoImg,null,2);
+  function renderImgs(){
+    const el=bg.querySelector("#pyr-imglist");
+    el.innerHTML=imgs.length?imgs.map((im,i)=>`<div class="it">
+      <a href="${esc(im.url)}" target="_blank" rel="noopener"><img src="${esc(im.url)}"></a>
+      <input class="pyr-cap" data-i="${i}" value="${esc(im.caption)}" placeholder="说明(可选)">
+      <span class="del" data-i="${i}">✕ 删除</span></div>`).join("")
+      :'<span style="color:var(--muted);font-size:11.5px">暂无图片</span>';
+    el.querySelectorAll(".pyr-cap").forEach(inp=>inp.addEventListener("input",()=>{imgs[+inp.dataset.i].caption=inp.value;}));
+    el.querySelectorAll(".del").forEach(b=>b.addEventListener("click",()=>{imgs.splice(+b.dataset.i,1);renderImgs();}));
+  }
+  renderImgs();
+  async function handleBlob(blob){
+    if(!blob)return;st.textContent="图片上传中…";st.style.color="var(--muted)";
+    try{const url=await uploadNoteImg(blob);imgs.push({url,caption:""});renderImgs();st.textContent="图片已上传 ✓ 保存后全团队可见";}
+    catch(e){st.textContent="上传失败:"+e.message;st.style.color="var(--accent)";console.error(e);}
+  }
+  const zone=bg.querySelector("#pyr-imgzone");
+  zone.addEventListener("paste",e=>{const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.type.startsWith("image/"));if(it){e.preventDefault();handleBlob(it.getAsFile());}});
+  bg.querySelector("#pyr-imgfile").addEventListener("change",e=>{handleBlob(e.target.files[0]);e.target.value="";});
   bg.querySelector("#pyr-cancel").addEventListener("click",()=>bg.remove());
   bg.querySelector("#pyr-save").addEventListener("click",async()=>{
     let d;
@@ -2695,6 +2736,8 @@ function editPyr(){
     if(!d||typeof d!=="object"||Array.isArray(d)){st.textContent="顶层必须是对象";st.style.color="var(--accent)";return;}
     if(!Array.isArray(d.pyramid)||!d.pyramid.length){st.textContent="pyramid 必须是非空数组";st.style.color="var(--accent)";return;}
     d.country=d.country||c; // 展示名缺省回填,但条目仍按所选国家键存储
+    const ci=imgs.filter(x=>x.url).map(x=>({url:x.url,caption:(x.caption||"").trim()}));
+    if(ci.length)d.images=ci; else delete d.images; // 图片单独管理,合并回条目
     st.textContent="保存中…";st.style.color="var(--muted)";
     try{
       await sbUpsert("cert_overrides",[{country:c,data:d,updated_at:new Date().toISOString()}],"country");
