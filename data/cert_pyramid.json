@@ -501,7 +501,12 @@
         "法规清单(日本710条)",
         "MLIT/NTSEL/JASIC/UNECE WP.29 公开资料",
         "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "0%(日本对进口乘用车不征关税)",
+        "excise": "另有消费税及按重量/排量的相关税",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "韩国": {
       "country": "韩国",
@@ -626,7 +631,13 @@
         "法规清单(韩国409条)",
         "자동차관리법/KMVSS/KATRI/KAIDA 公开资料",
         "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "8%(MFN;韩美 KORUS、韩欧 FTA 项下 0)",
+        "vat": "10%",
+        "excise": "个别消费税(按排量)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "欧盟": {
       "country": "欧盟",
@@ -766,7 +777,14 @@
       "sources": [
         "法规清单(欧盟183条)",
         "EC官方/Reg 2018/858/ACEA 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET,适用全部成员国)",
+        "cbu_commercial": "商用车约 10%–22%",
+        "vat": "各成员国 17%–27%",
+        "fta": "众多 FTA 项下可降至 0(日欧 EPA、越欧 EVFTA、韩欧 FTA 等)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "泰国": {
       "country": "泰国",
@@ -904,7 +922,12 @@
         "法规清单(泰国88条)",
         "DLT/TISI/WP.29 公开资料",
         "推文INS-2026-021(GIIAS 2025)"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "CBU 约 80%(高;鼓励本地生产)",
+        "excise": "消费税按 CO2/排量;EV 有专项优惠",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "印度": {
       "country": "印度",
@@ -1049,7 +1072,12 @@
         "法规清单(印度263条)",
         "MoRTH/ARAI/CMVR/igarr 公开资料",
         "推文INS-2024-001"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "CBU 整车极高:约 60%–110%(按到岸价/排量分档)",
+        "note": "鼓励本地化,SKD/CKD 散件税率显著更低;EV CBU 另有专项",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "巴西": {
       "country": "巴西",
@@ -1181,7 +1209,12 @@
         "法规清单(巴西94条)",
         "CONTRAN/IBAMA/INMETRO/igarr 公开资料",
         "推文INS-2026-019"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "35%(Mercosur 以外 CBU)",
+        "note": "Mercosur 区域内符合原产地 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "沙特": {
       "country": "沙特",
@@ -1309,7 +1342,12 @@
       "sources": [
         "法规清单(沙特154条/GSO体系)",
         "GSO/SASO/SABER/trade.gov 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "5%(海湾 GCC 统一对外关税)",
+        "vat": "增值税 5%(巴林/阿联酋/沙特/阿曼;科威特/卡塔尔暂未征)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "俄罗斯": {
       "country": "俄罗斯",
@@ -1436,7 +1474,12 @@
       "sources": [
         "法规清单(欧亚经济联盟140条/俄罗斯103条)",
         "EEC/TR CU 018/Schmidt&Schmidt 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "约 15%+(EAEU 统一对外关税)",
+        "excise": "报废税(утильсбор)近年大幅上调,常为主要进口成本",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "中国台湾": {
       "country": "中国台湾",
@@ -1813,7 +1856,12 @@
         "法规清单(越南)",
         "MOT/Vietnam Register/QCVN 公开资料",
         "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "MFN 约 70%;东盟 ATIGA 区域内 0",
+        "excise": "特别消费税按排量(很高)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "印度尼西亚": {
       "country": "印度尼西亚",
@@ -1946,7 +1994,12 @@
         "法规清单(印尼)",
         "Kemenhub/Law 22-2009/SNI 公开资料",
         "推文INS-2026-021(Sandro Mihradi·ITB·GIIAS 2025)"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "CBU 约 50%;CKD 显著更低",
+        "excise": "奢侈品销售税 PPnBM 按排放/车型",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "菲律宾": {
       "country": "菲律宾",
@@ -2187,7 +2240,12 @@
       "sources": [
         "法规清单(阿联酋/中东市场GSO体系)",
         "GSO/ESMA-MOIAT/ECAS 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "5%(海湾 GCC 统一对外关税)",
+        "vat": "增值税 5%(巴林/阿联酋/沙特/阿曼;科威特/卡塔尔暂未征)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "土耳其": {
       "country": "土耳其",
@@ -2303,7 +2361,12 @@
       "sources": [
         "法规清单(土耳其)",
         "SGM/TSE/MARTOY/EU 2018-858 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "对欧盟关税同盟 0;第三国按共同关税约 10%",
+        "excise": "特别消费税 ÖTV 按排量/价格,乘用车很高(常 45%–220%)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "墨西哥": {
       "country": "墨西哥",
@@ -2427,7 +2490,12 @@
       "sources": [
         "法规清单(墨西哥)",
         "经济部DGN/SEMARNAT/NOM-194 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "MFN 约 20%(USMCA 及众多 FTA 项下 0)",
+        "vat": "IVA 16%",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "加拿大": {
       "country": "加拿大",
@@ -2547,7 +2615,12 @@
       "sources": [
         "法规清单(加拿大)",
         "Transport Canada/MVSA/CMVSS 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "6.1%(MFN;USMCA/CETA/CPTPP 项下 0)",
+        "vat": "GST/HST 5%–15%",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "英国": {
       "country": "英国",
@@ -2667,7 +2740,12 @@
       "sources": [
         "法规清单(英国)",
         "VCA/DfT/Retained EU 2018-858 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(脱欧后沿用;英欧 TCA 符合原产地可 0)",
+        "vat": "20%",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "德国": {
       "country": "德国",
@@ -2786,7 +2864,13 @@
       "sources": [
         "法规清单(德国)",
         "KBA/StVZO/EU 2018-858 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET)",
+        "vat": "成员国增值税(德19% / 意22% / 罗19% 等)",
+        "fta": "随欧盟 FTA 可降至 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "东盟": {
       "country": "东盟",
@@ -3025,7 +3109,12 @@
       "sources": [
         "法规清单(南非)",
         "NRCS/SANS/National Road Traffic Act 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "约 25%(乘用车;SACU)",
+        "note": "与欧盟 TDCA、AfCFTA 等另有优惠",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "埃及": {
       "country": "埃及",
@@ -4457,7 +4546,12 @@
       "sources": [
         "法规清单(科威特/中东市场GSO体系)",
         "GSO/GCC Technical Regulations MV 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "5%(海湾 GCC 统一对外关税)",
+        "vat": "增值税 5%(巴林/阿联酋/沙特/阿曼;科威特/卡塔尔暂未征)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "卡塔尔": {
       "country": "卡塔尔",
@@ -4573,7 +4667,12 @@
       "sources": [
         "法规清单(卡塔尔/中东市场GSO体系)",
         "GSO/GCC Technical Regulations MV 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "5%(海湾 GCC 统一对外关税)",
+        "vat": "增值税 5%(巴林/阿联酋/沙特/阿曼;科威特/卡塔尔暂未征)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "阿曼": {
       "country": "阿曼",
@@ -4689,7 +4788,12 @@
       "sources": [
         "法规清单(阿曼/中东市场GSO体系)",
         "GSO/GCC Technical Regulations MV 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "5%(海湾 GCC 统一对外关税)",
+        "vat": "增值税 5%(巴林/阿联酋/沙特/阿曼;科威特/卡塔尔暂未征)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "巴林": {
       "country": "巴林",
@@ -4805,7 +4909,12 @@
       "sources": [
         "法规清单(巴林/中东市场GSO体系)",
         "GSO/GCC Technical Regulations MV 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "5%(海湾 GCC 统一对外关税)",
+        "vat": "增值税 5%(巴林/阿联酋/沙特/阿曼;科威特/卡塔尔暂未征)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "约旦": {
       "country": "约旦",
@@ -7682,7 +7791,13 @@
       "sources": [
         "法规清单(美国)",
         "NHTSA/49 USC 301/49 CFR 571 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "2.5%",
+        "cbu_commercial": "皮卡/轻卡 25%(俗称 chicken tax)",
+        "fta": "USMCA 项下符合原产地规则 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "澳大利亚": {
       "country": "澳大利亚",
@@ -7797,7 +7912,13 @@
       "sources": [
         "法规清单(澳大利亚)",
         "DITRDCA/RVSA 2018/ADR/ROVER-RAV 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "5%(MFN;多数 FTA 项下 0)",
+        "vat": "GST 10%",
+        "excise": "豪华车税 LCT(超阈值部分 33%)",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "新西兰": {
       "country": "新西兰",
@@ -9166,7 +9287,13 @@
       "sources": [
         "法规清单(奥地利)",
         "Reg (EU) 2018/858/EUR-Lex 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET)",
+        "vat": "成员国增值税(德19% / 意22% / 罗19% 等)",
+        "fta": "随欧盟 FTA 可降至 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "克罗地亚": {
       "country": "克罗地亚",
@@ -9285,7 +9412,13 @@
       "sources": [
         "法规清单(克罗地亚)",
         "Reg (EU) 2018/858/EUR-Lex 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET)",
+        "vat": "成员国增值税(德19% / 意22% / 罗19% 等)",
+        "fta": "随欧盟 FTA 可降至 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "立陶宛": {
       "country": "立陶宛",
@@ -9404,7 +9537,13 @@
       "sources": [
         "法规清单(立陶宛)",
         "Reg (EU) 2018/858/EUR-Lex 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET)",
+        "vat": "成员国增值税(德19% / 意22% / 罗19% 等)",
+        "fta": "随欧盟 FTA 可降至 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "罗马尼亚": {
       "country": "罗马尼亚",
@@ -9524,7 +9663,13 @@
         "法规清单(罗马尼亚)",
         "Reg (EU) 2018/858/EUR-Lex 公开资料",
         "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET)",
+        "vat": "成员国增值税(德19% / 意22% / 罗19% 等)",
+        "fta": "随欧盟 FTA 可降至 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "爱沙尼亚": {
       "country": "爱沙尼亚",
@@ -9643,7 +9788,13 @@
       "sources": [
         "法规清单(爱沙尼亚)",
         "Reg (EU) 2018/858/EUR-Lex 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET)",
+        "vat": "成员国增值税(德19% / 意22% / 罗19% 等)",
+        "fta": "随欧盟 FTA 可降至 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "意大利": {
       "country": "意大利",
@@ -9762,7 +9913,13 @@
       "sources": [
         "法规清单(意大利)",
         "Reg (EU) 2018/858/EUR-Lex 公开资料"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(欧盟共同对外关税 CET)",
+        "vat": "成员国增值税(德19% / 意22% / 罗19% 等)",
+        "fta": "随欧盟 FTA 可降至 0",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "挪威": {
       "country": "挪威",
@@ -11078,7 +11235,15 @@
       "confidence": "C",
       "sources": [
         "推文INS-2022-005(中欧汽车认证与法规比较)"
-      ]
+      ],
+      "tariff": {
+        "cbu_passenger": "15%",
+        "cbu_ev": "15%",
+        "vat": "13%",
+        "excise": "消费税按排量 1%–40%(大排量更高)",
+        "fta": "RCEP / 中国-东盟等协定项下部分税目可降",
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+      }
     },
     "塞尔维亚": {
       "country": "塞尔维亚",

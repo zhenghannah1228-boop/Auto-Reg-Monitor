@@ -359,6 +359,10 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .steps .st .sd{font-size:12px;color:var(--muted);margin-top:2px;line-height:1.6}
 .recog dt{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:8px}
 .recog dd{font-size:12.5px;line-height:1.6;color:var(--ink2);margin:2px 0}
+.tariff-card{border-left:3px solid var(--gold)}
+.tariff-card h3 .thint{font-family:var(--mono);font-size:10.5px;font-weight:400;color:var(--muted);margin-left:8px}
+.tariff dt{color:var(--accent2)}
+.tariff dd code,.tariff-card code{font-family:var(--mono);font-size:11.5px;background:var(--panel2);padding:1px 5px;border-radius:4px}
 @media(max-width:880px){.pyr-grid{grid-template-columns:1fr}.pyr-secs{grid-template-columns:1fr}}
 
 @media(max-width:980px){
@@ -2625,7 +2629,23 @@ function renderPyrSections(d){
   const steps=arr=>(arr||[]).length?`<div class="steps">${arr.map(p=>
     `<div class="st"><div class="sh">${esc(p.step||"")}</div><div class="sd">${esc(p.desc||"")}</div></div>`).join("")}</div>`:'<div style="color:var(--muted);font-size:12px">—</div>';
   const er=d.external_recognition||{};
+  const t=d.tariff||{};
+  const trow=(lb,v)=>v?`<dt>${lb}</dt><dd>${esc(v)}</dd>`:"";
+  const hasT=["cbu_passenger","cbu_ev","cbu_commercial","vat","excise","fta","note"].some(k=>t[k]);
+  const tariffCard=`<div class="card full tariff-card"><h3>进口关税与税费<span class="thint">${esc(t.source||"参考 · 以目标国海关最新税则(HS编码)为准")}</span></h3>`
+    +(hasT?`<dl class="recog tariff">
+        ${trow("整车关税·乘用车(CBU)",t.cbu_passenger)}
+        ${trow("整车关税·纯电(EV)",t.cbu_ev)}
+        ${trow("整车关税·商用车",t.cbu_commercial)}
+        ${trow("增值税(VAT/GST)",t.vat)}
+        ${trow("消费税 / 特别税",t.excise)}
+        ${trow("自贸协定优惠(FTA)",t.fta)}
+        ${trow("备注",t.note)}
+      </dl>`
+    :`<div style="color:var(--muted);font-size:12.5px;line-height:1.7">暂无关税数据 —— 点右上「✎ 编辑本国」,在 <code>tariff</code> 字段补充:<code>cbu_passenger</code>(乘用车整车关税)、<code>cbu_ev</code>、<code>cbu_commercial</code>、<code>vat</code>、<code>excise</code>(消费税)、<code>fta</code>(协定优惠)、<code>note</code>。</div>`)
+    +`</div>`;
   return `<div class="pyr-secs">
+    ${tariffCard}
     <div class="card"><h3>主管机构</h3>${auth}</div>
     <div class="card"><h3>核心法规</h3>
       <div class="pd-lbl" style="margin-bottom:4px">整车</div>${regGrp(s.core_regs&&s.core_regs.vehicle)}
@@ -2654,7 +2674,7 @@ function editPyr(){
       <span style="margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted)">保存后全团队可见 · 不改动发布版 JSON,可随时恢复默认</span></div>
     <div class="modal-b" style="padding:12px 16px 16px">
       <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-bottom:8px">
-        直接修改下方 JSON:pyramid=金字塔层级(level/label/title/title_local/desc/refs),sections=主管机构/核心法规/办理流程,external_recognition=对外采信,sources=数据来源。<br>
+        直接修改下方 JSON:pyramid=金字塔层级(level/label/title/title_local/desc/refs),sections=主管机构/核心法规/办理流程,external_recognition=对外采信,tariff=进口关税与税费(cbu_passenger/cbu_ev/cbu_commercial/vat/excise/fta/note/source),sources=数据来源。<br>
         必须保持 JSON 格式合法且 pyramid 为非空数组;system_type 取 own_full / hybrid / recognition;confidence 取 A / B / C。</div>
       <textarea id="pyr-ta" spellcheck="false" style="width:100%;min-height:380px;resize:vertical;font-family:var(--mono);
         font-size:11.5px;line-height:1.55;border:1px solid var(--line);border-radius:6px;padding:10px 12px;
