@@ -1676,6 +1676,12 @@
         "title": "出海易忽略的冷门强制准入认证清单:中亚/东北亚/东欧/北非/小众岛国 + 新能源专项前置",
         "type": "system",
         "url": ""
+      },
+      {
+        "id": "INS-2026-027",
+        "title": "中亚各国汽车认证制度 + 报关/清关'双闸口'通关策略",
+        "type": "system",
+        "url": ""
       }
     ]
   },
@@ -1820,6 +1826,230 @@
         "id": "INS-2026-025",
         "title": "中国智能网联汽车技术规程 C-ICAP(2026年版):行车辅助/泊车辅助/智慧座舱/隐私保护四单元星级测评",
         "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "VITAS 型式批准": {
+    "reg_no": "VITAS 型式批准",
+    "match_key": "VITAS",
+    "region": "东南亚",
+    "country": "新加坡",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-026",
+        "title": "东盟十国汽车准入政策:型式批准走向 + 各国认证 + 0关税进程",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "SIRIM/国家型式批准": {
+    "reg_no": "SIRIM/国家型式批准",
+    "match_key": "SIRIM",
+    "region": "东南亚",
+    "country": "马来西亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-026",
+        "title": "东盟十国汽车准入政策:型式批准走向 + 各国认证 + 0关税进程",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "34/2005 & 35/2005": {
+    "reg_no": "34/2005 & 35/2005",
+    "match_key": "越南VR型式认证",
+    "region": "东南亚",
+    "country": "越南",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-026",
+        "title": "东盟十国汽车准入政策:型式批准走向 + 各国认证 + 0关税进程",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "TR CU 018/2011 (EAC)": {
+    "reg_no": "TR CU 018/2011 (EAC)",
+    "match_key": "TR CU 018/2011",
+    "region": "中亚",
+    "country": "哈萨克斯坦",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-027",
+        "title": "中亚各国汽车认证制度 + 报关/清关'双闸口'通关策略",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "INMETRO / LCVM / CAT": {
+    "reg_no": "INMETRO / LCVM / CAT",
+    "match_key": "INMETRO",
+    "region": "南美",
+    "country": "巴西",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-028",
+        "title": "南美市场准入认证制度:巴西/阿根廷/智利/哥伦比亚/秘鲁",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "LCM": {
+    "reg_no": "LCM",
+    "match_key": "LCM阿根廷",
+    "region": "南美",
+    "country": "阿根廷",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-028",
+        "title": "南美市场准入认证制度:巴西/阿根廷/智利/哥伦比亚/秘鲁",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "3CV": {
+    "reg_no": "3CV",
+    "match_key": "3CV智利",
+    "region": "南美",
+    "country": "智利",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-028",
+        "title": "南美市场准入认证制度:巴西/阿根廷/智利/哥伦比亚/秘鲁",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "SNCA": {
+    "reg_no": "SNCA",
+    "match_key": "SNCA哥伦比亚",
+    "region": "南美",
+    "country": "哥伦比亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-028",
+        "title": "南美市场准入认证制度:巴西/阿根廷/智利/哥伦比亚/秘鲁",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "NRCS LOC / SABS·SANS": {
+    "reg_no": "NRCS LOC / SABS·SANS",
+    "match_key": "NRCS南非",
+    "region": "非洲",
+    "country": "南非",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-029",
+        "title": "南非汽车认证:NRCS 型式批准六步 + SABS/SANAS 闭环",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "TISI / DLT / ECO Sticker": {
+    "reg_no": "TISI / DLT / ECO Sticker",
+    "match_key": "泰国TISI",
+    "region": "东南亚",
+    "country": "泰国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-030",
+        "title": "泰国汽车出口认证:TISI + DLT + ECO Sticker 三体系与 BEV 要点",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "SONCAP PC1/PC2/SC": {
+    "reg_no": "SONCAP PC1/PC2/SC",
+    "match_key": "SONCAP尼日利亚",
+    "region": "非洲",
+    "country": "尼日利亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-031",
+        "title": "非洲各国汽车进口政策与 CoC/ECTN:左舵国合辑",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "CoC + ECTN": {
+    "reg_no": "CoC + ECTN",
+    "match_key": "科特迪瓦CoC",
+    "region": "非洲",
+    "country": "科特迪瓦",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-031",
+        "title": "非洲各国汽车进口政策与 CoC/ECTN:左舵国合辑",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "CONAMA 401/08": {
+    "reg_no": "CONAMA 401/08",
+    "match_key": "CONAMA 401",
+    "region": "南美",
+    "country": "巴西",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-033",
+        "title": "巴西 CONAMA 401/08:电池重金属限值与回收(EPR)",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "第5142号最高法令": {
+    "reg_no": "第5142号最高法令",
+    "match_key": "玻利维亚5142",
+    "region": "南美",
+    "country": "玻利维亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-034",
+        "title": "玻利维亚规范新能源进口:第5142号令打击'假混动'",
+        "type": "revision",
         "url": ""
       }
     ]

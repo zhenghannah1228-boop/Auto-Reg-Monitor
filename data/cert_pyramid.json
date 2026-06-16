@@ -926,7 +926,8 @@
       "tariff": {
         "cbu_passenger": "CBU 约 80%(高;鼓励本地生产)",
         "excise": "消费税按 CO2/排量;EV 有专项优惠",
-        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准",
+        "note": "EV 乘用车长期 0/极低关税;ECO Sticker 节能标签决定消费税/CO₂税与补贴资格"
       }
     },
     "印度": {
@@ -3237,8 +3238,16 @@
       "confidence": "B",
       "sources": [
         "法规清单(埃及)",
-        "EOS/GOEIC/Decree 32-2010 公开资料"
-      ]
+        "EOS/GOEIC/Decree 32-2010 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_ev": "纯电整车 0 关税",
+        "cbu_passenger": "燃油:1.6L以下40%、1.6–2.0L 100%、2.0L以上135%",
+        "vat": "14%",
+        "excise": "仅允许近三年二手混动/纯电(燃油二手禁)",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "以色列": {
       "country": "以色列",
@@ -3470,8 +3479,15 @@
       "confidence": "A",
       "sources": [
         "法规清单(智利)",
-        "MTT/3CV/Subtrans 公开资料"
-      ]
+        "MTT/3CV/Subtrans 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "中智 FTA 项下 0%(全车型)",
+        "cbu_commercial": "0%",
+        "fta": "中智自贸协定已实现整车0关税",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "阿根廷": {
       "country": "阿根廷",
@@ -3593,8 +3609,14 @@
       "confidence": "A",
       "sources": [
         "法规清单(阿根廷)",
-        "argentina.gob.ar/Secretaría de Industria/INTI/Res 271-2025 公开资料"
-      ]
+        "argentina.gob.ar/Secretaría de Industria/INTI/Res 271-2025 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_ev": "FOB≤1.6万美元纯电 0 关税(有配额/价格上限)",
+        "cbu_passenger": "LCM 车型构造许可证为整车准入前提",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "哥伦比亚": {
       "country": "哥伦比亚",
@@ -3842,8 +3864,14 @@
       "confidence": "B",
       "sources": [
         "法规清单(秘鲁)",
-        "MTC/DGCT/SUNAT/Reglamento Nacional de Vehículos 公开资料"
-      ]
+        "MTC/DGCT/SUNAT/Reglamento Nacional de Vehículos 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "中秘 FTA 项下 0%(全车型)",
+        "fta": "中秘自贸协定已0关税;058号最高法令型式批准",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "尼日利亚": {
       "country": "尼日利亚",
@@ -3961,8 +3989,16 @@
       "confidence": "B",
       "sources": [
         "法规清单(尼日利亚)",
-        "SON/NADDC/VehCAP 2026 公开资料"
-      ]
+        "SON/NADDC/VehCAP 2026 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "关税 20%",
+        "vat": "7.5%",
+        "excise": "进口调整税(2–3L +2%、≥4L +4%)+车辆回收基金(2026新增)",
+        "note": "仅左舵、欧4+、禁>12年车(2026);2026强制出口前检测",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "肯尼亚": {
       "country": "肯尼亚",
@@ -4194,8 +4230,16 @@
       "confidence": "B",
       "sources": [
         "法规清单(摩洛哥)",
-        "NARSA/CNEH 公开资料"
-      ]
+        "NARSA/CNEH 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_ev": "电动车关税 2.5%",
+        "cbu_passenger": "燃油/混动 10%–30%",
+        "vat": "20%",
+        "excise": "财政税0.25%+年度税费+杂费;须欧6、车龄≤5年二手",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "巴基斯坦": {
       "country": "巴基斯坦",
@@ -5369,8 +5413,13 @@
       "sources": [
         "法规清单(乌兹别克斯坦)",
         "Uzstandard/GOST-U 公开资料",
-        "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+        "推文INS-2026-023(出海冷门强制准入认证清单)",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_ev": "新能源汽车进口 0 关税",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "伊拉克": {
       "country": "伊拉克",
@@ -5714,8 +5763,16 @@
       "confidence": "B",
       "sources": [
         "法规清单(加纳)",
-        "GSA/GS 4510-2022 公开资料"
-      ]
+        "GSA/GS 4510-2022 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "关税按排量 5%–20%",
+        "vat": "15%",
+        "excise": "国家健康险2.5%+出口发展基金2.5%+AU LEVY0.2%+检验1%+进出口0.75%+特别进口2%",
+        "note": "仅左舵、欧2+、车龄≤10年(超龄CIF罚款5%–50%);2026智能扫描清关",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "坦桑尼亚": {
       "country": "坦桑尼亚",
@@ -5940,8 +5997,16 @@
       "confidence": "B",
       "sources": [
         "法规清单(埃塞俄比亚)",
-        "ESA/ECAE/ENAO/CAP 公开资料"
-      ]
+        "ESA/ECAE/ENAO/CAP 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_ev": "纯电 0 关税(仅缴15%增值税)",
+        "cbu_passenger": "混动综合税率70%+;纯燃油与右舵车禁止进口",
+        "vat": "15%",
+        "excise": "2026新增 COC 双系统备案(里程/VIN 须与海关一致)",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "厄瓜多尔": {
       "country": "厄瓜多尔",
@@ -6055,8 +6120,14 @@
       "confidence": "B",
       "sources": [
         "法规清单(厄瓜多尔)",
-        "ANT/INEN/SAE/RTE INEN 公开资料"
-      ]
+        "ANT/INEN/SAE/RTE INEN 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "中厄 FTA 逐步降至 0%",
+        "fta": "中国-厄瓜多尔自贸协定(过渡期降税)",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "乌拉圭": {
       "country": "乌拉圭",
@@ -6469,8 +6540,14 @@
       "confidence": "B",
       "sources": [
         "法规清单(柬埔寨)",
-        "MPWT 公开资料"
-      ]
+        "MPWT 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "RCEP/中柬协定:部分整车立即0、部分降税",
+        "cbu_ev": "2026-04 起纯电乘用车关税 35%→0%、插混→7%",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "尼泊尔": {
       "country": "尼泊尔",
@@ -6685,8 +6762,16 @@
       "sources": [
         "法规清单(突尼斯)",
         "ATTT/OCT/Arrêté 25-01-2000 公开资料",
-        "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+        "推文INS-2026-023(出海冷门强制准入认证清单)",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_ev": "新能源关税 0%",
+        "cbu_passenger": "燃油关税 15%",
+        "vat": "7%",
+        "excise": "消费税:新能源0、燃油按排量阶梯最高 277%",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "危地马拉": {
       "country": "危地马拉",
@@ -6994,13 +7079,22 @@
         ],
         "basis": "以NB标准与海关进口符合核验为主;无成体系本土型式批准。",
         "scope": "标准符合+海关;无成体系型式批准",
-        "note": "标准+海关型——IBNORCA定标准、海关核验进口符合,南方共同市场联系国,无成体系汽车型式批准。"
+        "note": "标准+海关型——IBNORCA定标准、海关核验进口符合,南方共同市场联系国,无成体系汽车型式批准。 【资料校丰】关税:客车(HS8702)10%、乘用车(HS8703)10%、卡车(HS8704)0/5/10%。2025年修改第5142号最高法令规范新能源进口:打击以小型电起动装置冒充混动的'微混'(已查259辆),对此类征10%关税+5%(旧车)/15%(用超一年)消费税;真自充式混动继续减税;FlexFuel 消费税5%→3%、关税10%→5%。玻为 WTO/安第斯共同体/ALADI 成员,与南共市、智利、墨西哥、古巴等签经贸/自贸协定。"
       },
-      "confidence": "C",
+      "confidence": "B",
       "sources": [
         "法规清单(玻利维亚)",
-        "IBNORCA 公开资料(资料有限)"
-      ]
+        "IBNORCA 公开资料(资料有限)",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "10%(乘用车 HS8703)",
+        "cbu_commercial": "客车(8702)10% / 卡车(8704)0–10%",
+        "cbu_ev": "自充式真混动减税;FlexFuel 关税降至5%",
+        "excise": "假混动按第5142号法令征10%关税+5%(旧)/15%(用超一年)消费税;FlexFuel 消费税3%",
+        "fta": "安第斯共同体/ALADI/南共市/智利/墨西哥等协定项下优惠",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "津巴布韦": {
       "country": "津巴布韦",
@@ -7349,13 +7443,19 @@
       "confidence": "B",
       "sources": [
         "法规清单(格鲁吉亚)",
-        "Revenue Service/Georgia Today 2026新规 公开资料"
-      ]
+        "Revenue Service/Georgia Today 2026新规 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "中格 FTA 项下 0%",
+        "fta": "中国-格鲁吉亚自贸协定已0关税",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "巴拿马": {
       "country": "巴拿马",
       "system_type": "recognition",
-      "summary": "中美洲区域框架:采纳中美洲技术规程(RTCA/SIECA),由COPANIT定标准、陆路运输管理局办注册/检验;以进口符合与海关为主,无本土型式批准。",
+      "summary": "中美洲区域框架 + 强制最低安全要求:ATTT(过境与陆路运输管理局/交通部)主管车辆安全与环保;自2025-02-09(第656号法案)起进入巴拿马的机动车须符合最低安全要求,制造商自备 ECE 证书或 FMVSS 报告(满足 UN WP.29 或美标 FMVSS 性能),并提交技术机械检查与排放控制证书方可流通;无本土型式批准。",
       "pyramid": [
         {
           "level": 1,
@@ -7450,12 +7550,13 @@
         ],
         "basis": "采纳中美洲RTCA区域技术规程;以进口符合与海关为主,无本土型式批准。",
         "scope": "中美洲区域协调+海关检验;无本土型式批准",
-        "note": "区域+海关型——采中美洲RTCA框架,COPANIT定标准,以进口符合/海关准入,无本土型式批准,中美洲/加勒比代表。"
+        "note": "区域+海关型——采中美洲RTCA框架,COPANIT定标准,以进口符合/海关准入,无本土型式批准,中美洲/加勒比代表。 【资料校丰】2025-02-09(第656号法案)起强制最低安全要求:主动安全(ABS、ESC、喇叭、可折叠后视镜、门锁门铰链等)+被动安全(头枕、侧面柱碰、前排气囊、备胎、安全玻璃等);制造商自备 ECE 证书或 FMVSS 报告;排放限值(催化车高低怠速:CO≤0.5%、CO₂≥12.5%、HC≤125ppm)。2025-02-09 前可进口不达标车但须如实告知消费者。"
       },
-      "confidence": "C",
+      "confidence": "B",
       "sources": [
         "法规清单(巴拿马)",
-        "COPANIT/SIECA/RTCA 公开资料(资料有限)"
+        "COPANIT/SIECA/RTCA 公开资料(资料有限)",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
       ]
     },
     "多米尼加": {
@@ -7917,7 +8018,8 @@
         "cbu_passenger": "5%(MFN;多数 FTA 项下 0)",
         "vat": "GST 10%",
         "excise": "豪华车税 LCT(超阈值部分 33%)",
-        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准"
+        "source": "参考(公开 MFN 表头税率)· 以目标国海关最新税则为准",
+        "fta": "中澳 FTA(ChAFTA)项下中国产整车 0%"
       }
     },
     "新西兰": {
@@ -8026,8 +8128,14 @@
       "sources": [
         "法规清单(新西兰)",
         "NZTA/Waka Kotahi/Entry Certification 公开资料",
-        "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+        "推文INS-2026-023(出海冷门强制准入认证清单)",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "中新 FTA 项下 0%(全车型)",
+        "fta": "中国-新西兰自贸协定已0关税",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "UNECE": {
       "country": "UNECE",
@@ -10354,8 +10462,14 @@
       "confidence": "A",
       "sources": [
         "法规清单(新加坡)",
-        "LTA/VITAS/OneMotoring 公开资料"
-      ]
+        "LTA/VITAS/OneMotoring 公开资料",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "0%(自由港,长期对整车零关税)",
+        "excise": "另征高额拥车证(COE)与附加注册费(ARF)",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "文莱": {
       "country": "文莱",
@@ -10765,12 +10879,13 @@
         ],
         "basis": "以符合国家标准为准,经EAC协调的装运前核验;EAC内互认通报标志。",
         "scope": "EAC PVoC+区域协调;无本土型式批准",
-        "note": "认可外部证书/符合性核验型——BBN的EAC PVoC,东非共同体成员(与肯尼亚/坦桑尼亚/乌干达同框架),无本土型式批准。"
+        "note": "认可外部证书/符合性核验型——BBN的EAC PVoC,东非共同体成员(与肯尼亚/坦桑尼亚/乌干达同框架),无本土型式批准。 【资料校丰】东非共同体(EAC)+非洲大陆自贸区(AfCFTA)成员;管理机构:工商旅游交通部(MITAC,总体贸易政策)、投资促进局(API,一站式)、税务局(OBR,海关估值)、标准局(BBN,标准/质检/认证)、EAC秘书处(区域标准监督)。截至2025加速执行《EAC海关管理法》、采单一窗口;EAC原产地规则下区域内符合原产地(≥35%本地附加值)享零关税,需原产地证书。出口前办 CoC 符合性证书 + 电子货物跟踪单(ECTN)。"
       },
-      "confidence": "C",
+      "confidence": "B",
       "sources": [
         "法规清单(布隆迪/东非共同体EAC)",
-        "BBN/EAC 公开资料(资料有限)"
+        "BBN/EAC 公开资料(资料有限)",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
       ]
     },
     "新喀里多尼亚": {
@@ -11343,8 +11458,14 @@
       "confidence": "C",
       "sources": [
         "推文原始资料(资料有限)",
-        "推文INS-2026-023(出海冷门强制准入认证清单)"
-      ]
+        "推文INS-2026-023(出海冷门强制准入认证清单)",
+        "出海准入资料合辑(2025–2026·海外政策研究/泰测/出口实务)"
+      ],
+      "tariff": {
+        "cbu_passenger": "中塞 FTA 逐步降至 0%",
+        "fta": "中国-塞尔维亚自贸协定(过渡期降税)",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      }
     },
     "利比亚": {
       "country": "利比亚",
@@ -11555,6 +11676,636 @@
       "sources": [
         "推文原始资料(资料有限)",
         "推文INS-2026-023(出海冷门强制准入认证清单)"
+      ]
+    },
+    "科特迪瓦": {
+      "country": "科特迪瓦",
+      "system_type": "recognition",
+      "summary": "装运前符合性检验(CoC)+电子货物跟踪单(ECTN):仅进口左舵车、强制欧4+;新车出口前办 CoC(二手车自愿),并办 ECTN;无本土型式批准。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "进口管控 + 装运前检验",
+          "title_local": "Import Control / PVoC",
+          "desc": "仅左舵、欧4及以上;事故/水泡/火烧/气囊弹出/非法改装/手续不全/无安检报告车禁入。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "目的国排放与车况要求",
+          "title_local": "Emission & Condition",
+          "desc": "强制欧4+;按首次上牌计车龄(乘用车≤5年、小巴/轻客≤7年、大巴/货车≤10年)。",
+          "refs": []
+        },
+        {
+          "level": 3,
+          "label": "检验/单证",
+          "title": "CoC + ECTN",
+          "title_local": "CoC + ECTN",
+          "desc": "新车出口前办 CoC(二手车自愿),并办电子货物跟踪单 ECTN。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "CoC 符合性证书",
+          "title_local": "Certificate of Conformity",
+          "desc": "凭 CoC 与 ECTN 清关。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "科特迪瓦指定 PVoC 检验机构",
+            "abbr": "PVoC",
+            "role": "装运前符合性检验与发证。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全/环保",
+              "items": "按目的国排放(欧标)与进口管控要求,以装运前符合性检验(CoC/PVoC)为准"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "随整车装运前检验"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "出口前申请",
+            "desc": "向指定检验机构申请装运前符合性核验。"
+          },
+          {
+            "step": "检验/发证",
+            "desc": "检验合格发 CoC/相应符合性证书。"
+          },
+          {
+            "step": "货物跟踪单",
+            "desc": "办理电子货物跟踪单(ECTN/FERI/URN 等)。"
+          },
+          {
+            "step": "清关上牌",
+            "desc": "凭证书与跟踪单清关、注册。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件",
+            "desc": "随整车检验。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "欧标/ECE 技术参照",
+          "出口国原始资料"
+        ],
+        "basis": "以装运前符合性检验(CoC)为准入闸口,技术参照欧标。",
+        "scope": "CoC + ECTN;无整车型式批准",
+        "note": "装运前符合性检验型——CoC + ECTN,仅左舵、欧4+。"
+      },
+      "tariff": {
+        "cbu_passenger": "关税 35%",
+        "vat": "18% + 附加税2.6%",
+        "excise": "满足条件的油电混动车可申请零关税",
+        "note": "仅左舵、欧4+;按首次上牌计车龄",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      },
+      "confidence": "C",
+      "sources": [
+        "非洲各国进口政策资料(2025–2026)",
+        "出海准入资料合辑(2025–2026·非洲各国进口政策/COC实务)"
+      ]
+    },
+    "加蓬": {
+      "country": "加蓬",
+      "system_type": "recognition",
+      "summary": "装运前符合性检验(CoC)+货物跟踪单:仅进口左舵车、强制欧4+、车龄≤10年(超龄无法办货物跟踪单);无本土型式批准。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "进口管控 + 装运前检验",
+          "title_local": "Import Control / PVoC",
+          "desc": "仅左舵、欧4及以上。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "排放与车龄",
+          "title_local": "Emission & Age",
+          "desc": "欧4+;车龄不超过10年,否则无法办理货物跟踪单。",
+          "refs": []
+        },
+        {
+          "level": 3,
+          "label": "检验/单证",
+          "title": "CoC + 货物跟踪单",
+          "title_local": "CoC + ECTN",
+          "desc": "出口前办 CoC 与电子货物跟踪单。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "CoC 符合性证书",
+          "title_local": "Certificate of Conformity",
+          "desc": "凭证清关。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "加蓬指定 PVoC 检验机构",
+            "abbr": "PVoC",
+            "role": "装运前符合性检验。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全/环保",
+              "items": "按目的国排放(欧标)与进口管控要求,以装运前符合性检验(CoC/PVoC)为准"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "随整车装运前检验"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "出口前申请",
+            "desc": "向指定检验机构申请装运前符合性核验。"
+          },
+          {
+            "step": "检验/发证",
+            "desc": "检验合格发 CoC/相应符合性证书。"
+          },
+          {
+            "step": "货物跟踪单",
+            "desc": "办理电子货物跟踪单(ECTN/FERI/URN 等)。"
+          },
+          {
+            "step": "清关上牌",
+            "desc": "凭证书与跟踪单清关、注册。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件",
+            "desc": "随整车检验。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "欧标/ECE 技术参照",
+          "出口国原始资料"
+        ],
+        "basis": "装运前符合性检验为准入闸口。",
+        "scope": "CoC + 货物跟踪单",
+        "note": "装运前符合性检验型——CoC + ECTN,仅左舵、欧4+、车龄≤10年。"
+      },
+      "tariff": {
+        "cbu_passenger": "关税 30%",
+        "vat": "18%",
+        "note": "仅左舵、欧4+、车龄≤10年",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      },
+      "confidence": "C",
+      "sources": [
+        "非洲各国进口政策资料(2025–2026)",
+        "出海准入资料合辑(2025–2026·非洲各国进口政策/COC实务)"
+      ]
+    },
+    "多哥": {
+      "country": "多哥",
+      "system_type": "recognition",
+      "summary": "装运前符合性检验 + 车龄阶梯关税:仅符合标准的左舵车、排放国Ⅳ+;私人轿车≤5年、商用车≤10年;2026 起纯电/混动新能源整车享100%关税减免。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "进口管控",
+          "title_local": "Import Control",
+          "desc": "仅左舵、国Ⅳ+;右舵/事故/重度改装/达报废标准车禁入。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "排放与车龄",
+          "title_local": "Emission & Age",
+          "desc": "国Ⅳ+;私人轿车≤5年、商用车≤10年。",
+          "refs": []
+        },
+        {
+          "level": 3,
+          "label": "检验/单证",
+          "title": "装运前检验 + 货物跟踪单",
+          "title_local": "PVoC + ECTN",
+          "desc": "出口前装运前检验与货物跟踪单。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "符合性证书",
+          "title_local": "Conformity Certificate",
+          "desc": "凭证清关。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "多哥海关/标准检验主管",
+            "abbr": "—",
+            "role": "进口管控与检验。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全/环保",
+              "items": "按目的国排放(欧标)与进口管控要求,以装运前符合性检验(CoC/PVoC)为准"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "随整车装运前检验"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "出口前申请",
+            "desc": "向指定检验机构申请装运前符合性核验。"
+          },
+          {
+            "step": "检验/发证",
+            "desc": "检验合格发 CoC/相应符合性证书。"
+          },
+          {
+            "step": "货物跟踪单",
+            "desc": "办理电子货物跟踪单(ECTN/FERI/URN 等)。"
+          },
+          {
+            "step": "清关上牌",
+            "desc": "凭证书与跟踪单清关、注册。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件",
+            "desc": "随整车检验。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "欧标/ECE 技术参照",
+          "出口国原始资料"
+        ],
+        "basis": "装运前检验 + 进口管控。",
+        "scope": "PVoC;无整车型式批准",
+        "note": "装运前检验型,车龄阶梯关税优惠。"
+      },
+      "tariff": {
+        "cbu_passenger": "基础进口关税 30%",
+        "vat": "18%",
+        "excise": "车龄阶梯:1–2年关税减半、3–5年减35%、超5年无优惠",
+        "cbu_ev": "2026 起纯电/混动新能源整车及电池 100%关税减免、全免增值税与国家团结税",
+        "note": "仅左舵、国Ⅳ+",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      },
+      "confidence": "C",
+      "sources": [
+        "非洲各国进口政策资料(2025–2026)",
+        "出海准入资料合辑(2025–2026·非洲各国进口政策/COC实务)"
+      ]
+    },
+    "南苏丹": {
+      "country": "南苏丹",
+      "system_type": "recognition",
+      "summary": "装运前符合性检验(CoC)+电子货物跟踪单(ECTN):出口前办 CoC + ECTN;以装运前检验与海关为准入闸口,无本土型式批准。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "进口管控 + 装运前检验",
+          "title_local": "Import Control / PVoC",
+          "desc": "以装运前符合性检验为准入闸口。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "目的国要求",
+          "title_local": "Destination Requirements",
+          "desc": "按目的国进口要求(排放/车况)检验。",
+          "refs": []
+        },
+        {
+          "level": 3,
+          "label": "检验/单证",
+          "title": "CoC + ECTN",
+          "title_local": "CoC + ECTN",
+          "desc": "出口前办 CoC 与电子货物跟踪单(正本须开船后15日内出)。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "CoC 符合性证书",
+          "title_local": "Certificate of Conformity",
+          "desc": "凭证清关。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "南苏丹指定 PVoC 检验机构",
+            "abbr": "PVoC",
+            "role": "装运前符合性检验。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全/环保",
+              "items": "按目的国排放(欧标)与进口管控要求,以装运前符合性检验(CoC/PVoC)为准"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "随整车装运前检验"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "出口前申请",
+            "desc": "向指定检验机构申请装运前符合性核验。"
+          },
+          {
+            "step": "检验/发证",
+            "desc": "检验合格发 CoC/相应符合性证书。"
+          },
+          {
+            "step": "货物跟踪单",
+            "desc": "办理电子货物跟踪单(ECTN/FERI/URN 等)。"
+          },
+          {
+            "step": "清关上牌",
+            "desc": "凭证书与跟踪单清关、注册。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件",
+            "desc": "随整车检验。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "出口国原始资料"
+        ],
+        "basis": "装运前符合性检验为准入闸口。",
+        "scope": "CoC + ECTN",
+        "note": "装运前符合性检验型——CoC + ECTN。"
+      },
+      "tariff": {
+        "note": "待补充关税数据",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      },
+      "confidence": "C",
+      "sources": [
+        "非洲各国进口政策资料(2025–2026)",
+        "出海准入资料合辑(2025–2026·非洲各国进口政策/COC实务)"
+      ]
+    },
+    "刚果(金)": {
+      "country": "刚果(金)",
+      "system_type": "recognition",
+      "summary": "VC 检验证书 + FERI 货物跟踪 + 目的地证明(COD/AD):由本地进口商发起 VC 检验、出口商配合;无本土型式批准。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "进口检验管控",
+          "title_local": "Import Verification",
+          "desc": "由刚果(金)进口商发起 VC 检验,出口商配合。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "目的国要求",
+          "title_local": "Destination Requirements",
+          "desc": "按目的国进口要求检验。",
+          "refs": []
+        },
+        {
+          "level": 3,
+          "label": "检验/单证",
+          "title": "VC + FERI + COD/AD",
+          "title_local": "VC + FERI + COD/AD",
+          "desc": "VC 检验、FERI 电子货物跟踪、目的地证明(COD/AD)。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "VC 证书",
+          "title_local": "Verification Certificate",
+          "desc": "凭证清关。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "刚果(金)指定检验机构",
+            "abbr": "VC",
+            "role": "进口检验与发证。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全/环保",
+              "items": "按目的国排放(欧标)与进口管控要求,以装运前符合性检验(CoC/PVoC)为准"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "随整车装运前检验"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "出口前申请",
+            "desc": "向指定检验机构申请装运前符合性核验。"
+          },
+          {
+            "step": "检验/发证",
+            "desc": "检验合格发 CoC/相应符合性证书。"
+          },
+          {
+            "step": "货物跟踪单",
+            "desc": "办理电子货物跟踪单(ECTN/FERI/URN 等)。"
+          },
+          {
+            "step": "清关上牌",
+            "desc": "凭证书与跟踪单清关、注册。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件",
+            "desc": "随整车检验。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "出口国原始资料"
+        ],
+        "basis": "进口检验(VC)+ 货物跟踪(FERI)。",
+        "scope": "VC + FERI + COD/AD",
+        "note": "进口检验型——VC + FERI + 目的地证明。"
+      },
+      "tariff": {
+        "note": "待补充关税数据",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      },
+      "confidence": "C",
+      "sources": [
+        "非洲各国进口政策资料(2025–2026)",
+        "出海准入资料合辑(2025–2026·非洲各国进口政策/COC实务)"
+      ]
+    },
+    "刚果(布)": {
+      "country": "刚果(布)",
+      "system_type": "recognition",
+      "summary": "装运前符合性检验(CoC)+电子货物跟踪单(URN/ECTN):出口前办 CoC 与 URN(刚果共和国 ECTN 参考编号);无本土型式批准。",
+      "pyramid": [
+        {
+          "level": 1,
+          "label": "框架/顶端",
+          "title": "进口管控 + 装运前检验",
+          "title_local": "Import Control / PVoC",
+          "desc": "以装运前符合性检验为准入闸口。",
+          "refs": []
+        },
+        {
+          "level": 2,
+          "label": "技术标准",
+          "title": "目的国要求",
+          "title_local": "Destination Requirements",
+          "desc": "按目的国进口要求检验。",
+          "refs": []
+        },
+        {
+          "level": 3,
+          "label": "检验/单证",
+          "title": "CoC + URN/ECTN",
+          "title_local": "CoC + URN",
+          "desc": "出口前办 CoC 与 URN(开船后10个工作日内,超期加收50%)。",
+          "refs": []
+        },
+        {
+          "level": 4,
+          "label": "证书/产出",
+          "title": "CoC 符合性证书",
+          "title_local": "Certificate of Conformity",
+          "desc": "凭证清关。",
+          "refs": []
+        }
+      ],
+      "sections": {
+        "authorities": [
+          {
+            "name": "刚果(布)指定 PVoC 检验机构",
+            "abbr": "PVoC",
+            "role": "装运前符合性检验。"
+          }
+        ],
+        "core_regs": {
+          "vehicle": [
+            {
+              "group": "安全/环保",
+              "items": "按目的国排放(欧标)与进口管控要求,以装运前符合性检验(CoC/PVoC)为准"
+            }
+          ],
+          "component": [
+            {
+              "group": "部件",
+              "items": "随整车装运前检验"
+            }
+          ]
+        },
+        "process_vehicle": [
+          {
+            "step": "出口前申请",
+            "desc": "向指定检验机构申请装运前符合性核验。"
+          },
+          {
+            "step": "检验/发证",
+            "desc": "检验合格发 CoC/相应符合性证书。"
+          },
+          {
+            "step": "货物跟踪单",
+            "desc": "办理电子货物跟踪单(ECTN/FERI/URN 等)。"
+          },
+          {
+            "step": "清关上牌",
+            "desc": "凭证书与跟踪单清关、注册。"
+          }
+        ],
+        "process_component": [
+          {
+            "step": "部件",
+            "desc": "随整车检验。"
+          }
+        ]
+      },
+      "external_recognition": {
+        "recognizes": [
+          "出口国原始资料"
+        ],
+        "basis": "装运前符合性检验 + URN 货物跟踪。",
+        "scope": "CoC + URN/ECTN",
+        "note": "装运前符合性检验型——CoC + URN。"
+      },
+      "tariff": {
+        "note": "待补充关税数据",
+        "source": "参考(出海准入资料 2025–2026)· 以目标国海关最新税则为准"
+      },
+      "confidence": "C",
+      "sources": [
+        "非洲各国进口政策资料(2025–2026)",
+        "出海准入资料合辑(2025–2026·非洲各国进口政策/COC实务)"
       ]
     }
   }
