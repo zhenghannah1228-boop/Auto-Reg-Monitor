@@ -1917,7 +1917,7 @@
   },
   {
     "id": "lane_support",
-    "cn_name": "车道支持(LDW/LKA)",
+    "cn_name": "车道支持(LDW/LKA/ELK)",
     "en_name": "Lane Support (LDW/LKA/ELK)",
     "pillar": "主动安全·避撞",
     "systems": {
@@ -1928,14 +1928,16 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": true,
-          "车道保持LKA": true
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
         },
         "L2_params": {
           "子项": [
-            "LDW",
-            "LKA/LKS"
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
           ],
-          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+          "_note": ""
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -1948,14 +1950,15 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": true,
-          "车道保持LKA": true
+          "车道保持LKA": true,
+          "紧急车道保持ELK": false
         },
         "L2_params": {
           "子项": [
-            "LDW",
-            "LKA/LKS"
+            "车道偏离警告LDW",
+            "车道保持LKA"
           ],
-          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+          "_note": "R7-14 仅 LDW/LKA,无 ELK(ELK明示0)"
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -1968,14 +1971,16 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": true,
-          "车道保持LKA": true
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
         },
         "L2_params": {
           "子项": [
-            "LDW",
-            "LKA/LKS"
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
           ],
-          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+          "_note": "含路沿/对向场景(×10),未单用ELK术语"
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -1988,14 +1993,16 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": true,
-          "车道保持LKA": true
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
         },
         "L2_params": {
           "子项": [
-            "LDW",
-            "LKA/LKS"
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
           ],
-          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+          "_note": ""
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -2008,14 +2015,16 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": true,
-          "车道保持LKA": true
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
         },
         "L2_params": {
           "子项": [
-            "LDW",
-            "LKA/LKS"
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
           ],
-          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+          "_note": ""
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -2028,14 +2037,16 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": true,
-          "车道保持LKA": true
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
         },
         "L2_params": {
           "子项": [
-            "LDW",
-            "LKA/LKS"
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
           ],
-          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+          "_note": ""
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -2048,14 +2059,15 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": true,
-          "车道保持LKA": true
+          "车道保持LKA": true,
+          "紧急车道保持ELK": false
         },
         "L2_params": {
           "子项": [
-            "LDW",
-            "LKA/LKS"
+            "车道偏离警告LDW",
+            "车道保持LKA"
           ],
-          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+          "_note": "NHTSA 2013 LDW_LKS 仅 LDW/LKS,无 ELK"
         },
         "L3_thresholds": {
           "_status": "DIFFERENT_SCORING_MODEL"
@@ -2068,7 +2080,8 @@
         ],
         "L1_subtests": {
           "车道偏离警告LDW": false,
-          "车道保持LKA": false
+          "车道保持LKA": false,
+          "紧急车道保持ELK": false
         },
         "L2_params": {},
         "L3_thresholds": {
@@ -2076,11 +2089,12 @@
         }
       }
     },
-    "diff_summary": "7 套均做车道偏离警告(LDW)+车道保持(LKA);Bharat 不测;ELK(紧急车道保持:路沿/对向车/超车)Euro/ANCAP/C-NCAP/ASEAN 含、US(2013协议)/JNCAP 偏基础",
+    "diff_summary": "7 套均 LDW+LKA(Bharat 不测);ELK 紧急车道保持(路沿/对向车/超车):C-NCAP/Euro/ANCAP/Latin/ASEAN 含,JNCAP(R7-14)与 US(NHTSA 2013)仅基础 LDW/LKA 无 ELK",
     "key_differences": [
       "LDW(偏离警告)+LKA/LKS(车道保持)为 7 套共有(Bharat AIS-197 无 LSS)",
-      "ELK 紧急车道保持(路沿/对向来车/超车场景)是高阶差异:Euro/ANCAP/C-NCAP/ASEAN 现行协议含,US(NHTSA 2013 LDW_LKS)与 JNCAP R7-14 偏基础 LDW/LKA",
-      "US 为 NHTSA 通过/不通过+星级(异构);中/欧/澳为速度区间分档评分"
+      "ELK 紧急车道保持(路沿/对向来车/超车)是高阶差异:C-NCAP(附录Q×14)、Euro(LSS×22)、ANCAP(×81)、Latin(SA×16)、ASEAN(路沿对向×10)做;JNCAP R7-14 与 US(NHTSA 2013)仅基础 LDW/LKA、无 ELK",
+      "『要不要单独做 ELK』是工程师真问题:冲 Euro/ANCAP 五星须含 ELK,JNCAP/US 不要求",
+      "US 为 NHTSA 通过/星级(异构);中/欧/澳为速度区间分档"
     ]
   },
   {
@@ -2208,7 +2222,7 @@
           "自适应远光AHB": true
         },
         "L2_params": {
-          "_note": "自适应远光/自适应远光照明 ADB;含眩光抑制/切换响应"
+          "_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -2234,7 +2248,7 @@
           "自适应远光AHB": true
         },
         "L2_params": {
-          "_note": "自适应远光/自适应远光照明 ADB;含眩光抑制/切换响应"
+          "_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -2259,7 +2273,8 @@
         },
         "L2_params": {},
         "L3_thresholds": {
-          "_status": "NOT_TESTED"
+          "_status": "SOURCE_PENDING",
+          "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"
         }
       },
       "Euro NCAP": {
@@ -2270,7 +2285,8 @@
         },
         "L2_params": {},
         "L3_thresholds": {
-          "_status": "NOT_TESTED"
+          "_status": "SOURCE_PENDING",
+          "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"
         }
       },
       "US NCAP": {
@@ -2296,10 +2312,10 @@
         }
       }
     },
-    "diff_summary": "ASEAN(独立 MS-AHB/ADB)与 C-NCAP(附录S 灯光性能内含 AHB)评自适应远光;Euro/ANCAP 现实虽有但本批源未含,JNCAP/Latin/US/Bharat 不单列",
+    "diff_summary": "ASEAN(独立 MS-AHB/ADB)与 C-NCAP(附录S 灯光含 AHB)有源核实;Euro/ANCAP 现实评 AHB 但本批无协议=源待补(非不测);JNCAP/Latin/US/Bharat 不单列",
     "key_differences": [
-      "ASEAN 有独立 MS-AHB/ADB 协议;C-NCAP 在『附录S 整车灯光性能』内含 AHB/ADB(自适应远光×82)",
-      "Euro/ANCAP 现实有 AHB 评估,但本批交付源未含其灯光/AHB 协议——标源待补,非定论",
+      "ASEAN 有独立 MS-AHB/ADB 协议;C-NCAP 在『附录S 整车灯光性能』内含 AHB/ADB(×82)",
+      "Euro/ANCAP 现实有 AHB 评估,但本批交付源未含其灯光/AHB 协议 → 标『源待补』,工程师勿误读为不评远光",
       "JNCAP R7-16 为『高機能前照灯装备確認』(配备确认,非动态AHB评分);Latin/US/Bharat 不单列 AHB"
     ]
   },
@@ -2442,7 +2458,7 @@
     "diff_summary": "异质差集:C-NCAP 附录N(SBR+儿童遗留)最全;JNCAP 仅安全带提醒SBR;ANCAP/Euro 为儿童遗留检测CPD;ASEAN/Latin/US/Bharat 不测。DMS驾驶员监测各体系尚未单列动态评分",
     "key_differences": [
       "子项异质是关键差集:C-NCAP(SBR+儿童遗留CPD)、JNCAP(仅SBR)、ANCAP(儿童遗留CPD,DMS×0)、Euro(儿童遗留/乘员状态)",
-      "无体系把驾驶员监测DMS作独立动态评分项(多为配备加分);C-NCAP 附录N 是否含DMS待核",
+      "C-NCAP 附录N 经原文核实不含驾驶员监测DMS(驾驶员状态×0),仅 SBR+儿童遗留;无体系把 DMS 作独立动态评分项",
       "ASEAN/Latin/US/Bharat 不单列乘员监测提醒",
       "『监测/提醒』口径不一:提醒(SBR)vs 检测(儿童遗留)vs 监测(驾驶员状态),跨体系冲星须分清"
     ]

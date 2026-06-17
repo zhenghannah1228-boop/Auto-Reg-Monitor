@@ -32,6 +32,8 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
 .t-no .tag{color:var(--faint);font-weight:400}
 .t-diff .tag{background:var(--bluebg);color:var(--blue)}
 .t-part .tag{background:var(--goldbg);color:#8a6510}
+.t-pend{background:repeating-linear-gradient(45deg,#eef2f4,#eef2f4 6px,#e0e8ec 6px,#e0e8ec 12px)}
+.t-pend .tag{background:#dde7ec;color:#5a7a88;font-weight:600}
 .cell .hint{display:block;font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.3;font-family:ui-monospace,monospace}
 .cell.on{outline:2px solid var(--blue);outline-offset:-2px}
 /* 详情面板 */
@@ -66,7 +68,8 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
  <span><i style="background:var(--goodbg);border:1px solid #b6d6a8"></i>测(做此项 · L3 阈值已实拆)</span>
  <span><i style="background:var(--goldbg);border:1px solid #e6d39a"></i>测·部分(做此项 · L3 阈值待拆/源待补)</span>
  <span><i style="background:var(--bluebg);border:1px solid #b9cfdc"></i>异构评分(US 星级/IIHS 等级)</span>
- <span><i style="background:#f0ede2;border:1px solid var(--line)"></i>不测</span>
+ <span><i style="background:#dde7ec;border:1px solid #b9cfdc"></i>待补(现实评估但手头无协议·≠不测)</span>
+ <span><i style="background:#f0ede2;border:1px solid var(--line)"></i>不测(源核实不做)</span>
 </div>
 <div class="sub" style="margin-top:-6px">说明:L1=是否做该测试项(测/不测,已全拆)。“测·部分”= L1 与 L2 参数已定、但 L3 评分阈值尚未深拆(多数测试项当前状态;side_impact 的 C-NCAP/ASEAN/Euro 已拆全=绿)。非“只测部分子项”。Bharat 单份 AIS-197 按章节待拆属此类、非漏项。</div>
 <div id="root"><div class="msg">正在载入 ncap_matrix.json…</div></div>
@@ -77,9 +80,13 @@ const SYS=["C-NCAP","JNCAP","ASEAN","Latin NCAP","ANCAP","Euro NCAP","US NCAP","
 const E=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 function cellClass(sysObj){
   const l1=sysObj&&sysObj.L1_subtests||{};
-  if(!Object.values(l1).some(Boolean))return["t-no","不测"];
   const l3=sysObj.L3_thresholds||{};
-  if((l3._status||"").includes("DIFFERENT"))return["t-diff","异构"];
+  const st=l3._status||"";
+  if(!Object.values(l1).some(Boolean)){
+    // 不做该项 vs 现实有但手头无源(待补)≠ 不测
+    return st.includes("SOURCE_PENDING")?["t-pend","待补"]:["t-no","不测"];
+  }
+  if(st.includes("DIFFERENT"))return["t-diff","异构"];
   // 绿『测』= L3 阈值已实拆;金『测·部分』= L1/L2 已定但 L3 待拆/源待补
   const hasL3=l3._extracted_front||l3._extracted_second_row||l3._extracted_blocks||l3._HPL_LPL;
   return hasL3?["t-yes","测"]:["t-part","测·部分"];
