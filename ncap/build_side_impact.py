@@ -3,7 +3,7 @@
 sample.json 已人工验证的 L2/版本/状态层作为骨架,实拆字段覆盖其上并逐字段断言。
 严禁臆造:拆不到的层保留 sample.json 的 status。"""
 import os, re, json, glob
-from extract_common import pdf_text, has, SRC, merge_row
+from extract_common import pdf_text, has, SRC, merge_row, _flush
 
 # ---------- L1 子测试项:从各体系源文件按"是否含该试验"判定 ----------
 def cn_dir(*pats):
@@ -73,7 +73,9 @@ def cncap_L3():
     REG = {"头部": "头部", "胸部": "胸部", "腹部": "腹部", "骨盆": "骨盆"}
     with pdfplumber.open(f) as pdf:
         for pg in pdf.pages:
-            for tb in pg.extract_tables():
+            tbs = pg.extract_tables()
+            _flush(pg)
+            for tb in tbs:
                 hdr = " ".join(str(c) for c in (tb[0] or []) if c)
                 seat = "_second_row" if ("第二排" in hdr or "二排" in hdr) else ("_front" if "前排" in hdr else last_seat)
                 region = next((v for k, v in REG.items() if k + "指标" in hdr), None)
@@ -115,7 +117,9 @@ def euro_side_L3():
     hpl = {}
     if f:
         with pdfplumber.open(f) as pdf:
-            t = pdf.pages[20].extract_text() or ""
+            pg = pdf.pages[20]
+            t = pg.extract_text() or ""
+            _flush(pg)
         pats = {"头部HIC15": r"HIC\D*?(\d{3})\s*-\s*(\d{3})", "3ms合成加速度": r"3ms[^\d]*?(\d{2})\s*-\s*(\d{2})",
                 "胸部压缩D": r"D ?mm\s*(\d{2})\s*-\s*(\d{2})", "腹部压缩D": r"abdo|D ?mm\D*?(\d{2})\s*-\s*(\d{2})",
                 "耻骨力F": r"F ?kN\s*(\d\.\d)\s*-\s*(\d\.\d)"}

@@ -4,12 +4,23 @@ import os, re, json, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "sources")
 
+def _flush(pg):
+    """释放 pdfplumber 单页缓存,防大 PDF(R7-03/AIS-197 等)逐页累积撑爆内存。"""
+    try:
+        pg.flush_cache()
+    except Exception:
+        pass
+
 def pdf_text(rel, pages=None):
     import pdfplumber
     p = rel if os.path.isabs(rel) else os.path.join(SRC, rel)
     with pdfplumber.open(p) as pdf:
         ps = pdf.pages if pages is None else pdf.pages[pages[0]:pages[1]]
-        return "\n".join((pg.extract_text() or "") for pg in ps)
+        parts = []
+        for pg in ps:
+            parts.append(pg.extract_text() or "")
+            _flush(pg)          # 逐页释放:R7-03 由 538MB→79MB
+        return "\n".join(parts)
 
 def has(txt, *pats):
     """文字层是否含任一正则(大小写不敏感),用于 L1 子测试项布尔判定。"""
@@ -60,7 +71,9 @@ def cncap_L3_tables(gl):
     out = {}
     with pdfplumber.open(f) as pdf:
         for pg in pdf.pages:
-            for tb in pg.extract_tables():
+            tbs = pg.extract_tables()
+            _flush(pg)
+            for tb in tbs:
                 hdr = [str(c or "").replace("\n", "") for c in (tb[0] or [])]
                 if "高性能限值" not in " ".join(hdr):
                     continue
@@ -89,12 +102,10 @@ def cncap_L3_tables(gl):
 def cncap_L3_text(gl, captions):
     """C-NCAP 文本模式 L3:阈值以文本行渲染(附录A/B 头部表等)。给定『表X.n』标题,
     抓其后到下一『表』之间、形如『指标 高 低 极限』的单值行(num1 拒绝多列 garbled)。"""
-    import pdfplumber
     f = _src_glob(gl)
     if not f:
         return {}
-    with pdfplumber.open(f) as pdf:
-        txt = "\n".join((pg.extract_text() or "") for pg in pdf.pages)
+    txt = pdf_text(f)
     lines = [l.strip() for l in txt.split("\n")]
     out = {}
     NUM = r"-?\d+(?:\.\d+)?"
@@ -128,12 +139,10 @@ def cncap_L3_text(gl, captions):
 def cncap_L3_paired(gl):
     """C-NCAP 配对模式 L3:阈值以『高性能限值:指标 值 / 低性能限值:指标 值』两行分列
     (附录O 腿型大腿弯矩等)→ {指标:[高,低]}。仅采纳高/低同指标配对者。"""
-    import pdfplumber
     f = _src_glob(gl)
     if not f:
         return {}
-    with pdfplumber.open(f) as pdf:
-        txt = "\n".join((pg.extract_text() or "") for pg in pdf.pages)
+    txt = pdf_text(f)
     NUM = r"(\d+(?:\.\d+)?)"
     hp = dict(re.findall(r"高性能限值[:：]\s*([一-龥A-Za-z/]+?)\s*" + NUM, txt))
     lp = dict(re.findall(r"低性能限值[:：]\s*([一-龥A-Za-z/]+?)\s*" + NUM, txt))
