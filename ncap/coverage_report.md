@@ -2,6 +2,21 @@
 
 更新:2026-06-17 · **全部 8 体系源文件到齐**(12 卷 + ASEAN 7z 补包)
 
+## ⭐ 各地区 NCAP 协议版本(本矩阵采用的版本 · 醒目对照)
+
+> 矩阵所有 L1/L2/L3 均基于下列**具体版本**;换版需重新核对。子协议版本随主版本一并列出。
+
+| 体系 | 地区 | 主协议版本 | 关键子协议 / 评分依据版本 |
+|---|---|---|---|
+| **C-NCAP** | 中国 | **2027 版** | 规程附录 A–T(碰撞 A/B/G/H/J… + 主动安全 P/Q/S);§5.1 速度核对值 |
+| **JNCAP** | 日本 | **令和7年(2025)改版** | 试验方法 R7-01~19;评价方法 `2025`(头部 HIC15 五色等级) |
+| **ASEAN** | 东盟 | **Protocol 2026–2030** | Side Impact v3.3 · AEB C2C v2.1 · AEB-CM v1.2 · AHB-ADB v2.0 · Lane Support v1.0 · BST v2.1;评分 xlsm(装备率/Value+Points) |
+| **Latin NCAP** | 拉美 | **2025** | AOP/PP/Full-Width Sled v2.0.0 · SA v2.0.1;采纳 Euro AE-MDB v8.3 / Oblique Pole v7.2 / Whiplash v1.1 |
+| **ANCAP** | 澳洲 | **v1.1(2023–2025)** | Overall v10.0;碰撞/主动安全各 v1.1;采纳 Euro AE-MDB v8.3 |
+| **Euro NCAP** | 欧盟 | **碰撞保护协议 v1.1(2025/2026)** | AE-MDB v8.3 · Pedestrian v8.5 · Whiplash v3.3.1 · Oblique Pole v7.2 · AEB C2C v2.0.1 · AEB VRU v2.0.4 |
+| **US NCAP** | 美国 | **NHTSA(星级)+ IIHS** | IIHS 头枕动态 v4 等;NHTSA FCW/AEB(异构等级制) |
+| **Bharat NCAP** | 印度 | **AIS-197** | + **AIS-100 (Rev.1)**(行人保护,UN GTR9 系) |
+
 ## 各体系源就绪度
 
 | 体系 | 源 | side_impact 可拆深度 | 备注 |

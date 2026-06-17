@@ -58,12 +58,28 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
 .cmpcard{min-width:200px;flex:0 0 auto;border:1px solid var(--line);border-radius:7px;padding:9px 11px;background:#fff}
 .cmpcard h5{margin:0 0 6px;font-size:12.5px;color:var(--blue)}
 .cmpcard .scn{font-size:10px;font-family:ui-monospace,monospace;color:var(--muted);margin-bottom:4px}
+.vers{margin:8px 0 12px;padding:9px 12px;background:#eef3e9;border:1px solid #cfe0c2;border-left:4px solid var(--accent);border-radius:5px;font-size:11.5px;line-height:1.9;display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline}
+.vers b{color:var(--ink)}
+.vers>b{color:var(--accent);margin-right:6px;font-size:12.5px}
+.vers span{white-space:nowrap}
+.vers span b{color:#2c5a2c;font-weight:600}
 .msg{padding:40px;text-align:center;color:var(--muted)}
 .foot{font-size:11px;color:var(--faint);margin-top:14px;font-family:ui-monospace,monospace}
 </style></head>
 <body><div class="wrap">
 <h1>NCAP 跨体系测试项映射矩阵</h1>
 <div class="sub">8 套 NCAP 体系 × 测试项三层映射 · 供认证工程师/分析师做跨体系差集与参数横向对照 · 点单元格看 L2/L3,点测试项名看差集要点</div>
+<div class="vers" id="vers">
+ <b>⭐ 本矩阵采用的协议版本</b>
+ <span><b>C-NCAP</b> 2027版</span>
+ <span><b>JNCAP</b> 令和7(2025)改版 · R7 / 评价方法2025</span>
+ <span><b>ASEAN</b> Protocol 2026–2030 · Side v3.3/AEB v2.1/AHB v2.0…</span>
+ <span><b>Latin</b> 2025(AOP v2.0.0/SA v2.0.1)· 采纳Euro</span>
+ <span><b>ANCAP</b> v1.1(2023–2025)· 采纳Euro</span>
+ <span><b>Euro</b> 碰撞保护 v1.1(2025/26)· AE-MDB v8.3/Ped v8.5/Whiplash v3.3.1</span>
+ <span><b>US</b> NHTSA + IIHS(头枕v4)</span>
+ <span><b>Bharat</b> AIS-197 + AIS-100(Rev.1)</span>
+</div>
 <div class="legend">
  <span><i style="background:var(--goodbg);border:1px solid #b6d6a8"></i>测(做此项 · L3 阈值已实拆)</span>
  <span><i style="background:var(--goldbg);border:1px solid #e6d39a"></i>测·部分(做此项 · L3 阈值待拆/源待补)</span>
