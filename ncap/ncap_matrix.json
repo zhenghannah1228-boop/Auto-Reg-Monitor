@@ -37,7 +37,12 @@
           "正面全宽刚性": true
         },
         "L2_params": {
-          "_note": "フルラップ前面衝突,55km/h"
+          "速度": "50 km/h",
+          "假人": [
+            "Hybrid III",
+            "WorldSID"
+          ],
+          "_note": "R7-01 フルラップ前面衝突 50.0±1km/h(源核对,非55)"
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -63,7 +68,8 @@
           "正面全宽刚性": true
         },
         "L2_params": {
-          "_note": "全宽台车(Sled)"
+          "壁障": "全宽台车(Sled,脉冲法)",
+          "_note": "台车脉冲复现,无单一闭合速度"
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
@@ -75,7 +81,10 @@
         "L1_subtests": {
           "正面全宽刚性": true
         },
-        "L2_params": {},
+        "L2_params": {
+          "速度": "50 km/h",
+          "壁障": "全宽刚性(采纳Euro)"
+        },
         "L3_thresholds": {
           "_status": "TO_EXTRACT"
         }
@@ -89,6 +98,7 @@
           "正面全宽刚性": true
         },
         "L2_params": {
+          "速度": "50 km/h",
           "壁障": "全宽刚性 FW"
         },
         "L3_thresholds": {
@@ -121,18 +131,22 @@
         "L1_subtests": {
           "正面全宽刚性": true
         },
-        "L2_params": {},
+        "L2_params": {
+          "速度": "56 km/h",
+          "壁障": "全宽刚性(采纳Global/Euro)"
+        },
         "L3_thresholds": {
           "_status": "TO_EXTRACT_FROM_CHAPTER"
         }
       }
     },
+    "diff_summary": "ASEAN 唯一不测(只做ODB偏置);Latin 用全宽台车脉冲代实车;速度 50(中/日/欧/澳)→56(美/印)不一",
     "key_differences": [
       "C-NCAP 全宽刚性 50km/h(§5.1 核对值;源文本脚注上标污染需防误取)",
       "ASEAN 不做全宽刚性正碰(仅做 ODB 偏置)——8 套中唯一缺此项",
       "Latin NCAP 以『全宽台车(Full Width Sled)』方式评估,非实车全宽碰撞",
       "US NHTSA 全宽刚性 56km/h(35mph)、星级制;IIHS 不做全宽(只做偏置)",
-      "JNCAP R7-01 フルラップ前面衝突 55km/h;各体系速度 50/55/56 不一"
+      "JNCAP R7-01 フルラップ前面衝突 50km/h(源核对,非55);中/日/欧/澳 50、美/印 56"
     ]
   },
   {
@@ -268,6 +282,7 @@
         }
       }
     },
+    "diff_summary": "8 套全测、覆盖最广;C-NCAP/JNCAP 50km/h MPDB,US 用 IIHS 40%中等偏置(64km/h)、ASEAN 走 ODB(xlsm AOP Frontal ODB)",
     "key_differences": [
       "8 套全做正面偏置,但壁障分三类:MPDB 移动渐进(C-NCAP/JNCAP/Euro/ANCAP)、ODB 偏置可变形(ASEAN/Latin/Bharat)、IIHS 40%中等偏置固定壁障(US)",
       "C-NCAP 50%重叠 50km/h(§5.1 B,防脚注污染);US IIHS 40%重叠 64km/h",
@@ -375,6 +390,7 @@
         }
       }
     },
+    "diff_summary": "8 套中仅 US(IIHS 25%小偏置)测——典型差集项,其余 7 套均不做",
     "key_differences": [
       "典型差集项:8 套中唯一做 25% 正面小偏置的只有 US(IIHS)——其余 7 套协议 small overlap 命中=0",
       "小偏置考验纵梁外侧/轮罩/A 柱的载荷路径,常规 MPDB/ODB 偏置(50%/40%)不覆盖此工况",
@@ -511,7 +527,8 @@
             "WorldSID"
           ],
           "座椅排": "前排",
-          "_extraction_note": "日英对照,用英文层提取;R7-03=Side Collision Safety Performance Test Procedure"
+          "_extraction_note": "日英对照,用英文层提取;R7-03=Side Collision Safety Performance Test Procedure",
+          "速度": "55 km/h(MDB 闭合)"
         },
         "L3_thresholds": {
           "_status": "TO_EXTRACT",
@@ -545,17 +562,30 @@
           "_structure": "HEAD(Peak resultant/HIC15/合成加速度3ms) + CHEST(上/中/下肋压缩,各4分) + Shoulder + airbag修正(-1)",
           "_status": "PARTIAL_VERIFIED_FROM_XLSM",
           "_extracted_blocks": {
-            "HEAD": [],
-            "CHEST": [],
-            "SHOULDER": [
+            "HEAD": [
+              "HIC15 3 4",
+              "Resultant Acc. 3 msec exeedence - g 3 4",
+              "Incorrect airbag deployment modifier (-1) -1 -1"
+            ],
+            "CHEST": [
+              "Lateral compression - mm",
+              "Shoulder Fy - kN 2.9",
               "Viscous Criterion modifier (-4) 0",
               "Top rib Viscous Criterion - m/s 0.9",
               "Middle rib Viscous Criterion - m/s 0.9",
               "Bottom rib Viscous Criterion - m/s 0.9",
               "Incorrect airbag deployment modifier (-1) -1 -1"
             ],
-            "ABDOMEN": [],
-            "PELVIS": []
+            "ABDOMEN": [
+              "Lateral compression - mm",
+              "Viscous Criterion modifier (-4) 0",
+              "Top rib Viscous Criterion - m/s 0.2",
+              "Bottom rib Viscous Criterion - m/s 0.2",
+              "Incorrect airbag deployment modifier (-1) 0 0"
+            ],
+            "PELVIS": [
+              "Incorrect airbag deployment modifier (-1) 0 0"
+            ]
           }
         }
       },
@@ -604,8 +634,31 @@
           "_extraction_note": "含Far Side和Occupant-to-Occupant;L3从拉美目录AE-MDB v8.3协议补(原v1标MISSING_SOURCE已解决)"
         },
         "L3_thresholds": {
-          "_source": "拉美/Euro AE-MDB v8.3",
-          "_status": "SOURCE_NOW_AVAILABLE_TO_EXTRACT"
+          "_scoring": "sliding（滑动评分:满分@HPL → 0分@LPL,线性内插,capping 封顶）",
+          "_source": "欧盟/Euro NCAP side_impact v1.1 p21（+ AE-MDB v8.3 测试法）",
+          "_HPL_LPL": {
+            "头部HIC15": [
+              500,
+              700
+            ],
+            "3ms合成加速度": [
+              72,
+              80
+            ],
+            "胸部压缩D": [
+              28,
+              50
+            ],
+            "腹部压缩D": [
+              47,
+              65
+            ],
+            "耻骨力F": [
+              1.7,
+              2.8
+            ]
+          },
+          "_note": "HPL=higher performance limit(满分), LPL=lower performance limit(0分);C-NCAP 三限值采纳同套数值"
         }
       },
       "ANCAP": {
@@ -682,7 +735,8 @@
       "Latin/ANCAP采纳Euro AE-MDB方法,评分源在拉美目录Euro原始协议",
       "US用星级算法/IIHS等级,非限值制;Bharat单文件AIS-197待按章节拆",
       "JNCAP是8套体系中唯一侧碰只做MDB、不做柱碰的体系(全R7协议无pole测试)"
-    ]
+    ],
+    "diff_summary": "C-NCAP 唯一测二排;Euro/ANCAP 含远端乘员;JNCAP/ASEAN 无柱碰只做MDB;评分三制并存(中:三限值 / ASEAN:Value+Points / Euro:滑动HPL-LPL)"
   },
   {
     "id": "side_pole",
@@ -822,6 +876,7 @@
         }
       }
     },
+    "diff_summary": "做柱碰 6 套;JNCAP/ASEAN 不做(仅MDB侧碰);C-NCAP 刚性柱32km/h,Euro/Latin/ANCAP 采纳Euro斜柱75°,US NHTSA 75°",
     "key_differences": [
       "做柱碰的 6 套:C-NCAP(附录H 刚性柱 32km/h)、Latin/ANCAP/Euro(采纳 Euro Oblique 斜柱 75°)、US(NHTSA 75°斜柱)、Bharat(AIS-197)",
       "JNCAP、ASEAN 不做侧面柱碰(仅 MDB 侧碰)——与 side_impact 基准一致",

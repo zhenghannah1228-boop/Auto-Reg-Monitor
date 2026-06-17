@@ -45,13 +45,13 @@ def build():
                                  "壁障": "100%重叠固定刚性壁障",
                                  "_extraction_note": f"§5.1 核对值={cn_speed};源文本脚注上标污染(原始提取='{raw}'不可用)"},
                    "L3_thresholds": {"_status": "TO_EXTRACT", "_note": "附录A 阈值表(头/颈/胸/腿),结构同附录G,可后续 extract_tables 拆"}},
-        "JNCAP": {"version": "令和7(2025)", "source_files": ["日本/R7-01_en.pdf"], "L2_params": {"_note": "フルラップ前面衝突,55km/h"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
+        "JNCAP": {"version": "令和7(2025)", "source_files": ["日本/R7-01_en.pdf"], "L2_params": {"速度": "50 km/h", "假人": ["Hybrid III", "WorldSID"], "_note": "R7-01 フルラップ前面衝突 50.0±1km/h(源核对,非55)"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
         "ASEAN": {"version": "Protocol 2026-2030", "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED"}},
-        "Latin NCAP": {"version": "2025", "source_files": ["拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf"], "L2_params": {"_note": "全宽台车(Sled)"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
-        "ANCAP": {"version": "v1.1", "L2_params": {}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
-        "Euro NCAP": {"version": "v1.1 2026", "source_files": ["欧盟/Euro NCAP/crash protection/.../frontal_impact_v11"], "L2_params": {"壁障": "全宽刚性 FW"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
+        "Latin NCAP": {"version": "2025", "source_files": ["拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf"], "L2_params": {"壁障": "全宽台车(Sled,脉冲法)", "_note": "台车脉冲复现,无单一闭合速度"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
+        "ANCAP": {"version": "v1.1", "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性(采纳Euro)"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
+        "Euro NCAP": {"version": "v1.1 2026", "source_files": ["欧盟/Euro NCAP/crash protection/.../frontal_impact_v11"], "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性 FW"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
         "US NCAP": {"version": "NHTSA", "L2_params": {"速度": "56 km/h(35mph)", "壁障": "全宽刚性", "假人": ["Hybrid III 50th", "5th"]}, "L3_thresholds": {"_status": "DIFFERENT_SCORING_MODEL"}},
-        "Bharat NCAP": {"version": "AIS-197", "source_files": ["印度/AIS_197-1.pdf"], "L2_params": {}, "L3_thresholds": {"_status": "TO_EXTRACT_FROM_CHAPTER"}},
+        "Bharat NCAP": {"version": "AIS-197", "source_files": ["印度/AIS_197-1.pdf"], "L2_params": {"速度": "56 km/h", "壁障": "全宽刚性(采纳Global/Euro)"}, "L3_thresholds": {"_status": "TO_EXTRACT_FROM_CHAPTER"}},
     }
     systems = {}
     for s, tested in L1.items():
@@ -62,12 +62,13 @@ def build():
                       "L3_thresholds": m.get("L3_thresholds", {"_status": "NOT_TESTED"})}
     row = {"id": "frontal_rigid_full", "cn_name": "正面100%刚性壁障", "en_name": "Full Width Rigid Barrier Frontal",
            "pillar": "碰撞保护", "systems": systems,
+           "diff_summary": "ASEAN 唯一不测(只做ODB偏置);Latin 用全宽台车脉冲代实车;速度 50(中/日/欧/澳)→56(美/印)不一",
            "key_differences": [
                "C-NCAP 全宽刚性 50km/h(§5.1 核对值;源文本脚注上标污染需防误取)",
                "ASEAN 不做全宽刚性正碰(仅做 ODB 偏置)——8 套中唯一缺此项",
                "Latin NCAP 以『全宽台车(Full Width Sled)』方式评估,非实车全宽碰撞",
                "US NHTSA 全宽刚性 56km/h(35mph)、星级制;IIHS 不做全宽(只做偏置)",
-               "JNCAP R7-01 フルラップ前面衝突 55km/h;各体系速度 50/55/56 不一"]}
+               "JNCAP R7-01 フルラップ前面衝突 50km/h(源核对,非55);中/日/欧/澳 50、美/印 56"]}
     n = merge_row(row)
     res = [(cn_speed == CNCAP_REF["A"], "C-NCAP.全宽速度=§5.1核对值50", cn_speed, 50),
            (raw != str(cn_speed), "C-NCAP.原始提取≠50(确认污染存在)", raw, "≠50(污染)"),

@@ -100,11 +100,37 @@ def asean_L3():
     for row in ws.iter_rows(min_row=1, max_row=60, values_only=True):
         cells = [("" if c is None else str(c).strip()) for c in row]
         joined = " ".join(c for c in cells if c)
-        head = next((b for b in ("HEAD", "CHEST", "ABDOMEN", "PELVIS", "SHOULDER") if joined.upper().startswith(b)), None)
+        # 仅精确匹配区块表头(避免『Head assessment』『Chest assessment』误触发清空)
+        head = next((b for b in ("HEAD", "CHEST", "ABDOMEN", "PELVIS", "SHOULDER") if joined.upper().strip() == b), None)
         if head: cur = head; blocks[cur] = []
         elif cur and any(k in joined for k in ("HIC15", "Resultant", "compression", "Viscous", "Shoulder Fy", "airbag")):
             blocks[cur].append(re.sub(r"\s+", " ", joined)[:60])
     return blocks
+
+def euro_side_L3():
+    """Euro 侧碰滑动评分:从 side_impact v1.1 p21 抽 WorldSID 各部位 HPL-LPL(满分@HPL→0@LPL),
+    capping 封顶。实拆 + 与已知值核对(C-NCAP 采纳同值)。"""
+    import pdfplumber
+    f = find_one("欧盟/**/*side_impact*v11*.pdf")
+    hpl = {}
+    if f:
+        with pdfplumber.open(f) as pdf:
+            t = pdf.pages[20].extract_text() or ""
+        pats = {"头部HIC15": r"HIC\D*?(\d{3})\s*-\s*(\d{3})", "3ms合成加速度": r"3ms[^\d]*?(\d{2})\s*-\s*(\d{2})",
+                "胸部压缩D": r"D ?mm\s*(\d{2})\s*-\s*(\d{2})", "腹部压缩D": r"abdo|D ?mm\D*?(\d{2})\s*-\s*(\d{2})",
+                "耻骨力F": r"F ?kN\s*(\d\.\d)\s*-\s*(\d\.\d)"}
+        for k, p in [("头部HIC15", r"HIC\D*?(\d{3})\s*-\s*(\d{3})"), ("3ms合成加速度", r"3ms\D*?(\d{2})\s*-\s*(\d{2})"),
+                     ("胸部压缩D", r"D ?mm\s*(\d{2})\s*-\s*(\d{2})"), ("腹部压缩D", r"(\d{2})\s*-\s*(\d{2})\s*\d{2}\s*abdo"),
+                     ("耻骨力F", r"F ?kN\s*(\d\.\d)\s*-\s*(\d\.\d)")]:
+            m = re.search(p, t, re.I)
+            if m: hpl[k] = [float(m.group(1)) if "." in m.group(1) else int(m.group(1)),
+                            float(m.group(2)) if "." in m.group(2) else int(m.group(2))]
+    return {"_scoring": "sliding（滑动评分:满分@HPL → 0分@LPL,线性内插,capping 封顶）",
+            "_source": "欧盟/Euro NCAP side_impact v1.1 p21（+ AE-MDB v8.3 测试法）",
+            "_HPL_LPL": hpl, "_note": "HPL=higher performance limit(满分), LPL=lower performance limit(0分);C-NCAP 三限值采纳同套数值"}
+
+def find_one(pat):
+    return (glob.glob(os.path.join(SRC, pat), recursive=True) or [None])[0]
 
 def main():
     sample = json.load(open("side_impact_sample.json", encoding="utf-8"))["test_item"]
@@ -132,6 +158,15 @@ def main():
     a = asean_L3()
     out["systems"]["ASEAN"]["L3_thresholds"]["_extracted_blocks"] = a
     results.append(({"HEAD", "CHEST"}.issubset(a.keys()), "ASEAN.L3.xlsm_blocks", sorted(a.keys()), "含 HEAD+CHEST"))
+    # 4) Euro 侧碰 L3 滑动评分(HPL满分→LPL零分,capping 封顶;实拆自 side_impact v1.1 p21)
+    eu = euro_side_L3()
+    out["systems"]["Euro NCAP"]["L3_thresholds"] = eu
+    results.append((eu.get("_HPL_LPL", {}).get("头部HIC15") == [500, 700],
+                    "Euro.L3.滑动HIC15(HPL-LPL)", eu.get("_HPL_LPL", {}).get("头部HIC15"), [500, 700]))
+    # 5) 补 JNCAP 侧碰闭合速度(R7-03=55,sample 原缺)
+    out["systems"]["JNCAP"]["L2_params"]["速度"] = "55 km/h(MDB 闭合)"
+    # 6) 差集摘要(主视图常显)
+    out["diff_summary"] = "C-NCAP 唯一测二排;Euro/ANCAP 含远端乘员;JNCAP/ASEAN 无柱碰只做MDB;评分三制并存(中:三限值 / ASEAN:Value+Points / Euro:滑动HPL-LPL)"
     # 并入矩阵(按 id 去重)
     merge_row(out)
     # 回归报告

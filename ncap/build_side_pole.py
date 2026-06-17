@@ -60,6 +60,7 @@ def build():
                       "L3_thresholds": m.get("L3_thresholds", {"_status": "NOT_TESTED"})}
     row = {"id": "side_pole", "cn_name": "侧面柱碰", "en_name": "Side Pole Impact", "pillar": "碰撞保护",
            "systems": systems,
+           "diff_summary": "做柱碰 6 套;JNCAP/ASEAN 不做(仅MDB侧碰);C-NCAP 刚性柱32km/h,Euro/Latin/ANCAP 采纳Euro斜柱75°,US NHTSA 75°",
            "key_differences": [
                "做柱碰的 6 套:C-NCAP(附录H 刚性柱 32km/h)、Latin/ANCAP/Euro(采纳 Euro Oblique 斜柱 75°)、US(NHTSA 75°斜柱)、Bharat(AIS-197)",
                "JNCAP、ASEAN 不做侧面柱碰(仅 MDB 侧碰)——与 side_impact 基准一致",

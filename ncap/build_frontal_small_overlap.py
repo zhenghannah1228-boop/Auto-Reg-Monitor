@@ -27,6 +27,7 @@ def build():
                           "L3_thresholds": {"_status": "NOT_TESTED"}}
     row = {"id": "frontal_small_overlap", "cn_name": "正面小偏置", "en_name": "Small Overlap Frontal (25%)",
            "pillar": "碰撞保护", "systems": systems,
+           "diff_summary": "8 套中仅 US(IIHS 25%小偏置)测——典型差集项,其余 7 套均不做",
            "key_differences": [
                "典型差集项:8 套中唯一做 25% 正面小偏置的只有 US(IIHS)——其余 7 套协议 small overlap 命中=0",
                "小偏置考验纵梁外侧/轮罩/A 柱的载荷路径,常规 MPDB/ODB 偏置(50%/40%)不覆盖此工况",

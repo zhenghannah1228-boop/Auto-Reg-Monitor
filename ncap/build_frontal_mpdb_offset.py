@@ -66,6 +66,7 @@ def build():
                       "L3_thresholds": L3[s]}
     row = {"id": "frontal_mpdb_offset", "cn_name": "正面偏置MPDB/ODB", "en_name": "Offset Deformable Frontal (MPDB/ODB)",
            "pillar": "碰撞保护", "systems": systems,
+           "diff_summary": "8 套全测、覆盖最广;C-NCAP/JNCAP 50km/h MPDB,US 用 IIHS 40%中等偏置(64km/h)、ASEAN 走 ODB(xlsm AOP Frontal ODB)",
            "key_differences": [
                "8 套全做正面偏置,但壁障分三类:MPDB 移动渐进(C-NCAP/JNCAP/Euro/ANCAP)、ODB 偏置可变形(ASEAN/Latin/Bharat)、IIHS 40%中等偏置固定壁障(US)",
                "C-NCAP 50%重叠 50km/h(§5.1 B,防脚注污染);US IIHS 40%重叠 64km/h",

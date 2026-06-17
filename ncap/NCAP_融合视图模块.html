@@ -20,6 +20,8 @@ thead th:first-child{left:0;z-index:4;text-align:left;padding-left:14px;min-widt
 tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:left;padding:10px 14px;
  z-index:2;min-width:150px}
 .pillar{font-size:10px;color:var(--muted);font-weight:400;display:block}
+.dsum{font-size:11px;color:var(--accent);font-weight:600;margin-top:4px;line-height:1.4;
+ background:#fbeee9;border-radius:4px;padding:3px 6px}
 .tname{font-weight:700;font-size:13px;cursor:pointer}
 .tname:hover{color:var(--blue)}
 .cell{width:118px;min-width:118px;padding:9px 6px;cursor:pointer;transition:.1s}
@@ -50,6 +52,10 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
 .kd ul{margin:6px 0 0;padding-left:18px}
 .kd li{font-size:12.5px;color:var(--ink2);margin:4px 0;line-height:1.55}
 .kdrow td{padding:8px 14px;background:var(--panel2)}
+.cmp{display:flex;gap:10px;overflow-x:auto;padding:10px 14px;background:#fbfaf4}
+.cmpcard{min-width:200px;flex:0 0 auto;border:1px solid var(--line);border-radius:7px;padding:9px 11px;background:#fff}
+.cmpcard h5{margin:0 0 6px;font-size:12.5px;color:var(--blue)}
+.cmpcard .scn{font-size:10px;font-family:ui-monospace,monospace;color:var(--muted);margin-bottom:4px}
 .msg{padding:40px;text-align:center;color:var(--muted)}
 .foot{font-size:11px;color:var(--faint);margin-top:14px;font-family:ui-monospace,monospace}
 </style></head>
@@ -79,7 +85,20 @@ function cellClass(sysObj){
 }
 function cellHint(sysObj){
   const p=sysObj&&sysObj.L2_params||{};
-  return p["速度"]||p["壁障"]||"";
+  if(p["速度"])return p["速度"];
+  if(p["壁障"])return p["壁障"];
+  // 兜底:无速度无壁障时,显示首个 L1 子测试项名(确保"测"格不空白)
+  const l1=sysObj&&sysObj.L1_subtests||{};
+  const k=Object.keys(l1).find(k=>l1[k]);
+  return k||"";
+}
+function scoringName(l3){
+  if(!l3)return"";
+  if(l3._extracted_front||(l3._note&&String(l3._note).includes("高")))return"三限值(高/低/极限)";
+  if(l3._HPL_LPL||(l3._scoring&&String(l3._scoring).includes("sliding")))return"滑动 HPL-LPL";
+  if(l3._extracted_blocks||l3._blocks)return"Value+Points(4分制)";
+  if((l3._status||"").includes("DIFFERENT"))return"星级/等级(异构)";
+  return l3._status||"";
 }
 function renderL3(l3){
   if(!l3)return"";
@@ -127,13 +146,18 @@ function build(matrix){
   const root=document.getElementById("root");
   let h=`<div class="scroll"><table><thead><tr><th>测试项 \\ 体系</th>${SYS.map(s=>`<th>${E(s)}</th>`).join("")}</tr></thead><tbody>`;
   matrix.forEach((item,ri)=>{
-    h+=`<tr data-row="${ri}"><td><span class="tname" onclick="toggleKD(${ri})">${E(item.cn_name)} ▾</span><span class="pillar">${E(item.pillar||"")} · ${E(item.id)}</span></td>`;
+    h+=`<tr data-row="${ri}"><td><span class="tname" onclick="toggleKD(${ri})">${E(item.cn_name)} ▾</span><span class="pillar">${E(item.pillar||"")} · ${E(item.id)}</span>${item.diff_summary?`<div class="dsum">⚖ ${E(item.diff_summary)}</div>`:""}</td>`;
     SYS.forEach(s=>{
       const o=item.systems[s];const[cls,tag]=cellClass(o);const hint=cellHint(o);
       h+=`<td class="cell ${cls}" data-r="${ri}" data-s="${E(s)}" onclick="toggleCell(this,${ri},'${E(s)}')"><span class="tag">${tag}</span>${hint?`<span class="hint">${E(hint)}</span>`:""}</td>`;
     });
     h+=`</tr>`;
-    h+=`<tr class="kdrow" id="kd-${ri}" style="display:none"><td colspan="${SYS.length+1}"><div class="kd"><b>⚖ 跨体系差集要点(${E(item.cn_name)})</b><ul>${(item.key_differences||[]).map(k=>`<li>${E(k)}</li>`).join("")}</ul></div></td></tr>`;
+    const cmp=SYS.filter(s=>{const o=item.systems[s];return o&&Object.values(o.L1_subtests||{}).some(Boolean);})
+      .map(s=>{const o=item.systems[s];return `<div class="cmpcard"><h5>${E(s)}</h5><div class="scn">评分制:${E(scoringName(o.L3_thresholds))||"—"}</div>${renderL3(o.L3_thresholds)}</div>`;}).join("");
+    h+=`<tr class="kdrow" id="kd-${ri}" style="display:none"><td colspan="${SYS.length+1}">
+      <div class="kd"><b>⚖ 跨体系差集要点(${E(item.cn_name)})</b><ul>${(item.key_differences||[]).map(k=>`<li>${E(k)}</li>`).join("")}</ul></div>
+      <div style="font-size:11.5px;color:var(--muted);padding:8px 14px 2px">▼ L3 评分制横向对照(三种制式并排):</div>
+      <div class="cmp">${cmp||'<span style="color:var(--muted)">无</span>'}</div></td></tr>`;
     h+=`<tr class="detailrow" id="det-${ri}" style="display:none"><td colspan="${SYS.length+1}"></td></tr>`;
   });
   h+="</tbody></table></div>";
