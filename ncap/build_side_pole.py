@@ -36,6 +36,15 @@ def build():
     speed = cncap_pole_speed()
     # C-NCAP 附录H L3:柱碰自有头部阈值表(HIC15 500/700、累积3ms 60/80g)实拆
     cn_l3 = cncap_L3_tables("中国/*C-NCAP*/**/附录H*柱碰*.pdf")
+    # Bharat AIS-197 §5 柱碰头部 capping 限值(HIC15<700、Peak<80g)实拆——pass-fail 封顶,非 HPL-LPL
+    _bt = pdf_text("印度/AIS_197-1.pdf")
+    _bm_h = re.search(r"5\.2 Limiting Values.*?HIC\s*15?\s*<\s*(\d{3})", _bt, re.S)
+    _bm_a = re.search(r"Peak Resultant Acc\D*?(\d{2})\s*g", _bt)
+    bh_pole = {}
+    if _bm_h:
+        bh_pole["HIC15(capping上限)"] = [int(_bm_h.group(1))]
+    if _bm_a:
+        bh_pole["Peak合成加速度(capping)"] = [int(_bm_a.group(1))]
     systems = {}
     # 各体系柱碰参数(测者填 L2;源缺标 status)
     meta = {
@@ -53,7 +62,11 @@ def build():
         "US NCAP": {"version": "NHTSA", "L2_params": {"壁障": "75° 斜柱(MDB+Pole)", "假人": ["SID-IIs", "ES-2re"]},
                     "L3_thresholds": {"_status": "DIFFERENT_SCORING_MODEL", "_note": "NHTSA 星级;本批未提供 NHTSA 原文/侧碰源,L2/L3 待补"}},
         "Bharat NCAP": {"version": "AIS-197", "source_files": ["印度/AIS_197-1.pdf"],
-                        "L2_params": {"_extraction_note": "AIS-197 含柱碰章节,采纳Global/Euro方法"}, "L3_thresholds": {"_status": "TO_EXTRACT_FROM_CHAPTER"}},
+                        "L2_params": {"_extraction_note": "AIS-197 §5 柱碰章节,采纳Global/Euro方法"},
+                        "L3_thresholds": {"_extracted_tables": {"头部(capping/pass-fail)": bh_pole},
+                                          "_scoring": "capping/pass-fail(超限即0;非滑动)",
+                                          "_source": "印度/AIS_197-1.pdf §5.2 柱碰限值",
+                                          "_note": "Bharat AIS-197 §5 柱碰仅头部 capping 单值(HIC15<700/Peak<80g)+需配帘式气囊;非 HPL-LPL 双限"}},
     }
     for s, tested in L1.items():
         m = meta[s]
@@ -81,6 +94,7 @@ def build():
     # C-NCAP 附录H L3 实拆回归锚点
     hic = cn_l3.get("_", {}).get("HIC15")
     res.append((hic == [500, 700], "C-NCAP.L3.柱碰HIC15=[500,700]", hic, [500, 700]))
+    res.append((bh_pole.get("HIC15(capping上限)") == [700], "Bharat.L3.柱碰HIC15 capping=700", bh_pole.get("HIC15(capping上限)"), [700]))
     print(f"side_pole 各体系做柱碰: {[s for s,v in L1.items() if v]}")
     ok = report(res)
     print(f"ncap_matrix.json 现有 {n} 个测试项")

@@ -1,7 +1,7 @@
 """adaptive_highbeam 自适应远光(AHB/ADB)— ASEAN(MS-AHB)+ C-NCAP(附录S灯光含AHB)有源;
 Euro/ANCAP 现实评AHB但本批无协议=源待补(≠不测,避免误导);JNCAP/Latin/US/Bharat 不单列。"""
 import glob, os
-from extract_common import SRC, merge_row, report
+from extract_common import SRC, merge_row, report, asean_fitment
 def has_f(*p): return any(glob.glob(os.path.join(SRC, x), recursive=True) for x in p)
 
 def build():
@@ -15,7 +15,8 @@ def build():
         systems[s] = {"version": "", "source_files": src.get(s, []),
             "L1_subtests": {"自适应远光AHB": t},
             "L2_params": ({"_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"} if t else {}),
-            "L3_thresholds": ({"_status": "SOURCE_PENDING", "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"} if pend
+            "L3_thresholds": (asean_fitment("MS-AHB") if s == "ASEAN" and t
+                              else {"_status": "SOURCE_PENDING", "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"} if pend
                               else {"_status": "TO_EXTRACT" if t else "NOT_TESTED"})}
     row = {"id": "adaptive_highbeam", "cn_name": "自适应远光(AHB)", "en_name": "Adaptive High Beam / ADB", "pillar": "主动安全·避撞", "systems": systems,
         "diff_summary": "ASEAN(独立 MS-AHB/ADB)与 C-NCAP(附录S 灯光含 AHB)有源核实;Euro/ANCAP 现实评 AHB 但本批无协议=源待补(非不测);JNCAP/Latin/US/Bharat 不单列",

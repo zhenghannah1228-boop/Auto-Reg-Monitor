@@ -38,7 +38,8 @@
       "JNCAP": {
         "version": "令和7(2025)",
         "source_files": [
-          "日本/R7-01_en.pdf"
+          "日本/R7-01_en.pdf",
+          "日本/2025_en.pdf(评价方法)"
         ],
         "L1_subtests": {
           "正面全宽刚性": true
@@ -52,7 +53,37 @@
           "_note": "R7-01 フルラップ前面衝突 50.0±1km/h(源核对,非55)"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_scoring": "5色等级(Green→Red,色带评分)",
+          "_metric": "头部 HIC15",
+          "_source": "日本/2025_en.pdf 自動車安全性能評価方法(別添 判定基準)",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650",
+              "points": 1.0
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000",
+              "points": 0.75
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350",
+              "points": 0.5
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700",
+              "points": 0.25
+            },
+            {
+              "band": "Red",
+              "range": "≥1700",
+              "points": 0.0
+            }
+          ],
+          "_note": "JNCAP 头部 HIC15 五色等级实拆;颈/胸/大腿部用评价关数(评价函数图,如图23)连续评分,非离散阈值,按严禁臆造不抽"
         }
       },
       "ASEAN": {
@@ -199,7 +230,37 @@
           "壁障": "MPDB(新オフセット)"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_scoring": "5色等级(Green→Red,色带评分)",
+          "_metric": "头部 HIC15",
+          "_source": "日本/2025_en.pdf 自動車安全性能評価方法(別添 判定基準)",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650",
+              "points": 1.0
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000",
+              "points": 0.75
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350",
+              "points": 0.5
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700",
+              "points": 0.25
+            },
+            {
+              "band": "Red",
+              "range": "≥1700",
+              "points": 0.0
+            }
+          ],
+          "_note": "JNCAP 头部 HIC15 五色等级实拆;颈/胸/大腿部用评价关数(评价函数图,如图23)连续评分,非离散阈值,按严禁臆造不抽"
         }
       },
       "ASEAN": {
@@ -297,7 +358,67 @@
           "壁障": "ODB 偏置可变形壁障"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_extracted_tables": {
+            "Head": {
+              "hic": [
+                500,
+                700
+              ],
+              "resultant acc. exceedance": [
+                72,
+                88
+              ]
+            },
+            "Neck": {
+              "shear": [
+                1.9,
+                3.1
+              ],
+              "tension": [
+                2.7,
+                3.3
+              ],
+              "extension": [
+                42,
+                57
+              ]
+            },
+            "Chest": {
+              "compression": [
+                22,
+                42
+              ],
+              "viscous criterion": [
+                0.5,
+                1.0
+              ]
+            },
+            "Knee": {
+              "femur compression": [
+                3.8,
+                9.07
+              ],
+              "knee slider compressive": [
+                6,
+                15
+              ],
+              "tibia index": [
+                0.4,
+                1.3
+              ],
+              "tibia compression": [
+                2,
+                8
+              ],
+              "pedal rearward displacement": [
+                100,
+                200
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(EEVC,4点/部位,capping)",
+          "_source": "印度/AIS_197-1.pdf §3.2 正面伤害评价限值",
+          "_note": "Bharat AIS-197 按章节拆;采纳 Euro/EEVC 滑动评分"
         }
       }
     },
@@ -550,8 +671,37 @@
           "速度": "55 km/h(MDB 闭合)"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT",
-          "_note": "英文层可拆,待Claude Code从R7-03提取"
+          "_scoring": "5色等级(Green→Red,色带评分)",
+          "_metric": "头部 HIC15",
+          "_source": "日本/2025_en.pdf 自動車安全性能評価方法(別添 判定基準)",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650",
+              "points": 1.0
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000",
+              "points": 0.75
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350",
+              "points": 0.5
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700",
+              "points": 0.25
+            },
+            {
+              "band": "Red",
+              "range": "≥1700",
+              "points": 0.0
+            }
+          ],
+          "_note": "JNCAP 头部 HIC15 五色等级实拆;颈/胸/大腿部用评价关数(评价函数图,如图23)连续评分,非离散阈值,按严禁臆造不抽"
         },
         "_baseline_correction": "侧面柱碰 由 true 修正为 false:全21份R7协议无任何pole测试,R7-03侧碰仅MDB(业主2026-06确认)"
       },
@@ -743,7 +893,43 @@
           "_extraction_note": "单份AIS-197含多测试项,按章节定位侧碰节;采纳Global/Euro方法"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT_FROM_CHAPTER"
+          "_extracted_tables": {
+            "Head": {
+              "hic": [
+                500,
+                700
+              ],
+              "resultant acc.": [
+                72,
+                88
+              ]
+            },
+            "Chest": {
+              "compression": [
+                22,
+                42
+              ],
+              "viscous criterion": [
+                0.32,
+                1.0
+              ]
+            },
+            "Abdomen": {
+              "total abdominal force": [
+                1.0,
+                2.5
+              ]
+            },
+            "Pelvis": {
+              "pubic symphysis force": [
+                3.0,
+                6.0
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(EEVC,4点/部位,capping)",
+          "_source": "印度/AIS_197-1.pdf §4.2 侧碰伤害评价限值",
+          "_note": "Bharat AIS-197 按章节拆;采纳 Euro/EEVC 滑动评分"
         }
       }
     },
@@ -900,10 +1086,22 @@
           "侧面柱碰": true
         },
         "L2_params": {
-          "_extraction_note": "AIS-197 含柱碰章节,采纳Global/Euro方法"
+          "_extraction_note": "AIS-197 §5 柱碰章节,采纳Global/Euro方法"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT_FROM_CHAPTER"
+          "_extracted_tables": {
+            "头部(capping/pass-fail)": {
+              "HIC15(capping上限)": [
+                700
+              ],
+              "Peak合成加速度(capping)": [
+                80
+              ]
+            }
+          },
+          "_scoring": "capping/pass-fail(超限即0;非滑动)",
+          "_source": "印度/AIS_197-1.pdf §5.2 柱碰限值",
+          "_note": "Bharat AIS-197 §5 柱碰仅头部 capping 单值(HIC15<700/Peak<80g)+需配帘式气囊;非 HPL-LPL 双限"
         }
       }
     },
@@ -1765,8 +1963,28 @@
           "_note": "C2C + Car-to-Motorcycle(C2M),两轮车密集"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT",
-          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with AEB City as standard equipment"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with AEB City as optional equipment"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with AEB City"
+            }
+          ],
+          "_TFS": 2.5,
+          "_title": "Fitment Rating System for AEB City",
+          "_source": "东盟 NCAP xlsm sheet 'SAT-AEB CCRs'",
+          "_note": "ASEAN AEB 按装备率评分(SAT-AEB CCRs/CCRm&CCRb/MS-AEB CM 三 sheet 同档:标配α1.0/选配0.5/无0);测试协议有场景速度但打分看装配——非性能阈值"
         }
       },
       "Latin NCAP": {
@@ -2132,7 +2350,28 @@
           "_note": "含路沿/对向场景(×10),未单用ELK术语"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with LKA as standard equipment"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with LKA as optional equipment"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with LKA"
+            }
+          ],
+          "_TFS": 1.5,
+          "_title": "Fitment Rating System for LKA",
+          "_source": "东盟 NCAP xlsm sheet 'SAT-LKA'",
+          "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"
         }
       },
       "Latin NCAP": {
@@ -2286,7 +2525,38 @@
           "_note": "盲点检测+(ASEAN另含可视化Visualization)"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with BST for both nearside and offside as st"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with BST for both nearside and offside as op"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with BST for one side only as standard equip"
+            },
+            {
+              "option": "Option D",
+              "alpha": 0.25,
+              "detail": "Vehicle model is equipped with BST for one side only as optional equip"
+            },
+            {
+              "option": "Option E",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with BST"
+            }
+          ],
+          "_TFS": 8.0,
+          "_title": "Fitment Rating System for Blind Spot Technology (BSD/BSV)",
+          "_source": "东盟 NCAP xlsm sheet 'MS-BST'",
+          "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"
         }
       },
       "Latin NCAP": {
@@ -2400,7 +2670,48 @@
           "_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with ADB as standard equipment"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.8,
+              "detail": "Vehicle model is equipped with ADB as optional equipment but AHB as st"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.667,
+              "detail": "Vehicle model is not equipped with ADB but equipped with AHB as standa"
+            },
+            {
+              "option": "Option D",
+              "alpha": 0.584,
+              "detail": "Vehicle model is equipped with ADB as optional and AHB as optional equ"
+            },
+            {
+              "option": "Option E",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with ADB as optional equipment and not equip"
+            },
+            {
+              "option": "Option F",
+              "alpha": 0.333,
+              "detail": "Vehicle model is not equipped with ADB but equipped with AHB as option"
+            },
+            {
+              "option": "Option G",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with either AHB or ADB"
+            }
+          ],
+          "_TFS": 3.0,
+          "_title": "Fitment Rating System for Automatic High Beam (AHB)",
+          "_source": "东盟 NCAP xlsm sheet 'MS-AHB'",
+          "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"
         }
       },
       "Latin NCAP": {

@@ -1,7 +1,7 @@
 """lane_support 车道支持(LDW/LKA/ELK)— 7 体系做、Bharat 不测。
 ELK(紧急车道保持)按源精确核对单列:C-NCAP/Euro/ANCAP/Latin/ASEAN 含,JNCAP/US 无。"""
 import glob, os
-from extract_common import SRC, merge_row, report
+from extract_common import SRC, merge_row, report, asean_fitment
 def has_f(*p):
     return any(glob.glob(os.path.join(SRC, x), recursive=True) for x in p)
 
@@ -20,7 +20,8 @@ def build():
         systems[s] = {"version": "", "source_files": [DO.get(s, "")] if t else (["印度/AIS_197-1.pdf(无LSS)"] if s == "Bharat NCAP" else []),
             "L1_subtests": cov,
             "L2_params": ({"子项": [k for k, v in cov.items() if v], "_note": ELKNOTE.get(s, "")} if t else {}),
-            "L3_thresholds": {"_status": "DIFFERENT_SCORING_MODEL" if s == "US NCAP" else ("NOT_TESTED" if not t else "TO_EXTRACT")}}
+            "L3_thresholds": (asean_fitment("SAT-LKA") if s == "ASEAN" and t
+                              else {"_status": "DIFFERENT_SCORING_MODEL" if s == "US NCAP" else ("NOT_TESTED" if not t else "TO_EXTRACT")})}
     row = {"id": "lane_support", "cn_name": "车道支持(LDW/LKA/ELK)", "en_name": "Lane Support (LDW/LKA/ELK)", "pillar": "主动安全·避撞", "systems": systems,
         "diff_summary": "7 套均 LDW+LKA(Bharat 不测);ELK 紧急车道保持(路沿/对向车/超车):C-NCAP/Euro/ANCAP/Latin/ASEAN 含,JNCAP(R7-14)与 US(NHTSA 2013)仅基础 LDW/LKA 无 ELK",
         "key_differences": [

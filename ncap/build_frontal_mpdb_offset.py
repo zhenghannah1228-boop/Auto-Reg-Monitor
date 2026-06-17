@@ -2,7 +2,7 @@
 C-NCAP 速度 §5.1 B=50(防脚注污染);ASEAN L3 从 xlsm 'AOP Frontal ODB' 拆。
 壁障类型各异:MPDB(移动渐进)/ODB(偏置可变形)/IIHS 40%中等偏置。"""
 import os, re, glob
-from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_text
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_text, jncap_hic_bands, bharat_L3
 
 CNCAP_REF = {"A": 50, "B": 50, "C": 56, "D": 56}  # §5.1
 
@@ -54,8 +54,13 @@ def build():
            "Latin NCAP": "ODB(AOP 偏置)", "ANCAP": "MPDB", "Euro NCAP": "MPDB", "US NCAP": "IIHS 40%中等偏置固定可变形壁障", "Bharat NCAP": "ODB 偏置可变形壁障"}
     meta_speed = {"C-NCAP": f"{cn_speed} km/h", "JNCAP": "50 km/h(MPDB)", "ASEAN": "—", "Latin NCAP": "64 km/h",
                   "ANCAP": "50 km/h(MPDB)", "Euro NCAP": "50 km/h(MPDB)", "US NCAP": "64 km/h(40mph,40%重叠)", "Bharat NCAP": "64 km/h"}
+    # Bharat AIS-197 §3.2 正面 HPL-LPL(EEVC 系滑动,4点封顶)按章节实拆
+    bh = bharat_L3(r"3\.2\.1 Head", r"4\.0 SIDE|4\.1 ")
     L3 = {s: ({"_source": "xlsm 'AOP Frontal ODB'", "_status": "PARTIAL_FROM_XLSM(区域标签与侧碰不同,待细化)", "_blocks": asean_l3.get("_blocks", {})} if s == "ASEAN"
               else {"_status": "DIFFERENT_SCORING_MODEL"} if s == "US NCAP"
+              else jncap_hic_bands() if s == "JNCAP"
+              else {"_extracted_tables": bh, "_scoring": "sliding HPL-LPL(EEVC,4点/部位,capping)",
+                    "_source": "印度/AIS_197-1.pdf §3.2 正面伤害评价限值", "_note": "Bharat AIS-197 按章节拆;采纳 Euro/EEVC 滑动评分"} if s == "Bharat NCAP"
               else {"_status": "TO_EXTRACT"}) for s in L1}
     # C-NCAP 附录B L3:THOR-50th 头部三限值文本模式实拆(颈/胸为多列,严禁臆造不自动拆)
     _b = cncap_L3_text("中国/*C-NCAP*/02 规程附录A-T/附录B*.pdf", ["前排假人头部"])
@@ -83,7 +88,10 @@ def build():
     res = [(cn_speed == CNCAP_REF["B"], "C-NCAP.偏置速度=§5.1核对值50", cn_speed, 50),
            (raw != str(cn_speed), "C-NCAP.原始提取≠50(确认污染)", raw, "≠50"),
            (bool(asean_l3.get("_blocks")), "ASEAN.L3.AOP_Frontal_ODB拆出区块", list(asean_l3.get("_blocks", {}).keys()), "非空"),
-           (cn_b.get("头部HIC15") == [500, 700, 700], "C-NCAP.L3.附录B头部HIC15", cn_b.get("头部HIC15"), [500, 700, 700])]
+           (cn_b.get("头部HIC15") == [500, 700, 700], "C-NCAP.L3.附录B头部HIC15", cn_b.get("头部HIC15"), [500, 700, 700]),
+           (len(jncap_hic_bands().get("_bands", [])) == 5, "JNCAP.L3.HIC15五色等级=5档", len(jncap_hic_bands().get("_bands", [])), 5),
+           (bh.get("Head", {}).get("hic") == [500, 700], "Bharat.L3.正面头部HIC=[500,700]", bh.get("Head", {}).get("hic"), [500, 700]),
+           (bh.get("Chest", {}).get("compression") == [22, 42], "Bharat.L3.正面胸压缩=[22,42]", bh.get("Chest", {}).get("compression"), [22, 42])]
     for s in L1:
         res.append((L1[s] is True or L1[s] == True, f"{s}.正面偏置=测", bool(L1[s]), True))
     print(f"frontal_mpdb_offset 做此项: {[s for s,v in L1.items() if v]} | ASEAN ODB区块: {list(asean_l3.get('_blocks',{}).keys())}")

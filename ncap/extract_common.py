@@ -155,6 +155,103 @@ def cncap_L3_paired(gl):
     return out
 
 
+def jncap_hic_bands():
+    """JNCAP 头部 HIC15 五色等级评分(2025_en.pdf 评价方法,Green→Red 五档对应 1.00→0.00 点)。
+    JNCAP 独有第四类评分模型(色带);颈/胸/大腿用评价关数图(图23 等)非离散阈值,不抽。
+    返回 [{band,range,points}],并带回归锚点(边界 650/1000/1350/1700、点 1.00..0.00)。"""
+    txt = pdf_text("日本/2025_en.pdf")
+    blk = txt[txt.find("グリーン"):txt.find("グリーン") + 1200]
+    pts = re.findall(r"(\d\.\d{2})\s*点", blk)[:5]
+    bnds = sorted(set(int(x) for x in
+                      re.findall(r"(\d{3,4})\s*(?:≦|＜|<)\s*HIC", blk) +
+                      re.findall(r"HIC\s*15?\s*(?:＜|<)\s*(\d{3,4})", blk)))
+    if len(pts) != 5 or len(bnds) != 4:
+        return {}
+    b = bnds
+    ranges = [f"<{b[0]}", f"{b[0]}–{b[1]}", f"{b[1]}–{b[2]}", f"{b[2]}–{b[3]}", f"≥{b[3]}"]
+    colors = ["Green", "Yellow", "Orange", "Brown", "Red"]
+    bands = [{"band": c, "range": r, "points": float(p)} for c, r, p in zip(colors, ranges, pts)]
+    return {"_scoring": "5色等级(Green→Red,色带评分)", "_metric": "头部 HIC15",
+            "_source": "日本/2025_en.pdf 自動車安全性能評価方法(別添 判定基準)",
+            "_bands": bands,
+            "_note": "JNCAP 头部 HIC15 五色等级实拆;颈/胸/大腿部用评价关数(评价函数图,如图23)连续评分,非离散阈值,按严禁臆造不抽"}
+
+
+def bharat_L3(start_re, end_re):
+    """Bharat AIS-197 按章节拆 L3:Euro/EEVC 系滑动 HPL-LPL(每部位满分4点,capping 封顶)。
+    解析『Higher/Lower performance limit』块 → {部位:{指标:[HPL,LPL]}};去 HIC15 下标/3msec
+    噪声,仅采纳 HPL+LPL 均解析出的指标(严禁臆造)。section 由起止正则界定。"""
+    txt = pdf_text("印度/AIS_197-1.pdf")
+    lines = [l.strip() for l in txt.split("\n")]
+    try:
+        si = next(i for i, l in enumerate(lines) if re.search(start_re, l))
+    except StopIteration:
+        return {}
+    ei = next((i for i in range(si + 1, len(lines)) if re.search(end_re, lines[i])), len(lines))
+    out, reg, mode = {}, None, None
+    for l0 in lines[si:ei]:
+        m = re.match(r"\d\.\d\.\d\.?\s+(Head|Neck|Chest|Abdomen|Pelvis|Knee|Femur)", l0)
+        if m:
+            reg = m.group(1); out.setdefault(reg, {}); continue
+        if re.search(r"[Hh]igher performance", l0):
+            mode = "HPL"; continue
+        if re.search(r"[Ll]ower performance", l0):
+            mode = "LPL"; continue
+        if not (reg and mode):
+            continue
+        l = re.sub(r"HIC\s*15", "HIC", l0)
+        l = re.sub(r"3\s*m?sec", "", l)
+        mm = re.match(r"([A-Za-z][A-Za-z .]+?)\s*(\d+(?:\.\d+)?)\s*(kN|mm|g|m/sec)?", l)
+        if mm:
+            ind = re.sub(r"\s+", " ", mm.group(1).strip()).lower()
+            val = float(mm.group(2)) if "." in mm.group(2) else int(mm.group(2))
+            out[reg].setdefault(ind, {})[mode] = val
+    res = {}
+    for reg, inds in out.items():
+        d = {k: [v["HPL"], v["LPL"]] for k, v in inds.items() if "HPL" in v and "LPL" in v}
+        if d:
+            res[reg] = d
+    return res
+
+
+def asean_fitment(sheet):
+    """ASEAN 主动安全『装备率评分』(Fitment Rating)实拆:Option A/B/C…→α 分值 + TFS 总分。
+    业主 2026-06 确认:ASEAN 主动安全按是否装配打分(非性能阈值)——独立第五类评分模型,
+    『不测性能只看装配』本身即高价值跨体系差集。表 col0 空,需全行扫描。"""
+    import openpyxl
+    xl = _src_glob("东盟/*Spreadsheet*.xlsm")
+    if not xl:
+        return {}
+    wb = openpyxl.load_workbook(xl, data_only=True, read_only=True)
+    sn = next((s for s in wb.sheetnames if s.strip() == sheet.strip()), None)
+    if not sn:
+        return {}
+    ws = wb[sn]
+    title, options, tfs = None, [], None
+    for r in ws.iter_rows(min_row=1, max_row=26, values_only=True):
+        cells = [("" if c is None else str(c).strip()) for c in r]
+        for c in cells:
+            if "Fitment Rating System" in c:
+                title = c
+        nums = [c for c in cells if re.fullmatch(r"\d+(?:\.\d+)?", c)]
+        opt = next((c for c in cells if re.fullmatch(r"Option [A-G]", c)), None)
+        di = next((i for i, c in enumerate(cells) if len(c) > 12 and "equipped" in c.lower()), None)
+        # 仅采纳『定义表』行(含 equipped 描述);α = detail 之后第一个数字(避开相邻测试表串入的污染)
+        if opt and di is not None:
+            alpha = next((float(c) for c in cells[di + 1:] if re.fullmatch(r"\d+(?:\.\d+)?", c)), None)
+            if alpha is not None:
+                options.append({"option": opt, "alpha": alpha,
+                                "detail": re.sub(r"\s+", " ", cells[di])[:70]})
+        if "TFS" in cells and nums:
+            tfs = float(nums[-1])
+    if not options:
+        return {}
+    return {"_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)", "_fitment": options,
+            "_TFS": tfs, "_title": title, "_source": f"东盟 NCAP xlsm sheet '{sn.strip()}'",
+            "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),"
+                     "非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"}
+
+
 def merge_row(row):
     """把一个测试项行并入 ncap_matrix.json(按 id 去重替换),数组形式。"""
     import json

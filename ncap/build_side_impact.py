@@ -3,7 +3,7 @@
 sample.json 已人工验证的 L2/版本/状态层作为骨架,实拆字段覆盖其上并逐字段断言。
 严禁臆造:拆不到的层保留 sample.json 的 status。"""
 import os, re, json, glob
-from extract_common import pdf_text, has, SRC, merge_row, _flush
+from extract_common import pdf_text, has, SRC, merge_row, _flush, jncap_hic_bands, bharat_L3
 
 # ---------- L1 子测试项:从各体系源文件按"是否含该试验"判定 ----------
 def cn_dir(*pats):
@@ -167,8 +167,19 @@ def main():
     out["systems"]["Euro NCAP"]["L3_thresholds"] = eu
     results.append((eu.get("_HPL_LPL", {}).get("头部HIC15") == [500, 700],
                     "Euro.L3.滑动HIC15(HPL-LPL)", eu.get("_HPL_LPL", {}).get("头部HIC15"), [500, 700]))
-    # 5) 补 JNCAP 侧碰闭合速度(R7-03=55,sample 原缺)
+    # 5) 补 JNCAP 侧碰闭合速度(R7-03=55,sample 原缺)+ JNCAP 头部 HIC15 五色等级 L3
     out["systems"]["JNCAP"]["L2_params"]["速度"] = "55 km/h(MDB 闭合)"
+    jb = jncap_hic_bands()
+    out["systems"]["JNCAP"]["L3_thresholds"] = jb
+    results.append((len(jb.get("_bands", [])) == 5, "JNCAP.L3.HIC15五色等级=5档", len(jb.get("_bands", [])), 5))
+    # 6b) Bharat AIS-197 §4.2 侧碰 HPL-LPL(EEVC 滑动)按章节实拆
+    bh = bharat_L3(r"4\.2\.1 Head", r"5\.0 POLE")
+    out["systems"]["Bharat NCAP"]["L3_thresholds"] = {"_extracted_tables": bh,
+        "_scoring": "sliding HPL-LPL(EEVC,4点/部位,capping)",
+        "_source": "印度/AIS_197-1.pdf §4.2 侧碰伤害评价限值",
+        "_note": "Bharat AIS-197 按章节拆;采纳 Euro/EEVC 滑动评分"}
+    results.append((bh.get("Pelvis", {}).get("pubic symphysis force") == [3.0, 6.0],
+                    "Bharat.L3.侧碰骨盆耻骨力=[3.0,6.0]", bh.get("Pelvis", {}).get("pubic symphysis force"), [3.0, 6.0]))
     # 6) 差集摘要(主视图常显)
     out["diff_summary"] = "C-NCAP 唯一测二排;Euro/ANCAP 含远端乘员;JNCAP/ASEAN 无柱碰只做MDB;评分三制并存(中:三限值 / ASEAN:Value+Points / Euro:滑动HPL-LPL)"
     # 并入矩阵(按 id 去重)

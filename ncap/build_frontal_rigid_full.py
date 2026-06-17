@@ -3,7 +3,7 @@ C-NCAP 速度按 §5.1 核对值(A=50);源文本受脚注上标污染(附录A �
 字号过滤得'55',均不可信)→ 采用 §5.1 人工核对值 50 并记录污染。
 C-NCAP 文件须限定 C-NCAP 2027版目录(避开同名 C-ICAP 智能网联附录)。"""
 import os, re, glob
-from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_text
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_text, jncap_hic_bands
 
 CNCAP_REF = {"A": 50, "B": 50, "C": 56, "D": 56, "G": 60, "H": 32, "K": 15, "L": 32, "O": 40}  # §5.1
 
@@ -51,7 +51,7 @@ def build():
                                  "_extraction_note": f"§5.1 核对值={cn_speed};源文本脚注上标污染(原始提取='{raw}'不可用)"},
                    "L3_thresholds": {"_extracted_front": cn_l3, "_source": "附录A 表A.7 前排假人头部评价指标",
                                      "_note": "头部三限值(高/低/极限)实拆;颈/胸/大腿/小腿为驾驶员5th+乘员50th 双假人多列,按严禁臆造不自动拆解(见附录A 表A.8–A.11)"}},
-        "JNCAP": {"version": "令和7(2025)", "source_files": ["日本/R7-01_en.pdf"], "L2_params": {"速度": "50 km/h", "假人": ["Hybrid III", "WorldSID"], "_note": "R7-01 フルラップ前面衝突 50.0±1km/h(源核对,非55)"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
+        "JNCAP": {"version": "令和7(2025)", "source_files": ["日本/R7-01_en.pdf", "日本/2025_en.pdf(评价方法)"], "L2_params": {"速度": "50 km/h", "假人": ["Hybrid III", "WorldSID"], "_note": "R7-01 フルラップ前面衝突 50.0±1km/h(源核对,非55)"}, "L3_thresholds": jncap_hic_bands()},
         "ASEAN": {"version": "Protocol 2026-2030", "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED"}},
         "Latin NCAP": {"version": "2025", "source_files": ["拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf"], "L2_params": {"壁障": "全宽台车(Sled,脉冲法)", "_note": "台车脉冲复现,无单一闭合速度"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
         "ANCAP": {"version": "v1.1", "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性(采纳Euro)"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
@@ -82,6 +82,8 @@ def build():
     for s in ["C-NCAP", "JNCAP", "Latin NCAP", "ANCAP", "Euro NCAP", "US NCAP", "Bharat NCAP"]:
         res.append((L1[s] is True, f"{s}.全宽刚性=测", L1[s], True))
     res.append((cn_l3.get("头部HIC15") == [500, 700, 700], "C-NCAP.L3.头部HIC15=[500,700,700]", cn_l3.get("头部HIC15"), [500, 700, 700]))
+    jb = jncap_hic_bands().get("_bands", [])
+    res.append((len(jb) == 5 and jb[0]["points"] == 1.0 and jb[-1]["range"] == "≥1700", "JNCAP.L3.HIC15五色等级(Green1.0/Red≥1700)", [len(jb), jb[0]["points"] if jb else None], "5档/1.0/≥1700"))
     print(f"frontal_rigid_full 做此项: {[s for s,v in L1.items() if v]} | C-NCAP原始提取='{raw}' → §5.1校正=50")
     ok = report(res)
     print(f"ncap_matrix.json 现有 {n} 个测试项")

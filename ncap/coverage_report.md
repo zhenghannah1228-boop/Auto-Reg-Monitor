@@ -92,3 +92,32 @@ occupant_monitoring。各 build_*.py 回归 PASS;均做了"遇不确定先核对
 - Euro 正碰/鞭打协议正文未以 HPL/LPL 文本暴露阈值表(侧碰 v1.1 p21 是唯一已验证 HPL-LPL 源),
   不强抽以免臆造;Bharat AIS-197 单文件多项,按章节拆待续。
 - **下一阶段**:JNCAP R7-xx 阈值、ASEAN 其余 xlsm 评分表(SAT/MS-*)、Bharat AIS-197 章节细拆。
+
+## ✅ L3 批量深拆 — 第二批(2026-06)绿格 9→19 + 内存兜底
+三目标全部落地,沉淀第 4/5 类评分模型提取器(均带回归锚点):
+
+**1. JNCAP `jncap_hic_bands()`** — R7-xx 是试验方法(無阈值),真正评分在 `2025_en.pdf`(评价方法)。
+头部 HIC15 **五色等级**(第4类模型):Green<650→1.00 / Yellow 650–1000→0.75 / Orange→0.50 /
+Brown→0.25 / Red≥1700→0.00。颈/胸/大腿用评价函数图(图23 连续曲线)非离散阈值,严禁臆造不抽。
+接入 frontal_rigid_full / frontal_mpdb_offset / side_impact 三处 JNCAP 头部 L3。
+⚠ R7-xx 中『Neck load shall be 1000』等是 **CFC 滤波通道等级,非伤害阈值**(已识别陷阱不误取)。
+
+**2. Bharat `bharat_L3(start,end)`** — AIS-197 按章节拆,采纳 **Euro/EEVC 滑动 HPL-LPL**(每部位满4点,capping)。
+§3.2 正面(头HIC500/700·3ms72/88、颈剪切1.9/3.1、胸压缩22/42、股骨3.8/9.07)→ frontal_mpdb_offset;
+§4.2 侧碰(头/胸/腹1.0/2.5·骨盆耻骨力3.0/6.0)→ side_impact;§5 柱碰头部 capping(HIC15<700/Peak<80g)
+→ side_pole。去 HIC15 下标/3msec 噪声、仅采纳 HPL+LPL 均解析出者。
+
+**3. ASEAN `asean_fitment(sheet)`** — 业主 2026-06 确认:主动安全按**装备率评分**(第5类模型,
+Fitment Rating:标配 Option A→α1.0 / 选配→0.5 / 无→0,×国别系数),非性能阈值。
+接入 adas_aeb(SAT-AEB CCRs/CCRm&CCRb/MS-AEB CM)/ lane_support(SAT-LKA)/ blind_spot(MS-BST TFS8)/
+adaptive_highbeam(MS-AHB A–G 七档)。『ASEAN 不测性能、只看是否装配』本身即高价值跨体系差集。
+
+前端 `cellClass`/`scoringName`/`renderL3` 扩 `_bands`/`_fitment`,五种评分制并排可读(色带带颜色块、
+装备率显 Option→α + TFS 满分)。全 16 build 回归 PASS。
+
+**内存兜底(L3 翻倍前)**:`pdf_text`/`cncap_L3_*` 逐页 `pg.flush_cache()`(side_impact 893→455MB、
+R7-03 单文件 538→79MB);`build_all` 串行子进程 + `RLIMIT_AS` 软上限(默认2GB)+ 单 build 失败不中断。
+
+**待业主确认(基准对不上,先标先问)**:ASEAN 有 **SAT-SBR(安全带提醒)+ COP CPD(儿童遗留检测)**
+两张装备率评分表,但 occupant_monitoring 现把 ASEAN 标为不测 `[0,0,0]`——疑似漏项,待确认是否
+改为 SBR✓+CPD✓(装备率 L3)。

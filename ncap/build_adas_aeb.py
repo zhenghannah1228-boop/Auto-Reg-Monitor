@@ -2,7 +2,7 @@
 AEB 跨体系差异最大:差集在『测哪些场景目标物』(C2C后向/行人日夜/自行车/摩托车/路口)。
 场景覆盖均经源文件逐协议核对(见 coverage 注)。L3(速度区间分档/判定)留批量深拆。"""
 import os, glob
-from extract_common import pdf_text, has, SRC, merge_row, report
+from extract_common import pdf_text, has, SRC, merge_row, report, asean_fitment
 
 def has_f(*p):
     for x in p:
@@ -42,9 +42,14 @@ def build():
         L2 = {} if not tested else {"场景目标物": [k for k, v in cov.items() if v],
                                     "_note": NOTE.get(s, "速度区间分档见 L3")}
         st = "DIFFERENT_SCORING_MODEL" if s == "US NCAP" else ("NOT_TESTED" if not tested else "TO_EXTRACT")
+        if s == "ASEAN" and tested:
+            fit = asean_fitment("SAT-AEB CCRs")
+            fit["_note"] = "ASEAN AEB 按装备率评分(SAT-AEB CCRs/CCRm&CCRb/MS-AEB CM 三 sheet 同档:标配α1.0/选配0.5/无0);测试协议有场景速度但打分看装配——非性能阈值"
+            L3 = fit
+        else:
+            L3 = {"_status": st, "_note": NOTE.get(s, "") if not tested else "速度区间/判定(避撞↔减速)分档,待批量深拆"}
         systems[s] = {"version": "", "source_files": SRCF.get(s, []),
-                      "L1_subtests": cov, "L2_params": L2,
-                      "L3_thresholds": {"_status": st, "_note": NOTE.get(s, "") if not tested else "速度区间/判定(避撞↔减速)分档,待批量深拆"}}
+                      "L1_subtests": cov, "L2_params": L2, "L3_thresholds": L3}
     row = {"id": "adas_aeb", "cn_name": "AEB(对车辆)", "en_name": "AEB — Vehicle Targets (C2C/Junction/Motorcycle)", "pillar": "主动安全·避撞",
            "systems": systems,
            "diff_summary": "对车辆AEB:C-NCAP/ANCAP 全(C2C+路口车+摩托);JNCAP 无直行C2C只测路口对车;ASEAN/Latin 含摩托(两轮密集);Euro/US 仅直行C2C;Bharat 无AEB。(行人/自行车见 vru_active)",
@@ -61,6 +66,7 @@ def build():
         (systems["JNCAP"]["L1_subtests"]["C2C后向追尾"] is False and systems["JNCAP"]["L1_subtests"]["路口对向车"] is True, "JNCAP=无直行C2C/有路口车", True, True),
         (systems["ASEAN"]["L1_subtests"]["摩托车C2M"] is True, "ASEAN=做C2M摩托", True, True),
         (all(systems["C-NCAP"]["L1_subtests"].values()) and all(systems["ANCAP"]["L1_subtests"].values()), "C-NCAP&ANCAP=全车辆场景", True, True),
+        (len(systems["ASEAN"]["L3_thresholds"].get("_fitment", [])) == 3, "ASEAN.L3.装备率档=3(A/B/C)", len(systems["ASEAN"]["L3_thresholds"].get("_fitment", [])), 3),
     ]
     print("adas_aeb 场景覆盖:")
     for s in COVER: print(f"  {s:13}", [k for k, v in zip(SCN, COVER[s]) if v] or "不测")
