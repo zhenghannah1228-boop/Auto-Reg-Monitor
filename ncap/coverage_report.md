@@ -17,15 +17,19 @@
 
 **源缺口:无(ASEAN 已由 7z 补包解决)。**
 
-## ⚠ 需业主确认:JNCAP「侧面柱碰」基准疑误
+## ✅ side_impact 行已完成(§8 回归 32/32 PASS)
+
+`build_side_impact.py` 8 体系实拆对 sample.json 逐字段通过:L1 子测试项(全8套)、C-NCAP L3 阈值(前排+二排7项)、ASEAN xlsm L3 区块。产出 `ncap_matrix.json`(side_impact 行)。
+
+### JNCAP「侧面柱碰」基准已修正(业主确认)
 `sample.json` 的 JNCAP `L1_subtests.侧面柱碰 = true`,但**全部 19 份 JNCAP R7 协议中没有任何柱碰(pole)测试**:
 - R7-01 全宽正碰 / R7-02 偏置MPDB / **R7-03 侧面碰撞(仅 MDB,0 处 pole)** / R7-04 EV感电 /
   R7-05 后碰颈部 / R7-06·07 行人 / R7-08 SBR / R7-09~13 AEB / R7-14 车道 / R7-15 误踩 /
   R7-16 大灯 / R7-18·19 儿童座椅。
 - 全 R7 文档 `pole` 命中数 = 0。
 
-→ 据源,JNCAP 侧碰只做 MDB、**不做柱碰**,`侧面柱碰` 应为 `false`。规格 §4 原表此格即标 `✓?`(待确认)。
-**按"严禁臆造 / 疑似 bug 先与业主确认"原则,我不擅自把它填 true 去凑基准,也不静默改。请业主确认是否把 sample.json 的 JNCAP 侧面柱碰 改为 false。**
+→ sample.json 已修正 JNCAP `侧面柱碰` true→false(业主 2026-06 确认);并新增 key_difference:
+「JNCAP 是 8 套体系中唯一侧碰只做 MDB、不做柱碰的体系」。
 
 ## 已验证
 - ANCAP `extract_ancap.py` side_impact L1/L2 回归对 sample.json 4/4 PASS。

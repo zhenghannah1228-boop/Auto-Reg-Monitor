@@ -1,15 +1,5 @@
-{
-  "_meta": {
-    "purpose": "已人工验证的「侧面碰撞」测试项样板数据,8体系版,作为 Claude Code 拆取其余测试项的格式范本与校验基准",
-    "verified_by": "对话中从协议 PDF / ASEAN xlsm 实拆并人工核对",
-    "schema_version": "2.0",
-    "depth_layers": {
-      "L1": "子测试项 测/不测",
-      "L2": "测试参数",
-      "L3": "评分阈值"
-    }
-  },
-  "test_item": {
+[
+  {
     "id": "side_impact",
     "cn_name": "侧面碰撞",
     "en_name": "Side Impact",
@@ -76,6 +66,50 @@
               "低性能": 5.5,
               "单位": "kN"
             }
+          },
+          "_extracted_front": {
+            "头部HIC15": [
+              500,
+              700,
+              700
+            ],
+            "头部累积3ms合成加速度值": [
+              72,
+              80,
+              80
+            ],
+            "胸部压缩变形量": [
+              28,
+              50,
+              50
+            ],
+            "腹部压缩变形量": [
+              47,
+              65,
+              65
+            ],
+            "骨盆耻骨力": [
+              1.7,
+              2.8,
+              2.8
+            ]
+          },
+          "_extracted_second_row": {
+            "胸部压缩变形量": [
+              31,
+              41,
+              41
+            ],
+            "腹部压缩变形量": [
+              38,
+              48,
+              48
+            ],
+            "骨盆合力": [
+              3.5,
+              5.5,
+              5.5
+            ]
           }
         }
       },
@@ -126,7 +160,20 @@
           "_source": "xlsm sheet 'AOP Side MDB '(尾部空格)",
           "_note": "Value+Points制,4分上限+airbag修正分;按区块HEAD/CHEST解析",
           "_structure": "HEAD(Peak resultant/HIC15/合成加速度3ms) + CHEST(上/中/下肋压缩,各4分) + Shoulder + airbag修正(-1)",
-          "_status": "PARTIAL_VERIFIED_FROM_XLSM"
+          "_status": "PARTIAL_VERIFIED_FROM_XLSM",
+          "_extracted_blocks": {
+            "HEAD": [],
+            "CHEST": [],
+            "SHOULDER": [
+              "Viscous Criterion modifier (-4) 0",
+              "Top rib Viscous Criterion - m/s 0.9",
+              "Middle rib Viscous Criterion - m/s 0.9",
+              "Bottom rib Viscous Criterion - m/s 0.9",
+              "Incorrect airbag deployment modifier (-1) -1 -1"
+            ],
+            "ABDOMEN": [],
+            "PELVIS": []
+          }
         }
       },
       "Latin NCAP": {
@@ -254,4 +301,4 @@
       "JNCAP是8套体系中唯一侧碰只做MDB、不做柱碰的体系(全R7协议无pole测试)"
     ]
   }
-}
+]
