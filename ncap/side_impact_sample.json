@@ -1,0 +1,95 @@
+{
+  "_meta": {
+    "purpose": "已人工验证的「侧面碰撞」测试项样板数据,8体系版,作为 Claude Code 拆取其余测试项的格式范本与校验基准",
+    "verified_by": "对话中从协议 PDF / ASEAN xlsm 实拆并人工核对",
+    "schema_version": "2.0",
+    "depth_layers": {"L1": "子测试项 测/不测", "L2": "测试参数", "L3": "评分阈值"}
+  },
+  "test_item": {
+    "id": "side_impact",
+    "cn_name": "侧面碰撞",
+    "en_name": "Side Impact",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": ["中国/.../附录G  可变形移动壁障侧面碰撞测试评价规程.pdf", "中国/.../附录H  侧面柱碰撞测试评价规程.pdf"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": true, "远端乘员_乘员互撞": false},
+        "L2_params": {"速度": "60 km/h", "假人": ["WorldSID 50th", "SID-IIs(D版)"], "座椅排": "前排+二排撞击侧", "壁障": "MDB",
+          "_extraction_note": "速度原文受脚注上标污染显示为'60 01',正确60;WorldSID 75kg/SID-IIs 45kg"},
+        "L3_thresholds": {
+          "_note": "高性能/低性能/极限,前排撞击侧",
+          "头部HIC15": {"高性能": 500, "低性能": 700, "极限": 700, "单位": "/"},
+          "胸部压缩变形量": {"高性能": 28, "低性能": 50, "极限": 50, "单位": "mm"},
+          "腹部压缩变形量": {"高性能": 47, "低性能": 65, "极限": 65, "单位": "mm"},
+          "骨盆耻骨力": {"高性能": 1.7, "低性能": 2.8, "极限": 2.8, "单位": "kN"},
+          "_second_row": {"胸部压缩": {"高性能": 31, "低性能": 41}, "腹部压缩": {"高性能": 38, "低性能": 48}, "骨盆合力": {"高性能": 3.5, "低性能": 5.5, "单位": "kN"}}
+        }
+      },
+      "JNCAP": {
+        "version": "令和7年(2025)改版",
+        "source_files": ["日本/R7-03_en.pdf"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": true, "远端乘员_乘员互撞": false},
+        "L2_params": {"假人": ["WorldSID"], "座椅排": "前排", "_extraction_note": "日英对照,用英文层提取;R7-03=Side Collision Safety Performance Test Procedure"},
+        "L3_thresholds": {"_status": "TO_EXTRACT", "_note": "英文层可拆,待Claude Code从R7-03提取"}
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030, Side Impact v3.3",
+        "source_files": ["东盟/ASEAN-NCAP-Test-Protocol-Side-Impact-Version-3.3-Jan2026.pdf", "东盟/FINAL_ASEAN-NCAP-Spreadsheet-Version-0-New-Protocol-2026_2030.xlsm"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": false, "远端乘员_乘员互撞": false},
+        "L2_params": {"假人": ["WorldSID", "ES-2"], "座椅排": "前排(驾驶位)", "壁障": "MDB",
+          "_extraction_note": "L2从PDF;协议文字层正常WorldSID×15"},
+        "L3_thresholds": {
+          "_source": "xlsm sheet 'AOP Side MDB '(尾部空格)",
+          "_note": "Value+Points制,4分上限+airbag修正分;按区块HEAD/CHEST解析",
+          "_structure": "HEAD(Peak resultant/HIC15/合成加速度3ms) + CHEST(上/中/下肋压缩,各4分) + Shoulder + airbag修正(-1)",
+          "_status": "PARTIAL_VERIFIED_FROM_XLSM"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": ["拉美/Latin NCAP 2025 - AOP Protocol.pdf", "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": true, "远端乘员_乘员互撞": false},
+        "L2_params": {"假人": ["WorldSID 50th"], "座椅排": "前排", "壁障": "AE-MDB(采纳Euro v8.3) + Pole",
+          "_extraction_note": "Latin采纳Euro AE-MDB方法,拉美目录含Euro原始协议v8.3"},
+        "L3_thresholds": {"_note": "AOP Protocol含评分,采纳Euro结构", "_status": "TO_EXTRACT"}
+      },
+      "Euro NCAP": {
+        "version": "v1.1 2026正文 + AE-MDB v8.3评分细则(拉美目录)",
+        "source_files": ["欧盟/Euro NCAP/crash protection/euro_ncap_protocol_crash_protection_side_impact_v11_*.pdf", "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": true, "远端乘员_乘员互撞": true},
+        "L2_params": {"速度": "~60 km/h", "假人": ["WorldSID 50th"], "座椅排": "前排", "壁障": "AE-MDB + Pole",
+          "_extraction_note": "含Far Side和Occupant-to-Occupant;L3从拉美目录AE-MDB v8.3协议补(原v1标MISSING_SOURCE已解决)"},
+        "L3_thresholds": {"_source": "拉美/Euro AE-MDB v8.3", "_status": "SOURCE_NOW_AVAILABLE_TO_EXTRACT"}
+      },
+      "ANCAP": {
+        "version": "v1.1 / Overall v10.0",
+        "source_files": ["澳洲/ANCAP PROTOCOL - Crash Protection - Side Impact v1.1.pdf", "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": true, "远端乘员_乘员互撞": true},
+        "L2_params": {"假人": ["WorldSID 50th"], "座椅排": "前排", "壁障": "MDB + Pole", "_extraction_note": "采纳Euro方法,L3借拉美目录Euro源"},
+        "L3_thresholds": {"_source": "采纳Euro AE-MDB", "_status": "SOURCE_NOW_AVAILABLE_TO_EXTRACT"}
+      },
+      "US NCAP": {
+        "version": "IIHS + NHTSA",
+        "source_files": ["美国/IIHS-NCAP评估测试规程/003  侧碰/*.pdf", "美国/NHTSA-NCAP评价规程/原文/侧碰/*"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": true, "远端乘员_乘员互撞": false},
+        "L2_params": {"速度": "62 km/h(NHTSA MDB)", "假人": ["SID-IIs", "ES-2re"], "座椅排": "前排", "壁障": "MDB + Pole(75°)"},
+        "L3_thresholds": {"_note": "NHTSA星级算法/IIHS G-A-M-P等级,非高低限值制", "_status": "DIFFERENT_SCORING_MODEL"}
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": ["印度/AIS_197-1.pdf"],
+        "L1_subtests": {"可变形壁障侧碰": true, "侧面柱碰": true, "远端乘员_乘员互撞": false},
+        "L2_params": {"_extraction_note": "单份AIS-197含多测试项,按章节定位侧碰节;采纳Global/Euro方法"},
+        "L3_thresholds": {"_status": "TO_EXTRACT_FROM_CHAPTER"}
+      }
+    },
+    "key_differences": [
+      "C-NCAP是唯一测二排假人的体系(前排+二排撞击侧)",
+      "Euro/ANCAP含远端乘员(Far Side)和乘员互撞子测试,其余6套不测",
+      "ASEAN评分用Value+Points 4分制(从官方xlsm拆),与中式高/低限值制结构不同",
+      "Latin/ANCAP采纳Euro AE-MDB方法,评分源在拉美目录Euro原始协议",
+      "US用星级算法/IIHS等级,非限值制;Bharat单文件AIS-197待按章节拆"
+    ]
+  }
+}
