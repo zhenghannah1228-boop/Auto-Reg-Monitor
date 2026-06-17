@@ -819,13 +819,15 @@ const norm=s=>String(s||"").replace(/\s+/g,"").toUpperCase();
    在原生 select 前插一个筛选输入框,输入即把选项收窄到匹配项;原生 select 的
    value/onchange/编程赋值/当前选中显示全部不变(零行为风险)。
    fillXxx 重灌选项后调用 refreshSelFilter(sel) 重新快照并复用当前筛选词。 */
-function snapSel(sel){sel._all=[...sel.options].map(o=>({v:o.value,t:o.textContent}));}
+function snapSel(sel){if(sel._allLocked)return;sel._all=[...sel.options].map(o=>({v:o.value,t:o.textContent}));}
 function applySelFilter(sel){
   const q=(sel._filter&&sel._filter.value||"").trim();
   if(sel._filter)sel._filter.classList.toggle("act",!!q);
   if(!sel._all)snapSel(sel);
   const cur=sel.value;
-  let list=q?sel._all.filter(o=>o.t.includes(q)||o.v.toUpperCase().includes(q.toUpperCase())):sel._all;
+  // 无文本时按可选的二级筛选(如 09 体系类型)收窄;有文本时跨全量搜索,忽略二级筛选
+  let pool=(!q&&typeof sel._typeFilter==="function")?sel._all.filter(o=>sel._typeFilter(o.v)):sel._all;
+  let list=q?sel._all.filter(o=>o.t.includes(q)||o.v.toUpperCase().includes(q.toUpperCase())):pool;
   if(cur&&!list.some(o=>o.v===cur)){const c=sel._all.find(o=>o.v===cur);if(c)list=[c,...list];}
   sel.innerHTML=list.map(o=>`<option value="${esc(o.v)}">${esc(o.t)}</option>`).join("");
   sel.value=cur; // 重建不触发 change,选中值保持
@@ -2586,11 +2588,16 @@ function fillPyrSelect(){
   const f=$("#pyr-filter")?$("#pyr-filter").value:"";
   const sel=$("#pyr-sel");if(!sel)return;
   const cur=_pyrCountry;
-  const keys=Object.keys(CERT).filter(k=>!f||CERT[k].system_type===f);
-  sel.innerHTML=keys.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join("");
+  const allKeys=Object.keys(CERT);
+  const keys=f?allKeys.filter(k=>CERT[k].system_type===f):allKeys;
+  // 全量快照锁定:文本框搜索跨所有体系类型(避免「搜不到」);体系类型下拉仅在无文本时收窄可见项
+  sel._all=allKeys.map(k=>({v:k,t:k}));
+  sel._allLocked=true;
+  sel._typeFilter=f?(v=>CERT[v]&&CERT[v].system_type===f):null;
+  sel.innerHTML=allKeys.map(k=>`<option value="${esc(k)}">${esc(k)}</option>`).join("");
   if(cur&&keys.includes(cur))sel.value=cur;
   else if(keys.length){_pyrCountry=null;renderPyramid(keys[0]);}
-  refreshSelFilter(sel);
+  applySelFilter(sel);
 }
 function renderPyramid(country){
   if(!CERT||!CERT[country])return;
