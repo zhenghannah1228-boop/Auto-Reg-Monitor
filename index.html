@@ -86,6 +86,7 @@ input[type=file]{display:none}
 
 .empty{text-align:center;padding:90px 20px 50px;color:var(--muted)}
 .empty .glyph{font-family:var(--serif);font-size:40px;color:var(--faint);font-weight:700}
+.empty .glyph img{height:150px;width:auto;max-width:100%;border-radius:8px;vertical-align:middle}
 .empty .big{font-family:var(--mono);font-size:12px;letter-spacing:.14em;margin-top:14px}
 .empty p{margin-top:12px;font-size:13px;max-width:580px;margin-left:auto;margin-right:auto;line-height:1.7}
 .empty b{color:var(--ink)}
@@ -454,7 +455,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 <div class="filebar" id="filebar"></div>
 
 <div class="empty" id="empty">
-  <div class="glyph">法</div>
+  <div class="glyph"><img src="assets/loading-cat.gif" alt="加载中" onerror="this.replaceWith(document.createTextNode('法'))"></div>
   <div class="big" id="empty-big">[ 正在连接团队数据库… ]</div>
   <p><b>⊞ 载入法规清单</b> — Excel 清单文件(8列国家清单 / 28列提取文件,含 .xlsb,可多选合并去重),解析后自动入库,全团队共享<br>
   <b>📄 载入法规文本</b> — 多选 PDF/Word 等任意格式的原文文件;上千个文件可在「文本对账」页按整个文件夹载入。只登记文件名(不上传文件本体),自动与清单对账</p>
