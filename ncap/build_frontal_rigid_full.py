@@ -3,7 +3,13 @@ C-NCAP 速度按 §5.1 核对值(A=50);源文本受脚注上标污染(附录A �
 字号过滤得'55',均不可信)→ 采用 §5.1 人工核对值 50 并记录污染。
 C-NCAP 文件须限定 C-NCAP 2027版目录(避开同名 C-ICAP 智能网联附录)。"""
 import os, re, glob
-from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_text, jncap_hic_bands
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_text, jncap_hic_bands, euro_hpl_lpl, EURO_BANDS_NOTE
+
+# Euro 正面 AOP 伤害限值(HIII 50th 滑动 HPL-LPL),Latin/ANCAP 采纳同表
+EURO_FRONT_CRIT = {"头部HIC15": "HIC15", "头部Ares-3ms": "Ares-3ms", "颈部Fx剪切": "FX,shear",
+                   "颈部Fz拉伸": "FZ,tension", "颈部My伸张": "MYextension", "股骨Ffemur": "Ffemur",
+                   "膝Dknee": "Dknee", "胫骨Ftibia": "Ftibia", "胫骨指数Itibia": "Itibia"}
+EURO_FRONT_GLOB = "欧盟/**/euro_ncap_protocol_crash_protection_frontal_impact_v11*.pdf"
 
 CNCAP_REF = {"A": 50, "B": 50, "C": 56, "D": 56, "G": 60, "H": 32, "K": 15, "L": 32, "O": 40}  # §5.1
 
@@ -33,6 +39,12 @@ def build():
     cn_l3 = {}
     for blk in _a.values():
         cn_l3.update(blk)
+    # Euro 正面 AOP HPL-LPL(HIII 50th);Latin/ANCAP 采纳同表
+    euro_front = euro_hpl_lpl(EURO_FRONT_GLOB, {29, 30}, EURO_FRONT_CRIT)
+    def euro_l3(source, note_prefix):
+        return {"_extracted_tables": {"成人 HIII 50th": euro_front},
+                "_scoring": "sliding HPL-LPL(色带5档)", "_source": source,
+                "_note": note_prefix + EURO_BANDS_NOTE}
     # L1 各体系是否做 正面100%全宽刚性
     L1 = {
         "C-NCAP": bool(fA),
@@ -53,9 +65,9 @@ def build():
                                      "_note": "头部三限值(高/低/极限)实拆;颈/胸/大腿/小腿为驾驶员5th+乘员50th 双假人多列,按严禁臆造不自动拆解(见附录A 表A.8–A.11)"}},
         "JNCAP": {"version": "令和7(2025)", "source_files": ["日本/R7-01_en.pdf", "日本/2025_en.pdf(评价方法)"], "L2_params": {"速度": "50 km/h", "假人": ["Hybrid III", "WorldSID"], "_note": "R7-01 フルラップ前面衝突 50.0±1km/h(源核对,非55)"}, "L3_thresholds": jncap_hic_bands()},
         "ASEAN": {"version": "Protocol 2026-2030", "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED"}},
-        "Latin NCAP": {"version": "2025", "source_files": ["拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf"], "L2_params": {"壁障": "全宽台车(Sled,脉冲法)", "_note": "台车脉冲复现,无单一闭合速度"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
-        "ANCAP": {"version": "v1.1", "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性(采纳Euro)"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
-        "Euro NCAP": {"version": "v1.1 2026", "source_files": ["欧盟/Euro NCAP/crash protection/.../frontal_impact_v11"], "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性 FW"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
+        "Latin NCAP": {"version": "2025", "source_files": ["拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf", "采纳 Euro AOP 限值"], "L2_params": {"壁障": "全宽台车(Sled,脉冲法)", "_note": "台车脉冲复现,无单一闭合速度"}, "L3_thresholds": euro_l3("采纳 Euro NCAP 正面 AOP 限值(HIII 50th)", "Latin 采纳 Euro 伤害限值;")},
+        "ANCAP": {"version": "v1.1", "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性(采纳Euro)"}, "L3_thresholds": euro_l3("采纳 Euro NCAP 正面 AOP 限值(HIII 50th)", "ANCAP 采纳 Euro 伤害限值;")},
+        "Euro NCAP": {"version": "v1.1 2026", "source_files": ["欧盟/.../euro_ncap_protocol_crash_protection_frontal_impact_v11"], "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性 FW"}, "L3_thresholds": euro_l3("Euro NCAP 正面碰撞协议 v1.1 §3.5 伤害限值(HIII 50th)", "")},
         "US NCAP": {"version": "NHTSA", "L2_params": {"速度": "56 km/h(35mph)", "壁障": "全宽刚性", "假人": ["Hybrid III 50th", "5th"]}, "L3_thresholds": {"_status": "DIFFERENT_SCORING_MODEL"}},
         "Bharat NCAP": {"version": "AIS-197", "source_files": ["印度/AIS_197-1.pdf"], "L2_params": {"速度": "56 km/h", "壁障": "全宽刚性(采纳Global/Euro)"}, "L3_thresholds": {"_status": "TO_EXTRACT_FROM_CHAPTER"}},
     }
@@ -84,6 +96,7 @@ def build():
     res.append((cn_l3.get("头部HIC15") == [500, 700, 700], "C-NCAP.L3.头部HIC15=[500,700,700]", cn_l3.get("头部HIC15"), [500, 700, 700]))
     jb = jncap_hic_bands().get("_bands", [])
     res.append((len(jb) == 5 and jb[0]["points"] == 1.0 and jb[-1]["range"] == "≥1700", "JNCAP.L3.HIC15五色等级(Green1.0/Red≥1700)", [len(jb), jb[0]["points"] if jb else None], "5档/1.0/≥1700"))
+    res.append((euro_front.get("头部HIC15") == [500, 700] and euro_front.get("股骨Ffemur") == [3.8, 9.1], "Euro.L3.正面HIC15[500,700]&Ffemur[3.8,9.1]", [euro_front.get("头部HIC15"), euro_front.get("股骨Ffemur")], "[500,700]/[3.8,9.1]"))
     print(f"frontal_rigid_full 做此项: {[s for s,v in L1.items() if v]} | C-NCAP原始提取='{raw}' → §5.1校正=50")
     ok = report(res)
     print(f"ncap_matrix.json 现有 {n} 个测试项")

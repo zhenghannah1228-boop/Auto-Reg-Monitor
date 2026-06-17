@@ -100,7 +100,8 @@
       "Latin NCAP": {
         "version": "2025",
         "source_files": [
-          "拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf"
+          "拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf",
+          "采纳 Euro AOP 限值"
         ],
         "L1_subtests": {
           "正面全宽刚性": true
@@ -110,7 +111,49 @@
           "_note": "台车脉冲复现,无单一闭合速度"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_extracted_tables": {
+            "成人 HIII 50th": {
+              "头部HIC15": [
+                500,
+                700
+              ],
+              "头部Ares-3ms": [
+                72,
+                80
+              ],
+              "颈部Fx剪切": [
+                1.9,
+                3.1
+              ],
+              "颈部Fz拉伸": [
+                2.7,
+                3.3
+              ],
+              "颈部My伸张": [
+                42,
+                57
+              ],
+              "股骨Ffemur": [
+                3.8,
+                9.1
+              ],
+              "膝Dknee": [
+                6,
+                15
+              ],
+              "胫骨Ftibia": [
+                2.0,
+                8.0
+              ],
+              "胫骨指数Itibia": [
+                0.4,
+                1.3
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(色带5档)",
+          "_source": "采纳 Euro NCAP 正面 AOP 限值(HIII 50th)",
+          "_note": "Latin 采纳 Euro 伤害限值;色带:Green 1.25/Yellow 1.0/Orange 0.75/Brown 0.5/Red 0 分;HPL=满分边界、LPL=0分边界,线性内插,capping 封顶"
         }
       },
       "ANCAP": {
@@ -124,13 +167,55 @@
           "壁障": "全宽刚性(采纳Euro)"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_extracted_tables": {
+            "成人 HIII 50th": {
+              "头部HIC15": [
+                500,
+                700
+              ],
+              "头部Ares-3ms": [
+                72,
+                80
+              ],
+              "颈部Fx剪切": [
+                1.9,
+                3.1
+              ],
+              "颈部Fz拉伸": [
+                2.7,
+                3.3
+              ],
+              "颈部My伸张": [
+                42,
+                57
+              ],
+              "股骨Ffemur": [
+                3.8,
+                9.1
+              ],
+              "膝Dknee": [
+                6,
+                15
+              ],
+              "胫骨Ftibia": [
+                2.0,
+                8.0
+              ],
+              "胫骨指数Itibia": [
+                0.4,
+                1.3
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(色带5档)",
+          "_source": "采纳 Euro NCAP 正面 AOP 限值(HIII 50th)",
+          "_note": "ANCAP 采纳 Euro 伤害限值;色带:Green 1.25/Yellow 1.0/Orange 0.75/Brown 0.5/Red 0 分;HPL=满分边界、LPL=0分边界,线性内插,capping 封顶"
         }
       },
       "Euro NCAP": {
         "version": "v1.1 2026",
         "source_files": [
-          "欧盟/Euro NCAP/crash protection/.../frontal_impact_v11"
+          "欧盟/.../euro_ncap_protocol_crash_protection_frontal_impact_v11"
         ],
         "L1_subtests": {
           "正面全宽刚性": true
@@ -140,7 +225,49 @@
           "壁障": "全宽刚性 FW"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_extracted_tables": {
+            "成人 HIII 50th": {
+              "头部HIC15": [
+                500,
+                700
+              ],
+              "头部Ares-3ms": [
+                72,
+                80
+              ],
+              "颈部Fx剪切": [
+                1.9,
+                3.1
+              ],
+              "颈部Fz拉伸": [
+                2.7,
+                3.3
+              ],
+              "颈部My伸张": [
+                42,
+                57
+              ],
+              "股骨Ffemur": [
+                3.8,
+                9.1
+              ],
+              "膝Dknee": [
+                6,
+                15
+              ],
+              "胫骨Ftibia": [
+                2.0,
+                8.0
+              ],
+              "胫骨指数Itibia": [
+                0.4,
+                1.3
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(色带5档)",
+          "_source": "Euro NCAP 正面碰撞协议 v1.1 §3.5 伤害限值(HIII 50th)",
+          "_note": "色带:Green 1.25/Yellow 1.0/Orange 0.75/Brown 0.5/Red 0 分;HPL=满分边界、LPL=0分边界,线性内插,capping 封顶"
         }
       },
       "US NCAP": {
@@ -306,7 +433,49 @@
           "壁障": "ODB(AOP 偏置)"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_extracted_tables": {
+            "成人 HIII 50th": {
+              "头部HIC15": [
+                500,
+                700
+              ],
+              "头部Ares-3ms": [
+                72,
+                80
+              ],
+              "颈部Fx剪切": [
+                1.9,
+                3.1
+              ],
+              "颈部Fz拉伸": [
+                2.7,
+                3.3
+              ],
+              "颈部My伸张": [
+                42,
+                57
+              ],
+              "股骨Ffemur": [
+                3.8,
+                9.1
+              ],
+              "膝Dknee": [
+                6,
+                15
+              ],
+              "胫骨Ftibia": [
+                2.0,
+                8.0
+              ],
+              "胫骨指数Itibia": [
+                0.4,
+                1.3
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(色带5档)",
+          "_source": "采纳 Euro NCAP 正面 AOP 限值(HIII 50th)",
+          "_note": "Latin NCAP 采纳 Euro 伤害限值;色带:Green 1.25/Yellow 1.0/Orange 0.75/Brown 0.5/Red 0 分;HPL=满分边界、LPL=0分边界,线性内插,capping 封顶"
         }
       },
       "ANCAP": {
@@ -319,7 +488,49 @@
           "壁障": "MPDB"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_extracted_tables": {
+            "成人 HIII 50th": {
+              "头部HIC15": [
+                500,
+                700
+              ],
+              "头部Ares-3ms": [
+                72,
+                80
+              ],
+              "颈部Fx剪切": [
+                1.9,
+                3.1
+              ],
+              "颈部Fz拉伸": [
+                2.7,
+                3.3
+              ],
+              "颈部My伸张": [
+                42,
+                57
+              ],
+              "股骨Ffemur": [
+                3.8,
+                9.1
+              ],
+              "膝Dknee": [
+                6,
+                15
+              ],
+              "胫骨Ftibia": [
+                2.0,
+                8.0
+              ],
+              "胫骨指数Itibia": [
+                0.4,
+                1.3
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(色带5档)",
+          "_source": "采纳 Euro NCAP 正面 AOP 限值(HIII 50th)",
+          "_note": "ANCAP 采纳 Euro 伤害限值;色带:Green 1.25/Yellow 1.0/Orange 0.75/Brown 0.5/Red 0 分;HPL=满分边界、LPL=0分边界,线性内插,capping 封顶"
         }
       },
       "Euro NCAP": {
@@ -332,7 +543,49 @@
           "壁障": "MPDB"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_extracted_tables": {
+            "成人 HIII 50th": {
+              "头部HIC15": [
+                500,
+                700
+              ],
+              "头部Ares-3ms": [
+                72,
+                80
+              ],
+              "颈部Fx剪切": [
+                1.9,
+                3.1
+              ],
+              "颈部Fz拉伸": [
+                2.7,
+                3.3
+              ],
+              "颈部My伸张": [
+                42,
+                57
+              ],
+              "股骨Ffemur": [
+                3.8,
+                9.1
+              ],
+              "膝Dknee": [
+                6,
+                15
+              ],
+              "胫骨Ftibia": [
+                2.0,
+                8.0
+              ],
+              "胫骨指数Itibia": [
+                0.4,
+                1.3
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(色带5档)",
+          "_source": "Euro NCAP 正面碰撞协议 v1.1 §3.5 伤害限值(HIII 50th,MPDB)",
+          "_note": "色带:Green 1.25/Yellow 1.0/Orange 0.75/Brown 0.5/Red 0 分;HPL=满分边界、LPL=0分边界,线性内插,capping 封顶"
         }
       },
       "US NCAP": {
@@ -778,8 +1031,31 @@
           "_extraction_note": "Latin采纳Euro AE-MDB方法,拉美目录含Euro原始协议v8.3"
         },
         "L3_thresholds": {
-          "_note": "AOP Protocol含评分,采纳Euro结构",
-          "_status": "TO_EXTRACT"
+          "_scoring": "sliding（滑动评分:满分@HPL → 0分@LPL,线性内插,capping 封顶）",
+          "_source": "采纳 Euro AE-MDB v8.3 侧碰 WorldSID 限值(见 Euro 列)",
+          "_HPL_LPL": {
+            "头部HIC15": [
+              500,
+              700
+            ],
+            "3ms合成加速度": [
+              72,
+              80
+            ],
+            "胸部压缩D": [
+              28,
+              50
+            ],
+            "腹部压缩D": [
+              47,
+              65
+            ],
+            "耻骨力F": [
+              1.7,
+              2.8
+            ]
+          },
+          "_note": "Latin NCAP 侧碰采纳 Euro AE-MDB,WorldSID 滑动 HPL-LPL 同值;HPL=higher performance limit(满分), LPL=lower performance limit(0分);C-NCAP 三限值采纳同套数值"
         }
       },
       "Euro NCAP": {
@@ -850,8 +1126,31 @@
           "_extraction_note": "采纳Euro方法,L3借拉美目录Euro源"
         },
         "L3_thresholds": {
-          "_source": "采纳Euro AE-MDB",
-          "_status": "SOURCE_NOW_AVAILABLE_TO_EXTRACT"
+          "_scoring": "sliding（滑动评分:满分@HPL → 0分@LPL,线性内插,capping 封顶）",
+          "_source": "采纳 Euro AE-MDB v8.3 侧碰 WorldSID 限值(见 Euro 列)",
+          "_HPL_LPL": {
+            "头部HIC15": [
+              500,
+              700
+            ],
+            "3ms合成加速度": [
+              72,
+              80
+            ],
+            "胸部压缩D": [
+              28,
+              50
+            ],
+            "腹部压缩D": [
+              47,
+              65
+            ],
+            "耻骨力F": [
+              1.7,
+              2.8
+            ]
+          },
+          "_note": "ANCAP 侧碰采纳 Euro AE-MDB,WorldSID 滑动 HPL-LPL 同值;HPL=higher performance limit(满分), LPL=lower performance limit(0分);C-NCAP 三限值采纳同套数值"
         }
       },
       "US NCAP": {
@@ -1774,7 +2073,7 @@
       "ASEAN": {
         "version": "Protocol 2026-2030",
         "source_files": [
-          "东盟/...xlsm(MS-PED / AOP HPT)"
+          "东盟/...xlsm 'AOP HPT'(头部保护装备率 TFS8)+ MS-PED"
         ],
         "L1_subtests": {
           "行人头型冲击": true,
@@ -1785,17 +2084,38 @@
             "头型",
             "腿型"
           ],
-          "_note": "MS-PED + 头部保护 HPT"
+          "_note": "MS-PED + 头部保护 HPT(装备率)"
         },
         "L3_thresholds": {
-          "_source": "xlsm MS-PED/HPT",
-          "_status": "TO_EXTRACT_FROM_XLSM"
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with HPT as standard equipment"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with HPT as optional equipment"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with HPT"
+            }
+          ],
+          "_TFS": 8.0,
+          "_title": "Fitment Rating System for Head Protection Technology",
+          "_source": "东盟 NCAP xlsm sheet 'AOP HPT'",
+          "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"
         }
       },
       "Latin NCAP": {
         "version": "2025",
         "source_files": [
-          "拉美/Latin NCAP 2025 - PP Protocol v2.0.0.pdf"
+          "拉美/Latin NCAP 2025 - PP Protocol v2.0.0.pdf",
+          "采纳 Euro Pedestrian 头型色带"
         ],
         "L1_subtests": {
           "行人头型冲击": true,
@@ -1808,13 +2128,39 @@
           ]
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_scoring": "5色等级(头型 HIC15 网格,色带)",
+          "_metric": "头型 HIC15",
+          "_source": "采纳 Euro 行人头型 HIC15 五色等级",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650"
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000"
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350"
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700"
+            },
+            {
+              "band": "Red",
+              "range": "≥1700"
+            }
+          ],
+          "_note": "Latin 采纳;Euro/Latin/ANCAP 行人头型 HIC15 五色网格;腿型(UN R127 胫骨弯矩/韧带)评分限值在图/网格,不抽"
         }
       },
       "ANCAP": {
         "version": "v1.1",
         "source_files": [
-          "澳洲/ANCAP PROTOCOL - Crash Protection - Vulnerable Road User Impact v1.1.pdf"
+          "澳洲/ANCAP PROTOCOL - Crash Protection - Vulnerable Road User Impact v1.1.pdf",
+          "采纳 Euro Pedestrian"
         ],
         "L1_subtests": {
           "行人头型冲击": true,
@@ -1828,13 +2174,38 @@
           "_note": "采纳Euro Pedestrian"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT"
+          "_scoring": "5色等级(头型 HIC15 网格,色带)",
+          "_metric": "头型 HIC15",
+          "_source": "采纳 Euro 行人头型 HIC15 五色等级",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650"
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000"
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350"
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700"
+            },
+            {
+              "band": "Red",
+              "range": "≥1700"
+            }
+          ],
+          "_note": "ANCAP 采纳;Euro/Latin/ANCAP 行人头型 HIC15 五色网格;腿型(UN R127 胫骨弯矩/韧带)评分限值在图/网格,不抽"
         }
       },
       "Euro NCAP": {
         "version": "Pedestrian v8.5",
         "source_files": [
-          "拉美/Euro NCAP - Pedestrian Testing Protocol v8.5.pdf"
+          "拉美/Euro NCAP - Pedestrian Testing Protocol v8.5.pdf §4"
         ],
         "L1_subtests": {
           "行人头型冲击": true,
@@ -1848,8 +2219,32 @@
           ]
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT",
-          "_scoring": "网格 sliding HPL-LPL"
+          "_scoring": "5色等级(头型 HIC15 网格,色带)",
+          "_metric": "头型 HIC15",
+          "_source": "拉美/Euro NCAP Pedestrian v8.5 §4 Headform Data",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650"
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000"
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350"
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700"
+            },
+            {
+              "band": "Red",
+              "range": "≥1700"
+            }
+          ],
+          "_note": "Euro/Latin/ANCAP 行人头型 HIC15 五色网格;腿型(UN R127 胫骨弯矩/韧带)评分限值在图/网格,不抽"
         }
       },
       "US NCAP": {
@@ -1879,10 +2274,11 @@
             "头型",
             "腿型"
           ],
-          "_extraction_note": "AIS-197 行人章节(采纳GTR9/Euro)"
+          "_extraction_note": "AIS-197 行人保护引用 AIS-100(独立标准)"
         },
         "L3_thresholds": {
-          "_status": "TO_EXTRACT_FROM_CHAPTER"
+          "_status": "SOURCE_PENDING",
+          "_note": "Bharat 行人保护遵循 AIS-100(独立标准,本批源未含 AIS-100 全文)——限值需补 AIS-100"
         }
       }
     },

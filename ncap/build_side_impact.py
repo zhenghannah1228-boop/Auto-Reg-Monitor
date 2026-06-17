@@ -167,6 +167,11 @@ def main():
     out["systems"]["Euro NCAP"]["L3_thresholds"] = eu
     results.append((eu.get("_HPL_LPL", {}).get("头部HIC15") == [500, 700],
                     "Euro.L3.滑动HIC15(HPL-LPL)", eu.get("_HPL_LPL", {}).get("头部HIC15"), [500, 700]))
+    # 4b) Latin/ANCAP 侧碰采纳 Euro AE-MDB v8.3(WorldSID 同套滑动 HPL-LPL 限值)
+    for sysn in ("Latin NCAP", "ANCAP"):
+        out["systems"][sysn]["L3_thresholds"] = dict(eu,
+            _source="采纳 Euro AE-MDB v8.3 侧碰 WorldSID 限值(见 Euro 列)",
+            _note=sysn + " 侧碰采纳 Euro AE-MDB,WorldSID 滑动 HPL-LPL 同值;" + eu.get("_note", ""))
     # 5) 补 JNCAP 侧碰闭合速度(R7-03=55,sample 原缺)+ JNCAP 头部 HIC15 五色等级 L3
     out["systems"]["JNCAP"]["L2_params"]["速度"] = "55 km/h(MDB 闭合)"
     jb = jncap_hic_bands()

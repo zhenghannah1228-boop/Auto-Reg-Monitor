@@ -252,6 +252,61 @@ def asean_fitment(sheet):
                      "非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"}
 
 
+def euro_hpl_lpl(file_glob, pages, criteria):
+    """Euro NCAP AOP 滑动 HPL-LPL 阈值实拆(色带 Green1.25/Yellow1.0/Orange0.75/Brown0.5/Red0)。
+    多假人列按 [HIII5th, HIII50th, THOR50th, HIII95th] 排列,取 **HIII 50th=第2个 num-num 对**
+    (标准成人);续行用 3 行窗口合并。criteria={显示名:行内正则}。Latin/ANCAP 采纳同表。"""
+    import pdfplumber
+    f = _src_glob(file_glob)
+    if not f:
+        return {}
+    with pdfplumber.open(f) as pdf:
+        lines = []
+        for pg in pdf.pages:
+            if pages is None or pg.page_number in pages:
+                lines += (pg.extract_text() or "").split("\n")
+            _flush(pg)
+    PAIR = re.compile(r"(\d+(?:\.\d+)?)\s*-\s*(\d+(?:\.\d+)?)")
+    num = lambda x: float(x) if "." in x else int(x)
+    out = {}
+    for name, pat in criteria.items():
+        for i, ln in enumerate(lines):
+            if re.search(pat, ln):
+                pairs = PAIR.findall(" ".join(lines[i:i + 3]))
+                if len(pairs) >= 2:
+                    out[name] = [num(pairs[1][0]), num(pairs[1][1])]
+                break
+    return out
+
+EURO_BANDS_NOTE = "色带:Green 1.25/Yellow 1.0/Orange 0.75/Brown 0.5/Red 0 分;HPL=满分边界、LPL=0分边界,线性内插,capping 封顶"
+
+def euro_pedestrian_head_bands():
+    """Euro 行人头型 HIC15 五色等级(Pedestrian v8.5 §4 Headform Data:Green<650…Red≥1700)。
+    Latin/ANCAP 采纳同表。腿型(legform)用 UN R127 弯矩/韧带,评分限值在图/网格,不抽。"""
+    f = _src_glob("拉美/Euro NCAP - Pedestrian*8.5*.pdf")
+    if not f:
+        return {}
+    txt = pdf_text(f).replace("\n", " ")
+    # 定位含完整 5 色梯(Green…Red)的段:扫描每个『= Green』窗口,取同时含 Brown+Red 者
+    seg = None
+    for m in re.finditer(r"=\s*Green", txt):
+        w = txt[m.start() - 40:m.start() + 360]
+        if "Brown" in w and "Red" in w:
+            seg = w; break
+    if not seg:
+        return {}
+    bnds = sorted(set(int(x) for pair in re.findall(r"(\d{3,4})\s*≤\s*HIC|HIC\s*<\s*(\d{3,4})", seg) for x in pair if x))
+    colors = re.findall(r"=\s*(Green|Yellow|Orange|Brown|Red)", seg)[:5]
+    if len(bnds) != 4 or len(colors) != 5:
+        return {}
+    b = bnds
+    ranges = [f"<{b[0]}", f"{b[0]}–{b[1]}", f"{b[1]}–{b[2]}", f"{b[2]}–{b[3]}", f"≥{b[3]}"]
+    return {"_scoring": "5色等级(头型 HIC15 网格,色带)", "_metric": "头型 HIC15",
+            "_source": "拉美/Euro NCAP Pedestrian v8.5 §4 Headform Data",
+            "_bands": [{"band": c, "range": r} for c, r in zip(colors, ranges)],
+            "_note": "Euro/Latin/ANCAP 行人头型 HIC15 五色网格;腿型(UN R127 胫骨弯矩/韧带)评分限值在图/网格,不抽"}
+
+
 def merge_row(row):
     """把一个测试项行并入 ncap_matrix.json(按 id 去重替换),数组形式。"""
     import json

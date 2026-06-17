@@ -143,7 +143,7 @@ function renderL3(l3){
   if(l3._bands&&l3._bands.length){
     const C={Green:"#bfe3ab",Yellow:"#f3e9a8",Orange:"#f3c98a",Brown:"#d6a877",Red:"#e6a3a0"};
     html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">${E(l3._metric||"")} 五色等级(${E(l3._scoring||"")})</div><table class="l3tbl"><tr><th>等级</th><th>区间</th><th>得分</th></tr>`;
-    for(const b of l3._bands)html+=`<tr><td style="text-align:left"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${C[b.band]||"#ccc"};margin-right:4px"></span>${E(b.band)}</td><td>${E(b.range)}</td><td>${E(b.points)}</td></tr>`;
+    for(const b of l3._bands)html+=`<tr><td style="text-align:left"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${C[b.band]||"#ccc"};margin-right:4px"></span>${E(b.band)}</td><td>${E(b.range)}</td><td>${b.points==null?"—":E(b.points)}</td></tr>`;
     html+="</table>";
   }
   // ASEAN 装备率评分(fitment:Option→α)
