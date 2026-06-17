@@ -3156,26 +3156,34 @@
       },
       "ANCAP": {
         "version": "",
-        "source_files": [],
+        "source_files": [
+          "澳洲/ANCAP Safe Driving(采纳 Euro;AHB 为 Safe Driving 子项,无独立协议)"
+        ],
         "L1_subtests": {
-          "自适应远光AHB": false
+          "自适应远光AHB": true
         },
-        "L2_params": {},
+        "L2_params": {
+          "_note": "AHB/ADB 为 Safe Driving 评估的一个评分子项;无独立 AHB/灯光协议(故无独立阈值表)"
+        },
         "L3_thresholds": {
-          "_status": "SOURCE_PENDING",
-          "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"
+          "_status": "WITHIN_SAFE_DRIVING",
+          "_note": "Euro/ANCAP 无独立 AHB 协议;AHB/ADB 作为 Safe Driving 评估的评分子项计分,无独立阈值表——非『待补/缺文件』(独立文件本就不存在)"
         }
       },
       "Euro NCAP": {
         "version": "",
-        "source_files": [],
+        "source_files": [
+          "欧盟/Euro NCAP Safe Driving 评估(AHB/ADB 为其评分子项,无独立协议)"
+        ],
         "L1_subtests": {
-          "自适应远光AHB": false
+          "自适应远光AHB": true
         },
-        "L2_params": {},
+        "L2_params": {
+          "_note": "AHB/ADB 为 Safe Driving 评估的一个评分子项;无独立 AHB/灯光协议(故无独立阈值表)"
+        },
         "L3_thresholds": {
-          "_status": "SOURCE_PENDING",
-          "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"
+          "_status": "WITHIN_SAFE_DRIVING",
+          "_note": "Euro/ANCAP 无独立 AHB 协议;AHB/ADB 作为 Safe Driving 评估的评分子项计分,无独立阈值表——非『待补/缺文件』(独立文件本就不存在)"
         }
       },
       "US NCAP": {
@@ -3201,10 +3209,10 @@
         }
       }
     },
-    "diff_summary": "ASEAN(独立 MS-AHB/ADB)与 C-NCAP(附录S 灯光含 AHB)有源核实;Euro/ANCAP 现实评 AHB 但本批无协议=源待补(非不测);JNCAP/Latin/US/Bharat 不单列",
+    "diff_summary": "ASEAN(独立 MS-AHB/ADB 协议+装备率)、C-NCAP(附录S 灯光含 AHB)有独立协议;Euro/ANCAP 确做 AHB 但作为 Safe Driving 评估子项、无独立协议/阈值(故无独立文件);JNCAP R7-16 仅装备确认;Latin/US/Bharat 不单列",
     "key_differences": [
-      "ASEAN 有独立 MS-AHB/ADB 协议;C-NCAP 在『附录S 整车灯光性能』内含 AHB/ADB(×82)",
-      "Euro/ANCAP 现实有 AHB 评估,但本批交付源未含其灯光/AHB 协议 → 标『源待补』,工程师勿误读为不评远光",
+      "ASEAN 有独立 MS-AHB/ADB 协议(装备率评分);C-NCAP 在『附录S 整车灯光性能』内含 AHB/ADB(×82)",
+      "Euro/ANCAP 确评 AHB/ADB,但它是 **Safe Driving 评估协议的一个评分子项**,无独立 AHB/灯光协议——资料包找不到独立 AHB 文件是因为它本就不存在(非缺料);故标『测·部分』(无独立阈值表),不标『待补』",
       "JNCAP R7-16 为『高機能前照灯装备確認』(配备确认,非动态AHB评分);Latin/US/Bharat 不单列 AHB"
     ]
   },

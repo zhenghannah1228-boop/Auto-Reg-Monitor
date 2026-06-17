@@ -152,7 +152,7 @@ COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 
 
 # 📦 交付说明 · L3 深拆最终状态(2026-06 收尾)
 
-128 格:**测 33 / 测·部分 37 / 不测 48 / 异构 8 / 待补 2**。已实拆 **6 类评分模型**并排可比:
+128 格:**测 33 / 测·部分 39 / 不测 48 / 异构 8 / 待补 0**。已实拆 **6 类评分模型**并排可比:
 三限值(C-NCAP)/ 滑动 HPL-LPL(Euro·Bharat·Latin·ANCAP)/ Value+Points(ASEAN 碰撞 xlsm)/
 5色等级(JNCAP 头部·Euro 行人)/ 装备率 fitment(ASEAN 主动安全)/ pass-fail 合规限值(Bharat 行人 AIS-100)。
 `build_all.py` 一键重建,16 项各带回归断言。
@@ -168,25 +168,26 @@ COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 
 | ③ | post_crash_safety(天线/eCall)· ev_hazard(高压 pass-fail)· restraint_system(约束组件) | 8 | pass-fail / 组件 | **本质无伤害阈值表**,判定型,不硬塞三限值 |
 | ② | whiplash_rear(Euro 鞭打曲线·JNCAP 评价函数)· side_pole(Euro/Latin/ANCAP,柱碰用 WorldSID 但协议未独列表) | 7 | 图形/曲线 | 阈值在图里、文本取不到;**优先级低,暂不 OCR** |
 | ④ | occupant_monitoring(C-NCAP 附录N 点分配 · JNCAP SBR · Euro/ANCAP CPD) | 4 | 点分配(异质) | 点制各异,**优先级低,暂不逐体系建点结构** |
+| — | adaptive_highbeam · Euro / ANCAP | 2 | Safe Driving 子项 | **业主 2026-06 澄清**:Euro/ANCAP **无独立 AHB/灯光协议**,AHB/ADB 是 Safe Driving 评估的一个评分子项 → 确做(L1=测)但无独立阈值表;**资料包无独立 AHB 文件是因其本就不存在,非缺料**(原误标"待补"已改正) |
 | — | US 全系 | 8 | NHTSA 星级 / IIHS G·A·M·P | 异构等级制,标 `DIFFERENT_SCORING_MODEL`(显示为"异构",非"测·部分") |
 
 (① 的 ASEAN 同类项已是"装备率绿",是另一种模型,不在此列。)
 
-## 表二 · 待外部补料(给材料即可补,已留接口)
+## 表二 · 待外部补料 —— **已清空(无待补)**
 
-| 测试项 / 体系 | 状态 | 需要的外部材料 |
+| 测试项 / 体系 | 状态 | 说明 |
 |---|---|---|
-| adaptive_highbeam · Euro | 待补 | Euro NCAP **灯光/AHB 协议**(现实评估 AHB,本批源未含) |
-| adaptive_highbeam · ANCAP | 待补 | ANCAP **AHB 协议**(同上) |
+| (无) | — | 当前 0 处"待补";所有"现实评估但缺独立协议"的存疑项已澄清归类 |
 
-> ℹ️ **ASEAN AHB 协议已收**(MS AHB-ADB v2.0):ASEAN AHB 本就是"装备率绿",此协议补充其真实
-> **测试条件 L2**(速度 50±10/80±20 km/h、夜间照度 ≥15/<5 lux、A-B 点距 3.3m、Low↔High 自动切换)。
-> ⚠ 注:待补的是 **Euro / ANCAP** 的 AHB 协议(非 ASEAN);ASEAN 这份不填那两格。
->
 > ✅ **已补料**:Bharat vru_passive —— 业主提供 **AIS-100 (Rev.1)** 后已实拆(`bharat_ais100_pedestrian`):
 > 头型 HIC1000/1700 区、下腿型 MCL≤22mm·ACL/PCL≤13mm·胫骨弯矩≤340Nm、上腿型 合力≤7.5kN·弯矩≤510Nm
 > (UN GTR9 系 pass-fail 合规限值);该格已转绿"测"。
-> 剩余两格(Euro/ANCAP AHB)收到协议后沿用既有提取器即可补,接口已就位。
+>
+> ℹ️ **ASEAN AHB 协议已收**(MS AHB-ADB v2.0):ASEAN AHB 本就"装备率绿",此协议补充其真实测试条件 L2
+> (速度 50±10/80±20 km/h、夜间照度 ≥15/<5 lux、A-B 点距 3.3m、Low↔High 自动切换)。
+>
+> ✅ **Euro/ANCAP AHB 存疑澄清**(业主 2026-06):二者**无独立 AHB/灯光协议**,AHB/ADB 是 **Safe Driving
+> 评估的评分子项**——独立文件本就不存在,故从"待补"改判为**已知边界**(见表一末行)。**全矩阵 0 待补。**
 
 ---
 
