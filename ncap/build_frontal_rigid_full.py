@@ -54,7 +54,7 @@ def build():
         "ANCAP": has(pdf_text(find("澳洲/*Frontal Impact*.pdf") or ""), r"full width", r"full-width", r"rigid"),
         "Euro NCAP": bool(find("欧盟/**/*frontal_impact*.pdf")),
         "US NCAP": True,    # NHTSA 全宽刚性正碰(35mph≈56);IIHS 不做全宽
-        "Bharat NCAP": has(pdf_text("印度/AIS_197-1.pdf"), r"full frontal", r"frontal impact"),
+        "Bharat NCAP": False,   # L1 纠错(核 AIS-197):Bharat 正面唯一为 ODB 偏置 64km/h 40%(§10.1 测试矩阵),无全宽刚性
     }
     meta = {
         "C-NCAP": {"version": "2027版", "source_files": ["中国/.../附录A 正面100%重叠刚性壁障.pdf"],
@@ -69,7 +69,7 @@ def build():
         "ANCAP": {"version": "v1.1", "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性(采纳Euro)"}, "L3_thresholds": euro_l3("采纳 Euro NCAP 正面 AOP 限值(HIII 50th)", "ANCAP 采纳 Euro 伤害限值;")},
         "Euro NCAP": {"version": "v1.1 2026", "source_files": ["欧盟/.../euro_ncap_protocol_crash_protection_frontal_impact_v11"], "L2_params": {"速度": "50 km/h", "壁障": "全宽刚性 FW"}, "L3_thresholds": euro_l3("Euro NCAP 正面碰撞协议 v1.1 §3.5 伤害限值(HIII 50th)", "")},
         "US NCAP": {"version": "NHTSA", "L2_params": {"速度": "56 km/h(35mph)", "壁障": "全宽刚性", "假人": ["Hybrid III 50th", "5th"]}, "L3_thresholds": {"_status": "DIFFERENT_SCORING_MODEL"}},
-        "Bharat NCAP": {"version": "AIS-197", "source_files": ["印度/AIS_197-1.pdf"], "L2_params": {"速度": "56 km/h", "壁障": "全宽刚性(采纳Global/Euro)"}, "L3_thresholds": {"_status": "TO_EXTRACT_FROM_CHAPTER"}},
+        "Bharat NCAP": {"version": "AIS-197", "source_files": ["印度/AIS_197-1.pdf"], "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED", "_note": "L1 纠错:Bharat NCAP 正面唯一为 ODB 偏置(64km/h 40%,AIS-197 §10.1),不做全宽 100% 刚性正碰"}},
     }
     systems = {}
     for s, tested in L1.items():
@@ -80,18 +80,19 @@ def build():
                       "L3_thresholds": m.get("L3_thresholds", {"_status": "NOT_TESTED"})}
     row = {"id": "frontal_rigid_full", "cn_name": "正面100%刚性壁障", "en_name": "Full Width Rigid Barrier Frontal",
            "pillar": "碰撞保护", "systems": systems,
-           "diff_summary": "ASEAN 唯一不测(只做ODB偏置);Latin 用全宽台车脉冲代实车;速度 50(中/日/欧/澳)→56(美/印)不一",
+           "diff_summary": "ASEAN、Bharat 不测全宽刚性(均只做 ODB 偏置);Latin 用全宽台车脉冲代实车;速度 50(中/日/欧/澳)、56(美)",
            "key_differences": [
                "C-NCAP 全宽刚性 50km/h(§5.1 核对值;源文本脚注上标污染需防误取)",
-               "ASEAN 不做全宽刚性正碰(仅做 ODB 偏置)——8 套中唯一缺此项",
+               "ASEAN、Bharat 不做全宽刚性正碰(均仅做 ODB 偏置;Bharat AIS-197 §10.1 唯一正面为 ODB 64km/h 40%)——8 套中此项仅 6 套做",
                "Latin NCAP 以『全宽台车(Full Width Sled)』方式评估,非实车全宽碰撞",
                "US NHTSA 全宽刚性 56km/h(35mph)、星级制;IIHS 不做全宽(只做偏置)",
-               "JNCAP R7-01 フルラップ前面衝突 50km/h(源核对,非55);中/日/欧/澳 50、美/印 56"]}
+               "JNCAP R7-01 フルラップ前面衝突 50km/h(源核对,非55);做全宽者:中/日/欧/澳 50、美 56"]}
     n = merge_row(row)
     res = [(cn_speed == CNCAP_REF["A"], "C-NCAP.全宽速度=§5.1核对值50", cn_speed, 50),
            (raw != str(cn_speed), "C-NCAP.原始提取≠50(确认污染存在)", raw, "≠50(污染)"),
-           (L1["ASEAN"] is False, "ASEAN.全宽刚性=不测", L1["ASEAN"], False)]
-    for s in ["C-NCAP", "JNCAP", "Latin NCAP", "ANCAP", "Euro NCAP", "US NCAP", "Bharat NCAP"]:
+           (L1["ASEAN"] is False, "ASEAN.全宽刚性=不测", L1["ASEAN"], False),
+           (L1["Bharat NCAP"] is False, "Bharat.全宽刚性=不测(L1纠错:AIS-197仅ODB偏置)", L1["Bharat NCAP"], False)]
+    for s in ["C-NCAP", "JNCAP", "Latin NCAP", "ANCAP", "Euro NCAP", "US NCAP"]:
         res.append((L1[s] is True, f"{s}.全宽刚性=测", L1[s], True))
     res.append((cn_l3.get("头部HIC15") == [500, 700, 700], "C-NCAP.L3.头部HIC15=[500,700,700]", cn_l3.get("头部HIC15"), [500, 700, 700]))
     jb = jncap_hic_bands().get("_bands", [])

@@ -507,24 +507,22 @@ const _EMBED_MATRIX=[
           "印度/AIS_197-1.pdf"
         ],
         "L1_subtests": {
-          "正面全宽刚性": true
+          "正面全宽刚性": false
         },
-        "L2_params": {
-          "速度": "56 km/h",
-          "壁障": "全宽刚性(采纳Global/Euro)"
-        },
+        "L2_params": {},
         "L3_thresholds": {
-          "_status": "TO_EXTRACT_FROM_CHAPTER"
+          "_status": "NOT_TESTED",
+          "_note": "L1 纠错:Bharat NCAP 正面唯一为 ODB 偏置(64km/h 40%,AIS-197 §10.1),不做全宽 100% 刚性正碰"
         }
       }
     },
-    "diff_summary": "ASEAN 唯一不测(只做ODB偏置);Latin 用全宽台车脉冲代实车;速度 50(中/日/欧/澳)→56(美/印)不一",
+    "diff_summary": "ASEAN、Bharat 不测全宽刚性(均只做 ODB 偏置);Latin 用全宽台车脉冲代实车;速度 50(中/日/欧/澳)、56(美)",
     "key_differences": [
       "C-NCAP 全宽刚性 50km/h(§5.1 核对值;源文本脚注上标污染需防误取)",
-      "ASEAN 不做全宽刚性正碰(仅做 ODB 偏置)——8 套中唯一缺此项",
+      "ASEAN、Bharat 不做全宽刚性正碰(均仅做 ODB 偏置;Bharat AIS-197 §10.1 唯一正面为 ODB 64km/h 40%)——8 套中此项仅 6 套做",
       "Latin NCAP 以『全宽台车(Full Width Sled)』方式评估,非实车全宽碰撞",
       "US NHTSA 全宽刚性 56km/h(35mph)、星级制;IIHS 不做全宽(只做偏置)",
-      "JNCAP R7-01 フルラップ前面衝突 50km/h(源核对,非55);中/日/欧/澳 50、美/印 56"
+      "JNCAP R7-01 フルラップ前面衝突 50km/h(源核对,非55);做全宽者:中/日/欧/澳 50、美 56"
     ]
   },
   {

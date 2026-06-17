@@ -86,12 +86,7 @@ occupant_monitoring。各 build_*.py 回归 PASS;均做了"遇不确定先核对
 (side_impact 既有 C-NCAP/ASEAN/Euro 三绿不变。)前端 `cellClass` 绿判定扩 `_extracted_tables`/`_blocks`;
 `renderL3` 新增分组阈值表渲染。
 
-**仍为测·部分(非懒拆,系评分模型异质,严禁强转三限值):**
-- 附录K 事故后=eCall 天线增益/角度评分;附录L 新能源=高压绝缘/泄漏/热失控 pass-fail;
-  附录M 约束=部件/翻滚评价;附录O 头型=HIC 颜色网格(逐网格点),均非『高/低/极限』三限值模型。
-- Euro 正碰/鞭打协议正文未以 HPL/LPL 文本暴露阈值表(侧碰 v1.1 p21 是唯一已验证 HPL-LPL 源),
-  不强抽以免臆造;Bharat AIS-197 单文件多项,按章节拆待续。
-- **下一阶段**:JNCAP R7-xx 阈值、ASEAN 其余 xlsm 评分表(SAT/MS-*)、Bharat AIS-197 章节细拆。
+**(后续三批 L3 深拆把上述大部分『测·部分』转绿;最终边界见文末两张交付表。)**
 
 ## ✅ L3 批量深拆 — 第二批(2026-06)绿格 9→19 + 内存兜底
 三目标全部落地,沉淀第 4/5 类评分模型提取器(均带回归锚点):
@@ -122,24 +117,6 @@ R7-03 单文件 538→79MB);`build_all` 串行子进程 + `RLIMIT_AS` 软上限(
 COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 系漏项,已修正为 SBR✓+CPD✓
 (装备率 L3),DMS 仍不测。
 
-## 🚧 已知边界:评分模型异质 / 源缺 —— 不强行结构化(业主 2026-06 拍板)
-
-下列"测·部分"格**有意不深拆为统一 L3 结构**:其评分模型与三限值/滑动/装备率/色带均不同构,
-硬拆要么拆不出、要么塞不进统一结构,且**不影响差集**(核心价值靠 L1/L2 已成立)。如实标注为
-已知边界,非遗漏、非待办:
-
-| 项 / 体系 | 评分模型 | 为何不结构化 |
-|---|---|---|
-| C-NCAP 附录K(post_crash) | eCall 天线增益/角度评分 | 非伤害阈值,按天线增益曲线评 |
-| C-NCAP 附录L(ev_hazard) | 高压绝缘/泄漏/热失控 **pass-fail** | 判定型,无高/低/极限三限值 |
-| C-NCAP 附录M(restraint) | 约束部件/翻滚评价 | 组件评价,非伤害阈值表 |
-| C-NCAP 附录O 头型(vru_passive) | **HIC 颜色网格**(逐网格点配色) | 网格图非离散阈值(腿型大腿弯矩已拆) |
-| Euro 正碰/鞭打(frontal/whiplash) | 滑动 HPL-LPL | 协议正文未以 HPL/LPL 文本暴露阈值表(侧碰 v1.1 p21 是唯一已验证 HPL-LPL 源) |
-| 中/欧/日 AEB·车道 性能档位 | 速度区间分档 | 各协议场景速度区间表结构各异;差集已由 L1/L2 场景覆盖表达(ASEAN 同项已是装备率绿) |
-| US 全系(6格) | NHTSA 星级 / IIHS G·A·M·P 等级 | 异构等级制,标 DIFFERENT_SCORING_MODEL |
-
-> 原则复述:**能查证按原文拆;模型异质/源缺则如实标边界,严禁臆造塞进统一结构**。
-
 ## ✅ L3 深拆第三批(2026-06)绿格 20→32 —— Euro 表格型阈值 + 采纳链
 - **Euro 正面 AOP**(`euro_hpl_lpl`):正碰协议 v1.1 §3.5 伤害限值在表格里(非文本层),多假人列
   按 [HIII5th/50th/THOR50th/95th] 排,取 **HIII 50th=第2个 num-num 对**(3行窗口合并续行)。
@@ -151,40 +128,45 @@ COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 
 - 新增绿格:frontal_rigid_full / frontal_mpdb_offset 的 Euro+Latin+ANCAP(6)、vru_passive 的
   Euro+Latin+ANCAP+ASEAN(4)、side_impact 的 Latin+ANCAP(2)= 12 格。
 
-## 📊 最终矩阵(L3 三批后)
-128 格:**测 32 / 测·部分 39 / 不测 47 / 异构 8 / 待补 2**。已实拆 **5 类评分模型**并排可比:
+## ✅ L1 纠错(业主指示,2026-06):Bharat 全宽正碰 → 不测
+核 AIS-197 测试矩阵:Bharat NCAP 正面**唯一**为 Offset Deformable Barrier(ODB)64km/h 40% 偏置
+(§10.1 / Annexure-I),**不做全宽 100% 刚性正碰**。原 `frontal_rigid_full` 把 Bharat 标"测"系 L1
+误判(正则误命中 "frontal impact"),已纠正为**不测**。此项做全宽者由 7 套降为 6 套(中/日/欧/澳/美/Latin)。
+
+---
+
+# 📦 交付说明 · L3 深拆最终状态(2026-06 收尾)
+
+128 格:**测 32 / 测·部分 38 / 不测 48 / 异构 8 / 待补 2**。已实拆 **5 类评分模型**并排可比:
 三限值(C-NCAP)/ 滑动 HPL-LPL(Euro·Bharat·Latin·ANCAP)/ Value+Points(ASEAN 碰撞 xlsm)/
-5色等级(JNCAP头部·Euro行人)/ 装备率 fitment(ASEAN 主动安全)。`build_all.py` 一键重建,16 项各带回归断言。
+5色等级(JNCAP 头部·Euro 行人)/ 装备率 fitment(ASEAN 主动安全)。`build_all.py` 一键重建,16 项各带回归断言。
 
-## 🟡 拆到不可拆 —— 剩余 39「测·部分」+ 2「待补」确需另外补充的清单
+> **核心价值(跨体系差集)由 L1/L2 完全成立**;L3 是"看得见的细节加成"。下列两表是经业主逐类拍板的
+> **最终边界**——不是遗漏,是"能拆的都拆了,剩下的按决策不拆 / 等外部补料"。
 
-已把所有"源在手、方法可靠、不臆造"能拆的都拆了。剩余各格按**为何拆不出**归类(都不影响差集,
-L1/L2 已成立):
+## 表一 · 已知边界(按决策不再深拆 · 不影响差集)
 
-**① 主动安全性能评分=速度区间/避撞档,非伤害阈值表(17 格)**——adas_aeb / vru_active /
-lane_support 的中·欧·日·澳·拉,blind_spot 的 ANCAP,adaptive_highbeam 的 C-NCAP(附录S 灯光)。
-这些按"避撞速度/减速量/场景通过"打分,不是 HPL-LPL/三限值结构。**要补需另建「速度场景档」L3 结构,
-且每体系协议表结构不同,得逐协议做。**(ASEAN 同类已是装备率绿,是另一种模型。)
+| 类 | 测试项 / 体系 | 格数 | 评分模型 | 不拆原因(业主拍板) |
+|---|---|---|---|---|
+| ① | adas_aeb · vru_active · lane_support(中/欧/日/澳/拉)+ blind_spot(ANCAP)+ adaptive_highbeam(C-NCAP 附录S) | 17 | 速度区间/避撞档 | **不建新结构**:差集已靠 L1/L2 成立,拆到速度档颗粒度投入产出比失衡(工作量最大、数据最细、最少人看) |
+| ③ | post_crash_safety(天线/eCall)· ev_hazard(高压 pass-fail)· restraint_system(约束组件) | 8 | pass-fail / 组件 | **本质无伤害阈值表**,判定型,不硬塞三限值 |
+| ② | whiplash_rear(Euro 鞭打曲线·JNCAP 评价函数)· side_pole(Euro/Latin/ANCAP,柱碰用 WorldSID 但协议未独列表) | 7 | 图形/曲线 | 阈值在图里、文本取不到;**优先级低,暂不 OCR** |
+| ④ | occupant_monitoring(C-NCAP 附录N 点分配 · JNCAP SBR · Euro/ANCAP CPD) | 4 | 点分配(异质) | 点制各异,**优先级低,暂不逐体系建点结构** |
+| — | US 全系 | 8 | NHTSA 星级 / IIHS G·A·M·P | 异构等级制,标 `DIFFERENT_SCORING_MODEL`(显示为"异构",非"测·部分") |
 
-**② 图形/曲线评分,文本层取不到(7 格)**——whiplash_rear 的 Euro/Latin/ANCAP(Euro 鞭打 sliding
-scale 在曲线图里)+ JNCAP(評価関数图);side_pole 的 Euro/Latin/ANCAP(柱碰用 WorldSID,与侧碰同套
-准则,但 Oblique pole 协议未独列限值表)。**要补需 OCR/图形数字化;或柱碰按"采纳 Euro 侧碰 WorldSID
-限值"by-reference 补(需业主确认这种引用算不算"拆出")。**
+(① 的 ASEAN 同类项已是"装备率绿",是另一种模型,不在此列。)
 
-**③ pass-fail / 组件 / eCall 类,本质无伤害阈值表(8 格)**——post_crash_safety(C-NCAP 附录K eCall
-天线增益/角度、JNCAP/Euro/ANCAP 门解锁·断电)、ev_hazard(C-NCAP 附录L 高压绝缘/热失控 pass-fail、
-Euro)、restraint_system(C-NCAP 附录M 约束组件、Latin)。**模型决定:判定型,无"高/低/极限",不该硬塞。**
+## 表二 · 待外部补料(给材料即可补,已留接口)
 
-**④ 乘员监测点分配,异质(4 格)**——occupant_monitoring 的 C-NCAP(附录N SBR/儿童遗留点分配)、
-JNCAP(SBR)、Euro/ANCAP(CPD 儿童遗留)。点制各异,**可补但需逐体系单独建点分配结构。**
+| 测试项 / 体系 | 状态 | 需要的外部材料 |
+|---|---|---|
+| vru_passive · Bharat | 测·部分 | **AIS-100 全文**(Bharat 行人保护遵循该独立标准,本批源未含) |
+| adaptive_highbeam · Euro | 待补 | Euro NCAP **灯光/AHB 协议**(现实评估 AHB,本批源未含) |
+| adaptive_highbeam · ANCAP | 待补 | ANCAP **AHB 协议**(同上) |
 
-**⑤ 源缺,需外部标准(1 格 + 2 待补)**:
-- Bharat vru_passive:行人保护遵循 **AIS-100**(独立标准),本批源未含 → **需补 AIS-100 全文**。
-- adaptive_highbeam 的 Euro/ANCAP(2「待补」):现实评 AHB,本批源未含其灯光/AHB 协议 → **需补协议**。
+> 收到上述材料后,沿用既有提取器(`bharat_L3` 章节法 / Euro 文本-表格法)即可补拆,接口已就位。
 
-**⑥ L1 疑似误判,需业主核(1 格)**:Bharat **frontal_rigid_full** 现标"测",但 Bharat NCAP 正面
-应为 **ODB 偏置(64km/h)**、无全宽刚性 → 疑 L1 误判,**建议核 AIS-197 后改"不测"**(此格不是 L3
-问题,是 L1 基准问题)。
+---
 
-> 小结:剩余 39+2 中,**①④ 是"模型不同(速度档/点制),可补但需另建结构";② 是"在图里/需引用确认";
-> ③ 本质无阈值表;⑤ 源缺;⑥ 是 L1 待核**。没有"方法已验证却没拆"的遗留——可靠能拆的都拆完了。
+> **原则复述**:能查证按原文拆;模型异质/图形/源缺则如实标边界,**严禁臆造塞进统一结构**。
+> 全程每项 L3 带回归断言锚点(如 HIC15=[500,700]、NIC=[8,30]、TFS=8),`build_all.py` 16/16 PASS。
