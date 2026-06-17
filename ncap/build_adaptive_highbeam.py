@@ -12,9 +12,17 @@ def build():
     for s in ["C-NCAP", "JNCAP", "ASEAN", "Latin NCAP", "ANCAP", "Euro NCAP", "US NCAP", "Bharat NCAP"]:
         t = HAS.get(s, False)
         pend = s in PENDING
-        systems[s] = {"version": "", "source_files": src.get(s, []),
+        if s == "ASEAN" and t:
+            # 源核实(MS AHB-ADB v2.0):夜间路面照度·切换·车速 等真实测试条件
+            l2 = {"速度": "50±10 / 80±20 km/h(两档)",
+                  "夜间路面照度": "有路灯 ≥15 lux / 无路灯 <5 lux",
+                  "评估点": "A、B 两点相距 3.3 m(最小 5 lux)",
+                  "_note": "ADB 自动切换 Low↔High,探测对向/前车减眩光;评分按装备率(MS-AHB),测试条件见此协议"}
+        else:
+            l2 = {"_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"} if t else {}
+        systems[s] = {"version": "v2.0" if s == "ASEAN" else "", "source_files": (["东盟/ASEAN NCAP MS AHB-ADB v2.0(2024)"] if s == "ASEAN" else src.get(s, [])),
             "L1_subtests": {"自适应远光AHB": t},
-            "L2_params": ({"_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"} if t else {}),
+            "L2_params": l2,
             "L3_thresholds": (asean_fitment("MS-AHB") if s == "ASEAN" and t
                               else {"_status": "SOURCE_PENDING", "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"} if pend
                               else {"_status": "TO_EXTRACT" if t else "NOT_TESTED"})}

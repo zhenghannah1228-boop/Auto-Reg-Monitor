@@ -164,6 +164,10 @@ COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 
 | adaptive_highbeam · Euro | 待补 | Euro NCAP **灯光/AHB 协议**(现实评估 AHB,本批源未含) |
 | adaptive_highbeam · ANCAP | 待补 | ANCAP **AHB 协议**(同上) |
 
+> ℹ️ **ASEAN AHB 协议已收**(MS AHB-ADB v2.0):ASEAN AHB 本就是"装备率绿",此协议补充其真实
+> **测试条件 L2**(速度 50±10/80±20 km/h、夜间照度 ≥15/<5 lux、A-B 点距 3.3m、Low↔High 自动切换)。
+> ⚠ 注:待补的是 **Euro / ANCAP** 的 AHB 协议(非 ASEAN);ASEAN 这份不填那两格。
+>
 > ✅ **已补料**:Bharat vru_passive —— 业主提供 **AIS-100 (Rev.1)** 后已实拆(`bharat_ais100_pedestrian`):
 > 头型 HIC1000/1700 区、下腿型 MCL≤22mm·ACL/PCL≤13mm·胫骨弯矩≤340Nm、上腿型 合力≤7.5kN·弯矩≤510Nm
 > (UN GTR9 系 pass-fail 合规限值);该格已转绿"测"。
