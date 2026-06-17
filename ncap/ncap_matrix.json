@@ -884,5 +884,667 @@
       "Euro/Latin/ANCAP 柱碰同源 Euro Oblique Side Pole v7.2;US 为 NHTSA 自有 75°斜柱",
       "US NHTSA 柱碰原文(原文/侧碰)本批未提供,L2/L3 标 SOURCE_PENDING"
     ]
+  },
+  {
+    "id": "whiplash_rear",
+    "cn_name": "鞭打(后碰颈部)",
+    "en_name": "Rear Whiplash (Neck Protection)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录J 低速后碰撞颈部保护.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "速度": "低速后碰(脉冲)",
+          "假人": [
+            "BioRID II"
+          ],
+          "_note": "§5.1 J=低速;以颈部伤害指数 NIC 评价,无固定闭合速度"
+        },
+        "L3_thresholds": {
+          "_note": "NIC 等颈部指标分组评分(第一组NIC最高2分…)",
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [
+          "日本/R7-05_en.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID"
+          ],
+          "_note": "R7-05 後面衝突頚部保護"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "—",
+        "source_files": [],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "拉美/rear-whiplash-test-protocol-v11.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID II"
+          ],
+          "壁障": "后碰台车脉冲"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "澳洲/ANCAP PROTOCOL - Crash Protection - Rear Impact v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID II"
+          ],
+          "_note": "采纳Euro Whiplash"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "Whiplash v3.3.1",
+        "source_files": [
+          "拉美/Euro NCAP - Whiplash Dynamic Assessment v3.3.1.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID II"
+          ],
+          "壁障": "动态台车(低/中/高脉冲)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_scoring": "sliding HPL-LPL"
+        }
+      },
+      "US NCAP": {
+        "version": "IIHS v4",
+        "source_files": [
+          "美国/IIHS/.../车辆座椅头枕评估规程-动态标准(第4版).pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID"
+          ],
+          "_note": "座椅/头枕动态后碰"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "IIHS G/A/M/P 等级"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "AIS-197 无后碰/鞭打专项(仅各碰撞内含颈部准则)"
+        }
+      }
+    },
+    "diff_summary": "做鞭打 6 套(均用 BioRID II);ASEAN、Bharat 不做(Bharat AIS-197 仅在各碰撞内含颈部准则、无后碰专项);US 为 IIHS 头枕动态等级制",
+    "key_differences": [
+      "做后碰鞭打 6 套:C-NCAP(附录J 低速 NIC)、JNCAP(R7-05)、Latin(v1.1)、ANCAP(Rear Impact)、Euro(Whiplash v3.3.1)、US(IIHS 头枕动态)",
+      "ASEAN 不做鞭打/后碰;Bharat AIS-197 无后碰专项(0 处 whiplash/rear impact,仅正/侧碰内含颈部准则)——非漏项",
+      "假人统一 BioRID II;C-NCAP 用颈部伤害指数 NIC 分组评分,Euro/ANCAP/Latin 用动态台车(低/中/高脉冲)滑动评分",
+      "US 为 IIHS 座椅/头枕动态后碰、G/A/M/P 等级(异构),非限值制"
+    ]
+  },
+  {
+    "id": "post_crash_safety",
+    "cn_name": "事故后安全",
+    "en_name": "Post-Crash Safety",
+    "pillar": "事故后安全",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录K 事故后安全.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "速度": "15 km/h(§5.1 K)",
+          "_note": "事故后:门可开启/燃油泄漏/高压断电/eCall"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7",
+        "source_files": [
+          "日本/R7-04_en.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "_note": "R7-04 碰撞后EV感电保护"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "澳洲/ANCAP PROTOCOL - Post-Crash - Rescue & Extrication v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "_note": "救援与脱困(Rescue & Extrication)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "欧盟/Euro NCAP/post crash safety/euro_ncap_protocol_post_crash_v11.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "_note": "事故后安全(门解锁/断电/eCall/救援信息)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "4 套做事故后安全:C-NCAP(附录K 15km/h)、JNCAP(R7-04 碰后感电)、ANCAP(救援脱困)、Euro(post-crash);ASEAN/Latin/US/Bharat 不单列",
+    "key_differences": [
+      "做事故后安全 4 套:C-NCAP 附录K(门开启/燃油泄漏/高压断电/eCall)、JNCAP R7-04(碰撞后EV感电)、ANCAP(Rescue & Extrication 救援脱困)、Euro(post-crash)",
+      "JNCAP 本项仅评碰撞后EV感电保护,范围窄于 C-NCAP/Euro 的综合事故后安全",
+      "ANCAP 侧重救援与脱困(消防/急救可达性);ASEAN/Latin/US/Bharat 不单设事故后安全项"
+    ]
+  },
+  {
+    "id": "ev_hazard",
+    "cn_name": "新能源危险工况",
+    "en_name": "EV Hazard (HV Electric Safety)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录L 新能源汽车危险工况.pdf"
+        ],
+        "L1_subtests": {
+          "新能源危险工况": true
+        },
+        "L2_params": {
+          "速度": "32 km/h(§5.1 L)",
+          "_note": "新能源危险工况:碰撞后高压电安全/热事件等"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "高压绝缘/电解液泄漏/热失控等判定"
+        }
+      },
+      "Euro NCAP": {
+        "version": "HV v1.1 2022",
+        "source_files": [
+          "拉美/Euro NCAP - Testing of High Voltage Electric Vehicles V1.1.pdf"
+        ],
+        "L1_subtests": {
+          "新能源危险工况": true
+        },
+        "L2_params": {
+          "_note": "高压电动车碰撞后电安全(绝缘电阻/隔离/泄漏)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "仅 C-NCAP(附录L 32km/h)与 Euro(HV Electric)做新能源危险/高压电安全;其余 6 套不单列(部分在事故后安全内含电安全)",
+    "key_differences": [
+      "仅 C-NCAP 附录L『新能源危险工况』(§5.1 32km/h)与 Euro『High Voltage EV Testing』专项做 EV 危险/高压电安全",
+      "JNCAP R7-04(碰撞后感电保护)归入『事故后安全』而非本项;US/ASEAN/Latin/ANCAP/Bharat 不单列 EV 危险工况",
+      "评价聚焦碰撞后高压绝缘/电气隔离/电解液泄漏/热事件,与传统碰撞伤害指标不同维度"
+    ]
+  },
+  {
+    "id": "restraint_system",
+    "cn_name": "乘员约束系统",
+    "en_name": "Restraint System",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录M 乘员约束系统性能.pdf"
+        ],
+        "L1_subtests": {
+          "乘员约束系统": true
+        },
+        "L2_params": {
+          "_note": "安全带/限力/预紧/气囊匹配;台车法"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - CSSTR Protocol.pdf"
+        ],
+        "L1_subtests": {
+          "乘员约束系统": true
+        },
+        "L2_params": {
+          "_note": "儿童约束系统(CSSTR)台车"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "仅 C-NCAP(附录M 乘员约束)与 Latin(CSSTR 儿童约束)单列约束系统台车项;其余体系把约束性能并入各碰撞工况评价,不单列",
+    "key_differences": [
+      "仅 C-NCAP 附录M(乘员约束系统:安全带/限力/预紧/气囊匹配)与 Latin CSSTR(儿童约束系统)设独立约束台车项",
+      "其余 6 套(JNCAP/ASEAN/ANCAP/Euro/US/Bharat)不单列约束系统,约束性能体现在正/侧碰假人伤害结果中",
+      "属差集型条目:跨体系冲星时,约束系统单列与否影响测试规划口径"
+    ]
+  },
+  {
+    "id": "vru_passive",
+    "cn_name": "弱势者(头/腿型)",
+    "en_name": "Pedestrian Passive (Head/Leg Impactors)",
+    "pillar": "弱势道路使用者",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录O 弱势交通参与者(头型和腿型冲击).pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "速度": "40 km/h(头/腿型冲击器)",
+          "冲击器": [
+            "头型",
+            "腿型(aPLI)"
+          ],
+          "_note": "§5.1 O=40;源另含 20km/h 等子条件(头型 HIC<1000)"
+        },
+        "L3_thresholds": {
+          "_note": "头型 HIC、腿型弯矩/剪切/韧带,分区网格评分",
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [
+          "日本/R7-06_en.pdf",
+          "日本/R7-07_en.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型(R7-06)",
+            "腿型(R7-07)"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030",
+        "source_files": [
+          "东盟/...xlsm(MS-PED / AOP HPT)"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ],
+          "_note": "MS-PED + 头部保护 HPT"
+        },
+        "L3_thresholds": {
+          "_source": "xlsm MS-PED/HPT",
+          "_status": "TO_EXTRACT_FROM_XLSM"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - PP Protocol v2.0.0.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "澳洲/ANCAP PROTOCOL - Crash Protection - Vulnerable Road User Impact v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ],
+          "_note": "采纳Euro Pedestrian"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "Pedestrian v8.5",
+        "source_files": [
+          "拉美/Euro NCAP - Pedestrian Testing Protocol v8.5.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "速度": "40 km/h(头/腿型)",
+          "冲击器": [
+            "头型",
+            "aPLI 腿型"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_scoring": "网格 sliding HPL-LPL"
+        }
+      },
+      "US NCAP": {
+        "version": "—",
+        "source_files": [],
+        "L1_subtests": {
+          "行人头型冲击": false,
+          "行人腿型冲击": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "US NCAP 不做被动行人头/腿型保护"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [
+          "印度/AIS_197-1.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ],
+          "_extraction_note": "AIS-197 行人章节(采纳GTR9/Euro)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT_FROM_CHAPTER"
+        }
+      }
+    },
+    "diff_summary": "7 套做被动行人头/腿型冲击(40km/h);US NCAP 唯一不做(仅做主动 AEB-VRU);Euro/ANCAP/Latin/Bharat 同源 Euro Pedestrian、ASEAN 走 MS-PED+HPT(xlsm)",
+    "key_differences": [
+      "US NCAP 唯一不做被动行人头/腿型保护(美国侧重主动 AEB,被动行人不评)——典型差集",
+      "其余 7 套均做:C-NCAP 附录O(头+腿型 40km/h)、JNCAP R7-06头/07腿、Euro Pedestrian v8.5、ANCAP/Latin 采纳Euro、ASEAN MS-PED+HPT(xlsm)、Bharat AIS-197 行人章",
+      "评分多为车前端分区网格(头型 HIC + 腿型弯矩/剪切),Euro 系滑动 HPL-LPL;C-NCAP §5.1 冲击速度 40km/h",
+      "ASEAN 行人评分在官方 xlsm(MS-PED / AOP HPT 表),非 PDF"
+    ]
   }
 ]

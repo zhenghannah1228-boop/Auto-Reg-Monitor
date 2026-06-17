@@ -40,3 +40,15 @@
 ## 下一步(待业主确认 JNCAP 基准后)
 按 8 体系补完 side_impact 行(C-NCAP 阈值表 / JNCAP R7-03 / ASEAN xlsm / Euro·Latin AE-MDB v8.3 /
 US 异构 / Bharat 章节)→ 跑 §8 回归 → 出 ncap_matrix.json side_impact 行 → 再推广其余测试项。
+
+## ✅ 碰撞保护类 10 项 L1/L2 全拆完成(2026-06)
+matrix 10 行(各带 diff_summary 差集摘要 + key_differences):frontal_rigid_full /
+frontal_mpdb_offset / frontal_small_overlap / side_impact / side_pole / whiplash_rear /
+post_crash_safety / ev_hazard / restraint_system / vru_passive。
+- **L1(测/不测)全 8 体系实拆 + 回归断言**;每项独立 build_*.py(build_all.py 一键重建)。
+- **L2 参数**(速度/假人/壁障)已填,无空白"测"格;C-NCAP 速度均按 §5.1 核对值
+  (A/B=50、G=60、H/L=32、K=15、O=40;JNCAP 全宽经源核正 55→50)。
+- **L3 深拆**目前仅 side_impact 的 C-NCAP(三限值)/ASEAN(xlsm Value+Points)/
+  Euro(滑动 HPL-LPL)= 绿"测";其余 42 格为"测·部分"(L1/L2 定、L3 待深拆),
+  US 6 格异构(星级/IIHS 等级)。L3 深拆为下一阶段(按各项 §5.2 表/ xlsm / Euro 协议推进)。
+- 前端着色:绿=L3已拆全 / 金=测·部分(L3待拆) / 蓝=异构 / 斜纹=不测。

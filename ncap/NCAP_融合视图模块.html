@@ -63,12 +63,12 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
 <h1>NCAP 跨体系测试项映射矩阵</h1>
 <div class="sub">8 套 NCAP 体系 × 测试项三层映射 · 供认证工程师/分析师做跨体系差集与参数横向对照 · 点单元格看 L2/L3,点测试项名看差集要点</div>
 <div class="legend">
- <span><i style="background:var(--goodbg);border:1px solid #b6d6a8"></i>测(做此项)</span>
+ <span><i style="background:var(--goodbg);border:1px solid #b6d6a8"></i>测(做此项 · L3 阈值已实拆)</span>
+ <span><i style="background:var(--goldbg);border:1px solid #e6d39a"></i>测·部分(做此项 · L3 阈值待拆/源待补)</span>
+ <span><i style="background:var(--bluebg);border:1px solid #b9cfdc"></i>异构评分(US 星级/IIHS 等级)</span>
  <span><i style="background:#f0ede2;border:1px solid var(--line)"></i>不测</span>
- <span><i style="background:var(--bluebg);border:1px solid #b9cfdc"></i>异构评分(US)</span>
- <span><i style="background:var(--goldbg);border:1px solid #e6d39a"></i>测·部分 = 做此项,但 L3 评分数据未拆全/源待补(点格看 status)</span>
 </div>
-<div class="sub" style="margin-top:-6px">注:着色按是否做该测试项(L1);“测·部分”指 L1=测但 L3 阈值尚未拆全(如 Bharat 单份 AIS-197 按章节待拆、US NHTSA 部分原文未提供),非“只测部分子项”。</div>
+<div class="sub" style="margin-top:-6px">说明:L1=是否做该测试项(测/不测,已全拆)。“测·部分”= L1 与 L2 参数已定、但 L3 评分阈值尚未深拆(多数测试项当前状态;side_impact 的 C-NCAP/ASEAN/Euro 已拆全=绿)。非“只测部分子项”。Bharat 单份 AIS-197 按章节待拆属此类、非漏项。</div>
 <div id="root"><div class="msg">正在载入 ncap_matrix.json…</div></div>
 <div class="foot" id="foot"></div>
 </div>
@@ -77,12 +77,12 @@ const SYS=["C-NCAP","JNCAP","ASEAN","Latin NCAP","ANCAP","Euro NCAP","US NCAP","
 const E=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 function cellClass(sysObj){
   const l1=sysObj&&sysObj.L1_subtests||{};
-  const tested=Object.values(l1).some(Boolean);
-  if(!tested)return["t-no","不测"];
-  const st=(sysObj.L3_thresholds&&sysObj.L3_thresholds._status)||"";
-  if(st.includes("DIFFERENT"))return["t-diff","异构"];
-  if(st.includes("PARTIAL")||st.includes("PENDING")||st.includes("MISSING"))return["t-part","测·部分"];
-  return["t-yes","测"];
+  if(!Object.values(l1).some(Boolean))return["t-no","不测"];
+  const l3=sysObj.L3_thresholds||{};
+  if((l3._status||"").includes("DIFFERENT"))return["t-diff","异构"];
+  // 绿『测』= L3 阈值已实拆;金『测·部分』= L1/L2 已定但 L3 待拆/源待补
+  const hasL3=l3._extracted_front||l3._extracted_second_row||l3._extracted_blocks||l3._HPL_LPL;
+  return hasL3?["t-yes","测"]:["t-part","测·部分"];
 }
 function cellHint(sysObj){
   const p=sysObj&&sysObj.L2_params||{};

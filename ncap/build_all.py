@@ -2,7 +2,8 @@
 import subprocess, sys, os
 os.environ["PYTHONPATH"] = "/tmp/pylibs:" + os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = ["build_frontal_rigid_full.py", "build_frontal_mpdb_offset.py", "build_frontal_small_overlap.py",
-           "build_side_impact.py", "build_side_pole.py"]
+           "build_side_impact.py", "build_side_pole.py", "build_whiplash_rear.py", "build_vru_passive.py",
+           "build_ev_hazard.py", "build_post_crash_safety.py", "build_restraint_system.py"]
 fail = 0
 for s in SCRIPTS:
     print(f"\n===== {s} =====")
