@@ -1,5 +1,388 @@
 [
   {
+    "id": "frontal_rigid_full",
+    "cn_name": "正面100%刚性壁障",
+    "en_name": "Full Width Rigid Barrier Frontal",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录A 正面100%重叠刚性壁障.pdf"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "50 km/h",
+          "假人": [
+            "Hybrid III 50th",
+            "Hybrid III 5th",
+            "Q系列(后排儿童)"
+          ],
+          "壁障": "100%重叠固定刚性壁障",
+          "_extraction_note": "§5.1 核对值=50;源文本脚注上标污染(原始提取='551'不可用)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "附录A 阈值表(头/颈/胸/腿),结构同附录G,可后续 extract_tables 拆"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [
+          "日本/R7-01_en.pdf"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "_note": "フルラップ前面衝突,55km/h"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030",
+        "source_files": [],
+        "L1_subtests": {
+          "正面全宽刚性": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": [
+          "拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "_note": "全宽台车(Sled)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "v1.1 2026",
+        "source_files": [
+          "欧盟/Euro NCAP/crash protection/.../frontal_impact_v11"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "壁障": "全宽刚性 FW"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "NHTSA",
+        "source_files": [],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "56 km/h(35mph)",
+          "壁障": "全宽刚性",
+          "假人": [
+            "Hybrid III 50th",
+            "5th"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [
+          "印度/AIS_197-1.pdf"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT_FROM_CHAPTER"
+        }
+      }
+    },
+    "key_differences": [
+      "C-NCAP 全宽刚性 50km/h(§5.1 核对值;源文本脚注上标污染需防误取)",
+      "ASEAN 不做全宽刚性正碰(仅做 ODB 偏置)——8 套中唯一缺此项",
+      "Latin NCAP 以『全宽台车(Full Width Sled)』方式评估,非实车全宽碰撞",
+      "US NHTSA 全宽刚性 56km/h(35mph)、星级制;IIHS 不做全宽(只做偏置)",
+      "JNCAP R7-01 フルラップ前面衝突 55km/h;各体系速度 50/55/56 不一"
+    ]
+  },
+  {
+    "id": "frontal_mpdb_offset",
+    "cn_name": "正面偏置MPDB/ODB",
+    "en_name": "Offset Deformable Frontal (MPDB/ODB)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h",
+          "壁障": "MPDB 50%重叠移动渐进变形壁障",
+          "_extraction_note": "§5.1 核对值=50;源脚注上标污染(原始='None')"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "附录B 阈值表,结构同附录G"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h(MPDB)",
+          "壁障": "MPDB(新オフセット)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "—",
+          "壁障": "ODB 偏置可变形壁障"
+        },
+        "L3_thresholds": {
+          "_source": "xlsm 'AOP Frontal ODB'",
+          "_status": "PARTIAL_FROM_XLSM(区域标签与侧碰不同,待细化)",
+          "_blocks": {
+            "HEAD": [
+              "HIC15 500 120.56 Vertical (z) 1727.666 1743.593 15.927000000",
+              "HIC15",
+              "HIC15"
+            ],
+            "CHEST": [
+              "Viscous criterion - m/s 0.05 4 0.5 4 Fore/aft (x) Rearward +"
+            ],
+            "KNEE": [
+              "Left Femur Compression level exceeded - kN 0.23 4 0.05 4",
+              "Left Knee, Femur and Pelvis assessment 4 4",
+              "Right Femur Compression level exceeded - kN 0.02 4 0.12 4",
+              "Right Knee, Femur and Pelvis assessment 4 4",
+              "Knee, Femur and Pelvis assessment 4 4",
+              "Left Upper Tibia Index 0.4 4 0.6 3.111",
+              "Left Lower Tibia Index 0.22 4 0.4 4"
+            ]
+          }
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h",
+          "壁障": "ODB(AOP 偏置)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h(MPDB)",
+          "壁障": "MPDB"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h(MPDB)",
+          "壁障": "MPDB"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h(40mph,40%重叠)",
+          "壁障": "IIHS 40%中等偏置固定可变形壁障"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h",
+          "壁障": "ODB 偏置可变形壁障"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      }
+    },
+    "key_differences": [
+      "8 套全做正面偏置,但壁障分三类:MPDB 移动渐进(C-NCAP/JNCAP/Euro/ANCAP)、ODB 偏置可变形(ASEAN/Latin/Bharat)、IIHS 40%中等偏置固定壁障(US)",
+      "C-NCAP 50%重叠 50km/h(§5.1 B,防脚注污染);US IIHS 40%重叠 64km/h",
+      "ASEAN L3 从官方 xlsm 'AOP Frontal ODB' 拆(结构化评分),非 PDF 臆造",
+      "US 另有 25% 小偏置(IIHS),单列 frontal_small_overlap;此处仅 40% 中等偏置",
+      "MPDB 评分含对向壁障变形相容性(兼容性罚分),与 ODB/IIHS 评分维度不同"
+    ]
+  },
+  {
+    "id": "frontal_small_overlap",
+    "cn_name": "正面小偏置",
+    "en_name": "Small Overlap Frontal (25%)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "IIHS",
+        "source_files": [
+          "美国/IIHS-NCAP评估测试规程/002  25_小偏置正碰/*"
+        ],
+        "L1_subtests": {
+          "正面小偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h(40 mph)",
+          "重叠率": "25%",
+          "假人": [
+            "Hybrid III 50th"
+          ],
+          "壁障": "刚性壁障小偏置(驾驶侧 + 乘客侧)",
+          "_note": "IIHS small overlap,5英寸刚性壁障25%重叠"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "IIHS G/A/M/P 等级(结构+伤害+假人运动)"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "key_differences": [
+      "典型差集项:8 套中唯一做 25% 正面小偏置的只有 US(IIHS)——其余 7 套协议 small overlap 命中=0",
+      "小偏置考验纵梁外侧/轮罩/A 柱的载荷路径,常规 MPDB/ODB 偏置(50%/40%)不覆盖此工况",
+      "IIHS 含驾驶侧 + 乘客侧两次 25% 小偏置;64km/h(40mph)、G/A/M/P 等级",
+      "车型冲 IIHS Top Safety Pick+ 必须额外准备小偏置;冲 C-NCAP/Euro/ASEAN 五星则无需此项"
+    ]
+  },
+  {
     "id": "side_impact",
     "cn_name": "侧面碰撞",
     "en_name": "Side Impact",
