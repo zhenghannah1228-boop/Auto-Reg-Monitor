@@ -2259,9 +2259,10 @@
         }
       },
       "Bharat NCAP": {
-        "version": "AIS-197",
+        "version": "AIS-197 + AIS-100",
         "source_files": [
-          "印度/AIS_197-1.pdf"
+          "印度/AIS_197-1.pdf",
+          "印度/AIS_100.pdf(行人合规限值)"
         ],
         "L1_subtests": {
           "行人头型冲击": true,
@@ -2270,13 +2271,44 @@
         "L2_params": {
           "冲击器": [
             "头型",
-            "腿型"
+            "下腿型(FlexPLI)",
+            "上腿型"
           ],
-          "_extraction_note": "AIS-197 行人保护引用 AIS-100(独立标准)"
+          "_note": "行人保护遵循 AIS-100(UN GTR9 系)"
         },
         "L3_thresholds": {
-          "_status": "SOURCE_PENDING",
-          "_note": "Bharat 行人保护遵循 AIS-100(独立标准,本批源未含 AIS-100 全文)——限值需补 AIS-100"
+          "_extracted_tables": {
+            "头型 Headform": {
+              "HIC1000区(≤)": [
+                1000
+              ],
+              "HIC1700区其余(≤)": [
+                1700
+              ]
+            },
+            "下腿型 LowerLeg": {
+              "MCL韧带(mm≤)": [
+                22
+              ],
+              "ACL·PCL韧带(mm≤)": [
+                13
+              ],
+              "胫骨弯矩(Nm≤)": [
+                340
+              ]
+            },
+            "上腿型 UpperLeg": {
+              "合力(kN≤)": [
+                7.5
+              ],
+              "弯矩(Nm≤)": [
+                510
+              ]
+            }
+          },
+          "_scoring": "pass-fail 合规限值(AIS-100 / UN GTR9,单上限≤)",
+          "_source": "印度/AIS_100.pdf §5 性能要求(Rev.1)",
+          "_note": "Bharat 行人保护按 AIS-100 法规合规限值(单上限 pass-fail,非 NCAP 滑动/色带评分);头型分 HIC1000 区(≥半区)与 HIC1700 区(其余)"
         }
       }
     },

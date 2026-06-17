@@ -307,6 +307,35 @@ def euro_pedestrian_head_bands():
             "_note": "Euro/Latin/ANCAP 行人头型 HIC15 五色网格;腿型(UN R127 胫骨弯矩/韧带)评分限值在图/网格,不抽"}
 
 
+def bharat_ais100_pedestrian():
+    """Bharat 行人保护遵循 AIS-100(UN GTR9 系)合规限值 pass-fail(非 NCAP 滑动/色带)。
+    §5 性能要求:头型 HIC1000/1700 区、下腿型 MCL≤22/ACL·PCL≤13/胫骨弯矩≤340、
+    上腿型 合力≤7.5kN/弯矩≤510Nm。单上限值(≤),实拆 + 锚点回归。"""
+    f = _src_glob("印度/AIS_100.pdf")
+    if not f:
+        return {}
+    t = pdf_text(f).replace("\n", " ")
+    def g(pat):
+        m = re.search(pat, t, re.I)
+        return (float(m.group(1)) if "." in m.group(1) else int(m.group(1))) if m else None
+    mcl = g(r"medial collateral\s*ligament elongation at the knee shall not exceed\s*(\d+)\s*mm")
+    acl = g(r"posterior cruciate\s*ligament elongation shall not exceed\s*(\d+)\s*mm")
+    tib = g(r"bending moments at the tibia shall not exceed\s*(\d+)\s*Nm")
+    upf = g(r"sum\s*of\s*the impact forces.*?not exceed\s*([\d.]+)\s*kN")
+    upm = g(r"bending moment on the test impactor shall not exceed\s*(\d+)\s*Nm")
+    has1000 = bool(re.search(r"HIC recorded shall not exceed\s*1,?000", t))
+    has1700 = bool(re.search(r"not exceed\s*1,?700", t))
+    tables = {
+        "头型 Headform": {"HIC1000区(≤)": [1000] if has1000 else [], "HIC1700区其余(≤)": [1700] if has1700 else []},
+        "下腿型 LowerLeg": {"MCL韧带(mm≤)": [mcl], "ACL·PCL韧带(mm≤)": [acl], "胫骨弯矩(Nm≤)": [tib]},
+        "上腿型 UpperLeg": {"合力(kN≤)": [upf], "弯矩(Nm≤)": [upm]},
+    }
+    return {"_extracted_tables": tables, "_scoring": "pass-fail 合规限值(AIS-100 / UN GTR9,单上限≤)",
+            "_source": "印度/AIS_100.pdf §5 性能要求(Rev.1)",
+            "_note": "Bharat 行人保护按 AIS-100 法规合规限值(单上限 pass-fail,非 NCAP 滑动/色带评分);"
+                     "头型分 HIC1000 区(≥半区)与 HIC1700 区(其余)"}
+
+
 def merge_row(row):
     """把一个测试项行并入 ncap_matrix.json(按 id 去重替换),数组形式。"""
     import json

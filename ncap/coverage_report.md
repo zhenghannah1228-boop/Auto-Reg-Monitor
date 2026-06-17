@@ -137,9 +137,10 @@ COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 
 
 # 📦 交付说明 · L3 深拆最终状态(2026-06 收尾)
 
-128 格:**测 32 / 测·部分 38 / 不测 48 / 异构 8 / 待补 2**。已实拆 **5 类评分模型**并排可比:
+128 格:**测 33 / 测·部分 37 / 不测 48 / 异构 8 / 待补 2**。已实拆 **6 类评分模型**并排可比:
 三限值(C-NCAP)/ 滑动 HPL-LPL(Euro·Bharat·Latin·ANCAP)/ Value+Points(ASEAN 碰撞 xlsm)/
-5色等级(JNCAP 头部·Euro 行人)/ 装备率 fitment(ASEAN 主动安全)。`build_all.py` 一键重建,16 项各带回归断言。
+5色等级(JNCAP 头部·Euro 行人)/ 装备率 fitment(ASEAN 主动安全)/ pass-fail 合规限值(Bharat 行人 AIS-100)。
+`build_all.py` 一键重建,16 项各带回归断言。
 
 > **核心价值(跨体系差集)由 L1/L2 完全成立**;L3 是"看得见的细节加成"。下列两表是经业主逐类拍板的
 > **最终边界**——不是遗漏,是"能拆的都拆了,剩下的按决策不拆 / 等外部补料"。
@@ -160,11 +161,13 @@ COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 
 
 | 测试项 / 体系 | 状态 | 需要的外部材料 |
 |---|---|---|
-| vru_passive · Bharat | 测·部分 | **AIS-100 全文**(Bharat 行人保护遵循该独立标准,本批源未含) |
 | adaptive_highbeam · Euro | 待补 | Euro NCAP **灯光/AHB 协议**(现实评估 AHB,本批源未含) |
 | adaptive_highbeam · ANCAP | 待补 | ANCAP **AHB 协议**(同上) |
 
-> 收到上述材料后,沿用既有提取器(`bharat_L3` 章节法 / Euro 文本-表格法)即可补拆,接口已就位。
+> ✅ **已补料**:Bharat vru_passive —— 业主提供 **AIS-100 (Rev.1)** 后已实拆(`bharat_ais100_pedestrian`):
+> 头型 HIC1000/1700 区、下腿型 MCL≤22mm·ACL/PCL≤13mm·胫骨弯矩≤340Nm、上腿型 合力≤7.5kN·弯矩≤510Nm
+> (UN GTR9 系 pass-fail 合规限值);该格已转绿"测"。
+> 剩余两格(Euro/ANCAP AHB)收到协议后沿用既有提取器即可补,接口已就位。
 
 ---
 

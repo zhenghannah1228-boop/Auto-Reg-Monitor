@@ -1,7 +1,7 @@
 """vru_passive 弱势道路使用者(头型/腿型被动冲击)— 8 体系 + 回归。
 C-NCAP 附录O 头/腿型冲击(§5.1 O=40 冲击器速度;源另有 20km/h 子条件)。"""
 import os, glob
-from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_paired, euro_pedestrian_head_bands, asean_fitment
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_paired, euro_pedestrian_head_bands, asean_fitment, bharat_ais100_pedestrian
 
 def fp(*p):
     for x in p:
@@ -51,7 +51,7 @@ def build():
         "ANCAP": {"version": "v1.1", "source_files": ["澳洲/ANCAP PROTOCOL - Crash Protection - Vulnerable Road User Impact v1.1.pdf", "采纳 Euro Pedestrian"], "L2_params": {"冲击器": ["头型", "腿型"], "_note": "采纳Euro Pedestrian"}, "L3_thresholds": euro_ped_l3("采纳 Euro 行人头型 HIC15 五色等级", "ANCAP 采纳;")},
         "Euro NCAP": {"version": "Pedestrian v8.5", "source_files": ["拉美/Euro NCAP - Pedestrian Testing Protocol v8.5.pdf §4"], "L2_params": {"速度": "40 km/h(头/腿型)", "冲击器": ["头型", "aPLI 腿型"]}, "L3_thresholds": euro_ped},
         "US NCAP": {"version": "—", "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED", "_note": "US NCAP 不做被动行人头/腿型保护"}},
-        "Bharat NCAP": {"version": "AIS-197", "source_files": ["印度/AIS_197-1.pdf"], "L2_params": {"冲击器": ["头型", "腿型"], "_extraction_note": "AIS-197 行人保护引用 AIS-100(独立标准)"}, "L3_thresholds": {"_status": "SOURCE_PENDING", "_note": "Bharat 行人保护遵循 AIS-100(独立标准,本批源未含 AIS-100 全文)——限值需补 AIS-100"}},
+        "Bharat NCAP": {"version": "AIS-197 + AIS-100", "source_files": ["印度/AIS_197-1.pdf", "印度/AIS_100.pdf(行人合规限值)"], "L2_params": {"冲击器": ["头型", "下腿型(FlexPLI)", "上腿型"], "_note": "行人保护遵循 AIS-100(UN GTR9 系)"}, "L3_thresholds": bharat_ais100_pedestrian()},
     }
     systems = {}
     for s, t in L1.items():
@@ -77,6 +77,9 @@ def build():
     eb = euro_ped.get("_bands", [])
     res.append((len(eb) == 5 and eb[0]["range"] == "<650" and eb[-1]["range"] == "≥1700", "Euro.L3.行人头型五色(<650…≥1700)", [len(eb), eb[0]["range"] if eb else None], "5档"))
     res.append((asean_ped.get("_TFS") == 8.0, "ASEAN.L3.行人头部装备率TFS=8", asean_ped.get("_TFS"), 8.0))
+    bh_ped = bharat_ais100_pedestrian().get("_extracted_tables", {})
+    res.append((bh_ped.get("下腿型 LowerLeg", {}).get("胫骨弯矩(Nm≤)") == [340] and bh_ped.get("头型 Headform", {}).get("HIC1000区(≤)") == [1000],
+                "Bharat.L3.AIS-100(胫骨340/HIC1000)", [bh_ped.get("下腿型 LowerLeg", {}).get("胫骨弯矩(Nm≤)"), bh_ped.get("头型 Headform", {}).get("HIC1000区(≤)")], "[340]/[1000]"))
     print(f"vru_passive 做此项: {[s for s,v in L1.items() if v]}")
     ok = report(res); print(f"matrix {n} 项")
     return 0 if ok else 1
