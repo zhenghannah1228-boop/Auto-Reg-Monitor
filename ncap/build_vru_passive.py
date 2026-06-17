@@ -1,7 +1,7 @@
 """vru_passive 弱势道路使用者(头型/腿型被动冲击)— 8 体系 + 回归。
 C-NCAP 附录O 头/腿型冲击(§5.1 O=40 冲击器速度;源另有 20km/h 子条件)。"""
 import os, glob
-from extract_common import pdf_text, has, SRC, merge_row, report
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_paired
 
 def fp(*p):
     for x in p:
@@ -31,11 +31,15 @@ CN_O = 40  # §5.1 O 冲击器速度
 
 def build():
     L1 = does()
+    # C-NCAP 附录O L3:腿型大腿弯矩高/低性能限值配对实拆(头型为 HIC 颜色网格,异质评分不入三限值)
+    cn_leg = cncap_L3_paired("中国/*C-NCAP*/**/附录O*弱势*.pdf")
     meta = {
         "C-NCAP": {"version": "2027版", "source_files": ["中国/.../附录O 弱势交通参与者(头型和腿型冲击).pdf"],
                    "L2_params": {"速度": f"{CN_O} km/h(头/腿型冲击器)", "冲击器": ["头型", "腿型(aPLI)"],
                                  "_note": "§5.1 O=40;源另含 20km/h 等子条件(头型 HIC<1000)"},
-                   "L3_thresholds": {"_note": "头型 HIC、腿型弯矩/剪切/韧带,分区网格评分", "_status": "TO_EXTRACT"}},
+                   "L3_thresholds": {"_extracted_tables": {"腿型(aPLI)": cn_leg},
+                                     "_source": "附录O 腿型大腿弯矩 高/低性能限值",
+                                     "_note": "腿型大腿弯矩三限值实拆;头型为 HIC 颜色网格(表O.1 逐网格点颜色)异质评分,按严禁臆造不强转三限值"}},
         "JNCAP": {"version": "令和7(2025)", "source_files": ["日本/R7-06_en.pdf", "日本/R7-07_en.pdf"], "L2_params": {"冲击器": ["头型(R7-06)", "腿型(R7-07)"]}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
         "ASEAN": {"version": "Protocol 2026-2030", "source_files": ["东盟/...xlsm(MS-PED / AOP HPT)"], "L2_params": {"冲击器": ["头型", "腿型"], "_note": "MS-PED + 头部保护 HPT"}, "L3_thresholds": {"_source": "xlsm MS-PED/HPT", "_status": "TO_EXTRACT_FROM_XLSM"}},
         "Latin NCAP": {"version": "2025", "source_files": ["拉美/Latin NCAP 2025 - PP Protocol v2.0.0.pdf"], "L2_params": {"冲击器": ["头型", "腿型"]}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
@@ -64,6 +68,7 @@ def build():
     for s in ["C-NCAP", "JNCAP", "ASEAN", "Latin NCAP", "ANCAP", "Euro NCAP", "Bharat NCAP"]:
         res.append((L1[s] is True, f"{s}.被动行人=测", L1[s], True))
     res.append((CN_O == 40, "C-NCAP.冲击速度=40(§5.1 O)", CN_O, 40))
+    res.append((cn_leg.get("大腿弯矩") == [390, 440], "C-NCAP.L3.腿型大腿弯矩=[390,440]", cn_leg.get("大腿弯矩"), [390, 440]))
     print(f"vru_passive 做此项: {[s for s,v in L1.items() if v]}")
     ok = report(res); print(f"matrix {n} 项")
     return 0 if ok else 1

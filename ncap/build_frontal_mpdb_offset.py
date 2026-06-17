@@ -2,7 +2,7 @@
 C-NCAP 速度 §5.1 B=50(防脚注污染);ASEAN L3 从 xlsm 'AOP Frontal ODB' 拆。
 壁障类型各异:MPDB(移动渐进)/ODB(偏置可变形)/IIHS 40%中等偏置。"""
 import os, re, glob
-from extract_common import pdf_text, has, SRC, merge_row, report
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_text
 
 CNCAP_REF = {"A": 50, "B": 50, "C": 56, "D": 56}  # §5.1
 
@@ -57,7 +57,13 @@ def build():
     L3 = {s: ({"_source": "xlsm 'AOP Frontal ODB'", "_status": "PARTIAL_FROM_XLSM(区域标签与侧碰不同,待细化)", "_blocks": asean_l3.get("_blocks", {})} if s == "ASEAN"
               else {"_status": "DIFFERENT_SCORING_MODEL"} if s == "US NCAP"
               else {"_status": "TO_EXTRACT"}) for s in L1}
-    L3["C-NCAP"] = {"_status": "TO_EXTRACT", "_note": "附录B 阈值表,结构同附录G"}
+    # C-NCAP 附录B L3:THOR-50th 头部三限值文本模式实拆(颈/胸为多列,严禁臆造不自动拆)
+    _b = cncap_L3_text("中国/*C-NCAP*/02 规程附录A-T/附录B*.pdf", ["前排假人头部"])
+    cn_b = {}
+    for blk in _b.values():
+        cn_b.update(blk)
+    L3["C-NCAP"] = {"_extracted_front": cn_b, "_source": "附录B 前排假人头部评价指标(THOR-50th)",
+                    "_note": "头部三限值(HIC15/累积3ms)实拆;颈/胸/腹多指标列按严禁臆造不自动拆"}
     note = {"C-NCAP": f"§5.1 核对值={cn_speed};源脚注上标污染(原始='{raw}')"}
     systems = {}
     for s, tested in L1.items():
@@ -76,7 +82,8 @@ def build():
     n = merge_row(row)
     res = [(cn_speed == CNCAP_REF["B"], "C-NCAP.偏置速度=§5.1核对值50", cn_speed, 50),
            (raw != str(cn_speed), "C-NCAP.原始提取≠50(确认污染)", raw, "≠50"),
-           (bool(asean_l3.get("_blocks")), "ASEAN.L3.AOP_Frontal_ODB拆出区块", list(asean_l3.get("_blocks", {}).keys()), "非空")]
+           (bool(asean_l3.get("_blocks")), "ASEAN.L3.AOP_Frontal_ODB拆出区块", list(asean_l3.get("_blocks", {}).keys()), "非空"),
+           (cn_b.get("头部HIC15") == [500, 700, 700], "C-NCAP.L3.附录B头部HIC15", cn_b.get("头部HIC15"), [500, 700, 700])]
     for s in L1:
         res.append((L1[s] is True or L1[s] == True, f"{s}.正面偏置=测", bool(L1[s]), True))
     print(f"frontal_mpdb_offset 做此项: {[s for s,v in L1.items() if v]} | ASEAN ODB区块: {list(asean_l3.get('_blocks',{}).keys())}")

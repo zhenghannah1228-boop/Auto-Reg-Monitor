@@ -2,7 +2,7 @@
 与 side_impact 同管线;顺手验证 JNCAP/ASEAN 无柱碰基准。无 sample.json 行,
 断言基于源文件 + §5.1 速度核对值(C-NCAP H=32)+ §4 矩阵预期(差异处以源为准并记录)。"""
 import os, re, glob
-from extract_common import pdf_text, has, SRC, merge_row, report
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_tables
 
 def fp(*pats):
     for p in pats:
@@ -34,12 +34,15 @@ def cncap_pole_speed():
 def build():
     L1 = does_pole()
     speed = cncap_pole_speed()
+    # C-NCAP 附录H L3:柱碰自有头部阈值表(HIC15 500/700、累积3ms 60/80g)实拆
+    cn_l3 = cncap_L3_tables("中国/*C-NCAP*/**/附录H*柱碰*.pdf")
     systems = {}
     # 各体系柱碰参数(测者填 L2;源缺标 status)
     meta = {
         "C-NCAP": {"version": "2027版", "source_files": ["中国/.../附录H 侧面柱碰撞测试评价规程.pdf"],
                    "L2_params": {"速度": f"{speed} km/h", "假人": ["WorldSID 50th"], "壁障": "254mm 刚性柱", "撞击角度": "垂直(车辆横向)"},
-                   "L3_thresholds": {"_note": "柱碰按附录G『低性能限值』作通过门槛(G.5.3.3/G.14)", "_source": "附录G 低性能限值列"}},
+                   "L3_thresholds": {"_note": "附录H 柱碰头部阈值实拆(HIC15/累积3ms);胸/腹/骨盆沿用附录G 低性能限值门槛(G.5.3.3)",
+                                     "_source": "附录H 侧面柱碰评价表 + 附录G 低性能限值", "_extracted_tables": cn_l3}},
         "JNCAP": {"version": "令和7(2025)", "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED"}},
         "ASEAN": {"version": "Protocol 2026-2030", "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED"}},
         "Latin NCAP": {"version": "2025/采纳Euro Oblique v7.2", "source_files": ["拉美/Euro NCAP – Oblique Side pole Impact Testing Protocol v7.2 Dec 2023.pdf"],
@@ -75,6 +78,9 @@ def build():
     res.append((L1["ASEAN"] is False, "ASEAN.柱碰=不测", L1["ASEAN"], False))
     for s in ["C-NCAP", "Latin NCAP", "ANCAP", "Euro NCAP", "Bharat NCAP"]:
         res.append((L1[s] is True, f"{s}.柱碰=测", L1[s], True))
+    # C-NCAP 附录H L3 实拆回归锚点
+    hic = cn_l3.get("_", {}).get("HIC15")
+    res.append((hic == [500, 700], "C-NCAP.L3.柱碰HIC15=[500,700]", hic, [500, 700]))
     print(f"side_pole 各体系做柱碰: {[s for s,v in L1.items() if v]}")
     ok = report(res)
     print(f"ncap_matrix.json 现有 {n} 个测试项")

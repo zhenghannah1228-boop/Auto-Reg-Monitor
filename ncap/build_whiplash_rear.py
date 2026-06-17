@@ -1,7 +1,7 @@
 """whiplash_rear 鞭打/后碰颈部 — 8 体系 + 回归。
 C-NCAP 附录J 低速后碰(NIC 指标,§5.1 J=低速,无固定 km/h)。"""
 import os, glob
-from extract_common import pdf_text, has, SRC, merge_row, report
+from extract_common import pdf_text, has, SRC, merge_row, report, cncap_L3_tables
 
 def fp(*p):
     for x in p:
@@ -23,10 +23,13 @@ def does():
 
 def build():
     L1 = does()
+    # C-NCAP 附录J L3:表模式实拆四组(驾驶员/二排鞭打 + 二排虚拟 + 预制动)颈部阈值
+    cn_l3 = cncap_L3_tables("中国/*C-NCAP*/**/附录J*颈部*.pdf")
     meta = {
         "C-NCAP": {"version": "2027版", "source_files": ["中国/.../附录J 低速后碰撞颈部保护.pdf"],
                    "L2_params": {"速度": "低速后碰(脉冲)", "假人": ["BioRID II"], "_note": "§5.1 J=低速;以颈部伤害指数 NIC 评价,无固定闭合速度"},
-                   "L3_thresholds": {"_note": "NIC 等颈部指标分组评分(第一组NIC最高2分…)", "_status": "TO_EXTRACT"}},
+                   "L3_thresholds": {"_note": "NIC/上下颈部 Fz·My 分组三限值(附录J 实拆;garbled Fx+ 单元格按严禁臆造略去)",
+                                     "_source": "附录J 低速后碰颈部保护评价表", "_extracted_tables": cn_l3}},
         "JNCAP": {"version": "令和7(2025)", "source_files": ["日本/R7-05_en.pdf"], "L2_params": {"假人": ["BioRID"], "_note": "R7-05 後面衝突頚部保護"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
         "ASEAN": {"version": "—", "L2_params": {}, "L3_thresholds": {"_status": "NOT_TESTED"}},
         "Latin NCAP": {"version": "v1.1", "source_files": ["拉美/rear-whiplash-test-protocol-v11.pdf"], "L2_params": {"假人": ["BioRID II"], "壁障": "后碰台车脉冲"}, "L3_thresholds": {"_status": "TO_EXTRACT"}},
@@ -55,6 +58,10 @@ def build():
            (L1["Bharat NCAP"] is False, "Bharat.鞭打=不测(源0处)", L1["Bharat NCAP"], False)]
     for s in ["C-NCAP", "JNCAP", "Latin NCAP", "ANCAP", "Euro NCAP", "US NCAP"]:
         res.append((L1[s] is True, f"{s}.鞭打=测", L1[s], True))
+    # C-NCAP L3 实拆回归锚点(防解析漂移)
+    drv = cn_l3.get("驾驶员座椅鞭打试验", {})
+    res.append((drv.get("NIC") == [8, 30], "C-NCAP.L3.驾驶员NIC=[8,30]", drv.get("NIC"), [8, 30]))
+    res.append((drv.get("上颈部Fz+") == [475, 1130], "C-NCAP.L3.上颈部Fz+", drv.get("上颈部Fz+"), [475, 1130]))
     print(f"whiplash 做此项: {[s for s,v in L1.items() if v]}")
     ok = report(res); print(f"matrix {n} 项")
     return 0 if ok else 1

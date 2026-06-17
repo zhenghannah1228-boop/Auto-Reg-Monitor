@@ -65,4 +65,30 @@ occupant_monitoring。各 build_*.py 回归 PASS;均做了"遇不确定先核对
 - **occupant_monitoring**:子项异质——C-NCAP(SBR+儿童遗留)、JNCAP(仅SBR)、ANCAP/Euro(儿童遗留CPD)。
 - 全矩阵 128 格:绿(L3拆全)3 / 金(测·部分,L1-L2定L3待拆)67 / 蓝(US异构)8 / 不测 50。
 - 待业主确认的软判定:C-NCAP 附录N 是否含 DMS;Euro/ANCAP AHB 源待补;lane ELK 分体系细分。
-- **下一阶段**:批量深拆所有"测·部分"的 L3 阈值(C-NCAP §5.2 表 / ASEAN xlsm / Euro 协议三套提取器已验证)。
+
+## ✅ L3 批量深拆 — 第一批(2026-06)绿格 3→9
+`extract_common.py` 沉淀三类可复用 C-NCAP 提取器(均带回归锚点,严禁臆造):
+- **`cncap_L3_tables(gl)`** 表模式:抽『高性能限值/低性能限值』结构表 → {组:{指标:[高,低]}}。
+  `num1()` 拒绝多 token / 公式 / PDF garbled 单元格(如附录J 上颈部Fx+『2 23 40/N』被丢弃,不臆造)。
+- **`cncap_L3_text(gl,captions)`** 文本模式:阈值以文本行渲染时(附录A/B 头部表),按表标题定位、
+  关键词门控抓『指标 高 低 极限』单值行;双假人多列行(颈/胸/腿 6 数字)自动跳过(不臆造)。
+- **`cncap_L3_paired(gl)`** 配对模式:『高性能限值:指标 值 / 低性能限值:指标 值』两行分列(附录O 腿型)。
+
+本批新增绿格(C-NCAP 三限值实拆 + 回归锚点):
+| 测试项 | 源 | 锚点 | 体系 |
+|---|---|---|---|
+| frontal_rigid_full | 附录A 表A.7 | 头部HIC15=[500,700,700] | C-NCAP |
+| frontal_mpdb_offset | 附录B 头部 + ASEAN xlsm AOP Frontal ODB | HIC15=[500,700,700] / ODB区块 | C-NCAP·ASEAN |
+| side_pole | 附录H | 柱碰HIC15=[500,700] | C-NCAP |
+| whiplash_rear | 附录J | 驾驶员NIC=[8,30]、上颈Fz+=[475,1130] | C-NCAP |
+| vru_passive | 附录O | 腿型大腿弯矩=[390,440] | C-NCAP |
+
+(side_impact 既有 C-NCAP/ASEAN/Euro 三绿不变。)前端 `cellClass` 绿判定扩 `_extracted_tables`/`_blocks`;
+`renderL3` 新增分组阈值表渲染。
+
+**仍为测·部分(非懒拆,系评分模型异质,严禁强转三限值):**
+- 附录K 事故后=eCall 天线增益/角度评分;附录L 新能源=高压绝缘/泄漏/热失控 pass-fail;
+  附录M 约束=部件/翻滚评价;附录O 头型=HIC 颜色网格(逐网格点),均非『高/低/极限』三限值模型。
+- Euro 正碰/鞭打协议正文未以 HPL/LPL 文本暴露阈值表(侧碰 v1.1 p21 是唯一已验证 HPL-LPL 源),
+  不强抽以免臆造;Bharat AIS-197 单文件多项,按章节拆待续。
+- **下一阶段**:JNCAP R7-xx 阈值、ASEAN 其余 xlsm 评分表(SAT/MS-*)、Bharat AIS-197 章节细拆。
