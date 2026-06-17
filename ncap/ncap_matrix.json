@@ -1546,5 +1546,905 @@
       "评分多为车前端分区网格(头型 HIC + 腿型弯矩/剪切),Euro 系滑动 HPL-LPL;C-NCAP §5.1 冲击速度 40km/h",
       "ASEAN 行人评分在官方 xlsm(MS-PED / AOP HPT 表),非 PDF"
     ]
+  },
+  {
+    "id": "adas_aeb",
+    "cn_name": "AEB(对车辆)",
+    "en_name": "AEB — Vehicle Targets (C2C/Junction/Motorcycle)",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录Q 主动安全先进驾驶辅助系统.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": true,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "路口对向车",
+            "摩托车C2M"
+          ],
+          "_note": "速度区间分档见 L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-12_en.pdf(路口对车)"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": false,
+          "路口对向车": true,
+          "摩托车C2M": false
+        },
+        "L2_params": {
+          "场景目标物": [
+            "路口对向车"
+          ],
+          "_note": "对车辆 AEB 仅路口对向车(R7-12 右直),无直行追尾C2C、无摩托"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/AEB-Car-to-Car v2.1.pdf",
+          "东盟/AEB_CM v1.2.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "摩托车C2M"
+          ],
+          "_note": "C2C + Car-to-Motorcycle(C2M),两轮车密集"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - SA Protocol v2.0.1.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "摩托车C2M"
+          ],
+          "_note": "C2C + 摩托;行人归 vru_active"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Crash Avoidance - Frontal Collisions v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": true,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "路口对向车",
+            "摩托车C2M"
+          ],
+          "_note": "速度区间分档见 L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Euro NCAP - AEB C2C v2.0.1.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": false
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾"
+          ],
+          "_note": "提供源为 AEB C2C v2.0.1 直行CCR;路口对车AEB属新版协议未在源内"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [
+          "美国/NHTSA/.../FCW_NCAP_Test_Procedure.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": false
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾"
+          ],
+          "_note": "仅前车C2C(NHTSA 星级)"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [
+          "印度/AIS_197-1.pdf(无AEB)"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": false,
+          "路口对向车": false,
+          "摩托车C2M": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "AIS-197 无AEB;Bharat NCAP ADAS 协议未在交付源内"
+        }
+      }
+    },
+    "diff_summary": "对车辆AEB:C-NCAP/ANCAP 全(C2C+路口车+摩托);JNCAP 无直行C2C只测路口对车;ASEAN/Latin 含摩托(两轮密集);Euro/US 仅直行C2C;Bharat 无AEB。(行人/自行车见 vru_active)",
+    "key_differences": [
+      "本行只统计『对车辆』AEB;行人/自行车主动保护归 vru_active(§4 附录Q vs 附录P 分列)",
+      "JNCAP 独特:对车辆 AEB 不做直行追尾 C2C,只在路口测对向车(R7-12 右直)",
+      "ASEAN、Latin 因两轮车密集做 Car-to-Motorcycle(C2M);Euro/US/JNCAP 不测摩托",
+      "C-NCAP、ANCAP 含『路口对向车』AEB;Euro 提供源(C2C v2.0.1)仅直行CCR、US 仅前车C2C;Bharat AIS-197 无AEB",
+      "评分制:中/欧/澳/日为速度区间分档(避撞→减速量),US 为 NHTSA 星级(异构)"
+    ]
+  },
+  {
+    "id": "vru_active",
+    "cn_name": "弱势者主动保护(AEB-VRU)",
+    "en_name": "Active VRU Protection (Pedestrian/Cyclist AEB)",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录P 弱势交通参与者保护(主动安全).pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-09/10/11/13_en.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "AEB行人日间": false,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "无AEB-VRU(MS-PED 为被动头/腿型→ vru_passive)"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - SA Protocol v2.0.1.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间"
+          ],
+          "_note": "SA 含行人AEB;无夜间/自行车"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "SA 含行人AEB;无夜间/自行车"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Crash Avoidance - Frontal v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Euro NCAP - AEB VRU test protocol v2.0.4.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "AEB行人日间": false,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "NHTSA NCAP 不评主动行人AEB"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "AEB行人日间": false,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "AIS-197 无AEB"
+        }
+      }
+    },
+    "diff_summary": "AEB行人/自行车:C-NCAP/JNCAP/ANCAP/Euro 全(含夜间+自行车);Latin 仅行人;ASEAN/US/Bharat 不做主动VRU(ASEAN只做被动头腿型)",
+    "key_differences": [
+      "C-NCAP/JNCAP/ANCAP/Euro 做完整主动 VRU AEB(行人日+夜+自行车);Latin 仅行人(无夜间/自行车)",
+      "ASEAN 不做主动 VRU(其 MS-PED 是被动头/腿型,归 vru_passive)——主被动之分是关键差集",
+      "US NCAP、Bharat 不做主动行人 AEB(US 侧重 C2C;Bharat AIS-197 无 AEB)",
+      "夜间行人 AEB(照度/前照灯影响)仅 C-NCAP/JNCAP/ANCAP/Euro 评,是高阶差异项"
+    ]
+  },
+  {
+    "id": "lane_support",
+    "cn_name": "车道支持(LDW/LKA)",
+    "en_name": "Lane Support (LDW/LKA/ELK)",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/*C-NCAP*/**/附录Q*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true
+        },
+        "L2_params": {
+          "子项": [
+            "LDW",
+            "LKA/LKS"
+          ],
+          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-14_en.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true
+        },
+        "L2_params": {
+          "子项": [
+            "LDW",
+            "LKA/LKS"
+          ],
+          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/*Lane-Support*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true
+        },
+        "L2_params": {
+          "子项": [
+            "LDW",
+            "LKA/LKS"
+          ],
+          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/*SA Protocol*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true
+        },
+        "L2_params": {
+          "子项": [
+            "LDW",
+            "LKA/LKS"
+          ],
+          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/*Lane Departure*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true
+        },
+        "L2_params": {
+          "子项": [
+            "LDW",
+            "LKA/LKS"
+          ],
+          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/*LSS*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true
+        },
+        "L2_params": {
+          "子项": [
+            "LDW",
+            "LKA/LKS"
+          ],
+          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [
+          "美国/**/LDW_LKS*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true
+        },
+        "L2_params": {
+          "子项": [
+            "LDW",
+            "LKA/LKS"
+          ],
+          "_note": "ELK紧急车道保持各体系深浅不一,见差集"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [
+          "印度/AIS_197-1.pdf(无LSS)"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": false,
+          "车道保持LKA": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "7 套均做车道偏离警告(LDW)+车道保持(LKA);Bharat 不测;ELK(紧急车道保持:路沿/对向车/超车)Euro/ANCAP/C-NCAP/ASEAN 含、US(2013协议)/JNCAP 偏基础",
+    "key_differences": [
+      "LDW(偏离警告)+LKA/LKS(车道保持)为 7 套共有(Bharat AIS-197 无 LSS)",
+      "ELK 紧急车道保持(路沿/对向来车/超车场景)是高阶差异:Euro/ANCAP/C-NCAP/ASEAN 现行协议含,US(NHTSA 2013 LDW_LKS)与 JNCAP R7-14 偏基础 LDW/LKA",
+      "US 为 NHTSA 通过/不通过+星级(异构);中/欧/澳为速度区间分档评分"
+    ]
+  },
+  {
+    "id": "blind_spot",
+    "cn_name": "盲点监测(BSD)",
+    "en_name": "Blind Spot Detection",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/MS_Test-Protocol-BST-Detection v2.1 + BST-Visualization v2.0.pdf"
+        ],
+        "L1_subtests": {
+          "盲点监测BST": true
+        },
+        "L2_params": {
+          "_note": "盲点检测+(ASEAN另含可视化Visualization)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Crash Avoidance - Lane Departure v1.1(BSM)"
+        ],
+        "L1_subtests": {
+          "盲点监测BST": true
+        },
+        "L2_params": {
+          "_note": "盲点检测+(ASEAN另含可视化Visualization)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "仅 ASEAN(MS-BST 检测+可视化)与 ANCAP(并入车道偏离/变道场景)评盲点监测;C-NCAP/JNCAP/Latin/Euro/US/Bharat 不单列——典型差集",
+    "key_differences": [
+      "盲点监测为窄覆盖项:ASEAN 有独立 MS-BST(Detection + Visualization 两协议)、ANCAP 在 Lane Departure/变道安全内评(×13)",
+      "C-NCAP/JNCAP/Latin/Euro/US/Bharat 不单列盲点监测(部分作整车配置加分但无专项测试)",
+      "ASEAN 因摩托车密集额外重视盲点可视化(BST-Visualization)——区域特色"
+    ]
+  },
+  {
+    "id": "adaptive_highbeam",
+    "cn_name": "自适应远光(AHB)",
+    "en_name": "Adaptive High Beam / ADB",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录S 整车灯光性能(含AHB/ADB,×82)"
+        ],
+        "L1_subtests": {
+          "自适应远光AHB": true
+        },
+        "L2_params": {
+          "_note": "自适应远光/自适应远光照明 ADB;含眩光抑制/切换响应"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/MS_Test-Protocol-AHB-ADB v2.0.pdf"
+        ],
+        "L1_subtests": {
+          "自适应远光AHB": true
+        },
+        "L2_params": {
+          "_note": "自适应远光/自适应远光照明 ADB;含眩光抑制/切换响应"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "ASEAN(独立 MS-AHB/ADB)与 C-NCAP(附录S 灯光性能内含 AHB)评自适应远光;Euro/ANCAP 现实虽有但本批源未含,JNCAP/Latin/US/Bharat 不单列",
+    "key_differences": [
+      "ASEAN 有独立 MS-AHB/ADB 协议;C-NCAP 在『附录S 整车灯光性能』内含 AHB/ADB(自适应远光×82)",
+      "Euro/ANCAP 现实有 AHB 评估,但本批交付源未含其灯光/AHB 协议——标源待补,非定论",
+      "JNCAP R7-16 为『高機能前照灯装备確認』(配备确认,非动态AHB评分);Latin/US/Bharat 不单列 AHB"
+    ]
+  },
+  {
+    "id": "occupant_monitoring",
+    "cn_name": "乘员监测提醒",
+    "en_name": "Occupant Monitoring & Reminder",
+    "pillar": "安全驾驶·辅助",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录N 座舱乘员安全监测与提醒.pdf"
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": true,
+          "儿童遗留检测CPD": true,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "安全带提醒SBR",
+            "儿童遗留检测CPD"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-08_en.pdf(SBR)"
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": true,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "安全带提醒SBR"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Safe Driving - Occupant Monitoring v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": true,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "儿童遗留检测CPD"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "欧盟/Euro NCAP/safe driving/..."
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": true,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "儿童遗留检测CPD"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "异质差集:C-NCAP 附录N(SBR+儿童遗留)最全;JNCAP 仅安全带提醒SBR;ANCAP/Euro 为儿童遗留检测CPD;ASEAN/Latin/US/Bharat 不测。DMS驾驶员监测各体系尚未单列动态评分",
+    "key_differences": [
+      "子项异质是关键差集:C-NCAP(SBR+儿童遗留CPD)、JNCAP(仅SBR)、ANCAP(儿童遗留CPD,DMS×0)、Euro(儿童遗留/乘员状态)",
+      "无体系把驾驶员监测DMS作独立动态评分项(多为配备加分);C-NCAP 附录N 是否含DMS待核",
+      "ASEAN/Latin/US/Bharat 不单列乘员监测提醒",
+      "『监测/提醒』口径不一:提醒(SBR)vs 检测(儿童遗留)vs 监测(驾驶员状态),跨体系冲星须分清"
+    ]
   }
 ]

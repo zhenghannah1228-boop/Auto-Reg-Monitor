@@ -45,7 +45,9 @@ def merge_row(row):
     # 固定顺序:碰撞保护族在前,稳定输出
     order = ["frontal_rigid_full", "frontal_mpdb_offset", "frontal_small_overlap",
              "side_impact", "side_pole", "whiplash_rear", "post_crash_safety",
-             "ev_hazard", "restraint_system", "vru_passive"]
+             "ev_hazard", "restraint_system", "vru_passive",
+             "adas_aeb", "vru_active", "lane_support", "blind_spot",
+             "adaptive_highbeam", "occupant_monitoring"]
     arr.sort(key=lambda x: order.index(x["id"]) if x["id"] in order else 99)
     json.dump(arr, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     return len(arr)

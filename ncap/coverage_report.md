@@ -52,3 +52,17 @@ post_crash_safety / ev_hazard / restraint_system / vru_passive。
   Euro(滑动 HPL-LPL)= 绿"测";其余 42 格为"测·部分"(L1/L2 定、L3 待深拆),
   US 6 格异构(星级/IIHS 等级)。L3 深拆为下一阶段(按各项 §5.2 表/ xlsm / Euro 协议推进)。
 - 前端着色:绿=L3已拆全 / 金=测·部分(L3待拆) / 蓝=异构 / 斜纹=不测。
+
+## ✅ 主动安全类 6 项 L1/L2 完成(2026-06)— 全矩阵 16 项骨架铺满
+adas_aeb(对车辆)/ vru_active(主动行人)/ lane_support / blind_spot / adaptive_highbeam /
+occupant_monitoring。各 build_*.py 回归 PASS;均做了"遇不确定先核对"的源勘查:
+- **AEB 按 §4 拆两行**:adas_aeb=对车辆(C2C/路口车/摩托)、vru_active=对行人/自行车;
+  JNCAP 无直行C2C(仅路口对车)、ASEAN/Latin 做C2M摩托、US 仅前车C2C、Bharat AIS-197 无AEB。
+- **vru_active**:C-NCAP/JNCAP/ANCAP/Euro 全(含夜间行人+自行车);Latin 仅行人;ASEAN(MS-PED是被动→vru_passive)/US/Bharat 不做。
+- **lane_support**:7 套均 LDW+LKA(Bharat 不测);ELK 深浅不一(定性,L3 细分)。
+- **blind_spot**:仅 ASEAN(MS-BST)+ ANCAP(并入车道/变道);余不单列。
+- **adaptive_highbeam**:ASEAN(MS-AHB)+ C-NCAP(附录S 灯光含AHB);Euro/ANCAP 现实有但源未含(标待补)。
+- **occupant_monitoring**:子项异质——C-NCAP(SBR+儿童遗留)、JNCAP(仅SBR)、ANCAP/Euro(儿童遗留CPD)。
+- 全矩阵 128 格:绿(L3拆全)3 / 金(测·部分,L1-L2定L3待拆)67 / 蓝(US异构)8 / 不测 50。
+- 待业主确认的软判定:C-NCAP 附录N 是否含 DMS;Euro/ANCAP AHB 源待补;lane ELK 分体系细分。
+- **下一阶段**:批量深拆所有"测·部分"的 L3 阈值(C-NCAP §5.2 表 / ASEAN xlsm / Euro 协议三套提取器已验证)。

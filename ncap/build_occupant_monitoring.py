@@ -1,0 +1,35 @@
+"""occupant_monitoring 座舱乘员监测与提醒 — 子项 SBR/儿童遗留CPD/驾驶员监测DMS。
+源核对:ANCAP=儿童遗留(DMS×0/child×7)、JNCAP=仅SBR(R7-08)、C-NCAP附录N=监测+提醒。"""
+import glob, os
+from extract_common import SRC, merge_row, report
+def has_f(*p): return any(glob.glob(os.path.join(SRC,x),recursive=True) for x in p)
+def build():
+    SUB=["安全带提醒SBR","儿童遗留检测CPD","驾驶员监测DMS"]
+    COVER={"C-NCAP":[1,1,0],   # 附录N 监测+提醒(SBR+儿童遗留;DMS未确证→0待核)
+           "JNCAP":[1,0,0],    # R7-08 仅 SBR
+           "ANCAP":[0,1,0],    # Occupant Monitoring=儿童遗留(child×7,DMS×0)
+           "Euro NCAP":[0,1,0],# 儿童遗留/乘员状态
+           "ASEAN":[0,0,0],"Latin NCAP":[0,0,0],"US NCAP":[0,0,0],"Bharat NCAP":[0,0,0]}
+    src={"C-NCAP":["中国/.../附录N 座舱乘员安全监测与提醒.pdf"],"JNCAP":["日本/R7-08_en.pdf(SBR)"],
+         "ANCAP":["澳洲/ANCAP - Safe Driving - Occupant Monitoring v1.1.pdf"],"Euro NCAP":["欧盟/Euro NCAP/safe driving/..."]}
+    systems={}
+    for s in COVER:
+        cov=dict(zip(SUB,[bool(b) for b in COVER[s]]));t=any(cov.values())
+        systems[s]={"version":"","source_files":src.get(s,[]),"L1_subtests":cov,
+            "L2_params":({"子项":[k for k,v in cov.items() if v]} if t else {}),
+            "L3_thresholds":{"_status":"NOT_TESTED" if not t else "TO_EXTRACT"}}
+    row={"id":"occupant_monitoring","cn_name":"乘员监测提醒","en_name":"Occupant Monitoring & Reminder","pillar":"安全驾驶·辅助","systems":systems,
+        "diff_summary":"异质差集:C-NCAP 附录N(SBR+儿童遗留)最全;JNCAP 仅安全带提醒SBR;ANCAP/Euro 为儿童遗留检测CPD;ASEAN/Latin/US/Bharat 不测。DMS驾驶员监测各体系尚未单列动态评分",
+        "key_differences":["子项异质是关键差集:C-NCAP(SBR+儿童遗留CPD)、JNCAP(仅SBR)、ANCAP(儿童遗留CPD,DMS×0)、Euro(儿童遗留/乘员状态)",
+            "无体系把驾驶员监测DMS作独立动态评分项(多为配备加分);C-NCAP 附录N 是否含DMS待核",
+            "ASEAN/Latin/US/Bharat 不单列乘员监测提醒",
+            "『监测/提醒』口径不一:提醒(SBR)vs 检测(儿童遗留)vs 监测(驾驶员状态),跨体系冲星须分清"]}
+    n=merge_row(row)
+    res=[(systems["JNCAP"]["L1_subtests"]["安全带提醒SBR"] and systems["JNCAP"]["L1_subtests"]["儿童遗留检测CPD"] is False,"JNCAP=仅SBR",True,True),
+         (systems["ANCAP"]["L1_subtests"]["儿童遗留检测CPD"] and systems["ANCAP"]["L1_subtests"]["驾驶员监测DMS"] is False,"ANCAP=儿童遗留(非DMS)",True,True),
+         (any(systems["US NCAP"]["L1_subtests"].values()) is False,"US.乘员监测=不测",False,False),
+         (any(systems["C-NCAP"]["L1_subtests"].values()),"C-NCAP=测",True,True)]
+    print("occupant_monitoring:",{s:[k for k,v in systems[s]["L1_subtests"].items() if v] for s in COVER if any(systems[s]["L1_subtests"].values())})
+    ok=report(res);print("matrix",n);return 0 if ok else 1
+if __name__=="__main__":
+    import sys;sys.exit(build())
