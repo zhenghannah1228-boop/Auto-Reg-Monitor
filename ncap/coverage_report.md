@@ -118,6 +118,29 @@ adaptive_highbeam(MS-AHB A–G 七档)。『ASEAN 不测性能、只看是否装
 **内存兜底(L3 翻倍前)**:`pdf_text`/`cncap_L3_*` 逐页 `pg.flush_cache()`(side_impact 893→455MB、
 R7-03 单文件 538→79MB);`build_all` 串行子进程 + `RLIMIT_AS` 软上限(默认2GB)+ 单 build 失败不中断。
 
-**待业主确认(基准对不上,先标先问)**:ASEAN 有 **SAT-SBR(安全带提醒)+ COP CPD(儿童遗留检测)**
-两张装备率评分表,但 occupant_monitoring 现把 ASEAN 标为不测 `[0,0,0]`——疑似漏项,待确认是否
-改为 SBR✓+CPD✓(装备率 L3)。
+**occupant_monitoring 基准修正(业主 2026-06 确认)**:ASEAN 有 SAT-SBR(安全带提醒 TFS6)+
+COP CPD(儿童遗留检测 TFS5)两张装备率评分表,原标不测 `[0,0,0]` 系漏项,已修正为 SBR✓+CPD✓
+(装备率 L3),DMS 仍不测。
+
+## 🚧 已知边界:评分模型异质 / 源缺 —— 不强行结构化(业主 2026-06 拍板)
+
+下列"测·部分"格**有意不深拆为统一 L3 结构**:其评分模型与三限值/滑动/装备率/色带均不同构,
+硬拆要么拆不出、要么塞不进统一结构,且**不影响差集**(核心价值靠 L1/L2 已成立)。如实标注为
+已知边界,非遗漏、非待办:
+
+| 项 / 体系 | 评分模型 | 为何不结构化 |
+|---|---|---|
+| C-NCAP 附录K(post_crash) | eCall 天线增益/角度评分 | 非伤害阈值,按天线增益曲线评 |
+| C-NCAP 附录L(ev_hazard) | 高压绝缘/泄漏/热失控 **pass-fail** | 判定型,无高/低/极限三限值 |
+| C-NCAP 附录M(restraint) | 约束部件/翻滚评价 | 组件评价,非伤害阈值表 |
+| C-NCAP 附录O 头型(vru_passive) | **HIC 颜色网格**(逐网格点配色) | 网格图非离散阈值(腿型大腿弯矩已拆) |
+| Euro 正碰/鞭打(frontal/whiplash) | 滑动 HPL-LPL | 协议正文未以 HPL/LPL 文本暴露阈值表(侧碰 v1.1 p21 是唯一已验证 HPL-LPL 源) |
+| 中/欧/日 AEB·车道 性能档位 | 速度区间分档 | 各协议场景速度区间表结构各异;差集已由 L1/L2 场景覆盖表达(ASEAN 同项已是装备率绿) |
+| US 全系(6格) | NHTSA 星级 / IIHS G·A·M·P 等级 | 异构等级制,标 DIFFERENT_SCORING_MODEL |
+
+> 原则复述:**能查证按原文拆;模型异质/源缺则如实标边界,严禁臆造塞进统一结构**。
+
+## 📊 最终矩阵(L3 两批后)
+128 格:**测 20 / 测·部分 51 / 不测 47 / 异构 8 / 待补 2**。已实拆 **5 类评分模型**并排可比:
+三限值(C-NCAP)/ 滑动 HPL-LPL(Euro·Bharat)/ Value+Points(ASEAN 碰撞 xlsm)/ 5色等级(JNCAP 头部)/
+装备率 fitment(ASEAN 主动安全)。`build_all.py` 一键重建,16 项各带回归断言。

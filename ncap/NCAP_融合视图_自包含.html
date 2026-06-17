@@ -1,0 +1,3186 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NCAP 跨体系测试项映射矩阵</title>
+<style>
+:root{--ink:#1a2420;--ink2:#3a4a44;--paper:#f4f1e8;--panel:#fcfbf6;--panel2:#f7f4ea;--line:#d8d2c0;
+ --muted:#8d8674;--faint:#b3ac99;--accent:#c6502a;--good:#5a8a4a;--goodbg:#e2efda;--gold:#c79a2e;--goldbg:#fbf0d8;--blue:#3a6b8a;--bluebg:#e3edf2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 "PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1500px;margin:0 auto;padding:20px}
+h1{font-family:Georgia,"Songti SC",serif;font-size:26px;margin:0 0 2px}
+.sub{color:var(--muted);font-size:12.5px;margin-bottom:6px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin:8px 0 14px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:1180px}
+th,td{border:1px solid var(--line);padding:0;text-align:center;vertical-align:middle}
+thead th{position:sticky;top:0;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;
+ padding:9px 6px;z-index:3}
+thead th:first-child{left:0;z-index:4;text-align:left;padding-left:14px;min-width:150px}
+tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:left;padding:10px 14px;
+ z-index:2;min-width:150px}
+.pillar{font-size:10px;color:var(--muted);font-weight:400;display:block}
+.dsum{font-size:11px;color:var(--accent);font-weight:600;margin-top:4px;line-height:1.4;
+ background:#fbeee9;border-radius:4px;padding:3px 6px}
+.tname{font-weight:700;font-size:13px;cursor:pointer}
+.tname:hover{color:var(--blue)}
+.cell{width:118px;min-width:118px;padding:9px 6px;cursor:pointer;transition:.1s}
+.cell:hover{filter:brightness(.96)}
+.cell .tag{font-size:11.5px;font-weight:700;border-radius:5px;padding:3px 8px;display:inline-block}
+.t-yes .tag{background:var(--goodbg);color:#3d6630}
+.t-no{background:repeating-linear-gradient(45deg,var(--panel),var(--panel) 6px,#f0ede2 6px,#f0ede2 12px)}
+.t-no .tag{color:var(--faint);font-weight:400}
+.t-diff .tag{background:var(--bluebg);color:var(--blue)}
+.t-part .tag{background:var(--goldbg);color:#8a6510}
+.t-pend{background:repeating-linear-gradient(45deg,#eef2f4,#eef2f4 6px,#e0e8ec 6px,#e0e8ec 12px)}
+.t-pend .tag{background:#dde7ec;color:#5a7a88;font-weight:600}
+.cell .hint{display:block;font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.3;font-family:ui-monospace,monospace}
+.cell.on{outline:2px solid var(--blue);outline-offset:-2px}
+/* 详情面板 */
+.detailrow td{padding:0;background:var(--panel)}
+.detail{padding:14px 18px;border-left:3px solid var(--blue);background:#fbfaf4;text-align:left;margin:0}
+.detail h4{margin:0 0 8px;font-size:13.5px}
+.detail h4 .sys{color:var(--blue)}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:12.5px;margin:6px 0}
+.dl dt{color:var(--muted);font-family:ui-monospace,monospace;font-size:11px;white-space:nowrap}
+.dl dd{margin:0;color:var(--ink2)}
+.l3tbl{border-collapse:collapse;margin:6px 0;font-size:11.5px;min-width:0}
+.l3tbl td,.l3tbl th{border:1px solid var(--line);padding:3px 9px;text-align:center}
+.l3tbl th{background:var(--panel2);font-weight:600}
+.status{font-family:ui-monospace,monospace;font-size:11px;padding:2px 7px;border-radius:4px;background:var(--goldbg);color:#8a6510}
+.kd{background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;
+ padding:11px 15px;margin:0}
+.kd b{font-size:12px;color:var(--accent)}
+.kd ul{margin:6px 0 0;padding-left:18px}
+.kd li{font-size:12.5px;color:var(--ink2);margin:4px 0;line-height:1.55}
+.kdrow td{padding:8px 14px;background:var(--panel2)}
+.cmp{display:flex;gap:10px;overflow-x:auto;padding:10px 14px;background:#fbfaf4}
+.cmpcard{min-width:200px;flex:0 0 auto;border:1px solid var(--line);border-radius:7px;padding:9px 11px;background:#fff}
+.cmpcard h5{margin:0 0 6px;font-size:12.5px;color:var(--blue)}
+.cmpcard .scn{font-size:10px;font-family:ui-monospace,monospace;color:var(--muted);margin-bottom:4px}
+.msg{padding:40px;text-align:center;color:var(--muted)}
+.foot{font-size:11px;color:var(--faint);margin-top:14px;font-family:ui-monospace,monospace}
+</style></head>
+<body><div class="wrap">
+<h1>NCAP 跨体系测试项映射矩阵</h1>
+<div class="sub">8 套 NCAP 体系 × 测试项三层映射 · 供认证工程师/分析师做跨体系差集与参数横向对照 · 点单元格看 L2/L3,点测试项名看差集要点</div>
+<div class="legend">
+ <span><i style="background:var(--goodbg);border:1px solid #b6d6a8"></i>测(做此项 · L3 阈值已实拆)</span>
+ <span><i style="background:var(--goldbg);border:1px solid #e6d39a"></i>测·部分(做此项 · L3 阈值待拆/源待补)</span>
+ <span><i style="background:var(--bluebg);border:1px solid #b9cfdc"></i>异构评分(US 星级/IIHS 等级)</span>
+ <span><i style="background:#dde7ec;border:1px solid #b9cfdc"></i>待补(现实评估但手头无协议·≠不测)</span>
+ <span><i style="background:#f0ede2;border:1px solid var(--line)"></i>不测(源核实不做)</span>
+</div>
+<div class="sub" style="margin-top:-6px">说明:L1=是否做该测试项(测/不测,已全拆)。“测·部分”= L1 与 L2 参数已定、但 L3 评分阈值尚未深拆(多数测试项当前状态;side_impact 的 C-NCAP/ASEAN/Euro 已拆全=绿)。非“只测部分子项”。Bharat 单份 AIS-197 按章节待拆属此类、非漏项。</div>
+<div id="root"><div class="msg">正在载入 ncap_matrix.json…</div></div>
+<div class="foot" id="foot"></div>
+</div>
+<script>
+const SYS=["C-NCAP","JNCAP","ASEAN","Latin NCAP","ANCAP","Euro NCAP","US NCAP","Bharat NCAP"];
+const E=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function cellClass(sysObj){
+  const l1=sysObj&&sysObj.L1_subtests||{};
+  const l3=sysObj.L3_thresholds||{};
+  const st=l3._status||"";
+  if(!Object.values(l1).some(Boolean)){
+    // 不做该项 vs 现实有但手头无源(待补)≠ 不测
+    return st.includes("SOURCE_PENDING")?["t-pend","待补"]:["t-no","不测"];
+  }
+  if(st.includes("DIFFERENT"))return["t-diff","异构"];
+  // 绿『测』= L3 阈值已实拆;金『测·部分』= L1/L2 已定但 L3 待拆/源待补
+  const hasL3=l3._extracted_front||l3._extracted_second_row||l3._extracted_blocks||l3._blocks||l3._HPL_LPL||l3._extracted_tables||l3._bands||l3._fitment;
+  return hasL3?["t-yes","测"]:["t-part","测·部分"];
+}
+function cellHint(sysObj){
+  const p=sysObj&&sysObj.L2_params||{};
+  if(p["速度"])return p["速度"];
+  if(p["壁障"])return p["壁障"];
+  // 兜底:无速度无壁障时,显示首个 L1 子测试项名(确保"测"格不空白)
+  const l1=sysObj&&sysObj.L1_subtests||{};
+  const k=Object.keys(l1).find(k=>l1[k]);
+  return k||"";
+}
+function scoringName(l3){
+  if(!l3)return"";
+  const sc=String(l3._scoring||"");
+  // 显式评分制标签优先(Bharat 的滑动数据存于 _extracted_tables,须先于三限值分支判定)
+  if(l3._HPL_LPL||sc.includes("sliding")||sc.includes("HPL"))return"滑动 HPL-LPL";
+  if(sc.includes("capping")||sc.includes("pass-fail"))return"capping/pass-fail";
+  if(l3._fitment)return"装备率(fitment)";
+  if(l3._bands)return"5色等级(色带)";
+  if(l3._extracted_front||l3._extracted_tables||(l3._note&&String(l3._note).includes("高")))return"三限值(高/低/极限)";
+  if(l3._extracted_blocks||l3._blocks)return"Value+Points(4分制)";
+  if((l3._status||"").includes("DIFFERENT"))return"星级/等级(异构)";
+  return l3._status||"";
+}
+function renderL3(l3){
+  if(!l3)return"";
+  // C-NCAP 抽出的前/二排阈值表
+  for(const seatKey of ["_extracted_front","_extracted_second_row"]){
+    if(l3[seatKey]&&Object.keys(l3[seatKey]).length){
+      // 收集所有 seat
+    }
+  }
+  let html="";
+  const seats=[["_extracted_front","前排撞击侧"],["_extracted_second_row","二排撞击侧"]];
+  for(const[k,lbl]of seats){
+    const tb=l3[k];if(!tb||!Object.keys(tb).length)continue;
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">${lbl} L3 阈值(高/低/极限)</div><table class="l3tbl"><tr><th>指标</th><th>高性能</th><th>低性能</th><th>极限</th></tr>`;
+    for(const[ind,vals]of Object.entries(tb))html+=`<tr><td style="text-align:left">${E(ind)}</td>${vals.map(v=>`<td>${E(v)}</td>`).join("")}</tr>`;
+    html+="</table>";
+  }
+  // C-NCAP 表模式分组阈值(附录H/J 等){组:{指标:[高,低]}}
+  const gt=l3._extracted_tables;
+  if(gt&&Object.keys(gt).length){
+    for(const[grp,inds]of Object.entries(gt)){
+      if(!inds||!Object.keys(inds).length)continue;
+      html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">${grp==="_"?"":E(grp)+" "}L3 阈值(高/低性能限值)</div><table class="l3tbl"><tr><th>指标</th><th>高性能</th><th>低性能</th></tr>`;
+      for(const[ind,vals]of Object.entries(inds))html+=`<tr><td style="text-align:left">${E(ind)}</td>${vals.map(v=>`<td>${v==null?"—":E(v)}</td>`).join("")}</tr>`;
+      html+="</table>";
+    }
+  }
+  // JNCAP 五色等级评分(色带:Green→Red)
+  if(l3._bands&&l3._bands.length){
+    const C={Green:"#bfe3ab",Yellow:"#f3e9a8",Orange:"#f3c98a",Brown:"#d6a877",Red:"#e6a3a0"};
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">${E(l3._metric||"")} 五色等级(${E(l3._scoring||"")})</div><table class="l3tbl"><tr><th>等级</th><th>区间</th><th>得分</th></tr>`;
+    for(const b of l3._bands)html+=`<tr><td style="text-align:left"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${C[b.band]||"#ccc"};margin-right:4px"></span>${E(b.band)}</td><td>${E(b.range)}</td><td>${E(b.points)}</td></tr>`;
+    html+="</table>";
+  }
+  // ASEAN 装备率评分(fitment:Option→α)
+  if(l3._fitment&&l3._fitment.length){
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">装备率评分(${E(l3._scoring||"")})${l3._TFS!=null?` · 满分TFS=${E(l3._TFS)}`:""}</div><table class="l3tbl"><tr><th>装配档</th><th>说明</th><th>α</th></tr>`;
+    for(const o of l3._fitment)html+=`<tr><td>${E(o.option)}</td><td style="text-align:left;font-size:11px">${E(o.detail||"")}</td><td>${E(o.alpha)}</td></tr>`;
+    html+="</table>";
+  }
+  const blk=l3._blocks||l3._extracted_blocks;
+  if(blk&&Object.keys(blk).length){
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">xlsm 评分区块</div><div style="font-size:12px">`;
+    html+=Object.entries(blk).map(([k,v])=>`<b>${E(k)}</b>${Array.isArray(v)&&v.length?" ("+v.length+"项)":""}`).join(" · ");
+    html+="</div>";
+  }
+  if(!html){
+    const st=l3._status||"";const note=l3._note||l3._source||"";
+    html=`<div style="margin-top:4px">${st?`<span class="status">${E(st)}</span> `:""}<span style="font-size:12px;color:var(--ink2)">${E(note)}</span></div>`;
+  }else if(l3._note){html+=`<div style="font-size:11px;color:var(--muted);margin-top:4px">${E(l3._note)}</div>`;}
+  return html;
+}
+function renderDetail(item,sys){
+  const o=item.systems[sys]||{};
+  const l1=o.L1_subtests||{},l2=o.L2_params||{};
+  const l1s=Object.entries(l1).map(([k,v])=>E(k)+":"+(v?"✓":"✗")).join(" · ");
+  let dl="";
+  for(const[k,v]of Object.entries(l2)){if(k.startsWith("_"))continue;dl+=`<dt>${E(k)}</dt><dd>${E(Array.isArray(v)?v.join("、"):v)}</dd>`;}
+  if(l2._extraction_note)dl+=`<dt>提取说明</dt><dd style="color:var(--accent)">${E(l2._extraction_note)}</dd>`;
+  if(l2._note)dl+=`<dt>说明</dt><dd>${E(l2._note)}</dd>`;
+  return `<div class="detail"><h4>${E(item.cn_name)} · <span class="sys">${E(sys)}</span> ${o.version?`<span style="color:var(--muted);font-weight:400;font-size:11px">(${E(o.version)})</span>`:""}</h4>
+    <div style="font-size:12px"><b style="color:var(--muted)">L1 子测试项</b> ${l1s||"—"}</div>
+    ${dl?`<div style="font-size:12px;margin-top:6px"><b style="color:var(--muted)">L2 参数</b></div><dl class="dl">${dl}</dl>`:""}
+    <div style="font-size:12px;margin-top:4px"><b style="color:var(--muted)">L3 评分阈值</b></div>${renderL3(o.L3_thresholds)}
+    ${(o.source_files&&o.source_files.length)?`<div style="font-size:10px;color:var(--faint);margin-top:8px;font-family:ui-monospace,monospace">源:${o.source_files.map(E).join(" ; ")}</div>`:""}</div>`;
+}
+function build(matrix){
+  const root=document.getElementById("root");
+  let h=`<div class="scroll"><table><thead><tr><th>测试项 \\ 体系</th>${SYS.map(s=>`<th>${E(s)}</th>`).join("")}</tr></thead><tbody>`;
+  matrix.forEach((item,ri)=>{
+    h+=`<tr data-row="${ri}"><td><span class="tname" onclick="toggleKD(${ri})">${E(item.cn_name)} ▾</span><span class="pillar">${E(item.pillar||"")} · ${E(item.id)}</span>${item.diff_summary?`<div class="dsum">⚖ ${E(item.diff_summary)}</div>`:""}</td>`;
+    SYS.forEach(s=>{
+      const o=item.systems[s];const[cls,tag]=cellClass(o);const hint=cellHint(o);
+      h+=`<td class="cell ${cls}" data-r="${ri}" data-s="${E(s)}" onclick="toggleCell(this,${ri},'${E(s)}')"><span class="tag">${tag}</span>${hint?`<span class="hint">${E(hint)}</span>`:""}</td>`;
+    });
+    h+=`</tr>`;
+    const cmp=SYS.filter(s=>{const o=item.systems[s];return o&&Object.values(o.L1_subtests||{}).some(Boolean);})
+      .map(s=>{const o=item.systems[s];return `<div class="cmpcard"><h5>${E(s)}</h5><div class="scn">评分制:${E(scoringName(o.L3_thresholds))||"—"}</div>${renderL3(o.L3_thresholds)}</div>`;}).join("");
+    h+=`<tr class="kdrow" id="kd-${ri}" style="display:none"><td colspan="${SYS.length+1}">
+      <div class="kd"><b>⚖ 跨体系差集要点(${E(item.cn_name)})</b><ul>${(item.key_differences||[]).map(k=>`<li>${E(k)}</li>`).join("")}</ul></div>
+      <div style="font-size:11.5px;color:var(--muted);padding:8px 14px 2px">▼ L3 评分制横向对照(三种制式并排):</div>
+      <div class="cmp">${cmp||'<span style="color:var(--muted)">无</span>'}</div></td></tr>`;
+    h+=`<tr class="detailrow" id="det-${ri}" style="display:none"><td colspan="${SYS.length+1}"></td></tr>`;
+  });
+  h+="</tbody></table></div>";
+  root.innerHTML=h;
+  window._matrix=matrix;
+  document.getElementById("foot").textContent="测试项 "+matrix.length+" 项 · 体系 "+SYS.length+" 套 · 数据源 ncap_matrix.json";
+}
+function toggleKD(ri){const el=document.getElementById("kd-"+ri);el.style.display=el.style.display==="none"?"":"none";}
+function toggleCell(td,ri,s){
+  const det=document.getElementById("det-"+ri);
+  const cur=td.classList.contains("on");
+  document.querySelectorAll(".cell.on").forEach(c=>c.classList.remove("on"));
+  if(cur){det.style.display="none";return;}
+  td.classList.add("on");
+  det.querySelector("td").innerHTML=renderDetail(window._matrix[ri],s);
+  det.style.display="";
+}
+const _EMBED_MATRIX=[
+  {
+    "id": "frontal_rigid_full",
+    "cn_name": "正面100%刚性壁障",
+    "en_name": "Full Width Rigid Barrier Frontal",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录A 正面100%重叠刚性壁障.pdf"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "50 km/h",
+          "假人": [
+            "Hybrid III 50th",
+            "Hybrid III 5th",
+            "Q系列(后排儿童)"
+          ],
+          "壁障": "100%重叠固定刚性壁障",
+          "_extraction_note": "§5.1 核对值=50;源文本脚注上标污染(原始提取='551'不可用)"
+        },
+        "L3_thresholds": {
+          "_extracted_front": {
+            "头部HIC15": [
+              500,
+              700,
+              700
+            ]
+          },
+          "_source": "附录A 表A.7 前排假人头部评价指标",
+          "_note": "头部三限值(高/低/极限)实拆;颈/胸/大腿/小腿为驾驶员5th+乘员50th 双假人多列,按严禁臆造不自动拆解(见附录A 表A.8–A.11)"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [
+          "日本/R7-01_en.pdf",
+          "日本/2025_en.pdf(评价方法)"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "50 km/h",
+          "假人": [
+            "Hybrid III",
+            "WorldSID"
+          ],
+          "_note": "R7-01 フルラップ前面衝突 50.0±1km/h(源核对,非55)"
+        },
+        "L3_thresholds": {
+          "_scoring": "5色等级(Green→Red,色带评分)",
+          "_metric": "头部 HIC15",
+          "_source": "日本/2025_en.pdf 自動車安全性能評価方法(別添 判定基準)",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650",
+              "points": 1.0
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000",
+              "points": 0.75
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350",
+              "points": 0.5
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700",
+              "points": 0.25
+            },
+            {
+              "band": "Red",
+              "range": "≥1700",
+              "points": 0.0
+            }
+          ],
+          "_note": "JNCAP 头部 HIC15 五色等级实拆;颈/胸/大腿部用评价关数(评价函数图,如图23)连续评分,非离散阈值,按严禁臆造不抽"
+        }
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030",
+        "source_files": [],
+        "L1_subtests": {
+          "正面全宽刚性": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": [
+          "拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "壁障": "全宽台车(Sled,脉冲法)",
+          "_note": "台车脉冲复现,无单一闭合速度"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "50 km/h",
+          "壁障": "全宽刚性(采纳Euro)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "v1.1 2026",
+        "source_files": [
+          "欧盟/Euro NCAP/crash protection/.../frontal_impact_v11"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "50 km/h",
+          "壁障": "全宽刚性 FW"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "NHTSA",
+        "source_files": [],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "56 km/h(35mph)",
+          "壁障": "全宽刚性",
+          "假人": [
+            "Hybrid III 50th",
+            "5th"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [
+          "印度/AIS_197-1.pdf"
+        ],
+        "L1_subtests": {
+          "正面全宽刚性": true
+        },
+        "L2_params": {
+          "速度": "56 km/h",
+          "壁障": "全宽刚性(采纳Global/Euro)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT_FROM_CHAPTER"
+        }
+      }
+    },
+    "diff_summary": "ASEAN 唯一不测(只做ODB偏置);Latin 用全宽台车脉冲代实车;速度 50(中/日/欧/澳)→56(美/印)不一",
+    "key_differences": [
+      "C-NCAP 全宽刚性 50km/h(§5.1 核对值;源文本脚注上标污染需防误取)",
+      "ASEAN 不做全宽刚性正碰(仅做 ODB 偏置)——8 套中唯一缺此项",
+      "Latin NCAP 以『全宽台车(Full Width Sled)』方式评估,非实车全宽碰撞",
+      "US NHTSA 全宽刚性 56km/h(35mph)、星级制;IIHS 不做全宽(只做偏置)",
+      "JNCAP R7-01 フルラップ前面衝突 50km/h(源核对,非55);中/日/欧/澳 50、美/印 56"
+    ]
+  },
+  {
+    "id": "frontal_mpdb_offset",
+    "cn_name": "正面偏置MPDB/ODB",
+    "en_name": "Offset Deformable Frontal (MPDB/ODB)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h",
+          "壁障": "MPDB 50%重叠移动渐进变形壁障",
+          "_extraction_note": "§5.1 核对值=50;源脚注上标污染(原始='None')"
+        },
+        "L3_thresholds": {
+          "_extracted_front": {
+            "头部HIC15": [
+              500,
+              700,
+              700
+            ],
+            "累积3ms合成加速度值 g": [
+              72,
+              80,
+              80
+            ]
+          },
+          "_source": "附录B 前排假人头部评价指标(THOR-50th)",
+          "_note": "头部三限值(HIC15/累积3ms)实拆;颈/胸/腹多指标列按严禁臆造不自动拆"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h(MPDB)",
+          "壁障": "MPDB(新オフセット)"
+        },
+        "L3_thresholds": {
+          "_scoring": "5色等级(Green→Red,色带评分)",
+          "_metric": "头部 HIC15",
+          "_source": "日本/2025_en.pdf 自動車安全性能評価方法(別添 判定基準)",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650",
+              "points": 1.0
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000",
+              "points": 0.75
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350",
+              "points": 0.5
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700",
+              "points": 0.25
+            },
+            {
+              "band": "Red",
+              "range": "≥1700",
+              "points": 0.0
+            }
+          ],
+          "_note": "JNCAP 头部 HIC15 五色等级实拆;颈/胸/大腿部用评价关数(评价函数图,如图23)连续评分,非离散阈值,按严禁臆造不抽"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "—",
+          "壁障": "ODB 偏置可变形壁障"
+        },
+        "L3_thresholds": {
+          "_source": "xlsm 'AOP Frontal ODB'",
+          "_status": "PARTIAL_FROM_XLSM(区域标签与侧碰不同,待细化)",
+          "_blocks": {
+            "HEAD": [
+              "HIC15 500 120.56 Vertical (z) 1727.666 1743.593 15.927000000",
+              "HIC15",
+              "HIC15"
+            ],
+            "CHEST": [
+              "Viscous criterion - m/s 0.05 4 0.5 4 Fore/aft (x) Rearward +"
+            ],
+            "KNEE": [
+              "Left Femur Compression level exceeded - kN 0.23 4 0.05 4",
+              "Left Knee, Femur and Pelvis assessment 4 4",
+              "Right Femur Compression level exceeded - kN 0.02 4 0.12 4",
+              "Right Knee, Femur and Pelvis assessment 4 4",
+              "Knee, Femur and Pelvis assessment 4 4",
+              "Left Upper Tibia Index 0.4 4 0.6 3.111",
+              "Left Lower Tibia Index 0.22 4 0.4 4"
+            ]
+          }
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h",
+          "壁障": "ODB(AOP 偏置)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h(MPDB)",
+          "壁障": "MPDB"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "50 km/h(MPDB)",
+          "壁障": "MPDB"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h(40mph,40%重叠)",
+          "壁障": "IIHS 40%中等偏置固定可变形壁障"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h",
+          "壁障": "ODB 偏置可变形壁障"
+        },
+        "L3_thresholds": {
+          "_extracted_tables": {
+            "Head": {
+              "hic": [
+                500,
+                700
+              ],
+              "resultant acc. exceedance": [
+                72,
+                88
+              ]
+            },
+            "Neck": {
+              "shear": [
+                1.9,
+                3.1
+              ],
+              "tension": [
+                2.7,
+                3.3
+              ],
+              "extension": [
+                42,
+                57
+              ]
+            },
+            "Chest": {
+              "compression": [
+                22,
+                42
+              ],
+              "viscous criterion": [
+                0.5,
+                1.0
+              ]
+            },
+            "Knee": {
+              "femur compression": [
+                3.8,
+                9.07
+              ],
+              "knee slider compressive": [
+                6,
+                15
+              ],
+              "tibia index": [
+                0.4,
+                1.3
+              ],
+              "tibia compression": [
+                2,
+                8
+              ],
+              "pedal rearward displacement": [
+                100,
+                200
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(EEVC,4点/部位,capping)",
+          "_source": "印度/AIS_197-1.pdf §3.2 正面伤害评价限值",
+          "_note": "Bharat AIS-197 按章节拆;采纳 Euro/EEVC 滑动评分"
+        }
+      }
+    },
+    "diff_summary": "8 套全测、覆盖最广;C-NCAP/JNCAP 50km/h MPDB,US 用 IIHS 40%中等偏置(64km/h)、ASEAN 走 ODB(xlsm AOP Frontal ODB)",
+    "key_differences": [
+      "8 套全做正面偏置,但壁障分三类:MPDB 移动渐进(C-NCAP/JNCAP/Euro/ANCAP)、ODB 偏置可变形(ASEAN/Latin/Bharat)、IIHS 40%中等偏置固定壁障(US)",
+      "C-NCAP 50%重叠 50km/h(§5.1 B,防脚注污染);US IIHS 40%重叠 64km/h",
+      "ASEAN L3 从官方 xlsm 'AOP Frontal ODB' 拆(结构化评分),非 PDF 臆造",
+      "US 另有 25% 小偏置(IIHS),单列 frontal_small_overlap;此处仅 40% 中等偏置",
+      "MPDB 评分含对向壁障变形相容性(兼容性罚分),与 ODB/IIHS 评分维度不同"
+    ]
+  },
+  {
+    "id": "frontal_small_overlap",
+    "cn_name": "正面小偏置",
+    "en_name": "Small Overlap Frontal (25%)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "IIHS",
+        "source_files": [
+          "美国/IIHS-NCAP评估测试规程/002  25_小偏置正碰/*"
+        ],
+        "L1_subtests": {
+          "正面小偏置": true
+        },
+        "L2_params": {
+          "速度": "64 km/h(40 mph)",
+          "重叠率": "25%",
+          "假人": [
+            "Hybrid III 50th"
+          ],
+          "壁障": "刚性壁障小偏置(驾驶侧 + 乘客侧)",
+          "_note": "IIHS small overlap,5英寸刚性壁障25%重叠"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "IIHS G/A/M/P 等级(结构+伤害+假人运动)"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "L1_subtests": {
+          "正面小偏置": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "8 套中仅 US(IIHS 25%小偏置)测——典型差集项,其余 7 套均不做",
+    "key_differences": [
+      "典型差集项:8 套中唯一做 25% 正面小偏置的只有 US(IIHS)——其余 7 套协议 small overlap 命中=0",
+      "小偏置考验纵梁外侧/轮罩/A 柱的载荷路径,常规 MPDB/ODB 偏置(50%/40%)不覆盖此工况",
+      "IIHS 含驾驶侧 + 乘客侧两次 25% 小偏置;64km/h(40mph)、G/A/M/P 等级",
+      "车型冲 IIHS Top Safety Pick+ 必须额外准备小偏置;冲 C-NCAP/Euro/ASEAN 五星则无需此项"
+    ]
+  },
+  {
+    "id": "side_impact",
+    "cn_name": "侧面碰撞",
+    "en_name": "Side Impact",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录G  可变形移动壁障侧面碰撞测试评价规程.pdf",
+          "中国/.../附录H  侧面柱碰撞测试评价规程.pdf"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": true,
+          "远端乘员_乘员互撞": false
+        },
+        "L2_params": {
+          "速度": "60 km/h",
+          "假人": [
+            "WorldSID 50th",
+            "SID-IIs(D版)"
+          ],
+          "座椅排": "前排+二排撞击侧",
+          "壁障": "MDB",
+          "_extraction_note": "速度原文受脚注上标污染显示为'60 01',正确60;WorldSID 75kg/SID-IIs 45kg"
+        },
+        "L3_thresholds": {
+          "_note": "高性能/低性能/极限,前排撞击侧",
+          "头部HIC15": {
+            "高性能": 500,
+            "低性能": 700,
+            "极限": 700,
+            "单位": "/"
+          },
+          "胸部压缩变形量": {
+            "高性能": 28,
+            "低性能": 50,
+            "极限": 50,
+            "单位": "mm"
+          },
+          "腹部压缩变形量": {
+            "高性能": 47,
+            "低性能": 65,
+            "极限": 65,
+            "单位": "mm"
+          },
+          "骨盆耻骨力": {
+            "高性能": 1.7,
+            "低性能": 2.8,
+            "极限": 2.8,
+            "单位": "kN"
+          },
+          "_second_row": {
+            "胸部压缩": {
+              "高性能": 31,
+              "低性能": 41
+            },
+            "腹部压缩": {
+              "高性能": 38,
+              "低性能": 48
+            },
+            "骨盆合力": {
+              "高性能": 3.5,
+              "低性能": 5.5,
+              "单位": "kN"
+            }
+          },
+          "_extracted_front": {
+            "头部HIC15": [
+              500,
+              700,
+              700
+            ],
+            "头部累积3ms合成加速度值": [
+              72,
+              80,
+              80
+            ],
+            "胸部压缩变形量": [
+              28,
+              50,
+              50
+            ],
+            "腹部压缩变形量": [
+              47,
+              65,
+              65
+            ],
+            "骨盆耻骨力": [
+              1.7,
+              2.8,
+              2.8
+            ]
+          },
+          "_extracted_second_row": {
+            "胸部压缩变形量": [
+              31,
+              41,
+              41
+            ],
+            "腹部压缩变形量": [
+              38,
+              48,
+              48
+            ],
+            "骨盆合力": [
+              3.5,
+              5.5,
+              5.5
+            ]
+          }
+        }
+      },
+      "JNCAP": {
+        "version": "令和7年(2025)改版",
+        "source_files": [
+          "日本/R7-03_en.pdf"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": false,
+          "远端乘员_乘员互撞": false
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID"
+          ],
+          "座椅排": "前排",
+          "_extraction_note": "日英对照,用英文层提取;R7-03=Side Collision Safety Performance Test Procedure",
+          "速度": "55 km/h(MDB 闭合)"
+        },
+        "L3_thresholds": {
+          "_scoring": "5色等级(Green→Red,色带评分)",
+          "_metric": "头部 HIC15",
+          "_source": "日本/2025_en.pdf 自動車安全性能評価方法(別添 判定基準)",
+          "_bands": [
+            {
+              "band": "Green",
+              "range": "<650",
+              "points": 1.0
+            },
+            {
+              "band": "Yellow",
+              "range": "650–1000",
+              "points": 0.75
+            },
+            {
+              "band": "Orange",
+              "range": "1000–1350",
+              "points": 0.5
+            },
+            {
+              "band": "Brown",
+              "range": "1350–1700",
+              "points": 0.25
+            },
+            {
+              "band": "Red",
+              "range": "≥1700",
+              "points": 0.0
+            }
+          ],
+          "_note": "JNCAP 头部 HIC15 五色等级实拆;颈/胸/大腿部用评价关数(评价函数图,如图23)连续评分,非离散阈值,按严禁臆造不抽"
+        },
+        "_baseline_correction": "侧面柱碰 由 true 修正为 false:全21份R7协议无任何pole测试,R7-03侧碰仅MDB(业主2026-06确认)"
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030, Side Impact v3.3",
+        "source_files": [
+          "东盟/ASEAN-NCAP-Test-Protocol-Side-Impact-Version-3.3-Jan2026.pdf",
+          "东盟/FINAL_ASEAN-NCAP-Spreadsheet-Version-0-New-Protocol-2026_2030.xlsm"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": false,
+          "远端乘员_乘员互撞": false
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID",
+            "ES-2"
+          ],
+          "座椅排": "前排(驾驶位)",
+          "壁障": "MDB",
+          "_extraction_note": "L2从PDF;协议文字层正常WorldSID×15"
+        },
+        "L3_thresholds": {
+          "_source": "xlsm sheet 'AOP Side MDB '(尾部空格)",
+          "_note": "Value+Points制,4分上限+airbag修正分;按区块HEAD/CHEST解析",
+          "_structure": "HEAD(Peak resultant/HIC15/合成加速度3ms) + CHEST(上/中/下肋压缩,各4分) + Shoulder + airbag修正(-1)",
+          "_status": "PARTIAL_VERIFIED_FROM_XLSM",
+          "_extracted_blocks": {
+            "HEAD": [
+              "HIC15 3 4",
+              "Resultant Acc. 3 msec exeedence - g 3 4",
+              "Incorrect airbag deployment modifier (-1) -1 -1"
+            ],
+            "CHEST": [
+              "Lateral compression - mm",
+              "Shoulder Fy - kN 2.9",
+              "Viscous Criterion modifier (-4) 0",
+              "Top rib Viscous Criterion - m/s 0.9",
+              "Middle rib Viscous Criterion - m/s 0.9",
+              "Bottom rib Viscous Criterion - m/s 0.9",
+              "Incorrect airbag deployment modifier (-1) -1 -1"
+            ],
+            "ABDOMEN": [
+              "Lateral compression - mm",
+              "Viscous Criterion modifier (-4) 0",
+              "Top rib Viscous Criterion - m/s 0.2",
+              "Bottom rib Viscous Criterion - m/s 0.2",
+              "Incorrect airbag deployment modifier (-1) 0 0"
+            ],
+            "PELVIS": [
+              "Incorrect airbag deployment modifier (-1) 0 0"
+            ]
+          }
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - AOP Protocol.pdf",
+          "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": true,
+          "远端乘员_乘员互撞": false
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "座椅排": "前排",
+          "壁障": "AE-MDB(采纳Euro v8.3) + Pole",
+          "_extraction_note": "Latin采纳Euro AE-MDB方法,拉美目录含Euro原始协议v8.3"
+        },
+        "L3_thresholds": {
+          "_note": "AOP Protocol含评分,采纳Euro结构",
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "v1.1 2026正文 + AE-MDB v8.3评分细则(拉美目录)",
+        "source_files": [
+          "欧盟/Euro NCAP/crash protection/euro_ncap_protocol_crash_protection_side_impact_v11_*.pdf",
+          "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": true,
+          "远端乘员_乘员互撞": true
+        },
+        "L2_params": {
+          "速度": "~60 km/h",
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "座椅排": "前排",
+          "壁障": "AE-MDB + Pole",
+          "_extraction_note": "含Far Side和Occupant-to-Occupant;L3从拉美目录AE-MDB v8.3协议补(原v1标MISSING_SOURCE已解决)"
+        },
+        "L3_thresholds": {
+          "_scoring": "sliding（滑动评分:满分@HPL → 0分@LPL,线性内插,capping 封顶）",
+          "_source": "欧盟/Euro NCAP side_impact v1.1 p21（+ AE-MDB v8.3 测试法）",
+          "_HPL_LPL": {
+            "头部HIC15": [
+              500,
+              700
+            ],
+            "3ms合成加速度": [
+              72,
+              80
+            ],
+            "胸部压缩D": [
+              28,
+              50
+            ],
+            "腹部压缩D": [
+              47,
+              65
+            ],
+            "耻骨力F": [
+              1.7,
+              2.8
+            ]
+          },
+          "_note": "HPL=higher performance limit(满分), LPL=lower performance limit(0分);C-NCAP 三限值采纳同套数值"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1 / Overall v10.0",
+        "source_files": [
+          "澳洲/ANCAP PROTOCOL - Crash Protection - Side Impact v1.1.pdf",
+          "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": true,
+          "远端乘员_乘员互撞": true
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "座椅排": "前排",
+          "壁障": "MDB + Pole",
+          "_extraction_note": "采纳Euro方法,L3借拉美目录Euro源"
+        },
+        "L3_thresholds": {
+          "_source": "采纳Euro AE-MDB",
+          "_status": "SOURCE_NOW_AVAILABLE_TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "IIHS + NHTSA",
+        "source_files": [
+          "美国/IIHS-NCAP评估测试规程/003  侧碰/*.pdf",
+          "美国/NHTSA-NCAP评价规程/原文/侧碰/*"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": true,
+          "远端乘员_乘员互撞": false
+        },
+        "L2_params": {
+          "速度": "62 km/h(NHTSA MDB)",
+          "假人": [
+            "SID-IIs",
+            "ES-2re"
+          ],
+          "座椅排": "前排",
+          "壁障": "MDB + Pole(75°)"
+        },
+        "L3_thresholds": {
+          "_note": "NHTSA星级算法/IIHS G-A-M-P等级,非高低限值制",
+          "_status": "DIFFERENT_SCORING_MODEL"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [
+          "印度/AIS_197-1.pdf"
+        ],
+        "L1_subtests": {
+          "可变形壁障侧碰": true,
+          "侧面柱碰": true,
+          "远端乘员_乘员互撞": false
+        },
+        "L2_params": {
+          "_extraction_note": "单份AIS-197含多测试项,按章节定位侧碰节;采纳Global/Euro方法"
+        },
+        "L3_thresholds": {
+          "_extracted_tables": {
+            "Head": {
+              "hic": [
+                500,
+                700
+              ],
+              "resultant acc.": [
+                72,
+                88
+              ]
+            },
+            "Chest": {
+              "compression": [
+                22,
+                42
+              ],
+              "viscous criterion": [
+                0.32,
+                1.0
+              ]
+            },
+            "Abdomen": {
+              "total abdominal force": [
+                1.0,
+                2.5
+              ]
+            },
+            "Pelvis": {
+              "pubic symphysis force": [
+                3.0,
+                6.0
+              ]
+            }
+          },
+          "_scoring": "sliding HPL-LPL(EEVC,4点/部位,capping)",
+          "_source": "印度/AIS_197-1.pdf §4.2 侧碰伤害评价限值",
+          "_note": "Bharat AIS-197 按章节拆;采纳 Euro/EEVC 滑动评分"
+        }
+      }
+    },
+    "key_differences": [
+      "C-NCAP是唯一测二排假人的体系(前排+二排撞击侧)",
+      "Euro/ANCAP含远端乘员(Far Side)和乘员互撞子测试,其余6套不测",
+      "ASEAN评分用Value+Points 4分制(从官方xlsm拆),与中式高/低限值制结构不同",
+      "Latin/ANCAP采纳Euro AE-MDB方法,评分源在拉美目录Euro原始协议",
+      "US用星级算法/IIHS等级,非限值制;Bharat单文件AIS-197待按章节拆",
+      "JNCAP是8套体系中唯一侧碰只做MDB、不做柱碰的体系(全R7协议无pole测试)"
+    ],
+    "diff_summary": "C-NCAP 唯一测二排;Euro/ANCAP 含远端乘员;JNCAP/ASEAN 无柱碰只做MDB;评分三制并存(中:三限值 / ASEAN:Value+Points / Euro:滑动HPL-LPL)"
+  },
+  {
+    "id": "side_pole",
+    "cn_name": "侧面柱碰",
+    "en_name": "Side Pole Impact",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录H 侧面柱碰撞测试评价规程.pdf"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "速度": "32 km/h",
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "254mm 刚性柱",
+          "撞击角度": "垂直(车辆横向)"
+        },
+        "L3_thresholds": {
+          "_note": "附录H 柱碰头部阈值实拆(HIC15/累积3ms);胸/腹/骨盆沿用附录G 低性能限值门槛(G.5.3.3)",
+          "_source": "附录H 侧面柱碰评价表 + 附录G 低性能限值",
+          "_extracted_tables": {
+            "_": {
+              "HIC15": [
+                500,
+                700
+              ],
+              "累积3ms合成加速度": [
+                60,
+                80
+              ]
+            }
+          }
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025/采纳Euro Oblique v7.2",
+        "source_files": [
+          "拉美/Euro NCAP – Oblique Side pole Impact Testing Protocol v7.2 Dec 2023.pdf"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "斜柱(采纳Euro Oblique 75°)"
+        },
+        "L3_thresholds": {
+          "_source": "采纳Euro Oblique v7.2",
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "斜柱(采纳Euro)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "v1.1 2026 + Oblique v7.2",
+        "source_files": [
+          "欧盟/Euro NCAP/crash protection/.../side impact v11",
+          "拉美/Euro NCAP – Oblique Side pole v7.2"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "斜柱 75°(Oblique Pole)"
+        },
+        "L3_thresholds": {
+          "_source": "Euro Oblique v7.2",
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "NHTSA",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "壁障": "75° 斜柱(MDB+Pole)",
+          "假人": [
+            "SID-IIs",
+            "ES-2re"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "NHTSA 星级;本批未提供 NHTSA 原文/侧碰源,L2/L3 待补"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [
+          "印度/AIS_197-1.pdf"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "_extraction_note": "AIS-197 §5 柱碰章节,采纳Global/Euro方法"
+        },
+        "L3_thresholds": {
+          "_extracted_tables": {
+            "头部(capping/pass-fail)": {
+              "HIC15(capping上限)": [
+                700
+              ],
+              "Peak合成加速度(capping)": [
+                80
+              ]
+            }
+          },
+          "_scoring": "capping/pass-fail(超限即0;非滑动)",
+          "_source": "印度/AIS_197-1.pdf §5.2 柱碰限值",
+          "_note": "Bharat AIS-197 §5 柱碰仅头部 capping 单值(HIC15<700/Peak<80g)+需配帘式气囊;非 HPL-LPL 双限"
+        }
+      }
+    },
+    "diff_summary": "做柱碰 6 套;JNCAP/ASEAN 不做(仅MDB侧碰);C-NCAP 刚性柱32km/h,Euro/Latin/ANCAP 采纳Euro斜柱75°,US NHTSA 75°",
+    "key_differences": [
+      "做柱碰的 6 套:C-NCAP(附录H 刚性柱 32km/h)、Latin/ANCAP/Euro(采纳 Euro Oblique 斜柱 75°)、US(NHTSA 75°斜柱)、Bharat(AIS-197)",
+      "JNCAP、ASEAN 不做侧面柱碰(仅 MDB 侧碰)——与 side_impact 基准一致",
+      "C-NCAP 柱碰用附录G『低性能限值』作通过门槛,非独立三限值表(G.5.3.3)",
+      "Euro/Latin/ANCAP 柱碰同源 Euro Oblique Side Pole v7.2;US 为 NHTSA 自有 75°斜柱",
+      "US NHTSA 柱碰原文(原文/侧碰)本批未提供,L2/L3 标 SOURCE_PENDING"
+    ]
+  },
+  {
+    "id": "whiplash_rear",
+    "cn_name": "鞭打(后碰颈部)",
+    "en_name": "Rear Whiplash (Neck Protection)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录J 低速后碰撞颈部保护.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "速度": "低速后碰(脉冲)",
+          "假人": [
+            "BioRID II"
+          ],
+          "_note": "§5.1 J=低速;以颈部伤害指数 NIC 评价,无固定闭合速度"
+        },
+        "L3_thresholds": {
+          "_note": "NIC/上下颈部 Fz·My 分组三限值(附录J 实拆;garbled Fx+ 单元格按严禁臆造略去)",
+          "_source": "附录J 低速后碰颈部保护评价表",
+          "_extracted_tables": {
+            "驾驶员座椅鞭打试验": {
+              "NIC": [
+                8,
+                30
+              ],
+              "上颈部Fz+": [
+                475,
+                1130
+              ],
+              "上颈部My": [
+                12,
+                40
+              ],
+              "下颈部Fx+": [
+                340,
+                730
+              ],
+              "下颈部Fz+": [
+                257,
+                1480
+              ],
+              "下颈部My": [
+                12,
+                40
+              ]
+            },
+            "第二排座椅鞭打试验": {
+              "NIC": [
+                8,
+                30
+              ],
+              "上颈部Fz+": [
+                475,
+                1130
+              ],
+              "上颈部My": [
+                12,
+                40
+              ],
+              "下颈部Fx+": [
+                340,
+                730
+              ],
+              "下颈部Fz+": [
+                257,
+                1480
+              ],
+              "下颈部My": [
+                12,
+                40
+              ]
+            },
+            "第二排座椅虚拟测评": {
+              "NIC": [
+                6.4,
+                24
+              ],
+              "上颈部Fz+": [
+                380,
+                904
+              ],
+              "上颈部My": [
+                9.6,
+                32
+              ],
+              "下颈部Fx+": [
+                272,
+                584
+              ],
+              "下颈部Fz+": [
+                205.6,
+                1184
+              ],
+              "下颈部My": [
+                9.6,
+                32
+              ]
+            },
+            "驾驶员座椅（预制动鞭打）": {
+              "Nkm": [
+                0.15,
+                0.55
+              ],
+              "上颈部Fx+": [
+                340,
+                730
+              ],
+              "上颈部Fz+": [
+                475,
+                1130
+              ],
+              "上颈部My": [
+                12,
+                40
+              ],
+              "下颈部Fx+": [
+                340,
+                730
+              ],
+              "下颈部Fz+": [
+                257,
+                1480
+              ],
+              "下颈部My": [
+                12,
+                40
+              ]
+            }
+          }
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [
+          "日本/R7-05_en.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID"
+          ],
+          "_note": "R7-05 後面衝突頚部保護"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "—",
+        "source_files": [],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "拉美/rear-whiplash-test-protocol-v11.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID II"
+          ],
+          "壁障": "后碰台车脉冲"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "澳洲/ANCAP PROTOCOL - Crash Protection - Rear Impact v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID II"
+          ],
+          "_note": "采纳Euro Whiplash"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "Whiplash v3.3.1",
+        "source_files": [
+          "拉美/Euro NCAP - Whiplash Dynamic Assessment v3.3.1.pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID II"
+          ],
+          "壁障": "动态台车(低/中/高脉冲)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_scoring": "sliding HPL-LPL"
+        }
+      },
+      "US NCAP": {
+        "version": "IIHS v4",
+        "source_files": [
+          "美国/IIHS/.../车辆座椅头枕评估规程-动态标准(第4版).pdf"
+        ],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": true
+        },
+        "L2_params": {
+          "假人": [
+            "BioRID"
+          ],
+          "_note": "座椅/头枕动态后碰"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "IIHS G/A/M/P 等级"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [],
+        "L1_subtests": {
+          "后碰鞭打颈部保护": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "AIS-197 无后碰/鞭打专项(仅各碰撞内含颈部准则)"
+        }
+      }
+    },
+    "diff_summary": "做鞭打 6 套(均用 BioRID II);ASEAN、Bharat 不做(Bharat AIS-197 仅在各碰撞内含颈部准则、无后碰专项);US 为 IIHS 头枕动态等级制",
+    "key_differences": [
+      "做后碰鞭打 6 套:C-NCAP(附录J 低速 NIC)、JNCAP(R7-05)、Latin(v1.1)、ANCAP(Rear Impact)、Euro(Whiplash v3.3.1)、US(IIHS 头枕动态)",
+      "ASEAN 不做鞭打/后碰;Bharat AIS-197 无后碰专项(0 处 whiplash/rear impact,仅正/侧碰内含颈部准则)——非漏项",
+      "假人统一 BioRID II;C-NCAP 用颈部伤害指数 NIC 分组评分,Euro/ANCAP/Latin 用动态台车(低/中/高脉冲)滑动评分",
+      "US 为 IIHS 座椅/头枕动态后碰、G/A/M/P 等级(异构),非限值制"
+    ]
+  },
+  {
+    "id": "post_crash_safety",
+    "cn_name": "事故后安全",
+    "en_name": "Post-Crash Safety",
+    "pillar": "事故后安全",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录K 事故后安全.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "速度": "15 km/h(§5.1 K)",
+          "_note": "事故后:门可开启/燃油泄漏/高压断电/eCall"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7",
+        "source_files": [
+          "日本/R7-04_en.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "_note": "R7-04 碰撞后EV感电保护"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "澳洲/ANCAP PROTOCOL - Post-Crash - Rescue & Extrication v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "_note": "救援与脱困(Rescue & Extrication)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "欧盟/Euro NCAP/post crash safety/euro_ncap_protocol_post_crash_v11.pdf"
+        ],
+        "L1_subtests": {
+          "事故后安全": true
+        },
+        "L2_params": {
+          "_note": "事故后安全(门解锁/断电/eCall/救援信息)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "事故后安全": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "4 套做事故后安全:C-NCAP(附录K 15km/h)、JNCAP(R7-04 碰后感电)、ANCAP(救援脱困)、Euro(post-crash);ASEAN/Latin/US/Bharat 不单列",
+    "key_differences": [
+      "做事故后安全 4 套:C-NCAP 附录K(门开启/燃油泄漏/高压断电/eCall)、JNCAP R7-04(碰撞后EV感电)、ANCAP(Rescue & Extrication 救援脱困)、Euro(post-crash)",
+      "JNCAP 本项仅评碰撞后EV感电保护,范围窄于 C-NCAP/Euro 的综合事故后安全",
+      "ANCAP 侧重救援与脱困(消防/急救可达性);ASEAN/Latin/US/Bharat 不单设事故后安全项"
+    ]
+  },
+  {
+    "id": "ev_hazard",
+    "cn_name": "新能源危险工况",
+    "en_name": "EV Hazard (HV Electric Safety)",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录L 新能源汽车危险工况.pdf"
+        ],
+        "L1_subtests": {
+          "新能源危险工况": true
+        },
+        "L2_params": {
+          "速度": "32 km/h(§5.1 L)",
+          "_note": "新能源危险工况:碰撞后高压电安全/热事件等"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "高压绝缘/电解液泄漏/热失控等判定"
+        }
+      },
+      "Euro NCAP": {
+        "version": "HV v1.1 2022",
+        "source_files": [
+          "拉美/Euro NCAP - Testing of High Voltage Electric Vehicles V1.1.pdf"
+        ],
+        "L1_subtests": {
+          "新能源危险工况": true
+        },
+        "L2_params": {
+          "_note": "高压电动车碰撞后电安全(绝缘电阻/隔离/泄漏)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "新能源危险工况": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "仅 C-NCAP(附录L 32km/h)与 Euro(HV Electric)做新能源危险/高压电安全;其余 6 套不单列(部分在事故后安全内含电安全)",
+    "key_differences": [
+      "仅 C-NCAP 附录L『新能源危险工况』(§5.1 32km/h)与 Euro『High Voltage EV Testing』专项做 EV 危险/高压电安全",
+      "JNCAP R7-04(碰撞后感电保护)归入『事故后安全』而非本项;US/ASEAN/Latin/ANCAP/Bharat 不单列 EV 危险工况",
+      "评价聚焦碰撞后高压绝缘/电气隔离/电解液泄漏/热事件,与传统碰撞伤害指标不同维度"
+    ]
+  },
+  {
+    "id": "restraint_system",
+    "cn_name": "乘员约束系统",
+    "en_name": "Restraint System",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录M 乘员约束系统性能.pdf"
+        ],
+        "L1_subtests": {
+          "乘员约束系统": true
+        },
+        "L2_params": {
+          "_note": "安全带/限力/预紧/气囊匹配;台车法"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - CSSTR Protocol.pdf"
+        ],
+        "L1_subtests": {
+          "乘员约束系统": true
+        },
+        "L2_params": {
+          "_note": "儿童约束系统(CSSTR)台车"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "乘员约束系统": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "仅 C-NCAP(附录M 乘员约束)与 Latin(CSSTR 儿童约束)单列约束系统台车项;其余体系把约束性能并入各碰撞工况评价,不单列",
+    "key_differences": [
+      "仅 C-NCAP 附录M(乘员约束系统:安全带/限力/预紧/气囊匹配)与 Latin CSSTR(儿童约束系统)设独立约束台车项",
+      "其余 6 套(JNCAP/ASEAN/ANCAP/Euro/US/Bharat)不单列约束系统,约束性能体现在正/侧碰假人伤害结果中",
+      "属差集型条目:跨体系冲星时,约束系统单列与否影响测试规划口径"
+    ]
+  },
+  {
+    "id": "vru_passive",
+    "cn_name": "弱势者(头/腿型)",
+    "en_name": "Pedestrian Passive (Head/Leg Impactors)",
+    "pillar": "弱势道路使用者",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录O 弱势交通参与者(头型和腿型冲击).pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "速度": "40 km/h(头/腿型冲击器)",
+          "冲击器": [
+            "头型",
+            "腿型(aPLI)"
+          ],
+          "_note": "§5.1 O=40;源另含 20km/h 等子条件(头型 HIC<1000)"
+        },
+        "L3_thresholds": {
+          "_extracted_tables": {
+            "腿型(aPLI)": {
+              "大腿弯矩": [
+                390,
+                440
+              ]
+            }
+          },
+          "_source": "附录O 腿型大腿弯矩 高/低性能限值",
+          "_note": "腿型大腿弯矩三限值实拆;头型为 HIC 颜色网格(表O.1 逐网格点颜色)异质评分,按严禁臆造不强转三限值"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [
+          "日本/R7-06_en.pdf",
+          "日本/R7-07_en.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型(R7-06)",
+            "腿型(R7-07)"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030",
+        "source_files": [
+          "东盟/...xlsm(MS-PED / AOP HPT)"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ],
+          "_note": "MS-PED + 头部保护 HPT"
+        },
+        "L3_thresholds": {
+          "_source": "xlsm MS-PED/HPT",
+          "_status": "TO_EXTRACT_FROM_XLSM"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - PP Protocol v2.0.0.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [
+          "澳洲/ANCAP PROTOCOL - Crash Protection - Vulnerable Road User Impact v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ],
+          "_note": "采纳Euro Pedestrian"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "Pedestrian v8.5",
+        "source_files": [
+          "拉美/Euro NCAP - Pedestrian Testing Protocol v8.5.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "速度": "40 km/h(头/腿型)",
+          "冲击器": [
+            "头型",
+            "aPLI 腿型"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_scoring": "网格 sliding HPL-LPL"
+        }
+      },
+      "US NCAP": {
+        "version": "—",
+        "source_files": [],
+        "L1_subtests": {
+          "行人头型冲击": false,
+          "行人腿型冲击": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "US NCAP 不做被动行人头/腿型保护"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [
+          "印度/AIS_197-1.pdf"
+        ],
+        "L1_subtests": {
+          "行人头型冲击": true,
+          "行人腿型冲击": true
+        },
+        "L2_params": {
+          "冲击器": [
+            "头型",
+            "腿型"
+          ],
+          "_extraction_note": "AIS-197 行人章节(采纳GTR9/Euro)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT_FROM_CHAPTER"
+        }
+      }
+    },
+    "diff_summary": "7 套做被动行人头/腿型冲击(40km/h);US NCAP 唯一不做(仅做主动 AEB-VRU);Euro/ANCAP/Latin/Bharat 同源 Euro Pedestrian、ASEAN 走 MS-PED+HPT(xlsm)",
+    "key_differences": [
+      "US NCAP 唯一不做被动行人头/腿型保护(美国侧重主动 AEB,被动行人不评)——典型差集",
+      "其余 7 套均做:C-NCAP 附录O(头+腿型 40km/h)、JNCAP R7-06头/07腿、Euro Pedestrian v8.5、ANCAP/Latin 采纳Euro、ASEAN MS-PED+HPT(xlsm)、Bharat AIS-197 行人章",
+      "评分多为车前端分区网格(头型 HIC + 腿型弯矩/剪切),Euro 系滑动 HPL-LPL;C-NCAP §5.1 冲击速度 40km/h",
+      "ASEAN 行人评分在官方 xlsm(MS-PED / AOP HPT 表),非 PDF"
+    ]
+  },
+  {
+    "id": "adas_aeb",
+    "cn_name": "AEB(对车辆)",
+    "en_name": "AEB — Vehicle Targets (C2C/Junction/Motorcycle)",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录Q 主动安全先进驾驶辅助系统.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": true,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "路口对向车",
+            "摩托车C2M"
+          ],
+          "_note": "速度区间分档见 L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-12_en.pdf(路口对车)"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": false,
+          "路口对向车": true,
+          "摩托车C2M": false
+        },
+        "L2_params": {
+          "场景目标物": [
+            "路口对向车"
+          ],
+          "_note": "对车辆 AEB 仅路口对向车(R7-12 右直),无直行追尾C2C、无摩托"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/AEB-Car-to-Car v2.1.pdf",
+          "东盟/AEB_CM v1.2.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "摩托车C2M"
+          ],
+          "_note": "C2C + Car-to-Motorcycle(C2M),两轮车密集"
+        },
+        "L3_thresholds": {
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with AEB City as standard equipment"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with AEB City as optional equipment"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with AEB City"
+            }
+          ],
+          "_TFS": 2.5,
+          "_title": "Fitment Rating System for AEB City",
+          "_source": "东盟 NCAP xlsm sheet 'SAT-AEB CCRs'",
+          "_note": "ASEAN AEB 按装备率评分(SAT-AEB CCRs/CCRm&CCRb/MS-AEB CM 三 sheet 同档:标配α1.0/选配0.5/无0);测试协议有场景速度但打分看装配——非性能阈值"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - SA Protocol v2.0.1.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "摩托车C2M"
+          ],
+          "_note": "C2C + 摩托;行人归 vru_active"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Crash Avoidance - Frontal Collisions v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": true,
+          "摩托车C2M": true
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾",
+            "路口对向车",
+            "摩托车C2M"
+          ],
+          "_note": "速度区间分档见 L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Euro NCAP - AEB C2C v2.0.1.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": false
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾"
+          ],
+          "_note": "提供源为 AEB C2C v2.0.1 直行CCR;路口对车AEB属新版协议未在源内"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [
+          "美国/NHTSA/.../FCW_NCAP_Test_Procedure.pdf"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": true,
+          "路口对向车": false,
+          "摩托车C2M": false
+        },
+        "L2_params": {
+          "场景目标物": [
+            "C2C后向追尾"
+          ],
+          "_note": "仅前车C2C(NHTSA 星级)"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "速度区间/判定(避撞↔减速)分档,待批量深拆"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [
+          "印度/AIS_197-1.pdf(无AEB)"
+        ],
+        "L1_subtests": {
+          "C2C后向追尾": false,
+          "路口对向车": false,
+          "摩托车C2M": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "AIS-197 无AEB;Bharat NCAP ADAS 协议未在交付源内"
+        }
+      }
+    },
+    "diff_summary": "对车辆AEB:C-NCAP/ANCAP 全(C2C+路口车+摩托);JNCAP 无直行C2C只测路口对车;ASEAN/Latin 含摩托(两轮密集);Euro/US 仅直行C2C;Bharat 无AEB。(行人/自行车见 vru_active)",
+    "key_differences": [
+      "本行只统计『对车辆』AEB;行人/自行车主动保护归 vru_active(§4 附录Q vs 附录P 分列)",
+      "JNCAP 独特:对车辆 AEB 不做直行追尾 C2C,只在路口测对向车(R7-12 右直)",
+      "ASEAN、Latin 因两轮车密集做 Car-to-Motorcycle(C2M);Euro/US/JNCAP 不测摩托",
+      "C-NCAP、ANCAP 含『路口对向车』AEB;Euro 提供源(C2C v2.0.1)仅直行CCR、US 仅前车C2C;Bharat AIS-197 无AEB",
+      "评分制:中/欧/澳/日为速度区间分档(避撞→减速量),US 为 NHTSA 星级(异构)"
+    ]
+  },
+  {
+    "id": "vru_active",
+    "cn_name": "弱势者主动保护(AEB-VRU)",
+    "en_name": "Active VRU Protection (Pedestrian/Cyclist AEB)",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录P 弱势交通参与者保护(主动安全).pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-09/10/11/13_en.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "AEB行人日间": false,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "无AEB-VRU(MS-PED 为被动头/腿型→ vru_passive)"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Latin NCAP 2025 - SA Protocol v2.0.1.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间"
+          ],
+          "_note": "SA 含行人AEB;无夜间/自行车"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": "SA 含行人AEB;无夜间/自行车"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Crash Avoidance - Frontal v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/Euro NCAP - AEB VRU test protocol v2.0.4.pdf"
+        ],
+        "L1_subtests": {
+          "AEB行人日间": true,
+          "AEB行人夜间": true,
+          "AEB自行车": true,
+          "路口转向行人": true
+        },
+        "L2_params": {
+          "目标场景": [
+            "AEB行人日间",
+            "AEB行人夜间",
+            "AEB自行车",
+            "路口转向行人"
+          ],
+          "_note": "速度区间见L3"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT",
+          "_note": ""
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "AEB行人日间": false,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "NHTSA NCAP 不评主动行人AEB"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "AEB行人日间": false,
+          "AEB行人夜间": false,
+          "AEB自行车": false,
+          "路口转向行人": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED",
+          "_note": "AIS-197 无AEB"
+        }
+      }
+    },
+    "diff_summary": "AEB行人/自行车:C-NCAP/JNCAP/ANCAP/Euro 全(含夜间+自行车);Latin 仅行人;ASEAN/US/Bharat 不做主动VRU(ASEAN只做被动头腿型)",
+    "key_differences": [
+      "C-NCAP/JNCAP/ANCAP/Euro 做完整主动 VRU AEB(行人日+夜+自行车);Latin 仅行人(无夜间/自行车)",
+      "ASEAN 不做主动 VRU(其 MS-PED 是被动头/腿型,归 vru_passive)——主被动之分是关键差集",
+      "US NCAP、Bharat 不做主动行人 AEB(US 侧重 C2C;Bharat AIS-197 无 AEB)",
+      "夜间行人 AEB(照度/前照灯影响)仅 C-NCAP/JNCAP/ANCAP/Euro 评,是高阶差异项"
+    ]
+  },
+  {
+    "id": "lane_support",
+    "cn_name": "车道支持(LDW/LKA/ELK)",
+    "en_name": "Lane Support (LDW/LKA/ELK)",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/*C-NCAP*/**/附录Q*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
+        },
+        "L2_params": {
+          "子项": [
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
+          ],
+          "_note": ""
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-14_en.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true,
+          "紧急车道保持ELK": false
+        },
+        "L2_params": {
+          "子项": [
+            "车道偏离警告LDW",
+            "车道保持LKA"
+          ],
+          "_note": "R7-14 仅 LDW/LKA,无 ELK(ELK明示0)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/*Lane-Support*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
+        },
+        "L2_params": {
+          "子项": [
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
+          ],
+          "_note": "含路沿/对向场景(×10),未单用ELK术语"
+        },
+        "L3_thresholds": {
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with LKA as standard equipment"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with LKA as optional equipment"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with LKA"
+            }
+          ],
+          "_TFS": 1.5,
+          "_title": "Fitment Rating System for LKA",
+          "_source": "东盟 NCAP xlsm sheet 'SAT-LKA'",
+          "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/*SA Protocol*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
+        },
+        "L2_params": {
+          "子项": [
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
+          ],
+          "_note": ""
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/*Lane Departure*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
+        },
+        "L2_params": {
+          "子项": [
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
+          ],
+          "_note": ""
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "拉美/*LSS*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true,
+          "紧急车道保持ELK": true
+        },
+        "L2_params": {
+          "子项": [
+            "车道偏离警告LDW",
+            "车道保持LKA",
+            "紧急车道保持ELK"
+          ],
+          "_note": ""
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [
+          "美国/**/LDW_LKS*.pdf"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": true,
+          "车道保持LKA": true,
+          "紧急车道保持ELK": false
+        },
+        "L2_params": {
+          "子项": [
+            "车道偏离警告LDW",
+            "车道保持LKA"
+          ],
+          "_note": "NHTSA 2013 LDW_LKS 仅 LDW/LKS,无 ELK"
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [
+          "印度/AIS_197-1.pdf(无LSS)"
+        ],
+        "L1_subtests": {
+          "车道偏离警告LDW": false,
+          "车道保持LKA": false,
+          "紧急车道保持ELK": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "7 套均 LDW+LKA(Bharat 不测);ELK 紧急车道保持(路沿/对向车/超车):C-NCAP/Euro/ANCAP/Latin/ASEAN 含,JNCAP(R7-14)与 US(NHTSA 2013)仅基础 LDW/LKA 无 ELK",
+    "key_differences": [
+      "LDW(偏离警告)+LKA/LKS(车道保持)为 7 套共有(Bharat AIS-197 无 LSS)",
+      "ELK 紧急车道保持(路沿/对向来车/超车)是高阶差异:C-NCAP(附录Q×14)、Euro(LSS×22)、ANCAP(×81)、Latin(SA×16)、ASEAN(路沿对向×10)做;JNCAP R7-14 与 US(NHTSA 2013)仅基础 LDW/LKA、无 ELK",
+      "『要不要单独做 ELK』是工程师真问题:冲 Euro/ANCAP 五星须含 ELK,JNCAP/US 不要求",
+      "US 为 NHTSA 通过/星级(异构);中/欧/澳为速度区间分档"
+    ]
+  },
+  {
+    "id": "blind_spot",
+    "cn_name": "盲点监测(BSD)",
+    "en_name": "Blind Spot Detection",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/MS_Test-Protocol-BST-Detection v2.1 + BST-Visualization v2.0.pdf"
+        ],
+        "L1_subtests": {
+          "盲点监测BST": true
+        },
+        "L2_params": {
+          "_note": "盲点检测+(ASEAN另含可视化Visualization)"
+        },
+        "L3_thresholds": {
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with BST for both nearside and offside as st"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with BST for both nearside and offside as op"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with BST for one side only as standard equip"
+            },
+            {
+              "option": "Option D",
+              "alpha": 0.25,
+              "detail": "Vehicle model is equipped with BST for one side only as optional equip"
+            },
+            {
+              "option": "Option E",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with BST"
+            }
+          ],
+          "_TFS": 8.0,
+          "_title": "Fitment Rating System for Blind Spot Technology (BSD/BSV)",
+          "_source": "东盟 NCAP xlsm sheet 'MS-BST'",
+          "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Crash Avoidance - Lane Departure v1.1(BSM)"
+        ],
+        "L1_subtests": {
+          "盲点监测BST": true
+        },
+        "L2_params": {
+          "_note": "盲点检测+(ASEAN另含可视化Visualization)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "盲点监测BST": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "仅 ASEAN(MS-BST 检测+可视化)与 ANCAP(并入车道偏离/变道场景)评盲点监测;C-NCAP/JNCAP/Latin/Euro/US/Bharat 不单列——典型差集",
+    "key_differences": [
+      "盲点监测为窄覆盖项:ASEAN 有独立 MS-BST(Detection + Visualization 两协议)、ANCAP 在 Lane Departure/变道安全内评(×13)",
+      "C-NCAP/JNCAP/Latin/Euro/US/Bharat 不单列盲点监测(部分作整车配置加分但无专项测试)",
+      "ASEAN 因摩托车密集额外重视盲点可视化(BST-Visualization)——区域特色"
+    ]
+  },
+  {
+    "id": "adaptive_highbeam",
+    "cn_name": "自适应远光(AHB)",
+    "en_name": "Adaptive High Beam / ADB",
+    "pillar": "主动安全·避撞",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录S 整车灯光性能(含AHB/ADB,×82)"
+        ],
+        "L1_subtests": {
+          "自适应远光AHB": true
+        },
+        "L2_params": {
+          "_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/MS_Test-Protocol-AHB-ADB v2.0.pdf"
+        ],
+        "L1_subtests": {
+          "自适应远光AHB": true
+        },
+        "L2_params": {
+          "_note": "自适应远光/自适应远光照明 ADB;眩光抑制/切换响应"
+        },
+        "L3_thresholds": {
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with ADB as standard equipment"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.8,
+              "detail": "Vehicle model is equipped with ADB as optional equipment but AHB as st"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.667,
+              "detail": "Vehicle model is not equipped with ADB but equipped with AHB as standa"
+            },
+            {
+              "option": "Option D",
+              "alpha": 0.584,
+              "detail": "Vehicle model is equipped with ADB as optional and AHB as optional equ"
+            },
+            {
+              "option": "Option E",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with ADB as optional equipment and not equip"
+            },
+            {
+              "option": "Option F",
+              "alpha": 0.333,
+              "detail": "Vehicle model is not equipped with ADB but equipped with AHB as option"
+            },
+            {
+              "option": "Option G",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with either AHB or ADB"
+            }
+          ],
+          "_TFS": 3.0,
+          "_title": "Fitment Rating System for Automatic High Beam (AHB)",
+          "_source": "东盟 NCAP xlsm sheet 'MS-AHB'",
+          "_note": "ASEAN 主动安全按整车是否装配该功能评分(Option A标配→α满分/B选配/C无→0),非性能阈值——『不测性能、只看装配』是与中/欧/日/印的根本差集"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "SOURCE_PENDING",
+          "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "SOURCE_PENDING",
+          "_note": "现实评估AHB(Euro/ANCAP 灯光/AHB),本批交付源未含其协议——源待补,非不测"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "自适应远光AHB": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "ASEAN(独立 MS-AHB/ADB)与 C-NCAP(附录S 灯光含 AHB)有源核实;Euro/ANCAP 现实评 AHB 但本批无协议=源待补(非不测);JNCAP/Latin/US/Bharat 不单列",
+    "key_differences": [
+      "ASEAN 有独立 MS-AHB/ADB 协议;C-NCAP 在『附录S 整车灯光性能』内含 AHB/ADB(×82)",
+      "Euro/ANCAP 现实有 AHB 评估,但本批交付源未含其灯光/AHB 协议 → 标『源待补』,工程师勿误读为不评远光",
+      "JNCAP R7-16 为『高機能前照灯装备確認』(配备确认,非动态AHB评分);Latin/US/Bharat 不单列 AHB"
+    ]
+  },
+  {
+    "id": "occupant_monitoring",
+    "cn_name": "乘员监测提醒",
+    "en_name": "Occupant Monitoring & Reminder",
+    "pillar": "安全驾驶·辅助",
+    "systems": {
+      "C-NCAP": {
+        "version": "",
+        "source_files": [
+          "中国/.../附录N 座舱乘员安全监测与提醒.pdf"
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": true,
+          "儿童遗留检测CPD": true,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "安全带提醒SBR",
+            "儿童遗留检测CPD"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "JNCAP": {
+        "version": "",
+        "source_files": [
+          "日本/R7-08_en.pdf(SBR)"
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": true,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "安全带提醒SBR"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "",
+        "source_files": [
+          "澳洲/ANCAP - Safe Driving - Occupant Monitoring v1.1.pdf"
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": true,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "儿童遗留检测CPD"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "",
+        "source_files": [
+          "欧盟/Euro NCAP/safe driving/..."
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": true,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "儿童遗留检测CPD"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ASEAN": {
+        "version": "",
+        "source_files": [
+          "东盟/...xlsm sheet 'SAT-SBR'(安全带提醒 TFS6)",
+          "东盟/...xlsm sheet 'COP CPD'(儿童遗留检测 TFS5)"
+        ],
+        "L1_subtests": {
+          "安全带提醒SBR": true,
+          "儿童遗留检测CPD": true,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {
+          "子项": [
+            "安全带提醒SBR",
+            "儿童遗留检测CPD"
+          ]
+        },
+        "L3_thresholds": {
+          "_scoring": "装备率(fitment:标配α/选配/无 × 国别系数)",
+          "_fitment": [
+            {
+              "option": "Option A",
+              "alpha": 1.0,
+              "detail": "Vehicle model is equipped with SBR for driver, front passenger and rea"
+            },
+            {
+              "option": "Option B",
+              "alpha": 0.75,
+              "detail": "Vehicle model is equipped with SBR for driver, front passenger and rea"
+            },
+            {
+              "option": "Option C",
+              "alpha": 0.625,
+              "detail": "Vehicle model is equipped with SBR for driver and front passenger as s"
+            },
+            {
+              "option": "Option D",
+              "alpha": 0.5,
+              "detail": "Vehicle model is equipped with SBR for driver and front passenger only"
+            },
+            {
+              "option": "Option E",
+              "alpha": 0.25,
+              "detail": "Vehicle model is equipped with SBR for driver only as standard equipme"
+            },
+            {
+              "option": "Option F",
+              "alpha": 0.0,
+              "detail": "Vehicle model is not equipped with SBR"
+            }
+          ],
+          "_TFS": 6.0,
+          "_title": "Fitment Rating System for Seatbelt Reminders",
+          "_source": "东盟 NCAP xlsm sheet 'SAT-SBR'",
+          "_note": "ASEAN 乘员监测含两张装备率评分表:SAT-SBR(安全带提醒,满分TFS=6.0,本表)+ COP CPD(儿童遗留检测,TFS=5.0);均按装配档评分,DMS 不单列"
+        }
+      },
+      "Latin NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "US NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "",
+        "source_files": [],
+        "L1_subtests": {
+          "安全带提醒SBR": false,
+          "儿童遗留检测CPD": false,
+          "驾驶员监测DMS": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      }
+    },
+    "diff_summary": "异质差集:C-NCAP 附录N(SBR+儿童遗留)与 ASEAN(SAT-SBR+COP CPD,装备率)均含 SBR+CPD;JNCAP 仅 SBR;ANCAP/Euro 为儿童遗留CPD;Latin/US/Bharat 不测。DMS驾驶员监测各体系尚未单列动态评分",
+    "key_differences": [
+      "子项异质是关键差集:C-NCAP/ASEAN(SBR+儿童遗留CPD)、JNCAP(仅SBR)、ANCAP(儿童遗留CPD,DMS×0)、Euro(儿童遗留/乘员状态)",
+      "C-NCAP 附录N 经原文核实不含驾驶员监测DMS(驾驶员状态×0),仅 SBR+儿童遗留;无体系把 DMS 作独立动态评分项",
+      "ASEAN 经源核实(SAT-SBR + COP CPD 装备率表)做 SBR+儿童遗留,但按『装备率』评分(是否装配),非性能/动态测试——与中欧日的测试制不同",
+      "Latin/US/Bharat 不单列乘员监测提醒",
+      "『监测/提醒』口径不一:提醒(SBR)vs 检测(儿童遗留)vs 监测(驾驶员状态),跨体系冲星须分清"
+    ]
+  }
+];
+try{build(_EMBED_MATRIX);}catch(e){document.getElementById("root").innerHTML='render error: '+E(e.message||e);}
+</script></body></html>

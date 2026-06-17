@@ -102,11 +102,14 @@ function cellHint(sysObj){
 }
 function scoringName(l3){
   if(!l3)return"";
-  if(l3._extracted_front||l3._extracted_tables||(l3._note&&String(l3._note).includes("高")))return"三限值(高/低/极限)";
-  if(l3._HPL_LPL||(l3._scoring&&String(l3._scoring).includes("sliding")))return"滑动 HPL-LPL";
-  if(l3._extracted_blocks||l3._blocks)return"Value+Points(4分制)";
-  if(l3._bands)return"5色等级(色带)";
+  const sc=String(l3._scoring||"");
+  // 显式评分制标签优先(Bharat 的滑动数据存于 _extracted_tables,须先于三限值分支判定)
+  if(l3._HPL_LPL||sc.includes("sliding")||sc.includes("HPL"))return"滑动 HPL-LPL";
+  if(sc.includes("capping")||sc.includes("pass-fail"))return"capping/pass-fail";
   if(l3._fitment)return"装备率(fitment)";
+  if(l3._bands)return"5色等级(色带)";
+  if(l3._extracted_front||l3._extracted_tables||(l3._note&&String(l3._note).includes("高")))return"三限值(高/低/极限)";
+  if(l3._extracted_blocks||l3._blocks)return"Value+Points(4分制)";
   if((l3._status||"").includes("DIFFERENT"))return"星级/等级(异构)";
   return l3._status||"";
 }
