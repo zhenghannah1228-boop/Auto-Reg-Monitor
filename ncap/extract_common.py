@@ -32,3 +32,20 @@ def report(results):
         print(("  ✓ " if ok else "  ✗ ") + key + ("" if ok else f"  got={gv!r} want={wv!r}"))
     print(f"\n{'PASS' if not bad else 'FAIL'} — {len(results)-len(bad)}/{len(results)} 字段匹配")
     return not bad
+
+
+def merge_row(row):
+    """把一个测试项行并入 ncap_matrix.json(按 id 去重替换),数组形式。"""
+    import json
+    p = os.path.join(HERE, "ncap_matrix.json")
+    arr = []
+    if os.path.exists(p):
+        arr = json.load(open(p, encoding="utf-8"))
+    arr = [x for x in arr if x.get("id") != row.get("id")] + [row]
+    # 固定顺序:碰撞保护族在前,稳定输出
+    order = ["frontal_rigid_full", "frontal_mpdb_offset", "frontal_small_overlap",
+             "side_impact", "side_pole", "whiplash_rear", "post_crash_safety",
+             "ev_hazard", "restraint_system", "vru_passive"]
+    arr.sort(key=lambda x: order.index(x["id"]) if x["id"] in order else 99)
+    json.dump(arr, open(p, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    return len(arr)

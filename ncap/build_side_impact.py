@@ -3,7 +3,7 @@
 sample.json 已人工验证的 L2/版本/状态层作为骨架,实拆字段覆盖其上并逐字段断言。
 严禁臆造:拆不到的层保留 sample.json 的 status。"""
 import os, re, json, glob
-from extract_common import pdf_text, has, SRC
+from extract_common import pdf_text, has, SRC, merge_row
 
 # ---------- L1 子测试项:从各体系源文件按"是否含该试验"判定 ----------
 def cn_dir(*pats):
@@ -132,8 +132,8 @@ def main():
     a = asean_L3()
     out["systems"]["ASEAN"]["L3_thresholds"]["_extracted_blocks"] = a
     results.append(({"HEAD", "CHEST"}.issubset(a.keys()), "ASEAN.L3.xlsm_blocks", sorted(a.keys()), "含 HEAD+CHEST"))
-    # 写出矩阵(单测试项;后续测试项 append 进数组)
-    json.dump([out], open("ncap_matrix.json", "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+    # 并入矩阵(按 id 去重)
+    merge_row(out)
     # 回归报告
     bad = [r for r in results if not r[0]]
     for ok, key, gv, wv in results:

@@ -300,5 +300,151 @@
       "US用星级算法/IIHS等级,非限值制;Bharat单文件AIS-197待按章节拆",
       "JNCAP是8套体系中唯一侧碰只做MDB、不做柱碰的体系(全R7协议无pole测试)"
     ]
+  },
+  {
+    "id": "side_pole",
+    "cn_name": "侧面柱碰",
+    "en_name": "Side Pole Impact",
+    "pillar": "碰撞保护",
+    "systems": {
+      "C-NCAP": {
+        "version": "2027版",
+        "source_files": [
+          "中国/.../附录H 侧面柱碰撞测试评价规程.pdf"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "速度": "32 km/h",
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "254mm 刚性柱",
+          "撞击角度": "垂直(车辆横向)"
+        },
+        "L3_thresholds": {
+          "_note": "柱碰按附录G『低性能限值』作通过门槛(G.5.3.3/G.14)",
+          "_source": "附录G 低性能限值列"
+        }
+      },
+      "JNCAP": {
+        "version": "令和7(2025)",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "ASEAN": {
+        "version": "Protocol 2026-2030",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": false
+        },
+        "L2_params": {},
+        "L3_thresholds": {
+          "_status": "NOT_TESTED"
+        }
+      },
+      "Latin NCAP": {
+        "version": "2025/采纳Euro Oblique v7.2",
+        "source_files": [
+          "拉美/Euro NCAP – Oblique Side pole Impact Testing Protocol v7.2 Dec 2023.pdf"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "斜柱(采纳Euro Oblique 75°)"
+        },
+        "L3_thresholds": {
+          "_source": "采纳Euro Oblique v7.2",
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "ANCAP": {
+        "version": "v1.1",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "斜柱(采纳Euro)"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "Euro NCAP": {
+        "version": "v1.1 2026 + Oblique v7.2",
+        "source_files": [
+          "欧盟/Euro NCAP/crash protection/.../side impact v11",
+          "拉美/Euro NCAP – Oblique Side pole v7.2"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "假人": [
+            "WorldSID 50th"
+          ],
+          "壁障": "斜柱 75°(Oblique Pole)"
+        },
+        "L3_thresholds": {
+          "_source": "Euro Oblique v7.2",
+          "_status": "TO_EXTRACT"
+        }
+      },
+      "US NCAP": {
+        "version": "NHTSA",
+        "source_files": [],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "壁障": "75° 斜柱(MDB+Pole)",
+          "假人": [
+            "SID-IIs",
+            "ES-2re"
+          ]
+        },
+        "L3_thresholds": {
+          "_status": "DIFFERENT_SCORING_MODEL",
+          "_note": "NHTSA 星级;本批未提供 NHTSA 原文/侧碰源,L2/L3 待补"
+        }
+      },
+      "Bharat NCAP": {
+        "version": "AIS-197",
+        "source_files": [
+          "印度/AIS_197-1.pdf"
+        ],
+        "L1_subtests": {
+          "侧面柱碰": true
+        },
+        "L2_params": {
+          "_extraction_note": "AIS-197 含柱碰章节,采纳Global/Euro方法"
+        },
+        "L3_thresholds": {
+          "_status": "TO_EXTRACT_FROM_CHAPTER"
+        }
+      }
+    },
+    "key_differences": [
+      "做柱碰的 6 套:C-NCAP(附录H 刚性柱 32km/h)、Latin/ANCAP/Euro(采纳 Euro Oblique 斜柱 75°)、US(NHTSA 75°斜柱)、Bharat(AIS-197)",
+      "JNCAP、ASEAN 不做侧面柱碰(仅 MDB 侧碰)——与 side_impact 基准一致",
+      "C-NCAP 柱碰用附录G『低性能限值』作通过门槛,非独立三限值表(G.5.3.3)",
+      "Euro/Latin/ANCAP 柱碰同源 Euro Oblique Side Pole v7.2;US 为 NHTSA 自有 75°斜柱",
+      "US NHTSA 柱碰原文(原文/侧碰)本批未提供,L2/L3 标 SOURCE_PENDING"
+    ]
   }
 ]
