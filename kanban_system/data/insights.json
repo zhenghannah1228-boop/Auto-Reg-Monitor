@@ -2160,6 +2160,53 @@
    "source_file": "Decreto 465 + Decreto Legislativo No.738(萨尔瓦多官方法源包)",
    "url": "",
    "needs_review": false
+  },
+  {
+   "id": "INS-2026-044",
+   "title": "多米尼加车辆准入官方法源体系(交通法63-17 / EV激励103-13 / 估值 / 环保)",
+   "type": "system",
+   "summary": "多米尼加官方车辆法源:Ley 63-17《移动·陆路运输·交通与道路安全法》(2017,主管INTRANT,取代旧Ley 241/1967)+ Decreto 5-19实施条例 + Decreto 420-23全国车辆登记条例;税与估值由 DGII 主导(Ley 253-12、Norma General 03-2013:车辆循环税ICV=车值1%,DGII年度车值表);Ley 103-13 对非常规能源(电动/氢/混动)车辆进口减免进口税50%;环保有 Ley 64-00 与《空气质量环境技术法规》2018。",
+   "regulations": [
+    {
+     "region": "加勒比",
+     "country": "多米尼加",
+     "reg_no": "Ley 63-17 Tránsito",
+     "match_key": "Ley 63-17"
+    },
+    {
+     "region": "加勒比",
+     "country": "多米尼加",
+     "reg_no": "Ley 103-13 (EV进口激励)",
+     "match_key": "Ley 103-13"
+    }
+   ],
+   "topics": [
+    "多米尼加",
+    "交通法",
+    "EV进口激励",
+    "车辆估值税",
+    "车辆登记",
+    "空气质量"
+   ],
+   "dimensions": [
+    "9",
+    "5"
+   ],
+   "key_points": [
+    "交通母法:Ley No.63-17《Movilidad, Transporte Terrestre, Tránsito y Seguridad Vial》(2017),取代1967年 Ley 241,主管 INTRANT;实施条例 Decreto 5-19;全国车辆登记条例 Decreto 420-23(Registro Nacional de Vehículos)。",
+    "EV/清洁能源进口激励:Ley No.103-13《incentivo a la importación de vehículos de energía no convencional》——电动/氢/混动车进口税减免50%(含首次上牌相关);混动门槛:电动机≥10kW、须具再生制动;HS 8702.90.95 等。",
+    "车辆估值与税:DGII 主管;Ley 253-12(强化国家征收能力法)+ Norma General 03-2013——车辆循环税(ICV)=车值的1%,DGII 每年公布《轻/重型车辆价值表》核定车值,业主对车值有异议可申请估值复核;公共运输车>5年付RD$1,200、<5年付RD$2,000;逾期加征10%/4%。",
+    "进口关税与增值税(实务):进口关税(Gravamen)约20%、ITBIS增值税18%(按CIF;详见 INS-2026-039 通关实务)。",
+    "环保:Ley 64-00《Medio Ambiente》、Ley 98-25(设环境部)、《Reglamento Técnico Ambiental de Calidad del Aire》2018 + Resolución 0020-2020(空气质量技术法规,涉机动车排放)。"
+   ],
+   "author": "多米尼加官方法规(立法+DGII+环境部)",
+   "publish_date": "",
+   "region_focus": [
+    "多米尼加"
+   ],
+   "source_file": "多米尼加官方法源包(2 zip,20件)",
+   "url": "",
+   "needs_review": false
   }
  ]
 }

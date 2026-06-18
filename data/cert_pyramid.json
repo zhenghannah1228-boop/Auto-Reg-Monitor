@@ -7562,7 +7562,7 @@
   "多米尼加": {
    "country": "多米尼加",
    "system_type": "recognition",
-   "summary": "中美洲区域框架:采纳中美洲技术规程(RTCA/SIECA),由DIGENOR定标准、交通主管/海关办注册/检验;以进口符合与海关为主,无本土型式批准。",
+   "summary": "中美洲/加勒比区域框架(采纳RTCA/SIECA、DIGENOR定标准)+ 本国官方法源齐备:交通母法 Ley 63-17(INTRANT)+登记条例 Decreto 420-23;税与估值由 DGII 主导(Ley 253-12、Norma 03-2013 车值表/ICV);EV进口激励 Ley 103-13(进口税减半);环保 Ley 64-00 与空气质量技术法规。以进口符合+海关(DGA)准入为主。",
    "pyramid": [
     {
      "level": 1,
@@ -7620,6 +7620,22 @@
       {
        "group": "安全/环保",
        "items": "DIGENOR国家标准 + RTCA区域规程"
+      },
+      {
+       "group": "交通/登记母法",
+       "items": "Ley 63-17 移动·陆路运输·交通与道路安全法(2017,INTRANT)+ Decreto 5-19 实施条例 + Decreto 420-23 全国车辆登记条例"
+      },
+      {
+       "group": "清洁能源激励",
+       "items": "Ley 103-13 非常规能源车辆进口激励(电动/氢/混动 进口税减50%)"
+      },
+      {
+       "group": "税与估值",
+       "items": "Ley 253-12 + Norma General 03-2013(DGII 车值表;车辆循环税ICV=车值1%)"
+      },
+      {
+       "group": "环保/排放",
+       "items": "Ley 64-00 环境法 + 空气质量环境技术法规2018 + Resolución 0020-2020"
       }
      ],
      "component": [
@@ -7659,19 +7675,19 @@
     "scope": "中美洲区域协调+海关检验;无本土型式批准",
     "note": "区域+海关型——采中美洲RTCA框架,DIGENOR定标准,以进口符合/海关准入,无本土型式批准,中美洲/加勒比代表。"
    },
-   "confidence": "C",
+   "confidence": "A",
    "sources": [
-    "法规清单(多米尼加)",
-    "DIGENOR/CAFTA-DR/RTCA 公开资料(资料有限)"
+    "多米尼加官方法源包(2026-06 投喂,2 zip/20件):Ley 63-17、103-13、253-12、64-00、98-25、225-20、358-05、Decreto 420-23/5-19/320-21/685-22、Norma General 03-2013、空气质量技术法规2018、Resolución 系列(部分为扫描件)",
+    "Blue Horizon 通关实务 + 进口科普(二手,见 INS-039)"
    ],
    "tariff": {
     "cbu_passenger": "Gravamen 进口关税 20%(按车辆估值)",
     "cbu_commercial": "Gravamen 20%(卡车;车龄≤15年)",
     "vat": "ITBIS/IVA 18%(按 CIF)",
-    "excise": "首次上牌 17%(CIF)+ 按 CO₂ 排放附加;过户 2%;Marbete 行驶证(可变)",
-    "fta": "凭原产地证书可享关税优惠(中美洲 SIECA/RTCA 区域)",
+    "excise": "首次上牌 17%(CIF)+ 按 CO₂ 排放附加;过户 2%;Marbete 行驶证(可变) · EV/氢/混动进口税减50%(Ley 103-13);车辆循环税ICV=车值1%(Norma 03-2013/DGII)",
+    "fta": "中美洲/DR-CAFTA 区域;凭原产地证享优惠",
     "note": "车龄:乘用车≤5年、卡车≤15年;禁救援/全损车。主管:海关总署 DGA。海外满2年居民:家庭物品一生一次、车辆每10年一次免税(过去2年在多≤180天)。",
-    "source": "Blue Horizon DR Import Customs Regulations + 进口流程资料(2026-06 投喂)· 参考,以 DGA 最新税则为准"
+    "source": "官方:Ley 103-13、Ley 253-12、Norma General 03-2013(DGII)+ 通关实务(Blue Horizon)· 参考,以 DGA/DGII 最新为准"
    }
   },
   "喀麦隆": {

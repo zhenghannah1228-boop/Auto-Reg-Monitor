@@ -2347,5 +2347,37 @@
         "url": ""
       }
     ]
+  },
+  "Ley 63-17 Tránsito": {
+    "reg_no": "Ley 63-17 Tránsito",
+    "match_key": "Ley 63-17",
+    "region": "加勒比",
+    "country": "多米尼加",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-044",
+        "title": "多米尼加车辆准入官方法源体系(交通法63-17 / EV激励103-13 / 估值 / 环保)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "Ley 103-13 (EV进口激励)": {
+    "reg_no": "Ley 103-13 (EV进口激励)",
+    "match_key": "Ley 103-13",
+    "region": "加勒比",
+    "country": "多米尼加",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-044",
+        "title": "多米尼加车辆准入官方法源体系(交通法63-17 / EV激励103-13 / 估值 / 环保)",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }
