@@ -1933,7 +1933,10 @@ function searchGoHub(f){
 let textFiles=[];
 $("#txtfolder").addEventListener("change",e=>addTexts(e.target.files));
 $("#txtfiles").addEventListener("change",e=>addTexts(e.target.files));
-$("#txtcty").addEventListener("change",()=>{reconcile();renderRecon();});
+$("#txtcty").addEventListener("change",()=>{
+  // 选定国家时,对账结果默认只展示该国(可在下方「国家筛选」再切回全部国家)
+  const v=$("#txtcty").value; window._reconCty=(v&&v!=="auto")?v:"all";
+  reconcile();renderRecon();});
 function stripExt(n){return n.replace(/\.[A-Za-z0-9]{1,6}$/,"");}
 function selfRefs(s){
   const refs=new Set(); if(!s)return refs;
@@ -2035,10 +2038,13 @@ function renderRecon(){
   const cover=recs().length?Math.round((recs().length-missing.length)/recs().length*100):0;
   const mByC={};missing.forEach(r=>{(mByC[r.country]=mByC[r.country]||[]).push(r);});
   const oByC={};orphans.forEach(t=>{const c=t.country||"未知国";(oByC[c]=oByC[c]||[]).push(t);});
+  // 默认跟随上方「归属国家」:首次渲染时若已选定某国,对账区默认只展示该国
+  if(window._reconCty===undefined){const tv=$("#txtcty")?$("#txtcty").value:"";window._reconCty=(tv&&tv!=="auto")?tv:"all";}
   const fsel=window._reconCty||"all";
   const allC={};
   Object.entries(mByC).forEach(([c,l])=>{(allC[c]=allC[c]||{m:0,o:0}).m=l.length;});
   Object.entries(oByC).forEach(([c,l])=>{(allC[c]=allC[c]||{m:0,o:0}).o=l.length;});
+  if(fsel!=="all"&&!allC[fsel])allC[fsel]={m:0,o:0};  // 选定国0缺0孤时,下拉仍显示该国(结果区显示"全部有文本")
   const ctyOpts='<option value="all">全部国家 (缺'+missing.length+' / 孤'+orphans.length+')</option>'
     +Object.entries(allC).sort((a,b)=>(b[1].m+b[1].o)-(a[1].m+a[1].o))
     .map(([c,v])=>`<option value="${c}" ${fsel===c?"selected":""}>${c} (缺${v.m} / 孤${v.o})</option>`).join("");
