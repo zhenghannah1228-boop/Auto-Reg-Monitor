@@ -2307,5 +2307,45 @@
         "url": ""
       }
     ]
+  },
+  "ASEAN MRA on Automotive Type Approval 2021": {
+    "reg_no": "ASEAN MRA on Automotive Type Approval 2021",
+    "match_key": "ASEAN MRA",
+    "region": "东南亚",
+    "country": "东盟",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 5,
+        "reg_no": "ASEAN MRA Automotive",
+        "cn_name": "东盟汽车产品合格评定互认协议"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-042",
+        "title": "ASEAN 汽车产品型式批准互认协议(MRA 2021)——老挝/东盟互认依据",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "Ley Fomento Importación Vehículos Eléctricos/Híbridos (Decreto 465/738)": {
+    "reg_no": "Ley Fomento Importación Vehículos Eléctricos/Híbridos (Decreto 465/738)",
+    "match_key": "Decreto 465",
+    "region": "中美洲",
+    "country": "萨尔瓦多",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-043",
+        "title": "萨尔瓦多电动/混动车进口激励法(Decreto 465/738 改革)",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
   }
 }

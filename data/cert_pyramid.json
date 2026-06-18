@@ -10584,7 +10584,7 @@
   "老挝": {
    "country": "老挝",
    "system_type": "recognition",
-   "summary": "进口许可+技术许可+测试+注册模式(据《陆路运输法》2021):MPWT 发技术许可与车辆注册、工商部(MOIC)发进口许可;永久进口须原产国技术检验证书(≤12月)、符合老挝认可技术标准与 COP 生产一致性,认可检测中心测排放/噪声后注册;东盟成员。",
+   "summary": "本国技术许可+检测 与 东盟区域互认 双层:依《陆路运输法》2021 由 MPWT 发技术许可、认可检测中心测排放/噪声并注册;同时为东盟成员、适用 ASEAN MRA 2021 汽车型式批准互认。官方法源齐备(NA/PM/MPWT/MOST/MOIC/MONRE 系列 + ASEAN MRA)。",
    "pyramid": [
     {
      "level": 1,
@@ -10641,6 +10641,10 @@
       {
        "group": "准入/技术法规",
        "items": "《陆路运输法》2021(MPWT技术许可+认可检测中心测试[排放/噪声]+注册;CBU/COP/VIN)"
+      },
+      {
+       "group": "区域互认",
+       "items": "ASEAN MRA 汽车型式批准互认(2021)+ ASEAN Protocol 5"
       }
      ],
      "component": [
@@ -10673,18 +10677,17 @@
    },
    "external_recognition": {
     "recognizes": [
-     "出口国原始资料",
-     "符合进口政策的外部证据"
+     "ASEAN MRA 汽车型式批准互认(2021)",
+     "东盟协调技术规程(对接UN R)"
     ],
-    "basis": "以进口许可与海关清关为准;无专项型式批准。",
-    "scope": "进口许可+海关;无专项型式批准",
+    "basis": "东盟成员;《陆路运输法》2021 本国技术许可+检测 + ASEAN MRA 2021 区域型式批准互认。",
+    "scope": "本国技术许可/检测 + 东盟区域型式批准互认",
     "note": "进口许可/海关型——以进口许可与注册准入,东盟内陆小市场代表,无本土型式批准。"
    },
-   "confidence": "B",
+   "confidence": "A",
    "sources": [
-    "法规清单(老挝)",
-    "MOIC/MPWT 公开资料(资料有限)",
-    "老挝《陆路运输法》2021(总统令235/PO·英文官方译本)+ 老挝语官方文本23/NA · 投喂2026-06"
+    "老挝官方法源包(2026-06 投喂,24件):04-NA 陆路运输法、23/25/29-NA、9393-MPWT、1573-MOST、0075/0281/0333/2501-MOIC、0744/1687-MONRE、78/81/180-PM、114-GoL、3583-MTC、4312-MCTPC、ASEAN MRA 2021、ASEAN Protocol 5 等",
+    "MOIC/MPWT 公开资料"
    ]
   },
   "卢旺达": {
@@ -11137,7 +11140,7 @@
   "萨尔瓦多": {
    "country": "萨尔瓦多",
    "system_type": "recognition",
-   "summary": "中美洲区域框架:采纳中美洲技术规程(RTCA/SIECA),OSARTEC定标准,以进口符合与车辆检验/注册为主;无本土型式批准。进口海关估值有官方法规 Decreto Legislativo Nº383(财政部,现行)。",
+   "summary": "官方法源齐备:陆路运输/交通/道路安全法(Decreto 61 及 141/293/41/710/185/310 改革)+ 交通总条例(Decreto 477)+ 进口估值法(Decreto 383)+ 电动/混动进口激励法(Decreto 465/738)+ 车辆序列号识别法(Decreto 589)+ 技术规程 RTS 13.01.02:23;区域采信中美洲 RTCA。",
    "pyramid": [
     {
      "level": 1,
@@ -11199,6 +11202,22 @@
       {
        "group": "进口/海关估值",
        "items": "Decreto Legislativo Nº383(机动车进口估值与折旧·财政部·现行)"
+      },
+      {
+       "group": "陆路运输/交通母法",
+       "items": "Ley de Transporte Terrestre, Tránsito y Seguridad Vial(Decreto 61 + 141/293/41/710/185/310 改革)+ Reglamento General de Tránsito(Decreto 477)"
+      },
+      {
+       "group": "清洁能源激励",
+       "items": "电动/混动进口与使用促进激励法(Decreto 465 / Decreto Legislativo 738)"
+      },
+      {
+       "group": "车辆识别",
+       "items": "车辆序列号识别法(Decreto 589);VIN"
+      },
+      {
+       "group": "技术规程",
+       "items": "RTS 13.01.02:23(萨尔瓦多技术规程)+ 中美洲 RTCA"
       }
      ],
      "component": [
@@ -11238,11 +11257,10 @@
     "scope": "中美洲区域协调+检验;无本土型式批准",
     "note": "区域+检验型——采中美洲RTCA框架,OSARTEC定标准,VMT检验注册,中美洲代表,无本土型式批准。"
    },
-   "confidence": "B",
+   "confidence": "A",
    "sources": [
-    "法规清单(萨尔瓦多)",
-    "OSARTEC/VMT/SIECA/RTCA 公开资料(资料有限)",
-    "Decreto Legislativo Nº383/1995(Ministerio de Hacienda, 现行)· 投喂2026-06"
+    "萨尔瓦多官方法源包(2026-06 投喂,14件):Decreto 61 陆路运输法及 141/293/41/710/185/310/477 改革、Decreto 383 进口估值、Decreto 465 与 No.738 电动车激励、Decreto 589 序列号、Decreto 367/185/310/No.477、RTS 13.01.02:23",
+    "OSARTEC/VMT/SIECA/RTCA 公开资料"
    ],
    "tariff": {
     "cbu_passenger": "按海关税则(DAI 关税 + IVA);估值法见 Decreto 383",

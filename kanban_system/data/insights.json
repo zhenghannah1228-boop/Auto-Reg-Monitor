@@ -2082,6 +2082,84 @@
    "source_file": "04NA Land Transport Law(EN) + 23NA(Lao)",
    "url": "",
    "needs_review": false
+  },
+  {
+   "id": "INS-2026-042",
+   "title": "ASEAN 汽车产品型式批准互认协议(MRA 2021)——老挝/东盟互认依据",
+   "type": "system",
+   "summary": "《2021 ASEAN Mutual Recognition Arrangement on Type Approval for Automotive Products》(2021-01-16 于内比都通过):东盟成员就汽车产品型式批准建立互认安排,一国按协调技术规程(对接 UN R)做的型式批准结果,其他成员国互认,减少重复测试。老挝等东盟成员的『互认依据』。",
+   "regulations": [
+    {
+     "region": "东南亚",
+     "country": "东盟",
+     "reg_no": "ASEAN MRA on Automotive Type Approval 2021",
+     "match_key": "ASEAN MRA"
+    }
+   ],
+   "topics": [
+    "东盟互认",
+    "型式批准",
+    "MRA",
+    "老挝准入",
+    "UN R对接"
+   ],
+   "dimensions": [
+    "1"
+   ],
+   "key_points": [
+    "性质:东盟汽车产品型式批准互认协议(ASEAN MRA on Type Approval for Automotive Products),2021-01-16 于缅甸内比都通过;目标=成员国互认彼此的汽车产品型式批准结果、减少重复测试、便利区域贸易。",
+    "机制:以东盟协调技术规程(对接 UN Regulations)为基础,指定/认可技术服务机构与型式批准机构,签发并互认型式批准证书。",
+    "对老挝意义:老挝为东盟成员,是其车辆准入『互认依据』之一——结合本国《陆路运输法》2021(MPWT 技术许可+检测)与 ASEAN MRA 区域互认,构成『本国技术许可 + 区域型式批准互认』双层。",
+    "配套:ASEAN Protocol 5(东盟一体化框架协议下运输便利化议定书)同包提供。"
+   ],
+   "author": "ASEAN(区域协议官方文本)",
+   "publish_date": "2021-01-16",
+   "region_focus": [
+    "老挝",
+    "东盟"
+   ],
+   "source_file": "ASEAN MRA 2021_01-03 + Protocol 5(老挝官方法源包)",
+   "url": "",
+   "needs_review": false
+  },
+  {
+   "id": "INS-2026-043",
+   "title": "萨尔瓦多电动/混动车进口激励法(Decreto 465/738 改革)",
+   "type": "interpret",
+   "summary": "萨尔瓦多《电动与混合动力运输工具进口与使用促进及激励法》(Ley de Fomento e Incentivos para la Importación y uso de Medios de Transporte Eléctricos e Híbridos),经 Decreto 465、Decreto Legislativo 738 改革:通过财政激励促进新/旧电动及插混车辆、零部件与充电基础设施的进口与使用。",
+   "regulations": [
+    {
+     "region": "中美洲",
+     "country": "萨尔瓦多",
+     "reg_no": "Ley Fomento Importación Vehículos Eléctricos/Híbridos (Decreto 465/738)",
+     "match_key": "Decreto 465"
+    }
+   ],
+   "topics": [
+    "萨尔瓦多",
+    "电动车激励",
+    "进口",
+    "充电设施",
+    "EV补贴"
+   ],
+   "dimensions": [
+    "5",
+    "4"
+   ],
+   "key_points": [
+    "立法目的:以公共政策促进公共与私营部门使用电动/混动运输工具,通过财政激励促进此类车辆、零部件及相关配件的进口(Art.1)。",
+    "覆盖范围:新车与二手电动车进口的财政激励;以及电动车充电站/充电中心基础设施的建设与推广。",
+    "改革:Decreto 465 与 Decreto Legislativo Nº738 对该法进行修订(本批含官方原文)。",
+    "属萨尔瓦多车辆准入/进口法源体系的『清洁能源激励』组成,与进口估值法 Decreto 383、陆路运输与交通法、RTS 技术标准并列。"
+   ],
+   "author": "萨尔瓦多立法议会(官方法规)",
+   "publish_date": "",
+   "region_focus": [
+    "萨尔瓦多"
+   ],
+   "source_file": "Decreto 465 + Decreto Legislativo No.738(萨尔瓦多官方法源包)",
+   "url": "",
+   "needs_review": false
   }
  ]
 }
