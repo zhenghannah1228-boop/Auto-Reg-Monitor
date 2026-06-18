@@ -2291,5 +2291,21 @@
         "url": ""
       }
     ]
+  },
+  "Land Transport Law 2021 (总统令235/PO,决议31/NA)": {
+    "reg_no": "Land Transport Law 2021 (总统令235/PO,决议31/NA)",
+    "match_key": "老挝陆路运输法",
+    "region": "东南亚",
+    "country": "老挝",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-041",
+        "title": "老挝《陆路运输法》2021——车辆进口·技术许可·测试·注册框架(官方)",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
   }
 }
