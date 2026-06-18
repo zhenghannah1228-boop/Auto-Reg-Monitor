@@ -1,0 +1,233 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NCAP 跨体系测试项映射矩阵</title>
+<style>
+:root{--ink:#1a2420;--ink2:#3a4a44;--paper:#f4f1e8;--panel:#fcfbf6;--panel2:#f7f4ea;--line:#d8d2c0;
+ --muted:#8d8674;--faint:#b3ac99;--accent:#c6502a;--good:#5a8a4a;--goodbg:#e2efda;--gold:#c79a2e;--goldbg:#fbf0d8;--blue:#3a6b8a;--bluebg:#e3edf2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 "PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1500px;margin:0 auto;padding:20px}
+h1{font-family:Georgia,"Songti SC",serif;font-size:26px;margin:0 0 2px}
+.sub{color:var(--muted);font-size:12.5px;margin-bottom:6px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11.5px;color:var(--ink2);margin:8px 0 14px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:1180px}
+th,td{border:1px solid var(--line);padding:0;text-align:center;vertical-align:middle}
+thead th{position:sticky;top:0;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;
+ padding:9px 6px;z-index:3}
+thead th:first-child{left:0;z-index:4;text-align:left;padding-left:14px;min-width:150px}
+tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:left;padding:10px 14px;
+ z-index:2;min-width:150px}
+.pillar{font-size:10px;color:var(--muted);font-weight:400;display:block}
+.dsum{font-size:11px;color:var(--accent);font-weight:600;margin-top:4px;line-height:1.4;
+ background:#fbeee9;border-radius:4px;padding:3px 6px}
+.tname{font-weight:700;font-size:13px;cursor:pointer}
+.tname:hover{color:var(--blue)}
+.cell{width:118px;min-width:118px;padding:9px 6px;cursor:pointer;transition:.1s}
+.cell:hover{filter:brightness(.96)}
+.cell .tag{font-size:11.5px;font-weight:700;border-radius:5px;padding:3px 8px;display:inline-block}
+.t-yes .tag{background:var(--goodbg);color:#3d6630}
+.t-no{background:repeating-linear-gradient(45deg,var(--panel),var(--panel) 6px,#f0ede2 6px,#f0ede2 12px)}
+.t-no .tag{color:var(--faint);font-weight:400}
+.t-diff .tag{background:var(--bluebg);color:var(--blue)}
+.t-part .tag{background:var(--goldbg);color:#8a6510}
+.t-pend{background:repeating-linear-gradient(45deg,#eef2f4,#eef2f4 6px,#e0e8ec 6px,#e0e8ec 12px)}
+.t-pend .tag{background:#dde7ec;color:#5a7a88;font-weight:600}
+.cell .hint{display:block;font-size:9.5px;color:var(--muted);margin-top:3px;line-height:1.3;font-family:ui-monospace,monospace}
+.cell.on{outline:2px solid var(--blue);outline-offset:-2px}
+/* 详情面板 */
+.detailrow td{padding:0;background:var(--panel)}
+.detail{padding:14px 18px;border-left:3px solid var(--blue);background:#fbfaf4;text-align:left;margin:0}
+.detail h4{margin:0 0 8px;font-size:13.5px}
+.detail h4 .sys{color:var(--blue)}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:12.5px;margin:6px 0}
+.dl dt{color:var(--muted);font-family:ui-monospace,monospace;font-size:11px;white-space:nowrap}
+.dl dd{margin:0;color:var(--ink2)}
+.l3tbl{border-collapse:collapse;margin:6px 0;font-size:11.5px;min-width:0}
+.l3tbl td,.l3tbl th{border:1px solid var(--line);padding:3px 9px;text-align:center}
+.l3tbl th{background:var(--panel2);font-weight:600}
+.status{font-family:ui-monospace,monospace;font-size:11px;padding:2px 7px;border-radius:4px;background:var(--goldbg);color:#8a6510}
+.kd{background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 6px 6px 0;
+ padding:11px 15px;margin:0}
+.kd b{font-size:12px;color:var(--accent)}
+.kd ul{margin:6px 0 0;padding-left:18px}
+.kd li{font-size:12.5px;color:var(--ink2);margin:4px 0;line-height:1.55}
+.kdrow td{padding:8px 14px;background:var(--panel2)}
+.cmp{display:flex;gap:10px;overflow-x:auto;padding:10px 14px;background:#fbfaf4}
+.cmpcard{min-width:200px;flex:0 0 auto;border:1px solid var(--line);border-radius:7px;padding:9px 11px;background:#fff}
+.cmpcard h5{margin:0 0 6px;font-size:12.5px;color:var(--blue)}
+.cmpcard .scn{font-size:10px;font-family:ui-monospace,monospace;color:var(--muted);margin-bottom:4px}
+.vers{margin:8px 0 12px;padding:9px 12px;background:#eef3e9;border:1px solid #cfe0c2;border-left:4px solid var(--accent);border-radius:5px;font-size:11.5px;line-height:1.9;display:flex;flex-wrap:wrap;gap:4px 16px;align-items:baseline}
+.vers b{color:var(--ink)}
+.vers>b{color:var(--accent);margin-right:6px;font-size:12.5px}
+.vers span{white-space:nowrap}
+.vers span b{color:#2c5a2c;font-weight:600}
+.msg{padding:40px;text-align:center;color:var(--muted)}
+.foot{font-size:11px;color:var(--faint);margin-top:14px;font-family:ui-monospace,monospace}
+</style></head>
+<body><div class="wrap">
+<h1>NCAP 跨体系测试项映射矩阵</h1>
+<div class="sub">8 套 NCAP 体系 × 测试项三层映射 · 供认证工程师/分析师做跨体系差集与参数横向对照 · 点单元格看 L2/L3,点测试项名看差集要点</div>
+<div class="vers" id="vers">
+ <b>⭐ 本矩阵采用的协议版本</b>
+ <span><b>C-NCAP</b> 2027版</span>
+ <span><b>JNCAP</b> 令和7(2025)改版 · R7 / 评价方法2025</span>
+ <span><b>ASEAN</b> Protocol 2026–2030 · Side v3.3/AEB v2.1/AHB v2.0…</span>
+ <span><b>Latin</b> 2025(AOP v2.0.0/SA v2.0.1)· 采纳Euro</span>
+ <span><b>ANCAP</b> v1.1(2023–2025)· 采纳Euro</span>
+ <span><b>Euro</b> 碰撞保护 v1.1(2025/26)· AE-MDB v8.3/Ped v8.5/Whiplash v3.3.1</span>
+ <span><b>US</b> NHTSA + IIHS(头枕v4)</span>
+ <span><b>Bharat</b> AIS-197 + AIS-100(Rev.1)</span>
+</div>
+<div class="legend">
+ <span><i style="background:var(--goodbg);border:1px solid #b6d6a8"></i>测(做此项 · L3 阈值已实拆)</span>
+ <span><i style="background:var(--goldbg);border:1px solid #e6d39a"></i>测·部分(做此项 · L3 阈值待拆/源待补)</span>
+ <span><i style="background:var(--bluebg);border:1px solid #b9cfdc"></i>异构评分(US 星级/IIHS 等级)</span>
+ <span><i style="background:#dde7ec;border:1px solid #b9cfdc"></i>待补(现实评估但手头无协议·≠不测)</span>
+ <span><i style="background:#f0ede2;border:1px solid var(--line)"></i>不测(源核实不做)</span>
+</div>
+<div class="sub" style="margin-top:-6px">说明:L1=是否做该测试项(测/不测,已全拆)。“测·部分”= L1 与 L2 参数已定、但 L3 评分阈值尚未深拆(多数测试项当前状态;side_impact 的 C-NCAP/ASEAN/Euro 已拆全=绿)。非“只测部分子项”。Bharat 单份 AIS-197 按章节待拆属此类、非漏项。</div>
+<div id="root"><div class="msg">正在载入 ncap_matrix.json…</div></div>
+<div class="foot" id="foot"></div>
+</div>
+<script>
+const SYS=["C-NCAP","JNCAP","ASEAN","Latin NCAP","ANCAP","Euro NCAP","US NCAP","Bharat NCAP"];
+const E=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function cellClass(sysObj){
+  const l1=sysObj&&sysObj.L1_subtests||{};
+  const l3=sysObj.L3_thresholds||{};
+  const st=l3._status||"";
+  if(!Object.values(l1).some(Boolean)){
+    // 不做该项 vs 现实有但手头无源(待补)≠ 不测
+    return st.includes("SOURCE_PENDING")?["t-pend","待补"]:["t-no","不测"];
+  }
+  if(st.includes("DIFFERENT"))return["t-diff","异构"];
+  // 绿『测』= L3 阈值已实拆;金『测·部分』= L1/L2 已定但 L3 待拆/源待补
+  const hasL3=l3._extracted_front||l3._extracted_second_row||l3._extracted_blocks||l3._blocks||l3._HPL_LPL||l3._extracted_tables||l3._bands||l3._fitment;
+  return hasL3?["t-yes","测"]:["t-part","测·部分"];
+}
+function cellHint(sysObj){
+  const p=sysObj&&sysObj.L2_params||{};
+  if(p["速度"])return p["速度"];
+  if(p["壁障"])return p["壁障"];
+  // 兜底:无速度无壁障时,显示首个 L1 子测试项名(确保"测"格不空白)
+  const l1=sysObj&&sysObj.L1_subtests||{};
+  const k=Object.keys(l1).find(k=>l1[k]);
+  return k||"";
+}
+function scoringName(l3){
+  if(!l3)return"";
+  const sc=String(l3._scoring||"");
+  // 显式评分制标签优先(Bharat 的滑动数据存于 _extracted_tables,须先于三限值分支判定)
+  if(l3._HPL_LPL||sc.includes("sliding")||sc.includes("HPL"))return"滑动 HPL-LPL";
+  if(sc.includes("capping")||sc.includes("pass-fail"))return"capping/pass-fail";
+  if(l3._fitment)return"装备率(fitment)";
+  if(l3._bands)return"5色等级(色带)";
+  if(l3._extracted_front||l3._extracted_tables||(l3._note&&String(l3._note).includes("高")))return"三限值(高/低/极限)";
+  if(l3._extracted_blocks||l3._blocks)return"Value+Points(4分制)";
+  if((l3._status||"").includes("DIFFERENT"))return"星级/等级(异构)";
+  return l3._status||"";
+}
+function renderL3(l3){
+  if(!l3)return"";
+  // C-NCAP 抽出的前/二排阈值表
+  for(const seatKey of ["_extracted_front","_extracted_second_row"]){
+    if(l3[seatKey]&&Object.keys(l3[seatKey]).length){
+      // 收集所有 seat
+    }
+  }
+  let html="";
+  const seats=[["_extracted_front","前排撞击侧"],["_extracted_second_row","二排撞击侧"]];
+  for(const[k,lbl]of seats){
+    const tb=l3[k];if(!tb||!Object.keys(tb).length)continue;
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">${lbl} L3 阈值(高/低/极限)</div><table class="l3tbl"><tr><th>指标</th><th>高性能</th><th>低性能</th><th>极限</th></tr>`;
+    for(const[ind,vals]of Object.entries(tb))html+=`<tr><td style="text-align:left">${E(ind)}</td>${vals.map(v=>`<td>${E(v)}</td>`).join("")}</tr>`;
+    html+="</table>";
+  }
+  // C-NCAP 表模式分组阈值(附录H/J 等){组:{指标:[高,低]}}
+  const gt=l3._extracted_tables;
+  if(gt&&Object.keys(gt).length){
+    for(const[grp,inds]of Object.entries(gt)){
+      if(!inds||!Object.keys(inds).length)continue;
+      html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">${grp==="_"?"":E(grp)+" "}L3 阈值(高/低性能限值)</div><table class="l3tbl"><tr><th>指标</th><th>高性能</th><th>低性能</th></tr>`;
+      for(const[ind,vals]of Object.entries(inds))html+=`<tr><td style="text-align:left">${E(ind)}</td>${vals.map(v=>`<td>${v==null?"—":E(v)}</td>`).join("")}</tr>`;
+      html+="</table>";
+    }
+  }
+  // JNCAP 五色等级评分(色带:Green→Red)
+  if(l3._bands&&l3._bands.length){
+    const C={Green:"#bfe3ab",Yellow:"#f3e9a8",Orange:"#f3c98a",Brown:"#d6a877",Red:"#e6a3a0"};
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">${E(l3._metric||"")} 五色等级(${E(l3._scoring||"")})</div><table class="l3tbl"><tr><th>等级</th><th>区间</th><th>得分</th></tr>`;
+    for(const b of l3._bands)html+=`<tr><td style="text-align:left"><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:${C[b.band]||"#ccc"};margin-right:4px"></span>${E(b.band)}</td><td>${E(b.range)}</td><td>${b.points==null?"—":E(b.points)}</td></tr>`;
+    html+="</table>";
+  }
+  // ASEAN 装备率评分(fitment:Option→α)
+  if(l3._fitment&&l3._fitment.length){
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">装备率评分(${E(l3._scoring||"")})${l3._TFS!=null?` · 满分TFS=${E(l3._TFS)}`:""}</div><table class="l3tbl"><tr><th>装配档</th><th>说明</th><th>α</th></tr>`;
+    for(const o of l3._fitment)html+=`<tr><td>${E(o.option)}</td><td style="text-align:left;font-size:11px">${E(o.detail||"")}</td><td>${E(o.alpha)}</td></tr>`;
+    html+="</table>";
+  }
+  const blk=l3._blocks||l3._extracted_blocks;
+  if(blk&&Object.keys(blk).length){
+    html+=`<div style="font-size:11px;color:var(--muted);margin:6px 0 2px">xlsm 评分区块</div><div style="font-size:12px">`;
+    html+=Object.entries(blk).map(([k,v])=>`<b>${E(k)}</b>${Array.isArray(v)&&v.length?" ("+v.length+"项)":""}`).join(" · ");
+    html+="</div>";
+  }
+  if(!html){
+    const st=l3._status||"";const note=l3._note||l3._source||"";
+    html=`<div style="margin-top:4px">${st?`<span class="status">${E(st)}</span> `:""}<span style="font-size:12px;color:var(--ink2)">${E(note)}</span></div>`;
+  }else if(l3._note){html+=`<div style="font-size:11px;color:var(--muted);margin-top:4px">${E(l3._note)}</div>`;}
+  return html;
+}
+function renderDetail(item,sys){
+  const o=item.systems[sys]||{};
+  const l1=o.L1_subtests||{},l2=o.L2_params||{};
+  const l1s=Object.entries(l1).map(([k,v])=>E(k)+":"+(v?"✓":"✗")).join(" · ");
+  let dl="";
+  for(const[k,v]of Object.entries(l2)){if(k.startsWith("_"))continue;dl+=`<dt>${E(k)}</dt><dd>${E(Array.isArray(v)?v.join("、"):v)}</dd>`;}
+  if(l2._extraction_note)dl+=`<dt>提取说明</dt><dd style="color:var(--accent)">${E(l2._extraction_note)}</dd>`;
+  if(l2._note)dl+=`<dt>说明</dt><dd>${E(l2._note)}</dd>`;
+  return `<div class="detail"><h4>${E(item.cn_name)} · <span class="sys">${E(sys)}</span> ${o.version?`<span style="color:var(--muted);font-weight:400;font-size:11px">(${E(o.version)})</span>`:""}</h4>
+    <div style="font-size:12px"><b style="color:var(--muted)">L1 子测试项</b> ${l1s||"—"}</div>
+    ${dl?`<div style="font-size:12px;margin-top:6px"><b style="color:var(--muted)">L2 参数</b></div><dl class="dl">${dl}</dl>`:""}
+    <div style="font-size:12px;margin-top:4px"><b style="color:var(--muted)">L3 评分阈值</b></div>${renderL3(o.L3_thresholds)}
+    ${(o.source_files&&o.source_files.length)?`<div style="font-size:10px;color:var(--faint);margin-top:8px;font-family:ui-monospace,monospace">源:${o.source_files.map(E).join(" ; ")}</div>`:""}</div>`;
+}
+function build(matrix){
+  const root=document.getElementById("root");
+  let h=`<div class="scroll"><table><thead><tr><th>测试项 \\ 体系</th>${SYS.map(s=>`<th>${E(s)}</th>`).join("")}</tr></thead><tbody>`;
+  matrix.forEach((item,ri)=>{
+    h+=`<tr data-row="${ri}"><td><span class="tname" onclick="toggleKD(${ri})">${E(item.cn_name)} ▾</span><span class="pillar">${E(item.pillar||"")} · ${E(item.id)}</span>${item.diff_summary?`<div class="dsum">⚖ ${E(item.diff_summary)}</div>`:""}</td>`;
+    SYS.forEach(s=>{
+      const o=item.systems[s];const[cls,tag]=cellClass(o);const hint=cellHint(o);
+      h+=`<td class="cell ${cls}" data-r="${ri}" data-s="${E(s)}" onclick="toggleCell(this,${ri},'${E(s)}')"><span class="tag">${tag}</span>${hint?`<span class="hint">${E(hint)}</span>`:""}</td>`;
+    });
+    h+=`</tr>`;
+    const cmp=SYS.filter(s=>{const o=item.systems[s];return o&&Object.values(o.L1_subtests||{}).some(Boolean);})
+      .map(s=>{const o=item.systems[s];return `<div class="cmpcard"><h5>${E(s)}</h5><div class="scn">评分制:${E(scoringName(o.L3_thresholds))||"—"}</div>${renderL3(o.L3_thresholds)}</div>`;}).join("");
+    h+=`<tr class="kdrow" id="kd-${ri}" style="display:none"><td colspan="${SYS.length+1}">
+      <div class="kd"><b>⚖ 跨体系差集要点(${E(item.cn_name)})</b><ul>${(item.key_differences||[]).map(k=>`<li>${E(k)}</li>`).join("")}</ul></div>
+      <div style="font-size:11.5px;color:var(--muted);padding:8px 14px 2px">▼ L3 评分制横向对照(三种制式并排):</div>
+      <div class="cmp">${cmp||'<span style="color:var(--muted)">无</span>'}</div></td></tr>`;
+    h+=`<tr class="detailrow" id="det-${ri}" style="display:none"><td colspan="${SYS.length+1}"></td></tr>`;
+  });
+  h+="</tbody></table></div>";
+  root.innerHTML=h;
+  window._matrix=matrix;
+  document.getElementById("foot").textContent="测试项 "+matrix.length+" 项 · 体系 "+SYS.length+" 套 · 数据源 ncap_matrix.json";
+}
+function toggleKD(ri){const el=document.getElementById("kd-"+ri);el.style.display=el.style.display==="none"?"":"none";}
+function toggleCell(td,ri,s){
+  const det=document.getElementById("det-"+ri);
+  const cur=td.classList.contains("on");
+  document.querySelectorAll(".cell.on").forEach(c=>c.classList.remove("on"));
+  if(cur){det.style.display="none";return;}
+  td.classList.add("on");
+  det.querySelector("td").innerHTML=renderDetail(window._matrix[ri],s);
+  det.style.display="";
+}
+fetch("./ncap_matrix.json").then(r=>r.json()).then(build).catch(e=>{
+  document.getElementById("root").innerHTML='<div class="msg">无法载入 ncap_matrix.json(本地 file:// 需经 http 打开;部署到 Pages 后正常)。<br>'+E(e.message||e)+'</div>';
+});
+</script></body></html>

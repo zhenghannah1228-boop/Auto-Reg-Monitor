@@ -1,39 +1,42 @@
-# NCAP 跨体系测试项映射矩阵 — 数据提取工作区
+# NCAP 跨体系测试项映射矩阵
 
-按交接规格 v2 实施。本目录是独立交付物(NCAP 测试项 × 8 体系三层映射矩阵),
-仅通过 `un_r_refs` 与主项目法规库桥接,不与监控台业务混用。
+8 套 NCAP 体系(C-NCAP/JNCAP/ASEAN/Latin/ANCAP/Euro/US/Bharat)× 16 测试项的三层映射:
+**L1 测/不测 · L2 参数(速度/假人/壁障/场景)· L3 评分阈值**。核心价值=跨体系差集(key_differences)。
 
-## 目录
+## 怎么看(两种入口)
+
+1. **监控台第 14 标签「NCAP矩阵」**(推荐):打开监控台 `index.html` → 点顶部「14 NCAP矩阵」标签,
+   内嵌全功能矩阵。点单元格展开 L2/L3,点测试项名看差集要点。
+2. **独立页(ASCII 链接,可直接打开)**:
+   `https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/ncap/ncap_matrix_view.html`
+   > ⚠ 旧的中文名链接 `NCAP_融合视图模块.html` 在 GitHub Pages 上因非 ASCII 路径编码易 404,
+   > 已改用 ASCII 名 `ncap_matrix_view.html` 作部署入口(内容同源)。
+3. 离线:`NCAP_融合视图_自包含.html` 内嵌数据,双击用浏览器直接打开(无需 http)。
+
+## 文件
 ```
 ncap/
-├── side_impact_sample.json   人工验证的侧碰样板(回归基准,schema 2.0)
-├── 源文件分卷说明.md          12 卷分卷清单(业主提供)
-├── sources/                  解压后的 8 体系源文件(.gitignore,不入库,体积大)
-├── extract_*.py              各体系提取脚本(待源文件到齐)
-├── ncap_matrix.json          产出:全测试项 × 8 体系三层数据(待生成)
-└── coverage_report.md        覆盖状态:各单元格 L3/仅L2/缺源
+├── ncap_matrix.json            产出:16 测试项 × 8 体系三层数据(数据源,各 build 生成)
+├── ncap_matrix_view.html       部署用查看器(ASCII 名,fetch ./ncap_matrix.json;监控台 iframe 内嵌此页)
+├── NCAP_融合视图模块.html        查看器工作副本(与上同内容)
+├── NCAP_融合视图_自包含.html     离线版(内嵌数据,file:// 可开)
+├── extract_common.py           公共提取器(6 类评分模型 + 内存兜底 + 回归断言工具)
+├── build_*.py                  16 个测试项各一,独立可跑;build_all.py 一键重建全矩阵
+├── side_impact_sample.json     侧碰回归基准
+├── coverage_report.md          ★交付说明:协议版本表 + 矩阵分布 + 已知边界两表
+└── sources/                    8 体系源文件(.gitignore,不入库,体积大)
 ```
 
-## 当前进度(第 1 批源文件,2026-06-16)
+## 当前状态(2026-06,定版)
 
-本批到货 3 卷(08b 拉美后半 / 09 澳洲 / 10 美国+东盟+印度)+ sample.json + 分卷说明。
-**已验证可解析**:澳洲 ANCAP、印度 AIS-197、美国 IIHS、拉美 Latin 自有协议(文字层正常)。
+128 格:**测 33 / 测·部分 39 / 不测 48 / 异构 8 / 待补 0**。已实拆 **6 类评分模型**:
+三限值(C-NCAP)/ 滑动 HPL-LPL(Euro·Bharat·Latin·ANCAP)/ Value+Points(ASEAN 碰撞 xlsm)/
+5色等级(JNCAP 头部·Euro 行人)/ 装备率 fitment(ASEAN 主动安全)/ pass-fail 合规限值(Bharat 行人 AIS-100)。
+`build_all.py` 串行重建 + RLIMIT_AS 内存兜底,16 项各带回归断言,16/16 PASS。
 
-### ⚠ 阻塞项(已向业主回报,待补)
-1. **东盟 ASEAN xlsm 缺失** —— 本批 `东盟/` 只到 8 份行政 Guideline(评级牌/标签/Logo/进口
-   程序等,规格 §2.1 明确"不进矩阵"),**官方评分 `*.xlsm`(L3 黄金源)与侧碰/AEB 等测试
-   协议 PDF(L2)均不在内**。ASEAN 的 L2/L3 暂无法提取。
-2. **拉美 Euro 原始协议缺失** —— `拉美/` 只有 Latin 自有协议(AOP/SA/PP/CSSTR/Overall/
-   Moose/FWT),规格 §2.2 说本卷应含的 "Euro NCAP – AE-MDB Side Impact v8.3 / Oblique
-   Pole v7.2 / Pedestrian v8.5 / Whiplash v3.3.1 / …" **一份都没有**。这批是 Euro/ANCAP/
-   Latin 的 L3 评分源,缺它则三者 L3 无源。
-3. **美国 NHTSA 原文/侧碰缺失** —— `NHTSA…/原文/` 只有 先进技术 + 翻滚;侧碰仅有中文 .doc。
-   (US 为 DIFFERENT_SCORING_MODEL,影响较小;IIHS 侧碰资料齐全。)
+**采用的协议版本**与**剩余「测·部分」边界清单**见 `coverage_report.md`(顶部版本表 + 文末两张交付表)。
 
-### 待下一批(规格预告的剩余 9 卷)
-中国 C-NCAP(01/02/03)、日本 JNCAP(06/07)、欧盟 Euro NCAP(04/05a/05b)、拉美前半(08a)。
-
-## 纪律(防 v1 覆辙)
-严禁臆造:缺源/缺层标 status;ASEAN L3 只从 xlsm 拆;拉美 Euro 协议反哺 Euro/ANCAP 且
-标版本(2017–2023 旧版 vs 欧盟目录 2025/2026 新版,不混填);C-NCAP 速度防脚注上标污染并与
-核对值零误差;JNCAP 取英文层;US 异构;Bharat 按 AIS-197 章节拆。每测试项必有非空 key_differences。
+## 纪律
+严禁臆造:缺源/缺层标 status;ASEAN L3 只从 xlsm 拆;Latin/ANCAP 采纳 Euro 并标版本;
+C-NCAP 速度防脚注上标污染并与 §5.1 核对值零误差;JNCAP 取英文层 + 评价方法 2025;
+US 异构;Bharat 按 AIS-197/AIS-100 章节拆。每测试项必有非空 key_differences,每 L3 必有回归锚点。

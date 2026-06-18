@@ -492,6 +492,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-ins"><span class="tn">11</span>解读看板</div>
     <div class="tab" data-p="p-cmp"><span class="tn">12</span>法规对比</div>
     <div class="tab" data-p="p-path"><span class="tn">13</span>合规路径</div>
+    <div class="tab" data-p="p-ncap"><span class="tn">14</span>NCAP矩阵</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -719,6 +720,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">依据:认证区块(EU-WVTA/EAEU/GCC 一证通行)+ 各国「对外采信」记录(09 认证金字塔数据)。「审批周期」精确工作日暂未入库,此处按<b>额外认证负担</b>分级——负担越低通常越快。</div>
     </div>
     <div id="path-body"><div class="bigmsg">选择产品已满足准入的国家/地区</div></div>
+  </div>
+
+  <div class="pane" id="p-ncap">
+    <div class="netctrl">
+      <span style="font-family:var(--serif);font-weight:900;color:var(--accent);font-size:14px">NCAP 跨体系测试项映射矩阵</span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">8 套 NCAP 体系 × 16 测试项三层映射(测/不测·参数·评分阈值)· 点单元格看 L2/L3,点测试项名看跨体系差集要点</span>
+      <a class="btn light" style="text-decoration:none;margin-left:auto" id="ncap-open" href="./ncap/ncap_matrix_view.html" target="_blank">⤢ 新窗口打开</a>
+    </div>
+    <iframe id="ncap-frame" data-src="./ncap/ncap_matrix_view.html"
+      style="width:100%;height:calc(100vh - 200px);min-height:600px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>
   </div>
 
   <footer>
@@ -2947,6 +2958,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-pyr")loadCert();
   if(t.dataset.p==="p-chain")openChainTab();
   if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
+  if(t.dataset.p==="p-ncap"){const f=$("#ncap-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载 NCAP 矩阵
   if(t.dataset.p==="p-cmp")renderCmp();
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
