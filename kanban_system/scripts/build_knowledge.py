@@ -152,6 +152,36 @@ def render_theme(t, items, rlinks):
   {gap_html}
 </section>'''
 
+SEARCH_BAR = ('<div class="kwbar">'
+  '<input id="kw" placeholder="关键词检索:法规编号 / 主题 / 要点 / 国家…(回车或点检索)" autocomplete="off">'
+  '<button class="kwbtn" onclick="kwSearch()">🔍 检索</button>'
+  '<button class="kwbtn ghost" onclick="kwClear()">清除</button>'
+  '<span id="kwstat" class="kwstat"></span></div>')
+
+SEARCH_JS = """<script>
+function kwSearch(){
+  var q=(document.getElementById('kw').value||'').trim().toLowerCase();
+  var secs=document.querySelectorAll('section.theme'),hit=0;
+  secs.forEach(function(s){
+    var m=!q||s.textContent.toLowerCase().indexOf(q)>=0;
+    s.style.display=m?'':'none'; if(m&&q)hit++;
+  });
+  document.querySelectorAll('.navdim a').forEach(function(a){
+    var t=document.querySelector(a.getAttribute('href'));
+    a.style.display=(t&&t.style.display==='none')?'none':'';
+  });
+  document.querySelectorAll('.navdim').forEach(function(d){
+    var any=Array.prototype.some.call(d.querySelectorAll('a'),function(a){return a.style.display!=='none';});
+    d.style.display=(q&&!any)?'none':'';
+  });
+  document.getElementById('kwstat').textContent=q?(hit+' 个主题匹配「'+q+'」'):'';
+}
+function kwClear(){var k=document.getElementById('kw');k.value='';kwSearch();k.focus();}
+(function(){var k=document.getElementById('kw');if(!k)return;
+  k.addEventListener('keydown',function(e){if(e.key==='Enter')kwSearch();});
+  k.addEventListener('input',kwSearch);})();
+</script>"""
+
 def main():
     ins, rl = load()
     themed, unassigned = assign(ins)
@@ -219,6 +249,17 @@ border-radius:12px;padding:2px 10px;display:inline-flex;gap:5px;align-items:cent
 .gap{{margin-top:12px;font-size:12px;background:#fdf3e7;border:1px solid #ecd9bb;border-radius:7px;
 padding:8px 12px;color:#8a5a14;line-height:1.7}}
 .gap.ok{{background:#eef4e9;border-color:#cfdfc2;color:#3d6630}}
+.kwbar{{position:sticky;top:0;z-index:6;display:flex;gap:9px;align-items:center;flex-wrap:wrap;
+background:var(--paper);padding:10px 0 12px;margin:-6px 0 10px;border-bottom:1px solid var(--line)}}
+.kwbar input{{flex:1;min-width:200px;max-width:460px;font-family:var(--sans);font-size:13.5px;
+padding:9px 13px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);outline:none}}
+.kwbar input:focus{{border-color:var(--accent)}}
+.kwbtn{{font-family:var(--sans);font-size:12.5px;padding:9px 16px;border:1px solid var(--accent);
+background:var(--accent);color:#fff;border-radius:8px;cursor:pointer}}
+.kwbtn.ghost{{background:var(--panel);color:var(--ink);border-color:var(--line)}}
+.kwbtn:hover{{opacity:.9}}
+.kwstat{{font-family:var(--mono);font-size:11px;color:var(--muted)}}
+mark{{background:#ffe9a8;color:inherit;padding:0 1px;border-radius:2px}}
 @media(max-width:760px){{body{{flex-direction:column}}nav{{width:100%;height:auto;position:static}}}}
 </style></head><body>
 <nav><h1>法规知识体系</h1>
@@ -226,7 +267,7 @@ padding:8px 12px;color:#8a5a14;line-height:1.7}}
 {nav}
 <div class="sub" style="margin-top:14px"><a href="kanban.html" style="color:var(--blue)">→ 推文流看板(按类型)</a></div>
 </nav>
-<main>{body}</main></body></html>'''
+<main>{SEARCH_BAR}{body}</main>{SEARCH_JS}</body></html>'''
     with open(OUT, "w", encoding="utf-8") as f: f.write(page)
     n_un = len(unassigned)
     print(f"主题 {n_theme} 个(共配置 {len(THEME_MAP)}),覆盖推文 {len(ins)-n_un}/{len(ins)} 篇,未归类 {n_un}")

@@ -91,6 +91,8 @@ h1{font-size:22px;margin-bottom:4px}
 input,select{background:var(--card);border:1px solid var(--line);color:var(--txt);
 padding:8px 12px;border-radius:8px;font-size:13px}
 input{flex:1;min-width:200px}
+#qbtn{flex:0 0 auto;cursor:pointer;background:var(--compare,#3a6b8a);color:#fff;border-color:transparent;font-size:13px;padding:8px 16px}
+#qbtn:hover{opacity:.9}
 .board{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start}
 .col{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:12px;padding:12px;min-height:120px}
 .col h2{font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
@@ -121,6 +123,7 @@ input{flex:1;min-width:200px}
 <div class="sub">推文解读数据库 · 三类承载（对比 / 文本 / 修订）· 自动关联法规库</div>
 <div class="controls">
   <input id="q" placeholder="搜索标题 / 法规编号 / 主题…">
+  <button id="qbtn" onclick="render()">🔍 检索</button>
   <select id="dim"><option value="">全部维度</option></select>
   <select id="region"><option value="">全部地区</option></select>
 </div>
