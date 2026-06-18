@@ -11132,7 +11132,7 @@
   "萨尔瓦多": {
    "country": "萨尔瓦多",
    "system_type": "recognition",
-   "summary": "中美洲区域框架:采纳中美洲技术规程(RTCA/SIECA),OSARTEC定标准,以进口符合与车辆检验/注册为主;无本土型式批准。",
+   "summary": "中美洲区域框架:采纳中美洲技术规程(RTCA/SIECA),OSARTEC定标准,以进口符合与车辆检验/注册为主;无本土型式批准。进口海关估值有官方法规 Decreto Legislativo Nº383(财政部,现行)。",
    "pyramid": [
     {
      "level": 1,
@@ -11190,6 +11190,10 @@
       {
        "group": "安全/环保",
        "items": "OSARTEC国家标准 + RTCA区域规程"
+      },
+      {
+       "group": "进口/海关估值",
+       "items": "Decreto Legislativo Nº383(机动车进口估值与折旧·财政部·现行)"
       }
      ],
      "component": [
@@ -11229,11 +11233,20 @@
     "scope": "中美洲区域协调+检验;无本土型式批准",
     "note": "区域+检验型——采中美洲RTCA框架,OSARTEC定标准,VMT检验注册,中美洲代表,无本土型式批准。"
    },
-   "confidence": "C",
+   "confidence": "B",
    "sources": [
     "法规清单(萨尔瓦多)",
-    "OSARTEC/VMT/SIECA/RTCA 公开资料(资料有限)"
-   ]
+    "OSARTEC/VMT/SIECA/RTCA 公开资料(资料有限)",
+    "Decreto Legislativo Nº383/1995(Ministerio de Hacienda, 现行)· 投喂2026-06"
+   ],
+   "tariff": {
+    "cbu_passenger": "按海关税则(DAI 关税 + IVA);估值法见 Decreto 383",
+    "vat": "IVA 增值税适用(税率以海关税则为准)",
+    "excise": "二手车按车龄折旧估值(Decreto 383):180天-1年10%/1-2年20%/2-3年40%/3-4年50%/>4年60%",
+    "fta": "中美洲一体化(SIECA)区域;凭原产地证可享区域优惠",
+    "note": "官方估值法 Decreto Legislativo Nº383(财政部·现行):二手车按NADA/出厂价估值+折旧表;海关价=(估值−折旧)+运费+保险(未申报按FOB 2%);VIN识别;二手车进口商须在海关总署注册。具体税率以海关税则为准。",
+    "source": "Decreto Legislativo Nº383 (1995, ref.2001), Ministerio de Hacienda · 参考,以海关最新税则为准"
+   }
   },
   "中国": {
    "country": "中国",

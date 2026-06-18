@@ -2275,5 +2275,21 @@
         "url": ""
       }
     ]
+  },
+  "Decreto Legislativo Nº383 (1995, ref.2001)": {
+    "reg_no": "Decreto Legislativo Nº383 (1995, ref.2001)",
+    "match_key": "Decreto 383",
+    "region": "中美洲",
+    "country": "萨尔瓦多",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-040",
+        "title": "萨尔瓦多机动车进口估值与海关(Decreto Legislativo Nº383·官方现行)",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
   }
 }

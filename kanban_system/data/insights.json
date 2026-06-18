@@ -2002,6 +2002,46 @@
    "source_file": "DominicanRepublic_import_customs(PDF+DOCX)",
    "url": "",
    "needs_review": false
+  },
+  {
+   "id": "INS-2026-040",
+   "title": "萨尔瓦多机动车进口估值与海关(Decreto Legislativo Nº383·官方现行)",
+   "type": "interpret",
+   "summary": "萨尔瓦多机动车进口官方法规 Decreto Legislativo Nº383(财政部,1995-06-22颁、2001修订,现行有效):规定进口车辆海关估值与关税适用。二手车按 NADA/出厂价估值并按车龄折旧(180天-1年10%…4年以上60%);海关价=(估值−折旧)+运费+保险(未申报按FOB 2%);以VIN识别、二手车进口商须在海关总署注册。",
+   "regulations": [
+    {
+     "region": "中美洲",
+     "country": "萨尔瓦多",
+     "reg_no": "Decreto Legislativo Nº383 (1995, ref.2001)",
+     "match_key": "Decreto 383"
+    }
+   ],
+   "topics": [
+    "萨尔瓦多进口",
+    "二手车估值",
+    "海关折旧",
+    "关税估值",
+    "中美洲RTCA"
+   ],
+   "dimensions": [
+    "9"
+   ],
+   "key_points": [
+    "性质:萨尔瓦多《机动车辆及其他运输工具进口规范》(Decreto Legislativo Nº383,1995-06-22 颁布、D.L.695/2001 修订,VIGENTE 现行;主管 Ministerio de Hacienda 财政部),统一进口车辆的海关估值与关税适用。",
+    "新车(经在国内正式备案的经销商/代表进口):海关估值=厂家对经销商的售价,不含按数量或付款方式给予的折扣(Art.1)。",
+    "二手车估值:依权威刊物(如 N.A.D.A. 二手车指南)或原产国同型号/相近车的价格确定(Art.2);HS 87.03 且最大≤1.5吨者,用『新车建议零售价 MSRP × 88%(下调12%)』再按折旧表下调,其余车用平均零售价(Average Retail Value)不予折旧(Art.4)。",
+    "折旧表(按车龄·Art.5):180天–1年 10% / 1–2年 20% / 2–3年 40% / 3–4年 50% / 4年以上 60%。",
+    "海关价 =(估值 − 折旧)+ 运费 + 保险;保险未申报时按 FOB 2% 计(Art.6);摩托车 FOB<US$3,500 另有规定;以 VIN 识别车辆(Art.7);二手车进口商须在海关总署 Dirección General de Aduanas 注册(Art.9-10)。",
+    "随附海关一般规定(elsalvador.pdf):入境须检验、需财政部 NIT 税号;海外连续居住满3年返乡居民个人/家庭物品可免税(期间在萨停留≤30天)、货物须在抵达后90天内到港、清关约2-3工作日。"
+   ],
+   "author": "Corte Suprema/Ministerio de Hacienda(官方法规)+ 海关资料",
+   "publish_date": "1995-06-22",
+   "region_focus": [
+    "萨尔瓦多"
+   ],
+   "source_file": "DC5154_Decreto_383 + elsalvador.pdf",
+   "url": "",
+   "needs_review": false
   }
  ]
 }
