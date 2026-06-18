@@ -160,11 +160,15 @@ SEARCH_BAR = ('<div class="kwbar">'
 
 SEARCH_JS = """<script>
 function kwSearch(){
-  var q=(document.getElementById('kw').value||'').trim().toLowerCase();
+  var raw=(document.getElementById('kw').value||'').trim().toLowerCase();
+  // 分词:空格拆多关键词,全部命中才算匹配(忽略词序);如「UN 171」=需同时含 un 与 171,
+  // 故能命中「UN R171」(171 在 r171 内)。
+  var toks=raw.split(/\\s+/).filter(Boolean);
   var secs=document.querySelectorAll('section.theme'),hit=0;
   secs.forEach(function(s){
-    var m=!q||s.textContent.toLowerCase().indexOf(q)>=0;
-    s.style.display=m?'':'none'; if(m&&q)hit++;
+    var txt=s.textContent.toLowerCase();
+    var m=!toks.length||toks.every(function(t){return txt.indexOf(t)>=0;});
+    s.style.display=m?'':'none'; if(m&&toks.length)hit++;
   });
   document.querySelectorAll('.navdim a').forEach(function(a){
     var t=document.querySelector(a.getAttribute('href'));
@@ -172,9 +176,9 @@ function kwSearch(){
   });
   document.querySelectorAll('.navdim').forEach(function(d){
     var any=Array.prototype.some.call(d.querySelectorAll('a'),function(a){return a.style.display!=='none';});
-    d.style.display=(q&&!any)?'none':'';
+    d.style.display=(toks.length&&!any)?'none':'';
   });
-  document.getElementById('kwstat').textContent=q?(hit+' 个主题匹配「'+q+'」'):'';
+  document.getElementById('kwstat').textContent=toks.length?(hit+' 个主题匹配「'+raw+'」'):'';
 }
 function kwClear(){var k=document.getElementById('kw');k.value='';kwSearch();k.focus();}
 (function(){var k=document.getElementById('kw');if(!k)return;

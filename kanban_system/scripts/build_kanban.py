@@ -165,7 +165,7 @@ function render(){
     const items=DATA.filter(d=>d.type===t)
       .filter(d=>!dim||(d.dimensions||[]).includes(dim))
       .filter(d=>!reg||(d.region_focus||[]).includes(reg))
-      .filter(d=>{if(!q)return true;const blob=(d.title+JSON.stringify(d.regulations)+(d.topics||[]).join()+(d.summary||'')).toLowerCase();return blob.includes(q);});
+      .filter(d=>{if(!q)return true;const blob=(d.title+JSON.stringify(d.regulations)+(d.topics||[]).join()+(d.summary||'')+(d.key_points||[]).join()).toLowerCase();return q.split(' ').filter(Boolean).every(t=>blob.includes(t));});
     document.getElementById('col-'+t).innerHTML=items.map(card).join('')||'<div style="color:#666;font-size:12px;padding:8px">无</div>';
     document.getElementById('c-'+t).textContent=items.length;
   });
