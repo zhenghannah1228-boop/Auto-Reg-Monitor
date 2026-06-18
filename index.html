@@ -857,6 +857,7 @@ async function sbUpsert(table,rows,onConflict){
 /* ================= 数据层 ================= */
 let store={},files=[],baseline=null,hasParentCol=false;
 let snapshots=[],curSnapId=null,importLogs=[],_batch=null;
+let _impKeys=null,_impCtys=null;  // 本次导入涉及的全部主键/国家(用于「按国家替换式导入」识别需删除的旧记录)
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const esc=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const norm=s=>String(s||"").replace(/\s+/g,"").toUpperCase();
@@ -911,7 +912,7 @@ $("#basefile").addEventListener("change",e=>{
 
 function handleFiles(list){
   const arr=[...list]; if(!arr.length)return;
-  _batch=new Set();
+  _batch=new Set();_impKeys=new Set();_impCtys=new Set();
   const fileStats=[];
   let pending=arr.length;
   arr.forEach(f=>{
@@ -1005,6 +1006,22 @@ async function syncImport(fileStats){
     importLogs=await sbFetchAll("import_logs","filename,created_at,added_count","order=created_at.desc");
     toast("已入库 "+rows.length+" 条(新增 "+fileStats.reduce((s,f)=>s+f.added,0)+")· 自动快照已生成");
   }catch(err){toast("写入数据库失败:"+err.message);console.error(err);}
+  // 按国家替换式导入:本次导入涉及的国家里,库内有、但新清单中已删除的记录 → 识别并(确认后)删除
+  try{
+    if(_impCtys&&_impCtys.size&&_impKeys){
+      const orphans=recs().filter(r=>_impCtys.has(r.country)&&!_impKeys.has(keyOf(r))&&r.id);
+      if(orphans.length){
+        const byc={};orphans.forEach(r=>{(byc[r.country]=byc[r.country]||[]).push(r);});
+        const preview=Object.entries(byc).map(([c,l])=>`· ${c}(${l.length}条):`
+          +l.slice(0,8).map(r=>r.regId||r.cnName||"—").join("、")+(l.length>8?" 等":"")).join("\n");
+        if(confirm("检测到新清单中,以下国家有 "+orphans.length+" 条库内记录【已不在新清单里】:\n\n"+preview
+          +"\n\n确定 = 按「替换」删除这些旧记录(新增/更新已照常完成)\n取消 = 保留它们(仅增量合并,不删除)")){
+          await _doDeleteRegs(orphans.map(r=>r.id),"替换式导入:移除新清单中已删除的 "+orphans.length+" 条");
+          return; // _doDeleteRegs 内已 reconcile + renderAll
+        }
+      }
+    }
+  }catch(e){console.error("替换识别失败:",e);}
   if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
   renderAll();
 }
@@ -1097,6 +1114,7 @@ function ingest(rows,srcFile,forceCountry){
     rec.inProdDate=nkAlias(raw,["在产车具体生效日期","在产车"]);
     store[keyOf(rec)]=rec;
     if(_batch)_batch.add(keyOf(rec));
+    if(_impKeys){_impKeys.add(keyOf(rec));_impCtys.add(rec.country);}
     n++;
   });
   return n;
@@ -1465,6 +1483,11 @@ async function deleteRegs(ids,label){
   if(!ids.length){toast("未勾选可删除的记录");return;}
   if(!confirm("将从团队数据库永久删除"+label+",共 "+ids.length+" 条,所有人都会看到删除结果。确定?"))return;
   if(!confirm("再次确认:删除不可撤销(需要时只能重新导入)。继续删除 "+ids.length+" 条?"))return;
+  await _doDeleteRegs(ids,"删除 "+ids.length+" 条后");
+}
+/* 核心删除(无二次确认,供已确认的流程复用,如替换式导入):DB删除 + store清理 + 快照 + 重渲染 */
+async function _doDeleteRegs(ids,snapNote){
+  ids=ids.filter(Boolean); if(!ids.length)return;
   try{
     for(let i=0;i<ids.length;i+=200)
       await sbReq("DELETE","regulations?id=in.("+ids.slice(i,i+200).join(",")+")",undefined,"return=minimal");
@@ -1474,7 +1497,7 @@ async function deleteRegs(ids,label){
     if(recs().length){
       const names=Object.fromEntries(recs().map(r=>[keyOf(r),(r.regId||"")+" "+(r.cnName||"").slice(0,30)]));
       await sbInsert("snapshots",[{reg_keys:recs().map(keyOf),names,key_count:recs().length,
-        auto:true,note:"删除 "+ids.length+" 条后"}]);
+        auto:true,note:snapNote||("删除 "+ids.length+" 条后")}]);
     }
     await refreshSnapshots(false);
     toast("已删除 "+ids.length+" 条");
