@@ -1132,11 +1132,16 @@ function renderAll(){
   $("#foot-src").textContent="数据源:团队数据库 "+recs().length+" 条"
     +(last?" · 最近导入 "+String(last.created_at||"").slice(0,10)+" "+last.filename:"")
     +(files.length?" · 本次会话:"+files.map(f=>f.name).join("、"):"");
-  renderKPIs();renderRank();renderDrafts();renderMatrix();fillCountrySelects();renderCountry();renderNew();renderTree();
-  if($("#p-net")&&$("#p-net").classList.contains("on"))buildNet(); // 网络图较重,仅在其标签可见时构建
-  if(typeof renderMemos==="function")renderMemos();
-  if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
-  if(typeof renderRecon==="function")renderRecon();
+  try{
+    renderKPIs();renderRank();renderDrafts();renderMatrix();fillCountrySelects();renderCountry();renderNew();renderTree();
+    if($("#p-net")&&$("#p-net").classList.contains("on"))buildNet(); // 网络图较重,仅在其标签可见时构建
+    if(typeof renderMemos==="function")renderMemos();
+  }catch(e){console.error("renderAll 渲染链异常(不阻断对账刷新):",e);}
+  // 文本对账独立刷新:即便上面某个渲染器抛错,导入后 07 视图也必须更新
+  try{
+    if(typeof textFiles!=="undefined"&&textFiles.length)reconcile();
+    if(typeof renderRecon==="function")renderRecon();
+  }catch(e){console.error("renderRecon 异常:",e);}
 }
 function renderFilebar(){
   let html=recs().length?`<span class="chip">◉ 库内 <b>${recs().length}</b> 条 · ${Object.keys(byCountry()).length} 国</span>`:"";
