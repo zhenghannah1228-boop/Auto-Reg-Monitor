@@ -269,6 +269,25 @@ select.csel{font-family:var(--mono);font-size:12.5px;background:var(--panel);bor
 .dlist .did{font-family:var(--mono);font-size:11.5px;color:var(--blue);font-weight:600}
 .dlist .dnm{color:var(--ink2)}
 .bigmsg{padding:34px 10px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8}
+.adv-eg{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.adv-eg .egq{font-family:var(--mono);font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:5px 12px;cursor:pointer;color:var(--ink2);transition:.12s}
+.adv-eg .egq:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.adv-log{margin-top:13px;max-height:calc(100vh - 360px);min-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;padding-right:4px}
+.adv-q{align-self:flex-end;max-width:78%;background:var(--accent);color:#fff;padding:8px 14px;border-radius:13px 13px 3px 13px;font-size:13px;line-height:1.6;box-shadow:var(--shadow)}
+.adv-a{align-self:flex-start;max-width:92%;background:var(--panel);border:1px solid var(--line);border-radius:13px 13px 13px 3px;padding:13px 16px;box-shadow:var(--shadow)}
+.adv-a h4{font-family:var(--serif);font-size:14px;margin:0 0 8px;color:var(--ink);font-weight:800}
+.adv-a .seg-t{font-family:var(--mono);font-size:11px;color:var(--accent);font-weight:700;margin:11px 0 5px;display:flex;align-items:center;gap:6px}
+.adv-a .seg-t::before{content:"";width:3px;height:12px;background:var(--accent);border-radius:2px;display:inline-block}
+.adv-a ul{margin:3px 0 3px 2px;padding:0;list-style:none}
+.adv-a li{font-size:12.5px;line-height:1.7;padding:2px 0;color:var(--ink2)}
+.adv-a .jbtn{font-family:var(--mono);font-size:11px;color:var(--blue);background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:2px 9px;cursor:pointer;text-decoration:none;display:inline-block;margin:2px 4px 2px 0}
+.adv-a .jbtn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.adv-a .cov{display:inline-block;width:13px;height:13px;border-radius:3px;margin:0 2px;vertical-align:middle;font-size:9px;text-align:center;line-height:13px;color:#fff}
+.adv-a .src{font-family:var(--mono);font-size:10px;color:var(--faint);margin-top:11px;border-top:1px dashed var(--line);padding-top:7px}
+.adv-a .miss{font-size:12px;color:var(--muted)}
+.adv-inbar{display:flex;gap:9px;margin-top:13px;align-items:center}
+.adv-input{flex:1;font-family:var(--sans);font-size:13.5px;padding:11px 15px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);outline:none;box-shadow:var(--shadow)}
+.adv-input:focus{border-color:var(--accent)}
 .deltachips{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .dchip{border:1px solid var(--line);background:var(--panel);padding:11px 18px;border-radius:8px;
   font-size:11.5px;box-shadow:var(--shadow);color:var(--muted)}
@@ -493,6 +512,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-cmp"><span class="tn">12</span>法规对比</div>
     <div class="tab" data-p="p-path"><span class="tn">13</span>合规路径</div>
     <div class="tab" data-p="p-ncap"><span class="tn">14</span>NCAP矩阵</div>
+    <div class="tab" data-p="p-advisor"><span class="tn">15</span>合规咨询师</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -730,6 +750,21 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     </div>
     <iframe id="ncap-frame" data-src="./ncap/ncap_matrix_view.html"
       style="width:100%;height:calc(100vh - 200px);min-height:600px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>
+  </div>
+
+  <div class="pane" id="p-advisor">
+    <div class="card">
+      <h3>合规咨询师 <span class="hint">问它法规/认证/对标问题,它检索监控台内置数据(法规库 · 解读看板 · 认证金字塔 · 对标标准)组织回答并给跳转</span></h3>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">
+        基于本库现有数据的<b>检索式</b>问答(非生成式,不臆造):按问题里的国家/国际标准(UN R·GB·GTR·FMVSS)/维度/草案/认证等线索,
+        汇总相关法规、解读推文、认证体系并给出可点击跳转。问得越具体越准。</div>
+      <div class="adv-eg" id="adv-eg"></div>
+    </div>
+    <div id="adv-log" class="adv-log"><div class="bigmsg">问我点什么,例如上面的示例问题 ↑</div></div>
+    <div class="adv-inbar">
+      <input id="adv-q" class="adv-input" placeholder="输入问题,如:印度的充电电池法规有哪些?UN R171 哪些国家在用?中欧电池热失控差异?" autocomplete="off">
+      <button class="btn" onclick="askAdvisor()">提问</button>
+    </div>
   </div>
 
   <footer>
@@ -2950,6 +2985,171 @@ function fillPathAnchor(){
   refreshSelFilter(sel);
 }
 
+/* ================= 15 合规咨询师(检索式,基于内置数据) ================= */
+let _INSIGHTS=null;
+async function advLoadInsights(){
+  if(_INSIGHTS)return _INSIGHTS;
+  try{const r=await fetch("./kanban_system/data/insights.json");const d=await r.json();
+    _INSIGHTS=Array.isArray(d)?d:(d.insights||[]);}catch(e){_INSIGHTS=[];}
+  return _INSIGHTS;
+}
+const ADV_DIM_KW=[
+  [0,/整车准入|型式|准入|type approval|whole vehicle/i],
+  [1,/环保|排放|油耗|节能|emission|噪声/i],
+  [2,/射频|无线电|电磁|\bEMC\b|\bRF\b|\bRED\b/i],
+  [3,/电池|充电|动力蓄电|热失控|热扩散|REESS|battery|GB\s*38031|R100/i],
+  [4,/补贴|EV补贴|incentive/i],
+  [5,/网络安全|信息安全|数据安全|cyber|OTA|软件升级|R155|R156/i],
+  [6,/ADAS|智驾|智能驾驶|辅助驾驶|\bAEB\b|车道|领航|\bNOA\b|DCAS|自动驾驶|R171|R79|R157|R152/i],
+  [7,/标签|标识|铭牌|marking|label/i],
+  [8,/注册|上牌|登记|监管|registration/i],
+  [9,/随车工具|警告三角|warning triangle/i],
+];
+const ADV_REF_RE=/(UN\s*R\.?\s*\d+|ECE\s*R\.?\s*\d+|GB\s*\/?T?\s*\d{3,5}(?:-\d{4})?|GTR\s*\d+|FMVSS\s*\d+|AIS\s*\d+|EU\s*\d{4}\/\d+)/ig;
+const ADV_EGS=["印度的充电电池法规有哪些?","UN R171 是什么?哪些国家在用?","中欧电池热失控差异",
+  "欧盟 ADAS/智驾 怎么认证?","哪些国家网络安全维度是空白?","巴西的认证体系是什么?","最近有哪些草案/新规?"];
+
+function advInitEgs(){
+  const host=$("#adv-eg");if(!host)return;
+  host.innerHTML=ADV_EGS.map(q=>`<span class="egq" onclick="askAdvisor(${JSON.stringify(q).replace(/"/g,'&quot;')})">${esc(q)}</span>`).join("");
+}
+function advGo(c,key){switchTab("p-cty");if(key){window._focusKey=key;}$("#csel").value=c;renderCountry();}
+
+function askAdvisor(qarg){
+  const inp=$("#adv-q");const q=(typeof qarg==="string"?qarg:inp.value||"").trim();
+  if(!q)return;
+  const log=$("#adv-log");if(log.querySelector(".bigmsg"))log.innerHTML="";
+  log.insertAdjacentHTML("beforeend",`<div class="adv-q">${esc(q)}</div>`);
+  inp.value="";log.scrollTop=log.scrollHeight;
+  const pending=[advLoadInsights()];
+  if(typeof CERT==="undefined"||!CERT)pending.push(loadCert().catch(()=>{}));
+  Promise.all(pending).then(()=>{
+    log.insertAdjacentHTML("beforeend",advAnswer(q));
+    log.scrollTop=log.scrollHeight;
+  });
+}
+
+function advAnswer(q){
+  const bc=byCountry(),allC=Object.keys(bc);
+  const cties=allC.slice().sort((a,b)=>b.length-a.length).filter(c=>q.includes(c)).slice(0,3);
+  // 国际标准:问题中出现的 + 库中实际 refs 比对
+  const refsInQ=[...new Set((q.match(ADV_REF_RE)||[]).map(m=>m.replace(/\s+/g,"").toUpperCase()))];
+  const allRefs={};recs().forEach(r=>(r.refs||[]).forEach(f=>{allRefs[f.replace(/\s+/g,"").toUpperCase().replace(/-\d{4}$/,"")]=f;}));
+  const refHit=[];refsInQ.forEach(rn=>{const base=rn.replace(/-\d{4}$/,"");const k=Object.keys(allRefs).find(x=>x===base||x===rn);if(k&&!refHit.includes(allRefs[k]))refHit.push(allRefs[k]);});
+  const dimIdx=ADV_DIM_KW.filter(([i,re])=>re.test(q)).map(([i])=>i);
+  const wantDraft=/草案|新规|draft|proposal|最新|新增/i.test(q);
+  const wantCert=/认证|型式|金字塔|准入制度|强制认证|证书|主管机构|体系/i.test(q);
+  let html=`<div class="adv-a">`,sources=[],produced=false;
+
+  // ---- 国家聚焦 ----
+  cties.forEach(c=>{
+    const list=bc[c]||[];if(!list.length)return;produced=true;
+    const dc=Array(10).fill(0);list.forEach(r=>r.dims.forEach(i=>dc[i]++));
+    const drafts=list.filter(isDraft),refCount={};
+    list.forEach(r=>r.refs.forEach(f=>refCount[f]=(refCount[f]||0)+1));
+    const topRefs=Object.entries(refCount).sort((a,b)=>b[1]-a[1]).slice(0,6);
+    html+=`<div class="seg-t">${esc(c)} · 法规库概览</div><ul>`;
+    html+=`<li>共 <b>${list.length}</b> 条法规${drafts.length?(",其中草案 <b>"+drafts.length+"</b> 条"):""}。</li>`;
+    html+=`<li>维度覆盖 `+DIMS.map((d,i)=>{const n=dc[i],col=n>=3?"#5a8a4a":n>=1?"#c79a2e":"#c6502a";
+      return `<span class="cov" style="background:${col}" title="${esc(d)}:${n}条">${n||""}</span>`;}).join("")+
+      ` <span style="font-size:10px;color:var(--muted)">绿≥3·黄1-2·红0(悬停看维度名)</span></li>`;
+    const gaps=DIMS.filter((d,i)=>dc[i]===0);
+    if(gaps.length)html+=`<li>空白维度:<b style="color:var(--accent)">${gaps.join("、")}</b></li>`;
+    if(topRefs.length)html+=`<li>主要对标:${topRefs.map(([f,n])=>esc(f)+"×"+n).join(" · ")}</li>`;
+    dimIdx.forEach(di=>{const inDim=list.filter(r=>r.dims.includes(di));
+      if(inDim.length)html+=`<li><b>${DIMS[di]}</b> ${inDim.length} 条:`+inDim.slice(0,10).map(r=>
+        `<a class="jbtn" onclick="advGo('${esc(c)}','${keyOf(r).replace(/'/g,"\\'")}')">${esc(r.regId||r.cnName||"—")}</a>`).join("")+
+        (inDim.length>10?" …":"")+`</li>`;});
+    if(wantCert&&typeof CERT!=="undefined"&&CERT&&CERT[c])
+      html+=`<li>认证体系(${esc(CERT[c].system_type||"")}):${esc((CERT[c].summary||"").slice(0,160))}</li>`;
+    html+=`</ul><a class="jbtn" onclick="advGo('${esc(c)}')">→ 国家详情「${esc(c)}」</a>`;
+    if(wantCert)html+=`<a class="jbtn" onclick="switchTab('p-pyr');loadCert()">→ 认证金字塔</a>`;
+    sources.push(`法规库·${c} ${list.length}条`);
+  });
+
+  // ---- 国际标准聚焦 ----
+  if(refHit.length){
+    refHit.slice(0,4).forEach(f=>{
+      const using=recs().filter(r=>r.refs.includes(f));
+      const byc={};using.forEach(r=>byc[r.country]=(byc[r.country]||0)+1);
+      const ctys=Object.entries(byc).sort((a,b)=>b[1]-a[1]);
+      produced=true;
+      html+=`<div class="seg-t">国际标准 ${esc(f)} · 对标分布</div><ul>`;
+      if(ctys.length){html+=`<li>库内 <b>${ctys.length}</b> 个国家/地区、共 ${using.length} 条法规对标 ${esc(f)}:`+
+        ctys.slice(0,12).map(([c,n])=>`<a class="jbtn" onclick="advGo('${esc(c)}')">${esc(c)}×${n}</a>`).join("")+(ctys.length>12?" …":"")+`</li>`;
+        html+=`</ul><a class="jbtn" onclick="switchTab('p-net');if(typeof setNetMode==='function')setNetMode('cross');buildNet()">→ 关系网络看 ${esc(f)} 跨国联动</a>`;}
+      else{html+=`<li class="miss">${esc(f)} 暂未在法规库的对标列中出现(可能尚未录入,或该标准以其他写法登记)。</li></ul>`;}
+      sources.push(`对标·${f}`);
+    });
+  }
+
+  // ---- 维度聚焦(无国家时,跨国看该维度) ----
+  if(dimIdx.length&&!cties.length){
+    dimIdx.slice(0,2).forEach(di=>{
+      const inDim=recs().filter(r=>r.dims.includes(di));
+      const byc={};inDim.forEach(r=>byc[r.country]=(byc[r.country]||0)+1);
+      const top=Object.entries(byc).sort((a,b)=>b[1]-a[1]);
+      const gapC=allC.filter(c=>!byc[c]);
+      produced=true;
+      html+=`<div class="seg-t">${DIMS[di]} 维度 · 跨国分布</div><ul>`;
+      html+=`<li>全库 <b>${inDim.length}</b> 条;覆盖 ${top.length} 国。法规量 Top:`+
+        top.slice(0,10).map(([c,n])=>`<a class="jbtn" onclick="advGo('${esc(c)}')">${esc(c)}×${n}</a>`).join("")+`</li>`;
+      if(gapC.length)html+=`<li>该维度<b style="color:var(--accent)">空白</b>(0 条)的国家 ${gapC.length} 个:${gapC.slice(0,18).map(esc).join("、")}${gapC.length>18?" …":""}</li>`;
+      html+=`</ul><a class="jbtn" onclick="switchTab('p-dim')">→ 维度矩阵热力表</a>`;
+      sources.push(`法规库·${DIMS[di]} ${inDim.length}条`);
+    });
+  }
+
+  // ---- 草案/新规 ----
+  if(wantDraft){
+    let drafts=recs().filter(isDraft);
+    if(cties.length)drafts=drafts.filter(r=>cties.includes(r.country));
+    drafts.sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")));
+    produced=true;
+    html+=`<div class="seg-t">草案 / 新规${cties.length?"("+cties.join("、")+")":""}</div><ul>`;
+    if(drafts.length){html+=drafts.slice(0,10).map(r=>
+      `<li><a class="jbtn" onclick="advGo('${esc(r.country)}','${keyOf(r).replace(/'/g,"\\'")}')">${esc(r.regId||r.cnName||"—")}</a> ${esc(r.country)}${r.date?" · "+esc(r.date):""} ${esc((r.cnName||"").slice(0,28))}</li>`).join("");
+      if(drafts.length>10)html+=`<li class="miss">… 共 ${drafts.length} 条,详见「04 新增监控 / 01 草案监控」</li>`;}
+    else html+=`<li class="miss">当前库内未识别到草案/新规${cties.length?"(在所选国家)":""}。</li>`;
+    html+=`</ul>`;
+    sources.push(`草案 ${drafts.length}条`);
+  }
+
+  // ---- 解读看板(始终尝试匹配) ----
+  const ins=_INSIGHTS||[];
+  if(ins.length){
+    const ql=q.toLowerCase();
+    // CJK 无空格:用拉丁词 + 中文 2/3 字 n-gram 做匹配键
+    const toks=new Set();
+    (ql.match(/[a-z0-9]+/g)||[]).forEach(w=>{if(w.length>=2)toks.add(w);});
+    const cjk=ql.replace(/[^一-龥]/g,"");
+    for(let n=2;n<=3;n++)for(let i=0;i+n<=cjk.length;i++)toks.add(cjk.slice(i,i+n));
+    const scored=ins.map(it=>{
+      const hay=[it.title,it.summary,(it.topics||[]).join(" "),(it.key_points||[]).join(" "),
+        (it.regulations||[]).map(x=>x.reg_no+" "+x.match_key).join(" ")].join(" ").toLowerCase();
+      let s=0;toks.forEach(w=>{if(hay.includes(w))s+=w.length>=3?2:1;});
+      refHit.forEach(f=>{if(hay.includes(f.toLowerCase().replace(/\s+/g,""))||hay.includes(f.toLowerCase()))s+=3;});
+      (it.regulations||[]).forEach(rg=>{refsInQ.forEach(rn=>{if((rg.match_key||"").replace(/\s+/g,"").toUpperCase()===rn.replace(/-\d{4}$/,""))s+=4;});});
+      return [s,it];
+    }).filter(x=>x[0]>=2).sort((a,b)=>b[0]-a[0]);
+    if(scored.length){
+      produced=true;
+      html+=`<div class="seg-t">相关解读(看板)</div><ul>`+scored.slice(0,4).map(([s,it])=>
+        `<li><b>${esc(it.title)}</b> <span style="font-size:10px;color:var(--muted)">[${esc(it.type)}]</span><br>${esc((it.summary||"").slice(0,150))}</li>`).join("")+
+        `</ul><a class="jbtn" onclick="switchTab('p-ins');var f=$('#ins-frame');if(f&&!f.src)f.src=f.dataset.src">→ 打开解读看板</a>`;
+      sources.push(`解读 ${scored.length}篇`);
+    }
+  }
+
+  if(!produced){
+    html+=`<h4>没找到能直接命中的内置数据</h4><div class="miss">试试在问题里点名:<b>国家</b>(如 印度/欧盟/巴西)、<b>国际标准</b>(如 UN R171、GB 38031)、<b>维度</b>(如 充电电池/网络安全/ADAS),或问<b>草案/认证体系</b>。<br>本咨询师只检索监控台已入库的数据,不臆造库外信息。</div>`;
+  }else{
+    html+=`<div class="src">依据(监控台内置数据检索):${sources.join(" · ")||"—"} · 检索式回答,非生成,结论以原始法规/解读为准</div>`;
+  }
+  html+=`</div>`;
+  return html;
+}
+
 /* tabs */
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
@@ -2959,9 +3159,11 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-chain")openChainTab();
   if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
   if(t.dataset.p==="p-ncap"){const f=$("#ncap-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载 NCAP 矩阵
+  if(t.dataset.p==="p-advisor"){advInitEgs();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
   if(t.dataset.p==="p-cmp")renderCmp();
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
+(function(){const ai=$("#adv-q");if(ai)ai.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();askAdvisor();}});})();
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
 /* 给所有国家下拉加输入筛选(免滚动翻找);备忘的国家输入框本就是 datalist 可输入,跳过 */
