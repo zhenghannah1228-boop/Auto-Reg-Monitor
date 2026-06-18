@@ -1970,6 +1970,38 @@
     "UN R100": 5,
     "GB 38031": 0
    }
+  },
+  {
+   "id": "INS-2026-039",
+   "title": "多米尼加(República Dominicana)车辆进口准入与关税要点",
+   "type": "system",
+   "summary": "多米尼加车辆进口准入与通关:乘用车≤5年/卡车≤15年、禁救援(全损)车;主要税费按CIF——Gravamen进口关税20%+ITBIS/IVA 18%,首次上牌17%(CIF)+按CO₂排放附加、过户2%;主管为海关总署DGA;海外连续居住满2年的多米尼加公民可享车辆每10年一次免税。",
+   "regulations": [],
+   "topics": [
+    "多米尼加进口",
+    "车辆准入",
+    "进口关税",
+    "通关流程",
+    "居民免税"
+   ],
+   "dimensions": [
+    "9"
+   ],
+   "key_points": [
+    "车龄限制:乘用车 ≤5 年、卡车 ≤15 年;禁止进口救援车/保险全损(salvage)车辆及部分排量摩托车。",
+    "必备文件:无质押的产权证(título sin gravámenes)、按目的国语言的商业发票、原产地证书(用于享受关税优惠/FTA)、车辆登记(须在进口人名下)、提单(Bill of Lading)、护照。",
+    "进口税费(按 CIF 估值 · 参考,以海关最新税则为准):Gravamen 进口关税 20%(按车辆估值)· ITBIS/IVA 增值税 18%(CIF)· 首次上牌 primera placa 17% 附加(CIF)+ 按 CO₂ 排放的附加比例 · 过户 traspaso 2% · Marbete 行驶证(可变);另含港口→目的地运输费、清关代理费。",
+    "通关流程(主管:海关总署 DGA / Dirección General de Aduanas):① 注册为进口人 → ② 备齐文件 → ③ 到港时向 DGA 提交海关申报 → ④ 缴纳 gravamen / IVA 等税费 → ⑤ 放行提车;建议委托清关代理/物流公司。",
+    "居民免税(海外连续居住满 2 年的多米尼加公民、或在多办理居留者):家庭物品一生一次、车辆每 10 年一次;需居留卡、满 2 年护照、提单、(已婚)结婚证、满 1 年的车辆产权证及出口国车辆历史记录;且过去 2 年在多停留不超过 180 天。"
+   ],
+   "author": "整理自 DR 海关进口规程资料",
+   "publish_date": "",
+   "region_focus": [
+    "多米尼加"
+   ],
+   "source_file": "DominicanRepublic_import_customs(PDF+DOCX)",
+   "url": "",
+   "needs_review": false
   }
  ]
 }
