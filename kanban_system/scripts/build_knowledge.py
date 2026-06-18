@@ -158,32 +158,48 @@ SEARCH_BAR = ('<div class="kwbar">'
   '<button class="kwbtn ghost" onclick="kwClear()">清除</button>'
   '<span id="kwstat" class="kwstat"></span></div>')
 
-SEARCH_JS = """<script>
+SEARCH_JS = r"""<script>
+var TYPECN={compare:'对比',interpret:'解读',revision:'修订',system:'体系'};
+function _esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function _imgify(s){return s.replace(/\[img\](\S+)/g,'<a href="$1" target="_blank"><img class="kpimg" src="$1" loading="lazy"></a>');}
+function _hay(it){return [it.title,it.summary,(it.topics||[]).join(' '),(it.key_points||[]).join(' '),
+  (it.regulations||[]).map(function(r){return (r.reg_no||'')+' '+(r.match_key||'');}).join(' ')].join(' ').toLowerCase();}
 function kwSearch(){
   var raw=(document.getElementById('kw').value||'').trim().toLowerCase();
-  // 分词:空格拆多关键词,全部命中才算匹配(忽略词序);如「UN 171」=需同时含 un 与 171,
-  // 故能命中「UN R171」(171 在 r171 内)。
-  var toks=raw.split(/\\s+/).filter(Boolean);
-  var secs=document.querySelectorAll('section.theme'),hit=0;
-  secs.forEach(function(s){
-    var txt=s.textContent.toLowerCase();
-    var m=!toks.length||toks.every(function(t){return txt.indexOf(t)>=0;});
-    s.style.display=m?'':'none'; if(m&&toks.length)hit++;
-  });
-  document.querySelectorAll('.navdim a').forEach(function(a){
-    var t=document.querySelector(a.getAttribute('href'));
-    a.style.display=(t&&t.style.display==='none')?'none':'';
-  });
-  document.querySelectorAll('.navdim').forEach(function(d){
-    var any=Array.prototype.some.call(d.querySelectorAll('a'),function(a){return a.style.display!=='none';});
-    d.style.display=(toks.length&&!any)?'none':'';
-  });
-  document.getElementById('kwstat').textContent=toks.length?(hit+' 个主题匹配「'+raw+'」'):'';
+  var toks=raw.split(/\s+/).filter(Boolean);
+  var res=document.getElementById('kwresults'), br=document.getElementById('browse'), stat=document.getElementById('kwstat');
+  if(!toks.length){res.style.display='none';br.style.display='';stat.textContent='';return;}
+  var hits=(window.INS||[]).filter(function(it){var h=_hay(it);return toks.every(function(t){return h.indexOf(t)>=0;});});
+  br.style.display='none';res.style.display='';
+  stat.textContent=hits.length+' 篇推文匹配「'+raw+'」';
+  if(!hits.length){res.innerHTML='<div class="kwempty">没有匹配的推文。多个词用空格分隔(需都命中)。</div>';return;}
+  res.innerHTML='<div class="kwrhd">检索结果 '+hits.length+' 篇 · 点标题看正文</div>'+hits.map(function(it){
+    return '<div class="kwhit" onclick="openIns(\''+it.id+'\')">'
+      +'<div class="kwhd1"><span class="kwtag t-'+_esc(it.type)+'">'+(TYPECN[it.type]||'')+'</span>'
+      +'<span class="kwttl">'+_esc(it.title)+'</span></div>'
+      +(it.summary?'<div class="kwsum">'+_esc(it.summary.slice(0,120))+(it.summary.length>120?'…':'')+'</div>':'')
+      +'<div class="kwmeta">'+_esc((it.region_focus||[]).join(' / '))+(it.publish_date?' · '+_esc(it.publish_date):'')+(it.author?' · '+_esc(it.author):'')
+      +' · '+(it.key_points||[]).length+' 个要点</div></div>';
+  }).join('');
 }
+function openIns(id){
+  var it=(window.INS||[]).filter(function(x){return x.id===id;})[0]; if(!it)return;
+  var kp=(it.key_points||[]).map(function(p){return '<li>'+_imgify(_esc(p))+'</li>';}).join('');
+  var regs=(it.regulations||[]).map(function(r){return '<span class="ireg">'+_esc(r.reg_no||r.match_key||'')+'</span>';}).join('');
+  document.getElementById('insbox').innerHTML='<span class="insx" onclick="closeIns()">×</span>'
+    +'<h3>'+_esc(it.title)+'</h3>'
+    +'<div class="imeta">'+(TYPECN[it.type]||'')+(it.publish_date?' · '+_esc(it.publish_date):'')+(it.author?' · '+_esc(it.author):'')
+      +(((it.region_focus||[]).length)?' · '+_esc(it.region_focus.join(' / ')):'')+'</div>'
+    +(it.summary?'<p class="isum">'+_esc(it.summary)+'</p>':'')
+    +(kp?'<div class="ikp"><b>要点</b><ul>'+kp+'</ul></div>':'')
+    +(regs?'<div class="iregs"><b>关联法规</b><div>'+regs+'</div></div>':'')
+    +(it.url?'<div style="margin-top:14px"><a class="ilink" href="'+_esc(it.url)+'" target="_blank">阅读原文 →</a></div>':'');
+  document.getElementById('insmodal').style.display='flex';
+}
+function closeIns(){document.getElementById('insmodal').style.display='none';}
 function kwClear(){var k=document.getElementById('kw');k.value='';kwSearch();k.focus();}
-(function(){var k=document.getElementById('kw');if(!k)return;
-  k.addEventListener('keydown',function(e){if(e.key==='Enter')kwSearch();});
-  k.addEventListener('input',kwSearch);})();
+(function(){var k=document.getElementById('kw');if(k){k.addEventListener('keydown',function(e){if(e.key==='Enter')kwSearch();});k.addEventListener('input',kwSearch);}
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeIns();});})();
 </script>"""
 
 def main():
@@ -206,6 +222,8 @@ def main():
                 f'<p style="color:#8d8674;font-size:13px">以下推文未命中任何主题关键词——在 build_knowledge.py 的 THEME_MAP 增加主题或关键词后重跑即可归位:</p><ul>{lis}</ul></section>'
         nav += f'<div class="navdim"><b>—</b><a href="#t-none">未归类<i>{len(unassigned)}</i></a></div>'
     n_theme = sum(1 for t in THEME_MAP if themed[t["id"]])
+    _slim=[{k:it.get(k) for k in ('id','title','type','summary','key_points','regulations','topics','author','publish_date','region_focus','url')} for it in ins]
+    INS_EMBED='<script>window.INS='+json.dumps(_slim,ensure_ascii=False)+';</script>'
     page = f'''<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>法规知识体系 · 主题树</title><style>
@@ -264,6 +282,28 @@ background:var(--accent);color:#fff;border-radius:8px;cursor:pointer}}
 .kwbtn:hover{{opacity:.9}}
 .kwstat{{font-family:var(--mono);font-size:11px;color:var(--muted)}}
 mark{{background:#ffe9a8;color:inherit;padding:0 1px;border-radius:2px}}
+.kwresults{{margin-top:2px}}
+.kwrhd{{font-family:var(--mono);font-size:11px;color:var(--muted);margin:2px 0 12px}}
+.kwhit{{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:9px;padding:12px 16px;margin-bottom:11px;cursor:pointer;transition:.12s}}
+.kwhit:hover{{background:var(--paper);border-left-color:var(--accent);transform:translateX(2px)}}
+.kwhd1{{display:flex;gap:9px;align-items:baseline}}
+.kwtag{{font-size:10px;border-radius:5px;padding:1px 8px;color:#fff;background:var(--blue);flex-shrink:0}}
+.kwtag.t-compare{{background:var(--blue)}}.kwtag.t-revision{{background:var(--warn)}}.kwtag.t-interpret{{background:var(--good)}}.kwtag.t-system{{background:#7a5ba0}}
+.kwttl{{font-weight:800;font-size:14.5px;color:var(--ink);line-height:1.5}}
+.kwsum{{font-size:12.5px;color:var(--ink);opacity:.82;margin-top:6px;line-height:1.65}}
+.kwmeta{{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:6px}}
+.kwempty{{color:var(--muted);font-size:13px;padding:30px;text-align:center}}
+.insmodal{{display:none;position:fixed;inset:0;background:rgba(20,24,20,.5);z-index:50;align-items:center;justify-content:center;padding:20px}}
+.insbox{{background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:760px;width:100%;max-height:86vh;overflow-y:auto;padding:24px 28px;position:relative;box-shadow:0 12px 44px rgba(0,0,0,.22)}}
+.insx{{position:absolute;top:10px;right:16px;font-size:25px;color:var(--muted);cursor:pointer;line-height:1}}
+.insx:hover{{color:var(--accent)}}
+.insbox h3{{font-size:18px;font-weight:800;margin:0 24px 6px 0;line-height:1.4}}
+.imeta{{font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:13px}}
+.isum{{font-size:14px;line-height:1.85;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:12px 15px}}
+.ikp{{margin-top:16px}}.ikp>b,.iregs>b{{font-size:12.5px;color:var(--accent)}}
+.ikp ul{{margin:8px 0 0 18px}}.ikp li{{font-size:13px;line-height:1.85;margin-bottom:8px}}
+.iregs{{margin-top:16px}}.ireg{{display:inline-block;font-family:var(--mono);font-size:11px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:2px 10px;margin:5px 6px 0 0}}
+.ilink{{color:var(--blue);font-size:13px;text-decoration:none}}
 @media(max-width:760px){{body{{flex-direction:column}}nav{{width:100%;height:auto;position:static}}}}
 </style></head><body>
 <nav><h1>法规知识体系</h1>
@@ -271,7 +311,7 @@ mark{{background:#ffe9a8;color:inherit;padding:0 1px;border-radius:2px}}
 {nav}
 <div class="sub" style="margin-top:14px"><a href="kanban.html" style="color:var(--blue)">→ 推文流看板(按类型)</a></div>
 </nav>
-<main>{SEARCH_BAR}{body}</main>{SEARCH_JS}</body></html>'''
+<main>{SEARCH_BAR}<div id="kwresults" class="kwresults" style="display:none"></div><div id="browse">{body}</div></main><div id="insmodal" class="insmodal" onclick="if(event.target===this)closeIns()"><div class="insbox" id="insbox"></div></div>{INS_EMBED}{SEARCH_JS}</body></html>'''
     with open(OUT, "w", encoding="utf-8") as f: f.write(page)
     n_un = len(unassigned)
     print(f"主题 {n_theme} 个(共配置 {len(THEME_MAP)}),覆盖推文 {len(ins)-n_un}/{len(ins)} 篇,未归类 {n_un}")
