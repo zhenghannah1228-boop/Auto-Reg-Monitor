@@ -766,6 +766,12 @@
         "title": "2025年度汽车法规全景拆解：UN R100.04与GB 38031实操指南与测试红线",
         "type": "revision",
         "url": ""
+      },
+      {
+        "id": "INS-2026-038",
+        "title": "中欧动力电池热失控法规差异详解:不起火、不爆炸",
+        "type": "compare",
+        "url": ""
       }
     ]
   },
@@ -898,6 +904,12 @@
       {
         "id": "INS-2026-020",
         "title": "联合国法规UN R79/R171/R157对比学习",
+        "type": "compare",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-037",
+        "title": "欧洲高阶智驾「通关」指南:R171是正门,第39条是VIP快速通道",
         "type": "compare",
         "url": ""
       }
@@ -1134,6 +1146,12 @@
       {
         "id": "INS-2026-020",
         "title": "联合国法规UN R79/R171/R157对比学习",
+        "type": "compare",
+        "url": ""
+      },
+      {
+        "id": "INS-2026-037",
+        "title": "欧洲高阶智驾「通关」指南:R171是正门,第39条是VIP快速通道",
         "type": "compare",
         "url": ""
       }
@@ -2178,6 +2196,82 @@
         "id": "INS-2026-036",
         "title": "七大海外市场24国准入政策与趋势:北美/南美/欧盟/欧亚/中东/东盟/非洲",
         "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "EU 2018/858 第39条(Article 39)": {
+    "reg_no": "EU 2018/858 第39条(Article 39)",
+    "match_key": "EU 2018/858",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "以色列",
+        "sheet": "以色列",
+        "row": 28,
+        "reg_no": "EU 2018/858",
+        "cn_name": "欧盟整车准入框架法规"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-037",
+        "title": "欧洲高阶智驾「通关」指南:R171是正门,第39条是VIP快速通道",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 100.05": {
+    "reg_no": "UN Regulation No. 100.05",
+    "match_key": "UN R100",
+    "region": "欧洲",
+    "country": "UN ECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 77,
+        "reg_no": "UN Regulation No. 100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 86,
+        "reg_no": "UN R100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "中东市场标准",
+        "sheet": "沙特",
+        "row": 63,
+        "reg_no": "UN R100",
+        "cn_name": "电动汽车高压安全"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 37,
+        "reg_no": "UN R100 ",
+        "cn_name": "关于电动汽车动力系统及可充电储能系统安全要求的统一规定"
+      },
+      {
+        "file": "巴基斯坦",
+        "sheet": "巴基斯坦",
+        "row": 50,
+        "reg_no": "UN R100",
+        "cn_name": "关于电动汽车特殊要求认证的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-038",
+        "title": "中欧动力电池热失控法规差异详解:不起火、不爆炸",
+        "type": "compare",
         "url": ""
       }
     ]
