@@ -70,15 +70,16 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
 <h1>NCAP 跨体系测试项映射矩阵</h1>
 <div class="sub">8 套 NCAP 体系 × 测试项三层映射 · 供认证工程师/分析师做跨体系差集与参数横向对照 · 点单元格看 L2/L3,点测试项名看差集要点</div>
 <div class="vers" id="vers">
- <b>⭐ 本矩阵采用的协议版本</b>
- <span><b>C-NCAP</b> 2027版</span>
- <span><b>JNCAP</b> 令和7(2025)改版 · R7 / 评价方法2025</span>
- <span><b>ASEAN</b> Protocol 2026–2030 · Side v3.3/AEB v2.1/AHB v2.0…</span>
- <span><b>Latin</b> 2025(AOP v2.0.0/SA v2.0.1)· 采纳Euro</span>
- <span><b>ANCAP</b> v1.1(2023–2025)· 采纳Euro</span>
- <span><b>Euro</b> 碰撞保护 v1.1(2025/26)· AE-MDB v8.3/Ped v8.5/Whiplash v3.3.1</span>
- <span><b>US</b> NHTSA + IIHS(头枕v4)</span>
- <span><b>Bharat</b> AIS-197 + AIS-100(Rev.1)</span>
+ <b>⭐ 各地区协议适用/生效时段</b>
+ <span><b>ANCAP</b> 2026–2028</span>
+ <span><b>Latin</b> 2026–2029(实施2026.1)</span>
+ <span><b>ASEAN</b> 2026–2030</span>
+ <span><b>Euro</b> 2026 起(2026–2028 周期)</span>
+ <span><b>C-NCAP</b> 2027 起施行(2027版)</span>
+ <span><b>JNCAP</b> 2025年度(令和7)· 年度滚动</span>
+ <span><b>Bharat</b> 2023 起(AIS-197+AIS-100)</span>
+ <span><b>US</b> 按车型年度滚动(NHTSA/IIHS)</span>
+ <span style="color:var(--muted);font-size:10.5px">注:为适用时段,非发布版本号</span>
 </div>
 <div class="legend">
  <span><i style="background:var(--goodbg);border:1px solid #b6d6a8"></i>测(做此项 · L3 阈值已实拆)</span>
@@ -235,7 +236,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录A 正面100%重叠刚性壁障.pdf"
         ],
@@ -265,7 +266,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "令和7(2025)",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-01_en.pdf",
           "日本/2025_en.pdf(评价方法)"
@@ -316,7 +317,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "Protocol 2026-2030",
+        "version": "2026–2030",
         "source_files": [],
         "L1_subtests": {
           "正面全宽刚性": false
@@ -327,7 +328,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "2025",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/Latin NCAP - Full Width Sled Test Protocol v2.0.0.pdf",
           "采纳 Euro AOP 限值"
@@ -386,7 +387,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "v1.1",
+        "version": "2026–2028",
         "source_files": [],
         "L1_subtests": {
           "正面全宽刚性": true
@@ -442,7 +443,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "v1.1 2026",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "欧盟/.../euro_ncap_protocol_crash_protection_frontal_impact_v11"
         ],
@@ -500,7 +501,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "NHTSA",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "正面全宽刚性": true
@@ -518,7 +519,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "AIS-197",
+        "version": "2023起(AIS-197/100)",
         "source_files": [
           "印度/AIS_197-1.pdf"
         ],
@@ -548,7 +549,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -575,7 +576,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -618,7 +619,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -651,7 +652,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -706,7 +707,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -761,7 +762,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -816,7 +817,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -829,7 +830,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "L1_subtests": {
           "正面偏置": true
         },
@@ -918,7 +919,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "L1_subtests": {
           "正面小偏置": false
         },
@@ -928,7 +929,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "L1_subtests": {
           "正面小偏置": false
         },
@@ -938,7 +939,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "L1_subtests": {
           "正面小偏置": false
         },
@@ -948,7 +949,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "L1_subtests": {
           "正面小偏置": false
         },
@@ -958,7 +959,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "L1_subtests": {
           "正面小偏置": false
         },
@@ -968,7 +969,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "L1_subtests": {
           "正面小偏置": false
         },
@@ -978,7 +979,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "IIHS",
+        "version": "按车型年度·滚动",
         "source_files": [
           "美国/IIHS-NCAP评估测试规程/002  25_小偏置正碰/*"
         ],
@@ -1000,7 +1001,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "L1_subtests": {
           "正面小偏置": false
         },
@@ -1025,7 +1026,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录G  可变形移动壁障侧面碰撞测试评价规程.pdf",
           "中国/.../附录H  侧面柱碰撞测试评价规程.pdf"
@@ -1133,7 +1134,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "令和7年(2025)改版",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-03_en.pdf"
         ],
@@ -1186,7 +1187,7 @@ const _EMBED_MATRIX=[
         "_baseline_correction": "侧面柱碰 由 true 修正为 false:全21份R7协议无任何pole测试,R7-03侧碰仅MDB(业主2026-06确认)"
       },
       "ASEAN": {
-        "version": "Protocol 2026-2030, Side Impact v3.3",
+        "version": "2026–2030",
         "source_files": [
           "东盟/ASEAN-NCAP-Test-Protocol-Side-Impact-Version-3.3-Jan2026.pdf",
           "东盟/FINAL_ASEAN-NCAP-Spreadsheet-Version-0-New-Protocol-2026_2030.xlsm"
@@ -1239,7 +1240,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "2025",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/Latin NCAP 2025 - AOP Protocol.pdf",
           "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"
@@ -1286,7 +1287,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "v1.1 2026正文 + AE-MDB v8.3评分细则(拉美目录)",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "欧盟/Euro NCAP/crash protection/euro_ncap_protocol_crash_protection_side_impact_v11_*.pdf",
           "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"
@@ -1334,7 +1335,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "v1.1 / Overall v10.0",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP PROTOCOL - Crash Protection - Side Impact v1.1.pdf",
           "拉美/Euro NCAP – AE-MDB Side Impact Testing Protocol v8.3 Dec 2023.pdf"
@@ -1381,7 +1382,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "IIHS + NHTSA",
+        "version": "按车型年度·滚动",
         "source_files": [
           "美国/IIHS-NCAP评估测试规程/003  侧碰/*.pdf",
           "美国/NHTSA-NCAP评价规程/原文/侧碰/*"
@@ -1406,7 +1407,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "AIS-197",
+        "version": "2023起(AIS-197/100)",
         "source_files": [
           "印度/AIS_197-1.pdf"
         ],
@@ -1476,7 +1477,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录H 侧面柱碰撞测试评价规程.pdf"
         ],
@@ -1509,7 +1510,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "令和7(2025)",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [],
         "L1_subtests": {
           "侧面柱碰": false
@@ -1520,7 +1521,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "Protocol 2026-2030",
+        "version": "2026–2030",
         "source_files": [],
         "L1_subtests": {
           "侧面柱碰": false
@@ -1531,7 +1532,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "2025/采纳Euro Oblique v7.2",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/Euro NCAP – Oblique Side pole Impact Testing Protocol v7.2 Dec 2023.pdf"
         ],
@@ -1550,7 +1551,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "v1.1",
+        "version": "2026–2028",
         "source_files": [],
         "L1_subtests": {
           "侧面柱碰": true
@@ -1566,7 +1567,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "v1.1 2026 + Oblique v7.2",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "欧盟/Euro NCAP/crash protection/.../side impact v11",
           "拉美/Euro NCAP – Oblique Side pole v7.2"
@@ -1586,7 +1587,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "NHTSA",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "侧面柱碰": true
@@ -1604,7 +1605,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "AIS-197",
+        "version": "2023起(AIS-197/100)",
         "source_files": [
           "印度/AIS_197-1.pdf"
         ],
@@ -1647,7 +1648,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录J 低速后碰撞颈部保护.pdf"
         ],
@@ -1777,7 +1778,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "令和7(2025)",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-05_en.pdf"
         ],
@@ -1795,7 +1796,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "—",
+        "version": "2026–2030",
         "source_files": [],
         "L1_subtests": {
           "后碰鞭打颈部保护": false
@@ -1806,7 +1807,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "v1.1",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/rear-whiplash-test-protocol-v11.pdf"
         ],
@@ -1824,7 +1825,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "v1.1",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP PROTOCOL - Crash Protection - Rear Impact v1.1.pdf"
         ],
@@ -1842,7 +1843,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "Whiplash v3.3.1",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "拉美/Euro NCAP - Whiplash Dynamic Assessment v3.3.1.pdf"
         ],
@@ -1861,7 +1862,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "IIHS v4",
+        "version": "按车型年度·滚动",
         "source_files": [
           "美国/IIHS/.../车辆座椅头枕评估规程-动态标准(第4版).pdf"
         ],
@@ -1880,7 +1881,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "AIS-197",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "后碰鞭打颈部保护": false
@@ -1907,7 +1908,7 @@ const _EMBED_MATRIX=[
     "pillar": "事故后安全",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录K 事故后安全.pdf"
         ],
@@ -1923,7 +1924,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "令和7",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-04_en.pdf"
         ],
@@ -1938,7 +1939,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "v1.1",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP PROTOCOL - Post-Crash - Rescue & Extrication v1.1.pdf"
         ],
@@ -1953,7 +1954,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "v1.1",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "欧盟/Euro NCAP/post crash safety/euro_ncap_protocol_post_crash_v11.pdf"
         ],
@@ -1968,7 +1969,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [],
         "L1_subtests": {
           "事故后安全": false
@@ -1979,7 +1980,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [],
         "L1_subtests": {
           "事故后安全": false
@@ -1990,7 +1991,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "事故后安全": false
@@ -2001,7 +2002,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "事故后安全": false
@@ -2026,7 +2027,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录L 新能源汽车危险工况.pdf"
         ],
@@ -2043,7 +2044,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "HV v1.1 2022",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "拉美/Euro NCAP - Testing of High Voltage Electric Vehicles V1.1.pdf"
         ],
@@ -2058,7 +2059,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [],
         "L1_subtests": {
           "新能源危险工况": false
@@ -2069,7 +2070,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [],
         "L1_subtests": {
           "新能源危险工况": false
@@ -2080,7 +2081,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [],
         "L1_subtests": {
           "新能源危险工况": false
@@ -2091,7 +2092,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [],
         "L1_subtests": {
           "新能源危险工况": false
@@ -2102,7 +2103,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "新能源危险工况": false
@@ -2113,7 +2114,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "新能源危险工况": false
@@ -2138,7 +2139,7 @@ const _EMBED_MATRIX=[
     "pillar": "碰撞保护",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录M 乘员约束系统性能.pdf"
         ],
@@ -2153,7 +2154,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "2025",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/Latin NCAP 2025 - CSSTR Protocol.pdf"
         ],
@@ -2168,7 +2169,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [],
         "L1_subtests": {
           "乘员约束系统": false
@@ -2179,7 +2180,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [],
         "L1_subtests": {
           "乘员约束系统": false
@@ -2190,7 +2191,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [],
         "L1_subtests": {
           "乘员约束系统": false
@@ -2201,7 +2202,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [],
         "L1_subtests": {
           "乘员约束系统": false
@@ -2212,7 +2213,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "乘员约束系统": false
@@ -2223,7 +2224,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "乘员约束系统": false
@@ -2248,7 +2249,7 @@ const _EMBED_MATRIX=[
     "pillar": "弱势道路使用者",
     "systems": {
       "C-NCAP": {
-        "version": "2027版",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录O 弱势交通参与者(头型和腿型冲击).pdf"
         ],
@@ -2278,7 +2279,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "令和7(2025)",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-06_en.pdf",
           "日本/R7-07_en.pdf"
@@ -2298,7 +2299,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "Protocol 2026-2030",
+        "version": "2026–2030",
         "source_files": [
           "东盟/...xlsm 'AOP HPT'(头部保护装备率 TFS8)+ MS-PED"
         ],
@@ -2339,7 +2340,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "2025",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/Latin NCAP 2025 - PP Protocol v2.0.0.pdf",
           "采纳 Euro Pedestrian 头型色带"
@@ -2384,7 +2385,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "v1.1",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP PROTOCOL - Crash Protection - Vulnerable Road User Impact v1.1.pdf",
           "采纳 Euro Pedestrian"
@@ -2430,7 +2431,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "Pedestrian v8.5",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "拉美/Euro NCAP - Pedestrian Testing Protocol v8.5.pdf §4"
         ],
@@ -2475,7 +2476,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "—",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "行人头型冲击": false,
@@ -2488,7 +2489,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "AIS-197 + AIS-100",
+        "version": "2023起(AIS-197/100)",
         "source_files": [
           "印度/AIS_197-1.pdf",
           "印度/AIS_100.pdf(行人合规限值)"
@@ -2556,7 +2557,7 @@ const _EMBED_MATRIX=[
     "pillar": "主动安全·避撞",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录Q 主动安全先进驾驶辅助系统.pdf"
         ],
@@ -2579,7 +2580,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-12_en.pdf(路口对车)"
         ],
@@ -2600,7 +2601,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [
           "东盟/AEB-Car-to-Car v2.1.pdf",
           "东盟/AEB_CM v1.2.pdf"
@@ -2643,7 +2644,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/Latin NCAP 2025 - SA Protocol v2.0.1.pdf"
         ],
@@ -2665,7 +2666,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP - Crash Avoidance - Frontal Collisions v1.1.pdf"
         ],
@@ -2688,7 +2689,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "拉美/Euro NCAP - AEB C2C v2.0.1.pdf"
         ],
@@ -2709,7 +2710,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [
           "美国/NHTSA/.../FCW_NCAP_Test_Procedure.pdf"
         ],
@@ -2730,7 +2731,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [
           "印度/AIS_197-1.pdf(无AEB)"
         ],
@@ -2762,7 +2763,7 @@ const _EMBED_MATRIX=[
     "pillar": "主动安全·避撞",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录P 弱势交通参与者保护(主动安全).pdf"
         ],
@@ -2787,7 +2788,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-09/10/11/13_en.pdf"
         ],
@@ -2812,7 +2813,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [],
         "L1_subtests": {
           "AEB行人日间": false,
@@ -2827,7 +2828,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/Latin NCAP 2025 - SA Protocol v2.0.1.pdf"
         ],
@@ -2849,7 +2850,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP - Crash Avoidance - Frontal v1.1.pdf"
         ],
@@ -2874,7 +2875,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "拉美/Euro NCAP - AEB VRU test protocol v2.0.4.pdf"
         ],
@@ -2899,7 +2900,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "AEB行人日间": false,
@@ -2914,7 +2915,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "AEB行人日间": false,
@@ -2944,7 +2945,7 @@ const _EMBED_MATRIX=[
     "pillar": "主动安全·避撞",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/*C-NCAP*/**/附录Q*.pdf"
         ],
@@ -2966,7 +2967,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-14_en.pdf"
         ],
@@ -2987,7 +2988,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [
           "东盟/*Lane-Support*.pdf"
         ],
@@ -3030,7 +3031,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [
           "拉美/*SA Protocol*.pdf"
         ],
@@ -3052,7 +3053,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/*Lane Departure*.pdf"
         ],
@@ -3074,7 +3075,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "拉美/*LSS*.pdf"
         ],
@@ -3096,7 +3097,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [
           "美国/**/LDW_LKS*.pdf"
         ],
@@ -3117,7 +3118,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [
           "印度/AIS_197-1.pdf(无LSS)"
         ],
@@ -3147,7 +3148,7 @@ const _EMBED_MATRIX=[
     "pillar": "主动安全·避撞",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [],
         "L1_subtests": {
           "盲点监测BST": false
@@ -3158,7 +3159,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [],
         "L1_subtests": {
           "盲点监测BST": false
@@ -3169,7 +3170,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [
           "东盟/MS_Test-Protocol-BST-Detection v2.1 + BST-Visualization v2.0.pdf"
         ],
@@ -3215,7 +3216,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [],
         "L1_subtests": {
           "盲点监测BST": false
@@ -3226,7 +3227,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP - Crash Avoidance - Lane Departure v1.1(BSM)"
         ],
@@ -3241,7 +3242,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [],
         "L1_subtests": {
           "盲点监测BST": false
@@ -3252,7 +3253,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "盲点监测BST": false
@@ -3263,7 +3264,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "盲点监测BST": false
@@ -3288,7 +3289,7 @@ const _EMBED_MATRIX=[
     "pillar": "主动安全·避撞",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录S 整车灯光性能(含AHB/ADB,×82)"
         ],
@@ -3303,7 +3304,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [],
         "L1_subtests": {
           "自适应远光AHB": false
@@ -3314,7 +3315,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "v2.0",
+        "version": "2026–2030",
         "source_files": [
           "东盟/ASEAN NCAP MS AHB-ADB v2.0(2024)"
         ],
@@ -3373,7 +3374,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [],
         "L1_subtests": {
           "自适应远光AHB": false
@@ -3384,7 +3385,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP Safe Driving(采纳 Euro;AHB 为 Safe Driving 子项,无独立协议)"
         ],
@@ -3400,7 +3401,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "欧盟/Euro NCAP Safe Driving 评估(AHB/ADB 为其评分子项,无独立协议)"
         ],
@@ -3416,7 +3417,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "自适应远光AHB": false
@@ -3427,7 +3428,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "自适应远光AHB": false
@@ -3452,7 +3453,7 @@ const _EMBED_MATRIX=[
     "pillar": "安全驾驶·辅助",
     "systems": {
       "C-NCAP": {
-        "version": "",
+        "version": "2027版(2027-07-01 起施行)",
         "source_files": [
           "中国/.../附录N 座舱乘员安全监测与提醒.pdf"
         ],
@@ -3472,7 +3473,7 @@ const _EMBED_MATRIX=[
         }
       },
       "JNCAP": {
-        "version": "",
+        "version": "2025年度(令和7)· 年度滚动",
         "source_files": [
           "日本/R7-08_en.pdf(SBR)"
         ],
@@ -3491,7 +3492,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ANCAP": {
-        "version": "",
+        "version": "2026–2028",
         "source_files": [
           "澳洲/ANCAP - Safe Driving - Occupant Monitoring v1.1.pdf"
         ],
@@ -3510,7 +3511,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Euro NCAP": {
-        "version": "",
+        "version": "2026–2028(实施2026.1)",
         "source_files": [
           "欧盟/Euro NCAP/safe driving/..."
         ],
@@ -3529,7 +3530,7 @@ const _EMBED_MATRIX=[
         }
       },
       "ASEAN": {
-        "version": "",
+        "version": "2026–2030",
         "source_files": [
           "东盟/...xlsm sheet 'SAT-SBR'(安全带提醒 TFS6)",
           "东盟/...xlsm sheet 'COP CPD'(儿童遗留检测 TFS5)"
@@ -3586,7 +3587,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Latin NCAP": {
-        "version": "",
+        "version": "2026–2029(实施2026.1)",
         "source_files": [],
         "L1_subtests": {
           "安全带提醒SBR": false,
@@ -3599,7 +3600,7 @@ const _EMBED_MATRIX=[
         }
       },
       "US NCAP": {
-        "version": "",
+        "version": "按车型年度·滚动",
         "source_files": [],
         "L1_subtests": {
           "安全带提醒SBR": false,
@@ -3612,7 +3613,7 @@ const _EMBED_MATRIX=[
         }
       },
       "Bharat NCAP": {
-        "version": "",
+        "version": "2023起(AIS-197/100)",
         "source_files": [],
         "L1_subtests": {
           "安全带提醒SBR": false,

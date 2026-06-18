@@ -2,20 +2,23 @@
 
 更新:2026-06-17 · **全部 8 体系源文件到齐**(12 卷 + ASEAN 7z 补包)
 
-## ⭐ 各地区 NCAP 协议版本(本矩阵采用的版本 · 醒目对照)
+## ⭐ 各地区 NCAP 协议**适用/生效时段**(本矩阵采用的版本 · 醒目对照)
 
-> 矩阵所有 L1/L2/L3 均基于下列**具体版本**;换版需重新核对。子协议版本随主版本一并列出。
+> 此处列的是文件**适用/生效的时段**(不是发布日期/版本号);发布版仅作参考列。换适用周期需重新核对。
 
-| 体系 | 地区 | 主协议版本 | 关键子协议 / 评分依据版本 |
-|---|---|---|---|
-| **C-NCAP** | 中国 | **2027 版** | 规程附录 A–T(碰撞 A/B/G/H/J… + 主动安全 P/Q/S);§5.1 速度核对值 |
-| **JNCAP** | 日本 | **令和7年(2025)改版** | 试验方法 R7-01~19;评价方法 `2025`(头部 HIC15 五色等级) |
-| **ASEAN** | 东盟 | **Protocol 2026–2030** | Side Impact v3.3 · AEB C2C v2.1 · AEB-CM v1.2 · AHB-ADB v2.0 · Lane Support v1.0 · BST v2.1;评分 xlsm(装备率/Value+Points) |
-| **Latin NCAP** | 拉美 | **2025** | AOP/PP/Full-Width Sled v2.0.0 · SA v2.0.1;采纳 Euro AE-MDB v8.3 / Oblique Pole v7.2 / Whiplash v1.1 |
-| **ANCAP** | 澳洲 | **v1.1(2023–2025)** | Overall v10.0;碰撞/主动安全各 v1.1;采纳 Euro AE-MDB v8.3 |
-| **Euro NCAP** | 欧盟 | **碰撞保护协议 v1.1(2025/2026)** | AE-MDB v8.3 · Pedestrian v8.5 · Whiplash v3.3.1 · Oblique Pole v7.2 · AEB C2C v2.0.1 · AEB VRU v2.0.4 |
-| **US NCAP** | 美国 | **NHTSA(星级)+ IIHS** | IIHS 头枕动态 v4 等;NHTSA FCW/AEB(异构等级制) |
-| **Bharat NCAP** | 印度 | **AIS-197** | + **AIS-100 (Rev.1)**(行人保护,UN GTR9 系) |
+| 体系 | 地区 | **适用/生效时段** | 文档发布版(参考) | 来源依据 |
+|---|---|---|---|---|
+| **ANCAP** | 澳洲 | **2026–2028** | v2.1(Nov 2025 发布) | 封面及 Overall Assessment(2020-22→2023-24→2026-28) |
+| **Latin NCAP** | 拉美 | **2026–2029** | 2025 发布;实施 2026-01-01 | AOP/Overall 协议(封面"2026 – 2029") |
+| **ASEAN** | 东盟 | **2026–2030** | Side v3.3 / AEB v2.1 / AHB v2.0 等子协议 | 评分 xlsm OVERALL RATING("2026 - 2030"、YEAR OF TEST 2026) |
+| **Euro NCAP** | 欧盟 | **2026 起(2026–2028 周期)** | 碰撞保护协议 v1.1(Sep 2025) | 协议"Implementation January 2026";ANCAP 采纳同周期 |
+| **C-NCAP** | 中国 | **2027 起施行(2027 版,约 2027–2029)** | 2027 年版 | 《C-NCAP 管理规则(2027年版)》"2027年7月1日起正式实施" |
+| **JNCAP** | 日本 | **2025 年度(令和7)· 年度滚动** | 评价方法 2021 制定 / 2024-05 改正;试验法 R7 | "0000=评价年度西暦";本批为令和7(2025) |
+| **Bharat NCAP** | 印度 | **2023 起施行(持续有效)** | AIS-197 + AIS-100(Rev.1) | Bharat NCAP 2023-10 启动;AIS-197/100 法规 |
+| **US NCAP** | 美国 | **滚动(按车型年度,无固定周期)** | NHTSA NCAP / IIHS(头枕 v4 等) | NHTSA/IIHS 按 model year 评估、滚动更新 |
+
+> 子协议版本(随主适用周期一并采用):ASEAN Side v3.3·AEB C2C v2.1·AEB-CM v1.2·AHB-ADB v2.0·LSS v1.0·BST v2.1;
+> Euro/Latin/ANCAP 采纳 AE-MDB v8.3·Pedestrian v8.5·Whiplash v3.3.1·Oblique Pole v7.2;Bharat 行人 AIS-100 Rev.1。
 
 ## 各体系源就绪度
 

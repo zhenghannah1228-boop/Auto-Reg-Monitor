@@ -4,6 +4,19 @@ import os, re, json, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "sources")
 
+# 各体系协议的【适用/生效时段】(非发布版本号);merge_row 统一写入每格 version 字段,
+# 与视图顶部版本栏/报告版本表口径一致。来源依据见 coverage_report.md 顶部表。
+SYSTEM_PERIOD = {
+    "C-NCAP": "2027版(2027-07-01 起施行)",
+    "JNCAP": "2025年度(令和7)· 年度滚动",
+    "ASEAN": "2026–2030",
+    "Latin NCAP": "2026–2029(实施2026.1)",
+    "ANCAP": "2026–2028",
+    "Euro NCAP": "2026–2028(实施2026.1)",
+    "US NCAP": "按车型年度·滚动",
+    "Bharat NCAP": "2023起(AIS-197/100)",
+}
+
 def _flush(pg):
     """释放 pdfplumber 单页缓存,防大 PDF(R7-03/AIS-197 等)逐页累积撑爆内存。"""
     try:
@@ -337,8 +350,13 @@ def bharat_ais100_pedestrian():
 
 
 def merge_row(row):
-    """把一个测试项行并入 ncap_matrix.json(按 id 去重替换),数组形式。"""
+    """把一个测试项行并入 ncap_matrix.json(按 id 去重替换),数组形式。
+    统一把每格 version 写成【适用/生效时段】(SYSTEM_PERIOD),与视图版本栏口径一致;
+    原发布版本号(子协议)保留在 source_files / L2._note 中。"""
     import json
+    for s, obj in (row.get("systems") or {}).items():
+        if s in SYSTEM_PERIOD and isinstance(obj, dict):
+            obj["version"] = SYSTEM_PERIOD[s]
     p = os.path.join(HERE, "ncap_matrix.json")
     arr = []
     if os.path.exists(p):
