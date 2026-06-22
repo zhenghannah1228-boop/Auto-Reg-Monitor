@@ -952,8 +952,10 @@ function refreshSelFilter(sel){if(sel&&sel._enh){snapSel(sel);applySelFilter(sel
 let _cdEl=null,_cdSel=null;
 function closeCDrop(){if(!_cdEl)return;_cdEl.remove();_cdEl=null;_cdSel=null;
   document.removeEventListener("mousedown",_cdOutside,true);
-  window.removeEventListener("scroll",closeCDrop,true);window.removeEventListener("resize",closeCDrop);}
+  window.removeEventListener("scroll",_cdScroll,true);window.removeEventListener("resize",closeCDrop);}
 function _cdOutside(e){if(_cdEl&&!_cdEl.contains(e.target)&&e.target!==_cdSel)closeCDrop();}
+/* 面板内部滚动不关闭,仅页面/其它容器滚动时才关闭 */
+function _cdScroll(e){if(_cdEl&&(e.target===_cdEl||(e.target.nodeType===1&&_cdEl.contains(e.target))))return;closeCDrop();}
 function openCDrop(sel){
   if(_cdSel===sel){closeCDrop();return;}
   closeCDrop();_cdSel=sel;
@@ -970,7 +972,7 @@ function openCDrop(sel){
   p.addEventListener("mousedown",e=>{const t=e.target.closest(".cdrop-opt");if(!t)return;e.preventDefault();
     const i=+t.dataset.i;if(sel.selectedIndex!==i){sel.selectedIndex=i;sel.dispatchEvent(new Event("change",{bubbles:true}));}closeCDrop();});
   setTimeout(()=>{document.addEventListener("mousedown",_cdOutside,true);
-    window.addEventListener("scroll",closeCDrop,true);window.addEventListener("resize",closeCDrop);},0);
+    window.addEventListener("scroll",_cdScroll,true);window.addEventListener("resize",closeCDrop);},0);
 }
 document.addEventListener("mousedown",e=>{const s=e.target.closest&&e.target.closest("select.csel");
   if(s){e.preventDefault();openCDrop(s);try{s.focus();}catch(_){}}},true);
