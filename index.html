@@ -3279,8 +3279,8 @@ function renderRecalls(){
     list=list.filter(r=>{const hay=[r.country,r.agency,r.oems,r.reason,r.reg_ref,r.reg_clause,(r.refs||[]).join(" "),r.remedy,r.note].join(" ").toLowerCase();return toks.every(t=>hay.includes(t));});}
   if(!recalls.length){body.innerHTML='<div class="card"><div class="bigmsg">还没有召回案例。点「✚ 新增召回案例」添加第一条。</div></div>';return;}
   if(!list.length){body.innerHTML='<div class="card"><div class="bigmsg">没有匹配的召回案例。</div></div>';return;}
-  body.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:10px">共 ${list.length} 例${list.length<recalls.length?" / 库内 "+recalls.length:""}</div>`+
-    list.map(r=>{
+  body.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:10px">共 ${list.length} 例${list.length<recalls.length?" / 库内 "+recalls.length:""}${list.length>400?" · 仅显示前 400,请用筛选/搜索缩小或导出看全部":""}</div>`+
+    list.slice(0,400).map(r=>{
       const dims=(r.dims||[]).map(i=>`<span class="rc-dim" style="background:${DIMCOL[i]||"#888"}" title="${esc(DIMS[i]||"")}">${(+i+1)}</span>`).join("");
       const refs=(r.refs||[]).map(f=>esc(f)).join(" · ");
       return `<div class="rc-card ${r.mandatory===false?"voluntary":""}">
