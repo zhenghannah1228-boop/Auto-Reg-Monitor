@@ -2427,5 +2427,37 @@
         "url": ""
       }
     ]
+  },
+  "Law No.05/L-132 ON VEHICLES(车辆法,2017)": {
+    "reg_no": "Law No.05/L-132 ON VEHICLES(车辆法,2017)",
+    "match_key": "05/L-132",
+    "region": "巴尔干",
+    "country": "科索沃",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-047",
+        "title": "科索沃车辆准入官方法源体系:Law 05/L-132《车辆法》(转置欧盟2007/46)+ 中央登记 + 环保/消费税",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "Law No.08/L-186 道路交通规则法(2024)": {
+    "reg_no": "Law No.08/L-186 道路交通规则法(2024)",
+    "match_key": "08/L-186",
+    "region": "巴尔干",
+    "country": "科索沃",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-047",
+        "title": "科索沃车辆准入官方法源体系:Law 05/L-132《车辆法》(转置欧盟2007/46)+ 中央登记 + 环保/消费税",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }
