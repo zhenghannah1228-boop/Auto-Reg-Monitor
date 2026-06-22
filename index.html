@@ -288,6 +288,31 @@ select.csel{font-family:var(--mono);font-size:12.5px;background:var(--panel);bor
 .adv-inbar{display:flex;gap:9px;margin-top:13px;align-items:center}
 .adv-input{flex:1;font-family:var(--sans);font-size:13.5px;padding:11px 15px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);outline:none;box-shadow:var(--shadow)}
 .adv-input:focus{border-color:var(--accent)}
+.insmodal{position:fixed;inset:0;background:rgba(20,28,22,.5);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+.insbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;max-width:680px;width:100%;max-height:88vh;overflow-y:auto;padding:22px 26px;position:relative;box-shadow:var(--shadow)}
+.rc-card{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:9px;padding:13px 16px;margin-bottom:11px}
+.rc-card.voluntary{border-left-color:var(--blue)}
+.rc-hd{display:flex;gap:9px;align-items:baseline;flex-wrap:wrap}
+.rc-badge{font-size:10px;border-radius:5px;padding:1px 8px;color:#fff;background:var(--accent)}
+.rc-badge.v{background:var(--blue)}
+.rc-badge.st{background:#7a7f6a}
+.rc-oem{font-weight:800;font-size:14.5px;color:var(--ink)}
+.rc-meta{font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-top:4px}
+.rc-reason{font-size:12.8px;color:var(--ink2);margin-top:6px;line-height:1.6}
+.rc-reg{margin-top:6px;font-size:12px}
+.rc-reglink{font-family:var(--mono);font-size:11px;color:var(--blue);background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 8px;cursor:pointer;text-decoration:none}
+.rc-reglink:hover{background:var(--blue);color:#fff}
+.rc-dims{display:inline-flex;gap:3px;flex-wrap:wrap}
+.rc-dim{font-size:9.5px;color:#fff;border-radius:3px;padding:0 5px;line-height:15px}
+.rc-x{position:absolute;top:5px;right:11px;font-size:18px;color:var(--muted);cursor:pointer}
+.rc-del{font-family:var(--mono);font-size:10px;color:#a8401f;cursor:pointer;float:right}
+.rcf-row{display:flex;gap:9px;margin-bottom:9px;flex-wrap:wrap}
+.rcf-row label{flex:1;min-width:140px;font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
+.rcf-row input,.rcf-row select,.rcf-row textarea{font-family:var(--sans);font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);outline:none}
+.rcf-row textarea{min-height:54px;resize:vertical}
+.rcf-dimbox{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
+.rcf-dimbox span{font-size:10.5px;border:1px solid var(--line);border-radius:11px;padding:2px 9px;cursor:pointer;background:var(--paper)}
+.rcf-dimbox span.on{background:var(--accent);color:#fff;border-color:var(--accent)}
 .deltachips{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
 .dchip{border:1px solid var(--line);background:var(--panel);padding:11px 18px;border-radius:8px;
   font-size:11.5px;box-shadow:var(--shadow);color:var(--muted)}
@@ -513,6 +538,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-path"><span class="tn">13</span>合规路径</div>
     <div class="tab" data-p="p-ncap"><span class="tn">14</span>NCAP矩阵</div>
     <div class="tab" data-p="p-advisor"><span class="tn">15</span>合规咨询师</div>
+    <div class="tab" data-p="p-recall"><span class="tn">16</span>召回案例</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -765,6 +791,26 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <input id="adv-q" class="adv-input" placeholder="输入问题,如:印度的充电电池法规有哪些?UN R171 哪些国家在用?中欧电池热失控差异?" autocomplete="off">
       <button class="btn" onclick="askAdvisor()">提问</button>
     </div>
+  </div>
+
+  <div class="pane" id="p-recall">
+    <div class="card">
+      <h3>召回案例 <span class="hint">强制/自愿召回的执法实证:哪国哪机构、涉哪家车企、什么缺陷、依据哪条法规哪项条款 → 可跳法规库</span></h3>
+      <div class="netctrl" style="flex-wrap:wrap">
+        <button class="btn primary" onclick="openRecallForm()">✚ 新增召回案例</button>
+        <input id="rc-q" class="csel" style="min-width:220px" placeholder="搜索:车企/缺陷/法规编号/机构…" oninput="renderRecalls()">
+        <select class="csel" id="rc-fcty" onchange="renderRecalls()"><option value="">全部国家</option></select>
+        <select class="csel" id="rc-fdim" onchange="renderRecalls()"><option value="">全部维度</option></select>
+        <select class="csel" id="rc-fst" onchange="renderRecalls()"><option value="">全部状态</option><option>进行中</option><option>已完成</option></select>
+        <button class="btn light" onclick="exportRecalls()">↓ 导出</button>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">召回=法规真正被执行的证据:把「规则(法规库)」与「执法现实(召回)」对应起来。引用的法规编号可点击跳转国家详情;数据团队共享。</div>
+    </div>
+    <div id="recall-body"><div class="bigmsg">正在载入召回案例…</div></div>
+  </div>
+
+  <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
+    <div class="insbox" id="rcbox" style="max-width:680px"></div>
   </div>
 
   <footer>
@@ -3057,6 +3103,7 @@ function askAdvisor(qarg){
   inp.value="";log.scrollTop=log.scrollHeight;
   const pending=[advLoadInsights()];
   if(typeof CERT==="undefined"||!CERT)pending.push(loadCert().catch(()=>{}));
+  if(!recalls.length)pending.push(loadRecalls().catch(()=>{}));
   Promise.all(pending).then(()=>{
     log.insertAdjacentHTML("beforeend",advAnswer(q));
     log.scrollTop=log.scrollHeight;
@@ -3175,6 +3222,24 @@ function advAnswer(q){
     }
   }
 
+  // ---- 召回案例(按国家/车企/法规/关键词匹配) ----
+  if(recalls&&recalls.length){
+    const ql2=q.toLowerCase(),toks2=ql2.replace(/[^一-龥a-z0-9]/g," ").split(/\s+/).filter(w=>w.length>=2);
+    const rhit=recalls.filter(r=>{
+      if(cties.length&&cties.includes(r.country))return true;
+      const hay=[r.country,r.oems,r.reason,r.reg_ref,(r.refs||[]).join(" "),r.agency].join(" ").toLowerCase();
+      if(refHit.some(f=>hay.includes(f.toLowerCase().replace(/\s+/g,""))||hay.includes(f.toLowerCase())))return true;
+      return toks2.length&&toks2.some(t=>hay.includes(t))&&/召回|recall|缺陷|执法/.test(q);
+    });
+    if(rhit.length){
+      produced=true;
+      html+=`<div class="seg-t">相关召回案例</div><ul>`+rhit.slice(0,5).map(r=>
+        `<li><b>${esc(r.oems||"—")}</b> · ${esc(r.country)}${r.agency?"/"+esc(r.agency):""} <span style="font-size:10px;color:var(--muted)">[${r.mandatory===false?"自愿":"强制"}${r.recall_date?" "+esc(r.recall_date):""}]</span><br>${esc((r.reason||"").slice(0,120))}${r.reg_ref?` <span style="font-size:11px;color:var(--blue)">依据 ${esc(r.reg_ref)}${r.reg_clause?" 第"+esc(r.reg_clause)+"条":""}</span>`:""}</li>`).join("")+
+        `</ul><a class="jbtn" onclick="switchTab('p-recall');if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls()">→ 召回案例</a>`;
+      sources.push(`召回 ${rhit.length}例`);
+    }
+  }
+
   if(!produced){
     html+=`<h4>没找到能直接命中的内置数据</h4><div class="miss">试试在问题里点名:<b>国家</b>(如 印度/欧盟/巴西)、<b>国际标准</b>(如 UN R171、GB 38031)、<b>维度</b>(如 充电电池/网络安全/ADAS),或问<b>草案/认证体系</b>。<br>本咨询师只检索监控台已入库的数据,不臆造库外信息。</div>`;
   }else{
@@ -3182,6 +3247,128 @@ function advAnswer(q){
   }
   html+=`</div>`;
   return html;
+}
+
+/* ================= 16 召回案例(执法实证,团队共享) ================= */
+let recalls=[],_rcEditId=null,_rcDims=new Set();
+async function loadRecalls(){
+  try{recalls=await sbFetchAll("recalls","*","order=created_at.desc");}catch(e){recalls=[];console.error("recalls",e);}
+}
+function fillRecallFilters(){
+  const cset=[...new Set(recalls.map(r=>r.country).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"zh"));
+  const f=$("#rc-fcty");if(f){const cur=f.value;f.innerHTML='<option value="">全部国家</option>'+cset.map(c=>`<option ${cur===c?"selected":""}>${esc(c)}</option>`).join("");}
+  const fd=$("#rc-fdim");if(fd&&fd.options.length<=1)fd.innerHTML='<option value="">全部维度</option>'+DIMS.map((d,i)=>`<option value="${i}">${i+1} ${d}</option>`).join("");
+}
+function recallGoReg(country,regRef){
+  if(!regRef){if(country)gotoCountry(country);return;}
+  const rn=norm(regRef);
+  const hit=recs().find(r=>r.country===country&&norm(r.regId)===rn)||recs().find(r=>norm(r.regId)===rn)||recs().find(r=>r.country===country&&rn&&norm(r.regId).includes(rn));
+  if(hit){gotoCountry(hit.country,keyOf(hit));}
+  else{toast("法规库暂无「"+regRef+"」对应条目"+(country?",先跳该国":""));if(country)gotoCountry(country);}
+}
+function renderRecalls(){
+  const body=$("#recall-body");if(!body)return;
+  fillRecallFilters();
+  const q=($("#rc-q")?$("#rc-q").value:"").trim().toLowerCase();
+  const fc=$("#rc-fcty")?$("#rc-fcty").value:"",fd=$("#rc-fdim")?$("#rc-fdim").value:"",fs=$("#rc-fst")?$("#rc-fst").value:"";
+  let list=recalls.slice();
+  if(fc)list=list.filter(r=>r.country===fc);
+  if(fd!=="")list=list.filter(r=>(r.dims||[]).includes(+fd));
+  if(fs)list=list.filter(r=>(r.status||"")===fs);
+  if(q){const toks=q.split(/\s+/).filter(Boolean);
+    list=list.filter(r=>{const hay=[r.country,r.agency,r.oems,r.reason,r.reg_ref,r.reg_clause,(r.refs||[]).join(" "),r.remedy,r.note].join(" ").toLowerCase();return toks.every(t=>hay.includes(t));});}
+  if(!recalls.length){body.innerHTML='<div class="card"><div class="bigmsg">还没有召回案例。点「✚ 新增召回案例」添加第一条。</div></div>';return;}
+  if(!list.length){body.innerHTML='<div class="card"><div class="bigmsg">没有匹配的召回案例。</div></div>';return;}
+  body.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:10px">共 ${list.length} 例${list.length<recalls.length?" / 库内 "+recalls.length:""}</div>`+
+    list.map(r=>{
+      const dims=(r.dims||[]).map(i=>`<span class="rc-dim" style="background:${DIMCOL[i]||"#888"}" title="${esc(DIMS[i]||"")}">${(+i+1)}</span>`).join("");
+      const refs=(r.refs||[]).map(f=>esc(f)).join(" · ");
+      return `<div class="rc-card ${r.mandatory===false?"voluntary":""}">
+        <span class="rc-del" onclick="delRecall(${r.id})">✕ 删除</span>
+        <div class="rc-hd">
+          <span class="rc-badge ${r.mandatory===false?"v":""}">${r.mandatory===false?"自愿召回":"强制召回"}</span>
+          <span class="rc-oem">${esc(r.oems||"(未填车企)")}</span>
+          ${r.status?`<span class="rc-badge st">${esc(r.status)}</span>`:""}
+          <span class="rc-dims">${dims}</span>
+        </div>
+        <div class="rc-meta">${esc(r.country||"")}${r.agency?" · "+esc(r.agency):""}${r.recall_date?" · "+esc(r.recall_date):""}${r.models?" · 车型:"+esc(r.models):""}${r.units?" · "+esc(r.units):""}</div>
+        ${r.reason?`<div class="rc-reason">缺陷/原因:${esc(r.reason)}</div>`:""}
+        ${r.remedy?`<div class="rc-reason" style="color:var(--muted)">处理:${esc(r.remedy)}</div>`:""}
+        ${(r.reg_ref||r.reg_clause||refs)?`<div class="rc-reg">依据:${r.reg_ref?`<a class="rc-reglink" onclick="recallGoReg('${esc(r.country)}','${esc(r.reg_ref).replace(/'/g,"\\'")}')">${esc(r.reg_ref)}</a>`:""}${r.reg_clause?` 第 ${esc(r.reg_clause)} 条/项`:""}${refs?` · 对标:${refs}`:""}</div>`:""}
+        ${r.source_url?`<div class="rc-meta"><a href="${esc(r.source_url)}" target="_blank" style="color:var(--blue)">来源 →</a></div>`:""}
+        ${r.note?`<div class="rc-meta">备注:${esc(r.note)}</div>`:""}
+        <div style="text-align:right"><span class="rc-reglink" onclick="openRecallForm(${r.id})">✎ 编辑</span></div>
+      </div>`;}).join("");
+}
+function openRecallForm(id){
+  _rcEditId=id||null;_rcDims=new Set();
+  const r=id?recalls.find(x=>x.id===id):null;
+  if(r&&Array.isArray(r.dims))r.dims.forEach(i=>_rcDims.add(+i));
+  const ctys=[...new Set([...Object.keys(byCountry()),...recalls.map(x=>x.country)].filter(Boolean))].sort((a,b)=>a.localeCompare(b,"zh"));
+  const v=(k,d)=>esc(r?(r[k]??""):(d??""));
+  $("#rcbox").innerHTML=`<span class="rc-x" onclick="closeRecallForm()">×</span>
+    <h3 style="margin:0 0 12px;font-family:var(--serif);font-size:16px">${id?"编辑":"新增"}召回案例</h3>
+    <div class="rcf-row">
+      <label>强制召回的国家 *<input id="rcf-country" list="rcf-ctylist" value="${v("country")}" placeholder="如 美国 / 欧盟 / 韩国"></label>
+      <label>主管机构<input id="rcf-agency" value="${v("agency")}" placeholder="如 NHTSA / KATRI / 国家市场监管总局"></label>
+      <datalist id="rcf-ctylist">${ctys.map(c=>`<option value="${esc(c)}">`).join("")}</datalist>
+    </div>
+    <div class="rcf-row">
+      <label>受影响车企 *<input id="rcf-oems" value="${v("oems")}" placeholder="如 特斯拉 / 大众 / 丰田(多家用、分隔)"></label>
+      <label>召回性质<select id="rcf-mand"><option value="true" ${r&&r.mandatory===false?"":"selected"}>强制召回</option><option value="false" ${r&&r.mandatory===false?"selected":""}>自愿召回</option></select></label>
+      <label>状态<select id="rcf-status"><option ${v("status")==="已完成"?"":"selected"}>进行中</option><option ${v("status")==="已完成"?"selected":""}>已完成</option></select></label>
+    </div>
+    <div class="rcf-row">
+      <label>召回日期<input id="rcf-date" value="${v("recall_date")}" placeholder="2026-06"></label>
+      <label>涉及车型<input id="rcf-models" value="${v("models")}" placeholder="如 Model 3/Y 2021-2023"></label>
+      <label>涉及数量<input id="rcf-units" value="${v("units")}" placeholder="如 12,300 辆"></label>
+    </div>
+    <div class="rcf-row"><label style="flex:1 1 100%">召回原因 / 缺陷描述<textarea id="rcf-reason" placeholder="如:OTA 软件缺陷导致自动紧急制动误触发…">${v("reason")}</textarea></label></div>
+    <div class="rcf-row">
+      <label>依据法规编号<input id="rcf-regref" value="${v("reg_ref")}" placeholder="如 FMVSS 126 / UN R152 / GB 7258"></label>
+      <label>条款<input id="rcf-clause" value="${v("reg_clause")}" placeholder="如 S5.2 / 5.3.1"></label>
+      <label>对标国际标准(逗号分隔)<input id="rcf-refs" value="${esc(r?(r.refs||[]).join(", "):"")}" placeholder="UN R152, GB 7258"></label>
+    </div>
+    <div class="rcf-row"><label style="flex:1 1 100%">处理措施<input id="rcf-remedy" value="${v("remedy")}" placeholder="如 OTA 软件升级 / 免费更换部件"></label></div>
+    <div class="rcf-row"><label style="flex:1 1 100%">来源链接<input id="rcf-src" value="${v("source_url")}" placeholder="官方公告 URL"></label></div>
+    <div class="rcf-row"><label style="flex:1 1 100%">相关维度(点选)<div class="rcf-dimbox" id="rcf-dims">${DIMS.map((d,i)=>`<span data-i="${i}" class="${_rcDims.has(i)?"on":""}" onclick="this.classList.toggle('on')">${i+1} ${d}</span>`).join("")}</div></label></div>
+    <div class="rcf-row"><label style="flex:1 1 100%">备注<input id="rcf-note" value="${v("note")}"></label></div>
+    <div style="text-align:right;margin-top:6px"><button class="btn light" onclick="closeRecallForm()">取消</button> <button class="btn primary" onclick="saveRecall()">${id?"保存修改":"添加"}</button></div>`;
+  $("#rcmodal").style.display="flex";
+}
+function closeRecallForm(){$("#rcmodal").style.display="none";_rcEditId=null;}
+async function saveRecall(){
+  const g=id=>{const e=$("#"+id);return e?e.value.trim():"";};
+  const country=g("rcf-country"),oems=g("rcf-oems");
+  if(!country){toast("请填写国家");return;}
+  const dims=[...$("#rcf-dims").querySelectorAll("span.on")].map(s=>+s.dataset.i);
+  const refs=g("rcf-refs").split(/[,,]/).map(s=>s.trim()).filter(Boolean);
+  const obj={country,agency:g("rcf-agency"),oems,recall_date:g("rcf-date"),
+    mandatory:$("#rcf-mand").value==="true",reason:g("rcf-reason"),
+    reg_ref:g("rcf-regref"),reg_clause:g("rcf-clause"),refs,dims,
+    models:g("rcf-models"),units:g("rcf-units"),remedy:g("rcf-remedy"),
+    status:$("#rcf-status").value,source_url:g("rcf-src"),note:g("rcf-note")};
+  try{
+    if(_rcEditId)await sbReq("PATCH","recalls?id=eq."+_rcEditId,obj,"return=minimal");
+    else await sbInsert("recalls",[obj]);
+    await loadRecalls();closeRecallForm();renderRecalls();
+    toast(_rcEditId?"召回案例已更新":"召回案例已添加并共享团队");
+  }catch(err){toast("保存失败:"+err.message);console.error(err);}
+}
+async function delRecall(id){
+  if(!confirm("删除这条召回案例?全团队都会看到。"))return;
+  try{await sbReq("DELETE","recalls?id=eq."+id,undefined,"return=minimal");
+    recalls=recalls.filter(r=>r.id!==id);renderRecalls();toast("已删除");}
+  catch(err){toast("删除失败:"+err.message);}
+}
+function exportRecalls(){
+  if(!recalls.length){toast("暂无召回案例");return;}
+  const rows=recalls.map(r=>({国家:r.country,机构:r.agency,车企:r.oems,性质:r.mandatory===false?"自愿":"强制",
+    状态:r.status,日期:r.recall_date,车型:r.models,数量:r.units,缺陷原因:r.reason,
+    依据法规:r.reg_ref,条款:r.reg_clause,对标:(r.refs||[]).join(" "),维度:(r.dims||[]).map(i=>DIMS[i]).join("、"),
+    处理:r.remedy,来源:r.source_url,备注:r.note}));
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),"召回案例");
+  XLSX.writeFile(wb,"召回案例_"+new Date().toISOString().slice(0,10)+".xlsx");
 }
 
 /* tabs */
@@ -3194,6 +3381,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
   if(t.dataset.p==="p-ncap"){const f=$("#ncap-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载 NCAP 矩阵
   if(t.dataset.p==="p-advisor"){advInitEgs();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
+  if(t.dataset.p==="p-recall"){if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls();}
   if(t.dataset.p==="p-cmp")renderCmp();
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
