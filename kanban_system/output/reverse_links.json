@@ -2379,5 +2379,53 @@
         "url": ""
       }
     ]
+  },
+  "(EU) 2019/1020 市场监管条例(MSR)": {
+    "reg_no": "(EU) 2019/1020 市场监管条例(MSR)",
+    "match_key": "2019/1020",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-045",
+        "title": "(EU) 2019/1020 市场监管条例(MSR):整车/零部件出海『投放市场后』合规框架",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "(EU) 2018/858 WVTA 整车型式批准框架": {
+    "reg_no": "(EU) 2018/858 WVTA 整车型式批准框架",
+    "match_key": "2018/858",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-045",
+        "title": "(EU) 2019/1020 市场监管条例(MSR):整车/零部件出海『投放市场后』合规框架",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "TR CU 018/2011 轮式车辆安全性(OTTC 型式批准)": {
+    "reg_no": "TR CU 018/2011 轮式车辆安全性(OTTC 型式批准)",
+    "match_key": "018/2011",
+    "region": "欧亚经济联盟",
+    "country": "俄罗斯",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-046",
+        "title": "EAEU OTTC 认证与准入:发证/生产时序规则 + CBU/KD 出口差异(TR CU 018/2011)",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }
