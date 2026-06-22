@@ -3261,10 +3261,12 @@ function fillRecallFilters(){
 }
 function recallGoReg(country,regRef){
   if(!regRef){if(country)gotoCountry(country);return;}
-  const rn=norm(regRef);
-  const hit=recs().find(r=>r.country===country&&norm(r.regId)===rn)||recs().find(r=>norm(r.regId)===rn)||recs().find(r=>r.country===country&&rn&&norm(r.regId).includes(rn));
+  // 先从依据文本里抽出法规编号(UN R/GB/GTR/FMVSS/EU 等),再去法规库匹配并跳转
+  const m=String(regRef).match(/UN\s*R\.?\s*\d+|ECE\s*R\.?\s*\d+|GB\s*\/?T?\s*\d{3,5}|GTR\s*\d+|FMVSS\s*\d+|EU\s*\d{4}\/\d+/i);
+  const token=m?m[0]:regRef, rn=norm(token);
+  const hit=recs().find(r=>norm(r.regId)===rn)||recs().find(r=>rn&&norm(r.regId).startsWith(rn))||recs().find(r=>rn&&norm(r.regId).includes(rn));
   if(hit){gotoCountry(hit.country,keyOf(hit));}
-  else{toast("法规库暂无「"+regRef+"」对应条目"+(country?",先跳该国":""));if(country)gotoCountry(country);}
+  else{toast("法规库暂无「"+token+"」对应条目"+(country?",先跳该国":""));if(country)gotoCountry(country);}
 }
 function renderRecalls(){
   const body=$("#recall-body");if(!body)return;
