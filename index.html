@@ -811,7 +811,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <input id="rc-q" class="csel" style="min-width:220px" placeholder="搜索:车企/缺陷/法规编号/机构…" oninput="renderRecalls()">
         <select class="csel" id="rc-fcty" onchange="renderRecalls()"><option value="">全部国家</option></select>
         <select class="csel" id="rc-fdim" onchange="renderRecalls()"><option value="">全部维度</option></select>
-        <select class="csel" id="rc-fst" onchange="renderRecalls()"><option value="">全部状态</option><option>进行中</option><option>已完成</option></select>
+        <select class="csel" id="rc-fst" onchange="renderRecalls()"><option value="">全部性质</option><option>自愿召回</option><option>强制召回</option></select>
         <button class="btn light" onclick="exportRecalls()">↓ 导出</button>
       </div>
       <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">召回=法规真正被执行的证据:把「规则(法规库)」与「执法现实(召回)」对应起来。引用的法规编号可点击跳转国家详情;数据团队共享。</div>
@@ -3317,7 +3317,7 @@ function renderRecalls(){
   let list=recalls.slice();
   if(fc)list=list.filter(r=>r.country===fc);
   if(fd!=="")list=list.filter(r=>(r.dims||[]).includes(+fd));
-  if(fs)list=list.filter(r=>(r.status||"")===fs);
+  if(fs)list=list.filter(r=>(r.mandatory===false?"自愿召回":"强制召回")===fs);
   if(q){const toks=q.split(/\s+/).filter(Boolean);
     list=list.filter(r=>{const hay=[r.country,r.agency,r.oems,r.reason,r.reg_ref,r.reg_clause,(r.refs||[]).join(" "),r.remedy,r.note].join(" ").toLowerCase();return toks.every(t=>hay.includes(t));});}
   if(!recalls.length){body.innerHTML='<div class="card"><div class="bigmsg">还没有召回案例。点「✚ 新增召回案例」添加第一条。</div></div>';return;}
@@ -3331,7 +3331,6 @@ function renderRecalls(){
         <div class="rc-hd">
           <span class="rc-badge ${r.mandatory===false?"v":""}">${r.mandatory===false?"自愿召回":"强制召回"}</span>
           <span class="rc-oem">${esc(r.oems||"(未填车企)")}</span>
-          ${r.status?`<span class="rc-badge st">${esc(r.status)}</span>`:""}
           <span class="rc-dims">${dims}</span>
         </div>
         <div class="rc-meta">${esc(r.country||"")}${r.agency?" · "+esc(r.agency):""}${r.recall_date?" · "+esc(r.recall_date):""}${r.models?" · 车型:"+esc(r.models):""}${r.units?" · "+esc(r.units):""}</div>
@@ -3358,8 +3357,7 @@ function openRecallForm(id){
     </div>
     <div class="rcf-row">
       <label>受影响车企 *<input id="rcf-oems" value="${v("oems")}" placeholder="如 特斯拉 / 大众 / 丰田(多家用、分隔)"></label>
-      <label>召回性质<select id="rcf-mand"><option value="true" ${r&&r.mandatory===false?"":"selected"}>强制召回</option><option value="false" ${r&&r.mandatory===false?"selected":""}>自愿召回</option></select></label>
-      <label>状态<select id="rcf-status"><option ${v("status")==="已完成"?"":"selected"}>进行中</option><option ${v("status")==="已完成"?"selected":""}>已完成</option></select></label>
+      <label>召回性质(状态)<select id="rcf-mand"><option value="true" ${r&&r.mandatory===false?"":"selected"}>强制召回</option><option value="false" ${r&&r.mandatory===false?"selected":""}>自愿召回</option></select></label>
     </div>
     <div class="rcf-row">
       <label>召回日期<input id="rcf-date" value="${v("recall_date")}" placeholder="2026-06"></label>
@@ -3390,7 +3388,7 @@ async function saveRecall(){
     mandatory:$("#rcf-mand").value==="true",reason:g("rcf-reason"),
     reg_ref:g("rcf-regref"),reg_clause:g("rcf-clause"),refs,dims,
     models:g("rcf-models"),units:g("rcf-units"),remedy:g("rcf-remedy"),
-    status:$("#rcf-status").value,source_url:g("rcf-src"),note:g("rcf-note")};
+    status:($("#rcf-mand").value==="true"?"强制召回":"自愿召回"),source_url:g("rcf-src"),note:g("rcf-note")};
   try{
     if(_rcEditId)await sbReq("PATCH","recalls?id=eq."+_rcEditId,obj,"return=minimal");
     else await sbInsert("recalls",[obj]);
