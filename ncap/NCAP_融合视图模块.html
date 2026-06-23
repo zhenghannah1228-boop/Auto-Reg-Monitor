@@ -77,6 +77,7 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
  <span><b>Euro</b> 2026 起(2026–2028 周期)</span>
  <span><b>C-NCAP</b> 2027 起施行(2027版)</span>
  <span><b>JNCAP</b> 2025年度(令和7)· 年度滚动</span>
+ <span><b>K-NCAP</b> 现行方案(2025+ · Adv BMS/车对车/ISA/ESF;年度未在源标注)</span>
  <span><b>Bharat</b> 2023 起(AIS-197+AIS-100)</span>
  <span><b>US</b> 按车型年度滚动(NHTSA/IIHS)</span>
  <span style="color:var(--muted);font-size:10.5px">注:为适用时段,非发布版本号</span>
@@ -93,7 +94,7 @@ tbody td:first-child{position:sticky;left:0;background:var(--panel2);text-align:
 <div class="foot" id="foot"></div>
 </div>
 <script>
-const SYS=["C-NCAP","JNCAP","ASEAN","Latin NCAP","ANCAP","Euro NCAP","US NCAP","Bharat NCAP"];
+const SYS=["C-NCAP","JNCAP","K-NCAP","ASEAN","Latin NCAP","ANCAP","Euro NCAP","US NCAP","Bharat NCAP"];
 const E=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 function cellClass(sysObj){
   const l1=sysObj&&sysObj.L1_subtests||{};
