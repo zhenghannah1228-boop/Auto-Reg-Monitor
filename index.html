@@ -316,6 +316,20 @@ input.csel{font-family:var(--sans);font-size:14px;background:var(--panel);border
 .rc-dim{font-size:9.5px;color:#fff;border-radius:3px;padding:0 5px;line-height:15px}
 .rc-x{position:absolute;top:5px;right:11px;font-size:18px;color:var(--muted);cursor:pointer}
 .rc-del{font-family:var(--mono);font-size:10px;color:#a8401f;cursor:pointer;float:right}
+.att-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.att-card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:13px 16px}
+.att-card.full{grid-column:1/-1}
+.att-card h4{margin:0 0 10px;font-size:13.5px;color:var(--ink)}
+.att-card h4 .sub{font-weight:400;font-size:10.5px;color:var(--muted);font-family:var(--mono)}
+.att-row{display:grid;grid-template-columns:148px 1fr 42px;align-items:center;gap:8px;margin:3px 0;font-size:12px}
+.att-row.click{cursor:pointer}
+.att-row.click:hover .att-lab{color:var(--accent)}
+.att-lab{text-align:right;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.att-track{background:var(--panel2);border-radius:4px;height:16px;overflow:hidden;border:1px solid var(--line)}
+.att-fill{height:100%;border-radius:4px 0 0 4px;min-width:2px}
+.att-num{font-family:var(--mono);font-size:11px;color:var(--ink2);text-align:left}
+.att-chip{display:inline-block;font-family:var(--mono);font-size:11px;background:var(--accent);color:#fff;border-radius:5px;padding:2px 9px;cursor:pointer;margin-left:8px}
+@media(max-width:760px){.att-grid{grid-template-columns:1fr}.att-row{grid-template-columns:120px 1fr 38px}}
 .rcf-row{display:flex;gap:9px;margin-bottom:9px;flex-wrap:wrap}
 .rcf-row label{flex:1;min-width:140px;font-size:11px;color:var(--muted);display:flex;flex-direction:column;gap:3px}
 .rcf-row input,.rcf-row select,.rcf-row textarea{font-family:var(--sans);font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);outline:none}
@@ -812,6 +826,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <select class="csel" id="rc-fcty" onchange="renderRecalls()"><option value="">全部国家</option></select>
         <select class="csel" id="rc-fdim" onchange="renderRecalls()"><option value="">全部维度</option></select>
         <select class="csel" id="rc-fst" onchange="renderRecalls()"><option value="">全部性质</option><option>自愿召回</option><option>强制召回</option></select>
+        <span style="flex:1"></span>
+        <button class="btn light" id="rcv-list" onclick="setRcView('list')">☰ 案例列表</button>
+        <button class="btn light" id="rcv-stats" onclick="setRcView('stats')">📊 归因统计</button>
         <button class="btn light" onclick="exportRecalls()">↓ 导出</button>
       </div>
       <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">召回=法规真正被执行的证据:把「规则(法规库)」与「执法现实(召回)」对应起来。引用的法规编号可点击跳转国家详情;数据团队共享。</div>
@@ -3291,7 +3308,63 @@ function advAnswer(q){
 }
 
 /* ================= 16 召回案例(执法实证,团队共享) ================= */
-let recalls=[],_rcEditId=null,_rcDims=new Set();
+let recalls=[],_rcEditId=null,_rcDims=new Set(),_rcView="list",_rcComp="";
+/* 召回自动归因:按缺陷原因文本(+车型/依据)关键词规则,把每条召回归到一个零部件/系统/标签。
+   优先级从上到下取首个命中(灯具置于制动/转向之前,使"刹车灯/转向灯"归灯具;发电机皮带先于制动)。
+   这是启发式统计视图,精确维度以记录的 dims 字段为准。*/
+const RECALL_COMP=[
+ ["安全气囊",/气囊|气体发生器|高田|takata/i],
+ ["安全带/约束系统",/安全带|带扣|预紧器|安全带固定|固定点|约束/i],
+ ["高压电池/BMS",/高压电池|动力电池|电芯|热失控|\bbms\b|电池托盘|电池能量|电池控制|电池管理/i],
+ ["充电系统/绝缘",/充电|充电线|充电口|dc-?dc|直流变换|便捷充电|高压控制器|绝缘监测|绝缘电阻|irmu|emc\s*滤波/i],
+ ["电机/电控/逆变器",/电机|逆变器|\bmcu\b|高低压转换|hlcm|电动助力转向|电控单元/i],
+ ["起动机",/起动机|起动电机/i],
+ ["发电机/皮带",/发电机|交流发电机|皮带/i],
+ ["传动轴",/传动轴/i],
+ ["变速箱/离合器/驻车互锁",/变速箱|变速器|离合器|降档|换挡|倒挡|驻车互锁|park\s*interlock/i],
+ ["排放/后处理",/排放|尿素|adblue|\buds\b|nox|evap|碳罐|蒸发/i],
+ ["燃油系统/油箱",/燃油|油箱|油泵|燃油泵|油管|回油|燃油软管|漏油|油壶/i],
+ ["灯光/灯具",/日间行车灯|\bdrl\b|大灯|前大灯|灯泡|转向信号|转向灯|刹车灯|倒车灯|车灯/i],
+ ["雨刮/除霜/风窗",/雨刮|刮水|除霜|风窗|挡风/i],
+ ["车窗/天窗/尾门",/车窗|窗户|防夹|升顶|弹起式车顶|尾门|天窗/i],
+ ["座椅",/座椅|头枕/i],
+ ["轮胎/轮毂/车轮",/轮胎|轮毂|轮辋|车轮|挡泥板/i],
+ ["悬架/底盘",/悬架|减振|减振器|摆臂|防倾杆|下控制臂|衬套|前悬|后桥|连接处/i],
+ ["后部防护",/后防护|防钻撞|后下部防护|后部防护|后部撞击/i],
+ ["认证标签/标识",/标签|标识|gvwr|总质量|载重|载货|认证标签|轮胎尺寸信息|铭牌/i],
+ ["空调/暖通/燃气",/空调|hvac|热水器|炉灶|混合阀|燃气/i],
+ ["ADAS传感器/摄像头/雷达",/雷达|摄像头|倒车影像|后视|车道|\blka\b|盲点|前向探测|\bpdc\b|脱手检测|非接触检测|预警/i],
+ ["远程通信/eCall",/ecall|e-?call|紧急呼叫|远程通信|\btcu\b/i],
+ ["行人警示声/AVAS",/行人警告|行人警示|avas|警示声|声响/i],
+ ["喇叭",/喇叭|音量/i],
+ ["制动/刹车",/制动|刹车|\bbrake\b|助力制动|制动间隙|手刹/i],
+ ["转向系统",/转向器|转向轴|转向箱|方向盘(?!.*检测)|\bepas\b/i],
+ ["车门/门把手/门锁/扰流板",/门把手|门锁|超级锁止|superlock|车门|扰流板/i],
+ ["车身结构/接合/外饰",/接合|内饰连接|a柱|系带|结构强度|车身板件|车身完整|焊接|外饰条|饰板|车柱/i],
+ ["线束/电缆/接地",/线束|电缆|接地|短路|插排|地线/i],
+ ["发动机/机油",/发动机|机油|曲轴箱|冷却液|气门|缸体加热器/i],
+ ["车辆意外移动/溜车",/意外移动|意外车辆移动|溜车/i],
+ ["软件/控制模块/仪表",/软件|固件|控制模块|\bbcm\b|仪表|组合仪表|显示|算法|\bvsm\b|编程/i],
+];
+function recallComp(r){
+  const hay=[r.reason,r.models,r.reg_ref,(r.refs||[]).join(" ")].filter(Boolean).join(" ");
+  for(const [lab,re] of RECALL_COMP){if(re.test(hay))return lab;}
+  return "其他/未归类";
+}
+function recallFiltered(){
+  const q=($("#rc-q")?$("#rc-q").value:"").trim().toLowerCase();
+  const fc=$("#rc-fcty")?$("#rc-fcty").value:"",fd=$("#rc-fdim")?$("#rc-fdim").value:"",fs=$("#rc-fst")?$("#rc-fst").value:"";
+  let list=recalls.slice();
+  if(fc)list=list.filter(r=>r.country===fc);
+  if(fd!=="")list=list.filter(r=>(r.dims||[]).includes(+fd));
+  if(fs)list=list.filter(r=>(r.mandatory===false?"自愿召回":"强制召回")===fs);
+  if(_rcComp)list=list.filter(r=>recallComp(r)===_rcComp);
+  if(q){const toks=q.split(/\s+/).filter(Boolean);
+    list=list.filter(r=>{const hay=[r.country,r.agency,r.oems,r.reason,r.reg_ref,r.reg_clause,(r.refs||[]).join(" "),r.remedy,r.note].join(" ").toLowerCase();return toks.every(t=>hay.includes(t));});}
+  return list;
+}
+function setRcView(v){_rcView=v;renderRecalls();}
+function setRcComp(lab){_rcComp=(_rcComp===lab?"":lab);_rcView="list";renderRecalls();}
 async function loadRecalls(){
   try{recalls=await sbFetchAll("recalls","*","order=created_at.desc");}catch(e){recalls=[];console.error("recalls",e);}
 }
@@ -3312,17 +3385,16 @@ function recallGoReg(country,regRef){
 function renderRecalls(){
   const body=$("#recall-body");if(!body)return;
   fillRecallFilters();
-  const q=($("#rc-q")?$("#rc-q").value:"").trim().toLowerCase();
-  const fc=$("#rc-fcty")?$("#rc-fcty").value:"",fd=$("#rc-fdim")?$("#rc-fdim").value:"",fs=$("#rc-fst")?$("#rc-fst").value:"";
-  let list=recalls.slice();
-  if(fc)list=list.filter(r=>r.country===fc);
-  if(fd!=="")list=list.filter(r=>(r.dims||[]).includes(+fd));
-  if(fs)list=list.filter(r=>(r.mandatory===false?"自愿召回":"强制召回")===fs);
-  if(q){const toks=q.split(/\s+/).filter(Boolean);
-    list=list.filter(r=>{const hay=[r.country,r.agency,r.oems,r.reason,r.reg_ref,r.reg_clause,(r.refs||[]).join(" "),r.remedy,r.note].join(" ").toLowerCase();return toks.every(t=>hay.includes(t));});}
+  // 视图切换按钮高亮
+  const bl=$("#rcv-list"),bs=$("#rcv-stats");
+  if(bl)bl.classList.toggle("primary",_rcView==="list");
+  if(bs)bs.classList.toggle("primary",_rcView==="stats");
   if(!recalls.length){body.innerHTML='<div class="card"><div class="bigmsg">还没有召回案例。点「✚ 新增召回案例」添加第一条。</div></div>';return;}
-  if(!list.length){body.innerHTML='<div class="card"><div class="bigmsg">没有匹配的召回案例。</div></div>';return;}
-  body.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:10px">共 ${list.length} 例${list.length<recalls.length?" / 库内 "+recalls.length:""}${list.length>400?" · 仅显示前 400,请用筛选/搜索缩小或导出看全部":""}</div>`+
+  const list=recallFiltered();
+  if(_rcView==="stats"){renderRecallStats(list);return;}
+  const chip=_rcComp?`<span class="att-chip" onclick="setRcComp('${esc(_rcComp).replace(/'/g,"\\'")}')">归因:${esc(_rcComp)} ✕</span>`:"";
+  if(!list.length){body.innerHTML='<div class="card"><div class="bigmsg">没有匹配的召回案例。'+chip+'</div></div>';return;}
+  body.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:10px">共 ${list.length} 例${list.length<recalls.length?" / 库内 "+recalls.length:""}${chip}${list.length>400?" · 仅显示前 400,请用筛选/搜索缩小或导出看全部":""}</div>`+
     list.slice(0,400).map(r=>{
       const dims=(r.dims||[]).map(i=>`<span class="rc-dim" style="background:${DIMCOL[i]||"#888"}" title="${esc(DIMS[i]||"")}">${(+i+1)}</span>`).join("");
       const refs=(r.refs||[]).map(f=>esc(f)).join(" · ");
@@ -3341,6 +3413,54 @@ function renderRecalls(){
         ${r.note?`<div class="rc-meta">备注:${esc(r.note)}</div>`:""}
         <div style="text-align:right"><span class="rc-reglink" onclick="openRecallForm(${r.id})">✎ 编辑</span></div>
       </div>`;}).join("");
+}
+/* ===== 召回自动归因统计(图表) ===== */
+function attrBar(title,sub,entries,opt){
+  opt=opt||{};
+  if(!entries.length)return `<div class="att-card${opt.full?" full":""}"><h4>${title}</h4><div class="att-num">无数据</div></div>`;
+  const max=Math.max(...entries.map(e=>e[1]))||1;
+  const rows=entries.map(e=>{
+    const lab=esc(e[0]),n=e[1],pct=Math.round(n/max*100);
+    const col=opt.color?opt.color(e[0]):"var(--accent)";
+    const clickAttr=opt.onclick?`class="att-row click" onclick="${opt.onclick(e[0])}"`:'class="att-row"';
+    return `<div ${clickAttr} title="${lab}:${n} 例">
+      <span class="att-lab">${lab}</span>
+      <span class="att-track"><span class="att-fill" style="width:${pct}%;background:${col}"></span></span>
+      <span class="att-num">${n}</span></div>`;
+  }).join("");
+  return `<div class="att-card${opt.full?" full":""}"><h4>${title}${sub?` <span class="sub">${sub}</span>`:""}</h4>${rows}</div>`;
+}
+function countBy(list,fn){
+  const m=new Map();
+  list.forEach(r=>{const ks=fn(r);(Array.isArray(ks)?ks:[ks]).forEach(k=>{if(k===null||k===undefined||k==="")return;m.set(k,(m.get(k)||0)+1);});});
+  return [...m.entries()].sort((a,b)=>b[1]-a[1]);
+}
+function renderRecallStats(list){
+  const body=$("#recall-body");if(!body)return;
+  const chip=_rcComp?`<span class="att-chip" onclick="setRcComp('${esc(_rcComp).replace(/'/g,"\\'")}')">已按归因筛选:${esc(_rcComp)} ✕</span>`:"";
+  if(!list.length){body.innerHTML='<div class="card"><div class="bigmsg">当前筛选下没有召回案例。'+chip+'</div></div>';return;}
+  const comp=countBy(list,recallComp);
+  const dim=countBy(list,r=>(r.dims||[]).map(i=>DIMS[i]||("维度"+(+i+1))));
+  const oem=countBy(list,r=>r.oems||"").slice(0,12);
+  const cty=countBy(list,r=>r.country||"");
+  const ref=countBy(list,r=>{
+    const out=new Set();(r.refs||[]).forEach(x=>{const s=String(x).trim();if(s)out.add(s);});
+    if(!out.size&&r.reg_ref){const m=String(r.reg_ref).match(/FMVSS\s*\d+|UN\s*R\.?\s*\d+|GB\s*\/?T?\s*\d{3,5}|GTR\s*\d+|TR\s*CU\s*\d+/i);if(m)out.add(m[0].replace(/\s+/g," "));}
+    return [...out];
+  }).slice(0,12);
+  const compEsc=l=>l.replace(/'/g,"\\'");
+  const head=`<div class="card" style="padding:12px 16px;margin-bottom:12px">
+    <h3 style="margin:0 0 4px">召回自动归因统计 <span class="hint">按缺陷原因文本(+车型/依据)关键词规则,把每条召回归到一个零部件/系统/标签 → 直接看问题最集中的地方</span></h3>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">当前样本 ${list.length} 例${list.length<recalls.length?" / 库内 "+recalls.length+"(受上方筛选影响)":""}${chip} · 启发式归因,精确维度以记录的 dims 为准 · 点条形可下钻到对应案例</div>
+  </div>`;
+  const grid=`<div class="att-grid">
+    ${attrBar("零部件 / 系统 / 标签 归因","Top "+Math.min(comp.length,22)+" · 点击下钻",comp.slice(0,22),{full:true,onclick:l=>`setRcComp('${compEsc(l)}')`})}
+    ${attrBar("按维度","10 维度命中(可多维)",dim,{color:l=>{const i=DIMS.indexOf(l);return i>=0?(DIMCOL[i]||"var(--accent)"):"var(--accent)";}})}
+    ${attrBar("按车企 Top","受影响最多的车企",oem)}
+    ${attrBar("按国家 / 监管区",null,cty,{color:()=>"var(--blue)"})}
+    ${attrBar("按法规依据 Top","FMVSS / UN R / GB 等",ref,{color:()=>"#7a7f6a"})}
+  </div>`;
+  body.innerHTML=head+grid;
 }
 function openRecallForm(id){
   _rcEditId=id||null;_rcDims=new Set();
