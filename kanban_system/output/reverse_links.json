@@ -2683,5 +2683,21 @@
         "url": ""
       }
     ]
+  },
+  "菲律宾 PS 认证(Philippine Standard,BPS/DTI,依 PNS)": {
+    "reg_no": "菲律宾 PS 认证(Philippine Standard,BPS/DTI,依 PNS)",
+    "match_key": "PS认证",
+    "region": "东南亚",
+    "country": "菲律宾",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-056",
+        "title": "菲律宾 PS 认证(Philippine Standard,BPS 强制产品认证)+ ICC 区别、PCIMS 七步流程",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }
