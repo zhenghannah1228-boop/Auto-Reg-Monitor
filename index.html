@@ -840,6 +840,10 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="insbox" id="rcbox" style="max-width:680px"></div>
   </div>
 
+  <div id="insmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeInsModal()">
+    <div class="insbox" id="insbox" style="max-width:720px"></div>
+  </div>
+
   <footer>
     <span id="foot-src">数据源:—</span>
     <span>数据存储于团队数据库 · Excel 解析在本地浏览器完成后入库共享 · 法规原文只登记文件名</span>
@@ -1430,8 +1434,8 @@ function renderCountry(){
       const el=$("#focus-ins");if(!el||!store[window._focusKey])return;
       const ins=insightsFor(store[window._focusKey]);
       if(ins.length)el.innerHTML="📖 相关解读:"+ins.slice(0,4).map(i=>
-        `<a href="${i.url?esc(i.url):'./kanban_system/output/kanban.html'}" target="_blank"
-          style="color:var(--blue)" title="${esc(i.title)}">${esc(String(i.title).slice(0,28))}</a>`).join(" · ");
+        (i.id?`<span class="lk" style="color:var(--blue);cursor:pointer" onclick="openInsModal('${esc(String(i.id)).replace(/'/g,"\\'")}')" title="${esc(i.title)}">${esc(String(i.title).slice(0,28))}</span>`
+             :`<a href="${i.url?esc(i.url):'./kanban_system/output/kanban.html'}" target="_blank" style="color:var(--blue)" title="${esc(i.title)}">${esc(String(i.title).slice(0,28))}</a>`)).join(" · ");
     });
   }else fw.innerHTML="";
 
@@ -3131,6 +3135,33 @@ async function advLoadInsights(){
     _INSIGHTS=Array.isArray(d)?d:(d.insights||[]);}catch(e){_INSIGHTS=[];}
   return _INSIGHTS;
 }
+const INS_TYPE_LABEL={compare:"两国/地区对比",interpret:"单一法规解读",revision:"法规修订新旧",system:"认证体系/制度"};
+function closeInsModal(){const m=$("#insmodal");if(m)m.style.display="none";}
+async function openInsModal(id){
+  const box=$("#insbox"),m=$("#insmodal");if(!box||!m)return;
+  m.style.display="flex";box.innerHTML='<div class="bigmsg">载入中…</div>';
+  const ins=await advLoadInsights();
+  const it=(ins||[]).find(x=>String(x.id)===String(id));
+  if(!it){box.innerHTML='<span class="rc-x" onclick="closeInsModal()">×</span><div class="bigmsg">未找到该解读(id '+esc(id)+')。</div>';return;}
+  const kps=(it.key_points||[]).map(p=>`<li>${esc(p)}</li>`).join("");
+  const regs=(it.regulations||[]).map(rg=>{
+    const lab=[rg.country,rg.reg_no].filter(Boolean).map(esc).join(" · ");
+    return rg.country?`<span class="rc-reglink" onclick="closeInsModal();gotoCountry('${esc(rg.country).replace(/'/g,"\\'")}')" title="跳该国详情">${lab}</span>`:`<span class="rc-reglink">${lab}</span>`;
+  }).join(" ");
+  const tops=(it.topics||[]).map(t=>`<span style="font-size:10.5px;background:var(--panel2);border:1px solid var(--line);border-radius:5px;padding:1px 7px;margin:0 3px 3px 0;display:inline-block">${esc(t)}</span>`).join("");
+  const dims=(it.dimensions||[]).map(d=>{const i=(+d)-1;return DIMS[i]?`<span class="rc-dim" style="background:${DIMCOL[i]||"#888"}">${esc(DIMS[i])}</span>`:"";}).join(" ");
+  const meta=[INS_TYPE_LABEL[it.type]||it.type,it.author,it.publish_date,(it.region_focus||[]).join("/")].filter(Boolean).map(esc).join(" · ");
+  box.innerHTML=`<span class="rc-x" onclick="closeInsModal()">×</span>
+    <h2 style="margin:0 24px 6px 0;font-size:19px;line-height:1.4">${esc(it.title)}</h2>
+    <div class="rc-meta" style="margin-bottom:12px">${meta}</div>
+    ${dims?`<div style="margin-bottom:10px">${dims}</div>`:""}
+    ${it.summary?`<div style="background:var(--panel2);border-left:3px solid var(--accent);border-radius:0 7px 7px 0;padding:10px 14px;font-size:13.5px;line-height:1.7;margin-bottom:14px">${esc(it.summary)}</div>`:""}
+    ${kps?`<div class="seg-t" style="margin-bottom:4px">要点</div><ul style="font-size:13px;line-height:1.75;padding-left:20px;margin:0 0 14px">${kps}</ul>`:""}
+    ${regs?`<div class="seg-t" style="margin-bottom:5px">涉及法规</div><div style="margin-bottom:14px">${regs}</div>`:""}
+    ${tops?`<div style="margin-bottom:14px">${tops}</div>`:""}
+    <div class="rc-meta" style="border-top:1px solid var(--line);padding-top:10px">来源:${esc(it.source_file||it.author||"—")}${it.url?` · <a href="${esc(it.url)}" target="_blank" style="color:var(--blue)">原文链接 →</a>`:""}</div>
+    <div style="text-align:right;margin-top:8px"><span class="jbtn" onclick="closeInsModal();switchTab('p-ins');var f=$('#ins-frame');if(f&&!f.src)f.src=f.dataset.src">在解读看板中打开 →</span></div>`;
+}
 const ADV_DIM_KW=[
   [0,/整车准入|型式|准入|type approval|whole vehicle/i],
   [1,/环保|排放|油耗|节能|emission|噪声/i],
@@ -3274,7 +3305,7 @@ function advAnswer(q){
     if(scored.length){
       produced=true;
       html+=`<div class="seg-t">相关解读(看板)</div><ul>`+scored.slice(0,4).map(([s,it])=>
-        `<li><b>${esc(it.title)}</b> <span style="font-size:10px;color:var(--muted)">[${esc(it.type)}]</span><br>${esc((it.summary||"").slice(0,150))}</li>`).join("")+
+        `<li><b class="rc-reglink" style="font-size:13px;padding:1px 7px" onclick="openInsModal('${esc(String(it.id)).replace(/'/g,"\\'")}')" title="点击看推文全文">${esc(it.title)}</b> <span style="font-size:10px;color:var(--muted)">[${esc(it.type)}]</span><br>${esc((it.summary||"").slice(0,150))}</li>`).join("")+
         `</ul><a class="jbtn" onclick="switchTab('p-ins');var f=$('#ins-frame');if(f&&!f.src)f.src=f.dataset.src">→ 打开解读看板</a>`;
       sources.push(`解读 ${scored.length}篇`);
     }
