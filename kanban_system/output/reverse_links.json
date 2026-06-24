@@ -2603,5 +2603,85 @@
         "url": ""
       }
     ]
+  },
+  "GCC G-MARK 海湾强制认证": {
+    "reg_no": "GCC G-MARK 海湾强制认证",
+    "match_key": "G-MARK",
+    "region": "海湾",
+    "country": "GCC",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-053",
+        "title": "海湾 GCC / G-MARK 认证体系 + GCTS 追溯标识",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "GSO 422/300/16 证书追溯系统(GCTS)": {
+    "reg_no": "GSO 422/300/16 证书追溯系统(GCTS)",
+    "match_key": "422/300/16",
+    "region": "海湾",
+    "country": "GCC",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-053",
+        "title": "海湾 GCC / G-MARK 认证体系 + GCTS 追溯标识",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "沙特 Saber 清关系统(SASO,2019)": {
+    "reg_no": "沙特 Saber 清关系统(SASO,2019)",
+    "match_key": "Saber",
+    "region": "海湾",
+    "country": "沙特",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-054",
+        "title": "沙特 Saber 认证(SASO 在线清关 COC 系统)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "GB《智能网联汽车 自动驾驶系统安全要求》(拟2027-07-01实施)": {
+    "reg_no": "GB《智能网联汽车 自动驾驶系统安全要求》(拟2027-07-01实施)",
+    "match_key": "自动驾驶系统安全要求",
+    "region": "东亚",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-055",
+        "title": "中国《智能网联汽车 自动驾驶系统安全要求》强制国标(L3/L4,拟2027-07实施)+ 智驾安全体系",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "GB 44495 整车信息安全 / GB 44496 软件升级 / GB 44497 自动驾驶数据记录(2026-01-01)": {
+    "reg_no": "GB 44495 整车信息安全 / GB 44496 软件升级 / GB 44497 自动驾驶数据记录(2026-01-01)",
+    "match_key": "GB 44495",
+    "region": "东亚",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-055",
+        "title": "中国《智能网联汽车 自动驾驶系统安全要求》强制国标(L3/L4,拟2027-07实施)+ 智驾安全体系",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
   }
 }
