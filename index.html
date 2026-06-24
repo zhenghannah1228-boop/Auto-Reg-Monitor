@@ -497,6 +497,23 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .cmp-dim .dn{text-align:center;font-size:11.5px;color:var(--ink2)}
 .cmp-dim .vn{font-family:var(--mono);font-weight:700;text-align:center}
 .cmp-dim.gap{background:#fbf3ee}
+.cmpta{width:100%;height:150px;font-family:var(--mono);font-size:12px;line-height:1.6;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);resize:vertical}
+.cmpta:focus{border-color:var(--accent);outline:none}
+.cmprd-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cmprd-col{border:1px solid var(--line);border-radius:9px;background:var(--panel);overflow:hidden}
+.cmprd-hd{background:var(--panel2);padding:7px 12px;font-weight:800;font-size:13px;border-bottom:1px solid var(--line);position:sticky;top:0}
+.cmprd-body{padding:6px 0;max-height:60vh;overflow-y:auto;font-size:12.5px;line-height:1.7}
+.cmprd-ln{padding:2px 12px 2px 12px;border-left:3px solid transparent;white-space:pre-wrap;word-break:break-word}
+.cmprd-ln.same{border-left-color:#5a8a4a;background:#f1f7ee}
+.cmh-sh{background:#d8efd0;border-radius:3px;padding:0 2px}
+.cmh-uq{background:#fde4cf;border-radius:3px;padding:0 2px}
+.cmh-q{background:#ffe680;border-radius:3px;padding:0 2px;box-shadow:0 0 0 1px #e6c200 inset}
+.cmptbl{width:100%;border-collapse:collapse;font-size:12.5px;margin:4px 0 16px}
+.cmptbl th,.cmptbl td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+.cmptbl th{background:var(--panel2);font-size:11.5px}
+.cmptbl td.c{text-align:center;font-family:var(--mono)}
+.cmptag{display:inline-block;font-family:var(--mono);font-size:10.5px;border-radius:4px;padding:0 6px;margin:1px 3px 1px 0}
+.cmptag.sh{background:#d8efd0;color:#2f5c25}.cmptag.a{background:#dceaf5;color:#234a63}.cmptag.b{background:#fde4cf;color:#8a4a1f}
 .refcol h4{margin:0 0 8px;font-size:12.5px}
 .refchips{display:flex;flex-wrap:wrap;gap:6px}
 .refchip{font-family:var(--mono);font-size:11px;padding:2px 8px;border-radius:11px;border:1px solid var(--line);background:var(--panel)}
@@ -776,18 +793,43 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="pane" id="p-cmp">
     <div class="card">
-      <h3>法规快速对比 <span class="hint">选两组(按国家/地区,可叠加维度筛选)→ 自动比对维度覆盖、国际标准对标、等效法规映射</span></h3>
-      <div class="netctrl">
-        <select class="csel" id="cmp-a" onchange="renderCmp()" style="min-width:150px"></select>
-        <span style="font-family:var(--serif);font-weight:900;color:var(--accent)">VS</span>
-        <select class="csel" id="cmp-b" onchange="renderCmp()" style="min-width:150px"></select>
-        <select class="csel" id="cmp-dim" onchange="renderCmp()" title="只比对某一维度">
-          <option value="">全部维度</option></select>
-        <button class="btn light" onclick="swapCmp()">⇄ 交换</button>
+      <h3>法规对比 <span class="hint">库内维度对比(按国家组自动比对标准对标) · 文本对比阅读器(粘贴两组原文,调色板高亮异同 + 核心异同点表)</span></h3>
+      <div class="seg" style="margin-bottom:4px">
+        <button id="cmpv-lib" class="on" onclick="setCmpView('lib')">📊 库内维度对比</button>
+        <button id="cmpv-txt" onclick="setCmpView('txt')">📖 文本对比阅读器</button>
       </div>
-      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">相同点=两组都对标同一国际标准(UN R/GTR/FMVSS/GB)→ 视为等效条款;差异点=仅一方覆盖的维度或仅一方对标的标准。等效映射点编号可跳转国家详情。</div>
+      <div id="cmp-libctrl">
+        <div class="netctrl">
+          <select class="csel" id="cmp-a" onchange="renderCmp()" style="min-width:150px"></select>
+          <span style="font-family:var(--serif);font-weight:900;color:var(--accent)">VS</span>
+          <select class="csel" id="cmp-b" onchange="renderCmp()" style="min-width:150px"></select>
+          <select class="csel" id="cmp-dim" onchange="renderCmp()" title="只比对某一维度">
+            <option value="">全部维度</option></select>
+          <button class="btn light" onclick="swapCmp()">⇄ 交换</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">相同点=两组都对标同一国际标准(UN R/GTR/FMVSS/GB)→ 视为等效条款;差异点=仅一方覆盖的维度或仅一方对标的标准。等效映射点编号可跳转国家详情。</div>
+      </div>
+      <div id="cmp-txtctrl" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-la" class="csel" style="flex:1" placeholder="左组标签 如:中国·GB 38031"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv" style="display:none" onchange="cmpLoadFile(this,'cmpt-a')"></label></div>
+            <textarea id="cmpt-a" class="cmpta" placeholder="粘贴左组法规原文(可多条同主题不同国家,直接拼接粘贴)"></textarea>
+          </div>
+          <div>
+            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-lb" class="csel" style="flex:1" placeholder="右组标签 如:欧盟·UN R100"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv" style="display:none" onchange="cmpLoadFile(this,'cmpt-b')"></label></div>
+            <textarea id="cmpt-b" class="cmpta" placeholder="粘贴右组法规原文"></textarea>
+          </div>
+        </div>
+        <div class="netctrl" style="margin-top:8px">
+          <button class="btn primary" onclick="runTextCmp()">⇄ 对比</button>
+          <input id="cmpt-q" class="csel" style="min-width:200px" placeholder="关键词检索(两侧黄色高亮)" oninput="cmpHighlightSearch()">
+          <button class="btn light" onclick="cmpClearText()">清空</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">调色板:<b style="background:#d8efd0;padding:0 4px;border-radius:3px">绿=两侧共有</b> <b style="background:#fde4cf;padding:0 4px;border-radius:3px">橙=仅本侧独有</b>(数值+单位、标准引用 UN R/GB/ISO/FMVSS…);整行在两侧都出现时左侧绿条标「相同条款」。检索词黄色高亮。</div>
+      </div>
     </div>
     <div id="cmp-body"><div class="bigmsg">选择左右两个国家/地区开始对比</div></div>
+    <div id="cmp-txtbody" style="display:none"></div>
   </div>
 
   <div class="pane" id="p-path">
@@ -3061,6 +3103,96 @@ function swapCmp(){const a=$("#cmp-a").value;$("#cmp-a").value=$("#cmp-b").value
   refreshSelFilter($("#cmp-a"));refreshSelFilter($("#cmp-b"));renderCmp();}
 function cmpGroup(c,df){let l=(byCountry()[c]||[]);if(df!=="")l=l.filter(r=>r.dims.includes(+df));return l;}
 function refsSet(l){const s=new Set();l.forEach(r=>r.refs.forEach(f=>s.add(f)));return s;}
+
+/* ===== 12 文本对比阅读器:事实级 palette(数值/单位/标准引用/日期)跨语言比对 ===== */
+let _cmpView="lib",_cmpTxt=null;
+function setCmpView(v){
+  _cmpView=v;
+  if($("#cmpv-lib"))$("#cmpv-lib").classList.toggle("on",v==="lib");
+  if($("#cmpv-txt"))$("#cmpv-txt").classList.toggle("on",v==="txt");
+  if($("#cmp-libctrl"))$("#cmp-libctrl").style.display=v==="lib"?"":"none";
+  if($("#cmp-txtctrl"))$("#cmp-txtctrl").style.display=v==="txt"?"":"none";
+  if($("#cmp-body"))$("#cmp-body").style.display=v==="lib"?"":"none";
+  if($("#cmp-txtbody"))$("#cmp-txtbody").style.display=v==="txt"?"":"none";
+}
+function cmpLoadFile(inp,target){const f=inp.files&&inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{const t=$("#"+target);if(t)t.value=e.target.result;};r.readAsText(f);}
+function cmpClearText(){["cmpt-a","cmpt-b","cmpt-q","cmpt-la","cmpt-lb"].forEach(id=>{if($("#"+id))$("#"+id).value="";});if($("#cmp-txtbody"))$("#cmp-txtbody").innerHTML="";_cmpTxt=null;}
+/* 事实锚点正则:标准引用 / 数值带单位 / 日期 */
+const CMP_REF_RE=/(?:UN\s?R|ECE\s?R)\s?\.?\s?\d{1,3}\b|GB\s?\/?T?\s?\d{4,5}(?:\.\d+)?(?:-\d{4})?|ISO\s?\d{3,5}(?:-\d+)?|IEC\s?\d{3,5}(?:-\d+)?|FMVSS\s?\d{3}|GTR\s?\d+|EN\s?\d{3,5}|SAE\s?J\d+|PNS\s?\d+|AIS[\s-]?\d+/gi;
+const CMP_NUM_RE=/\d+(?:[.,]\d+)?\s?(?:°C|℃|km\/h|km|kWh|kW|kg|mm|cm|kPa|MPa|bar|dB\(?A?\)?|dB|Hz|kV|mA|V|A|%|min|分钟|秒|小时|h|years?|年|个月|月|日|天|g|mg|N·m|Nm|N|L|ml|m\/s²|m\/s2|倍|项|次|°)(?![a-z])/gi;
+const CMP_DATE_RE=/\b(?:19|20)\d{2}(?:[-\/.年](?:0?[1-9]|1[0-2])(?:[-\/.月](?:0?[1-9]|[12]\d|3[01])日?)?)?\b/g;
+function cmpNorm(s,kind){let k=s.replace(/\s+/g,"").toUpperCase().replace("℃","°C");
+  if(kind==="ref")k=k.replace(/-(?:19|20)\d{2}\b/,"").replace(/[.\-]/g,"");
+  if(kind==="num")k=k.replace("分钟","MIN").replace("小时","H").replace("个月","MO").replace("秒","S").replace("年","Y").replace("月","MO").replace("天","D").replace("日","D").replace("倍","X").replace("MINS","MIN");
+  return k;}
+function cmpExtract(text){
+  const out={ref:new Map(),num:new Map(),date:new Map()};
+  (text.match(CMP_REF_RE)||[]).forEach(x=>out.ref.set(cmpNorm(x,"ref"),x.trim()));
+  (text.match(CMP_NUM_RE)||[]).forEach(x=>out.num.set(cmpNorm(x,"num"),x.trim()));
+  (text.match(CMP_DATE_RE)||[]).forEach(x=>{if(/\d{4}/.test(x))out.date.set(cmpNorm(x,"date"),x.trim());});
+  return out;
+}
+function _normLine(s){return s.replace(/[\s，。、；：,.\;:]+/g,"").toLowerCase();}
+function cmpMarkLine(escLine,sh,q){
+  const marks=[];let m;
+  const scan=(re,kind)=>{re.lastIndex=0;while((m=re.exec(escLine))){if(!m[0])break;const k=cmpNorm(m[0],kind);marks.push([m.index,m.index+m[0].length,sh[kind].has(k)?"cmh-sh":"cmh-uq",2]);}};
+  scan(CMP_REF_RE,"ref");scan(CMP_NUM_RE,"num");scan(CMP_DATE_RE,"date");
+  if(q){try{const qre=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"gi");while((m=qre.exec(escLine))){if(!m[0]){qre.lastIndex++;continue;}marks.push([m.index,m.index+m[0].length,"cmh-q",3]);}}catch(e){}}
+  if(!marks.length)return escLine;
+  marks.sort((a,b)=>a[0]-b[0]||b[3]-a[3]||b[1]-a[1]);
+  const keep=[];let last=-1;for(const mk of marks){if(mk[0]>=last){keep.push(mk);last=mk[1];}}
+  let o="",p=0;for(const[s,e,cls]of keep){o+=escLine.slice(p,s)+`<span class="${cls}">${escLine.slice(s,e)}</span>`;p=e;}
+  return o+escLine.slice(p);
+}
+function cmpRenderCol(text,otherText,sh,q){
+  const ol=new Set(otherText.split(/\r?\n/).map(_normLine).filter(x=>x.length>=8));
+  return text.split(/\r?\n/).map(ln=>{
+    const nl=_normLine(ln),same=nl.length>=8&&ol.has(nl);
+    const h=cmpMarkLine(esc(ln),sh,q);
+    return `<div class="cmprd-ln${same?" same":""}">${h||"&nbsp;"}</div>`;
+  }).join("");
+}
+function _chips(map,cls){const a=[...map.values()];return a.length?a.map(v=>`<span class="cmptag ${cls}">${esc(v)}</span>`).join(""):'<span style="color:var(--faint)">—</span>';}
+function cmpFactRow(label,exA,exB,kind,la,lb){
+  const ka=exA[kind],kb=exB[kind];
+  const shared=new Map(),onlyA=new Map(),onlyB=new Map();
+  ka.forEach((v,k)=>{(kb.has(k)?shared:onlyA).set(k,v);});
+  kb.forEach((v,k)=>{if(!ka.has(k))onlyB.set(k,v);});
+  if(!shared.size&&!onlyA.size&&!onlyB.size)return"";
+  return `<tr><td style="font-weight:700;white-space:nowrap">${label}</td>
+    <td>${_chips(shared,"sh")}</td><td>${_chips(onlyA,"a")}</td><td>${_chips(onlyB,"b")}</td></tr>`;
+}
+function runTextCmp(){
+  const body=$("#cmp-txtbody");if(!body)return;
+  const ta=($("#cmpt-a")?$("#cmpt-a").value:"")||"",tb=($("#cmpt-b")?$("#cmpt-b").value:"")||"";
+  const la=($("#cmpt-la")&&$("#cmpt-la").value.trim())||"左组",lb=($("#cmpt-lb")&&$("#cmpt-lb").value.trim())||"右组";
+  if(!ta.trim()&&!tb.trim()){body.innerHTML='<div class="card"><div class="bigmsg">请在左右两栏粘贴(或📎载入)法规原文后点「对比」。</div></div>';return;}
+  const exA=cmpExtract(ta),exB=cmpExtract(tb);
+  const sh={ref:new Set(),num:new Set(),date:new Set()};
+  ["ref","num","date"].forEach(k=>exA[k].forEach((v,kk)=>{if(exB[k].has(kk))sh[k].add(kk);}));
+  _cmpTxt={ta,tb,la,lb,sh};
+  const nShared=sh.ref.size+sh.num.size+sh.date.size;
+  const tbl=`<div class="card" style="padding:12px 16px;margin-bottom:12px">
+    <h3 style="margin:0 0 6px">核心异同点对比 <span class="hint">事实锚点:标准引用 / 数值·限值 / 日期(跨语言)。绿=两侧共有事实、橙仅左、蓝仅右</span></h3>
+    <table class="cmptbl"><thead><tr><th style="width:108px">比较维度</th><th>共有(相同事实)</th><th>仅 ${esc(la)}</th><th>仅 ${esc(lb)}</th></tr></thead><tbody>
+    ${cmpFactRow("标准引用",exA,exB,"ref",la,lb)}
+    ${cmpFactRow("数值/限值",exA,exB,"num",la,lb)}
+    ${cmpFactRow("日期/年份",exA,exB,"date",la,lb)}
+    </tbody></table>
+    <div style="font-family:var(--mono);font-size:11px;color:var(--muted)">共有事实 ${nShared} 项 · 仅左 ${exA.ref.size+exA.num.size+exA.date.size-nShared} · 仅右 ${exB.ref.size+exB.num.size+exB.date.size-nShared} · 整行在两侧都出现→左侧绿条「相同条款」。深度「表意一致/事实不同」语义对比可让我按需生成。</div></div>`;
+  const rd=`<div class="cmprd-grid">
+    <div class="cmprd-col"><div class="cmprd-hd">${esc(la)}</div><div class="cmprd-body" id="cmprd-a"></div></div>
+    <div class="cmprd-col"><div class="cmprd-hd">${esc(lb)}</div><div class="cmprd-body" id="cmprd-b"></div></div></div>`;
+  body.innerHTML=tbl+rd;
+  cmpHighlightSearch();
+}
+function cmpHighlightSearch(){
+  if(!_cmpTxt)return;
+  const q=($("#cmpt-q")?$("#cmpt-q").value.trim():"");
+  const a=$("#cmprd-a"),b=$("#cmprd-b");
+  if(a)a.innerHTML=cmpRenderCol(_cmpTxt.ta,_cmpTxt.tb,_cmpTxt.sh,q);
+  if(b)b.innerHTML=cmpRenderCol(_cmpTxt.tb,_cmpTxt.ta,_cmpTxt.sh,q);
+}
 function renderCmp(){
   const body=$("#cmp-body");if(!body)return;
   const a=$("#cmp-a").value,b=$("#cmp-b").value,df=$("#cmp-dim").value;
