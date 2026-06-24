@@ -2491,5 +2491,117 @@
         "url": ""
       }
     ]
+  },
+  "ADR 81/03 轻型车辆能量消耗标签(2025)": {
+    "reg_no": "ADR 81/03 轻型车辆能量消耗标签(2025)",
+    "match_key": "ADR 81/03",
+    "region": "澳洲",
+    "country": "澳大利亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-049",
+        "title": "澳大利亚 ADR 81/03 能耗标签新规:NEDC→WLTP + CO₂/NVES 申报(对比 81/02)",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "NVES 新车效率标准(New Vehicle Efficiency Standard Act 2024)": {
+    "reg_no": "NVES 新车效率标准(New Vehicle Efficiency Standard Act 2024)",
+    "match_key": "NVES",
+    "region": "澳洲",
+    "country": "澳大利亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-049",
+        "title": "澳大利亚 ADR 81/03 能耗标签新规:NEDC→WLTP + CO₂/NVES 申报(对比 81/02)",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "UN R83 轻型车污染物排放(M1/N1)": {
+    "reg_no": "UN R83 轻型车污染物排放(M1/N1)",
+    "match_key": "R83",
+    "region": "国际",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-050",
+        "title": "UN R83 全版本演进解析:R83.00→.08 对标 Euro 1→6e,R83.09 承载 Euro 7",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "UN R101 CO₂/燃油消耗(边界区分)": {
+    "reg_no": "UN R101 CO₂/燃油消耗(边界区分)",
+    "match_key": "R101",
+    "region": "国际",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-050",
+        "title": "UN R83 全版本演进解析:R83.00→.08 对标 Euro 1→6e,R83.09 承载 Euro 7",
+        "type": "revision",
+        "url": ""
+      }
+    ]
+  },
+  "ГОСТ Р ИСО 21461-2024 轮胎胎面橡胶芳烃(≈ISO 21461:2012)": {
+    "reg_no": "ГОСТ Р ИСО 21461-2024 轮胎胎面橡胶芳烃(≈ISO 21461:2012)",
+    "match_key": "21461",
+    "region": "欧亚经济联盟",
+    "country": "俄罗斯",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-051",
+        "title": "俄罗斯轮胎 ECO 认证 + PAHs 多环芳烃环保税(2026-01 落地)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "ТР ТС 018/2011 车辆安全(轮胎 ECO 认证依据)": {
+    "reg_no": "ТР ТС 018/2011 车辆安全(轮胎 ECO 认证依据)",
+    "match_key": "018/2011",
+    "region": "欧亚经济联盟",
+    "country": "俄罗斯",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-051",
+        "title": "俄罗斯轮胎 ECO 认证 + PAHs 多环芳烃环保税(2026-01 落地)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "GB/T 30512 道路车辆有害物质限制使用要求(征求意见稿)": {
+    "reg_no": "GB/T 30512 道路车辆有害物质限制使用要求(征求意见稿)",
+    "match_key": "GB/T 30512",
+    "region": "东亚",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-052",
+        "title": "GB/T 30512 车辆禁限物质修订(征求意见稿):有害物质限制使用、新增管控",
+        "type": "revision",
+        "url": ""
+      }
+    ]
   }
 }
