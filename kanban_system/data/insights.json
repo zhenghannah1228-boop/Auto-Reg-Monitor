@@ -2805,6 +2805,59 @@
    "source_file": "菲律宾 PS 认证全指南(机构科普,非官方法源)",
    "url": "",
    "needs_review": false
+  },
+  {
+   "id": "INS-2026-057",
+   "type": "system",
+   "title": "巴布亚新几内亚(PNG)车辆准入官方法源体系:Road Traffic Act 2014 + 进口车入境检验 + 零关税",
+   "summary": "PNG 为右舵、二手进口主导市场,采检验+采信型车辆准入(非型式批准)。核心是 Road Traffic Act 2014(No.14/2014)设立陆路交通局(RTA),依 Vehicle Standards and Compliance Rules 2017(2018 修订)与 Registration of Motor Vehicles Rules 2017 管理;每辆进口车(新/旧)须经发运前 JEVIC 检验或 RTA 本地口岸检验(与 PNG 海关在3口岸联检),MVIL 及各省登记处凭检验报告方予登记。整车进口关税为零(Customs Tariff Act,HS8703 新车/二手均 Free)。NICTA 另负责 ICT/无线电设备型式认证。",
+   "regulations": [
+    {
+     "region": "亚太",
+     "country": "巴布亚新几内亚",
+     "reg_no": "Road Traffic Act 2014(No.14 of 2014)",
+     "match_key": "Road Traffic Act 2014"
+    },
+    {
+     "region": "亚太",
+     "country": "巴布亚新几内亚",
+     "reg_no": "Customs Tariff Act 1990(No.26 of 1992)",
+     "match_key": "Customs Tariff Act"
+    }
+   ],
+   "topics": [
+    "巴布亚新几内亚",
+    "PNG",
+    "右舵",
+    "二手进口",
+    "JEVIC",
+    "RTA",
+    "入境检验",
+    "MVIL",
+    "零关税",
+    "NICTA",
+    "亚太"
+   ],
+   "dimensions": [
+    "1",
+    "9"
+   ],
+   "key_points": [
+    "框架:Road Traffic Act 2014(No.14/2014)设立陆路交通局(RTA,法人机构),统管陆路交通登记、车辆标准合规、安全与执法,核发/续期/暂停/吊销陆路交通文件;重型车=GVM>4.5 吨。",
+    "标准与登记:Vehicle Standards and Compliance Rules 2017(2018 修订)定本国车辆标准合规要求;Registration of Motor Vehicles Rules 2017 规定登记;由 MVIL(机动车保险公司)及各省交通登记处办理。本批车辆标准/登记规则为扫描件,具体技术标准待 OCR 核;未臆造其对标标准。",
+    "进口车强制入境检验(关键):每辆进口车(新/旧)须有发运前 JEVIC(日本出口车辆检验)检验报告,或抵港后由 RTA 在 Port Moresby 等 3 个口岸与 PNG 海关联检的检验报告;MVIL/省登记处凭检验报告登记,无 JEVIC 或 RTA 报告者不予登记;未登记车上路须办「未登记车驾驶许可」(K115)。属检验+采信型,无 EU/UN 式整车型式批准。",
+    "关税与税费:Customs Tariff Act 1990(No.26/1992,HS 2022)对乘用车(HS 8703)各子目新车与二手/翻新车进口关税均为 Free(0%);整车进口零关税,税负主要来自 GST(10%)等;另有 Environment Act 2000(No.64/2000)。",
+    "ICT/无线电(区分):NICTA 依 NICT Act 2009、Radio Spectrum Regulation 2010、ICT Equipment Type Approval Rule 2022 负责 ICT/无线电设备型式认证(含车载无线电/通信模块),非整车主管;其证书有效期 2025-12 新规(旧永久证统一调至 2028-06-10、新证三年)属 ICT 认证而非整车。",
+    "勘误:监控台原将本国标为『own_full / NICTA 整车型式认证·对标 ADR/GCC』,据官方法源更正——PNG 无整车型式批准,实为检验+采信型(JEVIC/RTA 检验);NICTA 仅管 ICT/无线电。"
+   ],
+   "author": "巴布亚新几内亚独立国官方法源(Road Traffic Act 2014 + RTA 通告 + Customs Tariff Act + NICTA 规则)",
+   "publish_date": "",
+   "region_focus": [
+    "巴布亚新几内亚"
+   ],
+   "source_file": "PNG 车辆准入官方法源包(Road Traffic Act 2014 等9件)",
+   "url": "",
+   "needs_review": false
   }
  ]
 }

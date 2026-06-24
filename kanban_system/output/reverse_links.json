@@ -2699,5 +2699,37 @@
         "url": ""
       }
     ]
+  },
+  "Road Traffic Act 2014(No.14 of 2014)": {
+    "reg_no": "Road Traffic Act 2014(No.14 of 2014)",
+    "match_key": "Road Traffic Act 2014",
+    "region": "亚太",
+    "country": "巴布亚新几内亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-057",
+        "title": "巴布亚新几内亚(PNG)车辆准入官方法源体系:Road Traffic Act 2014 + 进口车入境检验 + 零关税",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "Customs Tariff Act 1990(No.26 of 1992)": {
+    "reg_no": "Customs Tariff Act 1990(No.26 of 1992)",
+    "match_key": "Customs Tariff Act",
+    "region": "亚太",
+    "country": "巴布亚新几内亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-057",
+        "title": "巴布亚新几内亚(PNG)车辆准入官方法源体系:Road Traffic Act 2014 + 进口车入境检验 + 零关税",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }

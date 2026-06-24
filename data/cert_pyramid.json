@@ -11712,104 +11712,133 @@
   },
   "巴布亚新几内亚": {
    "country": "巴布亚新几内亚",
-   "system_type": "own_full",
-   "summary": "自有 NICTA 型式认证(右舵专属市场):技术标准对标 ADR 与 GCC 法规,仅接受当地官方机构发证;2025-12 新规明确证书有效期规则。",
+   "system_type": "recognition",
+   "summary": "右舵二手进口主导市场,检验+采信型(非型式批准):Road Traffic Act 2014(No.14/2014)设立陆路交通局(RTA);依 Vehicle Standards and Compliance Rules 2017/2018 与 Registration of Motor Vehicles Rules 2017 管理;每辆进口车(新/旧)须经入境检验——发运前 JEVIC 检验或 RTA 本地口岸检验(与海关在3个口岸联检),MVIL 及各省登记处凭检验报告方予登记。无 EU/UN 式整车型式批准。NICTA 另负责 ICT/无线电设备型式认证(NICT Act 2009)。整车进口关税为零(Customs Tariff Act,HS8703 新车/二手均 Free)。",
    "pyramid": [
     {
      "level": 1,
      "label": "框架/顶端",
-     "title": "NICTA 型式认证",
-     "title_local": "NICTA Type Approval",
-     "desc": "右舵专属准入市场,仅接受当地官方机构(NICTA)发证。",
-     "refs": []
+     "title": "Road Traffic Act 2014 + 陆路交通局(RTA)",
+     "title_local": "Road Traffic Act 2014 / Road Traffic Authority",
+     "desc": "Road Traffic Act 2014(No.14/2014)设立 RTA(法人机构),统管陆路交通登记、安全与执法,核发/续期/暂停/吊销陆路交通文件。",
+     "refs": ["No.14 of 2014 Road Traffic Act"]
     },
     {
      "level": 2,
      "label": "技术标准",
-     "title": "对标 ADR 与 GCC",
-     "title_local": "ADR / GCC aligned",
-     "desc": "技术标准对标澳标 ADR 与海湾 GCC 法规。",
-     "refs": [
-      {
-       "reg_no": "ADR / GCC",
-       "name": "对标标准"
-      }
-     ]
+     "title": "车辆标准与合规规则",
+     "title_local": "Vehicle Standards and Compliance Rules 2017/2018",
+     "desc": "Road Traffic Rules – Vehicle Standards and Compliance 2017(2018 修订)定本国车辆标准与合规要求(右舵市场;具体对标标准见该规则,本批为扫描件待核)。",
+     "refs": ["Vehicle Standards and Compliance Rules 2017/2018"]
     },
     {
      "level": 3,
-     "label": "测试/评定",
-     "title": "NICTA 评定",
-     "title_local": "NICTA Assessment",
-     "desc": "由 NICTA 评定发证;旅游客运车、皮卡不存在认证豁免。",
-     "refs": []
+     "label": "检验",
+     "title": "进口车入境检验(JEVIC / RTA)",
+     "title_local": "Onshore/Pre-shipment Inspection",
+     "desc": "每辆进口车(新/旧)须有发运前 JEVIC 检验报告或 RTA 本地口岸检验报告(与 PNG 海关在 Port Moresby 等3口岸联检);无报告不予登记。",
+     "refs": ["Notice on Onshore Inspection for Used and New Vehicle Imports"]
     },
     {
      "level": 4,
-     "label": "证书/产出",
-     "title": "NICTA 型式证书",
-     "title_local": "NICTA Certificate",
-     "desc": "2025-12 新规:2022-01-01 至新系统上线前核发的永久证书有效期统一调整至 2028-06-10,新申请证书有效期固定为三年。",
-     "refs": []
+     "label": "登记/上牌",
+     "title": "MVIL / 省登记处注册",
+     "title_local": "Registration (MVIL / Provincial Registries)",
+     "desc": "凭检验报告经 MVIL 及各省交通登记处按 Registration of Motor Vehicles Rules 2017 注册上牌;未登记车上路需办「未登记车驾驶许可」(K115)。",
+     "refs": ["Registration of Motor Vehicles Rules 2017"]
     }
    ],
    "sections": {
     "authorities": [
      {
-      "name": "巴布亚新几内亚 NICTA",
+      "name": "陆路交通局",
+      "abbr": "RTA / Road Traffic Authority",
+      "role": "依 Road Traffic Act 2014 统管登记、车辆标准合规、口岸检验与执法,核发陆路交通文件。"
+     },
+     {
+      "name": "机动车保险有限公司 / 各省交通登记处",
+      "abbr": "MVIL / Provincial Registries",
+      "role": "凭入境检验报告办理车辆登记上牌。"
+     },
+     {
+      "name": "巴布亚新几内亚海关局",
+      "abbr": "PNG Customs Bureau",
+      "role": "口岸清关、与 RTA 在 3 口岸联检;依 Customs Tariff Act 征税(整车进口关税 Free)。"
+     },
+     {
+      "name": "国家信息通信技术局",
       "abbr": "NICTA",
-      "role": "型式认证主管与发证。"
+      "role": "ICT/无线电设备型式认证(NICT Act 2009、Radio Spectrum Regulation 2010、ICT Equipment Type Approval Rule 2022);非整车主管。"
      }
     ],
     "core_regs": {
      "vehicle": [
       {
-       "group": "安全",
-       "items": "对标 ADR/GCC 的整车要求(NICTA 型式认证)"
+       "group": "框架准入",
+       "items": "Road Traffic Act 2014(No.14/2014)——设立 RTA、统管陆路交通登记/安全/执法"
+      },
+      {
+       "group": "标准/检验/登记",
+       "items": "Vehicle Standards and Compliance Rules 2017(2018 修订);Registration of Motor Vehicles Rules 2017;进口车入境检验(JEVIC 发运前 或 RTA 口岸检验,凭报告登记)"
+      },
+      {
+       "group": "海关/环保",
+       "items": "Customs Tariff Act(No.26/1992,HS8703 整车进口关税 Free);Environment Act 2000(No.64/2000)"
       }
      ],
      "component": [
       {
-       "group": "部件",
-       "items": "部件随整车 NICTA 型式认证"
+       "group": "ICT/无线电",
+       "items": "车载 ICT/无线电设备另经 NICTA 型式认证(NICT Act 2009)"
       }
      ]
     },
     "process_vehicle": [
      {
-      "step": "提交申请",
-      "desc": "向 NICTA 提交型式认证申请(右舵)。"
+      "step": "发运前检验",
+      "desc": "进口车可在发运前取得 JEVIC 检验报告(或抵港后做 RTA 口岸检验)。"
      },
      {
-      "step": "评定",
-      "desc": "对标 ADR/GCC 评定。"
+      "step": "清关/口岸检验",
+      "desc": "PNG 海关清关;RTA 与海关在 3 口岸对每辆进口车联检,整车进口关税 Free。"
      },
      {
-      "step": "发证",
-      "desc": "签发 NICTA 型式证书(新证有效期三年)。"
+      "step": "登记上牌",
+      "desc": "凭 JEVIC 或 RTA 检验报告,经 MVIL/省登记处按登记规则注册;未登记上路需 K115 许可。"
      }
     ],
     "process_component": [
      {
-      "step": "部件认证",
-      "desc": "部件按本国强制认证取符合证书。"
+      "step": "ICT/无线电",
+      "desc": "车载无线电/ICT 设备经 NICTA 型式认证。"
      }
     ]
    },
    "external_recognition": {
     "recognizes": [
-     "ADR(对标)",
-     "GCC(对标)"
+     "JEVIC 发运前检验报告",
+     "进口车型(右舵,主要为日系二手)"
     ],
-    "basis": "技术对标 ADR 与 GCC,仅当地官方机构发证。",
-    "scope": "NICTA 型式认证;右舵专属",
-    "note": "自有 NICTA 型式认证(右舵市场)——对标 ADR/GCC。 【推文来源】2025-12 新规:旧永久证书有效期统一调整至 2028-06-10,新证固定三年;旅游客运车、皮卡无豁免,小众市场法规变动频繁,发运前建议临期复核。"
+    "basis": "检验+采信型:每辆进口车须有 JEVIC 发运前检验或 RTA 口岸检验报告方可登记;无本国 EU/UN 式整车型式批准。",
+    "scope": "右舵二手进口主导;JEVIC/RTA 检验 + MVIL 登记",
+    "note": "检验+采信型(非型式批准)——Road Traffic Act 2014/RTA + 车辆标准合规规则 + 进口车强制入境检验(JEVIC 或 RTA);NICTA 仅管 ICT/无线电型式认证(其证书有效期 2025-12 新规:旧永久证统一调至 2028-06-10、新证三年,属 ICT 认证而非整车)。小众市场,发运前建议临期复核。"
    },
-   "confidence": "C",
+   "confidence": "A",
    "sources": [
-    "推文原始资料(资料有限)",
-    "推文INS-2026-023(出海冷门强制准入认证清单)"
-   ]
+    "Road Traffic Act 2014(No.14 of 2014)官方法源",
+    "Road Traffic Rules – Vehicle Standards and Compliance 2017/2018;Registration of Motor Vehicles Rules 2017(扫描件,按官方文件名登记)",
+    "Notice on Onshore Inspection for Used and New Vehicle Imports(RTA,JEVIC/RTA 检验+登记流程)",
+    "Customs Tariff Act 1990(No.26 of 1992,HS 2022;整车 HS8703 进口关税 Free)",
+    "Environment Act 2000(No.64 of 2000)",
+    "NICTA ICT Equipment Type Approval Rule 2022 + EMC/Safety 技术标准(NICT Act 2009)",
+    "均为巴布亚新几内亚独立国官方法源(原 own_full/NICTA 整车型式认证 表述据官方法源更正为 检验+采信型)"
+   ],
+   "tariff": {
+    "cbu_passenger": "乘用车(HS 8703,含新车与二手/翻新)进口关税:Free(0%)——Customs Tariff Act 1990(No.26/1992,HS 2022)",
+    "vat": "PNG 商品服务税(GST)10%(以海关最新规定为准)",
+    "note": "整车进口关税为零(税则各 8703 子目新/旧车均 Free);税负主要来自 GST 及可能的其他费用;右舵二手进口为主,须经 JEVIC/RTA 检验方可登记",
+    "source": "Customs Tariff Act 1990(No.26 of 1992;HS 2022)官方税则"
+   }
   },
   "科特迪瓦": {
    "country": "科特迪瓦",
