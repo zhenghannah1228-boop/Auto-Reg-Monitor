@@ -3637,7 +3637,7 @@ function renderEvPol(){
   fillEvFilters();
   const bl=$("#evv-list"),bs=$("#evv-stats");if(bl)bl.classList.toggle("primary",_evView==="list");if(bs)bs.classList.toggle("primary",_evView==="stats");
   const lg=$("#ev-legend");
-  if(lg&&_evMeta.types){lg.innerHTML="来源:"+esc(_evMeta.source||"")+" · 类型——"+_evMeta.types.map(([k,v])=>`<b style="color:${EV_TYPE_COL[k]||'var(--ink)'}">${esc(k)}</b>=${esc(v)}`).join(" / ");}
+  if(lg&&_evMeta.types){lg.innerHTML="来源:"+esc(_evMeta.source||"")+' · <a href="https://www.iea.org/data-and-statistics/data-tools/global-ev-policy-explorer" target="_blank" rel="noopener" style="color:var(--blue)">IEA 官方政策探索器 ↗</a><br>类型——'+_evMeta.types.map(([k,v])=>`<b style="color:${EV_TYPE_COL[k]||'var(--ink)'}">${esc(k)}</b>=${esc(v)}`).join(" / ")+' · 各行「来源」点击=网络搜索定位原文(原表无内嵌链接)';}
   const list=evFiltered();
   if(_evView==="stats"){renderEvStats(list);return;}
   if(!list.length){body.innerHTML='<div class="card"><div class="bigmsg">没有匹配的政策。</div></div>';return;}
@@ -3645,17 +3645,19 @@ function renderEvPol(){
   const rows=cap.map(r=>{
     const tcol=EV_TYPE_COL[r.type]||"#888";
     const cats=(r.cats_cn||[]).map(c=>`<span class="rc-dim" style="background:#6b7a55">${esc(c)}</span>`).join(" ");
+    const sq=encodeURIComponent((r.source||"")+" "+evCty(r.country)+" "+String(r.measure||"").slice(0,50));
+    const srclink=`<a href="https://www.google.com/search?q=${sq}" target="_blank" rel="noopener" title="搜索该来源/政策原文" style="color:var(--blue)">${esc(r.source||"—")} ↗</a>`;
     return `<tr>
       <td style="white-space:nowrap;font-weight:700">${esc(evCty(r.country))}<div style="font-weight:400;font-size:10px;color:var(--muted)">${esc(evReg(r.region))}${r.level==="Subnational"?" · 地方":""}</div></td>
       <td style="white-space:nowrap"><span class="rc-badge" style="background:${tcol}">${esc(r.type)}</span></td>
       <td>${cats}</td>
       <td style="font-family:var(--mono);text-align:center">${esc(r.year)}</td>
-      <td style="font-size:12.5px;line-height:1.55">${esc(r.measure)}</td>
-      <td style="font-size:10.5px;color:var(--muted);max-width:140px">${esc(r.source||"")}</td></tr>`;
+      <td style="font-size:13px;line-height:1.6">${r.measure_cn?esc(r.measure_cn):'<span style="color:var(--muted)">(待译)</span>'}<div style="font-size:10.5px;color:var(--muted);margin-top:3px;line-height:1.45">${esc(r.measure)}</div></td>
+      <td style="font-size:10.5px;max-width:150px">${srclink}</td></tr>`;
   }).join("");
   body.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:8px">共 ${list.length} 条政策${list.length<_evpol.length?" / 库内 "+_evpol.length:""}${list.length>400?" · 仅显示前 400,请用筛选缩小":""}</div>
     <div class="scrollx" style="overflow-x:auto"><table class="evtbl">
-    <thead><tr><th>国家/地区</th><th>类型</th><th>类别</th><th>年份</th><th>关键政策与目标</th><th>来源</th></tr></thead>
+    <thead><tr><th>国家/地区</th><th>类型</th><th>类别</th><th>年份</th><th>关键政策与目标(中文 / 原文)</th><th>来源(搜索原文)</th></tr></thead>
     <tbody>${rows}</tbody></table></div>`;
 }
 function renderEvStats(list){
