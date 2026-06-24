@@ -409,6 +409,11 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .conf.A{background:#deead5;color:#3d6630}.conf.B{background:#f5ecce;color:#8a6a14}
 .conf.C{background:var(--panel2);color:var(--muted);border:1px solid var(--line)}
 .pyr-sum{font-size:12.5px;color:var(--muted);line-height:1.7;margin:6px 0 16px}
+.pyr-ins{font-size:12px;line-height:1.9;margin:-6px 0 14px;padding:8px 12px;background:var(--panel2);border:1px solid var(--line);border-radius:7px}
+.pyr-ins:empty{display:none}
+.pyr-ins .pyr-ins-lb{color:var(--muted);font-family:var(--mono);margin-right:4px}
+.pyr-ins .lk{color:var(--blue);cursor:pointer;margin-right:4px}
+.pyr-ins .lk:hover{text-decoration:underline}
 .pyr-wrap{display:flex;flex-direction:column;align-items:center;gap:3px}
 .pyr-lv{position:relative;cursor:pointer;color:#fff;transition:filter .15s,transform .15s;
   display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
@@ -2843,6 +2848,7 @@ function renderPyramid(country){
       </span>
     </div>
     <div class="pyr-sum">${esc(d.summary||"")}</div>
+    <div id="pyr-ins" class="pyr-ins"></div>
     <div class="pyr-grid">
       <div class="pyr-wrap" id="pyr-wrap">${lvHtml}</div>
       <div class="pyr-detail" id="pyr-detail"></div>
@@ -2850,12 +2856,32 @@ function renderPyramid(country){
     ${renderPyrSections(d)}
     <footer style="margin-top:26px"><span>数据来源:${(d.sources||[]).map(esc).join(" · ")||"—"}</span></footer>`;
   $("#pyr-body").innerHTML=body;
+  fillPyrInsights(country);
   $("#pyr-wrap").querySelectorAll(".pyr-lv").forEach(el=>{
     el.addEventListener("click",()=>{_pyrLevel=+el.dataset.lv;
       $("#pyr-wrap").querySelectorAll(".pyr-lv").forEach(x=>x.classList.toggle("on",x===el));
       renderPyrDetail(d);});
   });
   renderPyrDetail(d);
+}
+/* 09↔11 联动:某条解读涉及的国家集合(region_focus + 涉及法规 country) */
+function insCountries(it){
+  const s=new Set();(it.region_focus||[]).forEach(c=>{if(c)s.add(c);});
+  (it.regulations||[]).forEach(r=>{if(r&&r.country)s.add(r.country);});
+  return s;
+}
+/* 09 金字塔 → 显示该国相关「认证体系/制度」解读,点击弹推文(优先 system 类) */
+function fillPyrInsights(country){
+  const el=$("#pyr-ins");if(!el)return;el.innerHTML="";
+  advLoadInsights().then(ins=>{
+    if(!$("#pyr-ins")||_pyrCountry!==country)return; // 期间已切换国家则放弃
+    let hits=(ins||[]).filter(it=>insCountries(it).has(country));
+    hits.sort((a,b)=>(a.type==="system"?0:1)-(b.type==="system"?0:1));
+    if(!hits.length){el.innerHTML="";return;}
+    el.innerHTML='<span class="pyr-ins-lb">📖 相关解读(看板):</span>'+hits.slice(0,8).map(it=>
+      `<span class="lk" onclick="openInsModal('${esc(String(it.id)).replace(/'/g,"\\'")}')" title="${esc(it.title)}">${INS_TYPE_LABEL[it.type]?'['+esc(INS_TYPE_LABEL[it.type])+'] ':''}${esc(String(it.title).slice(0,30))}</span>`
+    ).join(" · ");
+  });
 }
 function renderPyrDetail(d){
   const lv=d.pyramid[_pyrLevel];if(!lv)return;
@@ -3165,9 +3191,17 @@ async function openInsModal(id){
   const box=$("#insbox"),m=$("#insmodal");if(!box||!m)return;
   m.style.display="flex";box.innerHTML='<div class="bigmsg">载入中…</div>';
   const ins=await advLoadInsights();
+  await loadCert().catch(()=>{});
   const it=(ins||[]).find(x=>String(x.id)===String(id));
   if(!it){box.innerHTML='<span class="rc-x" onclick="closeInsModal()">×</span><div class="bigmsg">未找到该解读(id '+esc(id)+')。</div>';return;}
-  const kps=(it.key_points||[]).map(p=>`<li>${esc(p)}</li>`).join("");
+  const _imgify=s=>s.replace(/\[img\](\S+)/g,'<a href="$1" target="_blank"><img src="$1" style="max-width:100%;border:1px solid var(--line);border-radius:6px;margin:5px 0" loading="lazy"></a>');
+  const kps=(it.key_points||[]).map(p=>`<li>${_imgify(esc(p))}</li>`).join("");
+  // 11→09 联动:本解读涉及的、且在认证金字塔(09)中有条目的国家
+  let certBtns="";
+  if(typeof CERT!=="undefined"&&CERT){
+    const cs=[...insCountries(it)].filter(c=>CERT[c]);
+    certBtns=cs.map(c=>`<span class="jbtn" style="background:var(--accent);color:#fff" onclick="closeInsModal();pathGoto('${esc(c).replace(/'/g,"\\'")}')" title="查看 ${esc(c)} 的认证金字塔">→ 09 认证金字塔:${esc(c)}</span>`).join(" ");
+  }
   const regs=(it.regulations||[]).map(rg=>{
     const lab=[rg.country,rg.reg_no].filter(Boolean).map(esc).join(" · ");
     return rg.country?`<span class="rc-reglink" onclick="closeInsModal();gotoCountry('${esc(rg.country).replace(/'/g,"\\'")}')" title="跳该国详情">${lab}</span>`:`<span class="rc-reglink">${lab}</span>`;
@@ -3184,7 +3218,7 @@ async function openInsModal(id){
     ${regs?`<div class="seg-t" style="margin-bottom:5px">涉及法规</div><div style="margin-bottom:14px">${regs}</div>`:""}
     ${tops?`<div style="margin-bottom:14px">${tops}</div>`:""}
     <div class="rc-meta" style="border-top:1px solid var(--line);padding-top:10px">来源:${esc(it.source_file||it.author||"—")}${it.url?` · <a href="${esc(it.url)}" target="_blank" style="color:var(--blue)">原文链接 →</a>`:""}</div>
-    <div style="text-align:right;margin-top:8px"><span class="jbtn" onclick="closeInsModal();switchTab('p-ins');var f=$('#ins-frame');if(f&&!f.src)f.src=f.dataset.src">在解读看板中打开 →</span></div>`;
+    <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end">${certBtns}<span class="jbtn" onclick="closeInsModal();switchTab('p-ins');var f=$('#ins-frame');if(f&&!f.src)f.src=f.dataset.src">在解读看板中打开 →</span></div>`;
 }
 const ADV_DIM_KW=[
   [0,/整车准入|型式|准入|type approval|whole vehicle/i],
