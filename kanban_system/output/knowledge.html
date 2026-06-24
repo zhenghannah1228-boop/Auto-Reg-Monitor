@@ -53,6 +53,8 @@ padding:9px 13px;border:1px solid var(--line);border-radius:8px;background:var(-
 .kwbtn{font-family:var(--sans);font-size:12.5px;padding:9px 16px;border:1px solid var(--accent);
 background:var(--accent);color:#fff;border-radius:8px;cursor:pointer}
 .kwbtn.ghost{background:var(--panel);color:var(--ink);border-color:var(--line)}
+.kwsel{font-family:var(--sans);font-size:12.5px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--ink);max-width:200px}
+.kwsel:focus{border-color:var(--accent)}
 .kwbtn:hover{opacity:.9}
 .kwstat{font-family:var(--mono);font-size:11px;color:var(--muted)}
 mark{background:#ffe9a8;color:inherit;padding:0 1px;border-radius:2px}
@@ -85,7 +87,7 @@ mark{background:#ffe9a8;color:inherit;padding:0 1px;border-radius:2px}
 <div class="navdim"><b>1. 整车准入</b><a href="#t-seat">座椅与头枕<i>2</i></a><a href="#t-light">灯光与信号<i>1</i></a><a href="#t-vision">视野与HUD<i>2</i></a><a href="#t-steer">转向系统<i>4</i></a><a href="#t-control">车内操控与标识<i>1</i></a><a href="#t-door">车门与逃生<i>1</i></a><a href="#t-dim">外廓尺寸与凸出物<i>2</i></a><a href="#t-speedo">车速与里程表<i>1</i></a><a href="#t-tyre">应急轮胎与TPMS<i>1</i></a><a href="#t-brake">制动系统<i>3</i></a><a href="#t-cert">认证制度与体系<i>15</i></a></div><div class="navdim"><b>2. 环保全链条</b><a href="#t-substance">禁限用物质与化学品<i>4</i></a><a href="#t-policy">产业与贸易政策<i>5</i></a></div><div class="navdim"><b>4. 充电电池</b><a href="#t-battery">动力电池安全<i>5</i></a><a href="#t-passport">电池护照与标识<i>1</i></a></div><div class="navdim"><b>7. ADAS</b><a href="#t-adas">智能驾驶分级(ADAS→L3)<i>5</i></a><a href="#t-icv">智能网联测评·座舱·隐私<i>4</i></a></div><div class="navdim"><b>—</b><a href="#t-none">未归类<i>12</i></a></div>
 <div class="sub" style="margin-top:14px"><a href="kanban.html" style="color:var(--blue)">→ 推文流看板(按类型)</a></div>
 </nav>
-<main><div class="kwbar"><input id="kw" placeholder="关键词检索:法规编号 / 主题 / 要点 / 国家…(回车或点检索)" autocomplete="off"><button class="kwbtn" onclick="kwSearch()">🔍 检索</button><button class="kwbtn ghost" onclick="kwClear()">清除</button><span id="kwstat" class="kwstat"></span></div><div id="kwresults" class="kwresults" style="display:none"></div><div id="browse"><section class="theme" id="t-seat">
+<main><div class="kwbar"><input id="kw" placeholder="关键词检索:法规编号 / 主题 / 要点 / 国家…(回车或点检索)" autocomplete="off"><select id="kwcty" class="kwsel" onchange="kwSearch()"><option value="">全部国家/地区</option></select><button class="kwbtn" onclick="kwSearch()">🔍 检索</button><button class="kwbtn ghost" onclick="kwClear()">清除</button><span id="kwstat" class="kwstat"></span></div><div id="kwresults" class="kwresults" style="display:none"></div><div id="browse"><section class="theme" id="t-seat">
   <h2>座椅与头枕 <span class="dims">整车准入</span><span class="cnt">2 篇</span></h2>
   <div class="regmatrix"><div class="regrow"><b>中国</b><div class="chips"><span class="regchip">GB 15083 <i class="lib n" title="法规库暂无此条(待补充)">缺</i><u>1篇</u></span><span class="regchip">GB 15083-2019 <i class="lib n" title="法规库暂无此条(待补充)">缺</i><u>1篇</u></span></div></div><div class="regrow"><b>UN ECE</b><div class="chips"><span class="regchip">UN Regulation No. 17 <i class="lib y" title="已在法规库,反向链接已挂">库</i><u>1篇</u></span></div></div></div>
   <div class="ptsec"><h4>跨国对照要点<i>7条</i></h4><ul><li>谱系:GB 15083-2019《汽车座椅、座椅固定装置及头枕强度要求和试验方法》主要参考ECE R17.09S修订;ECE R17现已更新至12S系列,头枕要求大幅加严。 <a class="src" href="kanban.html" target="_blank" title="汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S">[010]</a></li><li>头枕定义:ECE R17.10起距躯干线两侧85mm范围内任一点高度≥700mm即视为头枕(GB 15083-2019按防颈部损伤功能定性)→欧标增加以高度判定头枕的条件。 <a class="src" href="kanban.html" target="_blank" title="汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S">[010]</a></li><li>头枕配置:GB 15083-2019仅要求M1乘用车前排外侧座椅配头枕;ECE R17.10/11起基于头枕定义与高度要求,后排所有座椅事实上强制配头枕。 <a class="src" href="kanban.html" target="_blank" title="汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S">[010]</a></li><li>前排头枕高度:GB 15083-2019最高≥800mm、最低使用位置≥750mm;ECE R17.10起前排至少一个位置≥830mm→最高位欧标更严,最低位GB更严。 <a class="src" href="kanban.html" target="_blank" title="汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S">[010]</a></li><li>后排头枕高度:GB 15083-2019≥750mm(后排中间≥700mm);ECE R17.09/10为≥720mm(中间≥700mm)→欧标后排有所放宽。 <a class="src" href="kanban.html" target="_blank" title="汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S">[010]</a></li><li>头枕与靠背间距:GB 15083-2019可调头枕最低位间隙≤25mm、不可调≤60mm;ECE R17.12改为头枕在最低使用位置时不允许直径120mm圆柱体穿过→欧标转为限制(挖孔)开口大小。 <a class="src" href="kanban.html" target="_blank" title="汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S">[010]</a></li><li>鞭打试验:GB 15083-2019为摆锤头型冲击与静强度试验;ECE R17.10起提供BioRID II假人鞭打试验作为可选项→欧标增加颈部保护鞭打测试。 <a href="assets/ins010_seat_diff_table.jpg" target="_blank"><img class="kpimg" src="assets/ins010_seat_diff_table.jpg" loading="lazy"></a> <a class="src" href="kanban.html" target="_blank" title="汽车座椅法规升级比较 | GB 15083 与 ECE R17.12S">[010]</a></li></ul></div><div class="ptsec"><h4>版本演变要点<i>10条</i></h4><ul><li>GB 15083新版意见稿①头枕定义:量化「视为具有头枕」判定——距躯干基准线两侧85mm两竖直纵向平面间任一点高度≥700mm即视为头枕(2019版仅按限制头部后倾的功能定性),便于工程量化校核。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿②鞭打试验:新增适用于设计速度16–20km/h的鞭打试验(基于BioRID II假人,即等效鞭打试验)作为测试选项;伤害指标与ECE R17保持一致,但与C-NCAP评分体系差异较大(2019版无此项)。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿③头枕高度:前排头枕任一位置提至≥830mm(2019版前排≥800mm、其他≥750mm),并新增后排各位置头枕高度≥720mm要求——前排外侧加严、后排补齐。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿④头枕与靠背间隙:改为四块区域内直径50mm球不能穿过、前排外侧头枕间隙&lt;45mm(2019版仅可调头枕因结构限制≤25mm、固定头枕无要求),收紧挖孔/间隙。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿⑤头枕高度使用位置:要求驾驶员头枕处于最高使用位置时向下移动量≤25mm,防止头枕长期停在过低位置,保护头部(2019版在750mm以上无「使用位置」概念)。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿⑥头枕自动回位:要求各座椅满足「头枕可自动调到使用位置」或靠背前折滑移后头枕下边缘高度540–460mm等条件之一(2019版靠背调节后头枕无自动回位要求),充分发挥头枕功能。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿⑦零重力座椅:新增对零重力座椅的安全要求(对应「全球首个整车零重力座椅安全法规」,详见前文),2019版无。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿⑧电动防夹:新增电动座椅在调节过程中的防夹保护要求,2019版无。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿⑨假人模型:更关注假人实际性能试验,改用计算的力转移到H点的方式(2019版对安全固定点全直接转移情况可用等效力的前端碰撞代替性能试验)。 <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li><li>GB 15083新版意见稿过渡期预测:新申请型式批准的M/N1类2028-01-01起执行、已获批2028-07-01;新申请N2/N3类2028-07-01起、已获批2029-07-01。 <a href="assets/ins004_change_table.jpg" target="_blank"><img class="kpimg" src="assets/ins004_change_table.jpg" loading="lazy"></a> <a class="src" href="kanban.html" target="_blank" title="GB 15083 座椅安全法规升级(新版意见稿):头枕加严、零重力座椅、鞭打测试与电动防夹">[004]</a></li></ul></div>
@@ -193,15 +195,22 @@ function _esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,
 function _imgify(s){return s.replace(/\[img\](\S+)/g,'<a href="$1" target="_blank"><img class="kpimg" src="$1" loading="lazy"></a>');}
 function _hay(it){return [it.title,it.summary,(it.topics||[]).join(' '),(it.key_points||[]).join(' '),
   (it.regulations||[]).map(function(r){return (r.reg_no||'')+' '+(r.match_key||'');}).join(' ')].join(' ').toLowerCase();}
+function _ctys(it){var s={};(it.region_focus||[]).forEach(function(c){if(c)s[c]=1;});
+  (it.regulations||[]).forEach(function(r){if(r&&r.country)s[r.country]=1;});return Object.keys(s);}
 function kwSearch(){
   var raw=(document.getElementById('kw').value||'').trim().toLowerCase();
   var toks=raw.split(/\s+/).filter(Boolean);
+  var ctyEl=document.getElementById('kwcty'), cty=ctyEl?ctyEl.value:'';
   var res=document.getElementById('kwresults'), br=document.getElementById('browse'), stat=document.getElementById('kwstat');
-  if(!toks.length){res.style.display='none';br.style.display='';stat.textContent='';return;}
-  var hits=(window.INS||[]).filter(function(it){var h=_hay(it);return toks.every(function(t){return h.indexOf(t)>=0;});});
+  if(!toks.length && !cty){res.style.display='none';br.style.display='';stat.textContent='';return;}
+  var hits=(window.INS||[]).filter(function(it){
+    if(cty && _ctys(it).indexOf(cty)<0) return false;
+    if(toks.length){var h=_hay(it);if(!toks.every(function(t){return h.indexOf(t)>=0;}))return false;}
+    return true;});
   br.style.display='none';res.style.display='';
-  stat.textContent=hits.length+' 篇推文匹配「'+raw+'」';
-  if(!hits.length){res.innerHTML='<div class="kwempty">没有匹配的推文。多个词用空格分隔(需都命中)。</div>';return;}
+  var desc=(cty?'国家「'+cty+'」':'')+(raw?(cty?' + ':'')+'关键词「'+raw+'」':'');
+  stat.textContent=hits.length+' 篇推文 · '+desc;
+  if(!hits.length){res.innerHTML='<div class="kwempty">没有匹配的推文。可只选国家、或只输关键词、或两者叠加。</div>';return;}
   res.innerHTML='<div class="kwrhd">检索结果 '+hits.length+' 篇 · 点标题看正文</div>'+hits.map(function(it){
     return '<div class="kwhit" onclick="openIns(\''+it.id+'\')">'
       +'<div class="kwhd1"><span class="kwtag t-'+_esc(it.type)+'">'+(TYPECN[it.type]||'')+'</span>'
@@ -226,7 +235,13 @@ function openIns(id){
   document.getElementById('insmodal').style.display='flex';
 }
 function closeIns(){document.getElementById('insmodal').style.display='none';}
-function kwClear(){var k=document.getElementById('kw');k.value='';kwSearch();k.focus();}
-(function(){var k=document.getElementById('kw');if(k){k.addEventListener('keydown',function(e){if(e.key==='Enter')kwSearch();});k.addEventListener('input',kwSearch);}
+function kwClear(){var k=document.getElementById('kw');k.value='';var c=document.getElementById('kwcty');if(c)c.value='';kwSearch();k.focus();}
+(function(){
+  var c=document.getElementById('kwcty');
+  if(c){var set={};(window.INS||[]).forEach(function(it){_ctys(it).forEach(function(x){set[x]=(set[x]||0)+1;});});
+    var arr=Object.keys(set).sort(function(a,b){return set[b]-set[a]||a.localeCompare(b,'zh');});
+    c.innerHTML='<option value="">全部国家/地区 ('+arr.length+')</option>'+arr.map(function(x){
+      return '<option value="'+_esc(x)+'">'+_esc(x)+' ('+set[x]+')</option>';}).join('');}
+  var k=document.getElementById('kw');if(k){k.addEventListener('keydown',function(e){if(e.key==='Enter')kwSearch();});k.addEventListener('input',kwSearch);}
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeIns();});})();
 </script></body></html>

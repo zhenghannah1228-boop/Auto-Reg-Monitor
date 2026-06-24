@@ -154,6 +154,7 @@ def render_theme(t, items, rlinks):
 
 SEARCH_BAR = ('<div class="kwbar">'
   '<input id="kw" placeholder="关键词检索:法规编号 / 主题 / 要点 / 国家…(回车或点检索)" autocomplete="off">'
+  '<select id="kwcty" class="kwsel" onchange="kwSearch()"><option value="">全部国家/地区</option></select>'
   '<button class="kwbtn" onclick="kwSearch()">🔍 检索</button>'
   '<button class="kwbtn ghost" onclick="kwClear()">清除</button>'
   '<span id="kwstat" class="kwstat"></span></div>')
@@ -164,15 +165,22 @@ function _esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,
 function _imgify(s){return s.replace(/\[img\](\S+)/g,'<a href="$1" target="_blank"><img class="kpimg" src="$1" loading="lazy"></a>');}
 function _hay(it){return [it.title,it.summary,(it.topics||[]).join(' '),(it.key_points||[]).join(' '),
   (it.regulations||[]).map(function(r){return (r.reg_no||'')+' '+(r.match_key||'');}).join(' ')].join(' ').toLowerCase();}
+function _ctys(it){var s={};(it.region_focus||[]).forEach(function(c){if(c)s[c]=1;});
+  (it.regulations||[]).forEach(function(r){if(r&&r.country)s[r.country]=1;});return Object.keys(s);}
 function kwSearch(){
   var raw=(document.getElementById('kw').value||'').trim().toLowerCase();
   var toks=raw.split(/\s+/).filter(Boolean);
+  var ctyEl=document.getElementById('kwcty'), cty=ctyEl?ctyEl.value:'';
   var res=document.getElementById('kwresults'), br=document.getElementById('browse'), stat=document.getElementById('kwstat');
-  if(!toks.length){res.style.display='none';br.style.display='';stat.textContent='';return;}
-  var hits=(window.INS||[]).filter(function(it){var h=_hay(it);return toks.every(function(t){return h.indexOf(t)>=0;});});
+  if(!toks.length && !cty){res.style.display='none';br.style.display='';stat.textContent='';return;}
+  var hits=(window.INS||[]).filter(function(it){
+    if(cty && _ctys(it).indexOf(cty)<0) return false;
+    if(toks.length){var h=_hay(it);if(!toks.every(function(t){return h.indexOf(t)>=0;}))return false;}
+    return true;});
   br.style.display='none';res.style.display='';
-  stat.textContent=hits.length+' 篇推文匹配「'+raw+'」';
-  if(!hits.length){res.innerHTML='<div class="kwempty">没有匹配的推文。多个词用空格分隔(需都命中)。</div>';return;}
+  var desc=(cty?'国家「'+cty+'」':'')+(raw?(cty?' + ':'')+'关键词「'+raw+'」':'');
+  stat.textContent=hits.length+' 篇推文 · '+desc;
+  if(!hits.length){res.innerHTML='<div class="kwempty">没有匹配的推文。可只选国家、或只输关键词、或两者叠加。</div>';return;}
   res.innerHTML='<div class="kwrhd">检索结果 '+hits.length+' 篇 · 点标题看正文</div>'+hits.map(function(it){
     return '<div class="kwhit" onclick="openIns(\''+it.id+'\')">'
       +'<div class="kwhd1"><span class="kwtag t-'+_esc(it.type)+'">'+(TYPECN[it.type]||'')+'</span>'
@@ -197,8 +205,14 @@ function openIns(id){
   document.getElementById('insmodal').style.display='flex';
 }
 function closeIns(){document.getElementById('insmodal').style.display='none';}
-function kwClear(){var k=document.getElementById('kw');k.value='';kwSearch();k.focus();}
-(function(){var k=document.getElementById('kw');if(k){k.addEventListener('keydown',function(e){if(e.key==='Enter')kwSearch();});k.addEventListener('input',kwSearch);}
+function kwClear(){var k=document.getElementById('kw');k.value='';var c=document.getElementById('kwcty');if(c)c.value='';kwSearch();k.focus();}
+(function(){
+  var c=document.getElementById('kwcty');
+  if(c){var set={};(window.INS||[]).forEach(function(it){_ctys(it).forEach(function(x){set[x]=(set[x]||0)+1;});});
+    var arr=Object.keys(set).sort(function(a,b){return set[b]-set[a]||a.localeCompare(b,'zh');});
+    c.innerHTML='<option value="">全部国家/地区 ('+arr.length+')</option>'+arr.map(function(x){
+      return '<option value="'+_esc(x)+'">'+_esc(x)+' ('+set[x]+')</option>';}).join('');}
+  var k=document.getElementById('kw');if(k){k.addEventListener('keydown',function(e){if(e.key==='Enter')kwSearch();});k.addEventListener('input',kwSearch);}
   document.addEventListener('keydown',function(e){if(e.key==='Escape')closeIns();});})();
 </script>"""
 
@@ -279,6 +293,8 @@ padding:9px 13px;border:1px solid var(--line);border-radius:8px;background:var(-
 .kwbtn{{font-family:var(--sans);font-size:12.5px;padding:9px 16px;border:1px solid var(--accent);
 background:var(--accent);color:#fff;border-radius:8px;cursor:pointer}}
 .kwbtn.ghost{{background:var(--panel);color:var(--ink);border-color:var(--line)}}
+.kwsel{{font-family:var(--sans);font-size:12.5px;padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--ink);max-width:200px}}
+.kwsel:focus{{border-color:var(--accent)}}
 .kwbtn:hover{{opacity:.9}}
 .kwstat{{font-family:var(--mono);font-size:11px;color:var(--muted)}}
 mark{{background:#ffe9a8;color:inherit;padding:0 1px;border-radius:2px}}
