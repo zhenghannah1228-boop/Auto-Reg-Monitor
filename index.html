@@ -1884,6 +1884,26 @@ const GROUP_STYLE={
 const GROUP_ORDER=["EU","FMVSS","CMVSS","KMVSS","ADR","JAPAN","GB","AIS","EAEU","NAT","hybrid","recognition"];
 function certGroupOf(rec){return rec.system_type==="own_full"?(STD_FAMILY[rec.country]||"NAT"):rec.system_type;}
 function certColorOf(rec){const g=GROUP_STYLE[certGroupOf(rec)];return g?g.color:"#d8d2c0";}
+/* 05 地图 ↔ 11 体系解读:某国相关解读(认证体系/制度类优先、越专一越靠前) */
+function certInsHits(country){
+  const hits=(_INSIGHTS||[]).filter(it=>typeof insCountries==="function"&&insCountries(it).has(country));
+  return hits.sort((a,b)=>((a.type==="system"?0:1)-(b.type==="system"?0:1))||(insCountries(a).size-insCountries(b).size));
+}
+function bestCertIns(country){const h=certInsHits(country);return h.length?{best:h[0],n:h.length}:null;}
+function certRegionClick(country){
+  const hits=certInsHits(country);
+  if(!hits.length){if(typeof CERT!=="undefined"&&CERT&&CERT[country]){pathGoto(country);}else{toast("暂无「"+country+"」体系解读");}return;}
+  if(hits.length===1){openInsModal(hits[0].id);return;}
+  const box=$("#insbox"),m=$("#insmodal");if(!box||!m){openInsModal(hits[0].id);return;}
+  m.style.display="flex";
+  box.innerHTML=`<span class="rc-x" onclick="closeInsModal()">×</span>
+    <h2 style="margin:0 24px 4px 0;font-size:18px">${esc(country)} · 认证体系相关解读</h2>
+    <div class="rc-meta" style="margin-bottom:12px">共 ${hits.length} 篇 · 点任一篇看全文</div>`
+    +hits.map(it=>`<div class="lk" style="display:block;padding:9px 11px;border:1px solid var(--line);border-radius:7px;margin-bottom:7px;cursor:pointer" onclick="openInsModal('${esc(String(it.id)).replace(/'/g,"\\'")}')">
+       <b style="color:var(--blue)">${esc(it.title)}</b> <span style="font-size:10px;color:var(--muted)">[${esc(INS_TYPE_LABEL[it.type]||it.type)}]</span>
+       ${it.summary?`<div style="font-size:11.5px;color:var(--muted);margin-top:3px;line-height:1.5">${esc(it.summary.slice(0,100))}…</div>`:""}</div>`).join("")
+    +((typeof CERT!=="undefined"&&CERT&&CERT[country])?`<div style="text-align:right;margin-top:4px"><span class="jbtn" style="background:var(--accent);color:#fff" onclick="closeInsModal();pathGoto('${esc(country).replace(/'/g,"\\'")}')">→ 09 认证金字塔:${esc(country)}</span></div>`:"");
+}
 /* 中文认证名 → world_geo.json 英文要素名(中国台湾/香港在该底图并入 China,组织条目不着色) */
 const CN2GEO={"马来西亚":"Malaysia","阿尔及利亚":"Algeria","日本":"Japan","韩国":"Korea","泰国":"Thailand","印度":"India","巴西":"Brazil","沙特":"Saudi Arabia","俄罗斯":"Russia","越南":"Vietnam","印度尼西亚":"Indonesia","菲律宾":"Philippines","阿联酋":"United Arab Emirates","土耳其":"Turkey","墨西哥":"Mexico","加拿大":"Canada","英国":"United Kingdom","德国":"Germany","南非":"South Africa","埃及":"Egypt","以色列":"Israel","智利":"Chile","阿根廷":"Argentina","哥伦比亚":"Colombia","秘鲁":"Peru","尼日利亚":"Nigeria","肯尼亚":"Kenya","摩洛哥":"Morocco","巴基斯坦":"Pakistan","孟加拉国":"Bangladesh","科威特":"Kuwait","卡塔尔":"Qatar","阿曼":"Oman","巴林":"Bahrain","约旦":"Jordan","乌克兰":"Ukraine","哈萨克斯坦":"Kazakhstan","乌兹别克斯坦":"Uzbekistan","伊拉克":"Iraq","斯里兰卡":"Sri Lanka","加纳":"Ghana","坦桑尼亚":"Tanzania","埃塞俄比亚":"Ethiopia","厄瓜多尔":"Ecuador","乌拉圭":"Uruguay","巴拉圭":"Paraguay","缅甸":"Myanmar","柬埔寨":"Cambodia","尼泊尔":"Nepal","突尼斯":"Tunisia","危地马拉":"Guatemala","哥斯达黎加":"Costa Rica","玻利维亚":"Bolivia","津巴布韦":"Zimbabwe","乌干达":"Uganda","格鲁吉亚":"Georgia","巴拿马":"Panama","多米尼加":"Dominican Rep.","喀麦隆":"Cameroon","美国":"United States","澳大利亚":"Australia","新西兰":"New Zealand","白俄罗斯":"Belarus","亚美尼亚":"Armenia","吉尔吉斯斯坦":"Kyrgyzstan","塔吉克斯坦":"Tajikistan","阿塞拜疆":"Azerbaijan","伊朗":"Iran","奥地利":"Austria","克罗地亚":"Croatia","立陶宛":"Lithuania","罗马尼亚":"Romania","爱沙尼亚":"Estonia","意大利":"Italy","挪威":"Norway","摩尔多瓦":"Moldova","新加坡":"Singapore","文莱":"Brunei","老挝":"Lao PDR","卢旺达":"Rwanda","布隆迪":"Burundi","新喀里多尼亚":"New Caledonia","萨尔瓦多":"El Salvador","中国":"China","塞尔维亚":"Serbia","利比亚":"Libya","巴布亚新几内亚":"Papua New Guinea","科特迪瓦":"Côte d'Ivoire","加蓬":"Gabon","多哥":"Togo","南苏丹":"S. Sudan","刚果(金)":"Dem. Rep. Congo","刚果(布)":"Congo"};
 /* 欧盟成员(无独立 cert 条目者按欧盟 EU-WVTA 体系着色,体现「同一体系同色」) */
@@ -1892,6 +1912,7 @@ async function buildCertMap(){
   if(typeof echarts==="undefined")return;
   const host=$("#certmapchart");if(!host)return;
   if(typeof loadCert==="function"){try{await loadCert();}catch(e){}}
+  if(typeof advLoadInsights==="function"){try{await advLoadInsights();}catch(e){}}
   if(typeof CERT==="undefined"||!CERT){host.innerHTML='<div class="bigmsg">认证体系数据未就绪</div>';return;}
   if(!_worldGeoReg){
     try{
@@ -1909,6 +1930,7 @@ async function buildCertMap(){
   const cnt={};
   const data=Object.entries(fill).map(([g,o])=>{
     const grp=certGroupOf(o.rec);cnt[grp]=(cnt[grp]||0)+1;
+    o.ins=bestCertIns(o.cn);
     return {name:g,value:GROUP_ORDER.indexOf(grp)+1,_o:o,
       itemStyle:{areaColor:certColorOf(o.rec)}};
   });
@@ -1930,7 +1952,8 @@ async function buildCertMap(){
           +(st==="own_full"?`<div style="color:#8d8674;font-size:11px;margin-top:-1px">类别:自有完整型式批准</div>`:"")
           +(d.summary?`<div style="color:#3a4a44;line-height:1.55;margin-top:4px">${esc(d.summary)}</div>`:"")
           +(auth?`<div style="color:#8d8674;margin-top:5px;font-size:11px">主管机构:${esc(auth)}</div>`:"")
-          +`<div style="color:#b3ac99;margin-top:5px;font-size:10.5px">点「09 认证金字塔」看完整体系层级</div>`;
+          +(o.ins?`<div style="color:#2f6d8c;margin-top:6px;font-size:11.5px;border-top:1px dashed #d8d2c0;padding-top:5px">📖 体系解读:${esc(o.ins.best.title)}${o.ins.n>1?` 等 ${o.ins.n} 篇`:""}</div>`:"")
+          +`<div style="color:#b3ac99;margin-top:5px;font-size:10.5px">${o.ins?"点击该地区 → 查看体系解读":"点「09 认证金字塔」看完整体系层级"}</div>`;
       }},
     series:[{
       type:"map",map:"world",roam:true,zoom:1.2,scaleLimit:{min:1,max:8},
@@ -1942,6 +1965,8 @@ async function buildCertMap(){
     }]
   };
   certMapChart.setOption(opt,true);
+  certMapChart.off("click");
+  certMapChart.on("click",p=>{const o=p.data&&p.data._o;if(o)certRegionClick(o.cn);});
   setTimeout(()=>{if(certMapChart)certMapChart.resize();},50);
   const total=Object.values(cnt).reduce((a,b)=>a+b,0);
   if($("#certmapstats"))$("#certmapstats").textContent=`已着色 ${total} 个国家/地区 · 自有完整型式按标准体系细分 · `;
