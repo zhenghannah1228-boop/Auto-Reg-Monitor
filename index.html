@@ -6,6 +6,7 @@
 <title>汽车法规库监控台 · 60国×10维度</title>
 <script src="./xlsx.full.min.js"></script>
 <script src="./echarts.min.js"></script>
+<script src="./vendor/pdfjs/pdf.min.js"></script>
 <script src="./config.js"></script>
 <style>
 :root{
@@ -793,15 +794,15 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="pane" id="p-cmp">
     <div class="card">
-      <h3>法规对比阅读器 <span class="hint">粘贴(或📎载入)两组同主题、不同国家的法规原文 → 调色板高亮事实异同 + 关键词检索 + 核心异同点对比表</span></h3>
+      <h3>法规对比阅读器 <span class="hint">粘贴或 📎 载入(txt / PDF,自动提取文字)两组同主题、不同国家的法规原文 → 调色板高亮事实异同 + 关键词检索 + 核心异同点对比表</span></h3>
       <div id="cmp-txtctrl">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <div>
-            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-la" class="csel" style="flex:1" placeholder="左组标签 如:中国·GB 38031"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv" style="display:none" onchange="cmpLoadFile(this,'cmpt-a')"></label></div>
+            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-la" class="csel" style="flex:1" placeholder="左组标签 如:中国·GB 38031"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv,.pdf" style="display:none" onchange="cmpLoadFile(this,'cmpt-a')"></label></div>
             <textarea id="cmpt-a" class="cmpta" placeholder="粘贴左组法规原文(可多条同主题不同国家,直接拼接粘贴)"></textarea>
           </div>
           <div>
-            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-lb" class="csel" style="flex:1" placeholder="右组标签 如:欧盟·UN R100"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv" style="display:none" onchange="cmpLoadFile(this,'cmpt-b')"></label></div>
+            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-lb" class="csel" style="flex:1" placeholder="右组标签 如:欧盟·UN R100"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv,.pdf" style="display:none" onchange="cmpLoadFile(this,'cmpt-b')"></label></div>
             <textarea id="cmpt-b" class="cmpta" placeholder="粘贴右组法规原文"></textarea>
           </div>
         </div>
@@ -3110,7 +3111,39 @@ function setCmpView(v){
   if($("#cmp-body"))$("#cmp-body").style.display=v==="lib"?"":"none";
   if($("#cmp-txtbody"))$("#cmp-txtbody").style.display=v==="txt"?"":"none";
 }
-function cmpLoadFile(inp,target){const f=inp.files&&inp.files[0];if(!f)return;const r=new FileReader();r.onload=e=>{const t=$("#"+target);if(t)t.value=e.target.result;};r.readAsText(f);}
+function cmpLoadFile(inp,target){
+  const f=inp.files&&inp.files[0];if(!f)return;
+  const t=$("#"+target);if(!t)return;
+  const isPdf=/\.pdf$/i.test(f.name)||f.type==="application/pdf";
+  if(isPdf){
+    if(typeof pdfjsLib==="undefined"){t.value="[PDF 解析库未载入,请改粘贴文本]";return;}
+    const ph=t.placeholder;t.value="";t.placeholder="正在解析 PDF…";
+    try{pdfjsLib.GlobalWorkerOptions.workerSrc="./vendor/pdfjs/pdf.worker.min.js";}catch(e){}
+    const fr=new FileReader();
+    fr.onload=async e=>{
+      try{
+        const pdf=await pdfjsLib.getDocument({data:new Uint8Array(e.target.result)}).promise;
+        let out="";
+        for(let i=1;i<=pdf.numPages;i++){
+          const pg=await pdf.getPage(i);
+          const tc=await pg.getTextContent();
+          // 按 y 坐标分行重组,避免所有词挤成一行
+          let lastY=null,line="";const lines=[];
+          tc.items.forEach(it=>{const s=it.str;if(s===undefined)return;const y=it.transform[5];
+            if(lastY!==null&&Math.abs(y-lastY)>3){lines.push(line);line=s;}else{line+=s;}
+            lastY=y;if(it.hasEOL){lines.push(line);line="";lastY=null;}});
+          if(line)lines.push(line);
+          out+=lines.join("\n")+"\n";
+        }
+        t.value=out.trim()||"[该 PDF 无可提取文字(可能为扫描件,需 OCR);请改粘贴文本]";
+      }catch(err){t.value="[PDF 解析失败:"+String(err.message||err).slice(0,80)+"]";}
+      t.placeholder=ph;
+    };
+    fr.readAsArrayBuffer(f);
+  }else{
+    const r=new FileReader();r.onload=e=>{t.value=e.target.result;};r.readAsText(f);
+  }
+}
 function cmpClearText(){["cmpt-a","cmpt-b","cmpt-q","cmpt-la","cmpt-lb"].forEach(id=>{if($("#"+id))$("#"+id).value="";});if($("#cmp-txtbody"))$("#cmp-txtbody").innerHTML="";_cmpTxt=null;}
 /* 事实锚点正则:标准引用 / 数值带单位 / 日期 */
 const CMP_REF_RE=/(?:UN\s?R|ECE\s?R)\s?\.?\s?\d{1,3}\b|GB\s?\/?T?\s?\d{4,5}(?:\.\d+)?(?:-\d{4})?|ISO\s?\d{3,5}(?:-\d+)?|IEC\s?\d{3,5}(?:-\d+)?|FMVSS\s?\d{3}|GTR\s?\d+|EN\s?\d{3,5}|SAE\s?J\d+|PNS\s?\d+|AIS[\s-]?\d+/gi;
