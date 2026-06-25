@@ -798,11 +798,11 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div id="cmp-txtctrl">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <div>
-            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-la" class="csel" style="flex:1" placeholder="左组标签 如:中国·GB 38031"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv,.pdf" style="display:none" onchange="cmpLoadFile(this,'cmpt-a')"></label></div>
+            <div style="display:flex;gap:6px;margin-bottom:5px;align-items:center"><input id="cmpt-la" class="csel" style="flex:1" placeholder="左组标签 如:中国·GB 38031"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv,.pdf" style="display:none" onchange="cmpLoadFile(this,'cmpt-a','a')"></label><span id="cmppv-a"></span></div>
             <textarea id="cmpt-a" class="cmpta" placeholder="粘贴左组法规原文(可多条同主题不同国家,直接拼接粘贴)"></textarea>
           </div>
           <div>
-            <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-lb" class="csel" style="flex:1" placeholder="右组标签 如:欧盟·UN R100"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv,.pdf" style="display:none" onchange="cmpLoadFile(this,'cmpt-b')"></label></div>
+            <div style="display:flex;gap:6px;margin-bottom:5px;align-items:center"><input id="cmpt-lb" class="csel" style="flex:1" placeholder="右组标签 如:欧盟·UN R100"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv,.pdf" style="display:none" onchange="cmpLoadFile(this,'cmpt-b','b')"></label><span id="cmppv-b"></span></div>
             <textarea id="cmpt-b" class="cmpta" placeholder="粘贴右组法规原文"></textarea>
           </div>
         </div>
@@ -3111,9 +3111,11 @@ function setCmpView(v){
   if($("#cmp-body"))$("#cmp-body").style.display=v==="lib"?"":"none";
   if($("#cmp-txtbody"))$("#cmp-txtbody").style.display=v==="txt"?"":"none";
 }
-function cmpLoadFile(inp,target){
+let _cmpPdf={a:null,b:null};
+function cmpLoadFile(inp,target,side){
   const f=inp.files&&inp.files[0];if(!f)return;
   const t=$("#"+target);if(!t)return;
+  const pv=side?$("#cmppv-"+side):null;if(pv)pv.innerHTML="";if(side)_cmpPdf[side]=null;
   const isPdf=/\.pdf$/i.test(f.name)||f.type==="application/pdf";
   if(isPdf){
     if(typeof pdfjsLib==="undefined"){t.value="[PDF 解析库未载入,请改粘贴文本]";return;}
@@ -3123,19 +3125,22 @@ function cmpLoadFile(inp,target){
     fr.onload=async e=>{
       try{
         const pdf=await pdfjsLib.getDocument({data:new Uint8Array(e.target.result)}).promise;
-        let out="";
+        let out="",imgPages=[];
+        const IMGOPS=[pdfjsLib.OPS.paintImageXObject,pdfjsLib.OPS.paintInlineImage,pdfjsLib.OPS.paintImageMaskXObject].filter(x=>x!==undefined);
         for(let i=1;i<=pdf.numPages;i++){
           const pg=await pdf.getPage(i);
           const tc=await pg.getTextContent();
-          // 按 y 坐标分行重组,避免所有词挤成一行
           let lastY=null,line="";const lines=[];
           tc.items.forEach(it=>{const s=it.str;if(s===undefined)return;const y=it.transform[5];
             if(lastY!==null&&Math.abs(y-lastY)>3){lines.push(line);line=s;}else{line+=s;}
             lastY=y;if(it.hasEOL){lines.push(line);line="";lastY=null;}});
           if(line)lines.push(line);
           out+=lines.join("\n")+"\n";
+          try{const ol=await pg.getOperatorList();if(ol.fnArray.some(fn=>IMGOPS.includes(fn)))imgPages.push(i);}catch(_){}
         }
         t.value=out.trim()||"[该 PDF 无可提取文字(可能为扫描件,需 OCR);请改粘贴文本]";
+        if(side){_cmpPdf[side]={file:f,nPages:pdf.numPages,imgPages};
+          if(pv&&imgPages.length)pv.innerHTML=`<span class="rc-reglink" style="white-space:nowrap" onclick="cmpPdfPreview('${side}')" title="该PDF含图/示意图,文本对比抓不到——点此渲染原文页查看">📄 ${imgPages.length}页含图·预览</span>`;}
       }catch(err){t.value="[PDF 解析失败:"+String(err.message||err).slice(0,80)+"]";}
       t.placeholder=ph;
     };
@@ -3144,7 +3149,35 @@ function cmpLoadFile(inp,target){
     const r=new FileReader();r.onload=e=>{t.value=e.target.result;};r.readAsText(f);
   }
 }
-function cmpClearText(){["cmpt-a","cmpt-b","cmpt-q","cmpt-la","cmpt-lb"].forEach(id=>{if($("#"+id))$("#"+id).value="";});if($("#cmp-txtbody"))$("#cmp-txtbody").innerHTML="";_cmpTxt=null;}
+/* 渲染含图原文页为图片(文本层抓不到示意图时,可视化查看/对照) */
+async function cmpPdfPreview(side){
+  const info=_cmpPdf[side];if(!info||typeof pdfjsLib==="undefined")return;
+  const box=$("#insbox"),m=$("#insmodal");if(!box||!m)return;
+  m.style.display="flex";
+  const lbl=(side==="a"?($("#cmpt-la")&&$("#cmpt-la").value):($("#cmpt-lb")&&$("#cmpt-lb").value))||(side==="a"?"左组":"右组");
+  box.innerHTML=`<span class="rc-x" onclick="closeInsModal()">×</span>
+    <h2 style="margin:0 24px 4px 0;font-size:18px">原文页 / 示意图预览 — ${esc(lbl)}</h2>
+    <div class="rc-meta" style="margin-bottom:10px">${esc(info.file.name)} · 共 ${info.nPages} 页,其中含图页:${info.imgPages.join("、")||"无"} · 文本对比仅比文字,图/示意图需在此目视对照(或截图交 AI 做语义对比)</div>
+    <div id="cmppv-body" style="display:flex;flex-direction:column;gap:10px"></div>`;
+  const body=$("#cmppv-body");
+  try{
+    const buf=await info.file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(buf)}).promise;
+    const pages=info.imgPages.length?info.imgPages:Array.from({length:Math.min(info.nPages,8)},(_,i)=>i+1);
+    for(const i of pages){
+      const pg=await pdf.getPage(i);
+      const vp=pg.getViewport({scale:1.3});
+      const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;
+      cv.style.cssText="max-width:100%;border:1px solid var(--line);border-radius:6px";
+      await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise;
+      const wrap=document.createElement("div");
+      wrap.innerHTML=`<div style="font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:3px">第 ${i} 页${info.imgPages.includes(i)?" · 含图":""}</div>`;
+      wrap.appendChild(cv);body.appendChild(wrap);
+    }
+    if(!pages.length)body.innerHTML='<div class="bigmsg">未检测到含图页</div>';
+  }catch(err){if(body)body.innerHTML='<div class="bigmsg">渲染失败:'+esc(String(err.message||err).slice(0,80))+'</div>';}
+}
+function cmpClearText(){["cmpt-a","cmpt-b","cmpt-q","cmpt-la","cmpt-lb"].forEach(id=>{if($("#"+id))$("#"+id).value="";});["a","b"].forEach(s=>{if($("#cmppv-"+s))$("#cmppv-"+s).innerHTML="";_cmpPdf[s]=null;});if($("#cmp-txtbody"))$("#cmp-txtbody").innerHTML="";_cmpTxt=null;}
 /* 事实锚点正则:标准引用 / 数值带单位 / 日期 */
 const CMP_REF_RE=/(?:UN\s?R|ECE\s?R)\s?\.?\s?\d{1,3}\b|GB\s?\/?T?\s?\d{4,5}(?:\.\d+)?(?:-\d{4})?|ISO\s?\d{3,5}(?:-\d+)?|IEC\s?\d{3,5}(?:-\d+)?|FMVSS\s?\d{3}|GTR\s?\d+|EN\s?\d{3,5}|SAE\s?J\d+|PNS\s?\d+|AIS[\s-]?\d+/gi;
 const CMP_NUM_RE=/\d+(?:[.,]\d+)?\s?(?:°C|℃|km\/h|km|kWh|kW|kg|mm|cm|kPa|MPa|bar|dB\(?A?\)?|dB|Hz|kV|mA|V|A|%|min|分钟|秒|小时|h|years?|年|个月|月|日|天|g|mg|N·m|Nm|N|L|ml|m\/s²|m\/s2|倍|项|次|°)(?![a-z])/gi;
