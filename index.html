@@ -3347,25 +3347,38 @@ function renderRegCompare(id){
   const body=$("#cmp-deep-body");if(!body)return;
   if(!id){body.innerHTML="";return;}
   const it=(_regCmp||[]).find(x=>x.id===id);if(!it){body.innerHTML='<div class="bigmsg">未找到</div>';return;}
-  const vcol=v=>/不同|differ/i.test(v)?"#a8401f":(/部分|partial/i.test(v)?"#c79a2e":"#2f6d8c");
-  const rows=(it.rows||[]).map(r=>`<tr>
+  const qcol=v=>{v=String(v||"");
+    if(/更严|GB\s*独有/.test(v))return"#a8401f";
+    if(/更宽|UN\s*独有/.test(v))return"#2f6d8c";
+    if(/等同|相同/.test(v))return"#5a8a4a";
+    if(/部分/.test(v))return"#c79a2e";
+    return"#7a7f6a";};
+  const rows=(it.rows||[]).map(r=>{
+    const q=r.qual||r.verdict||"";
+    return `<tr>
     <td style="font-weight:700;white-space:nowrap">${esc(r.point||"")}</td>
-    <td style="font-size:12.5px;line-height:1.55">${esc(r.a||"")}</td>
-    <td style="font-size:12.5px;line-height:1.55">${esc(r.b||"")}</td>
-    <td class="c" style="font-weight:800;color:${vcol(r.verdict||"")}">${esc(r.verdict||"")}</td>
-    <td style="font-size:11.5px;color:var(--muted)">${esc(r.note||"")}</td></tr>`).join("");
+    <td style="font-size:12px;line-height:1.5">${esc(r.a||"")}</td>
+    <td style="font-size:12px;line-height:1.5">${esc(r.b||"")}</td>
+    <td class="c" style="font-weight:800;white-space:nowrap;color:${qcol(q)}">${esc(q)}</td>
+    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.essence||r.note||"")}</td>
+    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.intent||"")}</td>
+    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.eng||"")}</td></tr>`;}).join("");
   body.innerHTML=`${it.demo?'<div style="background:#fff7e6;border:1px solid #e6d39a;border-radius:6px;padding:6px 10px;font-size:11.5px;color:#8a6510;margin-bottom:8px">格式示例 · 演示输出长什么样,非权威法规结论</div>':""}
     <div style="font-weight:800;font-size:15px;margin-bottom:2px">${esc(it.title||"")}</div>
     <div class="rc-meta" style="margin-bottom:8px">${esc(it.groupA||"")} <b style="color:var(--accent)">VS</b> ${esc(it.groupB||"")}${it.topic?" · 主题:"+esc(it.topic):""}</div>
     ${it.summary?`<div style="background:var(--panel2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:10px">${esc(it.summary)}</div>`:""}
-    <table class="cmptbl"><thead><tr><th style="width:108px">比较点</th><th>${esc(it.groupA||"A")}</th><th>${esc(it.groupB||"B")}</th><th style="width:60px">异同</th><th>说明</th></tr></thead><tbody>${rows}</tbody></table>`;
+    <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:4px">差异定性:<b style="color:#a8401f">更严/GB独有</b> · <b style="color:#2f6d8c">更宽/UN独有</b> · <b style="color:#5a8a4a">等同</b> · <b style="color:#c79a2e">部分</b> · 表格可横向滚动</div>
+    <div style="overflow-x:auto"><table class="cmptbl" style="min-width:1100px"><thead><tr>
+      <th style="width:96px">比较点</th><th style="min-width:150px">${esc(it.groupA||"A")} 规定</th><th style="min-width:150px">${esc(it.groupB||"B")} 规定</th>
+      <th style="width:74px">差异定性</th><th style="min-width:160px">差异本质(为何有此差异)</th><th style="min-width:150px">立法意图(防什么)</th><th style="min-width:190px">对产品的工程含义</th>
+    </tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function copyCmpPrompt(){
   const ta=($("#cmpt-a")?$("#cmpt-a").value:"")||"",tb=($("#cmpt-b")?$("#cmpt-b").value:"")||"";
   const la=($("#cmpt-la")&&$("#cmpt-la").value.trim())||"左组",lb=($("#cmpt-lb")&&$("#cmpt-lb").value.trim())||"右组";
   const tip=$("#cmp-prompt-tip");
   if(!ta.trim()&&!tb.trim()){if(tip)tip.textContent="⚠ 请先在上方两栏粘贴原文";return;}
-  const prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。输出『核心异同点对照表』(每行:比较点 / ${la} 规定 / ${lb} 规定 / 异同[相同·不同·部分相同] / 说明),并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows)。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
+  const prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。逐条输出『核心异同点对照表』,每行(row)含以下字段:\n- point:比较点\n- a:${la} 的规定\n- b:${lb} 的规定\n- qual:差异定性(取值之一:等同 / 更严 / 更宽 / ${la}独有 / ${lb}独有 / 部分等同)\n- essence:差异本质(为什么会有这个差异——立法体系/技术路线/历史沿革等)\n- intent:立法意图(这一条要防什么风险)\n- eng:对产品的工程含义(满足一方是否自动满足另一方;若不能,说明只满足一方时无法满足另一方的约束条件/需补做什么)\n并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows[{point,a,b,qual,essence,intent,eng}])。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
   const done=()=>{if(tip)tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
