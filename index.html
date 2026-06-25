@@ -814,6 +814,17 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       </div>
     </div>
     <div id="cmp-txtbody"></div>
+    <div class="card" style="margin-top:12px;border-left:4px solid var(--blue)">
+      <h3>深度语义对比(AI 生成) <span class="hint">浏览器只能做事实级 palette;『表意一致/事实不同』的逐条专家对照表由 AI 生成。零CDN 静态站无法实时调 AI,用下面按钮一键打包提交</span></h3>
+      <div class="netctrl">
+        <button class="btn primary" onclick="copyCmpPrompt()">📋 复制对比指令(打包上方两组原文给 Claude)</button>
+        <select class="csel" id="cmp-deep-sel" onchange="renderRegCompare(this.value)" style="min-width:200px"><option value="">已生成的深度对比…</option></select>
+        <button class="btn light" onclick="loadRegCompare(true)">↻ 刷新</button>
+        <span id="cmp-prompt-tip" style="font-size:11px;color:var(--accent);font-family:var(--mono)"></span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-top:5px">流程:① 上方两栏粘贴/载入原文 → ② 点「复制对比指令」→ ③ 粘贴到 Claude 对话发送 → ④ 生成的对照表写回看板 data/reg_compare.json,点「↻ 刷新」即在上方下拉里查看。</div>
+      <div id="cmp-deep-body" style="margin-top:10px"></div>
+    </div>
   </div>
 
   <div class="pane" id="p-path">
@@ -3177,6 +3188,44 @@ function cmpHighlightSearch(){
   if(a)a.innerHTML=cmpRenderCol(_cmpTxt.ta,_cmpTxt.tb,_cmpTxt.sh,q);
   if(b)b.innerHTML=cmpRenderCol(_cmpTxt.tb,_cmpTxt.ta,_cmpTxt.sh,q);
 }
+/* ===== 12-B 深度语义对比表(AI 生成,存 data/reg_compare.json,看板渲染) ===== */
+let _regCmp=null;
+async function loadRegCompare(force){
+  try{const r=await fetch("./data/reg_compare.json"+(force?"?t="+Date.now():""));const d=await r.json();_regCmp=d.items||[];}
+  catch(e){_regCmp=[];}
+  const sel=$("#cmp-deep-sel");if(sel){const cur=sel.value;
+    sel.innerHTML='<option value="">已生成的深度对比('+_regCmp.length+')…</option>'+_regCmp.map(it=>`<option value="${esc(it.id)}">${esc(it.title||it.id)}</option>`).join("");
+    if(cur&&_regCmp.some(i=>i.id===cur))sel.value=cur;}
+  return _regCmp;
+}
+function renderRegCompare(id){
+  const body=$("#cmp-deep-body");if(!body)return;
+  if(!id){body.innerHTML="";return;}
+  const it=(_regCmp||[]).find(x=>x.id===id);if(!it){body.innerHTML='<div class="bigmsg">未找到</div>';return;}
+  const vcol=v=>/不同|differ/i.test(v)?"#a8401f":(/部分|partial/i.test(v)?"#c79a2e":"#2f6d8c");
+  const rows=(it.rows||[]).map(r=>`<tr>
+    <td style="font-weight:700;white-space:nowrap">${esc(r.point||"")}</td>
+    <td style="font-size:12.5px;line-height:1.55">${esc(r.a||"")}</td>
+    <td style="font-size:12.5px;line-height:1.55">${esc(r.b||"")}</td>
+    <td class="c" style="font-weight:800;color:${vcol(r.verdict||"")}">${esc(r.verdict||"")}</td>
+    <td style="font-size:11.5px;color:var(--muted)">${esc(r.note||"")}</td></tr>`).join("");
+  body.innerHTML=`${it.demo?'<div style="background:#fff7e6;border:1px solid #e6d39a;border-radius:6px;padding:6px 10px;font-size:11.5px;color:#8a6510;margin-bottom:8px">格式示例 · 演示输出长什么样,非权威法规结论</div>':""}
+    <div style="font-weight:800;font-size:15px;margin-bottom:2px">${esc(it.title||"")}</div>
+    <div class="rc-meta" style="margin-bottom:8px">${esc(it.groupA||"")} <b style="color:var(--accent)">VS</b> ${esc(it.groupB||"")}${it.topic?" · 主题:"+esc(it.topic):""}</div>
+    ${it.summary?`<div style="background:var(--panel2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:10px">${esc(it.summary)}</div>`:""}
+    <table class="cmptbl"><thead><tr><th style="width:108px">比较点</th><th>${esc(it.groupA||"A")}</th><th>${esc(it.groupB||"B")}</th><th style="width:60px">异同</th><th>说明</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function copyCmpPrompt(){
+  const ta=($("#cmpt-a")?$("#cmpt-a").value:"")||"",tb=($("#cmpt-b")?$("#cmpt-b").value:"")||"";
+  const la=($("#cmpt-la")&&$("#cmpt-la").value.trim())||"左组",lb=($("#cmpt-lb")&&$("#cmpt-lb").value.trim())||"右组";
+  const tip=$("#cmp-prompt-tip");
+  if(!ta.trim()&&!tb.trim()){if(tip)tip.textContent="⚠ 请先在上方两栏粘贴原文";return;}
+  const prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。输出『核心异同点对照表』(每行:比较点 / ${la} 规定 / ${lb} 规定 / 异同[相同·不同·部分相同] / 说明),并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows)。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
+  const done=()=>{if(tip)tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+  else{cmpFallbackCopy(prompt);done();}
+}
+function cmpFallbackCopy(t){try{const e=document.createElement("textarea");e.value=t;document.body.appendChild(e);e.select();document.execCommand("copy");document.body.removeChild(e);}catch(_){}}
 function renderCmp(){
   const body=$("#cmp-body");if(!body)return;
   const a=$("#cmp-a").value,b=$("#cmp-b").value,df=$("#cmp-dim").value;
@@ -3868,7 +3917,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-advisor"){advInitEgs();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
   if(t.dataset.p==="p-recall"){if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls();}
   if(t.dataset.p==="p-evpol"){if(!_evpol)loadEvPol().then(renderEvPol);else renderEvPol();}
-  if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");}
+  if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
 (function(){const ai=$("#adv-q");if(ai)ai.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();askAdvisor();}});})();
