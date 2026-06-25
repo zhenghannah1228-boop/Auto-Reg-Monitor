@@ -793,23 +793,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
   <div class="pane" id="p-cmp">
     <div class="card">
-      <h3>法规对比 <span class="hint">库内维度对比(按国家组自动比对标准对标) · 文本对比阅读器(粘贴两组原文,调色板高亮异同 + 核心异同点表)</span></h3>
-      <div class="seg" style="margin-bottom:4px">
-        <button id="cmpv-lib" class="on" onclick="setCmpView('lib')">📊 库内维度对比</button>
-        <button id="cmpv-txt" onclick="setCmpView('txt')">📖 文本对比阅读器</button>
-      </div>
-      <div id="cmp-libctrl">
-        <div class="netctrl">
-          <select class="csel" id="cmp-a" onchange="renderCmp()" style="min-width:150px"></select>
-          <span style="font-family:var(--serif);font-weight:900;color:var(--accent)">VS</span>
-          <select class="csel" id="cmp-b" onchange="renderCmp()" style="min-width:150px"></select>
-          <select class="csel" id="cmp-dim" onchange="renderCmp()" title="只比对某一维度">
-            <option value="">全部维度</option></select>
-          <button class="btn light" onclick="swapCmp()">⇄ 交换</button>
-        </div>
-        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">相同点=两组都对标同一国际标准(UN R/GTR/FMVSS/GB)→ 视为等效条款;差异点=仅一方覆盖的维度或仅一方对标的标准。等效映射点编号可跳转国家详情。</div>
-      </div>
-      <div id="cmp-txtctrl" style="display:none">
+      <h3>法规对比阅读器 <span class="hint">粘贴(或📎载入)两组同主题、不同国家的法规原文 → 调色板高亮事实异同 + 关键词检索 + 核心异同点对比表</span></h3>
+      <div id="cmp-txtctrl">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <div>
             <div style="display:flex;gap:6px;margin-bottom:5px"><input id="cmpt-la" class="csel" style="flex:1" placeholder="左组标签 如:中国·GB 38031"><label class="btn light" style="cursor:pointer">📎<input type="file" accept=".txt,.md,.csv" style="display:none" onchange="cmpLoadFile(this,'cmpt-a')"></label></div>
@@ -825,11 +810,10 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
           <input id="cmpt-q" class="csel" style="min-width:200px" placeholder="关键词检索(两侧黄色高亮)" oninput="cmpHighlightSearch()">
           <button class="btn light" onclick="cmpClearText()">清空</button>
         </div>
-        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">调色板:<b style="background:#d8efd0;padding:0 4px;border-radius:3px">绿=两侧共有</b> <b style="background:#fde4cf;padding:0 4px;border-radius:3px">橙=仅本侧独有</b>(数值+单位、标准引用 UN R/GB/ISO/FMVSS…);整行在两侧都出现时左侧绿条标「相同条款」。检索词黄色高亮。</div>
+        <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">调色板:<b style="background:#d8efd0;padding:0 4px;border-radius:3px">绿=两侧共有</b> <b style="background:#fde4cf;padding:0 4px;border-radius:3px">橙=仅本侧独有</b>(数值+单位、标准引用 UN R/GB/ISO/FMVSS…,跨语言归一);整行在两侧都出现时左侧绿条标「相同条款」。检索词黄色高亮。</div>
       </div>
     </div>
-    <div id="cmp-body"><div class="bigmsg">选择左右两个国家/地区开始对比</div></div>
-    <div id="cmp-txtbody" style="display:none"></div>
+    <div id="cmp-txtbody"></div>
   </div>
 
   <div class="pane" id="p-path">
@@ -3884,14 +3868,14 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-advisor"){advInitEgs();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
   if(t.dataset.p==="p-recall"){if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls();}
   if(t.dataset.p==="p-evpol"){if(!_evpol)loadEvPol().then(renderEvPol);else renderEvPol();}
-  if(t.dataset.p==="p-cmp")renderCmp();
+  if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
 (function(){const ai=$("#adv-q");if(ai)ai.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();askAdvisor();}});})();
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
 /* 给所有国家下拉加输入筛选(免滚动翻找);备忘的国家输入框本就是 datalist 可输入,跳过 */
-["csel","netcsel","treecsel","txtcty","cond-cty","chain-cty","pyr-sel","memo-fcty","cmp-a","cmp-b","path-anchor"].forEach(enhanceCountrySelect);
+["csel","netcsel","treecsel","txtcty","cond-cty","chain-cty","pyr-sel","memo-fcty","path-anchor"].forEach(enhanceCountrySelect);
 
 (async function init(){
   try{
