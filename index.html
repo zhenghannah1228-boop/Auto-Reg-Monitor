@@ -813,6 +813,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
           <button class="btn light" onclick="cmpClearText()">清空</button>
         </div>
         <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">调色板:<b style="background:#d8efd0;padding:0 4px;border-radius:3px">绿=两侧共有</b> <b style="background:#fde4cf;padding:0 4px;border-radius:3px">橙=仅本侧独有</b>(数值+单位、标准引用 UN R/GB/ISO/FMVSS…,跨语言归一);整行在两侧都出现时左侧绿条标「相同条款」。检索词黄色高亮。</div>
+        <div id="cmp-sec-banner" style="display:none;margin-top:8px;background:#fbeee4;border:1px solid var(--accent);border-radius:6px;padding:8px 12px;font-size:12px;line-height:1.6"></div>
       </div>
     </div>
     <div id="cmp-txtbody"></div>
@@ -3335,39 +3336,85 @@ function cmpHighlightSearch(){
 }
 /* ===== 12-B 深度语义对比表(AI 生成,存 data/reg_compare.json,看板渲染) ===== */
 let _regCmp=null;
+let _cmpSecParent=null;
+/* 二次对比:从某行『▶ 发起二次对比』进入,把双方所引用的标准带入文本对比区,
+   复制对比指令时会指示 AI 写回子 item(parent 指向母行)并回填母行严宽结论 */
+function cmpSecondaryStart(pid,point,ra,rb){
+  _cmpSecParent={id:pid,point:point||"",a:ra||"",b:rb||""};
+  if(typeof setCmpView==="function")setCmpView("txt");
+  if($("#cmpt-la"))$("#cmpt-la").value=ra||"";
+  if($("#cmpt-lb"))$("#cmpt-lb").value=rb||"";
+  if($("#cmpt-a"))$("#cmpt-a").value="";
+  if($("#cmpt-b"))$("#cmpt-b").value="";
+  ["a","b"].forEach(s=>{if($("#cmppv-"+s))$("#cmppv-"+s).innerHTML="";if(_cmpPdf)_cmpPdf[s]=null;});
+  if($("#cmp-txtbody"))$("#cmp-txtbody").innerHTML="";
+  const bn=$("#cmp-sec-banner");
+  if(bn){bn.style.display="";
+    bn.innerHTML=`🔍 <b>二次对比模式</b> · 母对比「${esc((( _regCmp||[]).find(x=>x.id===pid)||{}).title||pid)}」的<b>「${esc(point||"")}」</b>行<br>请在上方两栏分别粘贴/载入 <b>${esc(ra||"")}</b> 与 <b>${esc(rb||"")}</b> 的正文 → 点「📋 复制对比指令」提交 → 生成的子表会回挂该行并修正其严宽结论。 <span class="lk" style="color:var(--blue);cursor:pointer;font-weight:700" onclick="cmpSecondaryExit()">退出二次对比</span>`;}
+  const tip=$("#cmp-prompt-tip");if(tip)tip.textContent="";
+  const ctrl=$("#cmp-txtctrl");if(ctrl&&ctrl.scrollIntoView)ctrl.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function cmpSecondaryExit(){
+  _cmpSecParent=null;
+  const bn=$("#cmp-sec-banner");if(bn){bn.style.display="none";bn.innerHTML="";}
+  const tip=$("#cmp-prompt-tip");if(tip)tip.textContent="";
+}
 async function loadRegCompare(force){
   try{const r=await fetch("./data/reg_compare.json"+(force?"?t="+Date.now():""));const d=await r.json();_regCmp=d.items||[];}
   catch(e){_regCmp=[];}
   const sel=$("#cmp-deep-sel");if(sel){const cur=sel.value;
-    sel.innerHTML='<option value="">已生成的深度对比('+_regCmp.length+')…</option>'+_regCmp.map(it=>`<option value="${esc(it.id)}">${esc(it.title||it.id)}</option>`).join("");
+    const tops=_regCmp.filter(x=>!x.parent);
+    sel.innerHTML='<option value="">已生成的深度对比('+tops.length+')…</option>'+tops.map(it=>`<option value="${esc(it.id)}">${esc(it.title||it.id)}</option>`).join("");
     if(cur&&_regCmp.some(i=>i.id===cur))sel.value=cur;}
   return _regCmp;
 }
+function cmpQcol(v){v=String(v||"");
+  if(/等同/.test(v))return"#5a8a4a";
+  if(/部分/.test(v))return"#c79a2e";
+  if(/GB.*(更严|独有|更细|更多)/.test(v))return"#a8401f";
+  if(/UN.*(更严|独有|更细|更多)|GB.*更宽/.test(v))return"#2f6d8c";
+  return"#7a7f6a";}
+function cmpRowTr(r){
+  const q=r.qual||r.verdict||"";
+  return `<tr>
+    <td style="font-weight:700;white-space:nowrap">${esc(r.point||"")}</td>
+    <td style="font-size:12px;line-height:1.5">${esc(r.a||"")}</td>
+    <td style="font-size:12px;line-height:1.5">${esc(r.b||"")}</td>
+    <td class="c" style="font-weight:800;white-space:nowrap;color:${cmpQcol(q)}">${esc(q)}</td>
+    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.essence||r.note||"")}</td>
+    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.intent||"")}</td>
+    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.eng||"")}</td></tr>`;
+}
+function cmpTableHtml(it){
+  const rows=(it.rows||[]).map(cmpRowTr).join("");
+  return `<div style="overflow-x:auto"><table class="cmptbl" style="min-width:900px"><thead><tr>
+    <th style="width:96px">比较点</th><th style="min-width:140px">${esc(it.groupA||"A")}</th><th style="min-width:140px">${esc(it.groupB||"B")}</th>
+    <th style="width:74px">差异定性</th><th style="min-width:150px">差异本质</th><th style="min-width:140px">立法意图</th><th style="min-width:170px">工程含义</th>
+  </tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function cmpToggleSub(id){const e=$("#sub-"+id);if(e)e.style.display=e.style.display==="none"?"":"none";}
 function renderRegCompare(id){
   const body=$("#cmp-deep-body");if(!body)return;
   if(!id){body.innerHTML="";return;}
   const it=(_regCmp||[]).find(x=>x.id===id);if(!it){body.innerHTML='<div class="bigmsg">未找到</div>';return;}
-  const qcol=v=>{v=String(v||"");
-    if(/等同/.test(v))return"#5a8a4a";
-    if(/部分/.test(v))return"#c79a2e";
-    if(/GB.*(更严|独有|更细|更多)/.test(v))return"#a8401f";
-    if(/UN.*(更严|独有|更细|更多)|GB.*更宽/.test(v))return"#2f6d8c";
-    return"#7a7f6a";};
+  const subByPoint={};(_regCmp||[]).filter(x=>x.parent&&x.parent.id===id).forEach(s=>{(subByPoint[s.parent.point]=subByPoint[s.parent.point]||[]).push(s);});
   const rows=(it.rows||[]).map(r=>{
-    const q=r.qual||r.verdict||"";
-    return `<tr>
-    <td style="font-weight:700;white-space:nowrap">${esc(r.point||"")}</td>
-    <td style="font-size:12px;line-height:1.5">${esc(r.a||"")}</td>
-    <td style="font-size:12px;line-height:1.5">${esc(r.b||"")}</td>
-    <td class="c" style="font-weight:800;white-space:nowrap;color:${qcol(q)}">${esc(q)}</td>
-    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.essence||r.note||"")}</td>
-    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.intent||"")}</td>
-    <td style="font-size:11.5px;line-height:1.5;color:var(--ink2)">${esc(r.eng||"")}</td></tr>`;}).join("");
+    let html=cmpRowTr(r);
+    const mySubs=subByPoint[r.point]||[];
+    let aff="";
+    if(mySubs.length){
+      aff=mySubs.map(s=>`<div style="margin-bottom:4px">✓ <b>二次对比</b>《${esc(s.groupA||"")}》↔《${esc(s.groupB||"")}》:${esc(s.conclusion||"见子表")} <span class="lk" style="color:var(--blue);cursor:pointer" onclick="cmpToggleSub('${esc(s.id).replace(/'/g,"\\'")}')">[展开/收起子表]</span><div id="sub-${esc(s.id)}" style="display:none;margin-top:6px">${cmpTableHtml(s)}</div></div>`).join("");
+    }else if(r.refs){
+      aff=`🔍 本行严宽取决于<b>所引用标准的正文</b>:${esc(it.groupA||"左")}引《${esc(r.refs.a||"")}》· ${esc(it.groupB||"右")}引《${esc(r.refs.b||"")}》 — <span class="lk" style="color:var(--accent);cursor:pointer;font-weight:700" onclick="cmpSecondaryStart('${esc(id).replace(/'/g,"\\'")}','${esc(r.point||"").replace(/'/g,"\\'")}','${esc(r.refs.a||"").replace(/'/g,"\\'")}','${esc(r.refs.b||"").replace(/'/g,"\\'")}')">▶ 发起二次对比</span>`;
+    }
+    if(aff)html+=`<tr><td colspan="7" style="background:#f6f4ec;font-size:11.5px;line-height:1.6;padding:7px 12px;border-top:none">${aff}</td></tr>`;
+    return html;
+  }).join("");
   body.innerHTML=`${it.demo?'<div style="background:#fff7e6;border:1px solid #e6d39a;border-radius:6px;padding:6px 10px;font-size:11.5px;color:#8a6510;margin-bottom:8px">格式示例 · 演示输出长什么样,非权威法规结论</div>':""}
     <div style="font-weight:800;font-size:15px;margin-bottom:2px">${esc(it.title||"")}</div>
     <div class="rc-meta" style="margin-bottom:8px">${esc(it.groupA||"")} <b style="color:var(--accent)">VS</b> ${esc(it.groupB||"")}${it.topic?" · 主题:"+esc(it.topic):""}</div>
     ${it.summary?`<div style="background:var(--panel2);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:8px 12px;font-size:12.5px;line-height:1.6;margin-bottom:10px">${esc(it.summary)}</div>`:""}
-    <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:4px">差异定性(标明谁更严):<b style="color:#a8401f">${esc(it.groupA||"GB")} 更严/独有</b> · <b style="color:#2f6d8c">${esc(it.groupB||"UN")} 更严/独有</b> · <b style="color:#5a8a4a">等同</b> · <b style="color:#c79a2e">部分等同</b> · <b style="color:#7a7f6a">不同(体系/引用)</b> · 表格可横向滚动</div>
+    <div style="font-family:var(--mono);font-size:10.5px;color:var(--muted);margin-bottom:4px">差异定性(标明谁更严):<b style="color:#a8401f">${esc(it.groupA||"GB")} 更严/独有</b> · <b style="color:#2f6d8c">${esc(it.groupB||"UN")} 更严/独有</b> · <b style="color:#5a8a4a">等同</b> · <b style="color:#c79a2e">部分等同</b> · <b style="color:#7a7f6a">不同(体系/引用)</b> · 引用标准行可「▶ 发起二次对比」深入到所引标准正文 · 表格可横向滚动</div>
     <div style="overflow-x:auto"><table class="cmptbl" style="min-width:1100px"><thead><tr>
       <th style="width:96px">比较点</th><th style="min-width:150px">${esc(it.groupA||"A")} 规定</th><th style="min-width:150px">${esc(it.groupB||"B")} 规定</th>
       <th style="width:74px">差异定性</th><th style="min-width:160px">差异本质(为何有此差异)</th><th style="min-width:150px">立法意图(防什么)</th><th style="min-width:190px">对产品的工程含义</th>
@@ -3378,7 +3425,16 @@ function copyCmpPrompt(){
   const la=($("#cmpt-la")&&$("#cmpt-la").value.trim())||"左组",lb=($("#cmpt-lb")&&$("#cmpt-lb").value.trim())||"右组";
   const tip=$("#cmp-prompt-tip");
   if(!ta.trim()&&!tb.trim()){if(tip)tip.textContent="⚠ 请先在上方两栏粘贴原文";return;}
-  const prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。逐条输出『核心异同点对照表』,每行(row)含以下字段:\n- point:比较点\n- a:${la} 的规定\n- b:${lb} 的规定\n- qual:差异定性,**必须指明主体(谁更严/谁独有),不要用裸『更严』**。取值之一:等同 / ${la}更严 / ${lb}更严 / ${la}独有 / ${lb}独有 / 部分等同 / 不同·体系(或不同·引用,用于体系或引用差异、无严宽之分时)\n- essence:差异本质(为什么会有这个差异——立法体系/技术路线/历史沿革等;若 qual=等同 则填 "/")\n- intent:立法意图(这一条要防什么风险)\n- eng:对产品的工程含义,以满足前者(${la})为主体表述,用以下口径之一:① 等同→「满足一方即满足另一方」;② 前者覆盖后者(前者更严/独有)→「满足${la}即满足${lb}」;③ 前者不覆盖后者(后者独有/更严/体系不同)→「仅满足${la}不一定满足${lb}」并说明为什么、须补做什么\n并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows[{point,a,b,qual,essence,intent,eng}])。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
+  let prompt;
+  if(_cmpSecParent){
+    const p=_cmpSecParent;const mom=(_regCmp||[]).find(x=>x.id===p.id);
+    prompt=`这是一次【二次对比】:母对比 id="${p.id}"${mom?`(标题「${mom.title||""}」,${mom.groupA||"A"} VS ${mom.groupB||"B"})`:""} 的<b>「${p.point}」</b>这一行,其严宽取决于双方所引用标准的正文。现给出这两份被引标准的原文,请逐条做深度语义对比,**目的是判定该母行到底是等同、还是某一方更严**:\n- 左组 = ${la}(${p.a})\n- 右组 = ${lb}(${p.b})\n\n逐条输出对照表,每行(row)含:point(比较点)/ a(${la}规定)/ b(${lb}规定)/ qual(差异定性,**必须指明主体**:等同 / ${la}更严 / ${lb}更严 / ${la}独有 / ${lb}独有 / 部分等同 / 不同·体系)/ essence(差异本质,等同填"/")/ intent(立法意图)/ eng(工程含义,以满足 ${la} 为主体:满足一方即满足另一方 / 满足${la}即满足${lb} / 仅满足${la}不一定满足${lb}+为什么)。\n\n并写回看板 data/reg_compare.json:\n① 新增一条子 item,字段 id(新)/title/groupA="${la}"/groupB="${lb}"/topic/summary/rows[...]/**parent:{"id":"${p.id}","point":"${p.point}"}**/**conclusion(一句话:二次对比后该母行的最终结论,如『引用标准等同,故该行视为等同』或『${la}所引标准更严』)**;\n② 据 conclusion **回填母 item("${p.id}")中 point="${p.point}" 那一行的 qual 与 eng**,使其反映二次对比的真实严宽。\n\n【${la} · ${p.a}】:\n${ta}\n\n【${lb} · ${p.b}】:\n${tb}`;
+    const done=()=>{if(tip)tip.textContent="✓ 已复制(二次对比指令),粘贴到 Claude 对话发送即可";};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+    else{cmpFallbackCopy(prompt);done();}
+    return;
+  }
+  prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。逐条输出『核心异同点对照表』,每行(row)含以下字段:\n- point:比较点\n- a:${la} 的规定\n- b:${lb} 的规定\n- qual:差异定性,**必须指明主体(谁更严/谁独有),不要用裸『更严』**。取值之一:等同 / ${la}更严 / ${lb}更严 / ${la}独有 / ${lb}独有 / 部分等同 / 不同·体系(或不同·引用,用于体系或引用差异、无严宽之分时)\n- essence:差异本质(为什么会有这个差异——立法体系/技术路线/历史沿革等;若 qual=等同 则填 "/")\n- intent:立法意图(这一条要防什么风险)\n- eng:对产品的工程含义,以满足前者(${la})为主体表述,用以下口径之一:① 等同→「满足一方即满足另一方」;② 前者覆盖后者(前者更严/独有)→「满足${la}即满足${lb}」;③ 前者不覆盖后者(后者独有/更严/体系不同)→「仅满足${la}不一定满足${lb}」并说明为什么、须补做什么\n并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows[{point,a,b,qual,essence,intent,eng}])。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
   const done=()=>{if(tip)tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
