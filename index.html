@@ -3113,6 +3113,17 @@ function setCmpView(v){
   if($("#cmp-txtbody"))$("#cmp-txtbody").style.display=v==="txt"?"":"none";
 }
 let _cmpPdf={a:null,b:null};
+/* 判断 PDF 提取结果是否为乱码(字体无 Unicode 映射时,字符常落在 ASCII 区成符号汤) */
+function cmpLooksGarbled(txt){
+  const t=(txt||"").replace(/\s+/g," ");
+  const n=t.replace(/\s/g,"").length;if(n<40)return false;
+  const cjk=(t.match(/[一-龥]/g)||[]).length;
+  const pua=(t.match(/[\uE000-\uF8FF\uFFFD]/g)||[]).length;
+  const enWords=(t.match(/\b[a-zA-Z]{4,}\b/g)||[]).length;
+  if(pua>n*0.03)return true;                       // 大量替换符/私用区字形
+  if(cjk<n*0.05&&enWords<n/60)return true;          // 既无足够中文、也无足够英文真词 → 符号汤
+  return false;
+}
 function cmpLoadFile(inp,target,side){
   const f=inp.files&&inp.files[0];if(!f)return;
   const t=$("#"+target);if(!t)return;
@@ -3140,10 +3151,8 @@ function cmpLoadFile(inp,target,side){
           try{const ol=await pg.getOperatorList();if(ol.fnArray.some(fn=>IMGOPS.includes(fn)))imgPages.push(i);}catch(_){}
         }
         const txt=out.trim();
-        const sensible=(txt.match(/[一-龥a-zA-Z0-9\s.,;:!?()%·\-—…、，。；：！？（）《》「」\/°℃≤≥]/g)||[]).length;
-        const ratio=txt.length?sensible/txt.length:1;
-        if(txt&&ratio<0.55){
-          t.value="[该 PDF 文字层字体缺失 Unicode 映射,解析为乱码(常见于内嵌子集字体、无 ToUnicode 的中文 PDF)。建议:① 点右侧「📄 预览」把页面渲染成图片查看/截图;② 或粘贴可复制的文本。]";
+        if(txt&&cmpLooksGarbled(txt)){
+          t.value="⚠ 该 PDF 文字层字体无 Unicode 映射(内嵌子集字体、无 ToUnicode),解析为乱码——浏览器/pdf.js 无法还原真实文字。请改:① 点上方「📄 预览」把页面渲染成图片查看/截图;② 粘贴可复制的文本;③ 把该 PDF 发给我,我在后台用更强工具(OCR/pymupdf)提取真实文字再给你。";
         }else{
           t.value=txt||"[该 PDF 无可提取文字(可能为扫描件,需 OCR);请改粘贴文本]";
         }
