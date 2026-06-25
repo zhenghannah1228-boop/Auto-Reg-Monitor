@@ -3125,7 +3125,7 @@ function cmpLoadFile(inp,target,side){
     const fr=new FileReader();
     fr.onload=async e=>{
       try{
-        const pdf=await pdfjsLib.getDocument({data:new Uint8Array(e.target.result)}).promise;
+        const pdf=await pdfjsLib.getDocument({data:new Uint8Array(e.target.result),cMapUrl:"./vendor/pdfjs/cmaps/",cMapPacked:true}).promise;
         let out="",imgPages=[];
         const IMGOPS=[pdfjsLib.OPS.paintImageXObject,pdfjsLib.OPS.paintInlineImage,pdfjsLib.OPS.paintImageMaskXObject].filter(x=>x!==undefined);
         for(let i=1;i<=pdf.numPages;i++){
@@ -3139,9 +3139,16 @@ function cmpLoadFile(inp,target,side){
           out+=lines.join("\n")+"\n";
           try{const ol=await pg.getOperatorList();if(ol.fnArray.some(fn=>IMGOPS.includes(fn)))imgPages.push(i);}catch(_){}
         }
-        t.value=out.trim()||"[该 PDF 无可提取文字(可能为扫描件,需 OCR);请改粘贴文本]";
+        const txt=out.trim();
+        const sensible=(txt.match(/[一-龥a-zA-Z0-9\s.,;:!?()%·\-—…、，。；：！？（）《》「」\/°℃≤≥]/g)||[]).length;
+        const ratio=txt.length?sensible/txt.length:1;
+        if(txt&&ratio<0.55){
+          t.value="[该 PDF 文字层字体缺失 Unicode 映射,解析为乱码(常见于内嵌子集字体、无 ToUnicode 的中文 PDF)。建议:① 点右侧「📄 预览」把页面渲染成图片查看/截图;② 或粘贴可复制的文本。]";
+        }else{
+          t.value=txt||"[该 PDF 无可提取文字(可能为扫描件,需 OCR);请改粘贴文本]";
+        }
         if(side){_cmpPdf[side]={file:f,nPages:pdf.numPages,imgPages};
-          if(pv&&imgPages.length)pv.innerHTML=`<span class="rc-reglink" style="white-space:nowrap" onclick="cmpPdfPreview('${side}')" title="该PDF含图/示意图,文本对比抓不到——点此渲染原文页查看">📄 ${imgPages.length}页含图·预览</span>`;}
+          if(pv){const lab=imgPages.length?imgPages.length+"页含图":"页面";pv.innerHTML=`<span class="rc-reglink" style="white-space:nowrap" onclick="cmpPdfPreview('${side}')" title="把原文页(含图/示意图)渲染成图片查看">📄 ${lab}·预览</span>`;}}
       }catch(err){t.value="[PDF 解析失败:"+String(err.message||err).slice(0,80)+"]";}
       t.placeholder=ph;
     };
@@ -3163,7 +3170,7 @@ async function cmpPdfPreview(side){
   const body=$("#cmppv-body");
   try{
     const buf=await info.file.arrayBuffer();
-    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(buf)}).promise;
+    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(buf),cMapUrl:"./vendor/pdfjs/cmaps/",cMapPacked:true}).promise;
     const pages=info.imgPages.length?info.imgPages:Array.from({length:Math.min(info.nPages,8)},(_,i)=>i+1);
     for(const i of pages){
       const pg=await pdf.getPage(i);
