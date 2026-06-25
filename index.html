@@ -3151,13 +3151,15 @@ function cmpLoadFile(inp,target,side){
           try{const ol=await pg.getOperatorList();if(ol.fnArray.some(fn=>IMGOPS.includes(fn)))imgPages.push(i);}catch(_){}
         }
         const txt=out.trim();
-        if(txt&&cmpLooksGarbled(txt)){
-          t.value="⚠ 该 PDF 文字层字体无 Unicode 映射(内嵌子集字体、无 ToUnicode),解析为乱码——浏览器/pdf.js 无法还原真实文字。请改:① 点上方「📄 预览」把页面渲染成图片查看/截图;② 粘贴可复制的文本;③ 把该 PDF 发给我,我在后台用更强工具(OCR/pymupdf)提取真实文字再给你。";
+        const garbled=txt&&cmpLooksGarbled(txt);
+        if(garbled){
+          t.value="⚠ 该 PDF 文字层字体无 Unicode 映射(内嵌子集字体),解析为乱码。点右侧「🔤 OCR」对页面图做文字识别提取真实文字(较慢),或「📄 预览」查看页面图。";
         }else{
-          t.value=txt||"[该 PDF 无可提取文字(可能为扫描件,需 OCR);请改粘贴文本]";
+          t.value=txt||"[该 PDF 无可提取文字(可能为扫描件);点「🔤 OCR」识别]";
         }
         if(side){_cmpPdf[side]={file:f,nPages:pdf.numPages,imgPages};
-          if(pv){const lab=imgPages.length?imgPages.length+"页含图":"页面";pv.innerHTML=`<span class="rc-reglink" style="white-space:nowrap" onclick="cmpPdfPreview('${side}')" title="把原文页(含图/示意图)渲染成图片查看">📄 ${lab}·预览</span>`;}}
+          if(pv){const lab=imgPages.length?imgPages.length+"页含图":"页面";
+            pv.innerHTML=`<span class="rc-reglink" style="white-space:nowrap" onclick="cmpPdfPreview('${side}')" title="把原文页渲染成图片查看">📄 ${lab}</span> <span class="rc-reglink" style="white-space:nowrap;${garbled?"background:var(--accent);color:#fff":""}" onclick="cmpOcr('${side}')" title="渲染页面并OCR识别文字(乱码/扫描PDF适用,较慢,中文+英文)">🔤 OCR</span>`;}}
       }catch(err){t.value="[PDF 解析失败:"+String(err.message||err).slice(0,80)+"]";}
       t.placeholder=ph;
     };
@@ -3193,6 +3195,47 @@ async function cmpPdfPreview(side){
     }
     if(!pages.length)body.innerHTML='<div class="bigmsg">未检测到含图页</div>';
   }catch(err){if(body)body.innerHTML='<div class="bigmsg">渲染失败:'+esc(String(err.message||err).slice(0,80))+'</div>';}
+}
+/* 浏览器内 OCR(Tesseract.js,本地化):渲染页面为图→识别真实文字,用于无Unicode映射/扫描PDF */
+let _tessLoading=null;
+function loadTesseract(){
+  if(typeof Tesseract!=="undefined")return Promise.resolve();
+  if(_tessLoading)return _tessLoading;
+  _tessLoading=new Promise((res,rej)=>{const s=document.createElement("script");s.src="./vendor/tesseract/tesseract.min.js";s.onload=()=>res();s.onerror=()=>rej(new Error("OCR 引擎载入失败"));document.head.appendChild(s);});
+  return _tessLoading;
+}
+async function cmpOcr(side){
+  const info=_cmpPdf[side];if(!info)return;
+  const t=$(side==="a"?"#cmpt-a":"#cmpt-b");if(!t)return;
+  const pv=$("#cmppv-"+side);
+  const setp=s=>{if(pv)pv.innerHTML='<span style="font-family:var(--mono);font-size:10px;color:var(--accent)">'+esc(s)+'</span>';};
+  if(typeof pdfjsLib==="undefined"){setp("缺 pdf.js");return;}
+  let worker=null;
+  try{
+    setp("载入OCR引擎…");await loadTesseract();
+    setp("初始化(首次较慢)…");
+    worker=await Tesseract.createWorker(["chi_sim","eng"],1,{
+      workerPath:"./vendor/tesseract/worker.min.js",
+      corePath:"./vendor/tesseract/",
+      langPath:"./vendor/tesseract/lang/",
+      gzip:false});
+    const buf=await info.file.arrayBuffer();
+    const pdf=await pdfjsLib.getDocument({data:new Uint8Array(buf),cMapUrl:"./vendor/pdfjs/cmaps/",cMapPacked:true}).promise;
+    let out="";
+    for(let i=1;i<=pdf.numPages;i++){
+      setp("OCR 第 "+i+"/"+pdf.numPages+" 页…");
+      const pg=await pdf.getPage(i);
+      const vp=pg.getViewport({scale:2});
+      const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;
+      await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise;
+      const r=await worker.recognize(cv);
+      out+=(r&&r.data&&r.data.text||"")+"\n";
+      t.value=out;
+    }
+    await worker.terminate();
+    t.value=out.replace(/[ \t]+\n/g,"\n").trim();
+    setp("✓ OCR完成("+pdf.numPages+"页)·可校对后对比");
+  }catch(err){if(worker)try{await worker.terminate();}catch(_){}; setp("OCR失败:"+String(err.message||err).slice(0,46));}
 }
 function cmpClearText(){["cmpt-a","cmpt-b","cmpt-q","cmpt-la","cmpt-lb"].forEach(id=>{if($("#"+id))$("#"+id).value="";});["a","b"].forEach(s=>{if($("#cmppv-"+s))$("#cmppv-"+s).innerHTML="";_cmpPdf[s]=null;});if($("#cmp-txtbody"))$("#cmp-txtbody").innerHTML="";_cmpTxt=null;}
 /* 事实锚点正则:标准引用 / 数值带单位 / 日期 */
