@@ -3378,7 +3378,7 @@ function copyCmpPrompt(){
   const la=($("#cmpt-la")&&$("#cmpt-la").value.trim())||"左组",lb=($("#cmpt-lb")&&$("#cmpt-lb").value.trim())||"右组";
   const tip=$("#cmp-prompt-tip");
   if(!ta.trim()&&!tb.trim()){if(tip)tip.textContent="⚠ 请先在上方两栏粘贴原文";return;}
-  const prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。逐条输出『核心异同点对照表』,每行(row)含以下字段:\n- point:比较点\n- a:${la} 的规定\n- b:${lb} 的规定\n- qual:差异定性(取值之一:等同 / 更严 / 更宽 / ${la}独有 / ${lb}独有 / 部分等同)\n- essence:差异本质(为什么会有这个差异——立法体系/技术路线/历史沿革等)\n- intent:立法意图(这一条要防什么风险)\n- eng:对产品的工程含义(满足一方是否自动满足另一方;若不能,说明只满足一方时无法满足另一方的约束条件/需补做什么)\n并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows[{point,a,b,qual,essence,intent,eng}])。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
+  const prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。逐条输出『核心异同点对照表』,每行(row)含以下字段:\n- point:比较点\n- a:${la} 的规定\n- b:${lb} 的规定\n- qual:差异定性(取值之一:等同 / 更严 / 更宽 / ${la}独有 / ${lb}独有 / 部分等同)\n- essence:差异本质(为什么会有这个差异——立法体系/技术路线/历史沿革等;若 qual=等同 则填 "/")\n- intent:立法意图(这一条要防什么风险)\n- eng:对产品的工程含义,以满足前者(${la})为主体表述,用以下口径之一:① 等同→「满足一方即满足另一方」;② 前者覆盖后者(前者更严/独有)→「满足${la}即满足${lb}」;③ 前者不覆盖后者(后者独有/更严/体系不同)→「仅满足${la}不一定满足${lb}」并说明为什么、须补做什么\n并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows[{point,a,b,qual,essence,intent,eng}])。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
   const done=()=>{if(tip)tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
