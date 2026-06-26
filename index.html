@@ -4427,6 +4427,7 @@ function uneceSeriesOf(s){s=String(s||"");let m=/(\d{2})\s*series/.exec(s);if(m)
   m=/to\s+(?:the\s+)?(\d{2})\b/.exec(s);if(m)return m[1];
   if(/\b00\b/.test(s))return"00";return"—";}
 function unecePdf(a){return a.sym?'https://undocs.org/en/ECE/TRANS/WP.29/'+a.sym:"";}
+function uneceRegLink(no){return"https://unece.org/search?keys="+encodeURIComponent("UN Regulation No. "+no);}
 function uneceBadge(st){return`<span style="background:${st.bg};color:${st.col};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px;white-space:nowrap">${st.t}</span>`;}
 function uneceToggleReg(no){_unOpen[no]=!_unOpen[no];renderUnece();}
 function uneceToggleSeries(k){_unOpenS[k]=!_unOpenS[k];renderUnece();}
@@ -4482,6 +4483,7 @@ function renderUnece(){
         <span style="flex:1"></span>
         <span style="font-size:11px;color:var(--muted);white-space:nowrap">${seriesKeys.length} 系列 · ${am.length} 增补 · 最新 ${esc(latest.eif||"—")} ${latest.sess?"· "+esc(latest.sess):""}</span>
         ${uneceBadge(st)}
+        <a href="${uneceRegLink(r.no)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="在 UNECE 官网查该法规最新合并版正文" style="color:var(--blue);font-size:11px;white-space:nowrap;margin-left:4px">🔎 最新正文</a>
       </div>${seriesHtml}</div>`;
   }).join("");
   body.innerHTML=`<div class="card">${html||'<div class="bigmsg">无匹配法规</div>'}</div>`;
@@ -4489,12 +4491,12 @@ function renderUnece(){
 function exportUneceXlsx(){
   if(typeof XLSX==="undefined"||!_unece)return;
   const ref=uneceRef(),q=uneceQ();
-  const aoa=[["法规","中文名(参考)","英文名","系列","增补 / 系列文号","通过会议","生效日期","状态(基准 "+ref+")","官方文件链接"]];
+  const aoa=[["法规","中文名(参考)","英文名","系列","增补 / 系列文号","通过会议","生效日期","状态(基准 "+ref+")","增补官方文件","法规最新正文(检索)"]];
   (_unece.regs||[]).filter(r=>uneceMatchReg(r,q)).sort((a,b)=>(parseInt(a.no)||999)-(parseInt(b.no)||999)).forEach(r=>{
     (r.amendments||[]).filter(a=>unecePassAmend(a,ref)).slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0")).forEach(a=>{
-      aoa.push(["R"+r.no,UNREG_CN[r.no]||"",r.name||"",uneceSeriesOf(a.status),a.status||a.doc||"",a.sess||"",a.eif||"",uneceStat(a.eif,ref).t,unecePdf(a)]);});
+      aoa.push(["R"+r.no,UNREG_CN[r.no]||"",r.name||"",uneceSeriesOf(a.status),a.status||a.doc||"",a.sess||"",a.eif||"",uneceStat(a.eif,ref).t,unecePdf(a),uneceRegLink(r.no)]);});
   });
-  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:8},{wch:24},{wch:34},{wch:7},{wch:18},{wch:16},{wch:12},{wch:12},{wch:44}];
+  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:8},{wch:24},{wch:34},{wch:7},{wch:18},{wch:16},{wch:12},{wch:12},{wch:44},{wch:44}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"UNECE法规状态");
   XLSX.writeFile(wb,"UNECE法规状态_"+ref+".xlsx");
 }
