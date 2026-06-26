@@ -3451,39 +3451,90 @@ function cmpExportList(){
     items.filter(x=>x.parent&&x.parent.id===m.id).forEach(s=>out.push({it:s,sub:true}));});
   return out;
 }
-function cmpItemAoa(it,sub){
-  const A=[];
-  A.push([sub?"二次对比":"深度对比",it.title||it.id]);
-  A.push(["左组(A)",it.groupA||"","右组(B)",it.groupB||""]);
-  if(it.topic)A.push(["主题",it.topic]);
-  if(it.parent)A.push(["挂靠母行",it.parent.point||""]);
-  if(it.summary)A.push(["概述",it.summary]);
-  if(it.conclusion)A.push(["结论",it.conclusion]);
-  A.push([]);
-  A.push(["比较点",(it.groupA||"A")+" 规定",(it.groupB||"B")+" 规定","差异定性","差异本质","立法意图","对产品工程含义"]);
-  (it.rows||[]).forEach(r=>{
-    A.push([r.point||"",r.a||"",r.b||"",r.qual||r.verdict||"",r.essence||r.note||"",r.intent||"",r.eng||""]);
-    if(r.refs)A.push(["  ↳所引标准",(it.groupA||"A")+":"+(r.refs.a||""),(it.groupB||"B")+":"+(r.refs.b||"")]);
+/* 懒加载带样式的 SheetJS(xlsx-js-style),隔离作用域捕获,绝不触碰页面用于导入的 window.XLSX */
+let _XLSXS=null,_XLSXSp=null;
+function loadXlsxStyle(){
+  if(_XLSXS)return Promise.resolve(_XLSXS);
+  if(_XLSXSp)return _XLSXSp;
+  _XLSXSp=fetch("./vendor/xlsx-style/xlsx-js-style.bundle.js").then(r=>{if(!r.ok)throw new Error("加载失败");return r.text();}).then(src=>{
+    const factory=new Function("window","require","module","exports","define",src+"\n;return (typeof XLSX!=='undefined')?XLSX:null;");
+    _XLSXS=factory({},undefined,undefined,undefined,undefined);
+    return _XLSXS;
   });
-  return A;
+  return _XLSXSp;
 }
-function exportRegCompareXlsx(){
+/* 纸面色系单元格样式 */
+const XBD={style:"thin",color:{rgb:"C9C4B4"}},XBALL={top:XBD,bottom:XBD,left:XBD,right:XBD};
+function xQualFill(v){v=String(v||"");
+  if(/等同/.test(v))return{bg:"DCEAD2",fg:"3D6630"};
+  if(/部分/.test(v))return{bg:"FBF0CC",fg:"8A6510"};
+  if(/GB.*(更严|独有|更细|更多)/.test(v))return{bg:"F6E0D6",fg:"A8401F"};
+  if(/UN.*(更严|独有)|GB.*更宽/.test(v))return{bg:"DCE7EE",fg:"2F6D8C"};
+  return{bg:"ECEAE0",fg:"5A5F4E"};}
+function xEstHeight(cells,widths){
+  let mx=1;for(let i=0;i<cells.length;i++){const s=String(cells[i]==null?"":cells[i]);if(!s)continue;
+    const w=(widths[i]&&widths[i].wch)||20;let units=0;for(const ch of s){units+=ch.charCodeAt(0)>255?2:1;}
+    const lines=Math.max((s.match(/\n/g)||[]).length+1,Math.ceil(units/Math.max(w-1,4)));if(lines>mx)mx=lines;}
+  return Math.min(Math.max(mx*15+5,18),300);}
+function cmpStyledSheet(X,it,sub){
+  const COLS=[{wch:13},{wch:34},{wch:34},{wch:11},{wch:34},{wch:26},{wch:38}];
+  const NC=7,rows=[],roles=[],merges=[],heights=[];
+  const push=(cells,role,extra)=>{const a=cells.slice();while(a.length<NC)a.push("");rows.push(a);roles.push(Object.assign({t:role},extra||{}));heights.push(xEstHeight(cells,COLS));};
+  push([(sub?"二次对比 · ":"深度对比 · ")+(it.title||it.id)],"title");merges.push({s:{r:rows.length-1,c:0},e:{r:rows.length-1,c:NC-1}});
+  const meta=(lab,val)=>{if(val==null||val==="")return;push([lab,val],"meta");const r=rows.length-1;merges.push({s:{r,c:1},e:{r,c:NC-1}});};
+  meta("对比双方",(it.groupA||"A")+"    VS    "+(it.groupB||"B"));
+  meta("主题",it.topic);
+  if(it.parent)meta("挂靠母行",it.parent.point||"");
+  meta("概述",it.summary);
+  meta("结论",it.conclusion);
+  push([],"blank");
+  push(["比较点",(it.groupA||"A")+" 规定",(it.groupB||"B")+" 规定","差异定性","差异本质(为何有此差异)","立法意图(防什么)","对产品的工程含义"],"header");
+  (it.rows||[]).forEach(r=>{
+    push([r.point||"",r.a||"",r.b||"",r.qual||r.verdict||"",r.essence||r.note||"",r.intent||"",r.eng||""],"data",{qual:r.qual||r.verdict||""});
+    if(r.refs){push(["↳ 所引标准 — "+(it.groupA||"A")+":《"+(r.refs.a||"")+"》 · "+(it.groupB||"B")+":《"+(r.refs.b||"")+"》"],"ref");
+      merges.push({s:{r:rows.length-1,c:0},e:{r:rows.length-1,c:NC-1}});}
+  });
+  const ws=X.utils.aoa_to_sheet(rows);
+  ws["!cols"]=COLS;ws["!merges"]=merges;ws["!rows"]=heights.map(h=>({hpt:h}));
+  ws["!freeze"]={xSplit:0,ySplit:0};
+  const ref=X.utils.decode_range(ws["!ref"]);
+  for(let R=ref.s.r;R<=ref.e.r;R++){
+    const role=roles[R]||{t:"data"};
+    for(let C=0;C<NC;C++){
+      const addr=X.utils.encode_cell({r:R,c:C});let cell=ws[addr];
+      if(!cell){cell=ws[addr]={t:"s",v:""};}
+      if(role.t==="title")cell.s={fill:{patternType:"solid",fgColor:{rgb:"1A2420"}},font:{color:{rgb:"F4F1E8"},bold:true,sz:13},alignment:{horizontal:"left",vertical:"center",wrapText:true}};
+      else if(role.t==="meta")cell.s=(C===0)?{fill:{patternType:"solid",fgColor:{rgb:"E7E3D5"}},font:{bold:true,sz:10,color:{rgb:"1A2420"}},alignment:{vertical:"top",wrapText:true},border:XBALL}:{font:{sz:10,color:{rgb:"3A3F32"}},alignment:{vertical:"top",wrapText:true},border:XBALL};
+      else if(role.t==="header")cell.s={fill:{patternType:"solid",fgColor:{rgb:"1A2420"}},font:{color:{rgb:"F4F1E8"},bold:true,sz:10.5},alignment:{horizontal:"center",vertical:"center",wrapText:true},border:XBALL};
+      else if(role.t==="ref")cell.s={fill:{patternType:"solid",fgColor:{rgb:"F2EFE4"}},font:{sz:9.5,italic:true,color:{rgb:"3A6B8A"}},alignment:{vertical:"top",wrapText:true},border:XBALL};
+      else if(role.t==="data"){
+        const base={font:{sz:10,color:{rgb:"222018"}},alignment:{vertical:"top",wrapText:true},border:XBALL};
+        if(C===0){base.font={sz:10,bold:true,color:{rgb:"1A2420"}};base.fill={patternType:"solid",fgColor:{rgb:"FBFAF4"}};}
+        if(C===3){const q=xQualFill(role.qual);base.fill={patternType:"solid",fgColor:{rgb:q.bg}};base.font={sz:10,bold:true,color:{rgb:q.fg}};base.alignment={horizontal:"center",vertical:"center",wrapText:true};}
+        if(C===4||C===5||C===6)base.font={sz:9.5,color:{rgb:"3A3F32"}};
+        cell.s=base;
+      } else cell.s={font:{sz:10}};
+    }
+  }
+  return ws;
+}
+async function exportRegCompareXlsx(){
   const tip=$("#cmp-prompt-tip");
-  if(typeof XLSX==="undefined"){if(tip)tip.textContent="⚠ XLSX 库未加载";return;}
   const list=cmpExportList();
   if(!list.length){if(tip)tip.textContent="⚠ 暂无深度对比可导出";return;}
-  const wb=XLSX.utils.book_new(),used={};
+  if(tip)tip.textContent="… 正在生成 Excel(首次载入样式库)";
+  let X;try{X=await loadXlsxStyle();}catch(e){if(tip)tip.textContent="⚠ 样式库加载失败,请重试";return;}
+  const wb=X.utils.book_new(),used={};
   list.forEach(({it,sub})=>{
-    const ws=XLSX.utils.aoa_to_sheet(cmpItemAoa(it,sub));
-    ws["!cols"]=[{wch:14},{wch:30},{wch:30},{wch:12},{wch:32},{wch:24},{wch:36}];
+    const ws=cmpStyledSheet(X,it,sub);
     let nm=(sub?"二次·":"")+(sub&&it.parent?it.parent.point:(it.title||it.id));
     nm=nm.replace(/[\[\]:*?\/\\]/g,"·").slice(0,28)||"对比";
     let base=nm,i=2;while(used[nm]){nm=base.slice(0,25)+"_"+i;i++;}used[nm]=1;
-    XLSX.utils.book_append_sheet(wb,ws,nm);
+    X.utils.book_append_sheet(wb,ws,nm);
   });
   const sel=$("#cmp-deep-sel"),cur=sel?sel.value:"";
-  XLSX.writeFile(wb,"深度对比_"+(cur||"全部")+"_"+new Date().toISOString().slice(0,10)+".xlsx");
-  if(tip)tip.textContent="✓ 已导出 Excel("+list.length+" 个工作表)";
+  X.writeFile(wb,"深度对比_"+(cur||"全部")+"_"+new Date().toISOString().slice(0,10)+".xlsx");
+  if(tip)tip.textContent="✓ 已导出 Excel("+list.length+" 个工作表,含样式)";
 }
 function exportRegComparePrint(){
   const tip=$("#cmp-prompt-tip");
