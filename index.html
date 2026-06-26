@@ -823,6 +823,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn primary" onclick="copyCmpPrompt()">📋 复制对比指令(打包上方两组原文给 Claude)</button>
         <select class="csel" id="cmp-deep-sel" onchange="renderRegCompare(this.value)" style="min-width:200px"><option value="">已生成的深度对比…</option></select>
         <button class="btn light" onclick="loadRegCompare(true)">↻ 刷新</button>
+        <button class="btn light" onclick="exportRegCompareXlsx()" title="导出当前所选对比(含二次对比子表)为 Excel;未选则导出全部">⬇ 导出 Excel</button>
+        <button class="btn light" onclick="exportRegComparePrint()" title="打印/另存为 PDF(浏览器打印对话框选『另存为 PDF』)">🖨 导出 PDF</button>
         <span id="cmp-prompt-tip" style="font-size:11px;color:var(--accent);font-family:var(--mono)"></span>
       </div>
       <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-top:5px">流程:① 上方两栏粘贴/载入原文 → ② 点「复制对比指令」→ ③ 粘贴到 Claude 对话发送 → ④ 生成的对照表写回看板 data/reg_compare.json,点「↻ 刷新」即在上方下拉里查看。</div>
@@ -3440,6 +3442,84 @@ function copyCmpPrompt(){
   else{cmpFallbackCopy(prompt);done();}
 }
 function cmpFallbackCopy(t){try{const e=document.createElement("textarea");e.value=t;document.body.appendChild(e);e.select();document.execCommand("copy");document.body.removeChild(e);}catch(_){}}
+/* ---- 深度对比导出:所选对比(含其二次对比子表)→ Excel / 打印PDF;未选则导出全部 ---- */
+function cmpExportList(){
+  const items=_regCmp||[];const sel=$("#cmp-deep-sel"),cur=sel?sel.value:"";
+  const out=[];
+  const tops=cur?items.filter(x=>x.id===cur):items.filter(x=>!x.parent);
+  tops.forEach(m=>{out.push({it:m,sub:false});
+    items.filter(x=>x.parent&&x.parent.id===m.id).forEach(s=>out.push({it:s,sub:true}));});
+  return out;
+}
+function cmpItemAoa(it,sub){
+  const A=[];
+  A.push([sub?"二次对比":"深度对比",it.title||it.id]);
+  A.push(["左组(A)",it.groupA||"","右组(B)",it.groupB||""]);
+  if(it.topic)A.push(["主题",it.topic]);
+  if(it.parent)A.push(["挂靠母行",it.parent.point||""]);
+  if(it.summary)A.push(["概述",it.summary]);
+  if(it.conclusion)A.push(["结论",it.conclusion]);
+  A.push([]);
+  A.push(["比较点",(it.groupA||"A")+" 规定",(it.groupB||"B")+" 规定","差异定性","差异本质","立法意图","对产品工程含义"]);
+  (it.rows||[]).forEach(r=>{
+    A.push([r.point||"",r.a||"",r.b||"",r.qual||r.verdict||"",r.essence||r.note||"",r.intent||"",r.eng||""]);
+    if(r.refs)A.push(["  ↳所引标准",(it.groupA||"A")+":"+(r.refs.a||""),(it.groupB||"B")+":"+(r.refs.b||"")]);
+  });
+  return A;
+}
+function exportRegCompareXlsx(){
+  const tip=$("#cmp-prompt-tip");
+  if(typeof XLSX==="undefined"){if(tip)tip.textContent="⚠ XLSX 库未加载";return;}
+  const list=cmpExportList();
+  if(!list.length){if(tip)tip.textContent="⚠ 暂无深度对比可导出";return;}
+  const wb=XLSX.utils.book_new(),used={};
+  list.forEach(({it,sub})=>{
+    const ws=XLSX.utils.aoa_to_sheet(cmpItemAoa(it,sub));
+    ws["!cols"]=[{wch:14},{wch:30},{wch:30},{wch:12},{wch:32},{wch:24},{wch:36}];
+    let nm=(sub?"二次·":"")+(sub&&it.parent?it.parent.point:(it.title||it.id));
+    nm=nm.replace(/[\[\]:*?\/\\]/g,"·").slice(0,28)||"对比";
+    let base=nm,i=2;while(used[nm]){nm=base.slice(0,25)+"_"+i;i++;}used[nm]=1;
+    XLSX.utils.book_append_sheet(wb,ws,nm);
+  });
+  const sel=$("#cmp-deep-sel"),cur=sel?sel.value:"";
+  XLSX.writeFile(wb,"深度对比_"+(cur||"全部")+"_"+new Date().toISOString().slice(0,10)+".xlsx");
+  if(tip)tip.textContent="✓ 已导出 Excel("+list.length+" 个工作表)";
+}
+function exportRegComparePrint(){
+  const tip=$("#cmp-prompt-tip");
+  const items=_regCmp||[];
+  if(!items.length){if(tip)tip.textContent="⚠ 暂无深度对比可导出";return;}
+  const sel=$("#cmp-deep-sel"),cur=sel?sel.value:"";
+  const tops=cur?items.filter(x=>x.id===cur):items.filter(x=>!x.parent);
+  const block=(it,sub)=>{
+    const subs=items.filter(x=>x.parent&&x.parent.id===it.id);
+    const rows=(it.rows||[]).map(r=>{
+      let tr=`<tr><td class="pt">${esc(r.point||"")}</td><td>${esc(r.a||"")}</td><td>${esc(r.b||"")}</td><td class="q">${esc(r.qual||r.verdict||"")}</td><td>${esc(r.essence||r.note||"")}</td><td>${esc(r.intent||"")}</td><td>${esc(r.eng||"")}</td></tr>`;
+      if(r.refs)tr+=`<tr class="ref"><td colspan="7">↳ 所引标准 — ${esc(it.groupA||"A")}:《${esc(r.refs.a||"")}》 · ${esc(it.groupB||"B")}:《${esc(r.refs.b||"")}》</td></tr>`;
+      return tr;}).join("");
+    return `<section class="${sub?"sub":"top"}">
+      <h2>${sub?"二次对比 · ":""}${esc(it.title||it.id)}</h2>
+      <div class="meta">${esc(it.groupA||"")} <b>VS</b> ${esc(it.groupB||"")}${it.topic?" · 主题:"+esc(it.topic):""}${it.parent?" · 挂靠:"+esc(it.parent.point):""}</div>
+      ${it.summary?`<p class="sum">${esc(it.summary)}</p>`:""}
+      <table><thead><tr><th>比较点</th><th>${esc(it.groupA||"A")}</th><th>${esc(it.groupB||"B")}</th><th>差异定性</th><th>差异本质</th><th>立法意图</th><th>工程含义</th></tr></thead><tbody>${rows}</tbody></table>
+      ${it.conclusion?`<p class="concl"><b>结论:</b>${esc(it.conclusion)}</p>`:""}
+      ${subs.map(s=>block(s,true)).join("")}</section>`;
+  };
+  const body=tops.map(it=>block(it,false)).join("");
+  const css="body{font-family:Georgia,'Songti SC','SimSun',serif;color:#1a2420;background:#fff;margin:24px;font-size:12px}"+
+    "h1{font-size:18px;border-bottom:2px solid #c6502a;padding-bottom:6px}"+
+    "section.top{margin:18px 0;page-break-inside:auto}section.sub{margin:10px 0 10px 18px;border-left:3px solid #3a6b8a;padding-left:12px}"+
+    "h2{font-size:14px;margin:14px 0 4px}.meta{font-size:11px;color:#555;margin-bottom:6px}.sum{font-size:11px;line-height:1.5;background:#f4f1e8;border-left:3px solid #3a6b8a;padding:6px 10px;margin:6px 0}"+
+    "table{border-collapse:collapse;width:100%;margin:6px 0;font-size:10.5px}th,td{border:1px solid #c9c4b4;padding:4px 6px;vertical-align:top;text-align:left}"+
+    "th{background:#1a2420;color:#f4f1e8;font-weight:600}td.pt{font-weight:700;white-space:nowrap}td.q{font-weight:700;white-space:nowrap}tr.ref td{background:#f6f4ec;font-size:10px;color:#3a6b8a}"+
+    ".concl{font-size:11px;background:#fbeee4;border-left:3px solid #c6502a;padding:6px 10px;margin:6px 0}"+
+    "@media print{section.top{page-break-before:auto}}";
+  const w=window.open("","_cmpprint");
+  if(!w){if(tip)tip.textContent="⚠ 请允许弹窗以导出 PDF";return;}
+  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>深度对比导出</title><style>'+css+'</style></head><body><h1>法规深度对比导出 · '+new Date().toISOString().slice(0,10)+'</h1>'+body+'<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},350);};</scr'+'ipt></body></html>');
+  w.document.close();
+  if(tip)tip.textContent="✓ 已打开打印窗口(选『另存为 PDF』)";
+}
 function renderCmp(){
   const body=$("#cmp-body");if(!body)return;
   const a=$("#cmp-a").value,b=$("#cmp-b").value,df=$("#cmp-dim").value;
