@@ -594,6 +594,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-recall"><span class="tn">16</span>召回案例</div>
     <div class="tab" data-p="p-evpol"><span class="tn">17</span>EV政策探索器</div>
     <div class="tab" data-p="p-unece"><span class="tn">18</span>UNECE法规状态</div>
+    <div class="tab" data-p="p-radar"><span class="tn">19</span>法规雷达</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -927,6 +928,25 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div id="un-note" style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px"></div>
     </div>
     <div id="un-body"><div class="bigmsg">正在载入 UNECE 法规状态…</div></div>
+  </div>
+
+  <div class="pane" id="p-radar">
+    <div class="card">
+      <h3>法规雷达 <span class="hint">汽车法规/标准/政策实时更新 · 由 AI 联网搜集 → 你确认 → 入库;覆盖主要出口市场国别、WTO TBT 汽车类通报、主题线(ADAS/网安/排放/电池)</span></h3>
+      <div class="netctrl" style="flex-wrap:wrap">
+        <input id="rd-q" class="csel" style="min-width:220px" placeholder="搜标题/机构/国家/摘要/TBT号" oninput="renderRadar()">
+        <select class="csel" id="rd-region" onchange="renderRadar()"><option value="">全部地区</option></select>
+        <select class="csel" id="rd-topic" onchange="renderRadar()"><option value="">全部主题</option></select>
+        <select class="csel" id="rd-stage" onchange="renderRadar()"><option value="">全部阶段</option></select>
+        <select class="csel" id="rd-status" onchange="renderRadar()"><option value="">全部状态</option><option value="已确认">已确认</option><option value="待确认">待确认</option></select>
+        <span style="flex:1"></span>
+        <button class="btn light" onclick="loadRadar(true).then(renderRadar)">↻ 刷新</button>
+        <button class="btn light" onclick="exportRadarXlsx()">⬇ 导出 Excel</button>
+      </div>
+      <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:发指令「今天搜集法规雷达」(可指定地区/主题)→ 我联网搜集并在对话里给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
+    </div>
+    <div id="rd-body"><div class="bigmsg">正在载入 法规雷达…</div></div>
   </div>
 
   <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
@@ -4501,6 +4521,67 @@ function exportUneceXlsx(){
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"UNECE法规状态");
   XLSX.writeFile(wb,"UNECE法规状态_"+ref+".xlsx");
 }
+/* ================= 19 法规雷达 ================= */
+let _radar=null,_radarP=null;
+async function loadRadar(force){
+  if(_radar&&!force)return _radar;
+  if(_radarP&&!force)return _radarP;
+  _radarP=sbFetchAll("reg_radar","*","order=collected_date.desc,created_at.desc").then(r=>{_radar=r;return r;}).catch(()=>{_radar=[];return [];});
+  return _radarP;
+}
+function rdStage(s){s=String(s||"");
+  if(/生效|已通过|实施|adopted|in.?force/i.test(s))return{c:"#3d6630",b:"#dcead2"};
+  if(/草案|拟议|提议|公示|draft|propos/i.test(s))return{c:"#8a6510",b:"#fbf0cc"};
+  if(/调查|safeguard|保障措施/i.test(s))return{c:"#a8401f",b:"#f6e0d6"};
+  if(/通报|tbt|notif/i.test(s))return{c:"#2f6d8c",b:"#dce7ee"};
+  return{c:"#5a5f4e",b:"#ececea"};}
+function rdFill(sel,vals){const e=$(sel);if(!e)return;const cur=e.value;
+  const def=e.options[0]?e.options[0].outerHTML:"";
+  e.innerHTML=def+vals.map(v=>`<option>${esc(v)}</option>`).join("");
+  if(vals.indexOf(cur)>=0)e.value=cur;}
+function renderRadar(){
+  const body=$("#rd-body");if(!body)return;
+  if(!_radar){loadRadar().then(renderRadar);return;}
+  // populate filter dropdowns
+  rdFill("#rd-region",[...new Set(_radar.map(r=>r.region).filter(Boolean))].sort());
+  rdFill("#rd-topic",[...new Set(_radar.flatMap(r=>r.topics||[]).filter(Boolean))].sort());
+  rdFill("#rd-stage",[...new Set(_radar.map(r=>r.stage).filter(Boolean))].sort());
+  const q=((($("#rd-q")&&$("#rd-q").value)||"").trim().toLowerCase());
+  const fr=($("#rd-region")&&$("#rd-region").value)||"",ft=($("#rd-topic")&&$("#rd-topic").value)||"",fs=($("#rd-stage")&&$("#rd-stage").value)||"",fst=($("#rd-status")&&$("#rd-status").value)||"";
+  let rows=_radar.filter(r=>{
+    if(fr&&r.region!==fr)return false;
+    if(ft&&!(r.topics||[]).includes(ft))return false;
+    if(fs&&r.stage!==fs)return false;
+    if(fst&&r.status!==fst)return false;
+    if(q){const hay=[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase();if(!hay.includes(q))return false;}
+    return true;});
+  const conf=_radar.filter(r=>r.status==="已确认").length,pend=_radar.filter(r=>r.status==="待确认").length;
+  if($("#rd-kpi"))$("#rd-kpi").innerHTML=`条目 <b>${_radar.length}</b>(<b style="color:#3d6630">已确认 ${conf}</b> · <b style="color:#8a6510">待确认 ${pend}</b>) · 当前筛选 <b>${rows.length}</b> 条`;
+  const trs=rows.map(r=>{const st=rdStage(r.stage),pend2=r.status==="待确认";
+    const tps=(r.topics||[]).map(t=>`<span style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:0 6px;font-size:10px;margin-right:3px;white-space:nowrap">${esc(t)}</span>`).join("");
+    return `<tr${pend2?' style="background:#fffaf0"':''}>
+      <td style="white-space:nowrap;font-family:var(--mono);font-size:11px">${esc(r.collected_date||"")}</td>
+      <td style="white-space:nowrap;font-size:11.5px"><b>${esc(r.region||"")}</b>${r.country?"<br><span style='color:var(--muted)'>"+esc(r.country)+"</span>":""}</td>
+      <td style="font-size:11px;color:var(--muted);min-width:120px">${esc(r.agency||"")}</td>
+      <td style="min-width:240px"><b style="font-size:12.5px">${esc(r.title||"")}</b><div style="font-size:11px;color:var(--ink2);line-height:1.5;margin-top:2px">${esc(r.summary||"")}</div><div style="margin-top:3px">${tps}</div>${r.tbt_no?`<div style="font-size:10px;color:#2f6d8c;font-family:var(--mono)">TBT ${esc(r.tbt_no)}</div>`:""}</td>
+      <td class="c" style="white-space:nowrap"><span style="background:${st.b};color:${st.c};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px">${esc(r.stage||"—")}</span>${r.pub_date?`<div style="font-size:10px;color:var(--muted);margin-top:2px">${esc(r.pub_date)}</div>`:""}</td>
+      <td class="c" style="white-space:nowrap;font-size:10.5px"><span style="color:${pend2?'#8a6510':'#3d6630'};font-weight:700">${esc(r.status||"")}</span><div style="color:${/已核实/.test(r.confidence||"")?'#3d6630':'#a8401f'};margin-top:2px">${esc(r.confidence||"")}</div></td>
+      <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td></tr>`;}).join("");
+  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:980px"><thead><tr>
+    <th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th></tr></thead>
+    <tbody>${trs||'<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
+}
+function exportRadarXlsx(){
+  if(typeof XLSX==="undefined"||!_radar)return;
+  const q=((($("#rd-q")&&$("#rd-q").value)||"").trim().toLowerCase());
+  const fr=($("#rd-region")&&$("#rd-region").value)||"",ft=($("#rd-topic")&&$("#rd-topic").value)||"",fs=($("#rd-stage")&&$("#rd-stage").value)||"",fst=($("#rd-status")&&$("#rd-status").value)||"";
+  const rows=_radar.filter(r=>(!fr||r.region===fr)&&(!ft||(r.topics||[]).includes(ft))&&(!fs||r.stage===fs)&&(!fst||r.status===fst)&&(!q||[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(q)));
+  const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","状态","置信","TBT号","来源名","来源链接","备注"]];
+  rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.status||"",r.confidence||"",r.tbt_no||"",r.source_name||"",r.source_url||"",r.note||""]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:8},{wch:8},{wch:16},{wch:18},{wch:40},{wch:24}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"法规雷达");
+  XLSX.writeFile(wb,"法规雷达_"+new Date().toISOString().slice(0,10)+".xlsx");
+}
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
   if(t.dataset.p==="p-net")buildNet();
@@ -4513,6 +4594,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-recall"){if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls();}
   if(t.dataset.p==="p-evpol"){if(!_evpol)loadEvPol().then(renderEvPol);else renderEvPol();}
   if(t.dataset.p==="p-unece"){if(!_unece)loadUnece().then(renderUnece);else renderUnece();}
+  if(t.dataset.p==="p-radar"){if(!_radar)loadRadar().then(renderRadar);else renderRadar();}
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
