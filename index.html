@@ -3376,6 +3376,42 @@ function cmpQcol(v){v=String(v||"");
   if(/GB.*(更严|独有|更细|更多)/.test(v))return"#a8401f";
   if(/UN.*(更严|独有|更细|更多)|GB.*更宽/.test(v))return"#2f6d8c";
   return"#7a7f6a";}
+/* ---- 风险提示/合规建议 与 参考文献:优先用 item 显式字段,否则按 rows 自动归纳 ---- */
+function cmpRiskOf(q){q=String(q||"");
+  if(/部分等同/.test(q))return{lvl:"中",col:"#8a6510",bg:"FBF0CC"};
+  if(/^等同$|^等同[^·]|实质等同/.test(q)||(/等同/.test(q)&&!/部分|不同/.test(q)))return null;
+  if(/(更严|独有|更细|更多)/.test(q))return{lvl:"高",col:"#a8401f",bg:"F6E0D6"};
+  if(/(体系|引用|机制|不同)/.test(q))return{lvl:"中",col:"#2f6d8c",bg:"DCE7EE"};
+  return{lvl:"中",col:"#5a5f4e",bg:"ECEAE0"};}
+function cmpRisks(it){
+  if(Array.isArray(it.risks)&&it.risks.length)return it.risks.map(r=>typeof r==="string"?{level:"中",col:"#5a5f4e",point:"",action:r,essence:""}:Object.assign({level:r.level||"中",col:"#5a5f4e"},r));
+  const out=[];(it.rows||[]).forEach(r=>{const q=r.qual||r.verdict||"";const rk=cmpRiskOf(q);if(!rk)return;
+    out.push({level:rk.lvl,col:rk.col,bg:rk.bg,qual:q,point:r.point||"",essence:r.essence||r.note||"",action:r.eng||""});});
+  const ord={"高":0,"中":1,"低":2};out.sort((a,b)=>(ord[a.level]||1)-(ord[b.level]||1));
+  return out;}
+function cmpSources(it){
+  if(Array.isArray(it.sources)&&it.sources.length)return it.sources.map(s=>typeof s==="string"?{name:s,role:""}:s);
+  const out=[],seen={};const add=(name,role)=>{name=String(name||"").trim();if(!name)return;const k=name.toLowerCase();if(seen[k])return;seen[k]=1;out.push({name,role});};
+  add(it.groupA,"左组(A)");add(it.groupB,"右组(B)");
+  (it.rows||[]).forEach(r=>{if(r.refs){if(r.refs.a)add(r.refs.a,"引用·"+(it.groupA||"A"));if(r.refs.b)add(r.refs.b,"引用·"+(it.groupB||"B"));}});
+  return out;}
+function cmpRiskHtml(it){
+  const rs=cmpRisks(it);
+  if(!rs.length)return `<div style="margin-top:14px;border:1px solid var(--line);border-left:4px solid #5a8a4a;border-radius:6px;padding:10px 12px;font-size:12.5px;line-height:1.6">✅ <b>风险提示与合规建议</b>:本组对比各项均判定为<b>等同</b>,未发现"满足一方不一定满足另一方"的合规缺口;按任一方满足即可,无需额外补测(仍以最新法规原文为准)。</div>`;
+  const hi=rs.filter(r=>r.level==="高").length,mid=rs.filter(r=>r.level==="中").length;
+  const rows=rs.map(r=>`<tr>
+    <td class="c" style="font-weight:800;color:${r.col};white-space:nowrap">${esc(r.level)}</td>
+    <td style="font-weight:700">${esc(r.point)}${r.qual?` <span style="font-weight:400;color:var(--muted);font-size:10.5px">(${esc(r.qual)})</span>`:""}</td>
+    <td style="font-size:11.5px;line-height:1.55;color:var(--ink2)">${esc(r.action||r.essence)}</td></tr>`).join("");
+  return `<div style="margin-top:14px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:6px;padding:10px 12px">
+    <div style="font-weight:800;font-size:14px;margin-bottom:6px">⚠ 风险提示与合规建议 <span style="font-weight:400;font-size:11px;color:var(--muted)">高 ${hi} 项 · 中 ${mid} 项 · 聚焦单边更严/独有/体系差异的缺口与下一步</span></div>
+    <div style="overflow-x:auto"><table class="cmptbl" style="min-width:640px"><thead><tr><th style="width:48px">等级</th><th style="width:150px">风险点</th><th>建议行动 / 下一步方向</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;}
+function cmpSourcesHtml(it){
+  const ss=cmpSources(it);if(!ss.length)return"";
+  const li=ss.map((s,i)=>`<tr><td class="c" style="color:var(--muted)">${i+1}</td><td style="font-weight:600">${esc(s.name)}</td><td style="font-size:11.5px;color:var(--muted)">${esc(s.role||"")}</td></tr>`).join("");
+  return `<div style="margin-top:12px;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:6px;padding:10px 12px">
+    <div style="font-weight:800;font-size:14px;margin-bottom:6px">📚 参考文献 <span style="font-weight:400;font-size:11px;color:var(--muted)">本次对比涉及的文件 / 标准清单</span></div>
+    <div style="overflow-x:auto"><table class="cmptbl" style="min-width:460px"><thead><tr><th style="width:40px">#</th><th>文件 / 标准</th><th style="width:170px">角色</th></tr></thead><tbody>${li}</tbody></table></div></div>`;}
 function cmpRowTr(r){
   const q=r.qual||r.verdict||"";
   return `<tr>
@@ -3420,7 +3456,9 @@ function renderRegCompare(id){
     <div style="overflow-x:auto"><table class="cmptbl" style="min-width:1100px"><thead><tr>
       <th style="width:96px">比较点</th><th style="min-width:150px">${esc(it.groupA||"A")} 规定</th><th style="min-width:150px">${esc(it.groupB||"B")} 规定</th>
       <th style="width:74px">差异定性</th><th style="min-width:160px">差异本质(为何有此差异)</th><th style="min-width:150px">立法意图(防什么)</th><th style="min-width:190px">对产品的工程含义</th>
-    </tr></thead><tbody>${rows}</tbody></table></div>`;
+    </tr></thead><tbody>${rows}</tbody></table></div>
+    ${cmpRiskHtml(it)}
+    ${cmpSourcesHtml(it)}`;
 }
 function copyCmpPrompt(){
   const ta=($("#cmpt-a")?$("#cmpt-a").value:"")||"",tb=($("#cmpt-b")?$("#cmpt-b").value:"")||"";
@@ -3436,7 +3474,7 @@ function copyCmpPrompt(){
     else{cmpFallbackCopy(prompt);done();}
     return;
   }
-  prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。逐条输出『核心异同点对照表』,每行(row)含以下字段:\n- point:比较点\n- a:${la} 的规定\n- b:${lb} 的规定\n- qual:差异定性,**必须指明主体(谁更严/谁独有),不要用裸『更严』**。取值之一:等同 / ${la}更严 / ${lb}更严 / ${la}独有 / ${lb}独有 / 部分等同 / 不同·体系(或不同·引用,用于体系或引用差异、无严宽之分时)\n- essence:差异本质(为什么会有这个差异——立法体系/技术路线/历史沿革等;若 qual=等同 则填 "/")\n- intent:立法意图(这一条要防什么风险)\n- eng:对产品的工程含义,以满足前者(${la})为主体表述,用以下口径之一:① 等同→「满足一方即满足另一方」;② 前者覆盖后者(前者更严/独有)→「满足${la}即满足${lb}」;③ 前者不覆盖后者(后者独有/更严/体系不同)→「仅满足${la}不一定满足${lb}」并说明为什么、须补做什么\n并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows[{point,a,b,qual,essence,intent,eng}])。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
+  prompt=`请对以下两组同主题、不同国家的法规原文做【深度语义对比】:相同=表意/事实一致(非字面字符),不同=事实不同。逐条输出『核心异同点对照表』,每行(row)含以下字段:\n- point:比较点\n- a:${la} 的规定\n- b:${lb} 的规定\n- qual:差异定性,**必须指明主体(谁更严/谁独有),不要用裸『更严』**。取值之一:等同 / ${la}更严 / ${lb}更严 / ${la}独有 / ${lb}独有 / 部分等同 / 不同·体系(或不同·引用,用于体系或引用差异、无严宽之分时)\n- essence:差异本质(为什么会有这个差异——立法体系/技术路线/历史沿革等;若 qual=等同 则填 "/")\n- intent:立法意图(这一条要防什么风险)\n- eng:对产品的工程含义,以满足前者(${la})为主体表述,用以下口径之一:① 等同→「满足一方即满足另一方」;② 前者覆盖后者(前者更严/独有)→「满足${la}即满足${lb}」;③ 前者不覆盖后者(后者独有/更严/体系不同)→「仅满足${la}不一定满足${lb}」并说明为什么、须补做什么\n并写回看板 data/reg_compare.json(新增一条 item,含 id/title/groupA/groupB/topic/summary/rows[{point,a,b,qual,essence,intent,eng}])。\n(可选)若想覆盖看板自动归纳,可加 risks[{level:"高"/"中",point,action}](风险提示/合规建议)与 sources[{name,role}](参考文献清单);不填则看板按 rows 自动生成。\n\n【${la}】:\n${ta}\n\n【${lb}】:\n${tb}`;
   const done=()=>{if(tip)tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
@@ -3494,6 +3532,21 @@ function cmpStyledSheet(X,it,sub){
     if(r.refs){push(["↳ 所引标准 — "+(it.groupA||"A")+":《"+(r.refs.a||"")+"》 · "+(it.groupB||"B")+":《"+(r.refs.b||"")+"》"],"ref");
       merges.push({s:{r:rows.length-1,c:0},e:{r:rows.length-1,c:NC-1}});}
   });
+  const mergeRow=(c0,c1)=>{merges.push({s:{r:rows.length-1,c:c0},e:{r:rows.length-1,c:c1}});};
+  // ⚠ 风险提示与合规建议
+  const risks=cmpRisks(it),srcs=cmpSources(it);
+  push([],"blank");
+  push(["⚠ 风险提示与合规建议  —  高 "+risks.filter(r=>r.level==="高").length+" 项 · 中 "+risks.filter(r=>r.level==="中").length+" 项"],"sect",{bar:"C6502A"});mergeRow(0,NC-1);
+  if(!risks.length){push(["✅ 各项均判定为等同,未发现『满足一方不一定满足另一方』的合规缺口;按任一方满足即可,无需额外补测(仍以最新法规原文为准)。"],"sectnote");mergeRow(0,NC-1);}
+  else{
+    push(["等级","风险点","建议行动 / 下一步方向"],"rhead");mergeRow(2,NC-1);
+    risks.forEach(rk=>{push([rk.level,rk.point+(rk.qual?"("+rk.qual+")":""),rk.action||rk.essence],"rrow",{rlvl:rk.level});mergeRow(2,NC-1);});
+  }
+  // 📚 参考文献
+  push([],"blank");
+  push(["📚 参考文献  —  本次对比涉及的文件 / 标准清单"],"sect",{bar:"3A6B8A"});mergeRow(0,NC-1);
+  push(["#","文件 / 标准","","","","角色",""],"rhead");mergeRow(1,4);mergeRow(5,NC-1);
+  (srcs.length?srcs:[{name:"(无)",role:""}]).forEach((s,i)=>{push([String(i+1),s.name,"","","",s.role||"",""],"srow");mergeRow(1,4);mergeRow(5,NC-1);});
   const ws=X.utils.aoa_to_sheet(rows);
   ws["!cols"]=COLS;ws["!merges"]=merges;ws["!rows"]=heights.map(h=>({hpt:h}));
   ws["!freeze"]={xSplit:0,ySplit:0};
@@ -3513,7 +3566,18 @@ function cmpStyledSheet(X,it,sub){
         if(C===3){const q=xQualFill(role.qual);base.fill={patternType:"solid",fgColor:{rgb:q.bg}};base.font={sz:10,bold:true,color:{rgb:q.fg}};base.alignment={horizontal:"center",vertical:"center",wrapText:true};}
         if(C===4||C===5||C===6)base.font={sz:9.5,color:{rgb:"3A3F32"}};
         cell.s=base;
-      } else cell.s={font:{sz:10}};
+      }
+      else if(role.t==="sect")cell.s={fill:{patternType:"solid",fgColor:{rgb:role.bar||"C6502A"}},font:{color:{rgb:"FFFFFF"},bold:true,sz:11.5},alignment:{horizontal:"left",vertical:"center",wrapText:true}};
+      else if(role.t==="sectnote")cell.s={fill:{patternType:"solid",fgColor:{rgb:"EEF5EA"}},font:{sz:10.5,color:{rgb:"3D6630"}},alignment:{vertical:"top",wrapText:true},border:XBALL};
+      else if(role.t==="rhead")cell.s={fill:{patternType:"solid",fgColor:{rgb:"E7E3D5"}},font:{bold:true,sz:10,color:{rgb:"1A2420"}},alignment:{horizontal:C===0?"center":"left",vertical:"center",wrapText:true},border:XBALL};
+      else if(role.t==="rrow"){
+        const base={font:{sz:9.5,color:{rgb:"3A3F32"}},alignment:{vertical:"top",wrapText:true},border:XBALL};
+        if(C===0){const ql={"高":{bg:"F6E0D6",fg:"A8401F"},"中":{bg:"DCE7EE",fg:"2F6D8C"},"低":{bg:"ECEAE0",fg:"5A5F4E"}}[role.rlvl]||{bg:"ECEAE0",fg:"5A5F4E"};base.fill={patternType:"solid",fgColor:{rgb:ql.bg}};base.font={sz:10,bold:true,color:{rgb:ql.fg}};base.alignment={horizontal:"center",vertical:"center"};}
+        if(C===1)base.font={sz:10,bold:true,color:{rgb:"1A2420"}};
+        cell.s=base;
+      }
+      else if(role.t==="srow")cell.s={font:{sz:10,color:{rgb:C===0?"7A7F6A":"222018"},bold:C===1},alignment:{horizontal:C===0?"center":"left",vertical:"top",wrapText:true},border:XBALL};
+      else cell.s={font:{sz:10}};
     }
   }
   return ws;
@@ -3554,6 +3618,13 @@ function exportRegComparePrint(){
       ${it.summary?`<p class="sum">${esc(it.summary)}</p>`:""}
       <table><thead><tr><th>比较点</th><th>${esc(it.groupA||"A")}</th><th>${esc(it.groupB||"B")}</th><th>差异定性</th><th>差异本质</th><th>立法意图</th><th>工程含义</th></tr></thead><tbody>${rows}</tbody></table>
       ${it.conclusion?`<p class="concl"><b>结论:</b>${esc(it.conclusion)}</p>`:""}
+      ${(function(){const rs=cmpRisks(it);const hi=rs.filter(r=>r.level==="高").length,mid=rs.filter(r=>r.level==="中").length;
+        if(!rs.length)return `<p class="risk-ok"><b>⚠ 风险提示与合规建议:</b>各项均判定为等同,未发现『满足一方不一定满足另一方』的合规缺口,按任一方满足即可。</p>`;
+        const rr=rs.map(r=>`<tr><td class="lv lv${r.level==="高"?"hi":"mid"}">${esc(r.level)}</td><td class="pt">${esc(r.point)}${r.qual?" ("+esc(r.qual)+")":""}</td><td>${esc(r.action||r.essence)}</td></tr>`).join("");
+        return `<h3 class="rs">⚠ 风险提示与合规建议 <span>高 ${hi} · 中 ${mid}</span></h3><table class="rtab"><thead><tr><th>等级</th><th>风险点</th><th>建议行动 / 下一步方向</th></tr></thead><tbody>${rr}</tbody></table>`;})()}
+      ${(function(){const ss=cmpSources(it);if(!ss.length)return"";
+        const li=ss.map((s,i)=>`<tr><td class="num">${i+1}</td><td class="pt">${esc(s.name)}</td><td>${esc(s.role||"")}</td></tr>`).join("");
+        return `<h3 class="rs blue">📚 参考文献</h3><table class="rtab"><thead><tr><th>#</th><th>文件 / 标准</th><th>角色</th></tr></thead><tbody>${li}</tbody></table>`;})()}
       ${subs.map(s=>block(s,true)).join("")}</section>`;
   };
   const body=tops.map(it=>block(it,false)).join("");
@@ -3564,6 +3635,9 @@ function exportRegComparePrint(){
     "table{border-collapse:collapse;width:100%;margin:6px 0;font-size:10.5px}th,td{border:1px solid #c9c4b4;padding:4px 6px;vertical-align:top;text-align:left}"+
     "th{background:#1a2420;color:#f4f1e8;font-weight:600}td.pt{font-weight:700;white-space:nowrap}td.q{font-weight:700;white-space:nowrap}tr.ref td{background:#f6f4ec;font-size:10px;color:#3a6b8a}"+
     ".concl{font-size:11px;background:#fbeee4;border-left:3px solid #c6502a;padding:6px 10px;margin:6px 0}"+
+    "h3.rs{font-size:12px;margin:10px 0 3px;color:#c6502a}h3.rs.blue{color:#3a6b8a}h3.rs span{font-weight:400;font-size:10px;color:#777;margin-left:6px}"+
+    ".risk-ok{font-size:11px;background:#eef5ea;border-left:3px solid #5a8a4a;padding:6px 10px;margin:6px 0}"+
+    "table.rtab th{background:#e7e3d5;color:#1a2420}table.rtab td.lv{text-align:center;font-weight:700}td.lvhi{background:#f6e0d6;color:#a8401f}td.lvmid{background:#dce7ee;color:#2f6d8c}table.rtab td.num{text-align:center;color:#7a7f6a}"+
     "@media print{section.top{page-break-before:auto}}";
   const w=window.open("","_cmpprint");
   if(!w){if(tip)tip.textContent="⚠ 请允许弹窗以导出 PDF";return;}
