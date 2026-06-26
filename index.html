@@ -4566,10 +4566,22 @@ function renderRadar(){
       <td style="min-width:240px"><b style="font-size:12.5px">${esc(r.title||"")}</b><div style="font-size:11px;color:var(--ink2);line-height:1.5;margin-top:2px">${esc(r.summary||"")}</div><div style="margin-top:3px">${tps}</div>${r.tbt_no?`<div style="font-size:10px;color:#2f6d8c;font-family:var(--mono)">TBT ${esc(r.tbt_no)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap"><span style="background:${st.b};color:${st.c};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px">${esc(r.stage||"—")}</span>${r.pub_date?`<div style="font-size:10px;color:var(--muted);margin-top:2px">${esc(r.pub_date)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap;font-size:10.5px"><span style="color:${pend2?'#8a6510':'#3d6630'};font-weight:700">${esc(r.status||"")}</span><div style="color:${/已核实/.test(r.confidence||"")?'#3d6630':'#a8401f'};margin-top:2px">${esc(r.confidence||"")}</div></td>
-      <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td></tr>`;}).join("");
-  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:980px"><thead><tr>
-    <th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th></tr></thead>
-    <tbody>${trs||'<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
+      <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td>
+      <td class="c" style="white-space:nowrap">${pend2?`<button class="btn light" style="padding:1px 6px;font-size:10px;color:#3d6630" onclick="radarConfirm('${esc(r.id)}')">✓确认</button><br>`:""}<button class="btn light" style="padding:1px 6px;font-size:10px;color:#a8401f;margin-top:2px" onclick="radarDelete('${esc(r.id)}')">🗑删除</button></td></tr>`;}).join("");
+  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:1060px"><thead><tr>
+    <th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
+    <tbody>${trs||'<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
+}
+async function radarConfirm(id){
+  try{await sbReq("PATCH","reg_radar?id=eq."+encodeURIComponent(id),{status:"已确认",confidence:"已核实"},"return=minimal");
+    const r=(_radar||[]).find(x=>x.id===id);if(r){r.status="已确认";r.confidence="已核实";}renderRadar();}
+  catch(e){alert("确认失败:"+(e&&e.message||e));}
+}
+async function radarDelete(id){
+  if(!confirm("确认删除这条雷达记录?不可恢复。"))return;
+  try{await sbReq("DELETE","reg_radar?id=eq."+encodeURIComponent(id));
+    _radar=(_radar||[]).filter(x=>x.id!==id);renderRadar();}
+  catch(e){alert("删除失败:"+(e&&e.message||e));}
 }
 function exportRadarXlsx(){
   if(typeof XLSX==="undefined"||!_radar)return;
