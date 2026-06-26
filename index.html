@@ -4400,61 +4400,101 @@ function renderEvStats(list){
 
 /* tabs */
 /* ================= 18 UNECE 法规状态 ================= */
-let _unece=null,_uneceFilter="all",_uneceP=null;
+const UNREG_CN={"0":"国际整车型式批准(IWVTA)","1":"前照灯(R2/HS1灯丝灯泡)","2":"白炽灯泡","3":"回复反射器","4":"后牌照板照明","5":"封闭式前照灯","6":"方向指示灯","7":"前后位置灯/制动灯/示廓灯","8":"前照灯(H1-H7卤素)","9":"三轮车噪声","10":"电磁兼容(EMC)","11":"门锁及门铰链","12":"转向机构碰撞保护","13":"重型车制动","13H":"乘用车制动","14":"安全带固定点","16":"安全带及约束系统","17":"座椅及头枕强度","18":"机动车防盗","19":"前雾灯","20":"前照灯(H4卤素)","21":"内部凸出物","22":"摩托车头盔及护目镜","23":"倒车灯","24":"柴油机烟度/可见污染物","25":"头枕","26":"外部凸出物","27":"三角警告牌","28":"声响警告装置(喇叭)","29":"商用车驾驶室乘员保护","30":"乘用车轮胎","31":"封闭式卤素前照灯","34":"防火(燃油箱)","37":"灯丝灯泡","38":"后雾灯","39":"车速表/里程表","41":"摩托车噪声","43":"安全玻璃材料","44":"儿童约束系统","45":"前照灯清洗器","46":"后视镜/间接视野装置","48":"灯具安装","49":"压燃/气体发动机排放","51":"M/N类噪声","53":"摩托车灯具安装","54":"商用车及挂车轮胎","55":"机械连接装置","58":"后下部防护","64":"临时备用轮胎/胎压报警","66":"客车上部结构强度","67":"LPG设备","73":"侧面防护","78":"摩托车制动","79":"转向装置","80":"客车座椅及固定强度","83":"轻型车排放(M1/N1)","85":"发动机/电驱动净功率","87":"昼间行驶灯","89":"限速装置","90":"替换制动衬片","91":"侧标志灯","93":"前下部防护","94":"正面碰撞乘员保护","95":"侧面碰撞乘员保护","98":"气体放电光源前照灯","99":"气体放电光源","100":"电动车安全(REESS/电安全)","101":"CO2排放/油耗/电耗/续驶里程","103":"替换催化转化器","104":"回复反射标识","105":"危险货物运输车辆","107":"M2/M3类客车结构","110":"CNG/LNG设备","112":"非对称光束前照灯","113":"对称光束前照灯","116":"整车防盗与报警","117":"轮胎噪声/湿地附着/滚动阻力","118":"内饰材料燃烧特性","119":"弯道照明灯","121":"手控/信号装置标识","122":"供暖系统","123":"自适应前照明系统(AFS)","124":"替换车轮","125":"驾驶员前方视野","127":"行人保护","128":"LED光源","129":"增强型儿童约束(i-Size)","130":"车道偏离预警(LDWS)","131":"商用车自动紧急制动(AEBS)","134":"氢燃料电池车安全","135":"柱碰(侧面)","137":"正面全宽碰撞","139":"制动辅助系统(BAS)","140":"电子稳定控制(ESC)","141":"胎压监测(TPMS)","142":"轮胎安装","145":"ISOFIX固定点","148":"灯光信号装置(LSD)","149":"道路照明装置(RID)","150":"回复反射装置(RRD)","151":"盲区信息系统(BSIS)","152":"AEBS(M1/N1)","153":"燃油系统及后碰电安全","154":"轻型车全球统一排放(WLTP)","155":"网络安全及CSMS","156":"软件升级及SUMS","157":"自动车道保持系统(ALKS)","158":"倒车探测(后方可见性)","159":"起步信息系统(MOIS)","160":"事件数据记录器(EDR)","161":"防止未经授权使用装置","162":"车辆报警系统(VAS)"};
+let _unece=null,_uneceFilter="all",_uneceP=null,_unOpen={},_unOpenS={};
 function loadUnece(force){
   if(_unece&&!force)return Promise.resolve(_unece);
   if(_uneceP&&!force)return _uneceP;
   _uneceP=fetch("./data/unece_status.json"+(force?"?t="+Date.now():"")).then(r=>r.json()).then(d=>{
-    d._flat=[];(d.regs||[]).forEach(r=>(r.amendments||[]).forEach(a=>d._flat.push({no:r.no,name:r.name,doc:a.doc,status:a.status,eif:a.eif,adopted:a.adopted})));
     _unece=d;const ri=$("#un-ref");if(ri&&!ri.value)ri.value=new Date().toISOString().slice(0,10);return _unece;
-  }).catch(()=>{_unece={regs:[],_flat:[]};return _unece;});
+  }).catch(()=>{_unece={regs:[]};return _unece;});
   return _uneceP;
 }
 function uneceFilter(f){_uneceFilter=f;["all","inforce","upcoming","recent"].forEach(k=>{const b=$("#unf-"+k);if(b)b.classList.toggle("on",k===f);});renderUnece();}
 function uneceRef(){return($("#un-ref")&&$("#un-ref").value)||new Date().toISOString().slice(0,10);}
-function uneceMatch(a,q){if(!q)return true;const n=q.replace(/^r/,"");
-  if(a.no.toLowerCase()===q||a.no.toLowerCase()===n)return true;
-  return((a.no||"")+" "+(a.name||"")+" "+(a.status||"")+" "+(a.doc||"")).toLowerCase().includes(q);}
+function uneceQ(){return((($("#un-q")&&$("#un-q").value)||"").trim().toLowerCase());}
+function uneceMatchReg(r,q){if(!q)return true;const n=q.replace(/^(un)?r/,""),no=(r.no||"").toLowerCase();
+  if(no===q||no===n)return true;
+  return(no+" "+(r.name||"")+" "+(UNREG_CN[r.no]||"")).toLowerCase().includes(q);}
 function uneceStat(eif,ref){if(!eif)return{t:"无日期",col:"#7a7f6a",bg:"#ececea"};return eif>ref?{t:"即将生效",col:"#a8401f",bg:"#f6e0d6"}:{t:"已生效",col:"#3d6630",bg:"#dcead2"};}
 function uneceYearAgo(ref){const d=new Date(ref+"T00:00:00");d.setFullYear(d.getFullYear()-1);return d.toISOString().slice(0,10);}
-function uneceRows(ref,q){
-  const ya=uneceYearAgo(ref);
-  return _unece._flat.filter(a=>uneceMatch(a,q)).filter(a=>{
-    if(_uneceFilter==="inforce")return a.eif&&a.eif<=ref;
-    if(_uneceFilter==="upcoming")return a.eif&&a.eif>ref;
-    if(_uneceFilter==="recent")return a.eif&&a.eif<=ref&&a.eif>=ya;
-    return true;
-  }).slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0"));}
+function unecePassAmend(a,ref){const ya=uneceYearAgo(ref);
+  if(_uneceFilter==="inforce")return a.eif&&a.eif<=ref;
+  if(_uneceFilter==="upcoming")return a.eif&&a.eif>ref;
+  if(_uneceFilter==="recent")return a.eif&&a.eif<=ref&&a.eif>=ya;
+  return true;}
+function uneceSeriesOf(s){s=String(s||"");let m=/(\d{2})\s*series/.exec(s);if(m)return m[1];
+  m=/to\s+(?:the\s+)?(\d{2})\b/.exec(s);if(m)return m[1];
+  if(/\b00\b/.test(s))return"00";return"—";}
+function unecePdf(a){return a.sym?'https://undocs.org/en/ECE/TRANS/WP.29/'+a.sym:"";}
+function uneceBadge(st){return`<span style="background:${st.bg};color:${st.col};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px;white-space:nowrap">${st.t}</span>`;}
+function uneceToggleReg(no){_unOpen[no]=!_unOpen[no];renderUnece();}
+function uneceToggleSeries(k){_unOpenS[k]=!_unOpenS[k];renderUnece();}
 function renderUnece(){
   const body=$("#un-body");if(!body)return;
   if(!_unece){loadUnece().then(renderUnece);return;}
-  const ref=uneceRef(),q=((($("#un-q")&&$("#un-q").value)||"").trim().toLowerCase());
-  const base=_unece._flat.filter(a=>uneceMatch(a,q));
-  const inN=base.filter(a=>a.eif&&a.eif<=ref).length,upN=base.filter(a=>a.eif&&a.eif>ref).length,noN=base.filter(a=>!a.eif).length;
-  const regN=new Set(base.map(a=>a.no)).size;
-  if($("#un-kpi"))$("#un-kpi").innerHTML=`法规 <b>${regN}</b> 项 · 增补 <b>${base.length}</b> 条 · <b style="color:#3d6630">已生效 ${inN}</b> · <b style="color:#a8401f">即将生效 ${upN}</b>${noN?` · 无日期 ${noN}`:""}  <span style="color:var(--muted)">(基准日 ${esc(ref)})</span>`;
-  if($("#un-note"))$("#un-note").innerHTML=`数据源:${esc(_unece.source||"")}(状态截至 ${esc(_unece.as_of||"")})。「即将生效」= 生效日期晚于<b>基准日期</b>的增补;改基准日期可回看任意时点的现行/未生效状态。本批数据收录的最新生效日为其上限,故以今日为基准时多为现行。`;
-  const rows=uneceRows(ref,q),cap=600,shown=rows.slice(0,cap);
-  const trs=shown.map(a=>{const st=uneceStat(a.eif,ref);
-    return `<tr>
-      <td style="font-weight:700;white-space:nowrap">R${esc(a.no)}</td>
-      <td style="font-size:11.5px">${esc(a.name||"")}</td>
-      <td style="font-size:11.5px;white-space:nowrap">${esc(a.status||"")}</td>
-      <td style="font-size:11px;color:var(--muted);white-space:nowrap">${esc(a.adopted||"—")}</td>
-      <td style="font-weight:700;white-space:nowrap">${a.eif?esc(a.eif):'<span style="color:var(--faint)">—</span>'}</td>
-      <td class="c" style="white-space:nowrap"><span style="background:${st.bg};color:${st.col};font-weight:700;font-size:11px;padding:1px 8px;border-radius:9px">${st.t}</span></td></tr>`;}).join("");
-  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:860px"><thead><tr>
-    <th style="width:60px">法规</th><th style="min-width:200px">名称</th><th style="width:140px">增补 / 系列</th><th style="width:92px">通过(发布)</th><th style="width:96px">生效日期</th><th style="width:90px">状态</th></tr></thead>
-    <tbody>${trs||'<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:18px">无匹配</td></tr>'}</tbody></table></div>
-    ${rows.length>cap?`<div style="font-size:11px;color:var(--muted);margin-top:6px">共 ${rows.length} 条,按生效日期倒序显示前 ${cap} 条;请用搜索或筛选缩小范围。</div>`:""}</div>`;
+  const ref=uneceRef(),q=uneceQ();
+  // regs matching search, each with its filter-passing amendments
+  const regs=(_unece.regs||[]).filter(r=>uneceMatchReg(r,q)).map(r=>{
+    const am=(r.amendments||[]).filter(a=>unecePassAmend(a,ref));
+    return {r,am};
+  }).filter(x=>_uneceFilter==="all"?true:x.am.length>0)
+    .sort((a,b)=>(parseInt(a.r.no)||999)-(parseInt(b.r.no)||999)||String(a.r.no).localeCompare(String(b.r.no)));
+  // KPI over matching regs' amendments
+  let allAm=[];(_unece.regs||[]).filter(r=>uneceMatchReg(r,q)).forEach(r=>(r.amendments||[]).forEach(a=>allAm.push(a)));
+  const inN=allAm.filter(a=>a.eif&&a.eif<=ref).length,upN=allAm.filter(a=>a.eif&&a.eif>ref).length,noN=allAm.filter(a=>!a.eif).length;
+  if($("#un-kpi"))$("#un-kpi").innerHTML=`法规 <b>${regs.length}</b> 项 · 增补 <b>${allAm.length}</b> 条 · <b style="color:#3d6630">已生效 ${inN}</b> · <b style="color:#a8401f">即将生效 ${upN}</b>${noN?` · 无日期 ${noN}`:""}  <span style="color:var(--muted)">(基准日 ${esc(ref)})</span>`;
+  if($("#un-note"))$("#un-note").innerHTML=`数据源:${esc(_unece.source||"")}(状态截至 ${esc(_unece.as_of||"")})。按 UN 法规编号升序;展开法规→系列(新→旧)→增补(按生效日新→旧)。「即将生效」=生效日晚于<b>基准日期</b>;有官方文号者附 📄 直链(undocs.org)。中文名为参考译名。`;
+  const autoExpand=q!==""||regs.length<=8;
+  const html=regs.map(({r,am})=>{
+    const open=_unOpen[r.no]||autoExpand;
+    const cn=UNREG_CN[r.no]||"";
+    const latest=am.slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0"))[0]||{};
+    const st=uneceStat(latest.eif,ref);
+    // group amendments by series
+    const byS={};am.forEach(a=>{const s=uneceSeriesOf(a.status);(byS[s]=byS[s]||[]).push(a);});
+    const seriesKeys=Object.keys(byS).sort((a,b)=>(a==="—"?-1:parseInt(a))<(b==="—"?-1:parseInt(b))?1:-1);
+    const seriesHtml=open?seriesKeys.map(sk=>{
+      const skey=r.no+"|"+sk,sopen=_unOpenS[skey]||autoExpand;
+      const list=byS[sk].slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0"));
+      const sl=list[0]||{},sst=uneceStat(sl.eif,ref);
+      const amRows=sopen?list.map(a=>{const ast=uneceStat(a.eif,ref),pdf=unecePdf(a);
+        return `<div style="display:grid;grid-template-columns:160px 110px 96px 84px 1fr;gap:8px;align-items:center;padding:4px 10px 4px 44px;border-top:1px solid var(--line);font-size:11.5px">
+          <span style="font-weight:600">${esc(a.status||a.doc||"")}</span>
+          <span style="color:var(--muted)">${esc(a.sess||"—")}</span>
+          <span style="font-weight:700">${a.eif?esc(a.eif):"—"}</span>
+          ${uneceBadge(ast)}
+          <span>${pdf?`<a href="${pdf}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600">📄 官方文件(${esc(a.sym)})</a>`:'<span style="color:var(--faint);font-size:10.5px">无文号</span>'}</span>
+        </div>`;}).join(""):"";
+      return `<div>
+        <div onclick="uneceToggleSeries('${esc(skey).replace(/'/g,"\\'")}')" style="cursor:pointer;display:flex;gap:8px;align-items:center;padding:5px 10px 5px 26px;background:var(--panel2);border-top:1px solid var(--line);font-size:12px">
+          <span style="width:12px;color:var(--muted)">${sopen?"▾":"▸"}</span>
+          <b>${sk==="—"?"基础/其他":sk+" 系列"}</b>
+          <span style="color:var(--muted);font-size:11px">增补 ${list.length} · 最新生效 ${esc(sl.eif||"—")}</span>
+          ${uneceBadge(sst)}
+        </div>${amRows}</div>`;
+    }).join(""):"";
+    return `<div style="border:1px solid var(--line);border-radius:6px;margin-bottom:6px;overflow:hidden">
+      <div onclick="uneceToggleReg('${esc(r.no).replace(/'/g,"\\'")}')" style="cursor:pointer;display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--panel)">
+        <span style="width:12px;color:var(--accent);font-weight:700">${open?"▾":"▸"}</span>
+        <b style="font-size:14px;white-space:nowrap;color:var(--accent)">R${esc(r.no)}</b>
+        <span style="min-width:0"><b>${cn?esc(cn):esc(r.name||"")}</b>${cn?` <span style="color:var(--muted);font-weight:400;font-size:11.5px">${esc(r.name||"")}</span>`:""}</span>
+        <span style="flex:1"></span>
+        <span style="font-size:11px;color:var(--muted);white-space:nowrap">${seriesKeys.length} 系列 · ${am.length} 增补 · 最新 ${esc(latest.eif||"—")} ${latest.sess?"· "+esc(latest.sess):""}</span>
+        ${uneceBadge(st)}
+      </div>${seriesHtml}</div>`;
+  }).join("");
+  body.innerHTML=`<div class="card">${html||'<div class="bigmsg">无匹配法规</div>'}</div>`;
 }
 function exportUneceXlsx(){
   if(typeof XLSX==="undefined"||!_unece)return;
-  const ref=uneceRef(),q=((($("#un-q")&&$("#un-q").value)||"").trim().toLowerCase());
-  const rows=uneceRows(ref,q);
-  const aoa=[["法规","法规名称","增补 / 系列","通过(发布)","生效日期","状态(基准 "+ref+")"]];
-  rows.forEach(a=>aoa.push(["R"+a.no,a.name||"",a.status||"",a.adopted||"",a.eif||"",uneceStat(a.eif,ref).t]));
-  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:9},{wch:42},{wch:18},{wch:12},{wch:12},{wch:16}];
+  const ref=uneceRef(),q=uneceQ();
+  const aoa=[["法规","中文名(参考)","英文名","系列","增补 / 系列文号","通过会议","生效日期","状态(基准 "+ref+")","官方文件链接"]];
+  (_unece.regs||[]).filter(r=>uneceMatchReg(r,q)).sort((a,b)=>(parseInt(a.no)||999)-(parseInt(b.no)||999)).forEach(r=>{
+    (r.amendments||[]).filter(a=>unecePassAmend(a,ref)).slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0")).forEach(a=>{
+      aoa.push(["R"+r.no,UNREG_CN[r.no]||"",r.name||"",uneceSeriesOf(a.status),a.status||a.doc||"",a.sess||"",a.eif||"",uneceStat(a.eif,ref).t,unecePdf(a)]);});
+  });
+  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:8},{wch:24},{wch:34},{wch:7},{wch:18},{wch:16},{wch:12},{wch:12},{wch:44}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"UNECE法规状态");
   XLSX.writeFile(wb,"UNECE法规状态_"+ref+".xlsx");
 }
