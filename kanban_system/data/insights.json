@@ -2858,6 +2858,188 @@
    "source_file": "PNG 车辆准入官方法源包(Road Traffic Act 2014 等9件)",
    "url": "",
    "needs_review": false
+  },
+  {
+   "id": "INS-2026-058",
+   "type": "interpret",
+   "title": "澳大利亚 ADR 68/01 客车乘员保护新规:强制每座配安全带 + 安全带提醒系统(每座视觉标签/舱前点亮标识/语音播报)逐条解读",
+   "summary": "《Vehicle Standard (ADR 68/01 – Occupant Protection in Buses) 2024》2024-12-09 签署、2025-01-06 联邦立法注册(F2024L01742),适用 MD 类(轻型客车)与 ME 类(重型客车)。两阶段实施:2026-11-01 起新车型、2027-11-01 起全部车辆,按制造日期判定、无追溯改装。核心是第 5.4 节强制每个座椅(除驾驶员)配安全带——前向座椅须三点式+应急锁止卷收器(ELR,符合 ADR 4 系列),后向座椅可两点腰带或三点式;第 5.5 锚固点强度、5.6 至少 6 座儿童约束固定点、5.7 禁侧向座椅。第 5.8 安全带提醒系统:①每座视觉标签『fasten seatbelt while seated』(Arial/Helvetica medium、≥7mm、装高 1000±300mm);②舱前点亮标识『fasten seatbelts』(≥40mm,开门 5 秒内点亮、关门后维持≥60 秒);③语音播报『please fasten seatbelts while seated』(关门后于 500m 或 25km/h 先到者前完成)。豁免:(a) 未配乘客安全带的路线公交(Route Service Omnibus)、(b) 含驾驶员总座位<17 座的客车。",
+   "regulations": [
+    {
+     "region": "大洋洲",
+     "country": "澳大利亚",
+     "reg_no": "ADR 68/01 – Occupant Protection in Buses 2024(F2024L01742)",
+     "match_key": "ADR 68"
+    }
+   ],
+   "topics": [
+    "澳大利亚",
+    "ADR 68/01",
+    "客车",
+    "Bus",
+    "安全带",
+    "安全带提醒系统",
+    "乘员保护",
+    "座椅锚固点",
+    "儿童约束",
+    "出口认证",
+    "大洋洲"
+   ],
+   "dimensions": [
+    "1",
+    "8"
+   ],
+   "key_points": [
+    "适用与时间:适用 MD(轻型客车)/ME(重型客车)类;2026-11-01 起新车型、2027-11-01 起全部车辆;按制造日期生效,无在用车追溯改装条款。",
+    "强制安全带(FAQ 一笔带过、实为核心):5.4.1 每座(除驾驶员)必须配安全带组件——前向座椅三点式+ELR(ADR 4 系列),后向座椅两点腰带或三点式;5.5 锚固点须满足骨盆+上躯干约束强度/位置;5.6 至少 6 座提供儿童约束固定点;5.7 禁侧向座椅、扶手/折叠托盘须过碰撞防护测试。",
+    "提醒系统三件套(5.8,精度远高于 FAQ):①每座视觉标签 5.8.1『fasten seatbelt while seated』Arial/Helvetica medium ≥7mm、高 1000±300mm;②舱前点亮标识 5.8.2『fasten seatbelts』≥40mm、开门 5 秒内亮/关门维持≥60 秒;③语音 5.8.3『please fasten seatbelts while seated』关门后 500m 或 25km/h(先到)前完成。",
+    "豁免(5.4 前置条件,易误读):(a) 未配乘客安全带的路线公交、(b) 含驾驶员<17 座客车;若路线公交已配安全带则不享豁免,仍须全部满足(含提醒系统)。",
+    "FAQ 澄清:不强制安全带占用监测(occupancy sensor 仍选配);语音无 dB 数值要求(仅『须传遍客舱』);可加图标但文字为底线(must include at least the text)。",
+    "OEM 合规重心:真正门槛在 5.4 强制安全带带来的座椅/锚固点/安全带组件结构性设计变更 + 5.8 提醒系统的字体/高度/触发时序细节(认证最易被挑错处)。"
+   ],
+   "author": "锐驰莱德检测《ADR 68/01 客车安全带新规全解析》(以 ADR 68/01 法规原文逐条核对)",
+   "publish_date": "2025-01-06",
+   "region_focus": [
+    "澳大利亚"
+   ],
+   "source_file": "锐驰莱德检测《ADR 68/01:澳大利亚客车安全带新规全解析》(2026-06)+ ADR 68/01 法规原文",
+   "url": "",
+   "needs_review": false
+  },
+  {
+   "id": "INS-2026-059",
+   "type": "interpret",
+   "title": "UN R49 重型车发动机排放标准解析:Euro I–VI 技术基础、06/07 series(Euro VI)WHSC/WHTC+PEMS,及 Euro VII 过渡",
+   "summary": "UN ECE R49 是 UNECE 针对重型车发动机气体+颗粒物排放的核心技术法规,构成欧盟 Euro I–VI 重型车标准的技术基础(对应 EC 595/2009 与 (EU) 582/2011)。适用 M3/N3 及参考质量>2610kg 的 M1/M2/N1/N2 类发动机(总质量>3.5t 动力总成),覆盖 CI(柴油)与 PI(天然气/LPG/CNG)及后续双燃料/氢;管控 CO/HC(THC/NMHC)/NOx/PM/PN/NH₃,经型式批准+生产一致性(COP)+在用符合性(ISC)全链条把关,与轻型车 R83 相对应。系列演进:00–02(Euro I/II,13-mode 稳态)→03–05(Euro III–V,ESC 稳态+ETC 瞬态+ELR 烟度,引入 OBD/耐久)→06(Euro VI,WHSC+WHTC 冷/热启动+WNTE+PEMS,新增 PN 限值、NH₃ 监控、严格 OBD/ISC,2013 起)→07(Euro VI 框架修订,细化 PEMS 窗口、防篡改、新增燃气/氢机型,2021 起持续)。Euro VII 对应全新 R49 修订草案+(EU)2024/1257,HDV 新型式批准约 2028 过渡。截至 2026-06,新认证不再受理 05 series 及更早。柴油 Euro VI 限值示例(g/kWh):CO 1.5/4.0、THC 0.13/0.16(WHSC/WHTC)。",
+   "regulations": [
+    {
+     "region": "国际",
+     "country": "联合国UNECE",
+     "reg_no": "UN Regulation No. 49(R49)— 重型车发动机污染物排放",
+     "match_key": "UN R49"
+    },
+    {
+     "region": "欧盟",
+     "country": "欧盟",
+     "reg_no": "Regulation (EC) No 595/2009 / (EU) No 582/2011",
+     "match_key": "595/2009"
+    }
+   ],
+   "topics": [
+    "UN R49",
+    "重型车",
+    "M/HDV",
+    "排放",
+    "Euro VI",
+    "Euro VII",
+    "WHSC",
+    "WHTC",
+    "PEMS",
+    "柴油",
+    "CI",
+    "NOx",
+    "PM",
+    "PN",
+    "NH3",
+    "国际",
+    "欧盟"
+   ],
+   "dimensions": [
+    "2"
+   ],
+   "key_points": [
+    "定位:R49 是重型车发动机排放全球性技术基准,欧盟直接采用/等效引用(EC 595/2009、(EU) 582/2011);WHSC/WHTC 源自 UN GTR,高度国际协调;与轻型车 R83 对应。",
+    "适用:M3/N3 及参考质量>2610kg 的 M1/M2/N1/N2 发动机(总质量>3.5t);CI(柴油)+PI(NG/LPG/CNG),扩展至双燃料/氢;管控 CO/HC/NOx/PM/PN/NH₃。",
+    "系列演进:00–02(Euro I/II,13-mode 稳态)→03–05(Euro III–V,ESC+ETC+ELR,OBD 初步/耐久因子)→06(Euro VI,WHSC+WHTC 冷热+WNTE+PEMS,PN 限值、NH₃ 监控、严格 OBD/ISC,2013 起)→07(修订,细化 PEMS 窗口、防篡改、燃气/氢机型,2021 起)。",
+    "当前主力 06/07 series(Rev.6/Rev.7)均属 Euro VI;截至 2026-06,新认证不再受理 05 series 及更早旧版本。",
+    "Euro VII:对应全新 R49 修订草案(实验室+RDE 强化),实施法规(EU)2024/1257 已发布,HDV 新型式批准预计约 2028 起过渡。",
+    "限值示例(柴油 Euro VI,g/kWh;PN 为 #/kWh、NH₃ 为 ppm):CO 1.5(WHSC)/4.0(WHTC)、THC 0.13/0.16;较 Euro V 主要收紧 NOx/PM 并新增 PN/NH₃。"
+   ],
+   "author": "《UN ECE R49 标准解析》(海河江湖/胜哥的琐碎)",
+   "publish_date": "2026-06",
+   "region_focus": [
+    "欧盟",
+    "国际"
+   ],
+   "source_file": "《UN ECE R49 标准解析》(2026-06)",
+   "url": "",
+   "needs_review": false
+  },
+  {
+   "id": "INS-2026-060",
+   "type": "system",
+   "title": "巴西售后配件数字化追溯天网:拆解法(Lei 12.977/2014·QR Code)+ INMETRO 强制认证 + NF-e;及全球『管件/维修权』转向(澳/欧)",
+   "summary": "2026-05-26 里约 Detran RJ 在 Nova Iguaçu 查封一家线上销售的地下进口配件仓库,扣押 1500 余件——并非走私/逃税,而是每件均无 QR Code 可追溯标签;其中出现比亚迪、福特领界等进口车型零部件(第三方未授权流通),为中国品牌车零配件首次进入巴西售后执法公开记录。巴西《拆解法》(Lei do Desmonte,第 12.977/2014 号)要求每件进入流通的二手/拆车/翻新配件在 DETRAN 数据库注册并贴 QR Code 标签(扫码穿透原车 VIN、拆解企业资质、入库时间);叠加 INMETRO 对 14 类安全关键件(刹车片/轮胎/玻璃/安全带/车灯等)强制认证(模式5:产品测试+工厂审核+后续监督,证书须本地进口商/代理持有)与联邦税务局 NF-e 电子发票,构成『货-证-票-码』全链在线留痕。关键:整车 CAT+LCVM 认证与配件认证是两套独立体系、两个主管部门,整车合规 ≠ 配件自动合规。全球同向趋势:澳大利亚 AASRA 就『维修权』(向独立修理厂开放核心诊断软件/技术参数)向比亚迪/极氪/小鹏/零跑/Smart 等 5 家发合规警告(援引 MVIS 法案上限 1000 万澳元,尚未顶格开罚);欧盟《维修权指令》(EU)2024/1799(成员国须 2026-07-31 前转化)+ Reg 2018/858 Art.61(开放 RMI)+ MVBER 461/2010 + EU Data Act(2026-09 起强制车辆数据共享)。监管正从『车能不能卖』延伸到『车怎么修、件从哪来、数据归谁』。",
+   "regulations": [
+    {
+     "region": "拉美",
+     "country": "巴西",
+     "reg_no": "Lei do Desmonte(Lei nº 12.977/2014)— 拆解法/配件 QR Code 追溯",
+     "match_key": "12.977"
+    },
+    {
+     "region": "拉美",
+     "country": "巴西",
+     "reg_no": "INMETRO 安全关键件强制认证(14 类·模式5)",
+     "match_key": "INMETRO"
+    },
+    {
+     "region": "大洋洲",
+     "country": "澳大利亚",
+     "reg_no": "MVIS 维修信息共享法案 / AASRA 维修权",
+     "match_key": "MVIS"
+    },
+    {
+     "region": "欧盟",
+     "country": "欧盟",
+     "reg_no": "维修权指令 (EU) 2024/1799 + Reg 2018/858 Art.61 + EU Data Act",
+     "match_key": "2024/1799"
+    }
+   ],
+   "topics": [
+    "巴西",
+    "Brazil",
+    "拆解法",
+    "Lei do Desmonte",
+    "12.977",
+    "QR Code",
+    "可追溯",
+    "INMETRO",
+    "NF-e",
+    "DETRAN",
+    "售后配件",
+    "维修权",
+    "RMI",
+    "澳大利亚",
+    "AASRA",
+    "MVIS",
+    "欧盟",
+    "Data Act",
+    "出海合规",
+    "拉美"
+   ],
+   "dimensions": [
+    "9",
+    "8"
+   ],
+   "key_points": [
+    "导火索:2026-05-26 里约 Detran RJ 查封线上经营的地下配件仓库,扣 1500+ 件,问题是无 QR Code 追溯标签(非走私/逃税);含比亚迪、福特领界零部件(第三方未授权流通),为中国品牌配件首次进入巴西售后执法公开记录;『Operação Desmonte』已 83 次行动查封 168 家违规拆车厂。",
+    "拆解法(Lei 12.977/2014):每件二手/拆车/翻新配件须在 DETRAN 注册并贴 QR Code,扫码穿透原车 VIN、拆解企业资质、入库时间;告别『有发票就行』,进入全供应链实时在线。",
+    "INMETRO 第二道闸门:14 类安全关键件(刹车片/轮胎/玻璃/安全带/车灯等)强制认证,模式5=产品测试+工厂审核+后续监督;证书须巴西本地进口商/代理持有,海外制造商不能直接持证;与整车 CAT+LCVM 是两套独立体系。",
+    "『货证票码』四线合一:工厂发货(INMETRO)→进口清关→经销商/修理厂(NF-e 电子发票+税号流转)全链留痕;数十万辆在巴中国新能源车的售后供应链须 100% 在线留痕。",
+    "全球同向(管件/维修权):澳大利亚 AASRA 就维修数据开放向比亚迪/极氪/小鹏/零跑/Smart 发警告(MVIS 上限 1000 万澳元,未顶格);欧盟维修权指令 (EU)2024/1799(2026-07-31 转化)+ Reg 2018/858 Art.61(RMI)+ EU Data Act(2026-09 强制数据共享)。",
+    "范式转折:监管从『准入审查』转向『全链追溯+维修权+数据归属』;三盲区=配件认证与整车脱节、售后追溯能力缺失、非技术合规(劳工/供应链/维修数据)风险被低估;建议配件认证前置、建本地追溯体系、转向全生命周期合规。"
+   ],
+   "author": "ARC 亚锐集团《巴西的售后地雷,给全球出海敲响了什么警钟?》",
+   "publish_date": "2026-06",
+   "region_focus": [
+    "巴西",
+    "澳大利亚",
+    "欧盟"
+   ],
+   "source_file": "ARC 亚锐集团《巴西的售后地雷…出海下半场:卷合规,拼本地化扎根》(2026-06)",
+   "url": "",
+   "needs_review": false
   }
  ]
 }

@@ -2731,5 +2731,146 @@
         "url": ""
       }
     ]
+  },
+  "ADR 68/01 – Occupant Protection in Buses 2024(F2024L01742)": {
+    "reg_no": "ADR 68/01 – Occupant Protection in Buses 2024(F2024L01742)",
+    "match_key": "ADR 68",
+    "region": "大洋洲",
+    "country": "澳大利亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-058",
+        "title": "澳大利亚 ADR 68/01 客车乘员保护新规:强制每座配安全带 + 安全带提醒系统(每座视觉标签/舱前点亮标识/语音播报)逐条解读",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "UN Regulation No. 49(R49)— 重型车发动机污染物排放": {
+    "reg_no": "UN Regulation No. 49(R49)— 重型车发动机污染物排放",
+    "match_key": "UN R49",
+    "region": "国际",
+    "country": "联合国UNECE",
+    "in_library": true,
+    "library_hits": [
+      {
+        "file": "UNECE",
+        "sheet": "ECE",
+        "row": 45,
+        "reg_no": "UN Regulation No. 49",
+        "cn_name": "关于压燃式和点燃式发动机车辆气体和颗粒物污染物排放控制的统一规定"
+      },
+      {
+        "file": "摩尔多瓦",
+        "sheet": "摩尔多瓦",
+        "row": 54,
+        "reg_no": "UN R49",
+        "cn_name": "关于压燃式和点燃式发动机车辆气体和颗粒物污染物排放控制的统一规定"
+      },
+      {
+        "file": "新加坡",
+        "sheet": "新加坡",
+        "row": 35,
+        "reg_no": "UN R49",
+        "cn_name": "关于压燃式和点燃式发动机车辆气体和颗粒物污染物排放控制的统一规定"
+      },
+      {
+        "file": "文莱",
+        "sheet": "文莱",
+        "row": 25,
+        "reg_no": "UN R49",
+        "cn_name": "关于压燃式和点燃式发动机车辆气体和颗粒物污染物排放控制的统一规定"
+      }
+    ],
+    "insights": [
+      {
+        "id": "INS-2026-059",
+        "title": "UN R49 重型车发动机排放标准解析:Euro I–VI 技术基础、06/07 series(Euro VI)WHSC/WHTC+PEMS,及 Euro VII 过渡",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "Regulation (EC) No 595/2009 / (EU) No 582/2011": {
+    "reg_no": "Regulation (EC) No 595/2009 / (EU) No 582/2011",
+    "match_key": "595/2009",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-059",
+        "title": "UN R49 重型车发动机排放标准解析:Euro I–VI 技术基础、06/07 series(Euro VI)WHSC/WHTC+PEMS,及 Euro VII 过渡",
+        "type": "interpret",
+        "url": ""
+      }
+    ]
+  },
+  "Lei do Desmonte(Lei nº 12.977/2014)— 拆解法/配件 QR Code 追溯": {
+    "reg_no": "Lei do Desmonte(Lei nº 12.977/2014)— 拆解法/配件 QR Code 追溯",
+    "match_key": "12.977",
+    "region": "拉美",
+    "country": "巴西",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-060",
+        "title": "巴西售后配件数字化追溯天网:拆解法(Lei 12.977/2014·QR Code)+ INMETRO 强制认证 + NF-e;及全球『管件/维修权』转向(澳/欧)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "INMETRO 安全关键件强制认证(14 类·模式5)": {
+    "reg_no": "INMETRO 安全关键件强制认证(14 类·模式5)",
+    "match_key": "INMETRO",
+    "region": "拉美",
+    "country": "巴西",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-060",
+        "title": "巴西售后配件数字化追溯天网:拆解法(Lei 12.977/2014·QR Code)+ INMETRO 强制认证 + NF-e;及全球『管件/维修权』转向(澳/欧)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "MVIS 维修信息共享法案 / AASRA 维修权": {
+    "reg_no": "MVIS 维修信息共享法案 / AASRA 维修权",
+    "match_key": "MVIS",
+    "region": "大洋洲",
+    "country": "澳大利亚",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-060",
+        "title": "巴西售后配件数字化追溯天网:拆解法(Lei 12.977/2014·QR Code)+ INMETRO 强制认证 + NF-e;及全球『管件/维修权』转向(澳/欧)",
+        "type": "system",
+        "url": ""
+      }
+    ]
+  },
+  "维修权指令 (EU) 2024/1799 + Reg 2018/858 Art.61 + EU Data Act": {
+    "reg_no": "维修权指令 (EU) 2024/1799 + Reg 2018/858 Art.61 + EU Data Act",
+    "match_key": "2024/1799",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-060",
+        "title": "巴西售后配件数字化追溯天网:拆解法(Lei 12.977/2014·QR Code)+ INMETRO 强制认证 + NF-e;及全球『管件/维修权』转向(澳/欧)",
+        "type": "system",
+        "url": ""
+      }
+    ]
   }
 }
