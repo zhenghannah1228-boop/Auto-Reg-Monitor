@@ -943,8 +943,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" onclick="loadRadar(true).then(renderRadar)">↻ 刷新</button>
         <button class="btn light" onclick="exportRadarXlsx()">⬇ 导出 Excel</button>
       </div>
+      <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
+        <input id="rd-scope" class="csel" style="min-width:300px;flex:1" placeholder="可选:限定范围(如「欧盟+东南亚」「ADAS/网安」「近30天发布」「横向准入类」);留空=全维度">
+        <button class="btn primary" onclick="copyRadarPrompt()">📋 复制采集指令(粘贴给 Claude 即可开扫)</button>
+        <span id="rd-prompt-tip" style="font-size:11px;color:var(--muted)"></span>
+      </div>
       <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
-      <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:发指令「今天搜集法规雷达」(可指定地区/主题)→ 我联网搜集并在对话里给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:点「📋 复制采集指令」→ 粘贴到 Claude 对话发送 → 我联网搜集并给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
     </div>
     <div id="rd-body"><div class="bigmsg">正在载入 法规雷达…</div></div>
   </div>
@@ -3531,6 +3536,47 @@ function copyCmpPrompt(){
   else{cmpFallbackCopy(prompt);done();}
 }
 function cmpFallbackCopy(t){try{const e=document.createElement("textarea");e.value=t;document.body.appendChild(e);e.select();document.execCommand("copy");document.body.removeChild(e);}catch(_){}}
+/* ---- 法规雷达:一键复制「采集指令」prompt,粘贴给 Claude 即开扫 ---- */
+function copyRadarPrompt(){
+  const tip=$("#rd-prompt-tip");
+  const scope=($("#rd-scope")&&$("#rd-scope").value.trim())||"";
+  const today=(new Date()).toISOString().slice(0,10);
+  const scopeLine=scope?`本次范围限定:${scope}。`:`本次为全维度扫射:覆盖所有主要汽车出口市场国别 + WTO TBT 汽车类通报 + 主题线(整车准入/ADAS/网络安全/排放/电池/EV补贴/射频/标签/注册监管/循环经济)。`;
+  const prompt=
+`# 任务:汽车法规雷达 · 采集新发布信息(${today})
+
+${scopeLine}
+
+请联网搜集汽车【法规/标准/政策】的**实时更新**,流程是「你先给草稿 → 我确认 → 你再写入 Supabase」。**先不要写库**,先在对话里给出带来源的草稿清单等我确认。
+
+## 采集原则
+1. **要"近期发布"而非"早已生效"**:优先 2025–2026(尤其最近 1–2 个月)新**发布/公示/征求意见/通过**的项;不要只列早就生效的存量基线法规。
+2. **用当地语言直接搜一手官方门户**,别依赖泰测(ATIC)等二手月报(慢且常不准)。按市场用本国语言检索:韩 molit.go.kr、日 mlit.go.jp、巴西 gov.br、印度 morth/PIB、俄/欧亚 eaeunion.org、美 federalregister.gov、欧盟 EUR-Lex/europarl、英 gov.uk、海湾 GSO/SASO、各国标准局与交通部官网及当地新闻/推文。
+3. **横向准入类也要收**:不点名汽车、但实际卡整车或零部件/动力电池/电气件上市的法规——化学品(REACH/PFAS/RoHS/SVHC)、电池强制认证与循环经济(电池护照/EPR/再生材料)、合格评定与装运前检验(SONCAP/PVoC/SABER/CoC)、数据与网络安全横向法、能效/能耗强制。
+4. **挖小众、别只给大众头条**;长尾小市场若只有背景资料、无真正新发布项,宁可不收(保质量)。
+5. 跨国通用的(UNECE WP.29 / GTR / WTO TBT)单列国际/组织条目。
+
+## 草稿每条须含字段
+- region(地区)/ country(国家或地区)/ agency(主管机构)
+- title(中文标题)/ summary(中文摘要 2–4 句,横向类须点明"为何影响汽车准入")
+- stage(阶段:草案/征求意见/已通过/已发布/已生效/即将生效 等)
+- topics(中文主题数组)/ dims(维度编号数组,见下)
+- **source_url(一手来源直链)/ source_name / pub_date(发布日期)/ confidence(你的置信度判断)**
+- tbt_no(若为 WTO TBT 通报填编号,否则留空)
+
+维度编号(dims,1基):1整车准入 2环保全链条 3射频认证 4充电电池 5EV补贴 6网络安全 7ADAS 8标签标识 9注册监管 10随车工具。
+
+## 我确认后,再写入 Supabase(此段你执行,我看草稿时先忽略)
+- 项目 project_id = nxiyifglhycvbrccbdhg,表 = reg_radar。
+- 列:collected_date(='${today}')、region、country、agency、title、summary、stage、topics(text[])、dims(int[])、tbt_no、source_url、source_name、pub_date(text)、confidence(='待核实')、status(='待确认')、note。
+- note 约定:普通项填「采集·${today}」,横向准入类填「采集·${today}·横向准入」。
+- **去重**:与表中已有(同 country + 近似 title)重复的不再插入;**幂等**:同批用 \`delete from reg_radar where collected_date='${today}' and note like '采集·${today}%'\` 再 insert,避免重复落库。
+- 数组写法:topics 用 '{"a","b"}'::text[],dims 用 '{1,4}'::int[];文本里的英文单引号要转义。
+- 写完报告:新增条数、按地区分布、总条数,并提醒我去【19 法规雷达】用 📄 原文 核验后 ✓确认 / 🗑删除。`;
+  const done=()=>{if(tip)tip.textContent="✓ 已复制采集指令,粘贴到 Claude 对话发送即可";};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+  else{cmpFallbackCopy(prompt);done();}
+}
 /* ---- 深度对比导出:所选对比(含其二次对比子表)→ Excel / 打印PDF;未选则导出全部 ---- */
 function cmpExportList(){
   const items=_regCmp||[];const sel=$("#cmp-deep-sel"),cur=sel?sel.value:"";
