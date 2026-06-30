@@ -233,6 +233,26 @@ select.csel option{font-size:14px;font-family:var(--sans);background:var(--panel
 .cdrop-opt{font-size:14px;line-height:1.3;padding:8px 14px;border-radius:5px;cursor:pointer;color:var(--ink);white-space:nowrap}
 .cdrop-opt:hover{background:var(--panel2)}
 .cdrop-opt.sel{background:var(--accent);color:#fff}
+/* 自绘日历:替代原生 date 弹层(原生日历无法用 CSS 放大),更大更易点 */
+.cal{position:fixed;z-index:300;background:var(--panel);border:1px solid var(--line);border-radius:10px;
+  box-shadow:0 14px 44px rgba(24,39,29,.24);padding:12px;font-family:var(--sans);width:300px}
+.cal-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cal-title{font-size:15px;font-weight:700;color:var(--ink)}
+.cal-nav{font-size:18px;line-height:1;border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  border-radius:6px;width:30px;height:30px;cursor:pointer}
+.cal-nav:hover{border-color:var(--accent);color:var(--accent)}
+.cal-w{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px}
+.cal-w span{text-align:center;font-size:12px;color:var(--muted);padding:4px 0}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-d{text-align:center;font-size:14px;padding:8px 0;border-radius:6px;cursor:pointer;color:var(--ink)}
+.cal-d.cal-x{visibility:hidden;cursor:default}
+.cal-d:hover:not(.cal-x){background:var(--panel2)}
+.cal-d.today{outline:1px solid var(--accent);outline-offset:-1px}
+.cal-d.sel{background:var(--accent);color:#fff;font-weight:700}
+.cal-f{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.cal-f button{font-size:12.5px;border:1px solid var(--line);background:var(--panel);color:var(--ink);
+  border-radius:6px;padding:5px 12px;cursor:pointer}
+.cal-f button:hover{border-color:var(--accent);color:var(--accent)}
 input.csel{font-family:var(--sans);font-size:14px;background:var(--panel);border:1px solid var(--line);
   padding:9px 14px;border-radius:6px;color:var(--ink);box-shadow:var(--shadow)}
 /* 国家下拉的「筛选」输入框(输入即收窄选项,免滚动翻找) */
@@ -731,7 +751,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <input id="memo-url" type="text" placeholder="链接(可选)" autocomplete="off"
           style="width:170px;font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);
           border-radius:6px;padding:8px 12px;background:var(--panel);color:var(--ink);outline:none">
-        <input id="memo-date" type="date" class="csel" title="时间标签:到期日 / 关注日(可选,可不填)">
+        <input id="memo-date" type="text" readonly class="csel calinput" style="min-width:150px;cursor:pointer" placeholder="选择日期(可选)" title="时间标签:到期日 / 关注日(可选,可不填)">
         <input id="memo-author" type="text" placeholder="署名(可选)" autocomplete="off"
           style="width:100px;font-family:var(--sans);font-size:12.5px;border:1px solid var(--line);
           border-radius:6px;padding:8px 12px;background:var(--panel);color:var(--ink);outline:none">
@@ -1114,6 +1134,56 @@ function openCDrop(sel){
   setTimeout(()=>{document.addEventListener("mousedown",_cdOutside,true);
     window.addEventListener("scroll",_cdScroll,true);window.addEventListener("resize",closeCDrop);},0);
 }
+/* ===== 自绘日历:替代原生 <input type=date> 弹层(原生日历无法用 CSS 放大);
+   输入框改为只读文本,值仍为 YYYY-MM-DD,读写/比较逻辑不变 ===== */
+let _calEl=null,_calInput=null,_calY=0,_calM=0;
+const _calPad=n=>String(n).padStart(2,"0");
+function closeCal(){if(!_calEl)return;_calEl.remove();_calEl=null;_calInput=null;
+  document.removeEventListener("mousedown",_calOutside,true);
+  window.removeEventListener("scroll",_calScroll,true);window.removeEventListener("resize",closeCal);}
+function _calOutside(e){if(_calEl&&!_calEl.contains(e.target)&&e.target!==_calInput)closeCal();}
+function _calScroll(e){if(_calEl&&(e.target===_calEl||(e.target.nodeType===1&&_calEl.contains(e.target))))return;closeCal();}
+function renderCal(){
+  if(!_calEl)return;
+  const selStr=(_calInput.value||"").match(/^\d{4}-\d{2}-\d{2}$/)?_calInput.value:"";
+  const now=new Date();const tStr=now.getFullYear()+"-"+_calPad(now.getMonth()+1)+"-"+_calPad(now.getDate());
+  const startDow=new Date(_calY,_calM,1).getDay();
+  const dim=new Date(_calY,_calM+1,0).getDate();
+  const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+  let cells="";
+  for(let i=0;i<startDow;i++)cells+='<div class="cal-d cal-x"></div>';
+  for(let d=1;d<=dim;d++){const ds=_calY+"-"+_calPad(_calM+1)+"-"+_calPad(d);
+    const cls=["cal-d"];if(ds===selStr)cls.push("sel");if(ds===tStr)cls.push("today");
+    cells+=`<div class="${cls.join(" ")}" data-d="${ds}">${d}</div>`;}
+  _calEl.innerHTML=`<div class="cal-h"><button type="button" class="cal-nav" data-nav="-1">‹</button>`
+    +`<span class="cal-title">${_calY} 年 ${mn[_calM]}</span>`
+    +`<button type="button" class="cal-nav" data-nav="1">›</button></div>`
+    +`<div class="cal-w">`+["日","一","二","三","四","五","六"].map(x=>`<span>${x}</span>`).join("")+`</div>`
+    +`<div class="cal-g">`+cells+`</div>`
+    +`<div class="cal-f"><button type="button" data-act="today">今天</button><button type="button" data-act="clear">清除</button></div>`;
+}
+function openCal(input){
+  if(_calInput===input){closeCal();return;}
+  closeCal();_calInput=input;
+  const m=(input.value||"").match(/^(\d{4})-(\d{2})-(\d{2})$/);const now=new Date();
+  _calY=m?+m[1]:now.getFullYear();_calM=m?(+m[2]-1):now.getMonth();
+  const p=document.createElement("div");p.className="cal";document.body.appendChild(p);_calEl=p;renderCal();
+  const r=input.getBoundingClientRect();
+  p.style.left=Math.max(8,Math.min(r.left,innerWidth-p.offsetWidth-8))+"px";
+  let top=r.bottom+4;if(top+p.offsetHeight>innerHeight-8)top=Math.max(8,r.top-4-p.offsetHeight);
+  p.style.top=top+"px";
+  p.addEventListener("mousedown",e=>{
+    const nav=e.target.closest("[data-nav]"),act=e.target.closest("[data-act]"),day=e.target.closest(".cal-d[data-d]");
+    if(nav){e.preventDefault();_calM+=+nav.dataset.nav;if(_calM<0){_calM=11;_calY--;}if(_calM>11){_calM=0;_calY++;}renderCal();return;}
+    if(act){e.preventDefault();if(act.dataset.act==="today"){const n=new Date();_calInput.value=n.getFullYear()+"-"+_calPad(n.getMonth()+1)+"-"+_calPad(n.getDate());}
+      else _calInput.value="";_calInput.dispatchEvent(new Event("change",{bubbles:true}));closeCal();return;}
+    if(day){e.preventDefault();_calInput.value=day.dataset.d;_calInput.dispatchEvent(new Event("change",{bubbles:true}));closeCal();return;}
+  });
+  setTimeout(()=>{document.addEventListener("mousedown",_calOutside,true);
+    window.addEventListener("scroll",_calScroll,true);window.addEventListener("resize",closeCal);},0);
+}
+document.addEventListener("mousedown",e=>{const t=e.target.closest&&e.target.closest("input.calinput");
+  if(t){e.preventDefault();openCal(t);}},true);
 document.addEventListener("mousedown",e=>{const s=e.target.closest&&e.target.closest("select.csel");
   if(s){e.preventDefault();openCDrop(s);try{s.focus();}catch(_){}}},true);
 document.addEventListener("keydown",e=>{const s=e.target.closest&&e.target.closest("select.csel");
