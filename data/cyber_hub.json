@@ -1,117 +1,70 @@
 {
   "meta": {
     "title": "汽车网络安全合规中心",
-    "version": "1.0",
+    "version": "1.1",
     "dim": 6,
-    "source": "内容整理自《Automotive Cybersecurity Handbook 2026 v1.0》(KPIT Technologies · Ashish Kumar,2026-06),并结合 ISO/SAE 21434、UNECE R155/R156、EU CRA、NIST PQC 公开标准要点;经原作者授权可摘录/转载,原手册版权仍归原作者所有。完整原文见下方「📄 原手册」。",
+    "source": "内容整理自《Automotive Cybersecurity Handbook 2026 v1.0》(KPIT Technologies · Ashish Kumar,2026-06),并结合 ISO/SAE 21434、UNECE R155/R156、EU CRA、NIST PQC 公开标准要点;经原作者授权可摘录/转载,原手册版权仍归原作者所有。完整原文见「📄 原手册」。",
     "handbook_pdf": "./docs/automotive_cybersecurity_handbook_2026.pdf",
     "handbook_title": "Automotive Cybersecurity Handbook 2026 v1.0 — KPIT / Ashish Kumar",
     "maturity_levels": [
-      {"lv": 1, "name": "初始 Initial", "desc": "无流程或临时应对,依赖个人;无证据留痕。"},
-      {"lv": 2, "name": "管理 Managed", "desc": "关键活动有人负责并执行,但不成体系、不一致。"},
-      {"lv": 3, "name": "已定义 Defined", "desc": "流程文档化并贯穿生命周期,有标准模板与门禁。"},
-      {"lv": 4, "name": "量化 Quantified", "desc": "以度量驱动,关键指标可量化、可审计、可追溯。"},
-      {"lv": 5, "name": "优化 Optimizing", "desc": "持续改进,威胁情报与现场反馈回灌设计,主动演进。"}
+      {"lv": 1, "name": "临时 Ad Hoc", "desc": "靠个人英雄主义,无可重复流程,被动打补丁,威胁意识有限。"},
+      {"lv": 2, "name": "可重复 Repeatable", "desc": "基础流程文档化,部分 ISO 21434 对齐,写了安全需求与供应商问卷。"},
+      {"lv": 3, "name": "已管理 Managed", "desc": "度量驱动,正式 CSMS,跨职能治理,产出证据并受审。"},
+      {"lv": 4, "name": "已优化 Optimized", "desc": "测试与监控自动化,主动威胁情报,车队数据回灌设计。"},
+      {"lv": 5, "name": "韧性 Resilient", "desc": "快速事件响应,强供应链信任,主动安全设计,行业情报共享。"}
     ],
-    "status_labels": ["未开始", "部分达成", "已达成"]
+    "status_labels": ["未开始", "部分达成", "已达成"],
+    "kpis": [
+      {"kpi": "TARA 覆盖率(已完成 TARA 的资产%)", "l2": "50%", "l3": "100%", "l4": "100%+持续更新", "l5": "100%+CI 可追溯"},
+      {"kpi": "CAL 要求附测试证据", "l2": "<50%", "l3": ">90%", "l4": "100%", "l5": "100% 数据驱动"},
+      {"kpi": "供应商 SBOM 交付率", "l2": "<25%", "l3": ">75%", "l4": ">95%", "l5": "100%+CVE 告警"},
+      {"kpi": "平均检测时间 MTTD(关键威胁)", "l2": "周", "l3": "天", "l4": "小时", "l5": "分钟(自动化)"},
+      {"kpi": "平均恢复时间 MTTR(关键补丁)", "l2": "月(经销商)", "l3": "周(OTA)", "l4": "天(OTA)", "l5": "<24 小时(OTA)"},
+      {"kpi": "SOP 前关闭渗透测试严重项", "l2": "<50%", "l3": ">90%", "l4": "100%", "l5": "100%+SOP 前红队"}
+    ]
   },
   "standards": [
     {
-      "id": "UN R155",
-      "name": "UNECE R155 — 网络安全与 CSMS",
-      "region": "联合国 WP.29(签署国通行)",
-      "dim": 6,
+      "id": "UN R155", "name": "UNECE R155 — 网络安全与 CSMS", "region": "联合国 WP.29(签署国通行)", "dim": 6,
       "scope": "要求 OEM 建立并通过审核的网络安全管理体系(CSMS),并对每个车型做型式批准;覆盖整车生命周期的风险识别与缓解。",
-      "points": [
-        "CSMS 证书 + 逐车型 CS 型式批准,二者缺一不可",
-        "附件5列出威胁与对应缓解措施清单(设计须逐项应对)",
-        "覆盖开发、生产、后生产(运营/事件监测)全周期",
-        "不合规 = 型式批准被拒/吊销 → 签署国市场不得销售"
-      ],
-      "timeline": "2022-07 起新车型强制;2024-07 起所有在产新车强制(欧盟/日/韩等)。",
-      "match": ["R155", "网络安全", "CSMS"]
+      "points": ["CSMS 证书 + 逐车型 CS 型式批准,二者缺一不可", "附件5列出威胁与对应缓解措施清单(设计须逐项应对)", "覆盖开发、生产、后生产(运营/事件监测)全周期", "不合规 = 型式批准被拒/吊销 → 签署国市场不得销售"],
+      "timeline": "2022-07 起新车型强制;2024-07 起所有在产新车强制(欧盟/日/韩/印度等)。", "match": ["R155", "网络安全", "CSMS"]
     },
     {
-      "id": "UN R156",
-      "name": "UNECE R156 — 软件更新与 SUMS",
-      "region": "联合国 WP.29",
-      "dim": 6,
+      "id": "UN R156", "name": "UNECE R156 — 软件更新与 SUMS", "region": "联合国 WP.29", "dim": 6,
       "scope": "要求建立软件更新管理体系(SUMS),保障 OTA/线下更新的完整性、真实性与可追溯;管理 RXSWIN 软件标识。",
-      "points": [
-        "SUMS 证书 + 车型批准;每个受管软件配 RXSWIN",
-        "更新前评估对型式批准与安全的影响",
-        "保证更新真实性/完整性(签名),失败可回滚",
-        "向用户告知更新内容与影响,记录可追溯"
-      ],
-      "timeline": "与 R155 同步强制(2022-07 / 2024-07)。",
-      "match": ["R156", "OTA", "软件更新", "SUMS"]
+      "points": ["SUMS 证书 + 车型批准;每个受管软件配 RXSWIN", "更新前评估对型式批准与安全的影响", "保证更新真实性/完整性(签名),失败可回滚", "向用户告知更新内容与影响,记录可追溯"],
+      "timeline": "与 R155 同步强制(2022-07 / 2024-07)。", "match": ["R156", "OTA", "软件更新", "SUMS"]
     },
     {
-      "id": "ISO/SAE 21434",
-      "name": "ISO/SAE 21434 — 道路车辆网络安全工程",
-      "region": "国际标准(R155 的事实落地方法)",
-      "dim": 6,
+      "id": "ISO/SAE 21434", "name": "ISO/SAE 21434 — 道路车辆网络安全工程", "region": "国际标准(R155 的事实落地方法)", "dim": 6,
       "scope": "定义从概念、开发到生产运维的网络安全工程流程;TARA 是其核心方法。是证明 R155 符合性的主要技术依据。",
-      "points": [
-        "面向风险的全生命周期工程(概念/开发/生产/运维/退役)",
-        "TARA:资产→威胁→攻击路径→影响→风险值→处置",
-        "要求工作产物与证据链(可审计)",
-        "分布式开发责任划分(OEM↔供应商,DIA 接口协议)"
-      ],
-      "timeline": "2021 发布;当前行业基线。",
-      "match": ["21434", "TARA", "网络安全"]
+      "points": ["面向风险的全生命周期工程(概念/开发/生产/运维/退役)", "TARA:资产→威胁→攻击路径→影响→风险值→处置", "要求工作产物与证据链(可审计);用 CAL 分级严苛度", "分布式开发责任划分(OEM↔供应商,DIA 接口协议)"],
+      "timeline": "2021 发布;当前行业基线。", "match": ["21434", "TARA", "网络安全", "CAL"]
     },
     {
-      "id": "ISO 26262",
-      "name": "ISO 26262 — 功能安全(ASIL)",
-      "region": "国际标准",
-      "dim": 6,
+      "id": "ISO 26262", "name": "ISO 26262 — 功能安全(ASIL)", "region": "国际标准", "dim": 6,
       "scope": "功能安全标准,与网络安全需协同(安全-安全集成):安全攸关功能须考虑被攻击导致的失效。",
-      "points": [
-        "ASIL A–D 风险分级(严重度×暴露×可控性)",
-        "HARA(危害分析)与 TARA 需对齐",
-        "安全机制不得被网络攻击绕过",
-        "Security 为 Safety 提供完整性前提"
-      ],
-      "timeline": "2018(第二版)。",
-      "match": ["26262", "功能安全", "ASIL"]
+      "points": ["ASIL A–D 风险分级(严重度×暴露×可控性)", "HARA(危害分析)与 TARA 需对齐", "安全机制不得被网络攻击绕过", "Security 为 Safety 提供完整性前提"],
+      "timeline": "2018(第二版)。", "match": ["26262", "功能安全", "ASIL"]
     },
     {
-      "id": "EU CRA",
-      "name": "欧盟网络弹性法案(Cyber Resilience Act)",
-      "region": "欧盟",
-      "dim": 6,
+      "id": "EU CRA", "name": "欧盟网络弹性法案(Cyber Resilience Act)", "region": "欧盟", "dim": 6,
       "scope": "面向所有含数字要素的产品(横向法),强制安全设计、漏洞处理与上报义务;与车辆 R155 并行适用于车载数字组件/后端。",
-      "points": [
-        "默认安全设计 + 全生命周期漏洞管理",
-        "已知被利用漏洞须在 24 小时内向 ENISA 上报",
-        "提供 SBOM 与安全更新支持期",
-        "不合规可处全球营业额比例罚款"
-      ],
-      "timeline": "2024-12 生效;主要义务 2026–2027 分阶段适用。",
-      "match": ["CRA", "网络弹性", "SBOM"]
+      "points": ["默认安全设计 + 全生命周期漏洞管理", "已知被利用漏洞须在 24 小时内向 ENISA 上报", "提供 SBOM 与安全更新支持期", "不合规可处全球营业额比例罚款"],
+      "timeline": "2024-12 生效;主要义务 2026–2027 分阶段适用。", "match": ["CRA", "网络弹性", "SBOM"]
     },
     {
-      "id": "NIST PQC",
-      "name": "NIST 后量子密码(FIPS 203/204/205)",
-      "region": "美国 NIST(全球参考)",
-      "dim": 6,
+      "id": "NIST PQC", "name": "NIST 后量子密码(FIPS 203/204/205)", "region": "美国 NIST(全球参考)", "dim": 6,
       "scope": "抗量子算法标准:车辆生命周期长(10–15 年),今日加密数据面临『先窃取后解密』风险,需规划密码敏捷与迁移。",
-      "points": [
-        "FIPS 203 ML-KEM(密钥封装,替代 ECDH)",
-        "FIPS 204 ML-DSA / 205 SLH-DSA(签名)",
-        "密码敏捷(crypto-agility):可在线升级算法",
-        "OTA/Secure Boot 签名链优先迁移规划"
-      ],
-      "timeline": "2024-08 正式发布;车规迁移规划应即启动。",
-      "match": ["后量子", "PQC", "密码"]
+      "points": ["FIPS 203 ML-KEM(密钥封装,替代 Kyber/ECDH)", "FIPS 204 ML-DSA(签名,替代 Dilithium)/ 205 SLH-DSA(哈希签名)", "密码敏捷(crypto-agility):可在线升级算法", "OTA/Secure Boot 签名链优先迁移规划"],
+      "timeline": "2024-08 正式发布;车规迁移规划应即启动。", "match": ["后量子", "PQC", "密码"]
     }
   ],
   "domains": [
     {
-      "key": "csms",
-      "name": "治理与 CSMS",
-      "desc": "网络安全管理体系、组织职责、政策与生命周期治理(R155 核心)。",
+      "key": "csms", "name": "治理与 CSMS", "desc": "网络安全管理体系、组织职责、政策与生命周期治理(R155 核心)。",
+      "levels": ["无安全角色或政策", "安全政策文档化、角色已分配", "CSMS 认证、安全指导委员会、有度量", "与企业风险管理集成", "持续改进、行业信息共享"],
       "items": [
         {"key": "csms.1", "text": "已建立书面 CSMS 政策,明确角色/职责/汇报线(CISO 或等效)", "ref": "UN R155 / ISO 21434 Cl.5"},
         {"key": "csms.2", "text": "网络安全活动覆盖开发/生产/后生产全生命周期并有阶段门禁", "ref": "UN R155"},
@@ -121,9 +74,8 @@
       ]
     },
     {
-      "key": "tara",
-      "name": "威胁分析与风险评估(TARA)",
-      "desc": "资产识别、威胁建模、攻击路径与风险定级及处置。",
+      "key": "tara", "name": "威胁分析与风险评估(TARA)", "desc": "资产识别、威胁建模、攻击路径与风险定级及处置。",
+      "levels": ["无 TARA、临时风险讨论", "部分条目做了 TARA、无正式方法", "按 21434 全量 TARA、分配 CAL、链接设计", "TARA 自动化、持续更新", "数据驱动、威胁情报回灌"],
       "items": [
         {"key": "tara.1", "text": "对每个项目识别资产与其网络安全属性(C/I/A)", "ref": "ISO 21434 Cl.15"},
         {"key": "tara.2", "text": "用结构化方法(STRIDE/攻击树)枚举威胁场景与攻击路径", "ref": "Handbook Ch6"},
@@ -133,45 +85,41 @@
       ]
     },
     {
-      "key": "arch",
-      "name": "安全架构与纵深防御",
-      "desc": "域隔离、网关防护、最小权限与边界防御。",
+      "key": "arch", "name": "安全架构与纵深防御", "desc": "域隔离、网关防护、最小权限与边界防御。",
+      "levels": ["无安全架构、信任边界未文档化", "基础分域、部分安全设计模式", "正式信任模型、网关控制、HSM 集成", "零信任(Zero Trust)架构", "运行时验证、SDV 安全栈"],
       "items": [
         {"key": "arch.1", "text": "对外接口(蜂窝/Wi-Fi/蓝牙/USB/OBD)清单化并最小化暴露面", "ref": "Handbook Ch2/Ch8"},
         {"key": "arch.2", "text": "网络分域隔离,中央网关做消息过滤与访问控制", "ref": "Ch8"},
         {"key": "arch.3", "text": "关键总线/域采用消息认证(如 SecOC)防伪造重放", "ref": "Ch8/Ch9"},
-        {"key": "arch.4", "text": "落实最小权限与默认拒绝;调试/诊断接口生产态受控", "ref": "Ch8"},
-        {"key": "arch.5", "text": "后端/云 API 鉴权与授权严格(防越权枚举)", "ref": "附录C 案例"}
+        {"key": "arch.4", "text": "落实最小权限与默认拒绝;调试/诊断接口(JTAG/OBD/DoIP)生产态受控", "ref": "Ch8"},
+        {"key": "arch.5", "text": "后端/云 API 鉴权与授权严格(防 BOLA 越权枚举)", "ref": "附录C 案例"}
       ]
     },
     {
-      "key": "crypto",
-      "name": "安全启动·密码学·身份",
-      "desc": "Secure Boot、密钥管理、HSM、身份与后量子准备。",
+      "key": "crypto", "name": "安全启动·密码学·身份", "desc": "Secure Boot、密钥管理、HSM、身份与后量子准备。",
+      "levels": ["明文/硬编码密钥、无安全启动", "部分 ECU 启用 Secure Boot、密钥基础管理", "HSM 保护密钥+分级轮换、唯一身份与吊销", "密码敏捷、算法可在线替换", "完成 PQC(ML-KEM/ML-DSA)迁移并试点"],
       "items": [
         {"key": "crypto.1", "text": "关键 ECU 启用 Secure Boot / 信任根校验固件完整性", "ref": "Handbook Ch9"},
         {"key": "crypto.2", "text": "密钥由 HSM/安全存储保护,具备分级与轮换机制", "ref": "Ch9"},
-        {"key": "crypto.3", "text": "每车/每件唯一身份与证书,支持吊销", "ref": "Ch9"},
+        {"key": "crypto.3", "text": "每车/每件唯一身份与证书(PKI),支持吊销", "ref": "Ch9"},
         {"key": "crypto.4", "text": "采用密码敏捷设计,算法可经更新替换", "ref": "NIST PQC / 附录J"},
         {"key": "crypto.5", "text": "已制定后量子密码(ML-KEM/ML-DSA)迁移路线", "ref": "FIPS 203/204/205"}
       ]
     },
     {
-      "key": "ota",
-      "name": "OTA 安全更新(SUMS)",
-      "desc": "软件更新管理体系、签名校验、回滚与 RXSWIN。",
+      "key": "ota", "name": "OTA 安全更新(SUMS)", "desc": "软件更新管理体系、签名校验、回滚与 RXSWIN。",
+      "levels": ["无 OTA 或手动刷写、无回滚", "有 OTA 但签名/回滚不完整", "SUMS+端到端签名+A/B 回滚+RXSWIN", "分群灰度+管线 SLSA 溯源", "<24h 关键补丁 OTA、自动化发布门禁"],
       "items": [
         {"key": "ota.1", "text": "已建立 SUMS,更新包端到端签名与完整性校验", "ref": "UN R156 / Ch10"},
-        {"key": "ota.2", "text": "更新失败可安全回滚,具备防变砖保护", "ref": "Ch10"},
+        {"key": "ota.2", "text": "更新失败可安全回滚(A/B 分区),具备防变砖保护", "ref": "Ch10"},
         {"key": "ota.3", "text": "维护 RXSWIN/软件物料清单,更新前评估型式批准影响", "ref": "UN R156"},
         {"key": "ota.4", "text": "向用户告知更新内容/影响,记录可追溯", "ref": "UN R156"},
-        {"key": "ota.5", "text": "更新后端管线自身受保护(签名密钥、发布门禁)", "ref": "Ch10"}
+        {"key": "ota.5", "text": "更新后端管线自身受保护(HSM 签名密钥、发布门禁)", "ref": "Ch10"}
       ]
     },
     {
-      "key": "devtest",
-      "name": "安全开发与测试",
-      "desc": "安全编码、SAST/DAST、模糊测试与渗透测试。",
+      "key": "devtest", "name": "安全开发与测试", "desc": "安全编码、SAST/DAST、模糊测试与渗透测试。",
+      "levels": ["仅发布前渗透、无回归", "CI 中 SAST+基础 fuzz+SOP 渗透", "完整金字塔:SAST+单元+fuzz+HIL+渗透", "自动化回归+对抗 ML 测试+红队", "持续红队、SOP 前红队演练"],
       "items": [
         {"key": "devtest.1", "text": "安全需求可追溯至 TARA,并纳入验收门禁", "ref": "Handbook Ch11"},
         {"key": "devtest.2", "text": "CI 中集成静态/组成成分分析(SAST/SCA)", "ref": "Ch11"},
@@ -181,96 +129,155 @@
       ]
     },
     {
-      "key": "monitor",
-      "name": "检测·日志·监控(VSOC)",
-      "desc": "车端异常检测、安全日志与车队级安全运营中心。",
+      "key": "monitor", "name": "检测·日志·监控(VSOC)", "desc": "车端异常检测、安全日志与车队级安全运营中心。",
+      "levels": ["无监控、手动打补丁", "基础日志与告警", "IDS 部署+基础告警+补丁流程", "车队 SOC+MTTD/MTTR 跟踪+playbook", "AI 异常检测+预测分析"],
       "items": [
         {"key": "monitor.1", "text": "车端记录安全相关事件日志,可上报后端", "ref": "Handbook Ch12"},
-        {"key": "monitor.2", "text": "部署入侵检测/异常监控(IDS/网络异常)", "ref": "Ch12"},
+        {"key": "monitor.2", "text": "部署入侵检测/异常监控(IDS,规则+行为基线)", "ref": "Ch12"},
         {"key": "monitor.3", "text": "运营 VSOC,对车队遥测做关联分析与告警", "ref": "Ch12"},
-        {"key": "monitor.4", "text": "关注新威胁情报并映射到在产车型", "ref": "UN R155 后生产"}
+        {"key": "monitor.4", "text": "关注新威胁情报(Auto-ISAC)并映射到在产车型", "ref": "UN R155 后生产"}
       ]
     },
     {
-      "key": "ir",
-      "name": "事件响应与漏洞管理",
-      "desc": "PSIRT、漏洞披露、应急处置与监管上报。",
+      "key": "ir", "name": "事件响应与漏洞管理", "desc": "PSIRT、漏洞披露、应急处置与监管上报。",
+      "levels": ["无预案、临时应对", "有联系人/基础流程", "PSIRT+playbook+定期演练", "车队级快速响应+取证流程", "<24h OTA 缓解+Auto-ISAC 共享"],
       "items": [
-        {"key": "ir.1", "text": "设立 PSIRT 与事件响应预案并定期演练", "ref": "Handbook Ch13"},
+        {"key": "ir.1", "text": "设立 PSIRT/CSIRT 与事件响应预案并定期演练", "ref": "Handbook Ch13"},
         {"key": "ir.2", "text": "有协调式漏洞披露(CVD)渠道与处理 SLA", "ref": "Ch13"},
         {"key": "ir.3", "text": "具备应急 OTA/缓解下发能力", "ref": "Ch10/Ch13"},
         {"key": "ir.4", "text": "明确监管/客户上报流程(含 CRA 24h 上报)", "ref": "EU CRA"}
       ]
     },
     {
-      "key": "supply",
-      "name": "供应链与 SBOM",
-      "desc": "软件物料清单、第三方/开源组件与供应商安全。",
+      "key": "supply", "name": "供应链与 SBOM", "desc": "软件物料清单、第三方/开源组件与供应商安全。",
+      "levels": ["假设供应商安全、无 SBOM", "供应商问卷+基础安全条款", "SBOM 必需+21434 Cl.7 审核+TARA 复评", "实时 CVE 监控+供应商评分+SLSA L3+", "全自动 CVE 告警+预测性分析"],
       "items": [
-        {"key": "supply.1", "text": "为车载软件维护 SBOM 并随版本更新", "ref": "EU CRA / 附录D"},
-        {"key": "supply.2", "text": "持续监测组件已知漏洞(CVE)并评估影响", "ref": "附录D"},
+        {"key": "supply.1", "text": "为车载软件维护 SBOM(CycloneDX/SPDX)并随版本更新", "ref": "EU CRA / 附录D"},
+        {"key": "supply.2", "text": "持续监测组件已知漏洞(CVE,结合 EPSS+ASIL 加权)", "ref": "附录D"},
         {"key": "supply.3", "text": "对供应商做网络安全能力评估与合同约束", "ref": "ISO 21434 Cl.15"},
-        {"key": "supply.4", "text": "构建与发布管线防篡改(供应链完整性)", "ref": "附录D"}
+        {"key": "supply.4", "text": "构建与发布管线防篡改(SLSA 供应链完整性)", "ref": "附录D"}
+      ]
+    }
+  ],
+  "playbooks": [
+    {
+      "key": "tara", "title": "TARA 九步工作流", "ref": "ISO/SAE 21434 · Handbook Ch6", "type": "steps",
+      "steps": [
+        "资产识别:哪些功能/数据/凭据/更新路径/服务能力须保护(PII、定位、控制逻辑、密钥、标定、固件、诊断凭据)",
+        "损害场景:资产被攻陷会出什么事",
+        "威胁场景:什么攻击会造成该损害",
+        "攻击路径分析:攻击者如何现实地到达并利用资产",
+        "攻击可行性:攻击有多难(访问/知识/工具/时间/机会窗口),1(最高)–4(最低)",
+        "影响评级:损害多严重(安全/运营/隐私/财务/法规)",
+        "风险值:可行性×影响 → 风险值",
+        "风险处置:避免 / 降低 / 转移 / 接受",
+        "安全目标+CAL,并把目标→需求→测试证据全程可追溯"
+      ]
+    },
+    {
+      "key": "ota", "title": "OTA 安全更新管线(6 阶段)", "ref": "UN R156 · Handbook Ch10", "type": "pairs",
+      "pairs": [
+        {"k": "1 构建 Build", "v": "代码评审+静态分析+依赖检查+生成 SBOM → 签名构件、锁定依赖、SLSA 溯源"},
+        {"k": "2 打包 Package", "v": "生成含版本/哈希/目标ECU/灰度范围的清单 → 清单完整性、HSM 签名仪式、见证日志"},
+        {"k": "3 分发 Distribute", "v": "加密通道、按 VIN 群分批灰度 → TLS 1.3、授权校验、限流"},
+        {"k": "4 安装 Install", "v": "校验完整性、写入未激活 A/B 槽 → 哈希校验、签名校验、槽隔离"},
+        {"k": "5 激活 Activate", "v": "安装后自检、ECU 健康检查、启动计数 → 看门狗、boot counter、自检通过/失败"},
+        {"k": "6 恢复 Recover", "v": "失败自动回滚、安全模式 → 已知良好回退镜像、回滚策略、厂商升级路径"}
+      ]
+    },
+    {
+      "key": "monitor", "title": "检测监控管线(5 阶段)", "ref": "Handbook Ch12", "type": "pairs",
+      "pairs": [
+        {"k": "采集 Signals", "v": "总线流量、登录事件、更新活动、传感器合理性、ECU 健康、网络连接"},
+        {"k": "归一 Normalize", "v": "统一结构化事件格式(时间戳/来源/类型/严重度/载荷)"},
+        {"k": "评分 Score", "v": "规则+阈值+行为基线,跨 ECU 与时间窗关联"},
+        {"k": "告警 Alert", "v": "生成可分诊事件:严重度+上下文+置信度+ASIL 相关性"},
+        {"k": "响应 Respond", "v": "遏制、保全证据、通知相关团队、执行 playbook"}
+      ]
+    },
+    {
+      "key": "ir", "title": "事件响应六阶段", "ref": "Handbook Ch13", "type": "pairs",
+      "pairs": [
+        {"k": "1 准备 Prepare", "v": "定义角色/升级路径/工具/演练;建立 CSIRT 与 VSOC 联系人;加入 Auto-ISAC。留存:playbook、联系单、授权工具清单、演练记录"},
+        {"k": "2 检测 Detect", "v": "验证告警、判定范围与严重度,经 IDS+遥测确认真阳性。留存:告警日志、IDS 输出、初始遥测快照"},
+        {"k": "3 遏制 Contain", "v": "隔离受影响 ECU/车辆、吊销活动会话、停用涉事服务,阻止扩散。留存:隔离记录、会话吊销时间戳"},
+        {"k": "4 根除 Eradicate", "v": "消除根因:打补丁、重刷、吊销凭据、清除后门。留存:前后固件哈希、补丁与吊销证据"},
+        {"k": "5 恢复 Recover", "v": "经验证重刷、证书重签、功能测试、安全验证后恢复服务。留存:恢复后测试结果、安全签核"},
+        {"k": "6 复盘 Learn", "v": "根因分析、更新 TARA、设计与流程改进、供应商反馈、Auto-ISAC 共享。留存:复盘报告、TARA 修订、经验登记"}
+      ]
+    },
+    {
+      "key": "forensics", "title": "取证与漏洞管理", "ref": "Handbook Ch13", "type": "steps",
+      "steps": [
+        "保全 Preserve:只读镜像采集日志/固件/抓包/时间戳,不修改证据",
+        "关联 Correlate:把车端、云后端、服务工具、更新系统记录拼成统一时间线",
+        "分析 Analyze:定位根因、完整攻击链、波及范围与受影响 VIN 群",
+        "报告 Report:findings+受影响 VIN+整改(责任人/时限)+监管上报评估(EU CRA 24h)",
+        "漏洞管理:基于 SBOM 的 CVE 持续比对(NVD/OSV)→ 带上下文打分(EPSS+ASIL,而非裸 CVSS)→ 修复"
       ]
     }
   ],
   "cases": [
-    {
-      "id": "jeep2015",
-      "year": "2015",
-      "title": "Jeep Cherokee 远程入侵",
-      "vector": "经车载信息娱乐系统(Uconnect)蜂窝接口远程进入,横向跨越到 CAN 总线,控制转向/制动/动力。",
-      "impact": "克莱斯勒召回 140 万辆;成为 R155/21434 立法的标志性事件。",
-      "lesson": "外部接口必须与安全攸关域强隔离;娱乐域≠可信。",
-      "dim": 6,
-      "link_query": "网络安全"
-    },
-    {
-      "id": "kiahyundai2023",
-      "year": "2022–2023",
-      "title": "起亚/现代 互联车 API 漏洞",
-      "vector": "厂商云端 API 鉴权/授权缺陷,仅凭邮箱即可远程定位、解锁、远程启动数百万辆车。",
-      "impact": "暴露后端 API 是核心攻击面;推动对云侧合规审视。",
-      "lesson": "后端 API 鉴权与最小权限与车端同等重要;防越权枚举。",
-      "dim": 6,
-      "link_query": "网络安全"
-    },
-    {
-      "id": "tesla",
-      "year": "持续",
-      "title": "特斯拉安全计划(行业标杆)",
-      "vector": "成熟漏洞赏金、纵深防御、车队级 OTA 与快速修复闭环。",
-      "impact": "被手册列为正面基准:可快速对车队下发缓解。",
-      "lesson": "把研究者引入(赏金)+ 快速 OTA 是降低现场风险的有效组合。",
-      "dim": 6,
-      "link_query": "网络安全"
-    }
+    {"id": "jeep2015", "year": "2015", "title": "Jeep Cherokee 远程入侵", "vector": "经车载信息娱乐系统(Uconnect)蜂窝接口远程进入,横向跨越到 CAN 总线,控制转向/制动/动力。", "impact": "克莱斯勒召回 140 万辆;成为 R155/21434 立法的标志性事件。", "lesson": "外部接口必须与安全攸关域强隔离;娱乐域≠可信。", "dim": 6, "link_query": "网络安全"},
+    {"id": "kiahyundai2023", "year": "2022–2023", "title": "起亚/现代 互联车 API 漏洞", "vector": "厂商云端 API 鉴权/授权缺陷(BOLA),仅凭邮箱即可远程定位、解锁、远程启动数百万辆车。", "impact": "暴露后端 API 是核心攻击面;推动对云侧合规审视。", "lesson": "后端 API 鉴权与最小权限与车端同等重要;防越权枚举。", "dim": 6, "link_query": "网络安全"},
+    {"id": "tesla", "year": "持续", "title": "特斯拉安全计划(行业标杆)", "vector": "成熟漏洞赏金、纵深防御、车队级 OTA 与快速修复闭环。", "impact": "被手册列为正面基准:可快速对车队下发缓解。", "lesson": "把研究者引入(赏金)+ 快速 OTA 是降低现场风险的有效组合。", "dim": 6, "link_query": "网络安全"}
   ],
   "glossary": [
-    {"term": "CSMS", "full": "Cyber Security Management System", "def": "网络安全管理体系;R155 要求 OEM 建立并通过审核。"},
-    {"term": "SUMS", "full": "Software Update Management System", "def": "软件更新管理体系;R156 要求,管理 OTA/线下更新。"},
-    {"term": "TARA", "full": "Threat Analysis and Risk Assessment", "def": "威胁分析与风险评估;21434 核心方法。"},
-    {"term": "HARA", "full": "Hazard Analysis and Risk Assessment", "def": "危害分析与风险评估;26262 功能安全方法,与 TARA 对齐。"},
-    {"term": "ASIL", "full": "Automotive Safety Integrity Level", "def": "汽车安全完整性等级 A–D,衡量功能安全风险。"},
-    {"term": "RXSWIN", "full": "Software Identification Number", "def": "受型式批准管理的软件标识号(R156)。"},
-    {"term": "SBOM", "full": "Software Bill of Materials", "def": "软件物料清单;列出所有组件用于漏洞追踪(CRA 要求)。"},
-    {"term": "SecOC", "full": "Secure Onboard Communication", "def": "车载总线消息认证机制,防伪造与重放。"},
-    {"term": "Secure Boot", "full": "安全启动", "def": "启动时按信任根逐级校验固件完整性。"},
-    {"term": "HSM", "full": "Hardware Security Module", "def": "硬件安全模块;保护密钥与加密运算。"},
+    {"term": "A/B 分区", "full": "A/B Partitioning", "def": "双独立软件槽(激活/未激活),更新只写未激活槽,失败自动回滚。"},
+    {"term": "ASIL", "full": "Automotive Safety Integrity Level", "def": "ISO 26262 风险分级:QM→A→B→C→D(最高),决定开发严苛度。"},
+    {"term": "ASLR", "full": "Address Space Layout Randomization", "def": "随机化关键内存地址,增加利用难度的 OS 安全特性。"},
+    {"term": "攻击可行性", "full": "Attack Feasibility", "def": "TARA 参数:由访问/知识/工具/时间/机会窗口评估难度,21434 评 1(最高)–4(最低)。"},
+    {"term": "攻击路径分析", "full": "Attack Path Analysis", "def": "系统化梳理攻击者到达并利用资产所需步骤,用于评可行性与定控制。"},
+    {"term": "Auto-ISAC", "full": "Automotive ISAC", "def": "汽车信息共享与分析中心:OEM/供应商/技术方间共享威胁情报的行业组织。"},
+    {"term": "AUTOSAR", "full": "AUTomotive Open System ARchitecture", "def": "标准化汽车软件架构:Classic(传统 ECU)/ Adaptive(高性能计算)。"},
+    {"term": "BOLA", "full": "Broken Object-Level Authorization", "def": "调用方改资源标识即可访问他人对象的 API 漏洞;汽车云 API 头号风险。"},
+    {"term": "CAL", "full": "Cybersecurity Assurance Level", "def": "ISO/SAE 21434 风险化严苛度分级 CAL 1–4,类比功能安全 ASIL。"},
+    {"term": "CAN", "full": "Controller Area Network", "def": "汽车 ECU 通信总线,本身无认证/加密,靠网关过滤+MAC+IDS。"},
+    {"term": "CMAC", "full": "Cipher-based MAC", "def": "基于 AES-CBC 的消息认证码,用于 AUTOSAR SecOC 的 CAN 报文认证。"},
+    {"term": "CSIRT", "full": "Computer Security Incident Response Team", "def": "负责检测/响应/遏制/恢复网络安全事件的专职团队。"},
+    {"term": "CSMS", "full": "Cyber Security Management System", "def": "R155 要求的网络安全管理体系,覆盖全生命周期流程/治理/证据。"},
+    {"term": "CVE", "full": "Common Vulnerabilities and Exposures", "def": "已知漏洞公共库,配合 SBOM 评估哪些 ECU/VIN 受影响。"},
+    {"term": "CVSS", "full": "Common Vulnerability Scoring System", "def": "漏洞严重度评分(0–10);汽车分诊需叠加车内可利用性与 ASIL 相关性。"},
+    {"term": "数据投毒", "full": "Data Poisoning", "def": "污染训练数据使 ML 模型学到错误行为并在生产中静默持续。"},
+    {"term": "纵深防御", "full": "Defense in Depth", "def": "多层独立控制,任一层被攻破不致系统全失陷。"},
+    {"term": "DoIP", "full": "Diagnostics over IP", "def": "以太网上的 UDS 诊断(ISO 13400),须鉴权与访问控制防越权诊断。"},
+    {"term": "DPIA", "full": "Data Protection Impact Assessment", "def": "GDPR 第35条要求的隐私影响评估,记录车辆遥测/用户数据的流向与缓解。"},
+    {"term": "ECU", "full": "Electronic Control Unit", "def": "车载嵌入式控制器;现代车含数十至数百个,按域/区组织。"},
+    {"term": "FlexRay", "full": "FlexRay", "def": "高可靠确定性时序总线,用于线控(转向/制动)等容错场景。"},
+    {"term": "GDPR", "full": "General Data Protection Regulation", "def": "欧盟个人数据法;采集定位/驾驶行为/座舱数据的车辆适用,第25条要求隐私设计。"},
+    {"term": "HARA", "full": "Hazard Analysis and Risk Assessment", "def": "ISO 26262 危害分析与 ASIL 分配;其安全攸关功能清单输入 TARA。"},
+    {"term": "HSM", "full": "Hardware Security Module", "def": "专用硬件做密码运算与密钥存储,即便 OS 被攻陷也防私钥被软件提取。"},
+    {"term": "IDS", "full": "Intrusion Detection System", "def": "监测车辆网络流量/事件并告警异常或恶意活动;规则/异常/混合型。"},
+    {"term": "ISO 15118", "full": "ISO 15118", "def": "车网(V2G)通信标准;-2 覆盖 AC/DC 充电与即插即充,-20 加无线充与双向。"},
+    {"term": "JTAG", "full": "Joint Test Action Group", "def": "嵌入式调试标准,可全控处理器与内存;量产 ECU 须禁用或加固。"},
+    {"term": "MAC", "full": "Message Authentication Code", "def": "附于报文以验完整性与真实性的密码标签;用于 SecOC(AES-CMAC)与 TLS。"},
+    {"term": "ML-DSA", "full": "FIPS 204", "def": "后量子数字签名标准(替代 Dilithium);推荐用于服务期 >10 年系统的固件签名。"},
+    {"term": "ML-KEM", "full": "FIPS 203", "def": "后量子密钥封装标准(替代 Kyber);推荐用于新平台抗量子密钥交换。"},
+    {"term": "MPU", "full": "Memory Protection Unit", "def": "硬件内存分区机制,防同处理器上各软件组件越界访问。"},
+    {"term": "MTTD / MTTR", "full": "Mean Time to Detect / Recover", "def": "平均检测/恢复时间;L4/L5 目标:关键威胁分钟级检测、关键补丁 <24h OTA 恢复。"},
+    {"term": "OBD-II", "full": "On-Board Diagnostics II", "def": "标准诊断口(SAE J1979);物理接入点,须强会话认证防越权访问 ECU。"},
+    {"term": "OTA", "full": "Over-The-Air", "def": "ECU 无线更新;安全需签名包、防回滚、A/B 分区与完整性校验(R156 管控)。"},
+    {"term": "PKI", "full": "Public Key Infrastructure", "def": "证书签发/分发/管理体系,为车辆/ECU/云/V2X 提供密码身份。"},
+    {"term": "Plug&Charge", "full": "PnC", "def": "ISO 15118 功能:EV 与充电桩凭合同证书自动认证与计费,无需用户操作。"},
+    {"term": "PQC", "full": "Post-Quantum Cryptography", "def": "抗量子算法;NIST 2024-08 定稿 FIPS 203/204/205。"},
+    {"term": "隐私设计", "full": "Privacy by Design", "def": "GDPR 第25条:从设计之初纳入隐私,而非事后补;车辆数据采集系统强制。"},
+    {"term": "RXSWIN", "full": "Software Identification Number", "def": "R156 受型式批准管理的软件标识号。"},
+    {"term": "SBOM", "full": "Software Bill of Materials", "def": "软件组件/版本/许可/来源的机读清单;汽车主用 CycloneDX、SPDX。"},
+    {"term": "SecOC", "full": "Secure Onboard Communication", "def": "AUTOSAR 报文认证(MAC+新鲜度计数);R24-11 起支持 AES-256-GCM。"},
+    {"term": "SLSA", "full": "Supply-chain Levels for Software Artifacts", "def": "软件供应链完整性框架;L3 要求封闭构建+签名溯源+隔离构建环境。"},
+    {"term": "SLH-DSA", "full": "FIPS 205", "def": "后量子哈希签名标准(替代 SPHINCS+);比 ML-DSA 慢但安全假设最少。"},
+    {"term": "SOME/IP", "full": "Scalable service-Oriented MiddlewarE over IP", "def": "车载以太网上的面向服务通信;须鉴权与访问控制防越权调用服务。"},
+    {"term": "SOTIF", "full": "ISO 21448", "def": "预期功能安全:无故障下的性能局限/可预见误用风险;ADAS 与对抗 ML 关键。"},
+    {"term": "SUMS", "full": "Software Update Management System", "def": "R156 要求的软件更新管理体系与工具链,含灰度、兼容性检查、防回滚。"},
+    {"term": "TARA", "full": "Threat Analysis and Risk Assessment", "def": "21434 核心方法:识别资产/威胁场景/攻击路径/风险值/处置。"},
+    {"term": "TCU", "full": "Telematics Control Unit", "def": "提供蜂窝等车辆连接的 ECU(常是远程攻击入口)。"},
+    {"term": "V2X", "full": "Vehicle-to-Everything", "def": "车与外界(车/路/网/人)通信。"},
     {"term": "VSOC", "full": "Vehicle Security Operations Center", "def": "车队级安全运营中心,做遥测关联与告警。"},
-    {"term": "IDS", "full": "Intrusion Detection System", "def": "入侵检测系统;车端/网络异常监测。"},
-    {"term": "PSIRT", "full": "Product Security Incident Response Team", "def": "产品安全事件响应团队。"},
-    {"term": "CVD", "full": "Coordinated Vulnerability Disclosure", "def": "协调式漏洞披露流程。"},
-    {"term": "OTA", "full": "Over-The-Air", "def": "无线远程软件更新。"},
-    {"term": "CRA", "full": "Cyber Resilience Act", "def": "欧盟网络弹性法案;含数字要素产品的横向安全法。"},
-    {"term": "PQC", "full": "Post-Quantum Cryptography", "def": "后量子密码;抗量子计算的算法(FIPS 203/204/205)。"},
-    {"term": "DIA", "full": "Development Interface Agreement", "def": "开发接口协议;界定 OEM 与供应商网络安全职责。"},
-    {"term": "V2X", "full": "Vehicle-to-Everything", "def": "车与外界通信(车/路/网/人)。"},
-    {"term": "SDV", "full": "Software-Defined Vehicle", "def": "软件定义汽车;功能以软件为中心、可持续演进。"}
+    {"term": "Zero Trust", "full": "零信任", "def": "默认不信任、持续验证的安全模型;SDV/区域架构的目标态。"}
   ],
   "cheatsheet": [
     {"group": "R155 落地要点", "items": ["CSMS 证书 + 逐车型 CS 批准", "覆盖开发/生产/后生产", "附件5威胁逐项缓解", "不合规=不得销售"]},
-    {"group": "TARA 六步", "items": ["识别资产与 C/I/A", "枚举威胁场景", "构建攻击路径", "评影响与可行性", "定风险值", "选处置并留痕"]},
+    {"group": "TARA 六步(精简)", "items": ["识别资产与 C/I/A", "枚举威胁场景", "构建攻击路径", "评影响与可行性", "定风险值", "选处置并留痕"]},
     {"group": "OTA(R156)要点", "items": ["签名+完整性校验", "失败可回滚防变砖", "维护 RXSWIN", "评估型式批准影响", "用户告知+可追溯"]},
     {"group": "事件响应阶段", "items": ["准备(PSIRT/预案)", "检测与分析", "遏制与根除", "恢复(应急 OTA)", "复盘与上报(CRA 24h)"]},
     {"group": "后量子迁移", "items": ["密码敏捷设计", "签名链优先(Boot/OTA)", "ML-KEM 密钥封装", "ML-DSA/SLH-DSA 签名", "尽早规划(车龄 10–15 年)"]}
