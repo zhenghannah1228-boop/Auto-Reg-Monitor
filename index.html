@@ -885,9 +885,10 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" id="rcv-list" onclick="setRcView('list')">☰ 案例列表</button>
         <button class="btn light" id="rcv-stats" onclick="setRcView('stats')">📊 归因统计</button>
         <button class="btn light" onclick="exportRecalls()">↓ 导出</button>
+        <button class="btn light" onclick="copyRecallPrompt()" title="复制后粘贴到 Claude 对话发送,即可联网抓取加拿大交通部 RSS 最新召回、补全数量/处理措施并去重写库">📋 复制抓取指令</button>
       </div>
       <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7">召回=法规真正被执行的证据:把「规则(法规库)」与「执法现实(召回)」对应起来。引用的法规编号可点击跳转国家详情;数据团队共享。</div>
-      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-top:4px">官方召回数据源:<a href="https://wwwapps.tc.gc.ca/Saf-Sec-Sur/7/VRDB-BDRV/search-recherche/rss.aspx?lang=eng" target="_blank" rel="noopener" style="color:var(--blue)">🇨🇦 加拿大交通部 召回数据库(RSS) ↗</a></div>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-top:4px">官方召回数据源:<a href="https://wwwapps.tc.gc.ca/Saf-Sec-Sur/7/VRDB-BDRV/search-recherche/rss.aspx?lang=eng" target="_blank" rel="noopener" style="color:var(--blue)">🇨🇦 加拿大交通部 召回数据库(RSS) ↗</a> · RSS 有更新时点「📋 复制抓取指令」粘贴给 Claude 即可一键续抓。<span id="rc-prompt-tip" style="color:var(--accent);margin-left:6px"></span></div>
     </div>
     <div id="recall-body"><div class="bigmsg">正在载入召回案例…</div></div>
   </div>
@@ -4369,6 +4370,47 @@ function exportRecalls(){
     处理:r.remedy,来源:r.source_url,备注:r.note}));
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),"召回案例");
   XLSX.writeFile(wb,"召回案例_"+new Date().toISOString().slice(0,10)+".xlsx");
+}
+/* 一键复制「加拿大交通部 RSS 续抓」指令:RSS 有更新时,粘贴给 Claude 即可联网抓取→补全数量/处理措施→去重写入 recalls 表 */
+function copyRecallPrompt(){
+  const today=(new Date()).toISOString().slice(0,10);
+  const prompt=
+`# 任务:加拿大交通部召回 RSS 续抓 → 写入「16 召回案例」(${today})
+
+数据源(RSS):https://wwwapps.tc.gc.ca/Saf-Sec-Sur/7/VRDB-BDRV/search-recherche/rss.aspx?lang=eng
+Supabase 项目 project_id = nxiyifglhycvbrccbdhg,目标表 = recalls。
+
+## 流程
+1. 抓取上面 RSS,列出全部条目:车企-车型 / 发布日期 / detail 链接 / 描述 / 召回号 rn(detail 链接里的 rn=XXXXXXX)。
+2. **去重**:每条 detail 链接都带 rn。先查库 \`select source_url from recalls where source_url like '%VRDB-BDRV%'\`,凡 rn 已在库的跳过,只处理新增项。
+3. 对每条新增项,**抓取它的 detail 明细页**,提取:① 加拿大受影响数量(units)② 处理措施(Correction/Remedy)。
+4. 规整化为中文后写入 recalls 表;**分批 insert,每批 ≤8 行**(payload 过大 MCP 会断流)。
+
+## 字段映射(逐条对照,勿改规则)
+- country = '加拿大';agency = '加拿大交通部(Transport Canada)'
+- oems = 车企(常见品牌译中:通用汽车 GM / 福特 Ford / 本田 Honda / 丰田 Toyota / 奔驰 Mercedes-Benz / 沃尔沃卡车 Volvo Trucks / 菲亚特克莱斯勒 FCA / 比亚乔 Piaggio / 帕卡 Paccar / 马克卡车 Mack;其余小厂保留英文原名)
+- recall_date = 发布日期,格式 YYYY-MM-DD
+- mandatory = false,status = '自愿召回'(加拿大召回均为厂家发起)
+- reason = 缺陷/原因的中文摘要(2 句内,RSS 描述常被截断,以 detail 页为准)
+- models = 车型英文原名,多个用 / 分隔
+- units = 加拿大数量,格式如 '1,234 辆'(高空作业车/工程机械用 台);若该页加拿大数量为 0,填 '0 辆(加拿大无受影响车辆,仅供参考)'
+- remedy = 处理措施中文(如「到经销商更换××」「更新××软件」)
+- reg_ref = 仅"明确不符合加拿大法规"的合规类(尾灯指示灯误亮 / 标签印制错误 / 后视镜缺警示语 等)填 'CMVSS';一般缺陷类留 null
+- dims = **0 基**维度索引数组(0整车准入 1环保全链条 2射频认证 3充电电池 4EV补贴 5网络安全 6ADAS 7标签标识 8注册监管 9随车工具):
+    · 多数安全/机械/灯光/软件/仪表缺陷 → ARRAY[0]
+    · 高压电池/动力电池 → ARRAY[3]
+    · 补胎工具等随车工具 → ARRAY[9]
+    · 标签/标识/警示语印制类 → ARRAY[7]
+- source_url = 该条 detail 链接;note = '加拿大交通部召回数据库 VRDB · rn=XXXXXXX'
+
+## 写库注意
+- insert 列固定为:country,agency,oems,recall_date,mandatory,status,reason,reg_ref,dims,models,units,remedy,source_url,note。
+- dims 写 ARRAY[0] 这种;reg_ref 无则写 null。文本里的英文单引号要转义。
+- 写完报告:新增条数、按车企分布、最新发布日期,并提示我刷新【16 召回案例】核验。若某条加拿大数量为 0,单独点出问我是否保留。`;
+  const tip=$("#rc-prompt-tip");
+  const done=()=>{if(tip){tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";setTimeout(()=>{if(tip)tip.textContent="";},4000);}toast("已复制抓取指令");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+  else{cmpFallbackCopy(prompt);done();}
 }
 
 /* ================= 17 EV 政策探索器(IEA GEVO 2026) ================= */
