@@ -615,6 +615,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-evpol"><span class="tn">17</span>EV政策探索器</div>
     <div class="tab" data-p="p-unece"><span class="tn">18</span>UNECE法规状态</div>
     <div class="tab" data-p="p-radar"><span class="tn">19</span>法规雷达</div>
+    <div class="tab" data-p="p-cyber"><span class="tn">20</span>网络安全中心</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -974,6 +975,22 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:点「📋 复制采集指令」→ 粘贴到 Claude 对话发送 → 我联网搜集并给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
     </div>
     <div id="rd-body"><div class="bigmsg">正在载入 法规雷达…</div></div>
+  </div>
+
+  <div class="pane" id="p-cyber">
+    <div class="card">
+      <h3>汽车网络安全合规中心 <span class="hint">维度6 网络安全:把 R155/R156·ISO 21434·EU CRA·NIST PQC 的要点变成可操作的团队自查与速览 · 自评结果团队共享</span></h3>
+      <div class="netctrl" style="flex-wrap:wrap">
+        <button class="btn light primary" id="cyv-assess" onclick="setCyView('assess')">✅ 自查评估</button>
+        <button class="btn light" id="cyv-std" onclick="setCyView('std')">📐 标准速览</button>
+        <button class="btn light" id="cyv-case" onclick="setCyView('case')">🧪 案例库</button>
+        <button class="btn light" id="cyv-glos" onclick="setCyView('glos')">📖 术语 / 速查表</button>
+        <span style="flex:1"></span>
+        <button class="btn light" onclick="exportCyber()">⬇ 导出自评 Excel</button>
+      </div>
+      <div id="cy-src" style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.6;margin-top:6px"></div>
+    </div>
+    <div id="cyber-body"><div class="bigmsg">正在载入 网络安全中心…</div></div>
   </div>
 
   <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
@@ -4775,6 +4792,124 @@ function exportRadarXlsx(){
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"法规雷达");
   XLSX.writeFile(wb,"法规雷达_"+new Date().toISOString().slice(0,10)+".xlsx");
 }
+
+/* ================= 20 汽车网络安全合规中心(维度6) ================= */
+let _cyHub=null,_cyAssess={},_cyLoadedAssess=false,_cyView="assess",_cyChart=null;
+async function loadCyberHub(){if(_cyHub)return _cyHub;const r=await fetch("./data/cyber_hub.json");_cyHub=await r.json();return _cyHub;}
+async function loadCyberAssess(){
+  try{const rows=await sbFetchAll("cyber_assessments","*","");
+    _cyAssess={};rows.forEach(x=>{_cyAssess[x.item_key]={status:x.status||0,note:x.note||""};});
+  }catch(e){console.error("cyber assess",e);_cyAssess={};}
+}
+async function cyberEnter(){
+  const body=$("#cyber-body");
+  try{
+    if(!_cyHub)await loadCyberHub();
+    if(!_cyLoadedAssess){await loadCyberAssess();_cyLoadedAssess=true;}
+  }catch(e){if(body)body.innerHTML='<div class="card"><div class="bigmsg">载入失败:'+esc(e.message)+'</div></div>';return;}
+  renderCyber();
+}
+function setCyView(v){_cyView=v;renderCyber();}
+function renderCyber(){
+  const body=$("#cyber-body");if(!body||!_cyHub)return;
+  const src=$("#cy-src");if(src)src.innerHTML="资料来源:"+esc(_cyHub.meta.source);
+  [["assess","cyv-assess"],["std","cyv-std"],["case","cyv-case"],["glos","cyv-glos"]].forEach(([v,id])=>{const b=$("#"+id);if(b)b.classList.toggle("primary",_cyView===v);});
+  if(_cyView==="assess")renderCyAssess(body);
+  else if(_cyView==="std")renderCyStd(body);
+  else if(_cyView==="case")renderCyCase(body);
+  else renderCyGlos(body);
+}
+function cyDomScore(d){const its=d.items;if(!its.length)return 0;let s=0;its.forEach(it=>{s+=(_cyAssess[it.key]?_cyAssess[it.key].status:0);});return s/(2*its.length);}
+function cyLevel(score){return 1+Math.round(score*4);}
+function renderCyAssess(body){
+  const doms=_cyHub.domains;
+  const overall=doms.reduce((a,d)=>a+cyDomScore(d),0)/doms.length;
+  const lv=cyLevel(overall),lvName=((_cyHub.meta.maturity_levels[lv-1])||{}).name||"";
+  let done=0,total=0;doms.forEach(d=>d.items.forEach(it=>{total++;if(((_cyAssess[it.key]||{}).status||0)===2)done++;}));
+  let h='<div class="card"><div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">'+
+    '<div><div style="font-family:var(--serif);font-size:16px">整体成熟度 L'+lv+' · '+esc(lvName)+'</div>'+
+    '<div style="font-size:11px;color:var(--muted);font-family:var(--mono)">已达成 '+done+'/'+total+' 项 · 综合完成度 '+Math.round(overall*100)+'%</div></div>'+
+    '<span style="flex:1"></span>'+
+    '<button class="btn light" onclick="switchTab(\'p-dim\')">→ 维度矩阵(各国网络安全覆盖)</button></div>'+
+    '<div id="cy-radar" style="height:340px;margin-top:6px"></div>'+
+    '<div style="font-size:11px;color:var(--muted);font-family:var(--mono)">成熟度档:'+_cyHub.meta.maturity_levels.map(m=>"L"+m.lv+" "+esc(m.name)).join(" · ")+'。勾选状态团队共享,雷达自动重算。</div></div>';
+  doms.forEach(d=>{
+    const sc=cyDomScore(d);
+    h+='<div class="card"><h3 style="margin:0 0 2px;font-size:14px">'+esc(d.name)+' <span class="hint">'+esc(d.desc)+'</span></h3>'+
+      '<div style="font-size:11px;color:var(--blue);font-family:var(--mono);margin-bottom:6px">本域 L'+cyLevel(sc)+' · '+Math.round(sc*100)+'%</div>';
+    d.items.forEach(it=>{
+      const a=_cyAssess[it.key]||{},st=a.status||0,nt=a.note||"";
+      const col=st===2?"#3a7d4f":st===1?"#b07d00":"var(--muted)";
+      h+='<div style="display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-top:1px solid var(--line)">'+
+        '<select class="csel" style="width:110px;flex:none" onchange="setCyItem(\''+it.key+'\',+this.value)">'+
+        [0,1,2].map(v=>'<option value="'+v+'" '+(st===v?"selected":"")+'>'+esc(_cyHub.meta.status_labels[v])+'</option>').join("")+'</select>'+
+        '<div style="flex:1"><div style="font-size:12.5px;color:'+col+'">'+esc(it.text)+'</div>'+
+        '<div style="font-size:10.5px;color:var(--faint);font-family:var(--mono)">依据:'+esc(it.ref)+(nt?' · 备注:'+esc(nt):"")+'</div></div>'+
+        '<button class="btn light" style="flex:none;padding:2px 8px" onclick="cyNote(\''+it.key+'\')">📝</button></div>';
+    });
+    h+='</div>';
+  });
+  body.innerHTML=h;cyRadar();
+}
+function cyRadar(){
+  const el=$("#cy-radar");if(!el||typeof echarts==="undefined")return;
+  if(_cyChart){_cyChart.dispose();_cyChart=null;}
+  _cyChart=echarts.init(el);
+  _cyChart.setOption({tooltip:{},
+    radar:{indicator:_cyHub.domains.map(d=>({name:d.name,max:100})),radius:"66%",axisName:{fontSize:11,color:"#555"}},
+    series:[{type:"radar",data:[{value:_cyHub.domains.map(d=>Math.round(cyDomScore(d)*100)),name:"成熟度%",areaStyle:{opacity:0.25,color:"#3a6b8a"},lineStyle:{color:"#3a6b8a"},itemStyle:{color:"#c6502a"}}]}]});
+}
+async function setCyItem(key,status){
+  _cyAssess[key]=_cyAssess[key]||{status:0,note:""};_cyAssess[key].status=status;
+  try{await sbUpsert("cyber_assessments",[{item_key:key,status,note:_cyAssess[key].note||null,updated_at:new Date().toISOString()}],"item_key");}
+  catch(e){toast("保存失败:"+e.message);}
+  renderCyAssess($("#cyber-body"));
+}
+async function cyNote(key){
+  const cur=(_cyAssess[key]||{}).note||"";const v=prompt("备注(团队共享):",cur);if(v===null)return;
+  _cyAssess[key]=_cyAssess[key]||{status:0,note:""};_cyAssess[key].note=v.trim();
+  try{await sbUpsert("cyber_assessments",[{item_key:key,status:_cyAssess[key].status||0,note:v.trim()||null,updated_at:new Date().toISOString()}],"item_key");toast("备注已保存");}
+  catch(e){toast("保存失败:"+e.message);}
+  renderCyAssess($("#cyber-body"));
+}
+function renderCyStd(body){
+  let h='<div class="card"><div style="font-size:11px;color:var(--muted);font-family:var(--mono)">维度6 网络安全相关标准/法规要点速览(蒸馏改写,非原文)。</div></div>';
+  _cyHub.standards.forEach(s=>{
+    h+='<div class="card"><h3 style="margin:0 0 4px;font-size:14px">'+esc(s.name)+' <span class="rtag">'+esc(s.id)+'</span></h3>'+
+      '<div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-bottom:6px">'+esc(s.region)+'</div>'+
+      '<div style="font-size:12.5px;margin-bottom:6px">'+esc(s.scope)+'</div>'+
+      '<ul style="margin:0 0 6px;padding-left:18px;font-size:12px">'+s.points.map(p=>"<li>"+esc(p)+"</li>").join("")+'</ul>'+
+      '<div style="font-size:11px;color:var(--accent);font-family:var(--mono)">⏱ '+esc(s.timeline)+'</div></div>';
+  });
+  body.innerHTML=h;
+}
+function renderCyCase(body){
+  let h='<div class="card"><div style="font-size:11px;color:var(--muted);font-family:var(--mono)">公开披露的网络安全事件/标杆(教训导向)。</div></div>';
+  _cyHub.cases.forEach(c=>{
+    h+='<div class="card"><h3 style="margin:0 0 4px;font-size:14px">'+esc(c.title)+' <span class="hint">'+esc(c.year)+'</span></h3>'+
+      '<div style="font-size:12.5px;margin-bottom:2px"><b>攻击路径:</b>'+esc(c.vector)+'</div>'+
+      '<div style="font-size:12.5px;margin-bottom:2px"><b>影响:</b>'+esc(c.impact)+'</div>'+
+      '<div style="font-size:12.5px;color:var(--blue)"><b>教训:</b>'+esc(c.lesson)+'</div>'+
+      '<div style="text-align:right;margin-top:6px"><button class="btn light" onclick="cyGoRecall()">→ 相关召回案例</button></div></div>';
+  });
+  body.innerHTML=h;
+}
+function cyGoRecall(){switchTab("p-recall");const f=()=>{const s=$("#rc-fdim");if(s)s.value="5";renderRecalls();};if(typeof loadRecalls==="function"){if(!recalls.length)loadRecalls().then(f);else f();}}
+function renderCyGlos(body){
+  let h='<div class="card"><h3 style="margin:0 0 8px;font-size:14px">速查表</h3>';
+  _cyHub.cheatsheet.forEach(g=>{h+='<div style="margin-bottom:8px"><div style="font-weight:700;font-size:12.5px">'+esc(g.group)+'</div><div style="font-size:11.5px;color:var(--muted)">'+g.items.map(esc).join(" → ")+'</div></div>';});
+  h+='</div><div class="card"><h3 style="margin:0 0 8px;font-size:14px">术语速查</h3><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px">';
+  _cyHub.glossary.forEach(t=>{h+='<div style="border:1px solid var(--line);border-radius:6px;padding:8px"><div style="font-weight:700;font-size:12.5px">'+esc(t.term)+' <span style="font-weight:400;color:var(--faint);font-size:10.5px">'+esc(t.full)+'</span></div><div style="font-size:11.5px;color:var(--muted)">'+esc(t.def)+'</div></div>';});
+  h+='</div></div>';
+  body.innerHTML=h;
+}
+function exportCyber(){
+  if(typeof XLSX==="undefined"||!_cyHub){toast("数据未载入");return;}
+  const rows=[];_cyHub.domains.forEach(d=>d.items.forEach(it=>{const a=_cyAssess[it.key]||{};rows.push({域:d.name,条目:it.text,状态:_cyHub.meta.status_labels[a.status||0],依据:it.ref,备注:a.note||""});}));
+  const ws=XLSX.utils.json_to_sheet(rows);ws["!cols"]=[{wch:16},{wch:50},{wch:10},{wch:22},{wch:30}];
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"网络安全自评");
+  XLSX.writeFile(wb,"网络安全自评_"+new Date().toISOString().slice(0,10)+".xlsx");
+}
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
   if(t.dataset.p==="p-net")buildNet();
@@ -4788,6 +4923,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-evpol"){if(!_evpol)loadEvPol().then(renderEvPol);else renderEvPol();}
   if(t.dataset.p==="p-unece"){if(!_unece)loadUnece().then(renderUnece);else renderUnece();}
   if(t.dataset.p==="p-radar"){if(!_radar)loadRadar().then(renderRadar);else renderRadar();}
+  if(t.dataset.p==="p-cyber"){cyberEnter();}
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
