@@ -4730,7 +4730,7 @@ function renderRadar(){
       <td style="min-width:240px"><b style="font-size:12.5px">${esc(r.title||"")}</b><div style="font-size:11px;color:var(--ink2);line-height:1.5;margin-top:2px">${esc(r.summary||"")}</div><div style="margin-top:3px">${tps}</div>${r.tbt_no?`<div style="font-size:10px;color:#2f6d8c;font-family:var(--mono)">TBT ${esc(r.tbt_no)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap"><span style="background:${st.b};color:${st.c};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px">${esc(r.stage||"—")}</span>${r.pub_date?`<div style="font-size:10px;color:var(--muted);margin-top:2px">${esc(r.pub_date)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap;font-size:10.5px"><span style="color:${pend2?'#8a6510':'#3d6630'};font-weight:700">${esc(r.status||"")}</span><div style="color:${/已核实/.test(r.confidence||"")?'#3d6630':'#a8401f'};margin-top:2px">${esc(r.confidence||"")}</div></td>
-      <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td>
+      <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>${/\.pdf(\?|#|$)/i.test(r.source_url)?`<div style="font-size:9px;color:#3d6630;font-weight:700;margin-top:1px">✓PDF直链</div>`:`<div style="font-size:9px;color:#a8401f;font-weight:700;margin-top:1px">⚠非直链</div><button id="kwbtn-${esc(r.id)}" class="btn light" style="padding:0 5px;font-size:9.5px;margin-top:2px;color:#a8401f" onclick="radarCopyKw('${esc(r.id)}')" title="复制检索词,自行去搜索引擎找官方PDF">📋检索词</button>`}`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap">${pend2?`<button class="btn light" style="padding:1px 6px;font-size:10px;color:#3d6630" onclick="radarConfirm('${esc(r.id)}')">✓确认</button><br>`:""}<button class="btn light" style="padding:1px 6px;font-size:10px;color:#a8401f;margin-top:2px" onclick="radarDelete('${esc(r.id)}')">🗑删除</button></td></tr>`;}).join("");
   body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:1060px"><thead><tr>
     <th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
@@ -4747,14 +4747,22 @@ async function radarDelete(id){
     _radar=(_radar||[]).filter(x=>x.id!==id);renderRadar();}
   catch(e){alert("删除失败:"+(e&&e.message||e));}
 }
+/* 非PDF直链来源:一键复制检索词(国家+机构+标题),自行去搜索引擎找官方PDF */
+function radarCopyKw(id){
+  const r=(_radar||[]).find(x=>x.id===id);if(!r)return;
+  const kw=[r.country,r.agency,r.title].filter(Boolean).join(" ").replace(/\s+/g," ").trim();
+  const done=()=>{const b=document.getElementById("kwbtn-"+id);if(b){const o=b.textContent;b.textContent="✓已复制";setTimeout(()=>{if(b)b.textContent=o;},1500);}};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(kw).then(done,()=>{cmpFallbackCopy(kw);done();});}
+  else{cmpFallbackCopy(kw);done();}
+}
 function exportRadarXlsx(){
   if(typeof XLSX==="undefined"||!_radar)return;
   const q=((($("#rd-q")&&$("#rd-q").value)||"").trim().toLowerCase());
   const fr=($("#rd-region")&&$("#rd-region").value)||"",ft=($("#rd-topic")&&$("#rd-topic").value)||"",fs=($("#rd-stage")&&$("#rd-stage").value)||"",fst=($("#rd-status")&&$("#rd-status").value)||"";
   const rows=_radar.filter(r=>(!fr||r.region===fr)&&(!ft||(r.topics||[]).includes(ft))&&(!fs||r.stage===fs)&&(!fst||r.status===fst)&&(!q||[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(q)));
-  const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","状态","置信","TBT号","来源名","来源链接","备注"]];
-  rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.status||"",r.confidence||"",r.tbt_no||"",r.source_name||"",r.source_url||"",r.note||""]));
-  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:8},{wch:8},{wch:16},{wch:18},{wch:40},{wch:24}];
+  const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","状态","置信","TBT号","来源类型","来源名","来源链接","备注"]];
+  rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.status||"",r.confidence||"",r.tbt_no||"",(/\.pdf(\?|#|$)/i.test(r.source_url||"")?"PDF直链":(r.source_url?"非直链":"")),r.source_name||"",r.source_url||"",r.note||""]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:8},{wch:8},{wch:16},{wch:9},{wch:18},{wch:40},{wch:24}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"法规雷达");
   XLSX.writeFile(wb,"法规雷达_"+new Date().toISOString().slice(0,10)+".xlsx");
 }
