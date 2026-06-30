@@ -3,7 +3,9 @@
     "title": "汽车网络安全合规中心",
     "version": "1.0",
     "dim": 6,
-    "source": "内容蒸馏整理自《Automotive Cybersecurity Handbook 2026 v1.0》(KPIT Technologies · Ashish Kumar,2026-06),并结合 ISO/SAE 21434、UNECE R155/R156、EU CRA、NIST PQC 公开标准要点改写;非原文逐字转载,仅作团队自查与速览之用。原始手册版权归原作者所有。",
+    "source": "内容整理自《Automotive Cybersecurity Handbook 2026 v1.0》(KPIT Technologies · Ashish Kumar,2026-06),并结合 ISO/SAE 21434、UNECE R155/R156、EU CRA、NIST PQC 公开标准要点;经原作者授权可摘录/转载,原手册版权仍归原作者所有。完整原文见下方「📄 原手册」。",
+    "handbook_pdf": "./docs/automotive_cybersecurity_handbook_2026.pdf",
+    "handbook_title": "Automotive Cybersecurity Handbook 2026 v1.0 — KPIT / Ashish Kumar",
     "maturity_levels": [
       {"lv": 1, "name": "初始 Initial", "desc": "无流程或临时应对,依赖个人;无证据留痕。"},
       {"lv": 2, "name": "管理 Managed", "desc": "关键活动有人负责并执行,但不成体系、不一致。"},

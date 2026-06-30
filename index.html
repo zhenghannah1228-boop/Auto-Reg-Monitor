@@ -986,6 +986,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" id="cyv-case" onclick="setCyView('case')">🧪 案例库</button>
         <button class="btn light" id="cyv-glos" onclick="setCyView('glos')">📖 术语 / 速查表</button>
         <span style="flex:1"></span>
+        <a class="btn light" style="text-decoration:none" href="./docs/automotive_cybersecurity_handbook_2026.pdf" target="_blank" rel="noopener" title="经作者授权收录的完整原始手册 PDF">📄 原手册</a>
         <button class="btn light" onclick="exportCyber()">⬇ 导出自评 Excel</button>
       </div>
       <div id="cy-src" style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.6;margin-top:6px"></div>
@@ -4812,7 +4813,7 @@ async function cyberEnter(){
 function setCyView(v){_cyView=v;renderCyber();}
 function renderCyber(){
   const body=$("#cyber-body");if(!body||!_cyHub)return;
-  const src=$("#cy-src");if(src)src.innerHTML="资料来源:"+esc(_cyHub.meta.source);
+  const src=$("#cy-src");if(src)src.innerHTML="资料来源:"+esc(_cyHub.meta.source)+(_cyHub.meta.handbook_pdf?' <a href="'+esc(_cyHub.meta.handbook_pdf)+'" target="_blank" rel="noopener" style="color:var(--blue)">📄 '+esc(_cyHub.meta.handbook_title||"原手册")+' ↗</a>':"");
   [["assess","cyv-assess"],["std","cyv-std"],["case","cyv-case"],["glos","cyv-glos"]].forEach(([v,id])=>{const b=$("#"+id);if(b)b.classList.toggle("primary",_cyView===v);});
   if(_cyView==="assess")renderCyAssess(body);
   else if(_cyView==="std")renderCyStd(body);
