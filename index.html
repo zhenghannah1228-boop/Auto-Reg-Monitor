@@ -4721,8 +4721,8 @@ function rdStage(s){s=String(s||"");
   return{c:"#5a5f4e",b:"#ececea"};}
 /* 来源链接类型:pdf=.pdf直链;doc=官方文件下载端点(无.pdf后缀但点开即文件);news=新闻/门户页(需自查) */
 function rdSrcType(u){u=String(u||"");if(!u)return "";
-  if(/\.pdf(\?|#|$)/i.test(u))return "pdf";
-  if(/wpfd_file|\/File\/Get\/|\/getmedia\/|[?&](format|type)=pdf|\/download(\/|$|\?)/i.test(u))return "doc";
+  if(/\.pdf(\?|#|$)/i.test(u)||/\/TXT\/PDF\/|[?&](format|type)=pdf/i.test(u))return "pdf";
+  if(/wpfd_file|\/File\/Get\/|\/getmedia\/|\/download(\/|$|\?)|egazette|eli\/|viewDocument/i.test(u))return "doc";
   return "news";}
 function rdFill(sel,vals){const e=$(sel);if(!e)return;const cur=e.value;
   const def=e.options[0]?e.options[0].outerHTML:"";
