@@ -890,7 +890,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="adv-inbar">
       <input id="adv-q" class="adv-input" placeholder="输入问题,如:印度的充电电池法规有哪些?UN R171 哪些国家在用?中欧电池热失控差异?" autocomplete="off">
       <button class="btn" onclick="askAdvisor()">提问</button>
+      <button class="btn light" onclick="copyAdvisorPrompt()" title="按当前输入框问题生成一份自包含指令,复制后粘贴给 Claude 对话发送 → Claude 联查团队数据库并交付一份可导出的正式咨询报告">📋 生成咨询指令(深度报告)</button>
     </div>
+    <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.6;margin:2px 2px 0">上面「提问」是即时检索式问答,速度快但只做关键词匹配。若想要 <b>Claude 真正分析并交付一份带引用、可导出的正式报告</b>:先在输入框写好问题 → 点「📋 生成咨询指令」→ 粘贴到 Claude 对话发送。<span id="adv-prompt-tip" style="color:var(--accent);margin-left:4px"></span></div>
   </div>
 
   <div class="pane" id="p-recall">
@@ -4235,6 +4237,52 @@ function advAnswer(q){
   }
   html+=`</div>`;
   return html;
+}
+/* 一键复制「合规咨询深度报告」指令:把当前问题+库内表结构打包成自包含 prompt,
+   粘贴给 Claude 后由其联查 Supabase 真实数据、综合分析并交付可导出报告(而非本页的关键词检索)。*/
+function copyAdvisorPrompt(){
+  const q=(($("#adv-q")&&$("#adv-q").value)||"").trim();
+  const tip=$("#adv-prompt-tip");
+  if(!q){if(tip){tip.textContent="⚠ 先在上面输入框写好问题,再点这个按钮";setTimeout(()=>{if(tip)tip.textContent="";},4000);}toast("请先输入问题");return;}
+  const today=(new Date()).toISOString().slice(0,10);
+  const prompt=
+`# 任务:汽车法规合规咨询 · 深度报告(${today})
+
+我的问题:「${q}」
+
+你要做的不是关键词检索,而是**像资深合规顾问一样**:联查团队 Supabase 法规库拿到真实数据 → 综合分析 → 交付一份带引用、可导出的正式报告。**禁止编造法规编号/条款/日期**——查不到就如实说"库内暂无",不要杜撰。
+
+## 数据源(Supabase 项目 project_id = nxiyifglhycvbrccbdhg)
+- **regulations**(法规主表):country,reg_id,cn_name,orig_name,en_name,lang,dim_text,domain,ref_cn,ref_eu,ref_us,pub_date,eff_date,status,remark,note,source,link,parents_raw,dims(int[],**0基10维度**:0整车准入 1环保全链条 2射频认证 3充电电池 4EV补贴 5网络安全 6ADAS 7标签标识 8注册监管 9随车工具),refs(text[],国际标准引用如 "UN R100"/"GB 7258"/"FMVSS 208"),amend(修订系列),rec_date
+- **recalls**(召回执法案例):country,agency,oems,recall_date,mandatory,status,reason,reg_ref,reg_clause,refs,dims,models,units,remedy,source_url,note
+- **reg_radar**(AI 采集的最新法规情报,**status='待确认' 的必须标注"未核实情报"**,已确认的可直接引用):region,country,agency,title,summary,stage,topics,dims,tbt_no,source_url,source_name,pub_date,confidence,status
+- **memos**(团队备忘,可能含相关人工笔记):content,country,pinned,url
+- **cert_overrides**(认证体系团队覆盖层,需与静态 data/cert_pyramid.json 按国家合并,覆盖层优先)
+- **text_files**(法规原文文件名登记,仅文件名无正文,可作为"清单缺文本/文本缺清单"线索)
+
+## 分析要求
+1. 先据问题里的国家/国际标准/维度关键词,写 SQL 查 regulations(与必要时 recalls/reg_radar/memos/cert),拿到真实记录再动笔。
+2. 覆盖判定套用库内既有规则:单维度 ≥3条=✓覆盖、1–2条=⚠弱覆盖、0条=✗空白;单国空白维度 >2 处视为不达标。
+3. 国际标准对标要点出具体国家+条数,而不是笼统概括。
+4. 若问题涉及多国/多维度对比,做成清晰的对比结构(表格或分组列表),不要写成一段话。
+5. 涉及草案/新规判断时参照:状态列 + 编号/名称/备注含"草案/提案/draft/proposal/proposed"(英文词需 \\b 词边界)。
+
+## 报告结构(交付时按此结构写,可适当增减但不要丢失关键项)
+1. **问题重述与结论摘要**(2-4 句直接回答,不要卖关子)
+2. **逐国家/维度详细分析**(具体法规编号+中文名+依据+生效日期;能定位到条的标注条款)
+3. **国际标准对标情况**(共同点/差异,按标准分组列各国对应本地法规)
+4. **空白与风险提示**(参照覆盖判定规则,标红空白维度/国家)
+5. **相关执法/召回案例**(若召回表有匹配)
+6. **建议行动项**(给可执行的下一步,不要空泛)
+7. **数据来源与声明**(注明基于团队法规库当前收录状态,可能存在滞后或缺漏;reg_radar 未确认情报需再次注明)
+
+## 交付形式
+把报告写成一份**排版专业、可直接导出/打印的独立文件**(如自带打印样式的 HTML,或另存 PDF),通过发送文件的方式给我——不要只在对话里贴大段纯文字。文件名建议含日期与问题关键词。
+
+回答前如信息不够(问题太模糊、库内确实缺数据),直接说明缺什么、要我补充什么,不要硬答。`;
+  const done=()=>{if(tip){tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";setTimeout(()=>{if(tip)tip.textContent="";},5000);}toast("已复制咨询指令");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+  else{cmpFallbackCopy(prompt);done();}
 }
 
 /* ================= 16 召回案例(执法实证,团队共享) ================= */
