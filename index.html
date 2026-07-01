@@ -253,6 +253,11 @@ select.csel option{font-size:14px;font-family:var(--sans);background:var(--panel
 .cal-f button{font-size:12.5px;border:1px solid var(--line);background:var(--panel);color:var(--ink);
   border-radius:6px;padding:5px 12px;cursor:pointer}
 .cal-f button:hover{border-color:var(--accent);color:var(--accent)}
+.cal-mg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cal-mc{text-align:center;font-size:14px;padding:12px 0;border-radius:6px;cursor:pointer;color:var(--ink)}
+.cal-mc:hover{background:var(--panel2)}
+.cal-mc.today{outline:1px solid var(--accent);outline-offset:-1px}
+.cal-mc.sel{background:var(--accent);color:#fff;font-weight:700}
 input.csel{font-family:var(--sans);font-size:14px;background:var(--panel);border:1px solid var(--line);
   padding:9px 14px;border-radius:6px;color:var(--ink);box-shadow:var(--shadow)}
 /* 国家下拉的「筛选」输入框(输入即收窄选项,免滚动翻找) */
@@ -939,7 +944,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <h3>UNECE 法规状态 <span class="hint">ECE/TRANS/WP.29/343 · 1958 协定各 UN 法规增补的「通过(发布)/生效」日期 · 一键筛选现行 / 即将生效</span></h3>
       <div class="netctrl" style="flex-wrap:wrap">
         <input id="un-q" class="csel" style="min-width:230px" placeholder="搜法规号或名称,如 79 / R79 / 转向 / steering" oninput="renderUnece()">
-        <label style="font-size:12px;display:flex;align-items:center;gap:5px">基准日期 <input type="date" id="un-ref" class="csel" style="width:150px" onchange="renderUnece()"></label>
+        <label style="font-size:12px;display:flex;align-items:center;gap:5px">基准日期 <input type="text" readonly id="un-ref" class="csel calinput" style="width:150px;cursor:pointer" placeholder="yyyy-mm-dd" onchange="renderUnece()"></label>
         <span class="seg" style="display:inline-flex;gap:4px">
           <button class="btn light on" id="unf-all" onclick="uneceFilter('all',this)">全部</button>
           <button class="btn light" id="unf-inforce" onclick="uneceFilter('inforce',this)">现行(已生效)</button>
@@ -970,13 +975,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       </div>
       <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
         <span style="font-size:11px;color:var(--muted)">发布日期</span>
-        <input type="month" id="rd-pubfrom" class="csel" style="width:130px" onchange="renderRadar()">
+        <input type="text" readonly id="rd-pubfrom" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
         <span style="font-size:11px;color:var(--muted)">至</span>
-        <input type="month" id="rd-pubto" class="csel" style="width:130px" onchange="renderRadar()">
+        <input type="text" readonly id="rd-pubto" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
         <span style="font-size:11px;color:var(--muted);margin-left:10px">生效日期</span>
-        <input type="month" id="rd-efffrom" class="csel" style="width:130px" onchange="renderRadar()">
+        <input type="text" readonly id="rd-efffrom" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
         <span style="font-size:11px;color:var(--muted)">至</span>
-        <input type="month" id="rd-effto" class="csel" style="width:130px" onchange="renderRadar()">
+        <input type="text" readonly id="rd-effto" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
         <button class="btn light" onclick="['rd-pubfrom','rd-pubto','rd-efffrom','rd-effto'].forEach(id=>{if($('#'+id))$('#'+id).value='';});renderRadar()">清空日期筛选</button>
       </div>
       <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
@@ -1223,7 +1228,51 @@ function openCal(input){
     window.addEventListener("scroll",_calScroll,true);window.addEventListener("resize",closeCal);},0);
 }
 document.addEventListener("mousedown",e=>{const t=e.target.closest&&e.target.closest("input.calinput");
-  if(t){e.preventDefault();openCal(t);}},true);
+  if(t){e.preventDefault();closeMc();openCal(t);}},true);
+/* ===== 自绘月份选择器:替代原生 <input type=month> 弹层(法规雷达日期范围等),值仍为 YYYY-MM ===== */
+let _mcEl=null,_mcInput=null,_mcY=0;
+function closeMc(){if(!_mcEl)return;_mcEl.remove();_mcEl=null;_mcInput=null;
+  document.removeEventListener("mousedown",_mcOutside,true);
+  window.removeEventListener("scroll",_mcScroll,true);window.removeEventListener("resize",closeMc);}
+function _mcOutside(e){if(_mcEl&&!_mcEl.contains(e.target)&&e.target!==_mcInput)closeMc();}
+function _mcScroll(e){if(_mcEl&&(e.target===_mcEl||(e.target.nodeType===1&&_mcEl.contains(e.target))))return;closeMc();}
+function renderMc(){
+  if(!_mcEl)return;
+  const selStr=(_mcInput.value||"").match(/^\d{4}-\d{2}$/)?_mcInput.value:"";
+  const now=new Date();const tStr=now.getFullYear()+"-"+_calPad(now.getMonth()+1);
+  const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+  let cells="";
+  for(let m=0;m<12;m++){const ms=_mcY+"-"+_calPad(m+1);
+    const cls=["cal-mc"];if(ms===selStr)cls.push("sel");if(ms===tStr)cls.push("today");
+    cells+=`<div class="${cls.join(" ")}" data-m="${ms}">${mn[m]}</div>`;}
+  _mcEl.innerHTML=`<div class="cal-h"><button type="button" class="cal-nav" data-nav="-1">‹</button>`
+    +`<span class="cal-title">${_mcY} 年</span>`
+    +`<button type="button" class="cal-nav" data-nav="1">›</button></div>`
+    +`<div class="cal-mg">`+cells+`</div>`
+    +`<div class="cal-f"><button type="button" data-act="this">本月</button><button type="button" data-act="clear">清除</button></div>`;
+}
+function openMc(input){
+  if(_mcInput===input){closeMc();return;}
+  closeCal();closeMc();_mcInput=input;
+  const m=(input.value||"").match(/^(\d{4})-(\d{2})$/);const now=new Date();
+  _mcY=m?+m[1]:now.getFullYear();
+  const p=document.createElement("div");p.className="cal";document.body.appendChild(p);_mcEl=p;renderMc();
+  const r=input.getBoundingClientRect();
+  p.style.left=Math.max(8,Math.min(r.left,innerWidth-p.offsetWidth-8))+"px";
+  let top=r.bottom+4;if(top+p.offsetHeight>innerHeight-8)top=Math.max(8,r.top-4-p.offsetHeight);
+  p.style.top=top+"px";
+  p.addEventListener("mousedown",e=>{
+    const nav=e.target.closest("[data-nav]"),act=e.target.closest("[data-act]"),mo=e.target.closest(".cal-mc[data-m]");
+    if(nav){e.preventDefault();_mcY+=+nav.dataset.nav;renderMc();return;}
+    if(act){e.preventDefault();if(act.dataset.act==="this"){const n=new Date();_mcInput.value=n.getFullYear()+"-"+_calPad(n.getMonth()+1);}
+      else _mcInput.value="";_mcInput.dispatchEvent(new Event("change",{bubbles:true}));closeMc();return;}
+    if(mo){e.preventDefault();_mcInput.value=mo.dataset.m;_mcInput.dispatchEvent(new Event("change",{bubbles:true}));closeMc();return;}
+  });
+  setTimeout(()=>{document.addEventListener("mousedown",_mcOutside,true);
+    window.addEventListener("scroll",_mcScroll,true);window.addEventListener("resize",closeMc);},0);
+}
+document.addEventListener("mousedown",e=>{const t=e.target.closest&&e.target.closest("input.calmonth");
+  if(t){e.preventDefault();closeCal();openMc(t);}},true);
 document.addEventListener("mousedown",e=>{const s=e.target.closest&&e.target.closest("select.csel");
   if(s){e.preventDefault();openCDrop(s);try{s.focus();}catch(_){}}},true);
 document.addEventListener("keydown",e=>{const s=e.target.closest&&e.target.closest("select.csel");
