@@ -4800,6 +4800,16 @@ function rdMonthOf(s){s=String(s||"");
   m=s.match(/(\d{4})年\s*(\d{1,2})\s*月/);if(m)return m[1]+"-"+String(m[2]).padStart(2,"0");
   m=s.match(/(\d{4})/);if(m)return m[1]+"-01";
   return "";}
+/* 发布/生效日期区间筛选:两个区间都设了→命中任一即算(OR);只设了一个→只按那个筛 */
+function rdDateRangeOk(r,pf,pt,ef,et){
+  const pubActive=!!(pf||pt),effActive=!!(ef||et);
+  if(!pubActive&&!effActive)return true;
+  const pm=rdMonthOf(r.pub_date),em=rdMonthOf(r.effective_date);
+  const pubOk=pubActive&&pm&&!(pf&&pm<pf)&&!(pt&&pm>pt);
+  const effOk=effActive&&em&&!(ef&&em<ef)&&!(et&&em>et);
+  if(pubActive&&effActive)return pubOk||effOk;
+  return pubActive?pubOk:effOk;
+}
 function rdFill(sel,vals){const e=$(sel);if(!e)return;const cur=e.value;
   const def=e.options[0]?e.options[0].outerHTML:"";
   e.innerHTML=def+vals.map(v=>`<option>${esc(v)}</option>`).join("");
@@ -4819,8 +4829,7 @@ function renderRadar(){
     if(ft&&!(r.topics||[]).includes(ft))return false;
     if(fs&&r.stage!==fs)return false;
     if(fst&&r.status!==fst)return false;
-    if(pf||pt){const m=rdMonthOf(r.pub_date);if(!m)return false;if(pf&&m<pf)return false;if(pt&&m>pt)return false;}
-    if(ef||et){const m=rdMonthOf(r.effective_date);if(!m)return false;if(ef&&m<ef)return false;if(et&&m>et)return false;}
+    if(!rdDateRangeOk(r,pf,pt,ef,et))return false;
     if(q){const hay=[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase();if(!hay.includes(q))return false;}
     return true;});
   const conf=_radar.filter(r=>r.status==="已确认").length,pend=_radar.filter(r=>r.status==="待确认").length;
@@ -4962,8 +4971,7 @@ function exportRadarXlsx(){
     if(ft&&!(r.topics||[]).includes(ft))return false;
     if(fs&&r.stage!==fs)return false;
     if(fst&&r.status!==fst)return false;
-    if(pf||pt){const m=rdMonthOf(r.pub_date);if(!m)return false;if(pf&&m<pf)return false;if(pt&&m>pt)return false;}
-    if(ef||et){const m=rdMonthOf(r.effective_date);if(!m)return false;if(ef&&m<ef)return false;if(et&&m>et)return false;}
+    if(!rdDateRangeOk(r,pf,pt,ef,et))return false;
     if(q&&![r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(q))return false;
     return true;});
   const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","生效日","状态","置信","TBT号","来源类型","来源名","来源链接","检索词(原文)","备注"]];
