@@ -4848,7 +4848,7 @@ function radarClearSel(){
 }
 const RD_RPT_ASSET="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/assets/report/";
 function rdRptItemBlock(r,first){
-  const btn=r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em;margin-top:2px">查看原文 Read More →</a>`:"";
+  const btn=r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em;margin-top:2px">Read More</a>`:"";
   const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
   return `<tr><td style="padding:${first?"0":"16px"}px 0px 16px">
     <div dir="ltr" style="color:#ffffff;font-size:18.7px;font-weight:700;letter-spacing:-0.04em;white-space:pre-wrap;line-height:1.25;margin-bottom:8px">${esc(r.title||"")}</div>
@@ -4874,7 +4874,6 @@ function radarBuildReportHtml(items){
   const flagshipHtml=flagship?rdRptItemBlock(flagship,true):"";
   const publishedHtml=published.length?rdRptDivider("divider-updates.jpg","Regulatory Updates")+published.map(r=>rdRptItemBlock(r,false)).join(""):"";
   const draftsHtml=drafts.length?rdRptDivider("divider-drafts.jpg","Regulatory Drafts & Proposal Tracking")+drafts.map(r=>rdRptItemBlock(r,false)).join(""):"";
-  const genDate=(items[0]&&items[0].collected_date)||"";
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title></head>
 <body style="width:100%;-webkit-text-size-adjust:100%;background-color:#f0f1f5;margin:0;padding:0">
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f1f5" style="background-color:#f0f1f5"><tbody><tr><td style="background-color:#f0f1f5">
@@ -4897,7 +4896,7 @@ ${flagshipHtml}${publishedHtml}${draftsHtml}
 ${rdRptDivider("divider-summary.jpg","Global Vehicle Regulatory Update Summary")}
 <tr><td style="padding:0px 0px 8px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>${countryRows}</tbody></table></td></tr>
 <tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:480px"><tr><td style="width:100%">
-<a href="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/#p-radar" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-align:center;padding:17px 8px;border-radius:76px;font-size:14.5px;font-weight:700;font-family:Arial,Helvetica,sans-serif">查看完整法规雷达 View Full Regulatory Radar →</a>
+<a href="https://new.1clicktong.com" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-align:center;padding:45px 8px;border-radius:76px;font-size:16.2px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.4">UNLOCK ALL UPDATES - Explore our Regulation Library with a Free Trial<br>解锁全部更新 - 免费试用我们的法规库</a>
 </td></tr></table></td></tr></table></td></tr>
 </tbody></table>
 </td></tr>
@@ -4906,7 +4905,7 @@ ${rdRptDivider("divider-summary.jpg","Global Vehicle Regulatory Update Summary")
 <td width="37.00%" style="vertical-align:middle"><a href="mailto:1clicktong@amestech.cn" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-mail.png" width="47" height="35" style="display:block;width:47px;height:auto;max-width:100%"></a></td>
 </tr></table></td></tr>
 <tr><td style="padding:0px 24px 16px" align="center"><a href="https://new.1clicktong.com" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-logo.png" width="216" height="65" style="display:block;width:216px;height:auto;max-width:100%;margin:0 auto"></a></td></tr>
-<tr><td dir="ltr" style="color:#e8e8e8;font-size:12px;letter-spacing:-0.01em;white-space:pre-wrap;text-align:center;padding:0px 24px 20px;line-height:18px;font-family:Arial,Helvetica,sans-serif">法规雷达 · 汽车法规库监控台${genDate?" · 生成于 "+esc(genDate):""}<br>地址 Address: Room 503, 5th Floor, Building 2, Tailibao Technology Building, No. 14 Guiyuan Road, Huayuan Industrial Park, Tianjin, China</td></tr>
+<tr><td dir="ltr" style="color:#e8e8e8;font-size:13.3px;letter-spacing:-0.01em;white-space:pre-wrap;text-align:center;padding:0px 24px;line-height:19.2px"> • Room 503, 5th Floor, Building 2, Tailibao Technology Building, No. 14 Guiyuan Road, Huayuan Industrial Park, Tianjin, China</td></tr>
 </tbody></table>
 </td></tr></tbody></table>
 </body></html>`;
