@@ -891,6 +891,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         汇总相关法规、解读推文、认证体系并给出可点击跳转。问得越具体越准。</div>
       <div class="adv-eg" id="adv-eg"></div>
     </div>
+    <div class="card">
+      <h3>深度报告 <span class="hint">Claude 联查团队法规库编制的正式合规报告,可直接查看并一键导出(PDF / Word)</span></h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <select id="adv-rpt-sel" class="adv-input" style="max-width:560px;flex:1 1 340px"></select>
+        <button class="btn" onclick="advShowReport(advCurRpt())">查看</button>
+        <button class="btn light" onclick="advExportReportPdf(advCurRpt())" title="打开打印视图,在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
+        <button class="btn light" onclick="advExportReportWord(advCurRpt())" title="下载 .doc 文件,可用 Microsoft Word / WPS 打开编辑">⬇ 导出 Word</button>
+      </div>
+      <div id="adv-report-view" class="rpt-host" style="display:none;margin-top:12px"></div>
+    </div>
     <div id="adv-log" class="adv-log"><div class="bigmsg">问我点什么,例如上面的示例问题 ↑</div></div>
     <div class="adv-inbar">
       <input id="adv-q" class="adv-input" placeholder="输入问题,如:印度的充电电池法规有哪些?UN R171 哪些国家在用?中欧电池热失控差异?" autocomplete="off">
@@ -4353,6 +4363,155 @@ function copyAdvisorPrompt(){
   else{cmpFallbackCopy(prompt);done();}
 }
 
+/* ===== 15 合规咨询师 · 深度报告库(Claude 联查法规库编制,可查看/导出 PDF·Word) =====
+   报告正文由 Claude 逐条核对团队 Supabase 法规库(regulations/recalls/reg_radar)后编制,
+   编号/日期/条数均来自真实查询,库内缺数据处如实标注「收录缺口」。新报告追加到 ADV_REPORTS 即可。 */
+const RPT_CSS=
+'.rpt{font-family:"Songti SC","SimSun",Georgia,serif;color:#1a2420;background:#fcfbf6;max-width:900px;margin:0 auto;padding:26px 32px;line-height:1.72;font-size:14px}'
++'.rpt h1{font-size:22px;margin:0 0 4px;color:#1a2420;border-bottom:3px solid #c6502a;padding-bottom:8px}'
++'.rpt .sub{color:#6b6357;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0 18px}'
++'.rpt h2{font-size:16px;margin:22px 0 8px;color:#c6502a;border-left:4px solid #c6502a;padding-left:9px}'
++'.rpt h3{font-size:13.5px;margin:14px 0 6px;color:#3a6b8a}'
++'.rpt p{margin:6px 0}.rpt ul{margin:6px 0 6px 2px;padding-left:20px}.rpt li{margin:4px 0}'
++'.rpt table{border-collapse:collapse;width:100%;margin:10px 0;font-size:12px}'
++'.rpt th,.rpt td{border:1px solid #d8d2c4;padding:6px 8px;text-align:left;vertical-align:top}'
++'.rpt th{background:#efe9db;font-weight:700}.rpt tr:nth-child(even) td{background:#f7f4ec}'
++'.rpt .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:3px;font-family:ui-monospace,monospace;white-space:nowrap}'
++'.rpt .t-mand{background:#E2EFDA;color:#2f6b2f}.rpt .t-draft{background:#FFF2CC;color:#8a6d00}.rpt .t-void{background:#FCE4D6;color:#b23b1a}.rpt .t-ref{background:#D6E4F0;color:#2c5670}'
++'.rpt .warn{background:#fff4ef;border:1px solid #e6b8a6;border-left:4px solid #c6502a;padding:8px 12px;border-radius:4px;margin:10px 0}'
++'.rpt .muted{color:#6b6357}.rpt code{font-family:ui-monospace,monospace;background:#efe9db;padding:0 4px;border-radius:3px;font-size:12px}'
++'.rpt .note{font-size:11.5px;color:#6b6357;line-height:1.6}.rpt .lead{font-size:13px}'
++'.rpt-host{border:1px solid #d8d2c4;border-radius:6px;overflow:auto;max-height:72vh;background:#fcfbf6}';
+const RPT_PRINT_CSS='@page{margin:15mm}body{background:#fff;margin:0}.rpt{max-width:none;box-shadow:none}.rpt h2{page-break-after:avoid}.rpt table,.rpt tr{page-break-inside:avoid}';
+
+const ADV_REPORTS=[{
+  id:"adas-cn-2026-07",
+  title:"中国的自动驾驶法规与各国有何不同",
+  date:"2026-07-01",
+  file:"自动驾驶法规国别对比_中国vs各国_2026-07-01",
+  html:
+`<h1>汽车法规合规 · 深度报告</h1>
+<div class="sub">议题:中国的自动驾驶(ADS/ADAS)法规与其他国家有什么不同 &nbsp;|&nbsp; 出具日期:2026-07-01 &nbsp;|&nbsp; 数据源:团队法规库 Supabase(regulations / recalls / reg_radar)</div>
+
+<h2>0 · 数据基础与重要说明(先读)</h2>
+<div class="warn"><b>关键前提:团队法规库当前<u>未以「主记录」形式收录中国大陆本土法规</u></b>(<code>regulations</code> 表内 country 含「中国」的仅有<b>中国香港 12 条</b>,无中国大陆条目)。中国在库内主要以两种身份出现:<br>
+① <b>被多国引用的国际参照标准</b> —— <code>GB 40429</code>(驾驶自动化术语)、<code>GB 44495</code>(整车信息安全)、<code>GB 44496</code>(软件升级)出现在其他国家法规的 <code>refs</code> 引用里;<br>
+② <b>法规雷达情报</b> —— <code>reg_radar</code> 收录了 <code>GB 44721</code> 报批稿、数据出境指引、GB 44495/44496 强制节点等(多为「已确认」情报)。<br>
+因此下文对中国的论述,依据的是<b>雷达情报 + 被引足迹 + 团队解读卡片</b>,而非主记录;凡库内无据处均标注「收录缺口」,不臆造编号与日期。</div>
+
+<h2>1 · 结论摘要</h2>
+<ul class="lead">
+<li><b>路线定位不同:</b>中国走「<b>强制性国家标准 = 准入及格线</b>」路线 —— <code>GB 44721《智能网联汽车 自动驾驶系统安全要求》</code>(报批稿,MIIT 2026-06-17 公开征求意见,雷达·已确认),配套 <code>GB 44495-2024</code>/<code>GB 44496-2024</code> 已于 <b>2026-01-01 对新车型强制</b>。而联合国 <code>UN R157</code>/GTR 是「<b>缔约方可自愿转化的国际参考框架</b>」,美国是「<b>联邦自愿+豁免、州级各自立部署规则</b>」的碎片化模型,欧盟是「<b>型式认证强制</b>」(EU 2022/1426 衔接 UN R157),英国有「<b>专门立法</b>」(AV Act 2024)。</li>
+<li><b>监管主体不同:</b>中国由<b>单一中央部委</b>(MIIT / 国标委)出一套全国统一门槛;美国是<b>联邦(NHTSA)+ 州(加州 DMV、德州)双层碎片化</b>;欧盟是欧盟型式认证 + 成员国道路法。</li>
+<li><b>网安/OTA 捆绑不同:</b>中国把<b>网络安全(GB 44495)+ 软件升级 OTA(GB 44496)+ 数据出境</b>做成强制前置门槛;欧美日韩多经 UN R155/R156 型式认证路径实现。</li>
+<li><b>库内可对标性提示:</b>因中国大陆主记录缺失,库内做「中欧/中美自动驾驶对标」时无法直接从 <code>regulations</code> 取中国条目 —— 见 §4 风险与 §6 建议(优先补录)。</li>
+</ul>
+
+<h2>2 · 逐国家/地区详细分析</h2>
+<p class="note">下表法规编号、名称、日期均来自 <code>regulations</code> / <code>reg_radar</code> 真实记录;Excel 序列日期已换算为公历。标签:<span class="tag t-mand">强制</span> <span class="tag t-draft">草案/报批</span> <span class="tag t-ref">情报/被引</span></p>
+<table>
+<tr><th>国家/地区</th><th>代表法规(编号 · 中文名)</th><th>关键日期</th><th>性质</th><th>监管模型</th></tr>
+<tr><td><b>中国大陆</b></td><td><code>GB 44721</code>《智能网联汽车 自动驾驶系统安全要求》(报批稿) <span class="tag t-draft">报批·征求意见</span><br><code>GB 44495-2024</code> 整车信息安全 / <code>GB 44496-2024</code> 软件升级</td><td>GB 44721:MIIT 2026-06-17 征求意见<br>GB 44495/96:2026-01-01 新车型强制、2028-01 在产车</td><td><span class="tag t-mand">强制国标</span></td><td>单一中央部委(MIIT/国标委)统一准入门槛<br><span class="note">(库内为雷达情报,非主记录)</span></td></tr>
+<tr><td><b>联合国 UNECE</b></td><td><code>UN R157</code> 自动车道保持系统(ALKS)<br><code>UN R171</code> 驾驶员控制辅助系统(DCAS)</td><td>R157 发布 2021-01-22 / 01 系列 2023-01-04<br>WP.29 第199次会议(2026-06)通过 ADS 新 UN 法规 + R171 02 系列</td><td>缔约方<b>可自愿</b>转化</td><td>1958/1998 协定国际框架</td></tr>
+<tr><td><b>欧盟</b></td><td><code>EU 2022/1426</code> ADS 型式认证母法(衔接 UN R157)<br><code>EU 2026/481</code> 修订</td><td>母法 2022-08-25 生效<br>2026/481 2026-03-24 生效</td><td><span class="tag t-mand">强制型式认证</span></td><td>欧盟型式认证 + 成员国道路法</td></tr>
+<tr><td><b>美国</b></td><td>加州 <code>CCR Tit.13 Art.3.7/3.8</code>(测试/部署)<br>德州 <code>Transp. Code Ch.545-J</code><br><code>FMVSS 110/103/104/102</code> ADS 适配豁免 <span class="tag t-draft">提案</span><br><code>H.R. 7390</code> SELF DRIVE Act <span class="tag t-draft">草案</span></td><td>加州 3.8 部署 2026-04-28<br>FMVSS 提案 2026 评议中</td><td>联邦<b>无统一强制 ADS 标准</b>(自愿+豁免)+ 州级部署规则</td><td>联邦(NHTSA)/ 州 双层碎片化</td></tr>
+<tr><td><b>沙特</b></td><td><code>MA-209-25-04-03-01</code> 自动驾驶车辆技术法规(L3+,含网安/数据记录,附 169 项标准清单)</td><td>发布 2025-07-17 / 生效 2025-10-31</td><td><span class="tag t-mand">强制(SABER)</span></td><td>SASO 技术法规 + 公路法 SHC 801</td></tr>
+<tr><td><b>阿联酋(迪拜)</b></td><td><code>No. (939) of 2025</code> 迪拜自动驾驶车辆运营管理实施细则(6 车型分类、10 项技术要求)</td><td>2025-11-10</td><td><span class="tag t-mand">强制(RTA 检验)</span></td><td>运营授权制</td></tr>
+<tr><td><b>日本</b></td><td><code>TRIAS 48-R157-02</code> ALKS 法规;保安基准 2026 将 UN R157 扩展至大型车(巴士/卡车)</td><td>2021-06-24;扩展 2026-06 公布</td><td><span class="tag t-mand">强制(保安基准)</span></td><td>采纳 UN 法规</td></tr>
+<tr><td><b>韩国</b></td><td><code>KMVSS 附表 27</code> 部分自动驾驶系统安全标准;L3 安全基准修订 <span class="tag t-draft">立法预告·未核实</span></td><td>附表 27 生效 2023-07-01;L3 修订 2026-05-26 起预告</td><td><span class="tag t-mand">强制(KMVSS)</span></td><td>采纳 UN R157</td></tr>
+<tr><td><b>英国</b></td><td>《2024 年自动驾驶车辆法》<code>SI 2026 No.437</code>(生效 No.2);营销限制条例 2026 <span class="tag t-draft">草案</span></td><td>2026-05-15 生效</td><td><b>专门立法</b></td><td>独立 AV 法框架</td></tr>
+<tr><td><b>俄罗斯</b></td><td><code>GOST R 58823-2020</code> 分类与定义 / <code>GOST R 58837-2020</code> 通用设计原则</td><td>2021-02 / 2021-04 生效</td><td>国标(GOST)</td><td>GOST 体系</td></tr>
+<tr><td><b>新加坡</b></td><td><code>Road Traffic (Autonomous Motor Vehicles) Rules 2017</code>;AV 立法框架公众咨询(2026-06-30 截止)</td><td>2017;咨询 2026-05~06</td><td>运营规则</td><td>规则 + 立法咨询</td></tr>
+<tr><td><b>加拿大</b></td><td>ADS 测试指南 2.0 / 安全框架 / 安全评估;UN GTR ADS 公众咨询 2026-03-06</td><td>2019~2021;GTR 咨询 2026</td><td><b>指南(非强制)</b></td><td>指南 + 机动车安全法(MVSA)</td></tr>
+</table>
+
+<h2>3 · 国际标准对标情况(按标准分组,给出具体国家)</h2>
+<h3>① GB 40429(中国 · 驾驶自动化术语)—— 中国标准作为国际参照被引 6 处</h3>
+<p>库内引用 GB 40429 的记录:<b>加拿大</b>(ADS 测试指南 2.0)、<b>日本</b>(TRIAS 48-R157-02)、<b>韩国</b>(KMVSS 附表 27)、<b>摩尔多瓦</b>(UN R157)、<b>UN ECE</b>(R157)、<b>沙特</b>(SAE J3016 条目)。<span class="muted">→ 中国的分级/术语标准已被多国及 UN 体系引为对标参照。</span></p>
+<h3>② UN R157(ALKS)—— 最广泛的自动驾驶国际锚点</h3>
+<p>本地对应记录:<b>欧盟</b>(ECE R157.00 / EU 2022/1426)、<b>日本</b>(TRIAS 48-R157-02)、<b>韩国</b>(附表 27)、<b>沙特</b>(ADS 技术法规)、<b>迪拜</b>(No.939)、<b>摩尔多瓦</b>(UN R157)。</p>
+<h3>③ UN R171(DCAS)</h3>
+<p><b>摩尔多瓦</b>已引入;WP.29 第199次会议(2026-06)通过 02 系列(雷达·已确认)。</p>
+<h3>④ GB 44495-2024 / GB 44496-2024(中国 · 网安 / OTA)—— 与 UN R155/R156 互为映射</h3>
+<p>库内 <b>欧盟</b> <code>ECE R155.00</code> 的 refs 含 <code>GB 44495</code>、<code>ECE R156.00</code> 的 refs 含 <code>GB 44496</code>。<span class="muted">→ 中国网安/OTA 强标在库内与 UN R155/R156 建立了对标映射。</span></p>
+<h3>⑤ FMVSS(美国)</h3>
+<p><code>FMVSS 110 / 103 / 104 / 102</code> 系列 ADS 适配豁免提案(草案),针对无传统驾驶操纵件的自动驾驶车。</p>
+<div class="warn"><b>差异要点:</b>中国把「术语(GB 40429)+ 网安(GB 44495)+ OTA(GB 44496)」组合成<b>强制前置门槛</b>;欧、日、韩多经 UN R157/R155/R156 型式认证路径落地;美国联邦层面<b>无统一强制 ADS 标准</b>,以豁免+州法为主。</div>
+
+<h2>4 · 空白与风险提示(套用库内覆盖判定规则)</h2>
+<p class="note">覆盖判定:单维度 ≥3 条 = ✓ 覆盖、1–2 条 = ⚠ 弱覆盖、0 条 = ✗ 空白。此处维度 = ADAS(0 基第 6 维 / 十维框架第 7 维「ADAS」)。</p>
+<ul>
+<li>库内 ADAS 维度记录量:<b>欧盟 25、UN ECE 18、沙特 18、摩尔多瓦 16、欧亚经济联盟 8、美国 8、澳大利亚/英国/印度各 6…</b> 主要出口市场均 <b>✓ 覆盖</b>。</li>
+<li><b style="color:#b23b1a">中国大陆:ADAS 维度库内 0 条主记录 → 按判定 = ✗ 空白。</b></li>
+</ul>
+<div class="warn"><b>⚠ 重要澄清:此「空白」是<u>库收录缺口</u>,不是中国真实法规缺失。</b>中国现行有 GB 40429、GB 44495-2024、GB 44496-2024 等强标,以及 GB 44721 报批稿,只是<b>尚未以主记录录入 <code>regulations</code> 表</b>(库内仅中国香港 12 条)。属数据录入待补,不代表监管空白。<br><b>业务风险:</b>因中国主记录缺失,库内「中欧/中美自动驾驶对标」「法规对比(tab 12)」无法直接取中国条目,精度受限,需先补录。</div>
+
+<h2>5 · 相关执法/召回案例(ADAS/自动驾驶,来自 recalls 表)</h2>
+<table>
+<tr><th>国家</th><th>OEM · 车型</th><th>数量</th><th>缺陷(ADAS/自动驾驶相关)</th><th>性质/日期</th></tr>
+<tr><td>美国</td><td><b>Waymo</b> 自动驾驶出租车(第5/6代)</td><td>3,791</td><td>L4 软件:积水路段识别不足、对临时障碍物路径规划避让不当</td><td>强制 · 2026-05</td></tr>
+<tr><td>美国</td><td><b>现代 Hyundai</b> Tucson/Santa Cruz</td><td>421,078</td><td>前碰撞避免(FCA)系统过敏,意外紧急制动(已报 4 起追尾)</td><td>强制 · 2026-05</td></tr>
+<tr><td>加拿大 / 澳大利亚</td><td>现代 Hyundai Tucson 等</td><td>81,646 / 36,496</td><td>同源 FCA 缺陷(与美国 NHTSA 26V316 同源)</td><td>强制 · 2026-05</td></tr>
+<tr><td>美国</td><td><b>特斯拉 Tesla</b> Model 3/Y/S/X(HW3)</td><td>218,868</td><td>后视摄像头图像延迟最长 11 秒,违反 FMVSS 111(OTA 已修复 99.92%)</td><td>强制 · 2026-05</td></tr>
+<tr><td>美国</td><td>福特/林肯 Lincoln Nautilus</td><td>—</td><td>方向盘脱手检测(配合车道居中辅助)警报可能失效</td><td>自愿 · 2026-06</td></tr>
+<tr><td>英国</td><td>Peugeot 208 / Vauxhall Corsa</td><td>11,325 / 16,348</td><td>车道保持(LKA)不可用时缺少提示信号(BCM 软件)</td><td>2026,LKA 提示缺失</td></tr>
+</table>
+<div class="warn"><b>中国召回:库内无中国 ADAS/自动驾驶相关召回记录(收录缺口)。</b>中国召回由 SAMR 管理,建议补录以支撑中外执法强度对比。</div>
+
+<h2>6 · 建议行动项</h2>
+<ul>
+<li><b>① 优先补录中国主记录</b>(消除 §4 空白):把 <code>GB 44721</code>(报批稿,status 标 draft)、<code>GB 40429-2021</code>、<code>GB 44495-2024</code>、<code>GB 44496-2024</code> 等录入 <code>regulations</code>(country=中国),补齐 dims/refs,使库内可直接做涉华对标。</li>
+<li><b>② 跟踪 GB 44721 转正</b>:MIIT 2026-06-17 征求意见已确认;报批稿→正式发布后更新 status 与生效日。</li>
+<li><b>③ 跟踪 UN 侧节奏</b>:WP.29 第199次会议(2026-06)通过的 <b>ADS 新 UN 法规 + UN R171 02 系列 + 约 90 项现行法规「ADS 适配」一揽子修订</b>,提交 AC.1 后的落地时间线。</li>
+<li><b>④ 数据出境合规前置</b>:中国《汽车数据出境安全指引(2026 版)》2026-01-30 生效,外资/出海车企的自动驾驶数据合规需前置评估。</li>
+<li><b>⑤ 补录后</b>可在「法规对比(tab 12)」直接生成中欧/中美 ADS 等效条款映射,在「合规路径(tab 13)」评估锚点国采信关系。</li>
+</ul>
+
+<h2>7 · 数据来源与声明</h2>
+<ul class="note">
+<li>基于团队 Supabase 法规库(project <code>nxiyifglhycvbrccbdhg</code>)<b>2026-07-01 收录状态</b>,查询 <code>regulations</code> / <code>recalls</code> / <code>reg_radar</code> 真实记录编制;所有编号、日期、条数均取自查询结果,Excel 序列日期已换算公历。</li>
+<li><code>reg_radar</code> 为 AI 采集情报:本报告引用的中国 GB 44721 征求意见、GB 44495/44496 强制、数据出境指引、WP.29 2026-06 成果、沙特/日本/新加坡/印度条目均为 <b>status=已确认</b>;<b>韩国 L3 安全基准修订为 status=待确认(未核实情报),已在文中标注。</b></li>
+<li>团队解读看板 <code>INS-2026-061</code>《GTR ADS vs GB 44721 七维对比》为团队分析卡片,非官方法规原文。</li>
+<li><b>局限:</b>库内当前<b>缺中国大陆本土法规主记录</b>(仅中国香港 12 条),涉华精确对标依赖情报与被引足迹,存在滞后与缺漏可能;补录后精度将显著提升。</li>
+</ul>
+<p class="note" style="margin-top:14px;border-top:1px solid #d8d2c4;padding-top:8px">汽车法规库监控台 · 合规咨询师(tab 15)自动编制 &nbsp;|&nbsp; 本报告为团队内部参考,不构成对具体车型准入的法律意见,精确合规请以各国主管机构最新法规原文为准。</p>`
+}];
+
+function advInitReports(){
+  var s=$("#adv-rpt-sel"); if(!s||s._done)return; s._done=true;
+  s.innerHTML=ADV_REPORTS.map(function(r){return '<option value="'+r.id+'">'+esc(r.title)+' · '+esc(r.date)+'</option>';}).join("");
+}
+function advCurRpt(){var s=$("#adv-rpt-sel");return (s&&s.value)||(ADV_REPORTS[0]&&ADV_REPORTS[0].id);}
+function advFindRpt(id){for(var i=0;i<ADV_REPORTS.length;i++)if(ADV_REPORTS[i].id===id)return ADV_REPORTS[i];return ADV_REPORTS[0];}
+function advShowReport(id){
+  var r=advFindRpt(id); if(!r)return;
+  var host=$("#adv-report-view"); if(!host)return;
+  host.innerHTML='<style>'+RPT_CSS+'</style><div class="rpt">'+r.html+'</div>';
+  host.style.display="block";
+  host.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function advReportDoc(r,forPrint){
+  return '<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(r.file)+'</title><style>'+RPT_CSS+(forPrint?RPT_PRINT_CSS:"")+'</style></head><body><div class="rpt">'+r.html+'</div></body></html>';
+}
+function advExportReportPdf(id){
+  var r=advFindRpt(id); if(!r)return;
+  var w=window.open("","_blank"); if(!w){toast("请允许弹窗后重试,再点导出 PDF");return;}
+  w.document.open();
+  w.document.write(advReportDoc(r,true)+'<script>window.onload=function(){setTimeout(function(){window.focus();window.print();},350);};<\/script>');
+  w.document.close();
+  toast('已打开打印视图,选择"另存为 PDF"');
+}
+function advExportReportWord(id){
+  var r=advFindRpt(id); if(!r)return;
+  var head='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+esc(r.title)+'</title><style>'+RPT_CSS+'</style></head><body><div class="rpt">';
+  var html=head+r.html+'</div></body></html>';
+  var blob=new Blob(["﻿"+html],{type:"application/msword"});
+  var url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download=r.file+".doc";document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},4000);
+  toast("已导出 Word (.doc)");
+}
+
 /* ================= 16 召回案例(执法实证,团队共享) ================= */
 let recalls=[],_rcEditId=null,_rcDims=new Set(),_rcView="list",_rcComp="";
 /* 召回自动归因:按缺陷原因文本(+车型/依据)关键词规则,把每条召回归到一个零部件/系统/标签。
@@ -5229,7 +5388,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-chain")openChainTab();
   if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
   if(t.dataset.p==="p-ncap"){const f=$("#ncap-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载 NCAP 矩阵
-  if(t.dataset.p==="p-advisor"){advInitEgs();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
+  if(t.dataset.p==="p-advisor"){advInitEgs();advInitReports();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
   if(t.dataset.p==="p-recall"){if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls();}
   if(t.dataset.p==="p-evpol"){if(!_evpol)loadEvPol().then(renderEvPol);else renderEvPol();}
   if(t.dataset.p==="p-unece"){if(!_unece)loadUnece().then(renderUnece);else renderUnece();}
