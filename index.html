@@ -973,6 +973,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn primary" onclick="copyRadarPrompt()">📋 复制采集指令(粘贴给 Claude 即可开扫)</button>
         <span id="rd-prompt-tip" style="font-size:11px;color:var(--muted)"></span>
       </div>
+      <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
+        <span id="rd-selcnt" style="font-size:11px;color:var(--muted);min-width:60px"></span>
+        <button class="btn light" onclick="radarSelectAllFiltered()">☑ 全选当前筛选</button>
+        <button class="btn light" onclick="radarClearSel()">清空勾选</button>
+        <span style="flex:1"></span>
+        <button class="btn primary" onclick="radarGenerateReport()">🗞 生成月报(勾选条目,按邮件模板样式)</button>
+      </div>
       <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
       <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:点「📋 复制采集指令」→ 粘贴到 Claude 对话发送 → 我联网搜集并给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
     </div>
@@ -4757,6 +4764,7 @@ function exportUneceXlsx(){
 }
 /* ================= 19 法规雷达 ================= */
 let _radar=null,_radarP=null;
+let _radarSel=new Set();
 async function loadRadar(force){
   if(_radar&&!force)return _radar;
   if(_radarP&&!force)return _radarP;
@@ -4799,6 +4807,7 @@ function renderRadar(){
   const trs=rows.map(r=>{const st=rdStage(r.stage),pend2=r.status==="待确认";
     const tps=(r.topics||[]).map(t=>`<span style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:0 6px;font-size:10px;margin-right:3px;white-space:nowrap">${esc(t)}</span>`).join("");
     return `<tr${pend2?' style="background:#fffaf0"':''}>
+      <td class="c"><input type="checkbox" data-radarid="${esc(r.id)}" ${_radarSel.has(r.id)?"checked":""} onchange="radarToggleSel('${esc(r.id)}',this.checked)"></td>
       <td style="white-space:nowrap;font-family:var(--mono);font-size:11px">${esc(r.collected_date||"")}</td>
       <td style="white-space:nowrap;font-size:11.5px"><b>${esc(r.region||"")}</b>${r.country?"<br><span style='color:var(--muted)'>"+esc(r.country)+"</span>":""}</td>
       <td style="font-size:11px;color:var(--muted);min-width:120px">${esc(r.agency||"")}</td>
@@ -4807,9 +4816,10 @@ function renderRadar(){
       <td class="c" style="white-space:nowrap;font-size:10.5px"><span style="color:${pend2?'#8a6510':'#3d6630'};font-weight:700">${esc(r.status||"")}</span><div style="color:${/已核实/.test(r.confidence||"")?'#3d6630':'#a8401f'};margin-top:2px">${esc(r.confidence||"")}</div></td>
       <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>${(function(){const t=rdSrcType(r.source_url);return t==="pdf"?`<div style="font-size:9px;color:#3d6630;font-weight:700;margin-top:1px">✓PDF直链</div>`:t==="doc"?`<div style="font-size:9px;color:#3d6630;font-weight:700;margin-top:1px">✓官方文件</div>`:`<div style="font-size:9px;color:#a8401f;font-weight:700;margin-top:1px">⚠非直链</div><button id="kwbtn-${esc(r.id)}" class="btn light" style="padding:0 5px;font-size:9.5px;margin-top:2px;color:#a8401f" onclick="radarCopyKw('${esc(r.id)}')" title="复制当地语言检索词,自行去搜索引擎找官方PDF">📋检索词</button>`;})()}`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap">${pend2?`<button class="btn light" style="padding:1px 6px;font-size:10px;color:#3d6630" onclick="radarConfirm('${esc(r.id)}')">✓确认</button><br>`:""}<button class="btn light" style="padding:1px 6px;font-size:10px;color:#a8401f;margin-top:2px" onclick="radarDelete('${esc(r.id)}')">🗑删除</button></td></tr>`;}).join("");
-  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:1060px"><thead><tr>
-    <th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
-    <tbody>${trs||'<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
+  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:1080px"><thead><tr>
+    <th style="width:26px">选</th><th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
+    <tbody>${trs||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent=_radarSel.size?`已选 ${_radarSel.size} 条`:"";
 }
 async function radarConfirm(id){
   try{await sbReq("PATCH","reg_radar?id=eq."+encodeURIComponent(id),{status:"已确认",confidence:"已核实"},"return=minimal");
@@ -4819,8 +4829,72 @@ async function radarConfirm(id){
 async function radarDelete(id){
   if(!confirm("确认删除这条雷达记录?不可恢复。"))return;
   try{await sbReq("DELETE","reg_radar?id=eq."+encodeURIComponent(id));
-    _radar=(_radar||[]).filter(x=>x.id!==id);renderRadar();}
+    _radar=(_radar||[]).filter(x=>x.id!==id);_radarSel.delete(id);renderRadar();}
   catch(e){alert("删除失败:"+(e&&e.message||e));}
+}
+/* ---- 法规雷达月报:勾选条目 → 按邮件模板视觉风格生成独立HTML(纯前端,无后端) ---- */
+function radarToggleSel(id,checked){
+  if(checked)_radarSel.add(id);else _radarSel.delete(id);
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent=_radarSel.size?`已选 ${_radarSel.size} 条`:"";
+}
+function radarSelectAllFiltered(){
+  document.querySelectorAll('#rd-body input[type=checkbox][data-radarid]').forEach(cb=>{cb.checked=true;_radarSel.add(cb.dataset.radarid);});
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent=_radarSel.size?`已选 ${_radarSel.size} 条`:"";
+}
+function radarClearSel(){
+  _radarSel.clear();
+  document.querySelectorAll('#rd-body input[type=checkbox][data-radarid]').forEach(cb=>{cb.checked=false;});
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent="";
+}
+function radarBuildReportHtml(items){
+  const dates=items.map(r=>r.collected_date).filter(Boolean).sort();
+  const monthLabel=dates.length?dates[dates.length-1].slice(0,7):"";
+  const byRegion={};
+  items.forEach(r=>{const k=r.region||"其他";byRegion[k]=(byRegion[k]||0)+1;});
+  const regionRows=Object.entries(byRegion).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div style="font-size:13px;color:#3a3f36;padding:3px 0">${esc(k)} - ${v} 条更新</div>`).join("");
+  const cards=items.map(r=>{
+    const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
+    const btn=r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em">查看原文 →</a>`:"";
+    return `<div style="padding:18px 0;border-top:1px solid rgba(255,255,255,.28)">
+      <div style="font-size:17px;font-weight:800;letter-spacing:-0.02em;line-height:1.35;color:#fff;margin-bottom:8px">${esc(r.title||"")}</div>
+      <div style="font-size:13.5px;color:#f1f1ff;line-height:1.65;margin-bottom:10px">${esc(r.summary||"")}</div>
+      <div style="font-size:11px;color:#d9d4ff;margin-bottom:14px">${meta}</div>
+      ${btn}
+    </div>`;
+  }).join("");
+  const genDate=(items[0]&&items[0].collected_date)||"";
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthLabel?" · "+esc(monthLabel):""}</title></head>
+<body style="margin:0;padding:0;background:#f0f1f5;font-family:Arial,Helvetica,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f1f5"><tr><td>
+<table align="center" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#fff">
+<tr><td style="background:linear-gradient(135deg,#3d6ee0,#c59dff);padding:36px 24px;text-align:center;color:#fff">
+  <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em">法规雷达 · 月报</div>
+  <div style="font-size:13px;opacity:.85;margin-top:6px">${monthLabel?esc(monthLabel)+" · ":""}共收录 ${items.length} 条更新</div>
+</td></tr>
+<tr><td style="padding:24px">
+  <div style="background:linear-gradient(180deg,#3d6ee0,#c59dff);border-radius:10px;padding:8px 24px 4px">${cards}</div>
+</td></tr>
+<tr><td style="padding:0 24px 24px">
+  <div style="font-size:13px;font-weight:700;color:#1f2329;margin-bottom:8px">本期覆盖地区</div>
+  ${regionRows}
+</td></tr>
+<tr><td style="padding:16px 24px;text-align:center;color:#8a8f85;font-size:11px;border-top:1px solid #eee">
+  汽车法规库监控台 · 法规雷达${genDate?" · 生成于 "+esc(genDate):""}<br>链接均为一手官方来源,使用前请自行核验
+</td></tr>
+</table></td></tr></table>
+</body></html>`;
+}
+function radarGenerateReport(){
+  const items=(_radar||[]).filter(r=>_radarSel.has(r.id));
+  if(!items.length){alert("请先在列表左侧「选」列勾选要收录进月报的条目(可用「☑ 全选当前筛选」快速选中已筛选出的条目)");return;}
+  const html=radarBuildReportHtml(items);
+  const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="法规雷达月报_"+(items[0].collected_date||"").slice(0,7)+".html";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  window.open(url,"_blank");
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 /* 非PDF直链来源:一键复制检索词,自行去搜索引擎找官方PDF。
    优先用当地语言检索词 search_kw(法规原文名/编号+主管机构原文名);缺失时回退到中文国家+机构+标题 */
