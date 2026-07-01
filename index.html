@@ -969,6 +969,17 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" onclick="exportRadarXlsx()">⬇ 导出 Excel</button>
       </div>
       <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
+        <span style="font-size:11px;color:var(--muted)">发布日期</span>
+        <input type="month" id="rd-pubfrom" class="csel" style="width:130px" onchange="renderRadar()">
+        <span style="font-size:11px;color:var(--muted)">至</span>
+        <input type="month" id="rd-pubto" class="csel" style="width:130px" onchange="renderRadar()">
+        <span style="font-size:11px;color:var(--muted);margin-left:10px">生效日期</span>
+        <input type="month" id="rd-efffrom" class="csel" style="width:130px" onchange="renderRadar()">
+        <span style="font-size:11px;color:var(--muted)">至</span>
+        <input type="month" id="rd-effto" class="csel" style="width:130px" onchange="renderRadar()">
+        <button class="btn light" onclick="['rd-pubfrom','rd-pubto','rd-efffrom','rd-effto'].forEach(id=>{if($('#'+id))$('#'+id).value='';});renderRadar()">清空日期筛选</button>
+      </div>
+      <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
         <input id="rd-scope" class="csel" style="min-width:300px;flex:1" placeholder="可选:限定范围(如「欧盟+东南亚」「ADAS/网安」「近30天发布」「横向准入类」);留空=全维度">
         <button class="btn primary" onclick="copyRadarPrompt()">📋 复制采集指令(粘贴给 Claude 即可开扫)</button>
         <span id="rd-prompt-tip" style="font-size:11px;color:var(--muted)"></span>
@@ -3661,7 +3672,8 @@ ${scopeLine}
 - title(中文标题)/ summary(中文摘要 2–4 句,横向类须点明"为何影响汽车准入")
 - stage(阶段:草案/征求意见/已通过/已发布/已生效/即将生效 等)
 - topics(中文主题数组)/ dims(维度编号数组,见下)
-- **source_url(一手来源直链)/ source_name / pub_date(发布日期)/ confidence(你的置信度判断)**
+- **source_url(一手来源直链)/ source_name / pub_date(发布日期,格式尽量精确到 YYYY-MM-DD)/ confidence(你的置信度判断)**
+- **effective_date(生效/施行日期,与发布日期分开填,格式尽量精确到 YYYY-MM-DD;仍是草案/征求意见等未定生效日的留空,不要用发布日期顶替;分阶段生效的填最早一档并在summary里说明其余阶段)**
 - **search_kw(当地语言检索词:用该国官方语言写「法规原文名/编号 + 主管机构原文名」,供用户自行去本国搜索引擎找官方PDF;国际/欧盟类用英文)**
 - tbt_no(若为 WTO TBT 通报填编号,否则留空)
 
@@ -3669,7 +3681,7 @@ ${scopeLine}
 
 ## 我确认后,再写入 Supabase(此段你执行,我看草稿时先忽略)
 - 项目 project_id = nxiyifglhycvbrccbdhg,表 = reg_radar。
-- 列:collected_date(='${today}')、region、country、agency、title、summary、stage、topics(text[])、dims(int[])、tbt_no、source_url、source_name、pub_date(text)、search_kw(当地语言检索词)、confidence(='待核实')、status(='待确认')、note。
+- 列:collected_date(='${today}')、region、country、agency、title、summary、stage、topics(text[])、dims(int[])、tbt_no、source_url、source_name、pub_date(text,发布日期)、effective_date(text,生效日期,与pub_date分开填,没有就留空/null)、search_kw(当地语言检索词)、confidence(='待核实')、status(='待确认')、note。
 - note 约定:普通项填「采集·${today}」,横向准入类填「采集·${today}·横向准入」。
 - **去重**:与表中已有(同 country + 近似 title)重复的不再插入;**幂等**:同批用 \`delete from reg_radar where collected_date='${today}' and note like '采集·${today}%'\` 再 insert,避免重复落库。
 - 数组写法:topics 用 '{"a","b"}'::text[],dims 用 '{1,4}'::int[];文本里的英文单引号要转义。
@@ -4782,6 +4794,12 @@ function rdSrcType(u){u=String(u||"");if(!u)return "";
   if(/\.pdf(\?|#|$)/i.test(u)||/\/TXT\/PDF\/|[?&](format|type)=pdf/i.test(u))return "pdf";
   if(/wpfd_file|\/File\/Get\/|\/getmedia\/|\/download(\/|$|\?)|egazette|eli\/|viewDocument/i.test(u))return "doc";
   return "news";}
+/* 从自由文本日期(2026-07-07 / 2026-07 / 2026年7月 / 2025-2026 等)里取最早的 YYYY-MM,取不到返回"" */
+function rdMonthOf(s){s=String(s||"");
+  let m=s.match(/(\d{4})-(\d{2})(?:-\d{2})?/);if(m)return m[1]+"-"+m[2];
+  m=s.match(/(\d{4})年\s*(\d{1,2})\s*月/);if(m)return m[1]+"-"+String(m[2]).padStart(2,"0");
+  m=s.match(/(\d{4})/);if(m)return m[1]+"-01";
+  return "";}
 function rdFill(sel,vals){const e=$(sel);if(!e)return;const cur=e.value;
   const def=e.options[0]?e.options[0].outerHTML:"";
   e.innerHTML=def+vals.map(v=>`<option>${esc(v)}</option>`).join("");
@@ -4795,11 +4813,14 @@ function renderRadar(){
   rdFill("#rd-stage",[...new Set(_radar.map(r=>r.stage).filter(Boolean))].sort());
   const q=((($("#rd-q")&&$("#rd-q").value)||"").trim().toLowerCase());
   const fr=($("#rd-region")&&$("#rd-region").value)||"",ft=($("#rd-topic")&&$("#rd-topic").value)||"",fs=($("#rd-stage")&&$("#rd-stage").value)||"",fst=($("#rd-status")&&$("#rd-status").value)||"";
+  const pf=($("#rd-pubfrom")&&$("#rd-pubfrom").value)||"",pt=($("#rd-pubto")&&$("#rd-pubto").value)||"",ef=($("#rd-efffrom")&&$("#rd-efffrom").value)||"",et=($("#rd-effto")&&$("#rd-effto").value)||"";
   let rows=_radar.filter(r=>{
     if(fr&&r.region!==fr)return false;
     if(ft&&!(r.topics||[]).includes(ft))return false;
     if(fs&&r.stage!==fs)return false;
     if(fst&&r.status!==fst)return false;
+    if(pf||pt){const m=rdMonthOf(r.pub_date);if(!m)return false;if(pf&&m<pf)return false;if(pt&&m>pt)return false;}
+    if(ef||et){const m=rdMonthOf(r.effective_date);if(!m)return false;if(ef&&m<ef)return false;if(et&&m>et)return false;}
     if(q){const hay=[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase();if(!hay.includes(q))return false;}
     return true;});
   const conf=_radar.filter(r=>r.status==="已确认").length,pend=_radar.filter(r=>r.status==="待确认").length;
@@ -4812,12 +4833,12 @@ function renderRadar(){
       <td style="white-space:nowrap;font-size:11.5px"><b>${esc(r.region||"")}</b>${r.country?"<br><span style='color:var(--muted)'>"+esc(r.country)+"</span>":""}</td>
       <td style="font-size:11px;color:var(--muted);min-width:120px">${esc(r.agency||"")}</td>
       <td style="min-width:240px"><b style="font-size:12.5px">${esc(r.title||"")}</b><div style="font-size:11px;color:var(--ink2);line-height:1.5;margin-top:2px">${esc(r.summary||"")}</div><div style="margin-top:3px">${tps}</div>${r.tbt_no?`<div style="font-size:10px;color:#2f6d8c;font-family:var(--mono)">TBT ${esc(r.tbt_no)}</div>`:""}</td>
-      <td class="c" style="white-space:nowrap"><span style="background:${st.b};color:${st.c};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px">${esc(r.stage||"—")}</span>${r.pub_date?`<div style="font-size:10px;color:var(--muted);margin-top:2px">${esc(r.pub_date)}</div>`:""}</td>
+      <td class="c" style="white-space:nowrap"><span style="background:${st.b};color:${st.c};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px">${esc(r.stage||"—")}</span>${r.pub_date?`<div style="font-size:10px;color:var(--muted);margin-top:2px">发布 ${esc(r.pub_date)}</div>`:""}${r.effective_date?`<div style="font-size:10px;color:#3a6b8a;margin-top:1px">生效 ${esc(r.effective_date)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap;font-size:10.5px"><span style="color:${pend2?'#8a6510':'#3d6630'};font-weight:700">${esc(r.status||"")}</span><div style="color:${/已核实/.test(r.confidence||"")?'#3d6630':'#a8401f'};margin-top:2px">${esc(r.confidence||"")}</div></td>
       <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>${(function(){const t=rdSrcType(r.source_url);return t==="pdf"?`<div style="font-size:9px;color:#3d6630;font-weight:700;margin-top:1px">✓PDF直链</div>`:t==="doc"?`<div style="font-size:9px;color:#3d6630;font-weight:700;margin-top:1px">✓官方文件</div>`:`<div style="font-size:9px;color:#a8401f;font-weight:700;margin-top:1px">⚠非直链</div><button id="kwbtn-${esc(r.id)}" class="btn light" style="padding:0 5px;font-size:9.5px;margin-top:2px;color:#a8401f" onclick="radarCopyKw('${esc(r.id)}')" title="复制当地语言检索词,自行去搜索引擎找官方PDF">📋检索词</button>`;})()}`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap">${pend2?`<button class="btn light" style="padding:1px 6px;font-size:10px;color:#3d6630" onclick="radarConfirm('${esc(r.id)}')">✓确认</button><br>`:""}<button class="btn light" style="padding:1px 6px;font-size:10px;color:#a8401f;margin-top:2px" onclick="radarDelete('${esc(r.id)}')">🗑删除</button></td></tr>`;}).join("");
   body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:1080px"><thead><tr>
-    <th style="width:26px">选</th><th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
+    <th style="width:26px">选</th><th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:100px">阶段/发布/生效</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
     <tbody>${trs||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
   const cnt=$("#rd-selcnt");if(cnt)cnt.textContent=_radarSel.size?`已选 ${_radarSel.size} 条`:"";
 }
@@ -4935,10 +4956,19 @@ function exportRadarXlsx(){
   if(typeof XLSX==="undefined"||!_radar)return;
   const q=((($("#rd-q")&&$("#rd-q").value)||"").trim().toLowerCase());
   const fr=($("#rd-region")&&$("#rd-region").value)||"",ft=($("#rd-topic")&&$("#rd-topic").value)||"",fs=($("#rd-stage")&&$("#rd-stage").value)||"",fst=($("#rd-status")&&$("#rd-status").value)||"";
-  const rows=_radar.filter(r=>(!fr||r.region===fr)&&(!ft||(r.topics||[]).includes(ft))&&(!fs||r.stage===fs)&&(!fst||r.status===fst)&&(!q||[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(q)));
-  const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","状态","置信","TBT号","来源类型","来源名","来源链接","检索词(原文)","备注"]];
-  rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.status||"",r.confidence||"",r.tbt_no||"",({pdf:"PDF直链",doc:"官方文件",news:"非直链"}[rdSrcType(r.source_url||"")]||""),r.source_name||"",r.source_url||"",r.search_kw||"",r.note||""]));
-  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:8},{wch:8},{wch:16},{wch:9},{wch:18},{wch:40},{wch:30},{wch:24}];
+  const pf=($("#rd-pubfrom")&&$("#rd-pubfrom").value)||"",pt=($("#rd-pubto")&&$("#rd-pubto").value)||"",ef=($("#rd-efffrom")&&$("#rd-efffrom").value)||"",et=($("#rd-effto")&&$("#rd-effto").value)||"";
+  const rows=_radar.filter(r=>{
+    if(fr&&r.region!==fr)return false;
+    if(ft&&!(r.topics||[]).includes(ft))return false;
+    if(fs&&r.stage!==fs)return false;
+    if(fst&&r.status!==fst)return false;
+    if(pf||pt){const m=rdMonthOf(r.pub_date);if(!m)return false;if(pf&&m<pf)return false;if(pt&&m>pt)return false;}
+    if(ef||et){const m=rdMonthOf(r.effective_date);if(!m)return false;if(ef&&m<ef)return false;if(et&&m>et)return false;}
+    if(q&&![r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(q))return false;
+    return true;});
+  const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","生效日","状态","置信","TBT号","来源类型","来源名","来源链接","检索词(原文)","备注"]];
+  rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.effective_date||"",r.status||"",r.confidence||"",r.tbt_no||"",({pdf:"PDF直链",doc:"官方文件",news:"非直链"}[rdSrcType(r.source_url||"")]||""),r.source_name||"",r.source_url||"",r.search_kw||"",r.note||""]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:10},{wch:8},{wch:8},{wch:16},{wch:9},{wch:18},{wch:40},{wch:30},{wch:24}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"法规雷达");
   XLSX.writeFile(wb,"法规雷达_"+new Date().toISOString().slice(0,10)+".xlsx");
 }
