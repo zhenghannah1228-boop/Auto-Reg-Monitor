@@ -4857,12 +4857,9 @@ function rdRptItemBlock(r,first){
     ${btn}
   </td></tr>`;
 }
-function rdRptDivider(imgName,cn,en){
-  return `<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td style="width:100%;position:relative">
-    <img src="${RD_RPT_ASSET}${imgName}" width="600" height="96" alt="${esc(cn)}" style="display:block;width:100%;height:auto;max-width:100%">
-    <div style="position:absolute;left:0;top:0;width:100%;height:100%;background:#151a3d;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 5%;box-sizing:border-box">
-      <div><div style="color:#fff;font-size:17px;font-weight:800;letter-spacing:-0.01em;line-height:1.3">${esc(cn)}</div><div style="color:rgba(255,255,255,.65);font-size:10.5px;letter-spacing:.02em;margin-top:3px">${esc(en)}</div></div>
-    </div>
+function rdRptDivider(cn,en){
+  return `<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td style="width:100%;background:linear-gradient(90deg,#151a3d,#2b2f66);border-radius:6px;padding:16px 20px;text-align:center;box-sizing:border-box">
+    <div style="color:#fff;font-size:17px;font-weight:800;letter-spacing:-0.01em;line-height:1.3">${esc(cn)}</div><div style="color:rgba(255,255,255,.65);font-size:10.5px;letter-spacing:.02em;margin-top:3px">${esc(en)}</div>
   </td></tr></table></td></tr>`;
 }
 function radarBuildReportHtml(items){
@@ -4877,25 +4874,25 @@ function radarBuildReportHtml(items){
   const published=rest.filter(r=>!/草案|征求意见|提案|拟议|审议|研究|计划|咨询/.test(r.stage||""));
   const drafts=rest.filter(r=>/草案|征求意见|提案|拟议|审议|研究|计划|咨询/.test(r.stage||""));
   const flagshipHtml=flagship?rdRptItemBlock(flagship,true):"";
-  const publishedHtml=published.length?rdRptDivider("divider-updates.jpg","法规动态","Regulatory Updates")+published.map(r=>rdRptItemBlock(r,false)).join(""):"";
-  const draftsHtml=drafts.length?rdRptDivider("divider-drafts.jpg","草案与提案追踪","Regulatory Drafts & Proposal Tracking")+drafts.map(r=>rdRptItemBlock(r,false)).join(""):"";
+  const publishedHtml=published.length?rdRptDivider("法规动态","Regulatory Updates")+published.map(r=>rdRptItemBlock(r,false)).join(""):"";
+  const draftsHtml=drafts.length?rdRptDivider("草案与提案追踪","Regulatory Drafts & Proposal Tracking")+drafts.map(r=>rdRptItemBlock(r,false)).join(""):"";
   const genDate=(items[0]&&items[0].collected_date)||"";
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title></head>
 <body style="width:100%;-webkit-text-size-adjust:100%;background-color:#f0f1f5;margin:0;padding:0">
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f1f5" style="background-color:#f0f1f5"><tbody><tr><td style="background-color:#f0f1f5">
 <table align="center" width="600" border="0" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background-color:#c49dff;width:600px;min-width:280px">
 <tbody>
-<tr><td style="width:100%;position:relative">
-  <img src="${RD_RPT_ASSET}cover.jpg" width="600" height="367" alt="法规雷达月报" style="display:block;width:100%;height:auto;max-width:100%">
-  <div style="position:absolute;left:0;top:46%;width:40%;height:54%;background:linear-gradient(160deg,#0c1040,#3a2e9c);border-radius:0 14px 0 0;padding:5% 6%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;font-family:Arial,Helvetica,sans-serif">
-    <div style="display:inline-block;background:rgba(255,255,255,.16);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:16px;letter-spacing:.03em;width:fit-content">${esc(monthCN||"")}</div>
-    <div style="font-size:23px;font-weight:800;color:#fff;line-height:1.25;letter-spacing:-0.02em;margin-top:10px">法规雷达<br>更新月报</div>
-    <div style="font-size:10.5px;color:rgba(255,255,255,.65);margin-top:6px;letter-spacing:.02em">Regulatory Radar · Update Bulletin</div>
-  </div>
+<tr><td style="width:100%">
+  <img src="${RD_RPT_ASSET}cover.jpg" width="600" height="172" alt="法规雷达月报" style="display:block;width:100%;height:auto;max-width:100%">
+</td></tr>
+<tr><td style="background:linear-gradient(120deg,#0c1040,#3a2e9c);padding:22px 24px;font-family:Arial,Helvetica,sans-serif">
+  <div style="display:inline-block;background:rgba(255,255,255,.16);color:#fff;font-size:12px;font-weight:700;padding:4px 12px;border-radius:16px;letter-spacing:.03em">${esc(monthCN||"")}</div>
+  <div style="font-size:25px;font-weight:800;color:#fff;line-height:1.3;letter-spacing:-0.02em;margin-top:10px">法规雷达 · 更新月报</div>
+  <div style="font-size:11px;color:rgba(255,255,255,.65);margin-top:6px;letter-spacing:.02em">Regulatory Radar · Update Bulletin · 共收录 ${items.length} 条更新</div>
 </td></tr>
 <tr><td style="padding:24px 0;font-family:Arial,Helvetica,sans-serif">
 <table align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif"><tbody>
-${rdRptDivider("spotlight.jpg","法规聚焦","Regulations Spotlight")}
+${rdRptDivider("法规聚焦","Regulations Spotlight")}
 <tr><td style="padding:0px 0px 16px">
 <table border="0" cellpadding="0" cellspacing="0" align="center" style="width:100%;max-width:100%;margin:0 auto;background:linear-gradient(180deg,#3d6ee0,#c59dff);border-radius:6px"><tbody>
 <tr><td style="padding:24px 24px 8px">
@@ -4904,7 +4901,7 @@ ${flagshipHtml}${publishedHtml}${draftsHtml}
 </tbody></table>
 </td></tr></tbody></table>
 </td></tr>
-${rdRptDivider("divider-summary.jpg","全球车辆法规更新总览","Global Vehicle Regulatory Update Summary")}
+${rdRptDivider("全球车辆法规更新总览","Global Vehicle Regulatory Update Summary")}
 <tr><td style="padding:0px 0px 8px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>${countryRows}</tbody></table></td></tr>
 <tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:480px"><tr><td style="width:100%">
 <a href="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/#p-radar" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-align:center;padding:17px 8px;border-radius:76px;font-size:14.5px;font-weight:700;font-family:Arial,Helvetica,sans-serif">查看完整法规雷达 View Full Regulatory Radar →</a>
