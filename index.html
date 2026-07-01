@@ -4796,12 +4796,38 @@ function exportRadarXlsx(){
 }
 
 /* ================= 20 汽车网络安全合规中心(维度6) ================= */
-let _cyHub=null,_cyAssess={},_cyLoadedAssess=false,_cyView="assess",_cyChart=null;
+let _cyHub=null,_cyAssess={},_cyAll=[],_cyProfile="团队基线",_cyProfiles=["团队基线"],_cyLoadedAssess=false,_cyView="assess",_cyChart=null;
 async function loadCyberHub(){if(_cyHub)return _cyHub;const r=await fetch("./data/cyber_hub.json");_cyHub=await r.json();return _cyHub;}
 async function loadCyberAssess(){
-  try{const rows=await sbFetchAll("cyber_assessments","*","");
-    _cyAssess={};rows.forEach(x=>{_cyAssess[x.item_key]={status:x.status||0,note:x.note||""};});
-  }catch(e){console.error("cyber assess",e);_cyAssess={};}
+  try{_cyAll=await sbFetchAll("cyber_assessments","*","");}
+  catch(e){console.error("cyber assess",e);_cyAll=[];}
+  cyRebuildProfiles();
+}
+function cyRebuildProfiles(){
+  const set=new Set(["团队基线"]);_cyAll.forEach(x=>set.add(x.profile||"团队基线"));
+  if(_cyProfile)set.add(_cyProfile);
+  _cyProfiles=[...set].sort((a,b)=>a==="团队基线"?-1:b==="团队基线"?1:a.localeCompare(b,"zh"));
+  cyApplyProfile();
+}
+function cyApplyProfile(){
+  _cyAssess={};
+  _cyAll.filter(x=>(x.profile||"团队基线")===_cyProfile).forEach(x=>{_cyAssess[x.item_key]={status:x.status||0,note:x.note||""};});
+}
+function cySwitchProfile(v){
+  if(v==="__new__"){
+    const name=(prompt("新建自查档案名称(如「Model X 2027」「欧盟项目」):","")||"").trim();
+    if(!name){renderCyAssess($("#cyber-body"));return;}
+    _cyProfile=name;if(!_cyProfiles.includes(name))_cyProfiles.push(name);
+  }else{_cyProfile=v;}
+  cyApplyProfile();renderCyAssess($("#cyber-body"));
+}
+async function cyDelProfile(){
+  if(_cyProfile==="团队基线"){toast("默认档案不可删除");return;}
+  if(!confirm("删除档案「"+_cyProfile+"」及其全部勾选?全团队可见。"))return;
+  try{await sbReq("DELETE","cyber_assessments?profile=eq."+encodeURIComponent(_cyProfile),undefined,"return=minimal");}
+  catch(e){toast("删除失败:"+e.message);return;}
+  _cyAll=_cyAll.filter(x=>(x.profile||"团队基线")!==_cyProfile);
+  _cyProfile="团队基线";cyRebuildProfiles();renderCyAssess($("#cyber-body"));toast("档案已删除");
 }
 async function cyberEnter(){
   const body=$("#cyber-body");
@@ -4829,8 +4855,16 @@ function renderCyAssess(body){
   const overall=doms.reduce((a,d)=>a+cyDomScore(d),0)/doms.length;
   const lv=cyLevel(overall),lvName=((_cyHub.meta.maturity_levels[lv-1])||{}).name||"";
   let done=0,total=0;doms.forEach(d=>d.items.forEach(it=>{total++;if(((_cyAssess[it.key]||{}).status||0)===2)done++;}));
-  let h='<div class="card"><div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">'+
-    '<div><div style="font-family:var(--serif);font-size:16px">整体成熟度 L'+lv+' · '+esc(lvName)+'</div>'+
+  const profOpts=_cyProfiles.map(p=>'<option value="'+esc(p).replace(/"/g,"&quot;")+'" '+(p===_cyProfile?"selected":"")+'>'+esc(p)+'</option>').join("");
+  let h='<div class="card">'+
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px">'+
+      '<span style="font-size:12px;color:var(--muted);font-family:var(--mono)">自查档案</span>'+
+      '<select class="csel" style="min-width:160px" onchange="cySwitchProfile(this.value)">'+profOpts+'<option value="__new__">＋ 新建档案…</option></select>'+
+      (_cyProfile!=="团队基线"?'<button class="btn light" style="padding:2px 8px" onclick="cyDelProfile()" title="删除当前档案及其勾选">🗑 删档案</button>':"")+
+      '<span style="font-size:11px;color:var(--faint);font-family:var(--mono)">按车型/项目分别评估;「团队基线」为默认。</span>'+
+    '</div>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">'+
+    '<div><div style="font-family:var(--serif);font-size:16px">整体成熟度 L'+lv+' · '+esc(lvName)+' <span style="font-size:11px;color:var(--muted)">· '+esc(_cyProfile)+'</span></div>'+
     '<div style="font-size:11px;color:var(--muted);font-family:var(--mono)">已达成 '+done+'/'+total+' 项 · 综合完成度 '+Math.round(overall*100)+'%</div></div>'+
     '<span style="flex:1"></span>'+
     '<button class="btn light" onclick="switchTab(\'p-dim\')">→ 维度矩阵(各国网络安全覆盖)</button></div>'+
@@ -4864,16 +4898,22 @@ function cyRadar(){
     radar:{indicator:_cyHub.domains.map(d=>({name:d.name,max:100})),radius:"66%",axisName:{fontSize:11,color:"#555"}},
     series:[{type:"radar",data:[{value:_cyHub.domains.map(d=>Math.round(cyDomScore(d)*100)),name:"成熟度%",areaStyle:{opacity:0.25,color:"#3a6b8a"},lineStyle:{color:"#3a6b8a"},itemStyle:{color:"#c6502a"}}]}]});
 }
+function cySync(key){ // 把 _cyAssess[key] 同步进 _cyAll(按当前档案)
+  const a=_cyAssess[key]||{status:0,note:""};
+  let row=_cyAll.find(x=>(x.profile||"团队基线")===_cyProfile&&x.item_key===key);
+  if(row){row.status=a.status;row.note=a.note;}
+  else _cyAll.push({profile:_cyProfile,item_key:key,status:a.status,note:a.note});
+}
 async function setCyItem(key,status){
-  _cyAssess[key]=_cyAssess[key]||{status:0,note:""};_cyAssess[key].status=status;
-  try{await sbUpsert("cyber_assessments",[{item_key:key,status,note:_cyAssess[key].note||null,updated_at:new Date().toISOString()}],"item_key");}
+  _cyAssess[key]=_cyAssess[key]||{status:0,note:""};_cyAssess[key].status=status;cySync(key);
+  try{await sbUpsert("cyber_assessments",[{profile:_cyProfile,item_key:key,status,note:_cyAssess[key].note||null,updated_at:new Date().toISOString()}],"profile,item_key");}
   catch(e){toast("保存失败:"+e.message);}
   renderCyAssess($("#cyber-body"));
 }
 async function cyNote(key){
-  const cur=(_cyAssess[key]||{}).note||"";const v=prompt("备注(团队共享):",cur);if(v===null)return;
-  _cyAssess[key]=_cyAssess[key]||{status:0,note:""};_cyAssess[key].note=v.trim();
-  try{await sbUpsert("cyber_assessments",[{item_key:key,status:_cyAssess[key].status||0,note:v.trim()||null,updated_at:new Date().toISOString()}],"item_key");toast("备注已保存");}
+  const cur=(_cyAssess[key]||{}).note||"";const v=prompt("备注(团队共享,当前档案「"+_cyProfile+"」):",cur);if(v===null)return;
+  _cyAssess[key]=_cyAssess[key]||{status:0,note:""};_cyAssess[key].note=v.trim();cySync(key);
+  try{await sbUpsert("cyber_assessments",[{profile:_cyProfile,item_key:key,status:_cyAssess[key].status||0,note:v.trim()||null,updated_at:new Date().toISOString()}],"profile,item_key");toast("备注已保存");}
   catch(e){toast("保存失败:"+e.message);}
   renderCyAssess($("#cyber-body"));
 }
@@ -4902,6 +4942,13 @@ function renderCyDeep(body){
     }
     h+='</div>';
   });
+  if((_cyHub.emerging||[]).length){
+    h+='<div class="card"><h3 style="margin:0 0 2px;font-size:15px;font-family:var(--serif)">新兴域要点</h3><div style="font-size:11px;color:var(--muted);font-family:var(--mono)">SDV / AI-ML / V2X / EV 充电 / 云-车 / ADAS(附录 E·F 与 Ch14)。</div></div>';
+    _cyHub.emerging.forEach(e=>{
+      h+='<div class="card"><h3 style="margin:0 0 6px;font-size:14px">'+esc(e.title)+' <span class="hint">'+esc(e.ref)+'</span></h3>'+
+        '<ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.8">'+e.points.map(p=>"<li>"+esc(p)+"</li>").join("")+'</ul></div>';
+    });
+  }
   body.innerHTML=h;
 }
 function renderCyCase(body){
