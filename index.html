@@ -4846,42 +4846,67 @@ function radarClearSel(){
   document.querySelectorAll('#rd-body input[type=checkbox][data-radarid]').forEach(cb=>{cb.checked=false;});
   const cnt=$("#rd-selcnt");if(cnt)cnt.textContent="";
 }
+const RD_RPT_ASSET="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/assets/report/";
+function rdRptItemBlock(r,first){
+  const btn=r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em;margin-top:2px">Read More →</a>`:"";
+  const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
+  return `<tr><td style="padding:${first?"0":"16px"}px 0px 16px">
+    <div dir="ltr" style="color:#ffffff;font-size:18.7px;font-weight:700;letter-spacing:-0.04em;white-space:pre-wrap;line-height:1.25;margin-bottom:8px">${esc(r.title||"")}</div>
+    <div dir="ltr" style="color:#1f2329;font-size:14px;letter-spacing:-0.02em;white-space:pre-wrap;line-height:17.6px;margin-bottom:6px">${esc(r.summary||"")}</div>
+    <div dir="ltr" style="color:rgba(255,255,255,.72);font-size:11px;letter-spacing:-0.01em;margin-bottom:12px">${meta}</div>
+    ${btn}
+  </td></tr>`;
+}
+function rdRptDivider(imgName,alt){
+  return `<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td style="width:100%"><img src="${RD_RPT_ASSET}${imgName}" width="600" height="96" alt="${esc(alt)}" style="display:block;width:100%;height:auto;max-width:100%"></td></tr></table></td></tr>`;
+}
 function radarBuildReportHtml(items){
   const dates=items.map(r=>r.collected_date).filter(Boolean).sort();
   const monthLabel=dates.length?dates[dates.length-1].slice(0,7):"";
-  const byRegion={};
-  items.forEach(r=>{const k=r.region||"其他";byRegion[k]=(byRegion[k]||0)+1;});
-  const regionRows=Object.entries(byRegion).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div style="font-size:13px;color:#3a3f36;padding:3px 0">${esc(k)} - ${v} 条更新</div>`).join("");
-  const cards=items.map(r=>{
-    const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
-    const btn=r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em">查看原文 →</a>`:"";
-    return `<div style="padding:18px 0;border-top:1px solid rgba(255,255,255,.28)">
-      <div style="font-size:17px;font-weight:800;letter-spacing:-0.02em;line-height:1.35;color:#fff;margin-bottom:8px">${esc(r.title||"")}</div>
-      <div style="font-size:13.5px;color:#f1f1ff;line-height:1.65;margin-bottom:10px">${esc(r.summary||"")}</div>
-      <div style="font-size:11px;color:#d9d4ff;margin-bottom:14px">${meta}</div>
-      ${btn}
-    </div>`;
-  }).join("");
+  const monthCN=monthLabel?monthLabel.replace(/^(\d{4})-(\d{2})$/,"$1年$2月"):"";
+  const byCountry={};
+  items.forEach(r=>{const k=r.country||r.region||"其他";byCountry[k]=(byCountry[k]||0)+1;});
+  const countryRows=Object.entries(byCountry).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td dir="ltr" style="color:#1f2329;font-size:14px;letter-spacing:-0.02em;white-space:pre-wrap;text-align:justify;padding:0px 0px 12px;line-height:17.6px">${esc(k)} - ${v} 条更新</td></tr>`).join("");
+  const flagship=items[0];
+  const rest=items.slice(1);
+  const published=rest.filter(r=>!/草案|征求意见|提案|拟议|审议|研究|计划|咨询/.test(r.stage||""));
+  const drafts=rest.filter(r=>/草案|征求意见|提案|拟议|审议|研究|计划|咨询/.test(r.stage||""));
+  const flagshipHtml=flagship?rdRptItemBlock(flagship,true):"";
+  const publishedHtml=published.length?rdRptDivider("divider-updates.jpg","Regulatory Updates")+published.map(r=>rdRptItemBlock(r,false)).join(""):"";
+  const draftsHtml=drafts.length?rdRptDivider("divider-drafts.jpg","Regulatory Drafts & Proposal Tracking")+drafts.map(r=>rdRptItemBlock(r,false)).join(""):"";
   const genDate=(items[0]&&items[0].collected_date)||"";
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthLabel?" · "+esc(monthLabel):""}</title></head>
-<body style="margin:0;padding:0;background:#f0f1f5;font-family:Arial,Helvetica,sans-serif">
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f1f5"><tr><td>
-<table align="center" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#fff">
-<tr><td style="background:linear-gradient(135deg,#3d6ee0,#c59dff);padding:36px 24px;text-align:center;color:#fff">
-  <div style="font-size:22px;font-weight:800;letter-spacing:-0.02em">法规雷达 · 月报</div>
-  <div style="font-size:13px;opacity:.85;margin-top:6px">${monthLabel?esc(monthLabel)+" · ":""}共收录 ${items.length} 条更新</div>
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title></head>
+<body style="width:100%;-webkit-text-size-adjust:100%;background-color:#f0f1f5;margin:0;padding:0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f1f5" style="background-color:#f0f1f5"><tbody><tr><td style="background-color:#f0f1f5">
+<table align="center" width="600" border="0" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background-color:#c49dff;width:600px;min-width:280px">
+<tbody>
+<tr><td style="width:100%"><img src="${RD_RPT_ASSET}cover.jpg" width="600" height="367" alt="法规雷达月报" style="display:block;width:100%;height:auto;max-width:100%"></td></tr>
+<tr><td style="padding:24px 0;font-family:Arial,Helvetica,sans-serif">
+<table align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif"><tbody>
+<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td style="width:100%"><img src="${RD_RPT_ASSET}spotlight.jpg" width="600" height="96" alt="Regulations Spotlight" style="display:block;width:100%;height:auto;max-width:100%"></td></tr></table></td></tr>
+<tr><td style="padding:0px 0px 16px">
+<table border="0" cellpadding="0" cellspacing="0" align="center" style="width:100%;max-width:100%;margin:0 auto;background:linear-gradient(180deg,#3d6ee0,#c59dff);border-radius:6px"><tbody>
+<tr><td style="padding:24px 24px 8px">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%;font-family:Arial,Helvetica,sans-serif"><tbody>
+${flagshipHtml}${publishedHtml}${draftsHtml}
+</tbody></table>
+</td></tr></tbody></table>
 </td></tr>
-<tr><td style="padding:24px">
-  <div style="background:linear-gradient(180deg,#3d6ee0,#c59dff);border-radius:10px;padding:8px 24px 4px">${cards}</div>
+<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td style="width:100%"><img src="${RD_RPT_ASSET}divider-summary.jpg" width="600" height="96" alt="Global Vehicle Regulatory Update Summary" style="display:block;width:100%;height:auto;max-width:100%"></td></tr></table></td></tr>
+<tr><td style="padding:0px 0px 8px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>${countryRows}</tbody></table></td></tr>
+<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:480px"><tr><td style="width:100%">
+<a href="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/#p-radar" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-align:center;padding:17px 8px;border-radius:76px;font-size:14.5px;font-weight:700;font-family:Arial,Helvetica,sans-serif">查看完整法规雷达 · 19 法规雷达</a>
+</td></tr></table></td></tr></table></td></tr>
+</tbody></table>
 </td></tr>
-<tr><td style="padding:0 24px 24px">
-  <div style="font-size:13px;font-weight:700;color:#1f2329;margin-bottom:8px">本期覆盖地区</div>
-  ${regionRows}
-</td></tr>
-<tr><td style="padding:16px 24px;text-align:center;color:#8a8f85;font-size:11px;border-top:1px solid #eee">
-  汽车法规库监控台 · 法规雷达${genDate?" · 生成于 "+esc(genDate):""}<br>链接均为一手官方来源,使用前请自行核验
-</td></tr>
-</table></td></tr></table>
+<tr><td style="padding:0px 24px 16px"><table border="0" cellpadding="0" cellspacing="0" align="center" style="width:100%;max-width:276px;margin:0 auto"><tr>
+<td width="61.91%" style="vertical-align:middle"><a href="https://www.linkedin.com/in/%E6%99%A8%E9%98%B3-%E9%83%91-257105393/?skipRedirect=true" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-linkedin.png" width="161" height="66" style="display:block;width:161px;height:auto;max-width:100%"></a></td>
+<td width="37.00%" style="vertical-align:middle"><a href="mailto:1clicktong@amestech.cn" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-mail.png" width="47" height="35" style="display:block;width:47px;height:auto;max-width:100%"></a></td>
+</tr></table></td></tr>
+<tr><td style="padding:0px 24px 16px" align="center"><a href="https://new.1clicktong.com" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-logo.png" width="216" height="65" style="display:block;width:216px;height:auto;max-width:100%;margin:0 auto"></a></td></tr>
+<tr><td dir="ltr" style="color:#e8e8e8;font-size:12px;letter-spacing:-0.01em;white-space:pre-wrap;text-align:center;padding:0px 24px 20px;line-height:18px;font-family:Arial,Helvetica,sans-serif">法规雷达 · 汽车法规库监控台${genDate?" · 生成于 "+esc(genDate):""} · Room 503, 5th Floor, Building 2, Tailibao Technology Building, No. 14 Guiyuan Road, Huayuan Industrial Park, Tianjin, China</td></tr>
+</tbody></table>
+</td></tr></tbody></table>
 </body></html>`;
 }
 function radarGenerateReport(){
