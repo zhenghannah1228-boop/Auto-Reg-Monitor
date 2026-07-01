@@ -3,10 +3,11 @@
     "title": "汽车网络安全合规中心",
     "version": "1.1",
     "dim": 6,
-    "source": "内容整理自 KPIT Technologies · Ashish Kumar 的两本手册——《Automotive Cybersecurity Handbook 2026 v1.0》与《Automotive SW Diagnostics Handbook》(2026-06),并结合 ISO/SAE 21434、UNECE R155/R156、ISO 14229 UDS、EU CRA、NIST PQC 公开标准要点;经原作者授权可摘录/转载,原手册版权仍归原作者所有。完整原文见「📄 原手册」。",
+    "source": "内容整理自 KPIT Technologies · Ashish Kumar 的三本手册——《Automotive Cybersecurity Handbook 2026 v1.0》《Automotive SW Diagnostics Handbook》与《DevOps | MLOps | CI/CD Handbook》(均 2026-06,第三本仅并入「Part VI 汽车 SW CI/CD」章节),并结合 ISO/SAE 21434、UNECE R155/R156、ISO 14229 UDS、ISO 26262、ASPICE、EU CRA、NIST PQC 公开标准要点;经原作者授权可摘录/转载,原手册版权仍归原作者所有。完整原文见「📄 原手册」。",
     "handbooks": [
       {"title": "Automotive Cybersecurity Handbook 2026 v1.0", "pdf": "./docs/automotive_cybersecurity_handbook_2026.pdf", "short": "网络安全手册"},
-      {"title": "Automotive SW Diagnostics Handbook (2026-06)", "pdf": "./docs/automotive_sw_diagnostics_handbook_2026.pdf", "short": "诊断手册"}
+      {"title": "Automotive SW Diagnostics Handbook (2026-06)", "pdf": "./docs/automotive_sw_diagnostics_handbook_2026.pdf", "short": "诊断手册"},
+      {"title": "DevOps | MLOps | CI/CD Handbook — Part VI 汽车 SW CI/CD (2026-06)", "pdf": "./docs/devops_mlops_cicd_handbook_2026.pdf", "short": "CI/CD手册"}
     ],
     "maturity_levels": [
       {"lv": 1, "name": "临时 Ad Hoc", "desc": "靠个人英雄主义,无可重复流程,被动打补丁,威胁意识有限。"},
@@ -287,6 +288,57 @@
         "优先级4:安全启动签名校验(Secure Boot)失败 → 拒绝跳转,停留 Bootloader",
         "以上全部通过 → 跳转执行应用;任一环节失败即安全失效到 Bootloader,不会带病跳转"
       ]
+    },
+    {
+      "key": "cicdpipe", "title": "汽车 ECU CI/CD 五阶段管线", "ref": "CI/CD手册 Ch10.1", "type": "pairs",
+      "pairs": [
+        {"k": "1 源码校验", "v": "静态分析、MISRA-C:2012 强制检查、SonarQube 质量门禁"},
+        {"k": "2 构建 Build", "v": "容器化可复现 CMake/Conan 构建,产出 .hex/.elf/ARXML 构件"},
+        {"k": "3 验证 Verify", "v": "单元测试(GTest/VectorCAST)、SIL 集成测试、夜间 HIL 回归"},
+        {"k": "4 构件管理", "v": "从 dev-local 提升到 staging-local(JFrog Artifactory),附完整 build-info 与 SBOM"},
+        {"k": "5 发布 Release", "v": "密码学签名、Release Bundle 打包、经 JFrog Connect 编排 OTA 投放"}
+      ]
+    },
+    {
+      "key": "safetygate", "title": "ISO 26262 CI/CD 安全门禁清单(晋级发布前必过)", "ref": "CI/CD手册 Ch10.8", "type": "steps",
+      "steps": [
+        "全部单元测试通过:ASIL-D 要求 100% MC/DC 覆盖率,ASIL-B 要求 ≥85% 行覆盖率",
+        "MISRA-C:2012 强制性(Required)违规 = 0;建议性(Advisory)违规须登记偏差台账",
+        "相比基线无新增未经批准豁免的 MISRA 偏差",
+        "SIL 集成测试套件 100% 通过;HIL 回归测试套件 100% 通过",
+        "Polyspace/Astrée 形式化验证结果在可接受范围内",
+        "JFrog Xray 扫描:依赖中 0 个未接受的 Critical/High 级 CVE",
+        "已生成并评审 SBOM;全部开源许可证已批准",
+        "需求可追溯矩阵完整:每条安全需求至少关联 1 项测试",
+        "已评审 ASIL 分解点的相关失效分析(DFA)",
+        "安全经理已在 JIRA/DOORS 留痕签核",
+        "构件已完成密码学签名并存入 JFrog release 仓库"
+      ]
+    },
+    {
+      "key": "aspicemap", "title": "ASPICE 流程 × CI/CD 自动化映射", "ref": "CI/CD手册 Ch9.3.2", "type": "table",
+      "cols": ["ASPICE 流程", "CI/CD 自动化支撑", "常用工具"],
+      "rows": [
+        ["SWE.1 需求获取", "提交信息中带需求ID;JIRA 可追溯", "DOORS、JIRA、Git commit hooks"],
+        ["SWE.2 软件架构", "ARXML 版本控制;架构差异检查", "Git LFS、DaVinci、ISOLAR"],
+        ["SWE.3 详细设计", "PR 门禁强制代码评审", "GitLab/GitHub PR + Jenkins"],
+        ["SWE.4 单元验证", "自动化单元测试执行+覆盖率报告", "GTest/VectorCAST + Jenkins + LCOV"],
+        ["SWE.5 软件集成", "自动化 SIL 集成测试运行", "VectorCAST/SIL、Jenkins"],
+        ["SWE.6 软件验收", "HIL/PIL 测试自动化+测试报告归档", "dSPACE HIL + JFrog 构件仓库"]
+      ]
+    },
+    {
+      "key": "otacicd", "title": "OTA 发布管线(CI/CD 工具链视角,R156 合规)", "ref": "CI/CD手册 Ch10.7", "type": "steps",
+      "steps": [
+        "软件包构建:CI 管线生成 ECU .hex + AUTOSAR UCM 更新清单",
+        "安全扫描:JFrog Xray 扫描更新包的 CVE 与许可证问题",
+        "密码学签名:用 HSM 存储的私钥对更新包签名",
+        "生成发布包:JFrog Distribution 创建已签名、不可变的 Release Bundle",
+        "创建投放活动:在 OTA 管理系统(JFrog Connect/自建)中建campaign",
+        "分批灰度:1% → 10% → 50% → 100% 车队投放,全程遥测监控",
+        "回滚触发:错误率超阈值自动回滚,或人工中止",
+        "⚠ R156 要求记录更新机制、回滚能力、防不完整更新与防未授权安装——须体现在管线的签名/分发/监控各阶段"
+      ]
     }
   ],
   "emerging": [
@@ -348,7 +400,8 @@
   "cases": [
     {"id": "jeep2015", "year": "2015", "title": "Jeep Cherokee 远程入侵", "vector": "经车载信息娱乐系统(Uconnect)蜂窝接口远程进入,横向跨越到 CAN 总线,控制转向/制动/动力。", "impact": "克莱斯勒召回 140 万辆;成为 R155/21434 立法的标志性事件。", "lesson": "外部接口必须与安全攸关域强隔离;娱乐域≠可信。", "dim": 6, "link_query": "网络安全"},
     {"id": "kiahyundai2023", "year": "2022–2023", "title": "起亚/现代 互联车 API 漏洞", "vector": "厂商云端 API 鉴权/授权缺陷(BOLA),仅凭邮箱即可远程定位、解锁、远程启动数百万辆车。", "impact": "暴露后端 API 是核心攻击面;推动对云侧合规审视。", "lesson": "后端 API 鉴权与最小权限与车端同等重要;防越权枚举。", "dim": 6, "link_query": "网络安全"},
-    {"id": "tesla", "year": "持续", "title": "特斯拉安全计划(行业标杆)", "vector": "成熟漏洞赏金、纵深防御、车队级 OTA 与快速修复闭环。", "impact": "被手册列为正面基准:可快速对车队下发缓解。", "lesson": "把研究者引入(赏金)+ 快速 OTA 是降低现场风险的有效组合。", "dim": 6, "link_query": "网络安全"}
+    {"id": "tesla", "year": "持续", "title": "特斯拉安全计划(行业标杆)", "vector": "成熟漏洞赏金、纵深防御、车队级 OTA 与快速修复闭环。", "impact": "被手册列为正面基准:可快速对车队下发缓解。", "lesson": "把研究者引入(赏金)+ 快速 OTA 是降低现场风险的有效组合。", "dim": 6, "link_query": "网络安全"},
+    {"id": "evcicd", "year": "案例", "title": "EV 动力总成 CI/CD 迁移(Tier-1 供应商)", "vector": "12 个 ECU(BMS/VCU/OBC/DC-DC)从人工14天发布周期,6个月内迁移到 Jenkins+Git LFS+JFrog 的 CI/CD 管线。", "impact": "发布周期 14天→4小时;MISRA 违规逃逸率 12/版本→0;OEM 审计准备 2周→3天;构建可复现性 60%→100%。", "lesson": "合规门禁自动化不是拖慢发布,而是把两周的审计准备变成几天——CI/CD 与安全/合规证据链天然兼容。", "dim": 6, "link_query": "网络安全"}
   ],
   "glossary": [
     {"term": "A/B 分区", "full": "A/B Partitioning", "def": "双独立软件槽(激活/未激活),更新只写未激活槽,失败自动回滚。"},
@@ -408,7 +461,12 @@
     {"term": "DID / RID", "full": "Data / Routine Identifier", "def": "UDS 数据标识符(0x22/0x2E 读写)与例程标识符(0x31 启动/停止例程),部分为 OEM 专属敏感数据。"},
     {"term": "NRC", "full": "Negative Response Code", "def": "UDS 否定响应码,如 0x35 invalidKey、0x36 超限尝试、0x37 强制延时未到。"},
     {"term": "PBL / SBL", "full": "Primary / Secondary Bootloader", "def": "PBL 常驻只读保护区做签名校验;SBL 承载完整 UDS 编程栈,二者构成两级安全启动结构。"},
-    {"term": "EOL", "full": "End-of-Line Programming", "def": "产线终检编程:VIN 写入、变体编码、标定下发,通常需要最高安全级访问。"}
+    {"term": "EOL", "full": "End-of-Line Programming", "def": "产线终检编程:VIN 写入、变体编码、标定下发,通常需要最高安全级访问。"},
+    {"term": "MISRA-C", "full": "Motor Industry Software Reliability Association C", "def": "安全攸关汽车 C 代码的事实标准;MISRA C:2012 定义143条规则,ASIL B/C/D 软件强制合规,CI 须逐次构建强制检查。"},
+    {"term": "ASPICE", "full": "Automotive SPICE", "def": "汽车软件过程能力评估框架;OEM 通常要求供应商达到能力等级2或3,CI/CD 自动化直接支撑多个过程属性证据。"},
+    {"term": "SIL", "full": "Software-in-the-Loop", "def": "在开发机/CI服务器上以软件桩模拟硬件接口运行 ECU 软件;无硬件依赖,适合快速自动化测试。"},
+    {"term": "HIL", "full": "Hardware-in-the-Loop", "def": "把真实 ECU 硬件接入实时仿真环境(如 dSPACE)模拟车辆环境;通常作为夜间/合并触发的较长回归阶段接入管线。"},
+    {"term": "MC/DC", "full": "Modified Condition/Decision Coverage", "def": "修正条件/判定覆盖率;ISO 26262 对 ASIL-D 软件的单元测试覆盖率要求(通常100%)。"}
   ],
   "cheatsheet": [
     {"group": "R155 落地要点", "items": ["CSMS 证书 + 逐车型 CS 批准", "覆盖开发/生产/后生产", "附件5威胁逐项缓解", "不合规=不得销售"]},
