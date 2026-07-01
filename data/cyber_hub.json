@@ -3,9 +3,11 @@
     "title": "汽车网络安全合规中心",
     "version": "1.1",
     "dim": 6,
-    "source": "内容整理自《Automotive Cybersecurity Handbook 2026 v1.0》(KPIT Technologies · Ashish Kumar,2026-06),并结合 ISO/SAE 21434、UNECE R155/R156、EU CRA、NIST PQC 公开标准要点;经原作者授权可摘录/转载,原手册版权仍归原作者所有。完整原文见「📄 原手册」。",
-    "handbook_pdf": "./docs/automotive_cybersecurity_handbook_2026.pdf",
-    "handbook_title": "Automotive Cybersecurity Handbook 2026 v1.0 — KPIT / Ashish Kumar",
+    "source": "内容整理自 KPIT Technologies · Ashish Kumar 的两本手册——《Automotive Cybersecurity Handbook 2026 v1.0》与《Automotive SW Diagnostics Handbook》(2026-06),并结合 ISO/SAE 21434、UNECE R155/R156、ISO 14229 UDS、EU CRA、NIST PQC 公开标准要点;经原作者授权可摘录/转载,原手册版权仍归原作者所有。完整原文见「📄 原手册」。",
+    "handbooks": [
+      {"title": "Automotive Cybersecurity Handbook 2026 v1.0", "pdf": "./docs/automotive_cybersecurity_handbook_2026.pdf", "short": "网络安全手册"},
+      {"title": "Automotive SW Diagnostics Handbook (2026-06)", "pdf": "./docs/automotive_sw_diagnostics_handbook_2026.pdf", "short": "诊断手册"}
+    ],
     "maturity_levels": [
       {"lv": 1, "name": "临时 Ad Hoc", "desc": "靠个人英雄主义,无可重复流程,被动打补丁,威胁意识有限。"},
       {"lv": 2, "name": "可重复 Repeatable", "desc": "基础流程文档化,部分 ISO 21434 对齐,写了安全需求与供应商问卷。"},
@@ -59,6 +61,12 @@
       "scope": "抗量子算法标准:车辆生命周期长(10–15 年),今日加密数据面临『先窃取后解密』风险,需规划密码敏捷与迁移。",
       "points": ["FIPS 203 ML-KEM(密钥封装,替代 Kyber/ECDH)", "FIPS 204 ML-DSA(签名,替代 Dilithium)/ 205 SLH-DSA(哈希签名)", "密码敏捷(crypto-agility):可在线升级算法", "OTA/Secure Boot 签名链优先迁移规划"],
       "timeline": "2024-08 正式发布;车规迁移规划应即启动。", "match": ["后量子", "PQC", "密码"]
+    },
+    {
+      "id": "ISO 14229", "name": "ISO 14229 — UDS 统一诊断服务", "region": "国际标准(诊断协议基座)", "dim": 6,
+      "scope": "定义 ECU 诊断/编程/标定的服务集(SID);OBD-II 端口与 UDS-over-DoIP 是主要汽车攻击向量,ISO 21434 要求对所有诊断接口做 TARA。",
+      "points": ["0x27 Security Access(种子-密钥)已可被 0x29 Authentication(证书/HMAC,HSM 支撑)取代", "0x34/0x36 刷写、0x2E 标定写入等敏感服务须分会话/分安全级管控", "失败锁定 NRC 0x37、S3 会话超时 5 秒兜底", "DoIP(ISO 13400-2:2019)支持 TLS 1.3 双向认证"],
+      "timeline": "ISO 14229-1:2020(现行);0x29 Authentication 为该版新增服务。", "match": ["UDS", "14229", "诊断", "DoIP"]
     }
   ],
   "domains": [
@@ -157,6 +165,18 @@
         {"key": "supply.3", "text": "对供应商做网络安全能力评估与合同约束", "ref": "ISO 21434 Cl.15"},
         {"key": "supply.4", "text": "构建与发布管线防篡改(SLSA 供应链完整性)", "ref": "附录D"}
       ]
+    },
+    {
+      "key": "diag", "name": "诊断与刷写安全", "desc": "OBD-II/UDS-over-DoIP 接口防护、Security Access、Bootloader 签名校验(诊断手册 Ch2/8/19)。",
+      "levels": ["0x27 明文种子-密钥、无失败锁定、诊断口无防护", "有失败锁定/S3超时,但仍用对称种子-密钥", "关键服务分会话/分安全级管控(访问控制矩阵)", "0x29 证书/HMAC 认证(HSM 支撑)覆盖编程级访问", "DoIP TLS 1.3 双向认证+OEM 签名固件+诊断接口纳入 TARA"],
+      "items": [
+        {"key": "diag.1", "text": "已制定诊断服务访问控制矩阵(哪些 SID 需哪个会话/安全级/证书)", "ref": "诊断手册 Ch19.5"},
+        {"key": "diag.2", "text": "Security Access(0x27)采用 HSM 支撑的种子-密钥,或已升级到 0x29 证书/HMAC 认证", "ref": "诊断手册 Ch2.5/19.2"},
+        {"key": "diag.3", "text": "失败尝试触发锁定(NRC 0x37)与强制延时,S3 会话超时兜底", "ref": "诊断手册 Ch19.3"},
+        {"key": "diag.4", "text": "DoIP 远程诊断通道启用 TLS 1.3 双向认证(ISO 13400-2:2019)", "ref": "诊断手册 Ch19.3"},
+        {"key": "diag.5", "text": "刷写服务(0x34/0x36/0x37)要求 OEM 签名固件,Bootloader 校验签名后才跳转应用", "ref": "诊断手册 Ch8.2/19.5"},
+        {"key": "diag.6", "text": "OBD 物理端口对敏感模式(编程/标定)做接入管控或选择性禁用", "ref": "诊断手册 Ch19.3"}
+      ]
     }
   ],
   "playbooks": [
@@ -214,6 +234,58 @@
         "分析 Analyze:定位根因、完整攻击链、波及范围与受影响 VIN 群",
         "报告 Report:findings+受影响 VIN+整改(责任人/时限)+监管上报评估(EU CRA 24h)",
         "漏洞管理:基于 SBOM 的 CVE 持续比对(NVD/OSV)→ 带上下文打分(EPSS+ASIL,而非裸 CVSS)→ 修复"
+      ]
+    },
+    {
+      "key": "diagthreat", "title": "诊断接口威胁一览", "ref": "诊断手册 Ch19.1", "type": "table",
+      "cols": ["威胁", "攻击向量", "潜在影响", "TARA严重度"],
+      "rows": [
+        ["未授权 ECU 刷写", "UDS 0x34/0x36 无认证直接调用", "恶意固件写入", "严重 S3"],
+        ["DTC 清除滥用", "UDS 0x14 / OBD Mode 04", "检测前清除故障、掩盖问题", "显著 S2"],
+        ["Security Access 绕过", "种子-密钥算法被逆向", "获得完整 UDS 写入/控制权限", "严重 S3"],
+        ["DoIP 漏洞利用", "IPv6/以太网 DoIP 网关暴露", "从互联网远程访问 ECU", "严重 S3"],
+        ["CAN 总线窃听", "OBD 口物理接入抓包", "ECU 指纹识别、信息侦察", "中等 S1"],
+        ["重放攻击", "捕获的 UDS 帧被重放", "复用旧种子-密钥对", "显著 S2"],
+        ["CAN 洪泛拒绝服务", "OBD 口大量报文注入", "总线 bus-off、ECU 无响应", "显著 S2"]
+      ]
+    },
+    {
+      "key": "uds29", "title": "UDS 0x29 认证服务(替代传统种子-密钥)", "ref": "ISO 14229-1:2020 · 诊断手册 Ch19.2", "type": "pairs",
+      "pairs": [
+        {"k": "0x00 deAuthenticate", "v": "撤销全部已授予的访问级别"},
+        {"k": "0x01 verifyCertificateUnidirectional", "v": "ECU 单向校验测试仪证书"},
+        {"k": "0x02 verifyCertificateBidirectional", "v": "双向证书互验"},
+        {"k": "0x03 proofOfOwnership", "v": "挑战-应答式所有权证明"},
+        {"k": "0x04 transmitCertificate", "v": "向 ECU 发送证书链"},
+        {"k": "0x05 requestChallengeForAuthentication", "v": "向 ECU 请求随机数/挑战值"},
+        {"k": "0x06 verifyProofOfOwnershipUnidirectional", "v": "ECU 校验 HMAC/签名"},
+        {"k": "0x07 authenticationConfiguration", "v": "读取认证能力配置"}
+      ]
+    },
+    {
+      "key": "diagacl", "title": "诊断服务访问控制矩阵(节选)", "ref": "诊断手册 Ch19.5", "type": "table",
+      "cols": ["服务", "默认会话", "扩展会话", "编程会话", "备注"],
+      "rows": [
+        ["0x22 RDBI(VIN/状态)", "可读·无需认证", "可读·无需认证", "可读·无需认证", "监管合规要求开放读取"],
+        ["0x22 RDBI(密钥材料)", "否", "安全级1", "否", "仅密钥状态,非密钥明文"],
+        ["0x2E WDBI(标定写入)", "否", "安全级2", "否", "OEM 专属标定 DID"],
+        ["0x2E WDBI(VIN/编码)", "否", "否", "安全级1", "仅限产线 EOL 编程"],
+        ["0x2F IOCBI(执行器测试)", "否", "安全级2", "否", "需车速联锁保护"],
+        ["0x31 RID(依赖检查)", "是", "是", "是", "功能寻址,任意会话"],
+        ["0x34/0x36/0x37 刷写", "否", "否", "安全级1(刷写序列一部分)", "要求 OEM 签名固件"],
+        ["0x14 ClearDTC", "是", "是", "是", "—"],
+        ["0x29 Authentication", "是(用于获取证书)", "否", "安全级1", "ISO 14229-1:2020,证书链"]
+      ]
+    },
+    {
+      "key": "bootseq", "title": "Bootloader 安全跳转判定", "ref": "诊断手册 Ch8.1/8.2", "type": "steps",
+      "steps": [
+        "两级架构:PBL(受写保护 ROM,含固化的加密校验例程)+ SBL(可重刷区,承载完整 UDS 编程栈)",
+        "优先级1:检查编程请求标志(应用重启前置位)→ 命中则进入 Bootloader 等待 UDS 会话",
+        "优先级2:检查硬件跳线/GPIO(产线台架编程)→ 命中则进入 Bootloader",
+        "优先级3:应用完整性校验(CRC)失败 → 置故障码并停留 Bootloader,不跳转",
+        "优先级4:安全启动签名校验(Secure Boot)失败 → 拒绝跳转,停留 Bootloader",
+        "以上全部通过 → 跳转执行应用;任一环节失败即安全失效到 Bootloader,不会带病跳转"
       ]
     }
   ],
@@ -296,7 +368,7 @@
     {"term": "CVSS", "full": "Common Vulnerability Scoring System", "def": "漏洞严重度评分(0–10);汽车分诊需叠加车内可利用性与 ASIL 相关性。"},
     {"term": "数据投毒", "full": "Data Poisoning", "def": "污染训练数据使 ML 模型学到错误行为并在生产中静默持续。"},
     {"term": "纵深防御", "full": "Defense in Depth", "def": "多层独立控制,任一层被攻破不致系统全失陷。"},
-    {"term": "DoIP", "full": "Diagnostics over IP", "def": "以太网上的 UDS 诊断(ISO 13400),须鉴权与访问控制防越权诊断。"},
+    {"term": "DoIP", "full": "Diagnostics over Internet Protocol (ISO 13400)", "def": "以太网/IP 上跑 UDS 诊断;须鉴权与访问控制防越权诊断,远程诊断通道需 TLS 1.3 双向认证(ISO 13400-2:2019)防被当攻击入口。"},
     {"term": "DPIA", "full": "Data Protection Impact Assessment", "def": "GDPR 第35条要求的隐私影响评估,记录车辆遥测/用户数据的流向与缓解。"},
     {"term": "ECU", "full": "Electronic Control Unit", "def": "车载嵌入式控制器;现代车含数十至数百个,按域/区组织。"},
     {"term": "FlexRay", "full": "FlexRay", "def": "高可靠确定性时序总线,用于线控(转向/制动)等容错场景。"},
@@ -319,7 +391,7 @@
     {"term": "隐私设计", "full": "Privacy by Design", "def": "GDPR 第25条:从设计之初纳入隐私,而非事后补;车辆数据采集系统强制。"},
     {"term": "RXSWIN", "full": "Software Identification Number", "def": "R156 受型式批准管理的软件标识号。"},
     {"term": "SBOM", "full": "Software Bill of Materials", "def": "软件组件/版本/许可/来源的机读清单;汽车主用 CycloneDX、SPDX。"},
-    {"term": "SecOC", "full": "Secure Onboard Communication", "def": "AUTOSAR 报文认证(MAC+新鲜度计数);R24-11 起支持 AES-256-GCM。"},
+    {"term": "SecOC", "full": "Secure Onboard Communication", "def": "AUTOSAR 报文认证(MAC+新鲜度计数);R24-11 起支持 AES-256-GCM。诊断侧:网关须为转发到受保护 ECU 的诊断报文加保护,0x84 SecuredDataTransmission 把 UDS 包进加密信封。"},
     {"term": "SLSA", "full": "Supply-chain Levels for Software Artifacts", "def": "软件供应链完整性框架;L3 要求封闭构建+签名溯源+隔离构建环境。"},
     {"term": "SLH-DSA", "full": "FIPS 205", "def": "后量子哈希签名标准(替代 SPHINCS+);比 ML-DSA 慢但安全假设最少。"},
     {"term": "SOME/IP", "full": "Scalable service-Oriented MiddlewarE over IP", "def": "车载以太网上的面向服务通信;须鉴权与访问控制防越权调用服务。"},
@@ -329,7 +401,14 @@
     {"term": "TCU", "full": "Telematics Control Unit", "def": "提供蜂窝等车辆连接的 ECU(常是远程攻击入口)。"},
     {"term": "V2X", "full": "Vehicle-to-Everything", "def": "车与外界(车/路/网/人)通信。"},
     {"term": "VSOC", "full": "Vehicle Security Operations Center", "def": "车队级安全运营中心,做遥测关联与告警。"},
-    {"term": "Zero Trust", "full": "零信任", "def": "默认不信任、持续验证的安全模型;SDV/区域架构的目标态。"}
+    {"term": "Zero Trust", "full": "零信任", "def": "默认不信任、持续验证的安全模型;SDV/区域架构的目标态。"},
+    {"term": "UDS", "full": "Unified Diagnostic Services (ISO 14229)", "def": "统一诊断服务:ECU 诊断/编程/标定的服务集(SID),OBD-II 端口与 UDS-over-DoIP 是主要攻击向量。"},
+    {"term": "DTC", "full": "Diagnostic Trouble Code", "def": "故障码;UDS 0x14/OBD Mode 04 可清除,存在清除滥用(掩盖故障)风险。"},
+    {"term": "SID", "full": "Service Identifier", "def": "UDS 服务标识符(如 0x27 Security Access、0x34 刷写请求)。"},
+    {"term": "DID / RID", "full": "Data / Routine Identifier", "def": "UDS 数据标识符(0x22/0x2E 读写)与例程标识符(0x31 启动/停止例程),部分为 OEM 专属敏感数据。"},
+    {"term": "NRC", "full": "Negative Response Code", "def": "UDS 否定响应码,如 0x35 invalidKey、0x36 超限尝试、0x37 强制延时未到。"},
+    {"term": "PBL / SBL", "full": "Primary / Secondary Bootloader", "def": "PBL 常驻只读保护区做签名校验;SBL 承载完整 UDS 编程栈,二者构成两级安全启动结构。"},
+    {"term": "EOL", "full": "End-of-Line Programming", "def": "产线终检编程:VIN 写入、变体编码、标定下发,通常需要最高安全级访问。"}
   ],
   "cheatsheet": [
     {"group": "R155 落地要点", "items": ["CSMS 证书 + 逐车型 CS 批准", "覆盖开发/生产/后生产", "附件5威胁逐项缓解", "不合规=不得销售"]},
