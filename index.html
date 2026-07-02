@@ -1015,7 +1015,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','pdf')" title="打开打印视图(仅月报卡片),在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
         <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','png')" title="导出为一张不断开的长图 PNG(位图不含可点链接;需要可点链接请用「导出 PDF」)">🖼 导出长图 PNG</button>
         <button class="btn light" onclick="rdCopyPrintCmd()" title="复制一段控制台命令:在已打开的月报页面 F12→Console 粘贴回车,只打印这张月报卡片">🖨 复制打印指令</button>
-        <button class="btn light" onclick="rdCopyReportLink('reports/radar-monthly-2026-06.html')" title="复制该月报的线上链接,便于转发/分享">🔗 复制链接</button>
+        <button class="btn light" onclick="window.open('reports/radar-monthly-2026-06.html','_blank','noopener')" title="在新标签打开该月报的 HTML 页面">🌐 打开 HTML</button>
         <span id="rd-arch-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
       <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
@@ -5281,7 +5281,7 @@ async function rdExportReport(path,fmt){
     try{const d=new DOMParser().parseFromString(html,"text/html");const t=d.querySelector('table[width="600"]')||d.querySelector('table[bgcolor="#c49dff"]');if(t)card=t.outerHTML;else if(d.body)card=d.body.innerHTML;}catch(e){}
     // 单张等高长页:宽600、高=内容全高、页边距0 → 无白边、不断开(等同长图)
     const doc='<!doctype html><html><head><meta charset="utf-8"><title>'+esc(fname.replace(/\.html$/,""))+'</title><style>html,body{margin:0;padding:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style></head><body>'+card
-      +'<script>window.onload=function(){var h=Math.ceil(document.body.scrollHeight);var st=document.createElement("style");st.appendChild(document.createTextNode("@page{size:600px "+h+"px;margin:0}"));document.head.appendChild(st);setTimeout(function(){window.focus();window.print();},350);};<\/script></body></html>';
+      +'<script>(function(){function run(){var h=Math.ceil(document.body.scrollHeight);var st=document.createElement("style");st.appendChild(document.createTextNode("@page{size:600px "+h+"px;margin:0}"));document.head.appendChild(st);window.focus();window.print();}var imgs=document.images,n=0;var iv=setInterval(function(){var ok=true;for(var i=0;i<imgs.length;i++){if(!imgs[i].complete){ok=false;break;}}if(ok||n++>80){clearInterval(iv);setTimeout(run,200);}},100);})();<\/script></body></html>';
     w.document.open();w.document.write(doc);w.document.close();
     setTip("✓ 已打开打印(整页不分栏),选「另存为 PDF」·记得纸张选「与来源相同/无边距」");toast("已打开打印视图");
   }
@@ -5289,7 +5289,7 @@ async function rdExportReport(path,fmt){
 /* 复制「只打印月报卡片」的控制台命令:在已打开的月报页面 F12→Console 粘贴回车,
    会抓取 600px 主卡片、开一个纯白页并只打印它(去掉灰底与空白,保留渐变/彩标) */
 function rdCopyPrintCmd(){
-  const cmd=`(function(){var t=document.querySelector("table[width='600']")||document.querySelector("table[bgcolor='#c49dff']");if(!t){alert("未找到月报主卡片,请在已打开的月报页面运行");return;}var w=window.open("","_blank");w.document.write('<!doctype html><meta charset=utf-8><title>月报打印</title><style>html,body{margin:0;padding:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style>'+t.outerHTML);w.document.close();var run=function(){var h=Math.ceil(w.document.body.scrollHeight);var st=w.document.createElement("style");st.appendChild(w.document.createTextNode("@page{size:600px "+h+"px;margin:0}"));w.document.head.appendChild(st);w.focus();w.print();};setTimeout(run,600);})();`;
+  const cmd=`(function(){var t=document.querySelector("table[width='600']")||document.querySelector("table[bgcolor='#c49dff']");if(!t){alert("未找到月报主卡片,请在已打开的月报页面运行");return;}var w=window.open("","_blank");w.document.write('<!doctype html><meta charset=utf-8><title>月报打印</title><style>html,body{margin:0;padding:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style>'+t.outerHTML);w.document.close();var run=function(){var h=Math.ceil(w.document.body.scrollHeight);var st=w.document.createElement("style");st.appendChild(w.document.createTextNode("@page{size:600px "+h+"px;margin:0}"));w.document.head.appendChild(st);w.focus();w.print();};var imgs=w.document.images,n=0;var iv=setInterval(function(){var ok=true;for(var i=0;i<imgs.length;i++){if(!imgs[i].complete){ok=false;break;}}if(ok||n++>80){clearInterval(iv);setTimeout(run,200);}},100);})();`;
   const tip=$("#rd-arch-tip");
   const done=()=>{if(tip){tip.textContent="✓ 已复制:打开月报页→F12→Console→粘贴回车";setTimeout(()=>{if(tip)tip.textContent="";},8000);}toast("已复制打印指令");};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(cmd).then(done,()=>{cmpFallbackCopy(cmd);done();});}
