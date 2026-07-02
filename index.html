@@ -5248,15 +5248,17 @@ async function rdExportReport(path,fmt){
     const w=window.open("","_blank");if(!w){toast("请允许弹窗后再导出 PDF");return;}
     let card=html;
     try{const d=new DOMParser().parseFromString(html,"text/html");const t=d.querySelector('table[width="600"]')||d.querySelector('table[bgcolor="#c49dff"]');if(t)card=t.outerHTML;else if(d.body)card=d.body.innerHTML;}catch(e){}
-    const doc='<!doctype html><html><head><meta charset="utf-8"><title>'+esc(fname.replace(/\.html$/,""))+'</title><style>@page{margin:8mm}html,body{margin:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style></head><body>'+card+'<script>window.onload=function(){setTimeout(function(){window.focus();window.print();},400);};<\/script></body></html>';
+    // 单张等高长页:宽600、高=内容全高、页边距0 → 无白边、不断开(等同长图)
+    const doc='<!doctype html><html><head><meta charset="utf-8"><title>'+esc(fname.replace(/\.html$/,""))+'</title><style>html,body{margin:0;padding:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style></head><body>'+card
+      +'<script>window.onload=function(){var h=Math.ceil(document.body.scrollHeight);var st=document.createElement("style");st.appendChild(document.createTextNode("@page{size:600px "+h+"px;margin:0}"));document.head.appendChild(st);setTimeout(function(){window.focus();window.print();},350);};<\/script></body></html>';
     w.document.open();w.document.write(doc);w.document.close();
-    setTip("✓ 已打开打印(仅月报卡片),选「另存为 PDF」");toast("已打开打印视图");
+    setTip("✓ 已打开打印(整页不分栏),选「另存为 PDF」·记得纸张选「与来源相同/无边距」");toast("已打开打印视图");
   }
 }
 /* 复制「只打印月报卡片」的控制台命令:在已打开的月报页面 F12→Console 粘贴回车,
    会抓取 600px 主卡片、开一个纯白页并只打印它(去掉灰底与空白,保留渐变/彩标) */
 function rdCopyPrintCmd(){
-  const cmd=`(function(){var t=document.querySelector("table[width='600']")||document.querySelector("table[bgcolor='#c49dff']");if(!t){alert("未找到月报主卡片,请在已打开的月报页面运行");return;}var w=window.open("","_blank");w.document.write('<!doctype html><meta charset=utf-8><title>月报打印</title><style>@page{margin:8mm}html,body{margin:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style>'+t.outerHTML);w.document.close();w.focus();setTimeout(function(){w.print();},500);})();`;
+  const cmd=`(function(){var t=document.querySelector("table[width='600']")||document.querySelector("table[bgcolor='#c49dff']");if(!t){alert("未找到月报主卡片,请在已打开的月报页面运行");return;}var w=window.open("","_blank");w.document.write('<!doctype html><meta charset=utf-8><title>月报打印</title><style>html,body{margin:0;padding:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style>'+t.outerHTML);w.document.close();var run=function(){var h=Math.ceil(w.document.body.scrollHeight);var st=w.document.createElement("style");st.appendChild(w.document.createTextNode("@page{size:600px "+h+"px;margin:0}"));w.document.head.appendChild(st);w.focus();w.print();};setTimeout(run,600);})();`;
   const tip=$("#rd-arch-tip");
   const done=()=>{if(tip){tip.textContent="✓ 已复制:打开月报页→F12→Console→粘贴回车";setTimeout(()=>{if(tip)tip.textContent="";},8000);}toast("已复制打印指令");};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(cmd).then(done,()=>{cmpFallbackCopy(cmd);done();});}
