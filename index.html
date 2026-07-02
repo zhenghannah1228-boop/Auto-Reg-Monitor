@@ -1011,6 +1011,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
         <span style="font-size:11px;color:var(--muted)">📚 已归档月报(定稿存档,查看/导出/打印):</span>
         <a class="btn light" href="./reports/radar-monthly-2026-06.html" target="_blank" rel="noopener" style="text-decoration:none">📄 2026 年 6 月刊</a>
+        <button class="btn light" onclick="rdCopyReportLink('reports/radar-monthly-2026-06.html')" title="复制该月报的线上链接,便于转发/分享">🔗 复制链接</button>
+        <span id="rd-arch-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
       <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
       <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:点「📋 复制采集指令」→ 粘贴到 Claude 对话发送 → 我联网搜集并给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
@@ -5223,6 +5225,17 @@ function radarGenerateReport(){
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   window.open(url,"_blank");
   setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+/* 复制已归档月报的线上链接(优先用当前页所在目录推导,file:// 时回退到 Pages 地址) */
+function rdCopyReportLink(path){
+  let base;
+  if(location.protocol==="http:"||location.protocol==="https:")base=location.href.replace(/[?#].*$/,"").replace(/[^/]*$/,"");
+  else base="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/";
+  const url=base+path;
+  const tip=$("#rd-arch-tip");
+  const done=()=>{if(tip){tip.textContent="✓ 已复制链接";setTimeout(()=>{if(tip)tip.textContent="";},4000);}toast("已复制:"+url);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,()=>{cmpFallbackCopy(url);done();});}
+  else{cmpFallbackCopy(url);done();}
 }
 /* 一键复制「月报生成指令」:把本项目沉淀的月报口径/结构/详略/排版规则固化为 prompt,粘贴给 Claude 即可产出与本模板一致的月报 */
 function copyMonthlyReportPrompt(){
