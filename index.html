@@ -5102,26 +5102,23 @@ function rdRptBadges(r){
 function rdRptDivider(imgName,alt){
   return `<tr><td style="padding:6px 0px 14px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td style="width:100%"><img src="${RD_RPT_ASSET}${imgName}" width="600" height="96" alt="${esc(alt)}" style="display:block;width:100%;height:auto;max-width:100%"></td></tr></table></td></tr>`;
 }
-/* 统一卡片渲染:白底圆角卡 + 精排字体/大行距;spotlight 加左侧强调条与「法规聚焦」眉标、标题更大。opts.body 可覆盖正文(用于截断) */
+/* 条目渲染(蓝紫渐变块内,无白卡):精排字体/大行距;spotlight 加金色「法规聚焦」眉标、标题更大。opts.body 可覆盖正文(用于截断) */
 function rdRptCardInner(r,opts){
   opts=opts||{};
   const spot=!!opts.spotlight;
   const btn=`<a href="https://new.1clicktong.com/" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:10px 24px;border-radius:76px;font-size:12.5px;font-weight:700;letter-spacing:.02em;font-family:${RD_FS}">查看原文 Read More →</a>`;
   const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join("&nbsp;·&nbsp;");
-  const kicker=spot?`<div style="font-family:${RD_FS};font-size:10.5px;font-weight:700;letter-spacing:.16em;color:#8355eb;margin-bottom:10px">★ REGULATIONS SPOTLIGHT · 法规聚焦</div>`:"";
-  const tSize=spot?20:16.5;
-  return `<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#ffffff;border-radius:14px;${spot?"border-left:4px solid #8355eb;":""}box-shadow:0 2px 6px rgba(31,35,41,.10)"><tbody><tr><td style="padding:${spot?"22px 24px":"18px 22px"}">
-    ${kicker}${rdRptBadges(r)}
-    <div dir="ltr" style="font-family:${RD_FS};color:#171326;font-size:${tSize}px;font-weight:700;line-height:1.45;letter-spacing:-.003em;white-space:pre-wrap;margin-bottom:10px">${esc(r.title||"")}</div>
-    <div dir="ltr" style="font-family:${RD_FS};color:#3c4250;font-size:14.5px;line-height:1.9;letter-spacing:.012em;white-space:pre-wrap;margin-bottom:14px">${esc(opts.body!=null?opts.body:(r.summary||""))}</div>
-    <div dir="ltr" style="font-family:${RD_FS};color:#98a0ac;font-size:11px;letter-spacing:.03em;margin-bottom:15px">${meta}</div>
-    ${btn}
-  </td></tr></tbody></table>`;
+  const kicker=spot?`<div style="font-family:${RD_FS};font-size:10.5px;font-weight:700;letter-spacing:.16em;color:#ffe4a0;margin-bottom:9px">★ 法规聚焦 · REGULATIONS SPOTLIGHT</div>`:"";
+  const tSize=spot?21:18.5;
+  return kicker+rdRptBadges(r)+
+    `<div dir="ltr" style="font-family:${RD_FS};color:#ffffff;font-size:${tSize}px;font-weight:700;line-height:1.4;letter-spacing:-.01em;white-space:pre-wrap;margin-bottom:9px">${esc(r.title||"")}</div>`+
+    `<div dir="ltr" style="font-family:${RD_FS};color:#1e2230;font-size:14.5px;line-height:1.9;letter-spacing:.012em;white-space:pre-wrap;margin-bottom:13px">${esc(opts.body!=null?opts.body:(r.summary||""))}</div>`+
+    `<div dir="ltr" style="font-family:${RD_FS};color:rgba(255,255,255,.75);font-size:11px;letter-spacing:.02em;margin-bottom:14px">${meta}</div>`+btn;
 }
 function rdRptItemBlock(r,first){
-  return `<tr><td style="padding:0px 22px 14px">${rdRptCardInner(r,{spotlight:true})}</td></tr>`;
+  return `<tr><td style="padding:${first?"0":"18px"}px 0 18px${first?"":";border-top:1px solid rgba(255,255,255,.20)"}">${rdRptCardInner(r,{spotlight:true})}</td></tr>`;
 }
-/* 资讯卡:展示完整一段;仅当摘要过长(>380字)才在句末截断并补 …,短摘要原样全展示 */
+/* 资讯条:展示完整一段;仅当摘要过长(>380字)才在句末截断并补 …,短摘要原样全展示 */
 function rdRptTeaser(r){
   let s=(r.summary||"").trim();
   const CAP=380;
@@ -5131,7 +5128,7 @@ function rdRptTeaser(r){
     if(stop>CAP*0.6)t=t.slice(0,stop+1);
     s=t.replace(/[\s，、,]+$/,"")+" …";
   }
-  return `<tr><td style="padding:0px 22px 14px">${rdRptCardInner(r,{body:s})}</td></tr>`;
+  return `<tr><td style="padding:18px 0;border-top:1px solid rgba(255,255,255,.20)">${rdRptCardInner(r,{body:s})}</td></tr>`;
 }
 /* 月报生成(仿 InterRegs 详略):导语 → Spotlight 深挖1条 → 本期资讯节选(截断,默认3条)→ 末尾真实更新数字(按国家/地区)。
    opts:{intro(HTML串), spotlightId, newsCount=3, counts(可传入[[国家,条数]…]覆盖统计口径), monthCN} */
@@ -5146,7 +5143,7 @@ function radarBuildReportHtml(items,opts){
   else{const bc={};items.forEach(r=>{const k=r.country||r.region||"其他";bc[k]=(bc[k]||0)+1;});countsArr=Object.entries(bc);}
   countsArr.sort((a,b)=>b[1]-a[1]);
   const totalN=countsArr.reduce((s,x)=>s+(x[1]||0),0);
-  const countryRows=countsArr.map(([k,v],i)=>`<tr><td style="font-family:${RD_FS};color:#2c313c;font-size:14px;letter-spacing:.01em;padding:10px 0;${i<countsArr.length-1?"border-bottom:1px solid #eef0f3;":""}">${esc(k)}</td><td style="font-family:${RD_FS};color:#8355eb;font-size:14px;font-weight:700;text-align:right;white-space:nowrap;padding:10px 0;${i<countsArr.length-1?"border-bottom:1px solid #eef0f3;":""}">${v} 条</td></tr>`).join("");
+  const countryRows=countsArr.map(([k,v])=>`<tr><td dir="ltr" style="font-family:${RD_FS};color:#1e2230;font-size:14px;letter-spacing:.01em;padding:0 0 11px;line-height:1.6">${esc(k)} — ${v} 条更新</td></tr>`).join("");
   const spotlight=(opts.spotlightId&&items.find(r=>r.id===opts.spotlightId))||items[0];
   const rest=items.filter(r=>r!==spotlight);
   const draftRe=/草案|征求意见|征询|提案|拟议|审议|研究|计划|咨询|立法预告|proposal|draft/i;
@@ -5159,8 +5156,8 @@ function radarBuildReportHtml(items,opts){
   const draftNames=drafts.slice(0,3).map(r=>esc(r.title)).join("、");
   const introDefault=`欢迎阅读 <b>一点通 · 全球汽车法规雷达月报${monthCN?" "+esc(monthCN)+"刊":""}</b>。本期 <b>法规聚焦(Spotlight)</b>:${esc((spotlight&&spotlight.title)||"")}。<b>本期法规更新</b>精选 ${published.length} 条${pubNames?"("+pubNames+"等)":""};<b>草案跟踪</b>另收 ${drafts.length} 条在途草案${draftNames?"("+draftNames+"等)":""}。全月共监测到 <b>${totalN}</b> 条覆盖 <b>${countsArr.length}</b> 个国家/地区的准入类法规更新 —— 完整数字见文末,原文详见一点通法规库。`;
   const intro=opts.intro||introDefault;
-  const introHtml=`<tr><td style="padding:0px 22px 16px"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 2px 6px rgba(31,35,41,.10)"><tbody><tr><td style="padding:20px 24px"><div dir="ltr" style="font-family:${RD_FS};color:#2c2740;font-size:14px;line-height:1.95;letter-spacing:.012em">${intro}</div></td></tr></tbody></table></td></tr>`;
-  const countsHtml=`<tr><td style="padding:0px 22px 18px"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff;border-radius:14px;box-shadow:0 2px 6px rgba(31,35,41,.10)"><tbody><tr><td style="padding:12px 22px 16px"><table width="100%" cellpadding="0" cellspacing="0" border="0"><tbody>${countryRows}</tbody></table><div style="font-family:${RD_FS};color:#98a0ac;font-size:11.5px;letter-spacing:.02em;padding-top:14px">合计 ${totalN} 条 · ${countsArr.length} 个国家/地区 · 数据实时取自一点通法规雷达</div></td></tr></tbody></table></td></tr>`;
+  const introHtml=`<tr><td style="padding:0 24px 18px"><div dir="ltr" style="font-family:${RD_FS};color:#2a2333;font-size:14px;line-height:1.9;letter-spacing:.01em">${intro}</div></td></tr>`;
+  const countsHtml=`<tr><td style="padding:0 24px 10px"><table cellpadding="0" cellspacing="0" border="0" width="100%"><tbody>${countryRows}</tbody></table><div dir="ltr" style="font-family:${RD_FS};color:#4a4258;font-size:11.5px;letter-spacing:.02em;padding-top:4px">合计 ${totalN} 条 · ${countsArr.length} 个国家/地区 · 数据实时取自一点通法规雷达</div></td></tr>`;
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title></head>
 <body style="width:100%;-webkit-text-size-adjust:100%;background-color:#f0f1f5;margin:0;padding:0">
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f1f5" style="background-color:#f0f1f5"><tbody><tr><td style="background-color:#f0f1f5">
@@ -5169,11 +5166,18 @@ function radarBuildReportHtml(items,opts){
 <tr><td style="width:100%">
   <img src="${RD_RPT_ASSET}cover.jpg" width="600" height="367" alt="法规雷达月报" style="display:block;width:100%;height:auto;max-width:100%">
 </td></tr>
-<tr><td style="padding:22px 0 6px;font-family:${RD_FS}">
+<tr><td style="padding:22px 0 8px;font-family:${RD_FS}">
 <table align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:${RD_FS}"><tbody>
 ${introHtml}
 ${rdRptDivider("spotlight.jpg","Regulations Spotlight")}
+<tr><td style="padding:0 22px 16px">
+<table cellpadding="0" cellspacing="0" border="0" align="center" width="100%" style="background:linear-gradient(180deg,#3d6ee0,#c59dff);border-radius:12px"><tbody>
+<tr><td style="padding:22px 24px">
+<table cellpadding="0" cellspacing="0" border="0" width="100%"><tbody>
 ${spotlightHtml}${updatesHtml}${draftsHtml}
+</tbody></table>
+</td></tr></tbody></table>
+</td></tr>
 ${rdRptDivider("divider-summary.jpg","Global Vehicle Regulatory Update Summary")}
 ${countsHtml}
 <tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:480px"><tr><td style="width:100%">
