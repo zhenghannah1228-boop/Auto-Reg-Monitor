@@ -1013,6 +1013,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <a class="btn light" href="./reports/radar-monthly-2026-06.html" target="_blank" rel="noopener" style="text-decoration:none" title="在新标签打开查看">📄 2026 年 6 月刊</a>
         <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','html')" title="下载该月报的 HTML 文件">⬇ 导出 HTML</button>
         <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','pdf')" title="打开打印视图(仅月报卡片),在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','png')" title="导出为一张不断开的长图 PNG(位图不含可点链接;需要可点链接请用「导出 PDF」)">🖼 导出长图 PNG</button>
         <button class="btn light" onclick="rdCopyPrintCmd()" title="复制一段控制台命令:在已打开的月报页面 F12→Console 粘贴回车,只打印这张月报卡片">🖨 复制打印指令</button>
         <button class="btn light" onclick="rdCopyReportLink('reports/radar-monthly-2026-06.html')" title="复制该月报的线上链接,便于转发/分享">🔗 复制链接</button>
         <span id="rd-arch-tip" style="font-size:11px;color:var(--accent)"></span>
@@ -5230,7 +5231,18 @@ function radarGenerateReport(){
   window.open(url,"_blank");
   setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
-/* 导出已归档月报:fmt='html' 下载 .html;fmt='pdf' 打开打印视图供「另存为 PDF」。取当前站点的报告文件原样导出 */
+/* 按需懒加载本地 html2canvas(零CDN,已随仓库本地化) */
+function rdEnsureH2C(){
+  return new Promise((res,rej)=>{
+    if(window.html2canvas)return res();
+    const s=document.createElement("script");
+    s.src="html2canvas.min.js";s.async=true;
+    s.onload=()=>window.html2canvas?res():rej(new Error("html2canvas 未就绪"));
+    s.onerror=()=>rej(new Error("html2canvas 加载失败"));
+    document.head.appendChild(s);
+  });
+}
+/* 导出已归档月报:fmt='html' 下载 .html;fmt='pdf' 单张等高长页打印(另存PDF);fmt='png' 渲染为不断开的长图。取当前站点的报告文件原样导出 */
 async function rdExportReport(path,fmt){
   const tip=$("#rd-arch-tip");
   const setTip=t=>{if(tip){tip.textContent=t;setTimeout(()=>{if(tip)tip.textContent="";},5000);}};
@@ -5244,6 +5256,25 @@ async function rdExportReport(path,fmt){
     a.href=url;a.download=fname;document.body.appendChild(a);a.click();a.remove();
     setTimeout(()=>URL.revokeObjectURL(url),5000);
     setTip("✓ 已导出 HTML");toast("已导出 "+fname);
+  }else if(fmt==="png"){
+    try{await rdEnsureH2C();}catch(e){toast("长图组件加载失败,请重试");setTip("");return;}
+    let card=html;
+    try{const d=new DOMParser().parseFromString(html,"text/html");const t=d.querySelector('table[width="600"]')||d.querySelector('table[bgcolor="#c49dff"]');if(t)card=t.outerHTML;else if(d.body)card=d.body.innerHTML;}catch(e){}
+    const holder=document.createElement("div");
+    holder.style.cssText="position:fixed;left:-99999px;top:0;width:600px;background:#c49dff;z-index:-1";
+    holder.innerHTML=card;document.body.appendChild(holder);
+    setTip("正在渲染长图,请稍候…");
+    try{
+      const canvas=await html2canvas(holder,{useCORS:true,backgroundColor:"#c49dff",scale:2,width:600,windowWidth:600,logging:false});
+      holder.remove();
+      canvas.toBlob(function(blob){
+        if(!blob){toast("生成长图失败");setTip("");return;}
+        const url=URL.createObjectURL(blob),a=document.createElement("a");
+        a.href=url;a.download=fname.replace(/\.html$/,".png");document.body.appendChild(a);a.click();a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),5000);
+        setTip("✓ 已导出长图 PNG(图片不含可点链接)");toast("已导出长图 PNG");
+      },"image/png");
+    }catch(e){holder.remove();toast("生成长图失败:"+e.message);setTip("");}
   }else{
     const w=window.open("","_blank");if(!w){toast("请允许弹窗后再导出 PDF");return;}
     let card=html;
