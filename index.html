@@ -5085,10 +5085,23 @@ function radarClearSel(){
   const cnt=$("#rd-selcnt");if(cnt)cnt.textContent="";
 }
 const RD_RPT_ASSET="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/assets/report/";
+function rdIsDraft(r){return /草案|征求意见|征询|提案|拟议|审议|研究|计划|咨询|立法预告|proposal|draft/i.test((r&&r.stage)||"");}
+/* 阶段/截止小标签:草案=琥珀色、已生效/发布=绿色;若摘要里含"截止YYYY-MM-DD"再补一枚⏳截止标签,让在途状态更醒目 */
+function rdRptBadges(r){
+  const draft=rdIsDraft(r);
+  const bg=draft?"#f6c343":"#4fae7a",fg=draft?"#3a2c00":"#ffffff";
+  const label=esc((r&&r.stage)||(draft?"草案":"更新"));
+  let dl="";
+  const m=((r&&r.summary)||"").match(/(?:公众评论截止|评论截止|意见截止|征求意见截止|截止)\s*(\d{4}-\d{2}-\d{2})/);
+  if(m)dl=`<span style="display:inline-block;background:#ffe1e1;color:#a11122;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin:0 6px 8px 0">⏳ 截止 ${m[1]}</span>`;
+  return `<div style="margin:0 0 8px">`+
+    `<span style="display:inline-block;background:${bg};color:${fg};font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin:0 6px 8px 0">${label}</span>`+dl+`</div>`;
+}
 function rdRptItemBlock(r,first){
   const btn=`<a href="https://new.1clicktong.com/" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em;margin-top:2px">查看原文 Read More →</a>`;
   const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
   return `<tr><td style="padding:${first?"0":"16px"}px 0px 16px">
+    ${rdRptBadges(r)}
     <div dir="ltr" style="color:#ffffff;font-size:18.7px;font-weight:700;letter-spacing:-0.04em;white-space:pre-wrap;line-height:1.25;margin-bottom:8px">${esc(r.title||"")}</div>
     <div dir="ltr" style="color:#1f2329;font-size:14px;letter-spacing:-0.02em;white-space:pre-wrap;line-height:17.6px;margin-bottom:6px">${esc(r.summary||"")}</div>
     <div dir="ltr" style="color:rgba(255,255,255,.72);font-size:11px;letter-spacing:-0.01em;margin-bottom:12px">${meta}</div>
@@ -5108,6 +5121,7 @@ function rdRptTeaser(r){
   else if(s.length>100)s=s.slice(0,100);
   s=s.replace(/[\s，、,]+$/,"")+" …";
   return `<tr><td style="padding:16px 0px 16px">
+    ${rdRptBadges(r)}
     <div dir="ltr" style="color:#ffffff;font-size:18.7px;font-weight:700;letter-spacing:-0.04em;white-space:pre-wrap;line-height:1.25;margin-bottom:8px">${esc(r.title||"")}</div>
     <div dir="ltr" style="color:#1f2329;font-size:14px;letter-spacing:-0.02em;white-space:pre-wrap;line-height:17.6px;margin-bottom:6px">${esc(s)}</div>
     <div dir="ltr" style="color:rgba(255,255,255,.72);font-size:11px;letter-spacing:-0.01em;margin-bottom:12px">${meta}</div>
@@ -5136,7 +5150,9 @@ function radarBuildReportHtml(items,opts){
   const spotlightHtml=spotlight?rdRptItemBlock(spotlight,true):"";
   const updatesHtml=published.length?rdRptDivider("divider-updates.jpg","In the News · 本期法规更新")+published.map(rdRptTeaser).join(""):"";
   const draftsHtml=drafts.length?rdRptDivider("divider-drafts.jpg","Drafts & Proposal Tracking · 草案跟踪")+drafts.map(rdRptTeaser).join(""):"";
-  const introDefault=`欢迎阅读 <b>一点通 · 全球汽车法规雷达月报${monthCN?" "+esc(monthCN)+"刊":""}</b>。本期 <b>法规聚焦(Spotlight)</b>:${esc((spotlight&&spotlight.title)||"")}。<b>本期法规更新</b>精选 ${published.length} 条、<b>草案跟踪</b> ${drafts.length} 条;全月共监测到 <b>${totalN}</b> 条覆盖 <b>${countsArr.length}</b> 个国家/地区的准入类法规更新 —— 完整数字见文末,原文详见一点通法规库。`;
+  const pubNames=published.slice(0,3).map(r=>esc(r.title)).join("、");
+  const draftNames=drafts.slice(0,3).map(r=>esc(r.title)).join("、");
+  const introDefault=`欢迎阅读 <b>一点通 · 全球汽车法规雷达月报${monthCN?" "+esc(monthCN)+"刊":""}</b>。本期 <b>法规聚焦(Spotlight)</b>:${esc((spotlight&&spotlight.title)||"")}。<b>本期法规更新</b>精选 ${published.length} 条${pubNames?"("+pubNames+"等)":""};<b>草案跟踪</b>另收 ${drafts.length} 条在途草案${draftNames?"("+draftNames+"等)":""}。全月共监测到 <b>${totalN}</b> 条覆盖 <b>${countsArr.length}</b> 个国家/地区的准入类法规更新 —— 完整数字见文末,原文详见一点通法规库。`;
   const intro=opts.intro||introDefault;
   const introHtml=`<tr><td style="padding:0px 24px 18px;font-family:Arial,Helvetica,sans-serif"><div dir="ltr" style="color:#2a2f3a;font-size:14px;line-height:1.75;letter-spacing:-0.01em">${intro}</div></td></tr>`;
   return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title></head>
