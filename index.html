@@ -1005,6 +1005,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" onclick="radarClearSel()">清空勾选</button>
         <span style="flex:1"></span>
         <button class="btn primary" onclick="radarGenerateReport()">🗞 生成月报(勾选条目,按邮件模板样式)</button>
+        <button class="btn light" onclick="copyMonthlyReportPrompt()" title="复制一段月报生成指令,粘贴给 Claude → 它联查法规雷达当月更新,按本模板与详略/排版规则产出月报 HTML 文件">📋 复制月报生成指令</button>
+        <span id="rd-rpt-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
       <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
       <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:点「📋 复制采集指令」→ 粘贴到 Claude 对话发送 → 我联网搜集并给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
@@ -5217,6 +5219,55 @@ function radarGenerateReport(){
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   window.open(url,"_blank");
   setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+/* 一键复制「月报生成指令」:把本项目沉淀的月报口径/结构/详略/排版规则固化为 prompt,粘贴给 Claude 即可产出与本模板一致的月报 */
+function copyMonthlyReportPrompt(){
+  const now=new Date();
+  const pm=new Date(now.getFullYear(),now.getMonth()-1,1);
+  const ym=pm.getFullYear()+"-"+String(pm.getMonth()+1).padStart(2,"0");
+  const ymCN=pm.getFullYear()+"年"+(pm.getMonth()+1)+"月";
+  const prompt=
+`# 任务:生成「汽车法规雷达 · 月报」(目标月份:${ym} —— 如需换月,直接改这里)
+
+请联查团队法规库,产出一份与既有模板、详略与排版完全一致的当月月报 HTML 文件。**禁止编造法规编号/条款/日期**——查不到就不写;末尾的更新数字必须真实。
+
+## 一、数据源与口径
+- Supabase 项目 project_id = nxiyifglhycvbrccbdhg,表 reg_radar。
+- **本月纳入口径**:pub_date 或 effective_date 命中目标月(SQL: pub_date ~ '${ym}' OR effective_date ~ '${ym}'),满足其一即算本月。
+- 常用字段:region,country,agency,title,summary,stage,topics,dims,pub_date,effective_date,status,source_name,note。
+- status='待确认' 的条目若被引用,正文里标注「未核实情报」;能不用则优先用「已确认」的。
+
+## 二、末尾「真实更新数字」(硬性)
+- 按国家/地区统计**当月真实条数**,列成「国家 - N 条更新」。
+- 合并「UNECE」与「联合国UNECE」为「联合国 UNECE」;「美国」与「美国(加州)」分开列(仿 InterRegs 的 US-Federal / California)。
+- 合计条数与覆盖国家数必须与库中一致,**不得凑数或编造**。
+
+## 三、结构与详略(仿 InterRegs Update Bulletin)
+1. **导语 Welcome**:一段总览,点名本期 Spotlight、本期法规更新与草案各几条、全月共 X 条覆盖 Y 个国家/地区。
+2. **法规聚焦 Spotlight**:只挑 1 条最吸睛(优先对中国车企出海影响最大/传播力最强)的,写 2–3 段深挖(法律定位、影响、与国际/既有法规的衔接落点)。
+3. **本期法规更新**:精选约 6 条「已发布/已生效/通过」的,**每条写足一整段**(≈120–240 字:文号+做了什么+适用范围+关键日期),少而精 —— 不要一句带过,也不要把当月所有条目全部罗列。
+4. **草案跟踪**:精选约 4 条「草案/征求意见/立法预告」在途项,同样每条一整段;含截止日的会自动显示「⏳ 截止 日期」标签。
+5. **末尾真实数字**:即第二节的国家/地区清单。
+
+## 四、写作规则
+- 每个精选条目一整段,信息密度对齐 InterRegs;不做「一句话+…」式截断。
+- Spotlight 与资讯的 stage 要能区分草案/已发布(模板据此自动上「阶段彩标」:草案琥珀、已生效绿)。
+- 不臆造:编号、条款、日期只写库里/官方确有的。
+
+## 五、渲染与交付(复用本项目现成生成器,保证模板/排版一致)
+- 本仓库 index.html 内已有月报生成器 radarBuildReportHtml(items, opts) 及配套函数(rdIndentPara / rdIsDraft / rdRptBadges / rdRptItemBlock / rdRptDivider / rdRptTeaser)。它已内置:1ClickTong Canva 模板(cover / 三张 divider / logo / CTA / 页脚)、蓝紫渐变块布局、阶段与⏳截止彩标、正文段落**首行缩进两字符**、末尾统计**整体右移两字符**。**不要改模板图片/CTA/页脚/字体。**
+- 做法:从 index.html 抽取上述函数,在 node 里用你的数据调用,写出 HTML 文件(参照历史做法:抽取 'const RD_RPT_ASSET=' 到 'function radarGenerateReport' 这段 eval 后调用)。
+- 入参:
+  - items = [spotlight, ...约6条更新, ...约4条草案];数组第 1 个即 Spotlight。每个对象为 {region, country, agency, title, summary, stage, pub_date}(summary 为你写的整段正文;Spotlight 可用 \\n 分多段,每段会自动首行缩进)。
+  - opts = { intro: 导语HTML串(可含<b>), counts: [[国家,条数]…] 真实统计, monthCN: '${ymCN}', newsCount: 6, draftCount: 4 }。
+- 输出:一份独立 HTML 文件(文件名含月份,如 法规雷达月报_${ym}.html),用发送文件的方式给我 —— 不要只在对话里贴大段文字。
+
+## 六、流程
+先查库 → 给我 **Spotlight 选题 + 本期更新/草案精选清单(每条标题 + 一句话)** 让我确认 → 我 OK 后你再写各条整段正文、算好真实数字、生成并发文件。`;
+  const tip=$("#rd-rpt-tip");
+  const done=()=>{if(tip){tip.textContent="✓ 已复制,粘贴给 Claude 发送即可";setTimeout(()=>{if(tip)tip.textContent="";},6000);}toast("已复制月报生成指令");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+  else{cmpFallbackCopy(prompt);done();}
 }
 /* 非PDF直链来源:一键复制检索词,自行去搜索引擎找官方PDF。
    优先用当地语言检索词 search_kw(法规原文名/编号+主管机构原文名);缺失时回退到中文国家+机构+标题 */
