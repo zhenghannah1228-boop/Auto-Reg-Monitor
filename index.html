@@ -5171,7 +5171,8 @@ function radarBuildReportHtml(items,opts){
   const introDefault=`欢迎阅读 <b>一点通 · 全球汽车法规雷达月报${monthCN?" "+esc(monthCN)+"刊":""}</b>。本期 <b>法规聚焦(Spotlight)</b>:${esc((spotlight&&spotlight.title)||"")}。<b>本期法规更新</b>精选 ${published.length} 条${pubNames?"("+pubNames+"等)":""};<b>草案跟踪</b>另收 ${drafts.length} 条在途草案${draftNames?"("+draftNames+"等)":""}。全月共监测到 <b>${totalN}</b> 条覆盖 <b>${countsArr.length}</b> 个国家/地区的准入类法规更新 —— 完整数字见文末,原文详见一点通法规库。`;
   const intro=opts.intro||introDefault;
   const introHtml=`<tr><td style="padding:0px 24px 18px;font-family:Arial,Helvetica,sans-serif"><div dir="ltr" style="color:#2a2f3a;font-size:14px;line-height:1.75;letter-spacing:-0.01em;text-indent:2em">${intro}</div></td></tr>`;
-  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title></head>
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title>
+<style>*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}@page{margin:10mm}</style></head>
 <body style="width:100%;-webkit-text-size-adjust:100%;background-color:#f0f1f5;margin:0;padding:0">
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f1f5" style="background-color:#f0f1f5"><tbody><tr><td style="background-color:#f0f1f5">
 <table align="center" width="600" border="0" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background-color:#c49dff;width:600px;min-width:280px">
