@@ -1010,7 +1010,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
         <span style="font-size:11px;color:var(--muted)">📚 已归档月报(定稿存档,查看/导出/打印):</span>
-        <a class="btn light" href="./reports/radar-monthly-2026-06.html" target="_blank" rel="noopener" style="text-decoration:none">📄 2026 年 6 月刊</a>
+        <a class="btn light" href="./reports/radar-monthly-2026-06.html" target="_blank" rel="noopener" style="text-decoration:none" title="在新标签打开查看">📄 2026 年 6 月刊</a>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','html')" title="下载该月报的 HTML 文件">⬇ 导出 HTML</button>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','pdf')" title="打开打印视图,在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
         <button class="btn light" onclick="rdCopyReportLink('reports/radar-monthly-2026-06.html')" title="复制该月报的线上链接,便于转发/分享">🔗 复制链接</button>
         <span id="rd-arch-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
@@ -5225,6 +5227,27 @@ function radarGenerateReport(){
   document.body.appendChild(a);a.click();document.body.removeChild(a);
   window.open(url,"_blank");
   setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+/* 导出已归档月报:fmt='html' 下载 .html;fmt='pdf' 打开打印视图供「另存为 PDF」。取当前站点的报告文件原样导出 */
+async function rdExportReport(path,fmt){
+  const tip=$("#rd-arch-tip");
+  const setTip=t=>{if(tip){tip.textContent=t;setTimeout(()=>{if(tip)tip.textContent="";},5000);}};
+  let html;
+  try{const res=await fetch(path);if(!res.ok)throw new Error("HTTP "+res.status);html=await res.text();}
+  catch(e){toast("读取报告失败:"+e.message+"(请在部署站点上导出)");return;}
+  const fname=path.split("/").pop().replace(/^radar-monthly-/,"法规雷达月报_");
+  if(fmt==="html"){
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download=fname;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    setTip("✓ 已导出 HTML");toast("已导出 "+fname);
+  }else{
+    const w=window.open("","_blank");if(!w){toast("请允许弹窗后再导出 PDF");return;}
+    const doc=html.replace(/<\/body>/i,'<script>window.onload=function(){setTimeout(function(){window.focus();window.print();},400);};<\/script></body>');
+    w.document.open();w.document.write(doc);w.document.close();
+    setTip("✓ 已打开打印视图,选「另存为 PDF」");toast("已打开打印视图");
+  }
 }
 /* 复制已归档月报的线上链接(优先用当前页所在目录推导,file:// 时回退到 Pages 地址) */
 function rdCopyReportLink(path){
