@@ -5115,11 +5115,15 @@ function rdRptDivider(imgName,alt){
 function rdRptTeaser(r){
   const btn=`<a href="https://new.1clicktong.com/" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em;margin-top:2px">查看原文 Read More →</a>`;
   const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
+  // 仿 InterRegs:展示完整一段;仅当摘要过长(>380字)才在句末截断并补 …,短摘要原样全展示
   let s=(r.summary||"").trim();
-  const cut=s.search(/[。；;.]/);
-  if(cut>=18&&cut<=100)s=s.slice(0,cut+1);
-  else if(s.length>100)s=s.slice(0,100);
-  s=s.replace(/[\s，、,]+$/,"")+" …";
+  const CAP=380;
+  if(s.length>CAP){
+    let t=s.slice(0,CAP);
+    const stop=Math.max(t.lastIndexOf("。"),t.lastIndexOf("；"),t.lastIndexOf("."));
+    if(stop>CAP*0.6)t=t.slice(0,stop+1);
+    s=t.replace(/[\s，、,]+$/,"")+" …";
+  }
   return `<tr><td style="padding:16px 0px 16px">
     ${rdRptBadges(r)}
     <div dir="ltr" style="color:#ffffff;font-size:18.7px;font-weight:700;letter-spacing:-0.04em;white-space:pre-wrap;line-height:1.25;margin-bottom:8px">${esc(r.title||"")}</div>
