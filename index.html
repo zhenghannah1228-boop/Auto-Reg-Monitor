@@ -5448,15 +5448,15 @@ async function loadTradeSources(){
   try{_tradeCustom=await sbFetchAll("trade_sources","*","order=created_at.asc");}
   catch(e){_tradeCustom=[];console.error("trade_sources",e);}
 }
-/* 合并内置默认源 + 团队自定义源(自定义项带 delId 供删除;同名分组会并入) */
+/* 合并团队自定义源 + 内置默认源:自定义源置顶(在前),内置在后;同名分组并入(留在置顶位) */
 function tbAllGroups(){
-  const groups=TB_SOURCES.map(g=>({g:g.group,items:g.items.map(i=>({name:i.name,url:i.url,note:i.note}))}));
-  const idx={};groups.forEach((g,k)=>idx[g.g]=k);
+  const groups=[],idx={};
+  const ensure=gn=>{if(idx[gn]==null){idx[gn]=groups.length;groups.push({g:gn,items:[]});}return groups[idx[gn]];};
   (_tradeCustom||[]).forEach(c=>{
     const gn=((c.group_name||"团队自定义源").trim())||"团队自定义源";
-    if(idx[gn]==null){idx[gn]=groups.length;groups.push({g:gn,items:[]});}
-    groups[idx[gn]].items.push({name:c.name,url:c.url,note:c.note||"",delId:c.id});
+    ensure(gn).items.push({name:c.name,url:c.url,note:c.note||"",delId:c.id});
   });
+  TB_SOURCES.forEach(g=>{const grp=ensure(g.group);g.items.forEach(i=>grp.items.push({name:i.name,url:i.url,note:i.note}));});
   return groups;
 }
 function tbarFlatUrls(){return tbAllGroups().flatMap(g=>g.items.map(i=>i.url));}
