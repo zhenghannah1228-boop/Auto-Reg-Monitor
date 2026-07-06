@@ -1054,6 +1054,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" onclick="tbarCopyAll()">📋 复制全部网址</button>
         <span id="tbar-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">
+        <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:6px">➕ 添加自定义源 <span class="hint" style="font-weight:400">存入团队库,全员可见</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <input id="ts-name" class="csel" style="min-width:180px;flex:2" placeholder="站名(必填,如 韩国关税厅)">
+          <input id="ts-url" class="csel" style="min-width:200px;flex:2" placeholder="网址(必填,可省略 https://)">
+          <input id="ts-group" class="csel" style="min-width:150px;flex:1" placeholder="分组(默认 团队自定义源)">
+          <input id="ts-note" class="csel" style="min-width:200px;flex:3" placeholder="说明(可选)">
+          <button class="btn primary" onclick="tbAddSource()">保存</button>
+        </div>
+      </div>
     </div>
     <div id="tbar-body"></div>
   </div>
@@ -5433,27 +5443,63 @@ const TB_SOURCES=[
    {name:"印度 CBIC(海关关税)",url:"https://www.cbic.gov.in",note:"印度海关关税通知(Customs Notifications)"},
  ]},
 ];
-function tbarFlatUrls(){return TB_SOURCES.flatMap(g=>g.items.map(i=>i.url));}
+let _tradeCustom=[];
+async function loadTradeSources(){
+  try{_tradeCustom=await sbFetchAll("trade_sources","*","order=created_at.asc");}
+  catch(e){_tradeCustom=[];console.error("trade_sources",e);}
+}
+/* 合并内置默认源 + 团队自定义源(自定义项带 delId 供删除;同名分组会并入) */
+function tbAllGroups(){
+  const groups=TB_SOURCES.map(g=>({g:g.group,items:g.items.map(i=>({name:i.name,url:i.url,note:i.note}))}));
+  const idx={};groups.forEach((g,k)=>idx[g.g]=k);
+  (_tradeCustom||[]).forEach(c=>{
+    const gn=((c.group_name||"团队自定义源").trim())||"团队自定义源";
+    if(idx[gn]==null){idx[gn]=groups.length;groups.push({g:gn,items:[]});}
+    groups[idx[gn]].items.push({name:c.name,url:c.url,note:c.note||"",delId:c.id});
+  });
+  return groups;
+}
+function tbarFlatUrls(){return tbAllGroups().flatMap(g=>g.items.map(i=>i.url));}
 function renderTbar(){
   const host=$("#tbar-body");if(!host)return;
   const q=(($("#tbar-q")&&$("#tbar-q").value)||"").trim().toLowerCase();
-  const groups=TB_SOURCES.map(g=>{
-    const items=g.items.filter(i=>!q||(i.name+" "+i.note+" "+i.url).toLowerCase().includes(q));
-    return {g:g.group,items};
-  }).filter(g=>g.items.length);
-  if(!groups.length){host.innerHTML='<div class="bigmsg">没有匹配的源</div>';return;}
+  const groups=tbAllGroups().map(g=>({g:g.g,items:g.items.filter(i=>!q||(i.name+" "+(i.note||"")+" "+i.url).toLowerCase().includes(q))})).filter(g=>g.items.length);
+  if(!groups.length){host.innerHTML='<div class="bigmsg">没有匹配的源(或团队库为空)</div>';return;}
   host.innerHTML=groups.map(g=>`<div class="card" style="margin-bottom:12px">
     <h3 style="font-size:14px">${esc(g.g)} <span class="hint">${g.items.length} 个</span></h3>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
     ${g.items.map(i=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)">
       <div style="flex:1;min-width:0">
-        <a href="${esc(i.url)}" target="_blank" rel="noopener" style="font-weight:600;color:var(--blue);text-decoration:none;font-size:13.5px">${esc(i.name)} ↗</a>
-        <div style="font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:2px">${esc(i.note)}</div>
+        <a href="${esc(i.url)}" target="_blank" rel="noopener" style="font-weight:600;color:var(--blue);text-decoration:none;font-size:13.5px">${esc(i.name)} ↗</a>${i.delId?' <span style="font-size:10px;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:0 5px">自定义</span>':''}
+        ${i.note?`<div style="font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:2px">${esc(i.note)}</div>`:''}
         <div style="font-size:10.5px;color:var(--muted);font-family:var(--mono);margin-top:2px;word-break:break-all">${esc(i.url)}</div>
       </div>
-      <button class="btn light" style="flex:none" onclick="tbarCopyOne('${esc(i.url)}')">复制</button>
+      <div style="flex:none;display:flex;flex-direction:column;gap:4px">
+        <button class="btn light" onclick="tbarCopyOne('${esc(i.url)}')">复制</button>
+        ${i.delId?`<button class="btn light" style="color:var(--accent)" title="删除该自定义源" onclick="tbDelSource('${esc(i.delId)}')">🗑</button>`:''}
+      </div>
     </div>`).join("")}
     </div></div>`).join("");
+}
+async function tbAddSource(){
+  const name=(($("#ts-name")&&$("#ts-name").value)||"").trim();
+  let url=(($("#ts-url")&&$("#ts-url").value)||"").trim();
+  if(!name||!url){toast("站名和网址必填");return;}
+  if(!/^https?:\/\//i.test(url))url="https://"+url;
+  const row={name,url,group_name:(($("#ts-group")&&$("#ts-group").value)||"").trim()||"团队自定义源",note:(($("#ts-note")&&$("#ts-note").value)||"").trim()};
+  try{
+    await sbInsert("trade_sources",[row]);
+    await loadTradeSources();renderTbar();
+    ["ts-name","ts-url","ts-group","ts-note"].forEach(id=>{const e=$("#"+id);if(e)e.value="";});
+    const t=$("#tbar-tip");if(t){t.textContent="✓ 已添加并共享给团队";setTimeout(()=>{if(t)t.textContent="";},3000);}
+    toast("自定义源已添加");
+  }catch(err){toast("添加失败:"+err.message);console.error(err);}
+}
+async function tbDelSource(id){
+  if(!confirm("删除这个自定义源?全团队都会看到删除结果。"))return;
+  try{await sbReq("DELETE","trade_sources?id=eq."+id,undefined,"return=minimal");
+    _tradeCustom=(_tradeCustom||[]).filter(x=>x.id!==id);renderTbar();toast("已删除");}
+  catch(err){toast("删除失败:"+err.message);}
 }
 function tbarCopyOne(url){
   const done=()=>{const t=$("#tbar-tip");if(t){t.textContent="✓ 已复制";setTimeout(()=>{if(t)t.textContent="";},2000);}toast("已复制:"+url);};
@@ -5461,7 +5507,7 @@ function tbarCopyOne(url){
   else{cmpFallbackCopy(url);done();}
 }
 function tbarCopyAll(){
-  const txt=TB_SOURCES.map(g=>g.group+"\n"+g.items.map(i=>i.name+" — "+i.url).join("\n")).join("\n\n");
+  const txt=tbAllGroups().map(g=>g.g+"\n"+g.items.map(i=>i.name+" — "+i.url).join("\n")).join("\n\n");
   const t=$("#tbar-tip");
   const done=()=>{if(t){t.textContent="✓ 已复制全部网址";setTimeout(()=>{if(t)t.textContent="";},3000);}toast("已复制全部贸易壁垒源网址");};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>{cmpFallbackCopy(txt);done();});}
@@ -5672,7 +5718,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-unece"){if(!_unece)loadUnece().then(renderUnece);else renderUnece();}
   if(t.dataset.p==="p-radar"){if(!_radar)loadRadar().then(renderRadar);else renderRadar();}
   if(t.dataset.p==="p-cyber"){cyberEnter();}
-  if(t.dataset.p==="p-tbar"){renderTbar();}
+  if(t.dataset.p==="p-tbar"){renderTbar();loadTradeSources().then(renderTbar);}
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
