@@ -621,6 +621,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-unece"><span class="tn">18</span>UNECE法规状态</div>
     <div class="tab" data-p="p-radar"><span class="tn">19</span>法规雷达</div>
     <div class="tab" data-p="p-cyber"><span class="tn">20</span>网络安全中心</div>
+    <div class="tab" data-p="p-tbar"><span class="tn">21</span>贸易壁垒源</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -1040,6 +1041,21 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div id="cy-src" style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.6;margin-top:6px"></div>
     </div>
     <div id="cyber-body"><div class="bigmsg">正在载入 网络安全中心…</div></div>
+  </div>
+
+  <div class="pane" id="p-tbar">
+    <div class="card">
+      <h3>贸易壁垒 · 补充线索源 <span class="hint">各类反贸易壁垒 / 技术性贸易措施(TBT)通报与关税/贸易救济平台,作为法规雷达扫录的补充来源</span></h3>
+      <div style="font-size:11.5px;color:var(--muted);line-height:1.7;font-family:var(--mono)">
+        用法:这些平台常比车辆技术监管门户更早暴露<b>关税/进口配额、反倾销反补贴、本地化率、TBT/SPS 通报、原产地/合格评定</b>等准入壁垒。
+        巡这些源发现线索后,回法规雷达点「📋 复制采集指令」→ 粘给 Claude 让其核实入库。可点站名直达;右侧「复制」拷网址。</div>
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="tbar-q" class="csel" style="min-width:220px;flex:1" placeholder="过滤:站名/说明/国家(如 TBT、巴西、反倾销)" oninput="renderTbar()">
+        <button class="btn light" onclick="tbarCopyAll()">📋 复制全部网址</button>
+        <span id="tbar-tip" style="font-size:11px;color:var(--accent)"></span>
+      </div>
+    </div>
+    <div id="tbar-body"></div>
   </div>
 
   <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
@@ -5385,6 +5401,72 @@ function exportRadarXlsx(){
   XLSX.writeFile(wb,"法规雷达_"+new Date().toISOString().slice(0,10)+".xlsx");
 }
 
+/* ================= 21 贸易壁垒 · 补充线索源 ================= */
+/* 各类反贸易壁垒/技术性贸易措施(TBT)通报与关税/贸易救济平台,供法规雷达巡源。要加站点在此数组追加即可。 */
+const TB_SOURCES=[
+ {group:"多边通报平台(TBT/SPS · 全球最早暴露技术壁垒)",items:[
+   {name:"WTO ePing(SPS&TBT 通报订阅)",url:"https://epingalert.org",note:"各国 TBT/SPS 技术法规草案通报,可按产品/国家订阅,汽车类壁垒最早出处"},
+   {name:"WTO TBT 信息管理系统(TBT IMS)",url:"https://tbtims.wto.org",note:"官方 TBT 通报/关注贸易问题(STC)检索库"},
+   {name:"WTO I-TIP Goods(货物贸易措施)",url:"https://i-tip.wto.org/goods",note:"关税、非关税措施、贸易救济一站检索"},
+   {name:"WTO 贸易救济(反倾销/反补贴/保障)",url:"https://www.wto.org/english/tratop_e/adp_e/adp_e.htm",note:"WTO 成员反倾销/反补贴措施通报"},
+ ]},
+ {group:"全球贸易措施监测(独立/多边)",items:[
+   {name:"Global Trade Alert(GTA)",url:"https://www.globaltradealert.org",note:"全球贸易干预措施独立数据库,含关税/本地化/出口管制,更新快"},
+   {name:"UNCTAD TRAINS / NTM",url:"https://trainsonline.unctad.org",note:"各国非关税措施(NTM)与关税数据"},
+   {name:"World Bank WITS",url:"https://wits.worldbank.org",note:"关税与贸易数据综合查询"},
+   {name:"ITC Market Access Map(macmap)",url:"https://www.macmap.org",note:"各国适用关税、配额、贸易救济、原产地规则"},
+ ]},
+ {group:"中国官方(出海监测必看)",items:[
+   {name:"中国技术性贸易措施网(TBT-SPS)",url:"http://www.tbt-sps.gov.cn",note:"海关总署;各国 TBT/SPS 通报中文摘译与预警"},
+   {name:"商务部贸易救济调查局 / 贸易救济信息网",url:"https://trb.mofcom.gov.cn",note:"国外对华及中国发起的反倾销/反补贴/保障措施"},
+   {name:"中国贸易救济信息网",url:"https://cacs.mofcom.gov.cn",note:"国别贸易投资环境、预警、案件库(CACS)"},
+   {name:"中国贸促会 CCPIT",url:"https://www.ccpit.org",note:"国别营商环境与贸易壁垒报告"},
+ ]},
+ {group:"主要市场 · 关税/贸易壁垒门户",items:[
+   {name:"欧盟 Access2Markets",url:"https://trade.ec.europa.eu/access-to-markets",note:"欧盟进口关税、规则、贸易壁垒申报(Single Entry Point)"},
+   {name:"欧盟贸易救济(TRON/调查)",url:"https://tron.trade.ec.europa.eu",note:"欧盟反倾销/反补贴调查(含对华电动车案)"},
+   {name:"美国 USTR(NTE 国别贸易壁垒报告)",url:"https://ustr.gov/issue-areas/enforcement/national-trade-estimate-reports",note:"美国年度各国贸易壁垒评估"},
+   {name:"美国 BIS(出口管制/供应链)",url:"https://www.bis.gov",note:"ICTS 联网车、实体清单、出口管制"},
+   {name:"巴西 CAMEX/GECEX(MDIC)",url:"https://www.gov.br/mdic/pt-br/assuntos/camex",note:"巴西关税/配额决议(Resolução Gecex),CKD/SKD/CBU 税率"},
+   {name:"巴西官方公报 DOU(in.gov.br)",url:"https://www.in.gov.br",note:"GECEX/CAMEX 决议原文刊登处,核对文号用"},
+   {name:"印度 DGFT(对外贸易总局)",url:"https://www.dgft.gov.in",note:"进出口政策、本地化、配额、许可"},
+   {name:"印度 CBIC(海关关税)",url:"https://www.cbic.gov.in",note:"印度海关关税通知(Customs Notifications)"},
+ ]},
+];
+function tbarFlatUrls(){return TB_SOURCES.flatMap(g=>g.items.map(i=>i.url));}
+function renderTbar(){
+  const host=$("#tbar-body");if(!host)return;
+  const q=(($("#tbar-q")&&$("#tbar-q").value)||"").trim().toLowerCase();
+  const groups=TB_SOURCES.map(g=>{
+    const items=g.items.filter(i=>!q||(i.name+" "+i.note+" "+i.url).toLowerCase().includes(q));
+    return {g:g.group,items};
+  }).filter(g=>g.items.length);
+  if(!groups.length){host.innerHTML='<div class="bigmsg">没有匹配的源</div>';return;}
+  host.innerHTML=groups.map(g=>`<div class="card" style="margin-bottom:12px">
+    <h3 style="font-size:14px">${esc(g.g)} <span class="hint">${g.items.length} 个</span></h3>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+    ${g.items.map(i=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)">
+      <div style="flex:1;min-width:0">
+        <a href="${esc(i.url)}" target="_blank" rel="noopener" style="font-weight:600;color:var(--blue);text-decoration:none;font-size:13.5px">${esc(i.name)} ↗</a>
+        <div style="font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:2px">${esc(i.note)}</div>
+        <div style="font-size:10.5px;color:var(--muted);font-family:var(--mono);margin-top:2px;word-break:break-all">${esc(i.url)}</div>
+      </div>
+      <button class="btn light" style="flex:none" onclick="tbarCopyOne('${esc(i.url)}')">复制</button>
+    </div>`).join("")}
+    </div></div>`).join("");
+}
+function tbarCopyOne(url){
+  const done=()=>{const t=$("#tbar-tip");if(t){t.textContent="✓ 已复制";setTimeout(()=>{if(t)t.textContent="";},2000);}toast("已复制:"+url);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,()=>{cmpFallbackCopy(url);done();});}
+  else{cmpFallbackCopy(url);done();}
+}
+function tbarCopyAll(){
+  const txt=TB_SOURCES.map(g=>g.group+"\n"+g.items.map(i=>i.name+" — "+i.url).join("\n")).join("\n\n");
+  const t=$("#tbar-tip");
+  const done=()=>{if(t){t.textContent="✓ 已复制全部网址";setTimeout(()=>{if(t)t.textContent="";},3000);}toast("已复制全部贸易壁垒源网址");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>{cmpFallbackCopy(txt);done();});}
+  else{cmpFallbackCopy(txt);done();}
+}
 /* ================= 20 汽车网络安全合规中心(维度6) ================= */
 let _cyHub=null,_cyAssess={},_cyAll=[],_cyProfile="团队基线",_cyProfiles=["团队基线"],_cyLoadedAssess=false,_cyView="assess",_cyChart=null;
 async function loadCyberHub(){if(_cyHub)return _cyHub;const r=await fetch("./data/cyber_hub.json");_cyHub=await r.json();return _cyHub;}
@@ -5590,6 +5672,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-unece"){if(!_unece)loadUnece().then(renderUnece);else renderUnece();}
   if(t.dataset.p==="p-radar"){if(!_radar)loadRadar().then(renderRadar);else renderRadar();}
   if(t.dataset.p==="p-cyber"){cyberEnter();}
+  if(t.dataset.p==="p-tbar"){renderTbar();}
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
