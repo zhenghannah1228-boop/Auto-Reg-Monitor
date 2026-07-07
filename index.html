@@ -5044,8 +5044,8 @@ function rdStage(s){s=String(s||"");
   return{c:"#5a5f4e",b:"#ececea"};}
 /* 来源链接类型:pdf=.pdf直链;doc=官方文件下载端点(无.pdf后缀但点开即文件);news=新闻/门户页(需自查) */
 function rdSrcType(u){u=String(u||"");if(!u)return "";
-  if(/\.pdf(\?|#|$)/i.test(u)||/\/TXT\/PDF\/|[?&](format|type)=pdf/i.test(u)||/\/pdffile\/|\/file\/pdf|\/pdf\/aviso\/|[?&]eID=dumpFile|downloadJfile/i.test(u))return "pdf";
-  if(/wpfd_file|\/File\/Get\/|\/getmedia\/|\/download(\/|$|\?)|egazette|eli\/|viewDocument|\.docx?(\?|#|$)|adilet\.zan\.kz|zakon\.rada\.gov\.ua|law\.moj\.gov\.tw|pravo\.by/i.test(u))return "doc";
+  if(/\.pdf(\?|#|$)/i.test(u)||/\/TXT\/PDF\/|[?&](format|type)=pdf/i.test(u)||/\/pdffile\/|\/file\/pdf|\/pdf\/aviso\/|[?&]eID=dumpFile|downloadJfile|\/getattachment\//i.test(u))return "pdf";
+  if(/wpfd_file|\/File\/Get\/|\/getmedia\/|\/download(\/|$|\?)|egazette|eli\/|viewDocument|\.docx?(\?|#|$)|adilet\.zan\.kz|zakon\.rada\.gov\.ua|law\.moj\.gov\.tw|pravo\.by|nota_detalle|sidof\./i.test(u))return "doc";
   return "news";}
 /* 从自由文本日期(2026-07-07 / 2026-07 / 2026年7月 / 2025-2026 等)里取最早的 YYYY-MM,取不到返回"" */
 function rdMonthOf(s){s=String(s||"");
