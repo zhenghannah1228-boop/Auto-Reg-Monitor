@@ -1355,6 +1355,9 @@ const loose=s=>norm(s).replace(/[^0-9A-Z一-鿿]/g,"");
 const keyOf=r=>r.country+"|"+norm(r.regId||r.cnName);
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2800);}
+/* 时区统一 UTC+8:todayStr()=本地日期 YYYY-MM-DD;hm8(ts)=把存库的UTC时间戳按UTC+8显示为 HH:MM */
+function todayStr(){return new Date(Date.now()+288e5).toISOString().slice(0,10);}
+function hm8(ts){if(!ts)return"";const d=new Date(String(ts).replace(" ","T"));return isNaN(d.getTime())?String(ts).slice(11,16):new Date(d.getTime()+288e5).toISOString().slice(11,16);}
 
 $("#file").addEventListener("change",e=>handleFiles(e.target.files));
 $("#basefile").addEventListener("change",e=>{
@@ -1968,7 +1971,7 @@ async function _doDeleteRegs(ids,snapNote){
 
 /* ================= 快照/新增 ================= */
 function exportSnapshot(){
-  const snap={date:new Date().toISOString().slice(0,10),keys:recs().map(keyOf),
+  const snap={date:todayStr(),keys:recs().map(keyOf),
     names:Object.fromEntries(recs().map(r=>[keyOf(r),(r.regId||"")+" "+(r.cnName||"").slice(0,30)]))};
   const blob=new Blob([JSON.stringify(snap)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);
@@ -2605,7 +2608,7 @@ function exportRecon(){
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(matched.length?matched:[{说明:"无匹配"}]),"已匹配");
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(missing.length?missing:[{说明:"清单全部有文本"}]),"清单缺文本");
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(orphans.length?orphans:[{说明:"无孤儿文本"}]),"文本不在清单");
-  XLSX.writeFile(wb,"法规文本对账_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"法规文本对账_"+todayStr()+".xlsx");
   toast("对账结果已导出 Excel");
 }
 
@@ -2627,8 +2630,8 @@ function renderMemos(){
   if(!$("#memo-list"))return;
   fillMemoSelects();
   const fc=$("#memo-fcty").value,fs=$("#memo-fst").value;
-  const today=new Date().toISOString().slice(0,10);
-  const soon=new Date(Date.now()+7*86400e3).toISOString().slice(0,10);
+  const today=todayStr();
+  const soon=new Date(Date.now()+288e5+7*86400e3).toISOString().slice(0,10);
   const list=memos.filter(m=>(!fc||m.country===fc)&&(fs==="all"||(fs==="done"?m.done:!m.done)))
     .sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0)); // 置顶优先,组内保持服务端的创建时间倒序(稳定排序)
   $("#memo-list").innerHTML=list.length?list.map(m=>{
@@ -2836,7 +2839,7 @@ function exportTbd(){
   const csv="﻿国家,法规编号,法规名称,法规领域\n"+recsT.map(r=>
     [r.country,r.regId||"",(r.cnName||r.origName||""),(r.domain||"")].map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(",")).join("\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
-  a.download="待研判补数据清单_"+new Date().toISOString().slice(0,10)+".csv";a.click();
+  a.download="待研判补数据清单_"+todayStr()+".csv";a.click();
   toast("已导出 "+recsT.length+" 条待研判清单");
 }
 
@@ -3773,7 +3776,7 @@ function cmpFallbackCopy(t){try{const e=document.createElement("textarea");e.val
 function copyRadarPrompt(){
   const tip=$("#rd-prompt-tip");
   const scope=($("#rd-scope")&&$("#rd-scope").value.trim())||"";
-  const today=(new Date()).toISOString().slice(0,10);
+  const today=todayStr();
   const scopeLine=scope?`本次范围限定:${scope}。`:`本次为全维度扫射:覆盖所有主要汽车出口市场国别 + WTO TBT 汽车类通报 + 主题线(整车准入/ADAS/网络安全/排放/电池/EV补贴/射频/标签/注册监管/循环经济)。`;
   const prompt=
 `# 任务:汽车法规雷达 · 采集新发布信息(${today})
@@ -3969,7 +3972,7 @@ async function exportRegCompareXlsx(){
     X.utils.book_append_sheet(wb,ws,nm);
   });
   const sel=$("#cmp-deep-sel"),cur=sel?sel.value:"";
-  X.writeFile(wb,"深度对比_"+(cur||"全部")+"_"+new Date().toISOString().slice(0,10)+".xlsx");
+  X.writeFile(wb,"深度对比_"+(cur||"全部")+"_"+todayStr()+".xlsx");
   if(tip)tip.textContent="✓ 已导出 Excel(导读 + "+list.length+" 个明细表)";
 }
 function exportRegComparePrint(){
@@ -4023,7 +4026,7 @@ function exportRegComparePrint(){
     "@media print{section.top{page-break-before:auto}}";
   const w=window.open("","_cmpprint");
   if(!w){if(tip)tip.textContent="⚠ 请允许弹窗以导出 PDF";return;}
-  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>深度对比导出</title><style>'+css+'</style></head><body><h1>法规深度对比导出 · '+new Date().toISOString().slice(0,10)+'</h1>'+body+'<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},350);};</scr'+'ipt></body></html>');
+  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>深度对比导出</title><style>'+css+'</style></head><body><h1>法规深度对比导出 · '+todayStr()+'</h1>'+body+'<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},350);};</scr'+'ipt></body></html>');
   w.document.close();
   if(tip)tip.textContent="✓ 已打开打印窗口(选『另存为 PDF』)";
 }
@@ -4392,7 +4395,7 @@ function copyAdvisorPrompt(){
   const q=(($("#adv-q")&&$("#adv-q").value)||"").trim();
   const tip=$("#adv-prompt-tip");
   if(!q){if(tip){tip.textContent="⚠ 先在上面输入框写好问题,再点这个按钮";setTimeout(()=>{if(tip)tip.textContent="";},4000);}toast("请先输入问题");return;}
-  const today=(new Date()).toISOString().slice(0,10);
+  const today=todayStr();
   const prompt=
 `# 任务:汽车法规合规咨询 · 深度报告(${today})
 
@@ -4811,11 +4814,11 @@ function exportRecalls(){
     依据法规:r.reg_ref,条款:r.reg_clause,对标:(r.refs||[]).join(" "),维度:(r.dims||[]).map(i=>DIMS[i]).join("、"),
     处理:r.remedy,来源:r.source_url,备注:r.note}));
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),"召回案例");
-  XLSX.writeFile(wb,"召回案例_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"召回案例_"+todayStr()+".xlsx");
 }
 /* 一键复制「加拿大交通部 RSS 续抓」指令:RSS 有更新时,粘贴给 Claude 即可联网抓取→补全数量/处理措施→去重写入 recalls 表 */
 function copyRecallPrompt(){
-  const today=(new Date()).toISOString().slice(0,10);
+  const today=todayStr();
   const prompt=
 `# 任务:加拿大交通部召回 RSS 续抓 → 写入「16 召回案例」(${today})
 
@@ -4957,12 +4960,12 @@ function loadUnece(force){
   if(_unece&&!force)return Promise.resolve(_unece);
   if(_uneceP&&!force)return _uneceP;
   _uneceP=fetch("./data/unece_status.json"+(force?"?t="+Date.now():"")).then(r=>r.json()).then(d=>{
-    _unece=d;const ri=$("#un-ref");if(ri&&!ri.value)ri.value=new Date().toISOString().slice(0,10);return _unece;
+    _unece=d;const ri=$("#un-ref");if(ri&&!ri.value)ri.value=todayStr();return _unece;
   }).catch(()=>{_unece={regs:[]};return _unece;});
   return _uneceP;
 }
 function uneceFilter(f){_uneceFilter=f;["all","inforce","upcoming","recent"].forEach(k=>{const b=$("#unf-"+k);if(b)b.classList.toggle("on",k===f);});renderUnece();}
-function uneceRef(){return($("#un-ref")&&$("#un-ref").value)||new Date().toISOString().slice(0,10);}
+function uneceRef(){return($("#un-ref")&&$("#un-ref").value)||todayStr();}
 function uneceQ(){return((($("#un-q")&&$("#un-q").value)||"").trim().toLowerCase());}
 function uneceMatchReg(r,q){if(!q)return true;const n=q.replace(/^(un)?r/,""),no=(r.no||"").toLowerCase();
   if(no===q||no===n)return true;
@@ -5439,7 +5442,7 @@ function exportRadarXlsx(){
   rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.effective_date||"",r.status||"",r.confidence||"",r.tbt_no||"",({pdf:"PDF直链",doc:"官方文件",news:"非直链"}[rdSrcType(r.source_url||"")]||""),r.source_name||"",r.source_url||"",r.search_kw||"",r.note||""]));
   const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:10},{wch:8},{wch:8},{wch:16},{wch:9},{wch:18},{wch:40},{wch:30},{wch:24}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"法规雷达");
-  XLSX.writeFile(wb,"法规雷达_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"法规雷达_"+todayStr()+".xlsx");
 }
 
 /* ================= 21 贸易壁垒 · 补充线索源 ================= */
@@ -5561,7 +5564,7 @@ async function wlogAdd(){
   const content=(($("#wl-content")&&$("#wl-content").value)||"").trim();
   if(!content){toast("写一句就行 🙂");if($("#wl-content"))$("#wl-content").focus();return;}
   const row={
-    log_date:(($("#wl-date")&&$("#wl-date").value)||"")||new Date().toISOString().slice(0,10),
+    log_date:(($("#wl-date")&&$("#wl-date").value)||"")||todayStr(),
     category:_wlSelCat||(($("#wl-cat")&&$("#wl-cat").value)||"").trim(),
     author:(($("#wl-author")&&$("#wl-author").value)||"").trim(),
     content};
@@ -5582,8 +5585,8 @@ async function wlogDel(id){
   catch(err){toast("删除失败:"+err.message);}
 }
 function wlDayLabel(d){
-  const t=new Date().toISOString().slice(0,10);
-  const y=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  const t=todayStr();
+  const y=new Date(Date.now()+288e5-864e5).toISOString().slice(0,10);
   if(d===t)return"今天";if(d===y)return"昨天";return d;
 }
 function renderWlog(){
@@ -5593,13 +5596,13 @@ function renderWlog(){
   if(!rows.length){host.innerHTML='<div class="card"><div class="bigmsg">'+((_wlog&&_wlog.length)?'没有匹配的日志。':'还没有日志。上面写一句、回车,就记下了 👆')+'</div></div>';return;}
   const groups=[],idx={};
   rows.forEach(r=>{const d=r.log_date||"未标日期";if(idx[d]==null){idx[d]=groups.length;groups.push({d,items:[]});}groups[idx[d]].items.push(r);});
-  const today=new Date().toISOString().slice(0,10);
+  const today=todayStr();
   host.innerHTML=groups.map(g=>`<div class="card" style="margin-bottom:12px${g.d===today?';border-left:3px solid var(--accent)':''}">
     <div style="font-weight:700;font-size:13px;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px">${esc(wlDayLabel(g.d))} <span class="hint" style="font-weight:400">${g.d===today||wlDayLabel(g.d)==='昨天'?esc(g.d)+' · ':''}${g.items.length} 条</span></div>
     ${g.items.map(i=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line)">
       <div style="flex:1;min-width:0">
         ${i.category?`<span style="display:inline-block;background:var(--panel2);color:var(--blue);font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:9px;margin-right:6px">${esc(i.category)}</span>`:''}<span style="font-size:13px;color:var(--ink);white-space:pre-wrap;line-height:1.65">${esc(i.content)}</span>
-        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px">${i.author?esc(i.author)+' · ':''}${esc((i.created_at||'').slice(11,16))}</div>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px">${i.author?esc(i.author)+' · ':''}${esc(hm8(i.created_at))}</div>
       </div>
       <button class="btn light" style="flex:none;color:var(--accent)" title="删除该条" onclick="wlogDel('${esc(i.id)}')">🗑</button>
     </div>`).join("")}
@@ -5794,7 +5797,7 @@ function exportCyber(){
   const rows=[];_cyHub.domains.forEach(d=>d.items.forEach(it=>{const a=_cyAssess[it.key]||{};rows.push({域:d.name,条目:it.text,状态:_cyHub.meta.status_labels[a.status||0],依据:it.ref,备注:a.note||""});}));
   const ws=XLSX.utils.json_to_sheet(rows);ws["!cols"]=[{wch:16},{wch:50},{wch:10},{wch:22},{wch:30}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"网络安全自评");
-  XLSX.writeFile(wb,"网络安全自评_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"网络安全自评_"+todayStr()+".xlsx");
 }
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
@@ -5811,7 +5814,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-radar"){if(!_radar)loadRadar().then(renderRadar);else renderRadar();}
   if(t.dataset.p==="p-cyber"){cyberEnter();}
   if(t.dataset.p==="p-tbar"){renderTbar();loadTradeSources().then(renderTbar);}
-  if(t.dataset.p==="p-wlog"){const d=$("#wl-date");if(d&&!d.value)d.value=new Date().toISOString().slice(0,10);wlChips();loadWorkLogs().then(renderWlog);setTimeout(()=>{const c=$("#wl-content");if(c)c.focus();},60);}
+  if(t.dataset.p==="p-wlog"){const d=$("#wl-date");if(d&&!d.value)d.value=todayStr();wlChips();loadWorkLogs().then(renderWlog);setTimeout(()=>{const c=$("#wl-content");if(c)c.focus();},60);}
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
