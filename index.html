@@ -622,6 +622,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-radar"><span class="tn">19</span>法规雷达</div>
     <div class="tab" data-p="p-cyber"><span class="tn">20</span>网络安全中心</div>
     <div class="tab" data-p="p-tbar"><span class="tn">21</span>贸易壁垒源</div>
+    <div class="tab" data-p="p-wlog"><span class="tn">22</span>工作日志</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -1066,6 +1067,29 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       </div>
     </div>
     <div id="tbar-body"></div>
+  </div>
+
+  <div class="pane" id="p-wlog">
+    <div class="card">
+      <h3>工作日志 <span class="hint">随手记下每天零碎的工作;按日期归档,团队共享</span></h3>
+      <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--line)">
+        <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:6px">➕ 新增一条</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start">
+          <input id="wl-date" type="date" class="csel" style="min-width:150px">
+          <input id="wl-cat" class="csel" style="min-width:130px;flex:1" placeholder="分类(可选,如 采集/沟通/UI)">
+          <input id="wl-author" class="csel" style="min-width:110px;flex:1" placeholder="记录人(可选)">
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start;margin-top:8px">
+          <textarea id="wl-content" class="csel" style="min-width:260px;flex:4;min-height:56px;resize:vertical;font-family:inherit" placeholder="今天做了什么…(必填,支持多行;Ctrl+Enter 保存)"></textarea>
+          <button class="btn primary" onclick="wlogAdd()" style="align-self:stretch">保存</button>
+        </div>
+      </div>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="wl-q" class="csel" style="min-width:220px;flex:1" placeholder="过滤:内容/分类/日期/记录人" oninput="renderWlog()">
+        <span id="wl-tip" style="font-size:11px;color:var(--accent)"></span>
+      </div>
+    </div>
+    <div id="wlog-body"></div>
   </div>
 
   <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
@@ -5519,6 +5543,53 @@ function tbarCopyAll(){
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>{cmpFallbackCopy(txt);done();});}
   else{cmpFallbackCopy(txt);done();}
 }
+/* ================= 22 工作日志 ================= */
+let _wlog=[];
+async function loadWorkLogs(){
+  try{_wlog=await sbFetchAll("work_logs","*","order=log_date.desc,created_at.desc");}
+  catch(e){_wlog=[];console.error("work_logs",e);}
+}
+async function wlogAdd(){
+  const content=(($("#wl-content")&&$("#wl-content").value)||"").trim();
+  if(!content){toast("内容必填");return;}
+  const row={
+    log_date:(($("#wl-date")&&$("#wl-date").value)||"")||new Date().toISOString().slice(0,10),
+    category:(($("#wl-cat")&&$("#wl-cat").value)||"").trim(),
+    author:(($("#wl-author")&&$("#wl-author").value)||"").trim(),
+    content};
+  try{
+    await sbInsert("work_logs",[row]);
+    await loadWorkLogs();renderWlog();
+    if($("#wl-content"))$("#wl-content").value="";
+    if($("#wl-cat"))$("#wl-cat").value="";
+    const t=$("#wl-tip");if(t){t.textContent="✓ 已保存";setTimeout(()=>{if(t)t.textContent="";},2500);}
+    toast("日志已保存");
+  }catch(err){toast("保存失败:"+err.message);console.error(err);}
+}
+async function wlogDel(id){
+  if(!confirm("删除这条日志?团队都会看到删除结果。"))return;
+  try{await sbReq("DELETE","work_logs?id=eq."+id,undefined,"return=minimal");
+    _wlog=(_wlog||[]).filter(x=>x.id!==id);renderWlog();toast("已删除");}
+  catch(err){toast("删除失败:"+err.message);}
+}
+function renderWlog(){
+  const host=$("#wlog-body");if(!host)return;
+  const q=(($("#wl-q")&&$("#wl-q").value)||"").trim().toLowerCase();
+  const rows=(_wlog||[]).filter(r=>!q||((r.content||"")+" "+(r.category||"")+" "+(r.log_date||"")+" "+(r.author||"")).toLowerCase().includes(q));
+  if(!rows.length){host.innerHTML='<div class="card"><div class="bigmsg">'+((_wlog&&_wlog.length)?'没有匹配的日志。':'还没有日志。用上面「新增一条」记下今天的工作。')+'</div></div>';return;}
+  const groups=[],idx={};
+  rows.forEach(r=>{const d=r.log_date||"未标日期";if(idx[d]==null){idx[d]=groups.length;groups.push({d,items:[]});}groups[idx[d]].items.push(r);});
+  host.innerHTML=groups.map(g=>`<div class="card" style="margin-bottom:12px">
+    <div style="font-weight:700;font-size:13px;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px">${esc(g.d)} <span class="hint" style="font-weight:400">${g.items.length} 条</span></div>
+    ${g.items.map(i=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line)">
+      <div style="flex:1;min-width:0">
+        ${i.category?`<span style="display:inline-block;background:var(--panel2);color:var(--blue);font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:9px;margin-right:6px">${esc(i.category)}</span>`:''}<span style="font-size:12.5px;color:var(--ink);white-space:pre-wrap;line-height:1.6">${esc(i.content)}</span>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:2px">${i.author?esc(i.author)+' · ':''}${esc((i.created_at||'').slice(0,16).replace('T',' '))}</div>
+      </div>
+      <button class="btn light" style="flex:none;color:var(--accent)" title="删除该条" onclick="wlogDel('${esc(i.id)}')">🗑</button>
+    </div>`).join("")}
+  </div>`).join("");
+}
 /* ================= 20 汽车网络安全合规中心(维度6) ================= */
 let _cyHub=null,_cyAssess={},_cyAll=[],_cyProfile="团队基线",_cyProfiles=["团队基线"],_cyLoadedAssess=false,_cyView="assess",_cyChart=null;
 async function loadCyberHub(){if(_cyHub)return _cyHub;const r=await fetch("./data/cyber_hub.json");_cyHub=await r.json();return _cyHub;}
@@ -5725,10 +5796,12 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-radar"){if(!_radar)loadRadar().then(renderRadar);else renderRadar();}
   if(t.dataset.p==="p-cyber"){cyberEnter();}
   if(t.dataset.p==="p-tbar"){renderTbar();loadTradeSources().then(renderTbar);}
+  if(t.dataset.p==="p-wlog"){const d=$("#wl-date");if(d&&!d.value)d.value=new Date().toISOString().slice(0,10);loadWorkLogs().then(renderWlog);}
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
 (function(){const ai=$("#adv-q");if(ai)ai.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();askAdvisor();}});})();
+(function(){const wc=$("#wl-content");if(wc)wc.addEventListener("keydown",e=>{if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){e.preventDefault();wlogAdd();}});})();
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
 /* 给所有国家下拉加输入筛选(免滚动翻找);备忘的国家输入框本就是 datalist 可输入,跳过 */
