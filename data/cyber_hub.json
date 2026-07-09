@@ -26,6 +26,33 @@
       {"kpi": "SOP 前关闭渗透测试严重项", "l2": "<50%", "l3": ">90%", "l4": "100%", "l5": "100%+SOP 前红队"}
     ]
   },
+  "cockpit": {
+    "title": "证据—法规影响驾驶舱",
+    "subtitle": "工程证据驱动就绪度;法规矩阵仍是条款的事实来源。以下为团队可编辑的种子示例,数字仅示意。",
+    "kpis": [
+      {"key": "market", "label": "市场准入风险", "value": 60, "tone": "red", "note": "3 个法规族已映射"},
+      {"key": "gov", "label": "企业治理风险", "value": 65, "tone": "amber", "note": "NIS2 式治理视角(源自工程证据)"},
+      {"key": "eng", "label": "工程能力", "value": 92, "tone": "green", "note": "8 HARA / 6 TARA / 3 FTA 关联"},
+      {"key": "supplier", "label": "供应商网络风险", "value": 96, "tone": "red", "note": "6 个供应商 · 3 条高危 TARA 链"}
+    ],
+    "levels": [
+      {"key": "High", "label": "High 强证据"},
+      {"key": "Support", "label": "Support 支撑"},
+      {"key": "Medium", "label": "Medium 中等"},
+      {"key": "Trace", "label": "Trace 可追溯"}
+    ],
+    "cols": ["ISO 26262", "ISO 21434", "UN R155/R156", "NIS2", "ASPICE", "NCAP/ADAS", "CRA", "证据包"],
+    "rows": [
+      {"domain": "HARA", "desc": "安全危害分析证据", "cells": [{"level": "High", "pct": 86}, {"level": "Support", "pct": 71}, {"level": "Trace", "pct": 67}, null, {"level": "Support", "pct": 74}, {"level": "Medium", "pct": 69}, null, {"level": "Trace", "pct": 82}]},
+      {"domain": "TARA", "desc": "网络威胁与风险评估证据", "cells": [{"level": "Support", "pct": 63}, {"level": "High", "pct": 88}, {"level": "High", "pct": 84}, {"level": "Medium", "pct": 76}, {"level": "Trace", "pct": 66}, {"level": "Support", "pct": 59}, {"level": "Medium", "pct": 72}, {"level": "High", "pct": 81}]},
+      {"domain": "FTA / FMEA", "desc": "失效树 / 失效模式证据", "cells": [{"level": "High", "pct": 79}, {"level": "Trace", "pct": 58}, null, null, {"level": "Support", "pct": 70}, {"level": "Medium", "pct": 64}, null, {"level": "Support", "pct": 75}]},
+      {"domain": "SIL / HIL 测试", "desc": "集成与在环测试证据", "cells": [{"level": "High", "pct": 90}, {"level": "Support", "pct": 68}, {"level": "Support", "pct": 62}, null, {"level": "High", "pct": 83}, {"level": "Support", "pct": 71}, {"level": "Trace", "pct": 55}, {"level": "High", "pct": 88}]},
+      {"domain": "渗透测试", "desc": "安全渗透测试证据", "cells": [null, {"level": "High", "pct": 85}, {"level": "High", "pct": 80}, {"level": "Support", "pct": 67}, {"level": "Trace", "pct": 52}, {"level": "Medium", "pct": 60}, {"level": "Support", "pct": 69}, {"level": "High", "pct": 78}]},
+      {"domain": "SBOM / 供应链", "desc": "物料清单与供应链证据", "cells": [null, {"level": "Support", "pct": 64}, {"level": "Medium", "pct": 61}, {"level": "Support", "pct": 70}, {"level": "Trace", "pct": 57}, null, {"level": "High", "pct": 83}, {"level": "Support", "pct": 72}]},
+      {"domain": "现场监控 / VSOC", "desc": "车队检测与事件响应证据", "cells": [null, {"level": "Support", "pct": 66}, {"level": "High", "pct": 79}, {"level": "High", "pct": 82}, null, {"level": "Trace", "pct": 54}, {"level": "Support", "pct": 68}, {"level": "Medium", "pct": 63}]},
+      {"domain": "OTA / 更新", "desc": "软件更新与回滚证据", "cells": [{"level": "Trace", "pct": 56}, {"level": "Support", "pct": 70}, {"level": "High", "pct": 87}, null, {"level": "Support", "pct": 65}, null, {"level": "Medium", "pct": 62}, {"level": "High", "pct": 80}]}
+    ]
+  },
   "standards": [
     {
       "id": "UN R155", "name": "UNECE R155 — 网络安全与 CSMS", "region": "联合国 WP.29(签署国通行)", "dim": 6,

@@ -983,6 +983,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="card">
       <h3>汽车网络安全合规中心 <span class="hint">维度6 网络安全:把 R155/R156·ISO 21434·EU CRA·NIST PQC 的要点变成可操作的团队自查与速览 · 自评结果团队共享</span></h3>
       <div class="netctrl" style="flex-wrap:wrap">
+        <button class="btn light" id="cyv-cockpit" onclick="setCyView('cockpit')">🎯 影响驾驶舱</button>
         <button class="btn light primary" id="cyv-assess" onclick="setCyView('assess')">✅ 自查评估</button>
         <button class="btn light" id="cyv-std" onclick="setCyView('std')">📐 标准速览</button>
         <button class="btn light" id="cyv-case" onclick="setCyView('case')">🧪 案例库</button>
@@ -4894,8 +4895,9 @@ function renderCyber(){
   }
   const hbBar=$("#cy-hb-links");if(hbBar)hbBar.innerHTML=(_cyHub.meta.handbooks||[]).map(h=>
     '<a class="btn light" style="text-decoration:none" href="'+esc(h.pdf)+'" target="_blank" rel="noopener" title="'+esc(h.title)+'">📄 '+esc(h.short||"原手册")+'</a>').join("");
-  [["assess","cyv-assess"],["std","cyv-std"],["case","cyv-case"],["deep","cyv-deep"],["glos","cyv-glos"]].forEach(([v,id])=>{const b=$("#"+id);if(b)b.classList.toggle("primary",_cyView===v);});
-  if(_cyView==="assess")renderCyAssess(body);
+  [["cockpit","cyv-cockpit"],["assess","cyv-assess"],["std","cyv-std"],["case","cyv-case"],["deep","cyv-deep"],["glos","cyv-glos"]].forEach(([v,id])=>{const b=$("#"+id);if(b)b.classList.toggle("primary",_cyView===v);});
+  if(_cyView==="cockpit")renderCyCockpit(body);
+  else if(_cyView==="assess")renderCyAssess(body);
   else if(_cyView==="std")renderCyStd(body);
   else if(_cyView==="case")renderCyCase(body);
   else if(_cyView==="deep")renderCyDeep(body);
@@ -5033,6 +5035,101 @@ function exportCyber(){
   const ws=XLSX.utils.json_to_sheet(rows);ws["!cols"]=[{wch:16},{wch:50},{wch:10},{wch:22},{wch:30}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"网络安全自评");
   XLSX.writeFile(wb,"网络安全自评_"+new Date().toISOString().slice(0,10)+".xlsx");
+}
+
+/* ---- 影响驾驶舱(证据×法规):静态种子 + 团队在线编辑覆盖(cockpit_overrides 单行 id='team')---- */
+let _cockpitOv=null,_cockpitLoaded=false;
+async function loadCockpitOverride(){
+  try{const rows=await sbFetchAll("cockpit_overrides","data","id=eq.team");_cockpitOv=(rows[0]&&rows[0].data)||null;}
+  catch(e){console.error("cockpit ov",e);_cockpitOv=null;}
+  _cockpitLoaded=true;
+}
+function cockpitData(){return _cockpitOv||(_cyHub&&_cyHub.cockpit)||null;}
+const _CK_TONE={red:"#c6502a",amber:"#c79a2e",green:"#5a8a4a"};
+const _CK_LVL={High:["#f3d9d2","#a23b1f"],Support:["#d3e2ef","#2c5670"],Medium:["#f4e6bd","#7a5a10"],Trace:["#d9e8d1","#3d6b2c"]};
+function renderCyCockpit(body){
+  if(!_cockpitLoaded){body.innerHTML='<div class="card"><div class="bigmsg">正在载入驾驶舱…</div></div>';loadCockpitOverride().then(()=>renderCyCockpit(body));return;}
+  const cp=cockpitData();
+  if(!cp){body.innerHTML='<div class="card"><div class="bigmsg">驾驶舱数据缺失</div></div>';return;}
+  const edited=!!_cockpitOv;
+  let h='<div class="card"><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start">'+
+    '<div style="flex:1;min-width:260px"><div style="font-family:var(--serif);font-size:18px">'+esc(cp.title||"证据—法规影响驾驶舱")+
+    (edited?' <span class="rtag amd" title="驾驶舱已被团队在线修订,与发布版种子不同">团队修订</span>':"")+'</div>'+
+    '<div style="font-size:11.5px;color:var(--muted);margin-top:2px">'+esc(cp.subtitle||"")+'</div></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap">'+
+      '<button class="btn light" onclick="switchTab(\'p-dim\')" title="法规条款的事实来源">→ 维度矩阵(条款)</button>'+
+      '<button class="btn light" onclick="setCyView(\'assess\')" title="工程证据自查">→ 自查证据</button>'+
+      '<button class="btn light" onclick="openCockpitEdit()">✎ 编辑驾驶舱</button>'+
+      (edited?'<button class="btn light" onclick="restoreCockpit()" title="删除团队修订,恢复发布版种子">↺ 恢复默认</button>':"")+
+    '</div></div></div>';
+  // KPI 卡
+  h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:12px">';
+  (cp.kpis||[]).forEach(k=>{
+    const col=_CK_TONE[k.tone]||"var(--accent)",v=Math.max(0,Math.min(100,+k.value||0));
+    h+='<div class="card" style="margin:0"><div style="font-size:12px;color:var(--muted)">'+esc(k.label)+'</div>'+
+      '<div style="font-size:30px;font-weight:800;color:'+col+';line-height:1.1;margin:2px 0">'+v+'%</div>'+
+      '<div style="height:7px;border-radius:4px;background:var(--line);overflow:hidden;margin:4px 0 6px"><div style="height:100%;width:'+v+'%;background:'+col+'"></div></div>'+
+      '<div style="font-size:11px;color:var(--muted);font-family:var(--mono)">'+esc(k.note||"")+'</div></div>';
+  });
+  h+='</div>';
+  // 证据域影响矩阵
+  const cols=cp.cols||[];
+  h+='<div class="card"><h3 style="margin:0 0 2px;font-size:15px;font-family:var(--serif)">证据域影响矩阵 <span class="hint">按证据域×法规体系的置信度与百分比;非条款矩阵替代品</span></h3>'+
+    '<div style="overflow:auto"><table style="border-collapse:collapse;font-size:11.5px;min-width:'+(160+cols.length*92)+'px;margin-top:8px">'+
+    '<tr><th style="text-align:left;padding:6px 10px;border-bottom:2px solid var(--line);position:sticky;left:0;background:var(--panel)">证据域</th>'+
+    cols.map(c=>'<th style="padding:6px 8px;border-bottom:2px solid var(--line);white-space:nowrap">'+esc(c)+'</th>').join("")+'</tr>';
+  (cp.rows||[]).forEach(r=>{
+    h+='<tr style="border-top:1px solid var(--line)"><td style="padding:6px 10px;position:sticky;left:0;background:var(--panel)"><b>'+esc(r.domain)+'</b>'+
+      (r.desc?'<div style="font-size:10px;color:var(--muted)">'+esc(r.desc)+'</div>':"")+'</td>'+
+      (r.cells||[]).map(cell=>{
+        if(!cell||cell.level==null)return '<td style="padding:6px 8px;text-align:center;color:var(--faint)">–</td>';
+        const st=_CK_LVL[cell.level]||["#e5e2d8","#555"];
+        return '<td style="padding:6px 8px;text-align:center"><span style="display:inline-block;padding:2px 8px;border-radius:11px;font-size:10.5px;font-weight:600;background:'+st[0]+';color:'+st[1]+'" title="'+esc(cell.level)+'">'+esc(cell.level)+' '+(cell.pct!=null?cell.pct+"%":"")+'</span></td>';
+      }).join("")+'</tr>';
+  });
+  h+='</table></div>';
+  h+='<div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin-top:8px">图例:'+
+    (cp.levels||[]).map(l=>{const st=_CK_LVL[l.key]||["#e5e2d8","#555"];return '<span style="display:inline-block;padding:1px 8px;border-radius:11px;background:'+st[0]+';color:'+st[1]+';margin-right:6px">'+esc(l.label)+'</span>';}).join("")+
+    ' · 数字为团队维护的置信度示意,点「✎ 编辑驾驶舱」可整体修订(全团队共享)。</div></div>';
+  body.innerHTML=h;
+}
+function openCockpitEdit(){
+  const cp=cockpitData();if(!cp){toast("数据未载入");return;}
+  const bg=document.createElement("div");bg.className="modal-bg";
+  bg.addEventListener("click",e=>{if(e.target===bg)bg.remove();});
+  bg.innerHTML='<div class="modal" style="max-width:860px"><div class="modal-h"><b>编辑影响驾驶舱</b>'+
+    '<span style="margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--muted)">保存后全团队可见 · 不改动发布版种子,可随时恢复默认</span></div>'+
+    '<div class="modal-b" style="padding:12px 16px 16px">'+
+    '<div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-bottom:8px">'+
+    'JSON 字段:title、subtitle、kpis[{label,value(0-100),tone:red/amber/green,note}]、cols[]、levels[{key:High/Support/Medium/Trace,label}]、rows[{domain,desc,cells[]}]。<br>'+
+    '每行 cells 数量须等于 cols 数量;格子为 {level,pct} 或 null(留空显示"–")。</div>'+
+    '<textarea id="ck-ta" spellcheck="false" style="width:100%;min-height:360px;resize:vertical;font-family:var(--mono);font-size:11.5px;line-height:1.55;border:1px solid var(--line);border-radius:6px;padding:10px 12px;background:var(--paper);color:var(--ink);outline:none;box-sizing:border-box;white-space:pre"></textarea>'+
+    '<div style="display:flex;gap:10px;align-items:center;margin-top:10px;flex-wrap:wrap">'+
+    '<button class="btn" id="ck-save">保存(团队共享)</button><button class="btn light" id="ck-cancel">取消</button>'+
+    '<span id="ck-st" style="font-family:var(--mono);font-size:11px;color:var(--muted)"></span></div></div></div>';
+  document.body.appendChild(bg);
+  const ta=bg.querySelector("#ck-ta"),st=bg.querySelector("#ck-st");
+  ta.value=JSON.stringify(cp,null,2);
+  bg.querySelector("#ck-cancel").addEventListener("click",()=>bg.remove());
+  bg.querySelector("#ck-save").addEventListener("click",async()=>{
+    let d;
+    try{d=JSON.parse(ta.value);}catch(e){st.textContent="JSON 格式错误:"+e.message;st.style.color="var(--accent)";return;}
+    if(!d||typeof d!=="object"||Array.isArray(d)){st.textContent="顶层必须是对象";st.style.color="var(--accent)";return;}
+    if(!Array.isArray(d.kpis)||!Array.isArray(d.cols)||!Array.isArray(d.rows)){st.textContent="须包含 kpis / cols / rows 三个数组";st.style.color="var(--accent)";return;}
+    const bad=d.rows.find(r=>!Array.isArray(r.cells)||r.cells.length!==d.cols.length);
+    if(bad){st.textContent="每行 cells 数量须等于 cols 数量("+d.cols.length+"),问题行:"+esc(bad.domain||"?");st.style.color="var(--accent)";return;}
+    st.textContent="保存中…";st.style.color="var(--muted)";
+    try{
+      await sbUpsert("cockpit_overrides",[{id:"team",data:d,updated_at:new Date().toISOString()}],"id");
+      _cockpitOv=d;bg.remove();renderCyCockpit($("#cyber-body"));toast("驾驶舱已保存(全团队可见)");
+    }catch(err){st.textContent="保存失败:"+err.message;st.style.color="var(--accent)";console.error(err);}
+  });
+}
+async function restoreCockpit(){
+  if(!_cockpitOv)return;
+  if(!confirm("删除驾驶舱的团队修订,恢复为发布版种子?全团队都会看到回退结果。"))return;
+  try{await sbReq("DELETE","cockpit_overrides?id=eq.team",undefined,"return=minimal");_cockpitOv=null;renderCyCockpit($("#cyber-body"));toast("已恢复默认");}
+  catch(err){toast("恢复失败:"+err.message);console.error(err);}
 }
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
