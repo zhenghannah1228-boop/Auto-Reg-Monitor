@@ -1,2 +1,6 @@
 kanban_system/scripts/__pycache__/
 export/cert_map_interactive.html
+
+# Python 缓存
+__pycache__/
+*.pyc

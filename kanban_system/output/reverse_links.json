@@ -2872,5 +2872,53 @@
         "url": ""
       }
     ]
+  },
+  "GTR ADS 自动驾驶全球技术法规(ECE/TRANS/WP.29/GRVA/2026/2)": {
+    "reg_no": "GTR ADS 自动驾驶全球技术法规(ECE/TRANS/WP.29/GRVA/2026/2)",
+    "match_key": "GRVA/2026/2",
+    "region": "国际",
+    "country": "UNECE·多国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-061",
+        "title": "GTR ADS(联合国自动驾驶全球技术法规·ECE/TRANS/WP.29/GRVA/2026/2)vs 中国 GB 44721(智能网联汽车自动驾驶系统安全要求·报批稿)七维逐条对比 —「参考框架」vs「准入及格线」",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "GB 44721 智能网联汽车自动驾驶系统安全要求(报批稿·2026-06-03)": {
+    "reg_no": "GB 44721 智能网联汽车自动驾驶系统安全要求(报批稿·2026-06-03)",
+    "match_key": "GB 44721",
+    "region": "亚洲",
+    "country": "中国",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-061",
+        "title": "GTR ADS(联合国自动驾驶全球技术法规·ECE/TRANS/WP.29/GRVA/2026/2)vs 中国 GB 44721(智能网联汽车自动驾驶系统安全要求·报批稿)七维逐条对比 —「参考框架」vs「准入及格线」",
+        "type": "compare",
+        "url": ""
+      }
+    ]
+  },
+  "UN R157 ALKS 自动车道保持系统": {
+    "reg_no": "UN R157 ALKS 自动车道保持系统",
+    "match_key": "R157",
+    "region": "欧盟",
+    "country": "欧盟",
+    "in_library": false,
+    "library_hits": [],
+    "insights": [
+      {
+        "id": "INS-2026-061",
+        "title": "GTR ADS(联合国自动驾驶全球技术法规·ECE/TRANS/WP.29/GRVA/2026/2)vs 中国 GB 44721(智能网联汽车自动驾驶系统安全要求·报批稿)七维逐条对比 —「参考框架」vs「准入及格线」",
+        "type": "compare",
+        "url": ""
+      }
+    ]
   }
 }

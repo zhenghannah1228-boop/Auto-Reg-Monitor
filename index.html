@@ -25,12 +25,12 @@
 html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.55;
   -webkit-font-smoothing:antialiased;padding-bottom:90px}
-.wrap{max-width:1340px;margin:0 auto;padding:0 28px}
+.wrap{max-width:1560px;margin:0 auto;padding:0 28px}
 
 /* ============ masthead (dark band) ============ */
 .mast{background:var(--ink);color:var(--paper);position:sticky;top:0;z-index:50;
   box-shadow:0 2px 16px rgba(26,36,32,.25)}
-.mast .inner{max-width:1340px;margin:0 auto;padding:14px 28px;display:flex;
+.mast .inner{max-width:1560px;margin:0 auto;padding:14px 28px;display:flex;
   align-items:center;gap:22px;flex-wrap:wrap}
 .brand{display:flex;flex-direction:column;gap:1px;min-width:200px}
 .brand .eyebrow{font-family:var(--mono);font-size:9.5px;letter-spacing:.3em;
@@ -253,6 +253,11 @@ select.csel option{font-size:14px;font-family:var(--sans);background:var(--panel
 .cal-f button{font-size:12.5px;border:1px solid var(--line);background:var(--panel);color:var(--ink);
   border-radius:6px;padding:5px 12px;cursor:pointer}
 .cal-f button:hover{border-color:var(--accent);color:var(--accent)}
+.cal-mg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.cal-mc{text-align:center;font-size:14px;padding:12px 0;border-radius:6px;cursor:pointer;color:var(--ink)}
+.cal-mc:hover{background:var(--panel2)}
+.cal-mc.today{outline:1px solid var(--accent);outline-offset:-1px}
+.cal-mc.sel{background:var(--accent);color:#fff;font-weight:700}
 input.csel{font-family:var(--sans);font-size:14px;background:var(--panel);border:1px solid var(--line);
   padding:9px 14px;border-radius:6px;color:var(--ink);box-shadow:var(--shadow)}
 /* 国家下拉的「筛选」输入框(输入即收窄选项,免滚动翻找) */
@@ -616,6 +621,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-unece"><span class="tn">18</span>UNECE法规状态</div>
     <div class="tab" data-p="p-radar"><span class="tn">19</span>法规雷达</div>
     <div class="tab" data-p="p-cyber"><span class="tn">20</span>网络安全中心</div>
+    <div class="tab" data-p="p-tbar"><span class="tn">21</span>贸易壁垒源</div>
+    <div class="tab" data-p="p-wlog"><span class="tn">22</span>工作日志</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -886,6 +893,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         汇总相关法规、解读推文、认证体系并给出可点击跳转。问得越具体越准。</div>
       <div class="adv-eg" id="adv-eg"></div>
     </div>
+    <div class="card">
+      <h3>深度报告 <span class="hint">Claude 联查团队法规库编制的正式合规报告,可直接查看并一键导出(PDF / Word)</span></h3>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <select id="adv-rpt-sel" class="adv-input" style="max-width:560px;flex:1 1 340px"></select>
+        <button class="btn" onclick="advShowReport(advCurRpt())">查看</button>
+        <button class="btn light" onclick="advExportReportPdf(advCurRpt())" title="打开打印视图,在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
+        <button class="btn light" onclick="advExportReportWord(advCurRpt())" title="下载 .doc 文件,可用 Microsoft Word / WPS 打开编辑">⬇ 导出 Word</button>
+      </div>
+      <div id="adv-report-view" class="rpt-host" style="display:none;margin-top:12px"></div>
+    </div>
     <div id="adv-log" class="adv-log"><div class="bigmsg">问我点什么,例如上面的示例问题 ↑</div></div>
     <div class="adv-inbar">
       <input id="adv-q" class="adv-input" placeholder="输入问题,如:印度的充电电池法规有哪些?UN R171 哪些国家在用?中欧电池热失控差异?" autocomplete="off">
@@ -939,7 +956,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <h3>UNECE 法规状态 <span class="hint">ECE/TRANS/WP.29/343 · 1958 协定各 UN 法规增补的「通过(发布)/生效」日期 · 一键筛选现行 / 即将生效</span></h3>
       <div class="netctrl" style="flex-wrap:wrap">
         <input id="un-q" class="csel" style="min-width:230px" placeholder="搜法规号或名称,如 79 / R79 / 转向 / steering" oninput="renderUnece()">
-        <label style="font-size:12px;display:flex;align-items:center;gap:5px">基准日期 <input type="date" id="un-ref" class="csel" style="width:150px" onchange="renderUnece()"></label>
+        <label style="font-size:12px;display:flex;align-items:center;gap:5px">基准日期 <input type="text" readonly id="un-ref" class="csel calinput" style="width:150px;cursor:pointer" placeholder="yyyy-mm-dd" onchange="renderUnece()"></label>
         <span class="seg" style="display:inline-flex;gap:4px">
           <button class="btn light on" id="unf-all" onclick="uneceFilter('all',this)">全部</button>
           <button class="btn light" id="unf-inforce" onclick="uneceFilter('inforce',this)">现行(已生效)</button>
@@ -969,9 +986,39 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <button class="btn light" onclick="exportRadarXlsx()">⬇ 导出 Excel</button>
       </div>
       <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
+        <span style="font-size:11px;color:var(--muted)">发布日期</span>
+        <input type="text" readonly id="rd-pubfrom" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
+        <span style="font-size:11px;color:var(--muted)">至</span>
+        <input type="text" readonly id="rd-pubto" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
+        <span style="font-size:11px;color:var(--muted);margin-left:10px">生效日期</span>
+        <input type="text" readonly id="rd-efffrom" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
+        <span style="font-size:11px;color:var(--muted)">至</span>
+        <input type="text" readonly id="rd-effto" class="csel calmonth" style="width:130px;cursor:pointer" placeholder="yyyy-mm" onchange="renderRadar()">
+        <button class="btn light" onclick="['rd-pubfrom','rd-pubto','rd-efffrom','rd-effto'].forEach(id=>{if($('#'+id))$('#'+id).value='';});renderRadar()">清空日期筛选</button>
+      </div>
+      <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
         <input id="rd-scope" class="csel" style="min-width:300px;flex:1" placeholder="可选:限定范围(如「欧盟+东南亚」「ADAS/网安」「近30天发布」「横向准入类」);留空=全维度">
         <button class="btn primary" onclick="copyRadarPrompt()">📋 复制采集指令(粘贴给 Claude 即可开扫)</button>
         <span id="rd-prompt-tip" style="font-size:11px;color:var(--muted)"></span>
+      </div>
+      <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
+        <span id="rd-selcnt" style="font-size:11px;color:var(--muted);min-width:60px"></span>
+        <button class="btn light" onclick="radarSelectAllFiltered()">☑ 全选当前筛选</button>
+        <button class="btn light" onclick="radarClearSel()">清空勾选</button>
+        <span style="flex:1"></span>
+        <button class="btn primary" onclick="radarGenerateReport()">🗞 生成月报(勾选条目,按邮件模板样式)</button>
+        <button class="btn light" onclick="copyMonthlyReportPrompt()" title="复制一段月报生成指令,粘贴给 Claude → 它联查法规雷达当月更新,按本模板与详略/排版规则产出月报 HTML 文件">📋 复制月报生成指令</button>
+        <span id="rd-rpt-tip" style="font-size:11px;color:var(--accent)"></span>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
+        <span style="font-size:11px;color:var(--muted)">📚 已归档月报(定稿存档,查看/导出/打印):</span>
+        <a class="btn light" href="./reports/radar-monthly-2026-06.html" target="_blank" rel="noopener" style="text-decoration:none" title="在新标签打开查看">📄 2026 年 6 月刊</a>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','html')" title="下载该月报的 HTML 文件">⬇ 导出 HTML</button>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','pdf')" title="打开打印视图(仅月报卡片),在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','png')" title="导出为一张不断开的长图 PNG(位图不含可点链接;需要可点链接请用「导出 PDF」)">🖼 导出长图 PNG</button>
+        <button class="btn light" onclick="rdCopyPrintCmd()" title="复制一段控制台命令:在已打开的月报页面 F12→Console 粘贴回车,只打印这张月报卡片">🖨 复制打印指令</button>
+        <button class="btn light" onclick="window.open('reports/radar-monthly-2026-06.html','_blank','noopener')" title="在新标签打开该月报的 HTML 页面">🌐 打开 HTML</button>
+        <span id="rd-arch-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
       <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
       <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:点「📋 复制采集指令」→ 粘贴到 Claude 对话发送 → 我联网搜集并给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
@@ -996,6 +1043,55 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div id="cy-src" style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.6;margin-top:6px"></div>
     </div>
     <div id="cyber-body"><div class="bigmsg">正在载入 网络安全中心…</div></div>
+  </div>
+
+  <div class="pane" id="p-tbar">
+    <div class="card">
+      <h3>贸易壁垒 · 补充线索源 <span class="hint">各类反贸易壁垒 / 技术性贸易措施(TBT)通报与关税/贸易救济平台,作为法规雷达扫录的补充来源</span></h3>
+      <div style="font-size:11.5px;color:var(--muted);line-height:1.7;font-family:var(--mono)">
+        用法:这些平台常比车辆技术监管门户更早暴露<b>关税/进口配额、反倾销反补贴、本地化率、TBT/SPS 通报、原产地/合格评定</b>等准入壁垒。
+        巡这些源发现线索后,回法规雷达点「📋 复制采集指令」→ 粘给 Claude 让其核实入库。可点站名直达;右侧「复制」拷网址。</div>
+      <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <input id="tbar-q" class="csel" style="min-width:220px;flex:1" placeholder="过滤:站名/说明/国家(如 TBT、巴西、反倾销)" oninput="renderTbar()">
+        <button class="btn light" onclick="tbarCopyAll()">📋 复制全部网址</button>
+        <span id="tbar-tip" style="font-size:11px;color:var(--accent)"></span>
+      </div>
+      <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--line)">
+        <div style="font-size:12px;color:var(--ink);font-weight:600;margin-bottom:6px">➕ 添加自定义源 <span class="hint" style="font-weight:400">存入团队库,全员可见</span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <input id="ts-name" class="csel" style="min-width:180px;flex:2" placeholder="站名(必填,如 韩国关税厅)">
+          <input id="ts-url" class="csel" style="min-width:200px;flex:2" placeholder="网址(必填,可省略 https://)">
+          <input id="ts-group" class="csel" style="min-width:150px;flex:1" placeholder="分组(默认 团队自定义源)">
+          <input id="ts-note" class="csel" style="min-width:200px;flex:3" placeholder="说明(可选)">
+          <button class="btn primary" onclick="tbAddSource()">保存</button>
+        </div>
+      </div>
+    </div>
+    <div id="tbar-body"></div>
+  </div>
+
+  <div class="pane" id="p-wlog">
+    <div class="card">
+      <h3>工作日志 <span class="hint">随手记 · 越简单越容易坚持</span></h3>
+      <!-- 快速捕获:一个框搞定,回车即存 -->
+      <textarea id="wl-content" class="csel" style="width:100%;box-sizing:border-box;min-height:62px;resize:vertical;font-family:inherit;font-size:14px;line-height:1.6;padding:12px" placeholder="现在在做什么 / 刚做完什么…  ⏎ 回车存,Shift+⏎ 换行"></textarea>
+      <div id="wl-chips" style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center"></div>
+      <div style="margin-top:8px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <button class="btn primary" onclick="wlogAdd()" style="padding:7px 20px;font-size:14px">＋ 记一条</button>
+        <span id="wl-tip" style="font-size:12px;color:var(--accent);font-weight:600"></span>
+        <details style="margin-left:auto"><summary style="font-size:11px;color:var(--muted);cursor:pointer;list-style:none">⚙ 细节(可选)</summary>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+            <label style="font-size:11px;color:var(--muted)">日期 <input id="wl-date" type="date" class="csel" style="min-width:140px"></label>
+            <input id="wl-cat" class="csel" style="min-width:120px" placeholder="自定义分类">
+            <input id="wl-author" class="csel" style="min-width:100px" placeholder="记录人">
+          </div>
+        </details>
+      </div>
+      <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--line)">
+        <input id="wl-q" class="csel" style="width:100%;box-sizing:border-box" placeholder="🔍 过滤:内容 / 分类 / 日期 / 记录人" oninput="renderWlog()">
+      </div>
+    </div>
+    <div id="wlog-body"></div>
   </div>
 
   <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
@@ -1206,7 +1302,51 @@ function openCal(input){
     window.addEventListener("scroll",_calScroll,true);window.addEventListener("resize",closeCal);},0);
 }
 document.addEventListener("mousedown",e=>{const t=e.target.closest&&e.target.closest("input.calinput");
-  if(t){e.preventDefault();openCal(t);}},true);
+  if(t){e.preventDefault();closeMc();openCal(t);}},true);
+/* ===== 自绘月份选择器:替代原生 <input type=month> 弹层(法规雷达日期范围等),值仍为 YYYY-MM ===== */
+let _mcEl=null,_mcInput=null,_mcY=0;
+function closeMc(){if(!_mcEl)return;_mcEl.remove();_mcEl=null;_mcInput=null;
+  document.removeEventListener("mousedown",_mcOutside,true);
+  window.removeEventListener("scroll",_mcScroll,true);window.removeEventListener("resize",closeMc);}
+function _mcOutside(e){if(_mcEl&&!_mcEl.contains(e.target)&&e.target!==_mcInput)closeMc();}
+function _mcScroll(e){if(_mcEl&&(e.target===_mcEl||(e.target.nodeType===1&&_mcEl.contains(e.target))))return;closeMc();}
+function renderMc(){
+  if(!_mcEl)return;
+  const selStr=(_mcInput.value||"").match(/^\d{4}-\d{2}$/)?_mcInput.value:"";
+  const now=new Date();const tStr=now.getFullYear()+"-"+_calPad(now.getMonth()+1);
+  const mn=["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+  let cells="";
+  for(let m=0;m<12;m++){const ms=_mcY+"-"+_calPad(m+1);
+    const cls=["cal-mc"];if(ms===selStr)cls.push("sel");if(ms===tStr)cls.push("today");
+    cells+=`<div class="${cls.join(" ")}" data-m="${ms}">${mn[m]}</div>`;}
+  _mcEl.innerHTML=`<div class="cal-h"><button type="button" class="cal-nav" data-nav="-1">‹</button>`
+    +`<span class="cal-title">${_mcY} 年</span>`
+    +`<button type="button" class="cal-nav" data-nav="1">›</button></div>`
+    +`<div class="cal-mg">`+cells+`</div>`
+    +`<div class="cal-f"><button type="button" data-act="this">本月</button><button type="button" data-act="clear">清除</button></div>`;
+}
+function openMc(input){
+  if(_mcInput===input){closeMc();return;}
+  closeCal();closeMc();_mcInput=input;
+  const m=(input.value||"").match(/^(\d{4})-(\d{2})$/);const now=new Date();
+  _mcY=m?+m[1]:now.getFullYear();
+  const p=document.createElement("div");p.className="cal";document.body.appendChild(p);_mcEl=p;renderMc();
+  const r=input.getBoundingClientRect();
+  p.style.left=Math.max(8,Math.min(r.left,innerWidth-p.offsetWidth-8))+"px";
+  let top=r.bottom+4;if(top+p.offsetHeight>innerHeight-8)top=Math.max(8,r.top-4-p.offsetHeight);
+  p.style.top=top+"px";
+  p.addEventListener("mousedown",e=>{
+    const nav=e.target.closest("[data-nav]"),act=e.target.closest("[data-act]"),mo=e.target.closest(".cal-mc[data-m]");
+    if(nav){e.preventDefault();_mcY+=+nav.dataset.nav;renderMc();return;}
+    if(act){e.preventDefault();if(act.dataset.act==="this"){const n=new Date();_mcInput.value=n.getFullYear()+"-"+_calPad(n.getMonth()+1);}
+      else _mcInput.value="";_mcInput.dispatchEvent(new Event("change",{bubbles:true}));closeMc();return;}
+    if(mo){e.preventDefault();_mcInput.value=mo.dataset.m;_mcInput.dispatchEvent(new Event("change",{bubbles:true}));closeMc();return;}
+  });
+  setTimeout(()=>{document.addEventListener("mousedown",_mcOutside,true);
+    window.addEventListener("scroll",_mcScroll,true);window.addEventListener("resize",closeMc);},0);
+}
+document.addEventListener("mousedown",e=>{const t=e.target.closest&&e.target.closest("input.calmonth");
+  if(t){e.preventDefault();closeCal();openMc(t);}},true);
 document.addEventListener("mousedown",e=>{const s=e.target.closest&&e.target.closest("select.csel");
   if(s){e.preventDefault();openCDrop(s);try{s.focus();}catch(_){}}},true);
 document.addEventListener("keydown",e=>{const s=e.target.closest&&e.target.closest("select.csel");
@@ -1216,6 +1356,9 @@ const loose=s=>norm(s).replace(/[^0-9A-Z一-鿿]/g,"");
 const keyOf=r=>r.country+"|"+norm(r.regId||r.cnName);
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2800);}
+/* 时区统一 UTC+8:todayStr()=本地日期 YYYY-MM-DD;hm8(ts)=把存库的UTC时间戳按UTC+8显示为 HH:MM */
+function todayStr(){return new Date(Date.now()+288e5).toISOString().slice(0,10);}
+function hm8(ts){if(!ts)return"";const d=new Date(String(ts).replace(" ","T"));return isNaN(d.getTime())?String(ts).slice(11,16):new Date(d.getTime()+288e5).toISOString().slice(11,16);}
 
 $("#file").addEventListener("change",e=>handleFiles(e.target.files));
 $("#basefile").addEventListener("change",e=>{
@@ -1829,7 +1972,7 @@ async function _doDeleteRegs(ids,snapNote){
 
 /* ================= 快照/新增 ================= */
 function exportSnapshot(){
-  const snap={date:new Date().toISOString().slice(0,10),keys:recs().map(keyOf),
+  const snap={date:todayStr(),keys:recs().map(keyOf),
     names:Object.fromEntries(recs().map(r=>[keyOf(r),(r.regId||"")+" "+(r.cnName||"").slice(0,30)]))};
   const blob=new Blob([JSON.stringify(snap)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);
@@ -2466,7 +2609,7 @@ function exportRecon(){
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(matched.length?matched:[{说明:"无匹配"}]),"已匹配");
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(missing.length?missing:[{说明:"清单全部有文本"}]),"清单缺文本");
   XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(orphans.length?orphans:[{说明:"无孤儿文本"}]),"文本不在清单");
-  XLSX.writeFile(wb,"法规文本对账_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"法规文本对账_"+todayStr()+".xlsx");
   toast("对账结果已导出 Excel");
 }
 
@@ -2488,8 +2631,8 @@ function renderMemos(){
   if(!$("#memo-list"))return;
   fillMemoSelects();
   const fc=$("#memo-fcty").value,fs=$("#memo-fst").value;
-  const today=new Date().toISOString().slice(0,10);
-  const soon=new Date(Date.now()+7*86400e3).toISOString().slice(0,10);
+  const today=todayStr();
+  const soon=new Date(Date.now()+288e5+7*86400e3).toISOString().slice(0,10);
   const list=memos.filter(m=>(!fc||m.country===fc)&&(fs==="all"||(fs==="done"?m.done:!m.done)))
     .sort((a,b)=>(b.pinned?1:0)-(a.pinned?1:0)); // 置顶优先,组内保持服务端的创建时间倒序(稳定排序)
   $("#memo-list").innerHTML=list.length?list.map(m=>{
@@ -2697,7 +2840,7 @@ function exportTbd(){
   const csv="﻿国家,法规编号,法规名称,法规领域\n"+recsT.map(r=>
     [r.country,r.regId||"",(r.cnName||r.origName||""),(r.domain||"")].map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(",")).join("\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
-  a.download="待研判补数据清单_"+new Date().toISOString().slice(0,10)+".csv";a.click();
+  a.download="待研判补数据清单_"+todayStr()+".csv";a.click();
   toast("已导出 "+recsT.length+" 条待研判清单");
 }
 
@@ -3634,7 +3777,7 @@ function cmpFallbackCopy(t){try{const e=document.createElement("textarea");e.val
 function copyRadarPrompt(){
   const tip=$("#rd-prompt-tip");
   const scope=($("#rd-scope")&&$("#rd-scope").value.trim())||"";
-  const today=(new Date()).toISOString().slice(0,10);
+  const today=todayStr();
   const scopeLine=scope?`本次范围限定:${scope}。`:`本次为全维度扫射:覆盖所有主要汽车出口市场国别 + WTO TBT 汽车类通报 + 主题线(整车准入/ADAS/网络安全/排放/电池/EV补贴/射频/标签/注册监管/循环经济)。`;
   const prompt=
 `# 任务:汽车法规雷达 · 采集新发布信息(${today})
@@ -3643,19 +3786,27 @@ ${scopeLine}
 
 请联网搜集汽车【法规/标准/政策】的**实时更新**,流程是「你先给草稿 → 我确认 → 你再写入 Supabase」。**先不要写库**,先在对话里给出带来源的草稿清单等我确认。
 
+**默认每次采集都是全维度、全方向扫射,无需我指定方向**:主动把所有主要汽车出口市场国别、10 个维度主题线、以及所有横向壁垒源(化学品/有毒物质、关税与贸易措施、合格评定/装运前检验、数据与网络安全、能效强制)都挖到底。某个市场或角度暂时"薄",就**换检索词、换当地语言、换源(尤其 tab 21 的贸易壁垒源与驻外经商处)继续深挖**,并可多跑几轮搜索——**不要因为"净新增少"就停下来反问我要深挖哪个市场/方向**,尽量一轮就给全。
+
 ## 采集原则
 1. **要"近期发布"而非"早已生效"**:优先 2025–2026(尤其最近 1–2 个月)新**发布/公示/征求意见/通过**的项;不要只列早就生效的存量基线法规。
 2. **用当地语言直接搜一手官方门户**,别依赖泰测(ATIC)等二手月报(慢且常不准)。按市场用本国语言检索:韩 molit.go.kr、日 mlit.go.jp、巴西 gov.br、印度 morth/PIB、俄/欧亚 eaeunion.org、美 federalregister.gov、欧盟 EUR-Lex/europarl、英 gov.uk、海湾 GSO/SASO、各国标准局与交通部官网及当地新闻/推文。
-3. **横向准入类也要收**:不点名汽车、但实际卡整车或零部件/动力电池/电气件上市的法规——化学品(REACH/PFAS/RoHS/SVHC)、电池强制认证与循环经济(电池护照/EPR/再生材料)、合格评定与装运前检验(SONCAP/PVoC/SABER/CoC)、数据与网络安全横向法、能效/能耗强制。
-4. **挖小众、别只给大众头条**;长尾小市场若只有背景资料、无真正新发布项,宁可不收(保质量)。
-5. 跨国通用的(UNECE WP.29 / GTR / WTO TBT)单列国际/组织条目。
+3. **横向准入类也要收**:不点名汽车、但实际卡整车或零部件/动力电池/电气件上市的法规——化学品(REACH/PFAS/RoHS/SVHC)、电池强制认证与循环经济(电池护照/EPR/再生材料)、合格评定与装运前检验(SONCAP/PVoC/SABER/CoC)、数据与网络安全横向法、能效/能耗强制。**化学品/有毒物质检索不能只用欧盟词汇**(REACH/RoHS/SVHC 只是欧盟 ECHA 体系的说法):北美走完全不同的法律体系,须单独用当地术语检索——加拿大 CEPA 有毒物质清单(Prohibition of Certain Toxic Substances Regulations,主管 ECCC)、美国 TSCA(EPA)、加州 Prop 65(clear and reasonable warning,主管 OEHHA);其他法域也可能有自己的化学品警示/限用体系,勿假设 REACH 关键词能覆盖全球。
+4. **关税/进口税与贸易措施也要收**:直接影响整车/零部件/动力电池上市成本与准入的关税动作——进口税率/关税配额(含 CBU·CKD·SKD 分档)、反倾销/反补贴、原产地/本地化率(TKDN/LCR)、出口管制/供应链准入。这类由**各国贸易/关税主管机构**发布,渠道与车辆技术监管完全不同,须单独检索:巴西 CAMEX/GECEX(gov.br/mdic · DOU,如 Resolução Gecex)、印度 DGFT/财政部关税、欧盟 TARIC/贸易救济、GCC 秘书处、印尼(TKDN 本地化率)、泰国/越南、美国 USTR/BIS/关税。当地语言关键词:imposto de importação · cota · CKD/SKD · anti-dumping/antidumping · tariff quota · local content。
+5. **优先巡「贸易壁垒源」(监控台 tab 21)整页的源——含内置平台、团队自定义源、以及驻外经商处**。该页由团队维护、会随时增删,所以巡源前**先读一遍 tab 21(或直接查 Supabase 的 trade_sources 表)拿到当前完整源清单**,别只依赖下面写死的示例:
+   ① 多边/监测平台(示例,不限于此):WTO ePing、TBT IMS、Global Trade Alert、UNCTAD TRAINS、中国技术性贸易措施网(tbt-sps.gov.cn)、商务部贸易救济调查局、EU Access2Markets、美 USTR NTE、巴西 CAMEX/GECEX——技术性贸易壁垒/关税动作常在这里最早暴露;**「团队自定义源」里往往是你们最关心的渠道,务必逐个过一遍**。
+   ② **中国驻外经商处经贸新闻**(监控台 tab 21「中国驻外经商处·经贸新闻」分组已收录 90+ 国别站的准确网址,**直接去那一页取,不要自己拼路径**——各站新闻栏目不统一,有 jmxw / jmdt / jmyw / gzdt / xwbd / ydxw 等):这是**中文一手**汇总各国最新经贸、准入、关税、认证动态的渠道,适合按目标市场快速定位线索——**但只作发现线索用,入库前必须回到该国官方原文核实编号/日期,不能只凭经商处转述**。
+6. **挖小众、别只给大众头条**;长尾小市场若只有背景资料、无真正新发布项,宁可不收(保质量)。
+7. 跨国通用的(UNECE WP.29 / GTR / WTO TBT)单列国际/组织条目。
+8. **来源链接只收「PDF 直链」或「可打印的官方 HTML 原文」**:source_url 必须是 ① 能直接打开/下载的官方 PDF 直链(含 .pdf 结尾,或 lex.uz/pdffile、pravo.gov.ru/file/pdf、BORA /pdf/aviso、TYPO3 dumpFile、各部委 download 端点等官方下载链接),或 ② 官方一手 HTML 原文页且能在浏览器直接「打印成 PDF」留档(如各国法律库 adilet/rada/law.moj、官方公报详情页)。**新闻稿、门户列表、二手转述(含驻外经商处、律所/商会/媒体解读)一律不作为 source_url**——那类只作发现线索,须回官方原文取到 ①/② 之一再入库;两者都找不到的条目,把线索写进 search_kw 并注明「官方无直链」,宁缺毋滥、不用第三方顶替。
 
 ## 草稿每条须含字段
 - region(地区)/ country(国家或地区)/ agency(主管机构)
 - title(中文标题)/ summary(中文摘要 2–4 句,横向类须点明"为何影响汽车准入")
 - stage(阶段:草案/征求意见/已通过/已发布/已生效/即将生效 等)
 - topics(中文主题数组)/ dims(维度编号数组,见下)
-- **source_url(一手来源直链)/ source_name / pub_date(发布日期)/ confidence(你的置信度判断)**
+- **source_url(一手来源直链)/ source_name / pub_date(发布日期,格式尽量精确到 YYYY-MM-DD)/ confidence(你的置信度判断)**
+- **effective_date(生效/施行日期,与发布日期分开填,格式尽量精确到 YYYY-MM-DD;仍是草案/征求意见等未定生效日的留空,不要用发布日期顶替;分阶段生效的填最早一档并在summary里说明其余阶段)**
 - **search_kw(当地语言检索词:用该国官方语言写「法规原文名/编号 + 主管机构原文名」,供用户自行去本国搜索引擎找官方PDF;国际/欧盟类用英文)**
 - tbt_no(若为 WTO TBT 通报填编号,否则留空)
 
@@ -3663,7 +3814,7 @@ ${scopeLine}
 
 ## 我确认后,再写入 Supabase(此段你执行,我看草稿时先忽略)
 - 项目 project_id = nxiyifglhycvbrccbdhg,表 = reg_radar。
-- 列:collected_date(='${today}')、region、country、agency、title、summary、stage、topics(text[])、dims(int[])、tbt_no、source_url、source_name、pub_date(text)、search_kw(当地语言检索词)、confidence(='待核实')、status(='待确认')、note。
+- 列:collected_date(='${today}')、region、country、agency、title、summary、stage、topics(text[])、dims(int[])、tbt_no、source_url、source_name、pub_date(text,发布日期)、effective_date(text,生效日期,与pub_date分开填,没有就留空/null)、search_kw(当地语言检索词)、confidence(='待核实')、status(='待确认')、note。
 - note 约定:普通项填「采集·${today}」,横向准入类填「采集·${today}·横向准入」。
 - **去重**:与表中已有(同 country + 近似 title)重复的不再插入;**幂等**:同批用 \`delete from reg_radar where collected_date='${today}' and note like '采集·${today}%'\` 再 insert,避免重复落库。
 - 数组写法:topics 用 '{"a","b"}'::text[],dims 用 '{1,4}'::int[];文本里的英文单引号要转义。
@@ -3822,7 +3973,7 @@ async function exportRegCompareXlsx(){
     X.utils.book_append_sheet(wb,ws,nm);
   });
   const sel=$("#cmp-deep-sel"),cur=sel?sel.value:"";
-  X.writeFile(wb,"深度对比_"+(cur||"全部")+"_"+new Date().toISOString().slice(0,10)+".xlsx");
+  X.writeFile(wb,"深度对比_"+(cur||"全部")+"_"+todayStr()+".xlsx");
   if(tip)tip.textContent="✓ 已导出 Excel(导读 + "+list.length+" 个明细表)";
 }
 function exportRegComparePrint(){
@@ -3876,7 +4027,7 @@ function exportRegComparePrint(){
     "@media print{section.top{page-break-before:auto}}";
   const w=window.open("","_cmpprint");
   if(!w){if(tip)tip.textContent="⚠ 请允许弹窗以导出 PDF";return;}
-  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>深度对比导出</title><style>'+css+'</style></head><body><h1>法规深度对比导出 · '+new Date().toISOString().slice(0,10)+'</h1>'+body+'<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},350);};</scr'+'ipt></body></html>');
+  w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>深度对比导出</title><style>'+css+'</style></head><body><h1>法规深度对比导出 · '+todayStr()+'</h1>'+body+'<scr'+'ipt>window.onload=function(){setTimeout(function(){window.print();},350);};</scr'+'ipt></body></html>');
   w.document.close();
   if(tip)tip.textContent="✓ 已打开打印窗口(选『另存为 PDF』)";
 }
@@ -4245,7 +4396,7 @@ function copyAdvisorPrompt(){
   const q=(($("#adv-q")&&$("#adv-q").value)||"").trim();
   const tip=$("#adv-prompt-tip");
   if(!q){if(tip){tip.textContent="⚠ 先在上面输入框写好问题,再点这个按钮";setTimeout(()=>{if(tip)tip.textContent="";},4000);}toast("请先输入问题");return;}
-  const today=(new Date()).toISOString().slice(0,10);
+  const today=todayStr();
   const prompt=
 `# 任务:汽车法规合规咨询 · 深度报告(${today})
 
@@ -4284,6 +4435,155 @@ function copyAdvisorPrompt(){
   const done=()=>{if(tip){tip.textContent="✓ 已复制,粘贴到 Claude 对话发送即可";setTimeout(()=>{if(tip)tip.textContent="";},5000);}toast("已复制咨询指令");};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
+}
+
+/* ===== 15 合规咨询师 · 深度报告库(Claude 联查法规库编制,可查看/导出 PDF·Word) =====
+   报告正文由 Claude 逐条核对团队 Supabase 法规库(regulations/recalls/reg_radar)后编制,
+   编号/日期/条数均来自真实查询,库内缺数据处如实标注「收录缺口」。新报告追加到 ADV_REPORTS 即可。 */
+const RPT_CSS=
+'.rpt{font-family:"Songti SC","SimSun",Georgia,serif;color:#1a2420;background:#fcfbf6;max-width:900px;margin:0 auto;padding:26px 32px;line-height:1.72;font-size:14px}'
++'.rpt h1{font-size:22px;margin:0 0 4px;color:#1a2420;border-bottom:3px solid #c6502a;padding-bottom:8px}'
++'.rpt .sub{color:#6b6357;font-size:12px;font-family:ui-monospace,Menlo,Consolas,monospace;margin:6px 0 18px}'
++'.rpt h2{font-size:16px;margin:22px 0 8px;color:#c6502a;border-left:4px solid #c6502a;padding-left:9px}'
++'.rpt h3{font-size:13.5px;margin:14px 0 6px;color:#3a6b8a}'
++'.rpt p{margin:6px 0}.rpt ul{margin:6px 0 6px 2px;padding-left:20px}.rpt li{margin:4px 0}'
++'.rpt table{border-collapse:collapse;width:100%;margin:10px 0;font-size:12px}'
++'.rpt th,.rpt td{border:1px solid #d8d2c4;padding:6px 8px;text-align:left;vertical-align:top}'
++'.rpt th{background:#efe9db;font-weight:700}.rpt tr:nth-child(even) td{background:#f7f4ec}'
++'.rpt .tag{display:inline-block;font-size:11px;padding:1px 6px;border-radius:3px;font-family:ui-monospace,monospace;white-space:nowrap}'
++'.rpt .t-mand{background:#E2EFDA;color:#2f6b2f}.rpt .t-draft{background:#FFF2CC;color:#8a6d00}.rpt .t-void{background:#FCE4D6;color:#b23b1a}.rpt .t-ref{background:#D6E4F0;color:#2c5670}'
++'.rpt .warn{background:#fff4ef;border:1px solid #e6b8a6;border-left:4px solid #c6502a;padding:8px 12px;border-radius:4px;margin:10px 0}'
++'.rpt .muted{color:#6b6357}.rpt code{font-family:ui-monospace,monospace;background:#efe9db;padding:0 4px;border-radius:3px;font-size:12px}'
++'.rpt .note{font-size:11.5px;color:#6b6357;line-height:1.6}.rpt .lead{font-size:13px}'
++'.rpt-host{border:1px solid #d8d2c4;border-radius:6px;overflow:auto;max-height:72vh;background:#fcfbf6}';
+const RPT_PRINT_CSS='@page{margin:15mm}body{background:#fff;margin:0}.rpt{max-width:none;box-shadow:none}.rpt h2{page-break-after:avoid}.rpt table,.rpt tr{page-break-inside:avoid}';
+
+const ADV_REPORTS=[{
+  id:"adas-cn-2026-07",
+  title:"中国的自动驾驶法规与各国有何不同",
+  date:"2026-07-01",
+  file:"自动驾驶法规国别对比_中国vs各国_2026-07-01",
+  html:
+`<h1>汽车法规合规 · 深度报告</h1>
+<div class="sub">议题:中国的自动驾驶(ADS/ADAS)法规与其他国家有什么不同 &nbsp;|&nbsp; 出具日期:2026-07-01 &nbsp;|&nbsp; 数据源:团队法规库 Supabase(regulations / recalls / reg_radar)</div>
+
+<h2>0 · 数据基础与重要说明(先读)</h2>
+<div class="warn"><b>关键前提:团队法规库当前<u>未以「主记录」形式收录中国大陆本土法规</u></b>(<code>regulations</code> 表内 country 含「中国」的仅有<b>中国香港 12 条</b>,无中国大陆条目)。中国在库内主要以两种身份出现:<br>
+① <b>被多国引用的国际参照标准</b> —— <code>GB 40429</code>(驾驶自动化术语)、<code>GB 44495</code>(整车信息安全)、<code>GB 44496</code>(软件升级)出现在其他国家法规的 <code>refs</code> 引用里;<br>
+② <b>法规雷达情报</b> —— <code>reg_radar</code> 收录了 <code>GB 44721</code> 报批稿、数据出境指引、GB 44495/44496 强制节点等(多为「已确认」情报)。<br>
+因此下文对中国的论述,依据的是<b>雷达情报 + 被引足迹 + 团队解读卡片</b>,而非主记录;凡库内无据处均标注「收录缺口」,不臆造编号与日期。</div>
+
+<h2>1 · 结论摘要</h2>
+<ul class="lead">
+<li><b>路线定位不同:</b>中国走「<b>强制性国家标准 = 准入及格线</b>」路线 —— <code>GB 44721《智能网联汽车 自动驾驶系统安全要求》</code>(报批稿,MIIT 2026-06-17 公开征求意见,雷达·已确认),配套 <code>GB 44495-2024</code>/<code>GB 44496-2024</code> 已于 <b>2026-01-01 对新车型强制</b>。而联合国 <code>UN R157</code>/GTR 是「<b>缔约方可自愿转化的国际参考框架</b>」,美国是「<b>联邦自愿+豁免、州级各自立部署规则</b>」的碎片化模型,欧盟是「<b>型式认证强制</b>」(EU 2022/1426 衔接 UN R157),英国有「<b>专门立法</b>」(AV Act 2024)。</li>
+<li><b>监管主体不同:</b>中国由<b>单一中央部委</b>(MIIT / 国标委)出一套全国统一门槛;美国是<b>联邦(NHTSA)+ 州(加州 DMV、德州)双层碎片化</b>;欧盟是欧盟型式认证 + 成员国道路法。</li>
+<li><b>网安/OTA 捆绑不同:</b>中国把<b>网络安全(GB 44495)+ 软件升级 OTA(GB 44496)+ 数据出境</b>做成强制前置门槛;欧美日韩多经 UN R155/R156 型式认证路径实现。</li>
+<li><b>库内可对标性提示:</b>因中国大陆主记录缺失,库内做「中欧/中美自动驾驶对标」时无法直接从 <code>regulations</code> 取中国条目 —— 见 §4 风险与 §6 建议(优先补录)。</li>
+</ul>
+
+<h2>2 · 逐国家/地区详细分析</h2>
+<p class="note">下表法规编号、名称、日期均来自 <code>regulations</code> / <code>reg_radar</code> 真实记录;Excel 序列日期已换算为公历。标签:<span class="tag t-mand">强制</span> <span class="tag t-draft">草案/报批</span> <span class="tag t-ref">情报/被引</span></p>
+<table>
+<tr><th>国家/地区</th><th>代表法规(编号 · 中文名)</th><th>关键日期</th><th>性质</th><th>监管模型</th></tr>
+<tr><td><b>中国大陆</b></td><td><code>GB 44721</code>《智能网联汽车 自动驾驶系统安全要求》(报批稿) <span class="tag t-draft">报批·征求意见</span><br><code>GB 44495-2024</code> 整车信息安全 / <code>GB 44496-2024</code> 软件升级</td><td>GB 44721:MIIT 2026-06-17 征求意见<br>GB 44495/96:2026-01-01 新车型强制、2028-01 在产车</td><td><span class="tag t-mand">强制国标</span></td><td>单一中央部委(MIIT/国标委)统一准入门槛<br><span class="note">(库内为雷达情报,非主记录)</span></td></tr>
+<tr><td><b>联合国 UNECE</b></td><td><code>UN R157</code> 自动车道保持系统(ALKS)<br><code>UN R171</code> 驾驶员控制辅助系统(DCAS)</td><td>R157 发布 2021-01-22 / 01 系列 2023-01-04<br>WP.29 第199次会议(2026-06)通过 ADS 新 UN 法规 + R171 02 系列</td><td>缔约方<b>可自愿</b>转化</td><td>1958/1998 协定国际框架</td></tr>
+<tr><td><b>欧盟</b></td><td><code>EU 2022/1426</code> ADS 型式认证母法(衔接 UN R157)<br><code>EU 2026/481</code> 修订</td><td>母法 2022-08-25 生效<br>2026/481 2026-03-24 生效</td><td><span class="tag t-mand">强制型式认证</span></td><td>欧盟型式认证 + 成员国道路法</td></tr>
+<tr><td><b>美国</b></td><td>加州 <code>CCR Tit.13 Art.3.7/3.8</code>(测试/部署)<br>德州 <code>Transp. Code Ch.545-J</code><br><code>FMVSS 110/103/104/102</code> ADS 适配豁免 <span class="tag t-draft">提案</span><br><code>H.R. 7390</code> SELF DRIVE Act <span class="tag t-draft">草案</span></td><td>加州 3.8 部署 2026-04-28<br>FMVSS 提案 2026 评议中</td><td>联邦<b>无统一强制 ADS 标准</b>(自愿+豁免)+ 州级部署规则</td><td>联邦(NHTSA)/ 州 双层碎片化</td></tr>
+<tr><td><b>沙特</b></td><td><code>MA-209-25-04-03-01</code> 自动驾驶车辆技术法规(L3+,含网安/数据记录,附 169 项标准清单)</td><td>发布 2025-07-17 / 生效 2025-10-31</td><td><span class="tag t-mand">强制(SABER)</span></td><td>SASO 技术法规 + 公路法 SHC 801</td></tr>
+<tr><td><b>阿联酋(迪拜)</b></td><td><code>No. (939) of 2025</code> 迪拜自动驾驶车辆运营管理实施细则(6 车型分类、10 项技术要求)</td><td>2025-11-10</td><td><span class="tag t-mand">强制(RTA 检验)</span></td><td>运营授权制</td></tr>
+<tr><td><b>日本</b></td><td><code>TRIAS 48-R157-02</code> ALKS 法规;保安基准 2026 将 UN R157 扩展至大型车(巴士/卡车)</td><td>2021-06-24;扩展 2026-06 公布</td><td><span class="tag t-mand">强制(保安基准)</span></td><td>采纳 UN 法规</td></tr>
+<tr><td><b>韩国</b></td><td><code>KMVSS 附表 27</code> 部分自动驾驶系统安全标准;L3 安全基准修订 <span class="tag t-draft">立法预告·未核实</span></td><td>附表 27 生效 2023-07-01;L3 修订 2026-05-26 起预告</td><td><span class="tag t-mand">强制(KMVSS)</span></td><td>采纳 UN R157</td></tr>
+<tr><td><b>英国</b></td><td>《2024 年自动驾驶车辆法》<code>SI 2026 No.437</code>(生效 No.2);营销限制条例 2026 <span class="tag t-draft">草案</span></td><td>2026-05-15 生效</td><td><b>专门立法</b></td><td>独立 AV 法框架</td></tr>
+<tr><td><b>俄罗斯</b></td><td><code>GOST R 58823-2020</code> 分类与定义 / <code>GOST R 58837-2020</code> 通用设计原则</td><td>2021-02 / 2021-04 生效</td><td>国标(GOST)</td><td>GOST 体系</td></tr>
+<tr><td><b>新加坡</b></td><td><code>Road Traffic (Autonomous Motor Vehicles) Rules 2017</code>;AV 立法框架公众咨询(2026-06-30 截止)</td><td>2017;咨询 2026-05~06</td><td>运营规则</td><td>规则 + 立法咨询</td></tr>
+<tr><td><b>加拿大</b></td><td>ADS 测试指南 2.0 / 安全框架 / 安全评估;UN GTR ADS 公众咨询 2026-03-06</td><td>2019~2021;GTR 咨询 2026</td><td><b>指南(非强制)</b></td><td>指南 + 机动车安全法(MVSA)</td></tr>
+</table>
+
+<h2>3 · 国际标准对标情况(按标准分组,给出具体国家)</h2>
+<h3>① GB 40429(中国 · 驾驶自动化术语)—— 中国标准作为国际参照被引 6 处</h3>
+<p>库内引用 GB 40429 的记录:<b>加拿大</b>(ADS 测试指南 2.0)、<b>日本</b>(TRIAS 48-R157-02)、<b>韩国</b>(KMVSS 附表 27)、<b>摩尔多瓦</b>(UN R157)、<b>UN ECE</b>(R157)、<b>沙特</b>(SAE J3016 条目)。<span class="muted">→ 中国的分级/术语标准已被多国及 UN 体系引为对标参照。</span></p>
+<h3>② UN R157(ALKS)—— 最广泛的自动驾驶国际锚点</h3>
+<p>本地对应记录:<b>欧盟</b>(ECE R157.00 / EU 2022/1426)、<b>日本</b>(TRIAS 48-R157-02)、<b>韩国</b>(附表 27)、<b>沙特</b>(ADS 技术法规)、<b>迪拜</b>(No.939)、<b>摩尔多瓦</b>(UN R157)。</p>
+<h3>③ UN R171(DCAS)</h3>
+<p><b>摩尔多瓦</b>已引入;WP.29 第199次会议(2026-06)通过 02 系列(雷达·已确认)。</p>
+<h3>④ GB 44495-2024 / GB 44496-2024(中国 · 网安 / OTA)—— 与 UN R155/R156 互为映射</h3>
+<p>库内 <b>欧盟</b> <code>ECE R155.00</code> 的 refs 含 <code>GB 44495</code>、<code>ECE R156.00</code> 的 refs 含 <code>GB 44496</code>。<span class="muted">→ 中国网安/OTA 强标在库内与 UN R155/R156 建立了对标映射。</span></p>
+<h3>⑤ FMVSS(美国)</h3>
+<p><code>FMVSS 110 / 103 / 104 / 102</code> 系列 ADS 适配豁免提案(草案),针对无传统驾驶操纵件的自动驾驶车。</p>
+<div class="warn"><b>差异要点:</b>中国把「术语(GB 40429)+ 网安(GB 44495)+ OTA(GB 44496)」组合成<b>强制前置门槛</b>;欧、日、韩多经 UN R157/R155/R156 型式认证路径落地;美国联邦层面<b>无统一强制 ADS 标准</b>,以豁免+州法为主。</div>
+
+<h2>4 · 空白与风险提示(套用库内覆盖判定规则)</h2>
+<p class="note">覆盖判定:单维度 ≥3 条 = ✓ 覆盖、1–2 条 = ⚠ 弱覆盖、0 条 = ✗ 空白。此处维度 = ADAS(0 基第 6 维 / 十维框架第 7 维「ADAS」)。</p>
+<ul>
+<li>库内 ADAS 维度记录量:<b>欧盟 25、UN ECE 18、沙特 18、摩尔多瓦 16、欧亚经济联盟 8、美国 8、澳大利亚/英国/印度各 6…</b> 主要出口市场均 <b>✓ 覆盖</b>。</li>
+<li><b style="color:#b23b1a">中国大陆:ADAS 维度库内 0 条主记录 → 按判定 = ✗ 空白。</b></li>
+</ul>
+<div class="warn"><b>⚠ 重要澄清:此「空白」是<u>库收录缺口</u>,不是中国真实法规缺失。</b>中国现行有 GB 40429、GB 44495-2024、GB 44496-2024 等强标,以及 GB 44721 报批稿,只是<b>尚未以主记录录入 <code>regulations</code> 表</b>(库内仅中国香港 12 条)。属数据录入待补,不代表监管空白。<br><b>业务风险:</b>因中国主记录缺失,库内「中欧/中美自动驾驶对标」「法规对比(tab 12)」无法直接取中国条目,精度受限,需先补录。</div>
+
+<h2>5 · 相关执法/召回案例(ADAS/自动驾驶,来自 recalls 表)</h2>
+<table>
+<tr><th>国家</th><th>OEM · 车型</th><th>数量</th><th>缺陷(ADAS/自动驾驶相关)</th><th>性质/日期</th></tr>
+<tr><td>美国</td><td><b>Waymo</b> 自动驾驶出租车(第5/6代)</td><td>3,791</td><td>L4 软件:积水路段识别不足、对临时障碍物路径规划避让不当</td><td>强制 · 2026-05</td></tr>
+<tr><td>美国</td><td><b>现代 Hyundai</b> Tucson/Santa Cruz</td><td>421,078</td><td>前碰撞避免(FCA)系统过敏,意外紧急制动(已报 4 起追尾)</td><td>强制 · 2026-05</td></tr>
+<tr><td>加拿大 / 澳大利亚</td><td>现代 Hyundai Tucson 等</td><td>81,646 / 36,496</td><td>同源 FCA 缺陷(与美国 NHTSA 26V316 同源)</td><td>强制 · 2026-05</td></tr>
+<tr><td>美国</td><td><b>特斯拉 Tesla</b> Model 3/Y/S/X(HW3)</td><td>218,868</td><td>后视摄像头图像延迟最长 11 秒,违反 FMVSS 111(OTA 已修复 99.92%)</td><td>强制 · 2026-05</td></tr>
+<tr><td>美国</td><td>福特/林肯 Lincoln Nautilus</td><td>—</td><td>方向盘脱手检测(配合车道居中辅助)警报可能失效</td><td>自愿 · 2026-06</td></tr>
+<tr><td>英国</td><td>Peugeot 208 / Vauxhall Corsa</td><td>11,325 / 16,348</td><td>车道保持(LKA)不可用时缺少提示信号(BCM 软件)</td><td>2026,LKA 提示缺失</td></tr>
+</table>
+<div class="warn"><b>中国召回:库内无中国 ADAS/自动驾驶相关召回记录(收录缺口)。</b>中国召回由 SAMR 管理,建议补录以支撑中外执法强度对比。</div>
+
+<h2>6 · 建议行动项</h2>
+<ul>
+<li><b>① 优先补录中国主记录</b>(消除 §4 空白):把 <code>GB 44721</code>(报批稿,status 标 draft)、<code>GB 40429-2021</code>、<code>GB 44495-2024</code>、<code>GB 44496-2024</code> 等录入 <code>regulations</code>(country=中国),补齐 dims/refs,使库内可直接做涉华对标。</li>
+<li><b>② 跟踪 GB 44721 转正</b>:MIIT 2026-06-17 征求意见已确认;报批稿→正式发布后更新 status 与生效日。</li>
+<li><b>③ 跟踪 UN 侧节奏</b>:WP.29 第199次会议(2026-06)通过的 <b>ADS 新 UN 法规 + UN R171 02 系列 + 约 90 项现行法规「ADS 适配」一揽子修订</b>,提交 AC.1 后的落地时间线。</li>
+<li><b>④ 数据出境合规前置</b>:中国《汽车数据出境安全指引(2026 版)》2026-01-30 生效,外资/出海车企的自动驾驶数据合规需前置评估。</li>
+<li><b>⑤ 补录后</b>可在「法规对比(tab 12)」直接生成中欧/中美 ADS 等效条款映射,在「合规路径(tab 13)」评估锚点国采信关系。</li>
+</ul>
+
+<h2>7 · 数据来源与声明</h2>
+<ul class="note">
+<li>基于团队 Supabase 法规库(project <code>nxiyifglhycvbrccbdhg</code>)<b>2026-07-01 收录状态</b>,查询 <code>regulations</code> / <code>recalls</code> / <code>reg_radar</code> 真实记录编制;所有编号、日期、条数均取自查询结果,Excel 序列日期已换算公历。</li>
+<li><code>reg_radar</code> 为 AI 采集情报:本报告引用的中国 GB 44721 征求意见、GB 44495/44496 强制、数据出境指引、WP.29 2026-06 成果、沙特/日本/新加坡/印度条目均为 <b>status=已确认</b>;<b>韩国 L3 安全基准修订为 status=待确认(未核实情报),已在文中标注。</b></li>
+<li>团队解读看板 <code>INS-2026-061</code>《GTR ADS vs GB 44721 七维对比》为团队分析卡片,非官方法规原文。</li>
+<li><b>局限:</b>库内当前<b>缺中国大陆本土法规主记录</b>(仅中国香港 12 条),涉华精确对标依赖情报与被引足迹,存在滞后与缺漏可能;补录后精度将显著提升。</li>
+</ul>
+<p class="note" style="margin-top:14px;border-top:1px solid #d8d2c4;padding-top:8px">汽车法规库监控台 · 合规咨询师(tab 15)自动编制 &nbsp;|&nbsp; 本报告为团队内部参考,不构成对具体车型准入的法律意见,精确合规请以各国主管机构最新法规原文为准。</p>`
+}];
+
+function advInitReports(){
+  var s=$("#adv-rpt-sel"); if(!s||s._done)return; s._done=true;
+  s.innerHTML=ADV_REPORTS.map(function(r){return '<option value="'+r.id+'">'+esc(r.title)+' · '+esc(r.date)+'</option>';}).join("");
+}
+function advCurRpt(){var s=$("#adv-rpt-sel");return (s&&s.value)||(ADV_REPORTS[0]&&ADV_REPORTS[0].id);}
+function advFindRpt(id){for(var i=0;i<ADV_REPORTS.length;i++)if(ADV_REPORTS[i].id===id)return ADV_REPORTS[i];return ADV_REPORTS[0];}
+function advShowReport(id){
+  var r=advFindRpt(id); if(!r)return;
+  var host=$("#adv-report-view"); if(!host)return;
+  host.innerHTML='<style>'+RPT_CSS+'</style><div class="rpt">'+r.html+'</div>';
+  host.style.display="block";
+  host.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function advReportDoc(r,forPrint){
+  return '<!doctype html><html lang="zh"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(r.file)+'</title><style>'+RPT_CSS+(forPrint?RPT_PRINT_CSS:"")+'</style></head><body><div class="rpt">'+r.html+'</div></body></html>';
+}
+function advExportReportPdf(id){
+  var r=advFindRpt(id); if(!r)return;
+  var w=window.open("","_blank"); if(!w){toast("请允许弹窗后重试,再点导出 PDF");return;}
+  w.document.open();
+  w.document.write(advReportDoc(r,true)+'<script>window.onload=function(){setTimeout(function(){window.focus();window.print();},350);};<\/script>');
+  w.document.close();
+  toast('已打开打印视图,选择"另存为 PDF"');
+}
+function advExportReportWord(id){
+  var r=advFindRpt(id); if(!r)return;
+  var head='<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>'+esc(r.title)+'</title><style>'+RPT_CSS+'</style></head><body><div class="rpt">';
+  var html=head+r.html+'</div></body></html>';
+  var blob=new Blob(["﻿"+html],{type:"application/msword"});
+  var url=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=url;a.download=r.file+".doc";document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},4000);
+  toast("已导出 Word (.doc)");
 }
 
 /* ================= 16 召回案例(执法实证,团队共享) ================= */
@@ -4515,11 +4815,11 @@ function exportRecalls(){
     依据法规:r.reg_ref,条款:r.reg_clause,对标:(r.refs||[]).join(" "),维度:(r.dims||[]).map(i=>DIMS[i]).join("、"),
     处理:r.remedy,来源:r.source_url,备注:r.note}));
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(rows),"召回案例");
-  XLSX.writeFile(wb,"召回案例_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"召回案例_"+todayStr()+".xlsx");
 }
 /* 一键复制「加拿大交通部 RSS 续抓」指令:RSS 有更新时,粘贴给 Claude 即可联网抓取→补全数量/处理措施→去重写入 recalls 表 */
 function copyRecallPrompt(){
-  const today=(new Date()).toISOString().slice(0,10);
+  const today=todayStr();
   const prompt=
 `# 任务:加拿大交通部召回 RSS 续抓 → 写入「16 召回案例」(${today})
 
@@ -4661,12 +4961,12 @@ function loadUnece(force){
   if(_unece&&!force)return Promise.resolve(_unece);
   if(_uneceP&&!force)return _uneceP;
   _uneceP=fetch("./data/unece_status.json"+(force?"?t="+Date.now():"")).then(r=>r.json()).then(d=>{
-    _unece=d;const ri=$("#un-ref");if(ri&&!ri.value)ri.value=new Date().toISOString().slice(0,10);return _unece;
+    _unece=d;const ri=$("#un-ref");if(ri&&!ri.value)ri.value=todayStr();return _unece;
   }).catch(()=>{_unece={regs:[]};return _unece;});
   return _uneceP;
 }
 function uneceFilter(f){_uneceFilter=f;["all","inforce","upcoming","recent"].forEach(k=>{const b=$("#unf-"+k);if(b)b.classList.toggle("on",k===f);});renderUnece();}
-function uneceRef(){return($("#un-ref")&&$("#un-ref").value)||new Date().toISOString().slice(0,10);}
+function uneceRef(){return($("#un-ref")&&$("#un-ref").value)||todayStr();}
 function uneceQ(){return((($("#un-q")&&$("#un-q").value)||"").trim().toLowerCase());}
 function uneceMatchReg(r,q){if(!q)return true;const n=q.replace(/^(un)?r/,""),no=(r.no||"").toLowerCase();
   if(no===q||no===n)return true;
@@ -4758,6 +5058,7 @@ function exportUneceXlsx(){
 }
 /* ================= 19 法规雷达 ================= */
 let _radar=null,_radarP=null;
+let _radarSel=new Set();
 async function loadRadar(force){
   if(_radar&&!force)return _radar;
   if(_radarP&&!force)return _radarP;
@@ -4772,9 +5073,25 @@ function rdStage(s){s=String(s||"");
   return{c:"#5a5f4e",b:"#ececea"};}
 /* 来源链接类型:pdf=.pdf直链;doc=官方文件下载端点(无.pdf后缀但点开即文件);news=新闻/门户页(需自查) */
 function rdSrcType(u){u=String(u||"");if(!u)return "";
-  if(/\.pdf(\?|#|$)/i.test(u)||/\/TXT\/PDF\/|[?&](format|type)=pdf/i.test(u))return "pdf";
-  if(/wpfd_file|\/File\/Get\/|\/getmedia\/|\/download(\/|$|\?)|egazette|eli\/|viewDocument/i.test(u))return "doc";
+  if(/\.pdf(\?|#|$)/i.test(u)||/\/TXT\/PDF\/|[?&](format|type)=pdf/i.test(u)||/\/pdffile\/|\/file\/pdf|\/pdf\/aviso\/|[?&]eID=dumpFile|downloadJfile|\/getattachment\//i.test(u))return "pdf";
+  if(/wpfd_file|\/File\/Get\/|\/getmedia\/|\/download(\/|$|\?)|egazette|eli\/|viewDocument|\.docx?(\?|#|$)|adilet\.zan\.kz|zakon\.rada\.gov\.ua|law\.moj\.gov\.tw|pravo\.by|nota_detalle|sidof\.|gazette\.gc\.ca|resmigazete\.gov\.tr|std\.samr\.gov\.cn|pravo\.gov\.ru|registroficial\.gob\.ec|base\.garant\.ru|alcaldiabogota\.gov\.co|europarl\.europa\.eu/i.test(u))return "doc";
   return "news";}
+/* 从自由文本日期(2026-07-07 / 2026-07 / 2026年7月 / 2025-2026 等)里取最早的 YYYY-MM,取不到返回"" */
+function rdMonthOf(s){s=String(s||"");
+  let m=s.match(/(\d{4})-(\d{2})(?:-\d{2})?/);if(m)return m[1]+"-"+m[2];
+  m=s.match(/(\d{4})年\s*(\d{1,2})\s*月/);if(m)return m[1]+"-"+String(m[2]).padStart(2,"0");
+  m=s.match(/(\d{4})/);if(m)return m[1]+"-01";
+  return "";}
+/* 发布/生效日期区间筛选:两个区间都设了→命中任一即算(OR);只设了一个→只按那个筛 */
+function rdDateRangeOk(r,pf,pt,ef,et){
+  const pubActive=!!(pf||pt),effActive=!!(ef||et);
+  if(!pubActive&&!effActive)return true;
+  const pm=rdMonthOf(r.pub_date),em=rdMonthOf(r.effective_date);
+  const pubOk=pubActive&&pm&&!(pf&&pm<pf)&&!(pt&&pm>pt);
+  const effOk=effActive&&em&&!(ef&&em<ef)&&!(et&&em>et);
+  if(pubActive&&effActive)return pubOk||effOk;
+  return pubActive?pubOk:effOk;
+}
 function rdFill(sel,vals){const e=$(sel);if(!e)return;const cur=e.value;
   const def=e.options[0]?e.options[0].outerHTML:"";
   e.innerHTML=def+vals.map(v=>`<option>${esc(v)}</option>`).join("");
@@ -4788,11 +5105,13 @@ function renderRadar(){
   rdFill("#rd-stage",[...new Set(_radar.map(r=>r.stage).filter(Boolean))].sort());
   const q=((($("#rd-q")&&$("#rd-q").value)||"").trim().toLowerCase());
   const fr=($("#rd-region")&&$("#rd-region").value)||"",ft=($("#rd-topic")&&$("#rd-topic").value)||"",fs=($("#rd-stage")&&$("#rd-stage").value)||"",fst=($("#rd-status")&&$("#rd-status").value)||"";
+  const pf=($("#rd-pubfrom")&&$("#rd-pubfrom").value)||"",pt=($("#rd-pubto")&&$("#rd-pubto").value)||"",ef=($("#rd-efffrom")&&$("#rd-efffrom").value)||"",et=($("#rd-effto")&&$("#rd-effto").value)||"";
   let rows=_radar.filter(r=>{
     if(fr&&r.region!==fr)return false;
     if(ft&&!(r.topics||[]).includes(ft))return false;
     if(fs&&r.stage!==fs)return false;
     if(fst&&r.status!==fst)return false;
+    if(!rdDateRangeOk(r,pf,pt,ef,et))return false;
     if(q){const hay=[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase();if(!hay.includes(q))return false;}
     return true;});
   const conf=_radar.filter(r=>r.status==="已确认").length,pend=_radar.filter(r=>r.status==="待确认").length;
@@ -4800,17 +5119,19 @@ function renderRadar(){
   const trs=rows.map(r=>{const st=rdStage(r.stage),pend2=r.status==="待确认";
     const tps=(r.topics||[]).map(t=>`<span style="background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:0 6px;font-size:10px;margin-right:3px;white-space:nowrap">${esc(t)}</span>`).join("");
     return `<tr${pend2?' style="background:#fffaf0"':''}>
+      <td class="c"><input type="checkbox" data-radarid="${esc(r.id)}" ${_radarSel.has(r.id)?"checked":""} onchange="radarToggleSel('${esc(r.id)}',this.checked)"></td>
       <td style="white-space:nowrap;font-family:var(--mono);font-size:11px">${esc(r.collected_date||"")}</td>
       <td style="white-space:nowrap;font-size:11.5px"><b>${esc(r.region||"")}</b>${r.country?"<br><span style='color:var(--muted)'>"+esc(r.country)+"</span>":""}</td>
       <td style="font-size:11px;color:var(--muted);min-width:120px">${esc(r.agency||"")}</td>
       <td style="min-width:240px"><b style="font-size:12.5px">${esc(r.title||"")}</b><div style="font-size:11px;color:var(--ink2);line-height:1.5;margin-top:2px">${esc(r.summary||"")}</div><div style="margin-top:3px">${tps}</div>${r.tbt_no?`<div style="font-size:10px;color:#2f6d8c;font-family:var(--mono)">TBT ${esc(r.tbt_no)}</div>`:""}</td>
-      <td class="c" style="white-space:nowrap"><span style="background:${st.b};color:${st.c};font-weight:700;font-size:10.5px;padding:1px 7px;border-radius:9px">${esc(r.stage||"—")}</span>${r.pub_date?`<div style="font-size:10px;color:var(--muted);margin-top:2px">${esc(r.pub_date)}</div>`:""}</td>
+      <td class="c" style="white-space:normal;padding:5px 2px"><span style="background:${st.b};color:${st.c};font-weight:700;font-size:8.5px;padding:1px 4px;border-radius:8px;display:inline-block;white-space:nowrap">${esc(r.stage||"—")}</span>${r.pub_date?`<div style="font-size:9px;color:var(--muted);margin-top:2px;font-family:system-ui,sans-serif;white-space:nowrap" title="发布日期">发 ${esc(r.pub_date)}</div>`:""}${r.effective_date?`<div style="font-size:9px;color:#3a6b8a;margin-top:1px;font-family:system-ui,sans-serif;white-space:nowrap" title="生效日期">生 ${esc(r.effective_date)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap;font-size:10.5px"><span style="color:${pend2?'#8a6510':'#3d6630'};font-weight:700">${esc(r.status||"")}</span><div style="color:${/已核实/.test(r.confidence||"")?'#3d6630':'#a8401f'};margin-top:2px">${esc(r.confidence||"")}</div></td>
       <td class="c" style="white-space:nowrap">${r.source_url?`<a href="${esc(r.source_url)}" target="_blank" rel="noopener" style="color:var(--blue);font-weight:600;font-size:11px">📄 原文</a>${(function(){const t=rdSrcType(r.source_url);return t==="pdf"?`<div style="font-size:9px;color:#3d6630;font-weight:700;margin-top:1px">✓PDF直链</div>`:t==="doc"?`<div style="font-size:9px;color:#3d6630;font-weight:700;margin-top:1px">✓官方文件</div>`:`<div style="font-size:9px;color:#a8401f;font-weight:700;margin-top:1px">⚠非直链</div><button id="kwbtn-${esc(r.id)}" class="btn light" style="padding:0 5px;font-size:9.5px;margin-top:2px;color:#a8401f" onclick="radarCopyKw('${esc(r.id)}')" title="复制当地语言检索词,自行去搜索引擎找官方PDF">📋检索词</button>`;})()}`:'<span style="color:var(--faint);font-size:10px">—</span>'}${r.source_name?`<div style="font-size:10px;color:var(--muted);max-width:120px;overflow:hidden;text-overflow:ellipsis">${esc(r.source_name)}</div>`:""}</td>
       <td class="c" style="white-space:nowrap">${pend2?`<button class="btn light" style="padding:1px 6px;font-size:10px;color:#3d6630" onclick="radarConfirm('${esc(r.id)}')">✓确认</button><br>`:""}<button class="btn light" style="padding:1px 6px;font-size:10px;color:#a8401f;margin-top:2px" onclick="radarDelete('${esc(r.id)}')">🗑删除</button></td></tr>`;}).join("");
-  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:1060px"><thead><tr>
-    <th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:90px">阶段/发布</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
-    <tbody>${trs||'<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
+  body.innerHTML=`<div class="card"><div style="overflow-x:auto"><table class="cmptbl" style="min-width:1080px"><thead><tr>
+    <th style="width:26px">选</th><th style="width:84px">搜集日</th><th style="width:78px">地区/国家</th><th style="width:130px">机构</th><th>标题 / 摘要 / 主题</th><th style="width:66px" title="阶段 · 发布日(发)/生效日(生)">阶段<br>发/生</th><th style="width:74px">状态/置信</th><th style="width:96px">来源</th><th style="width:70px">操作</th></tr></thead>
+    <tbody>${trs||'<tr><td colspan="9" style="text-align:center;color:var(--muted);padding:20px">暂无条目。发指令「今天搜集法规雷达」即可开始。</td></tr>'}</tbody></table></div></div>`;
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent=_radarSel.size?`已选 ${_radarSel.size} 条`:"";
 }
 async function radarConfirm(id){
   try{await sbReq("PATCH","reg_radar?id=eq."+encodeURIComponent(id),{status:"已确认",confidence:"已核实"},"return=minimal");
@@ -4820,8 +5141,281 @@ async function radarConfirm(id){
 async function radarDelete(id){
   if(!confirm("确认删除这条雷达记录?不可恢复。"))return;
   try{await sbReq("DELETE","reg_radar?id=eq."+encodeURIComponent(id));
-    _radar=(_radar||[]).filter(x=>x.id!==id);renderRadar();}
+    _radar=(_radar||[]).filter(x=>x.id!==id);_radarSel.delete(id);renderRadar();}
   catch(e){alert("删除失败:"+(e&&e.message||e));}
+}
+/* ---- 法规雷达月报:勾选条目 → 按邮件模板视觉风格生成独立HTML(纯前端,无后端) ---- */
+function radarToggleSel(id,checked){
+  if(checked)_radarSel.add(id);else _radarSel.delete(id);
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent=_radarSel.size?`已选 ${_radarSel.size} 条`:"";
+}
+function radarSelectAllFiltered(){
+  document.querySelectorAll('#rd-body input[type=checkbox][data-radarid]').forEach(cb=>{cb.checked=true;_radarSel.add(cb.dataset.radarid);});
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent=_radarSel.size?`已选 ${_radarSel.size} 条`:"";
+}
+function radarClearSel(){
+  _radarSel.clear();
+  document.querySelectorAll('#rd-body input[type=checkbox][data-radarid]').forEach(cb=>{cb.checked=false;});
+  const cnt=$("#rd-selcnt");if(cnt)cnt.textContent="";
+}
+const RD_RPT_ASSET="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/assets/report/";
+/* 正文按段落渲染,每段首行缩进两字符(2em);兼顾 Spotlight 的多段(\n 分段) */
+function rdIndentPara(txt){return String(txt==null?"":txt).split(/\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<div style="text-indent:2em;margin:0 0 6px">${esc(p)}</div>`).join("");}
+function rdIsDraft(r){return /草案|征求意见|征询|提案|拟议|审议|研究|计划|咨询|立法预告|proposal|draft/i.test((r&&r.stage)||"");}
+/* 阶段/截止小标签:草案=琥珀色、已生效/发布=绿色;若摘要里含"截止YYYY-MM-DD"再补一枚⏳截止标签,让在途状态更醒目 */
+function rdRptBadges(r){
+  const draft=rdIsDraft(r);
+  const bg=draft?"#f6c343":"#4fae7a",fg=draft?"#3a2c00":"#ffffff";
+  const label=esc((r&&r.stage)||(draft?"草案":"更新"));
+  let dl="";
+  const m=((r&&r.summary)||"").match(/(?:公众评论截止|评论截止|意见截止|征求意见截止|截止)\s*(\d{4}-\d{2}-\d{2})/);
+  if(m)dl=`<span style="display:inline-block;background:#ffe1e1;color:#a11122;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin:0 6px 8px 0">⏳ 截止 ${m[1]}</span>`;
+  return `<div style="margin:0 0 8px">`+
+    `<span style="display:inline-block;background:${bg};color:${fg};font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin:0 6px 8px 0">${label}</span>`+dl+`</div>`;
+}
+function rdRptItemBlock(r,first){
+  const btn=`<a href="https://new.1clicktong.com/" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em;margin-top:2px">查看原文 Read More →</a>`;
+  const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
+  return `<tr><td style="padding:${first?"0":"16px"}px 0px 16px">
+    ${rdRptBadges(r)}
+    <div dir="ltr" style="color:#ffffff;font-size:18.7px;font-weight:700;letter-spacing:-0.04em;white-space:pre-wrap;line-height:1.25;margin-bottom:8px">${esc(r.title||"")}</div>
+    <div dir="ltr" style="color:#1f2329;font-size:14px;letter-spacing:-0.02em;line-height:17.6px;margin-bottom:6px">${rdIndentPara(r.summary)}</div>
+    <div dir="ltr" style="color:rgba(255,255,255,.72);font-size:11px;letter-spacing:-0.01em;margin-bottom:12px">${meta}</div>
+    ${btn}
+  </td></tr>`;
+}
+function rdRptDivider(imgName,alt){
+  return `<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td style="width:100%"><img src="${RD_RPT_ASSET}${imgName}" width="600" height="96" alt="${esc(alt)}" style="display:block;width:100%;height:auto;max-width:100%"></td></tr></table></td></tr>`;
+}
+/* 资讯节选块:摘要截断到首句/约100字 + "…Read More",仿 InterRegs「不全展示、留悬念」的写法 */
+function rdRptTeaser(r){
+  const btn=`<a href="https://new.1clicktong.com/" target="_blank" rel="noopener" style="display:inline-block;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-decoration:none;padding:9px 22px;border-radius:76px;font-size:13px;font-weight:700;letter-spacing:.01em;margin-top:2px">查看原文 Read More →</a>`;
+  const meta=[r.region,r.country,r.agency,r.pub_date].filter(Boolean).map(esc).join(" · ");
+  // 仿 InterRegs:展示完整一段;仅当摘要过长(>380字)才在句末截断并补 …,短摘要原样全展示
+  let s=(r.summary||"").trim();
+  const CAP=380;
+  if(s.length>CAP){
+    let t=s.slice(0,CAP);
+    const stop=Math.max(t.lastIndexOf("。"),t.lastIndexOf("；"),t.lastIndexOf("."));
+    if(stop>CAP*0.6)t=t.slice(0,stop+1);
+    s=t.replace(/[\s，、,]+$/,"")+" …";
+  }
+  return `<tr><td style="padding:16px 0px 16px">
+    ${rdRptBadges(r)}
+    <div dir="ltr" style="color:#ffffff;font-size:18.7px;font-weight:700;letter-spacing:-0.04em;white-space:pre-wrap;line-height:1.25;margin-bottom:8px">${esc(r.title||"")}</div>
+    <div dir="ltr" style="color:#1f2329;font-size:14px;letter-spacing:-0.02em;line-height:17.6px;margin-bottom:6px">${rdIndentPara(s)}</div>
+    <div dir="ltr" style="color:rgba(255,255,255,.72);font-size:11px;letter-spacing:-0.01em;margin-bottom:12px">${meta}</div>
+    ${btn}
+  </td></tr>`;
+}
+/* 月报生成(仿 InterRegs 详略):导语 → Spotlight 深挖1条 → 本期资讯节选(截断,默认3条)→ 末尾真实更新数字(按国家/地区)。
+   opts:{intro(HTML串), spotlightId, newsCount=3, counts(可传入[[国家,条数]…]覆盖统计口径), monthCN} */
+function radarBuildReportHtml(items,opts){
+  opts=opts||{};
+  const newsCount=(opts.newsCount==null?7:opts.newsCount);
+  const draftCount=(opts.draftCount==null?6:opts.draftCount);
+  const dates=items.map(r=>r.collected_date).filter(Boolean).sort();
+  const monthCN=opts.monthCN||(dates.length?dates[dates.length-1].slice(0,7).replace(/^(\d{4})-(\d{2})$/,"$1年$2月"):"");
+  let countsArr;
+  if(opts.counts&&opts.counts.length){countsArr=opts.counts.slice();}
+  else{const bc={};items.forEach(r=>{const k=r.country||r.region||"其他";bc[k]=(bc[k]||0)+1;});countsArr=Object.entries(bc);}
+  countsArr.sort((a,b)=>b[1]-a[1]);
+  const totalN=countsArr.reduce((s,x)=>s+(x[1]||0),0);
+  const countryRows=countsArr.map(([k,v])=>`<tr><td dir="ltr" style="color:#1f2329;font-size:14px;letter-spacing:-0.02em;white-space:pre-wrap;text-align:justify;padding:0px 0px 12px 2em;line-height:17.6px">${esc(k)} - ${v} 条更新</td></tr>`).join("");
+  const spotlight=(opts.spotlightId&&items.find(r=>r.id===opts.spotlightId))||items[0];
+  const rest=items.filter(r=>r!==spotlight);
+  const draftRe=/草案|征求意见|征询|提案|拟议|审议|研究|计划|咨询|立法预告|proposal|draft/i;
+  const published=rest.filter(r=>!draftRe.test(r.stage||"")).slice(0,newsCount);
+  const drafts=rest.filter(r=>draftRe.test(r.stage||"")).slice(0,draftCount);
+  const spotlightHtml=spotlight?rdRptItemBlock(spotlight,true):"";
+  const updatesHtml=published.length?rdRptDivider("divider-updates.jpg","In the News · 本期法规更新")+published.map(rdRptTeaser).join(""):"";
+  const draftsHtml=drafts.length?rdRptDivider("divider-drafts.jpg","Drafts & Proposal Tracking · 草案跟踪")+drafts.map(rdRptTeaser).join(""):"";
+  const pubNames=published.slice(0,3).map(r=>esc(r.title)).join("、");
+  const draftNames=drafts.slice(0,3).map(r=>esc(r.title)).join("、");
+  const introDefault=`欢迎阅读 <b>一点通 · 全球汽车法规雷达月报${monthCN?" "+esc(monthCN)+"刊":""}</b>。本期 <b>法规聚焦(Spotlight)</b>:${esc((spotlight&&spotlight.title)||"")}。<b>本期法规更新</b>精选 ${published.length} 条${pubNames?"("+pubNames+"等)":""};<b>草案跟踪</b>另收 ${drafts.length} 条在途草案${draftNames?"("+draftNames+"等)":""}。全月共监测到 <b>${totalN}</b> 条覆盖 <b>${countsArr.length}</b> 个国家/地区的准入类法规更新 —— 完整数字见文末,原文详见一点通法规库。`;
+  const intro=opts.intro||introDefault;
+  const introHtml=`<tr><td style="padding:0px 24px 18px;font-family:Arial,Helvetica,sans-serif"><div dir="ltr" style="color:#2a2f3a;font-size:14px;line-height:1.75;letter-spacing:-0.01em;text-indent:2em">${intro}</div></td></tr>`;
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>法规雷达月报${monthCN?" · "+esc(monthCN):""}</title>
+<style>*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}@page{margin:10mm}</style></head>
+<body style="width:100%;-webkit-text-size-adjust:100%;background-color:#f0f1f5;margin:0;padding:0">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f1f5" style="background-color:#f0f1f5"><tbody><tr><td style="background-color:#f0f1f5">
+<table align="center" width="600" border="0" cellpadding="0" cellspacing="0" bgcolor="#c49dff" style="max-width:600px;margin:0 auto;background-color:#c49dff;width:600px;min-width:280px">
+<tbody>
+<tr><td style="width:100%">
+  <img src="${RD_RPT_ASSET}cover.jpg" width="600" height="367" alt="法规雷达月报" style="display:block;width:100%;height:auto;max-width:100%">
+</td></tr>
+<tr><td style="padding:24px 0;font-family:Arial,Helvetica,sans-serif">
+<table align="center" width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif"><tbody>
+${introHtml}
+${rdRptDivider("spotlight.jpg","Regulations Spotlight")}
+<tr><td style="padding:0px 0px 16px">
+<table border="0" cellpadding="0" cellspacing="0" align="center" bgcolor="#6f6ad6" style="width:100%;max-width:100%;margin:0 auto;background:linear-gradient(180deg,#3d6ee0,#c59dff);background-color:#6f6ad6;border-radius:6px"><tbody>
+<tr><td style="padding:24px 24px 8px">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%;font-family:Arial,Helvetica,sans-serif"><tbody>
+${spotlightHtml}${updatesHtml}${draftsHtml}
+</tbody></table>
+</td></tr></tbody></table>
+</td></tr>
+${rdRptDivider("divider-summary.jpg","Global Vehicle Regulatory Update Summary")}
+<tr><td style="padding:0px 0px 8px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tbody>${countryRows}</tbody></table></td></tr>
+<tr><td style="padding:0px 0px 16px"><table cellpadding="0" cellspacing="0" border="0" style="width:100%"><tr><td align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:480px"><tr><td style="width:100%">
+<a href="https://new.1clicktong.com" target="_blank" rel="noopener" style="display:block;text-decoration:none;background:linear-gradient(90deg,#e76366,#8355eb);color:#fff;text-align:center;padding:45px 8px;border-radius:76px;font-size:16.2px;font-weight:700;font-family:Arial,Helvetica,sans-serif;line-height:1.4">UNLOCK ALL UPDATES - Explore our Regulation Library with a Free Trial<br>解锁全部更新 - 免费试用我们的法规库</a>
+</td></tr></table></td></tr></table></td></tr>
+</tbody></table>
+</td></tr>
+<tr><td style="padding:0px 24px 16px"><table border="0" cellpadding="0" cellspacing="0" align="center" style="width:100%;max-width:276px;margin:0 auto"><tr>
+<td width="61.91%" style="vertical-align:middle"><a href="https://www.linkedin.com/in/%E6%99%A8%E9%98%B3-%E9%83%91-257105393/?skipRedirect=true" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-linkedin.png" width="161" height="66" style="display:block;width:161px;height:auto;max-width:100%"></a></td>
+<td width="37.00%" style="vertical-align:middle"><a href="mailto:1clicktong@amestech.cn" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-mail.png" width="47" height="35" style="display:block;width:47px;height:auto;max-width:100%"></a></td>
+</tr></table></td></tr>
+<tr><td style="padding:0px 24px 16px" align="center"><a href="https://new.1clicktong.com" target="_blank" rel="noopener"><img src="${RD_RPT_ASSET}footer-logo.png" width="216" height="65" style="display:block;width:216px;height:auto;max-width:100%;margin:0 auto"></a></td></tr>
+<tr><td dir="ltr" style="color:#e8e8e8;font-size:13.3px;letter-spacing:-0.01em;white-space:pre-wrap;text-align:center;padding:0px 24px;line-height:19.2px"> • Room 503, 5th Floor, Building 2, Tailibao Technology Building, No. 14 Guiyuan Road, Huayuan Industrial Park, Tianjin, China</td></tr>
+</tbody></table>
+</td></tr></tbody></table>
+</body></html>`;
+}
+function radarGenerateReport(){
+  const items=(_radar||[]).filter(r=>_radarSel.has(r.id));
+  if(!items.length){alert("请先在列表左侧「选」列勾选要收录进月报的条目(勾选的第1条=Spotlight深挖头条,其后按顺序取3条做「本期资讯」节选;可用「☑ 全选当前筛选」快速选中已筛选出的条目)");return;}
+  // 末尾「真实更新数字」口径:若设了发布/生效时段筛选,则按该时段全量统计(而非仅勾选项);否则按勾选项统计
+  const pf=($("#rd-pubfrom")&&$("#rd-pubfrom").value)||"",pt=($("#rd-pubto")&&$("#rd-pubto").value)||"",ef=($("#rd-efffrom")&&$("#rd-efffrom").value)||"",et=($("#rd-effto")&&$("#rd-effto").value)||"";
+  let opts={};
+  if(pf||pt||ef||et){
+    const scope=(_radar||[]).filter(r=>rdDateRangeOk(r,pf,pt,ef,et));
+    const bc={};scope.forEach(r=>{const k=r.country||r.region||"其他";bc[k]=(bc[k]||0)+1;});
+    opts.counts=Object.entries(bc);
+  }
+  const html=radarBuildReportHtml(items,opts);
+  const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download="法规雷达月报_"+(items[0].collected_date||"").slice(0,7)+".html";
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  window.open(url,"_blank");
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+/* 按需懒加载本地 html2canvas(零CDN,已随仓库本地化) */
+function rdEnsureH2C(){
+  return new Promise((res,rej)=>{
+    if(window.html2canvas)return res();
+    const s=document.createElement("script");
+    s.src="html2canvas.min.js";s.async=true;
+    s.onload=()=>window.html2canvas?res():rej(new Error("html2canvas 未就绪"));
+    s.onerror=()=>rej(new Error("html2canvas 加载失败"));
+    document.head.appendChild(s);
+  });
+}
+/* 导出已归档月报:fmt='html' 下载 .html;fmt='pdf' 单张等高长页打印(另存PDF);fmt='png' 渲染为不断开的长图。取当前站点的报告文件原样导出 */
+async function rdExportReport(path,fmt){
+  const tip=$("#rd-arch-tip");
+  const setTip=t=>{if(tip){tip.textContent=t;setTimeout(()=>{if(tip)tip.textContent="";},5000);}};
+  let html;
+  try{const res=await fetch(path);if(!res.ok)throw new Error("HTTP "+res.status);html=await res.text();}
+  catch(e){toast("读取报告失败:"+e.message+"(请在部署站点上导出)");return;}
+  const fname=path.split("/").pop().replace(/^radar-monthly-/,"法规雷达月报_");
+  if(fmt==="html"){
+    const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+    const url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download=fname;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    setTip("✓ 已导出 HTML");toast("已导出 "+fname);
+  }else if(fmt==="png"){
+    try{await rdEnsureH2C();}catch(e){toast("长图组件加载失败,请重试");setTip("");return;}
+    let card=html;
+    try{const d=new DOMParser().parseFromString(html,"text/html");const t=d.querySelector('table[width="600"]')||d.querySelector('table[bgcolor="#c49dff"]');if(t)card=t.outerHTML;else if(d.body)card=d.body.innerHTML;}catch(e){}
+    const holder=document.createElement("div");
+    holder.style.cssText="position:fixed;left:-99999px;top:0;width:600px;background:#c49dff;z-index:-1";
+    holder.innerHTML=card;document.body.appendChild(holder);
+    setTip("正在渲染长图,请稍候…");
+    try{
+      const canvas=await html2canvas(holder,{useCORS:true,backgroundColor:"#c49dff",scale:2,width:600,windowWidth:600,logging:false});
+      holder.remove();
+      canvas.toBlob(function(blob){
+        if(!blob){toast("生成长图失败");setTip("");return;}
+        const url=URL.createObjectURL(blob),a=document.createElement("a");
+        a.href=url;a.download=fname.replace(/\.html$/,".png");document.body.appendChild(a);a.click();a.remove();
+        setTimeout(()=>URL.revokeObjectURL(url),5000);
+        setTip("✓ 已导出长图 PNG(图片不含可点链接)");toast("已导出长图 PNG");
+      },"image/png");
+    }catch(e){holder.remove();toast("生成长图失败:"+e.message);setTip("");}
+  }else{
+    const w=window.open("","_blank");if(!w){toast("请允许弹窗后再导出 PDF");return;}
+    let card=html;
+    try{const d=new DOMParser().parseFromString(html,"text/html");const t=d.querySelector('table[width="600"]')||d.querySelector('table[bgcolor="#c49dff"]');if(t)card=t.outerHTML;else if(d.body)card=d.body.innerHTML;}catch(e){}
+    // 单张等高长页:宽600、高=内容全高、页边距0 → 无白边、不断开(等同长图)
+    const doc='<!doctype html><html><head><meta charset="utf-8"><title>'+esc(fname.replace(/\.html$/,""))+'</title><style>html,body{margin:0;padding:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style></head><body>'+card
+      +'<script>(function(){function run(){var h=Math.ceil(document.body.scrollHeight);var st=document.createElement("style");st.appendChild(document.createTextNode("@page{size:600px "+h+"px;margin:0}"));document.head.appendChild(st);window.focus();window.print();}var imgs=document.images,n=0;var iv=setInterval(function(){var ok=true;for(var i=0;i<imgs.length;i++){if(!imgs[i].complete){ok=false;break;}}if(ok||n++>80){clearInterval(iv);setTimeout(run,200);}},100);})();<\/script></body></html>';
+    w.document.open();w.document.write(doc);w.document.close();
+    setTip("✓ 已打开打印(整页不分栏),选「另存为 PDF」·记得纸张选「与来源相同/无边距」");toast("已打开打印视图");
+  }
+}
+/* 复制「只打印月报卡片」的控制台命令:在已打开的月报页面 F12→Console 粘贴回车,
+   会抓取 600px 主卡片、开一个纯白页并只打印它(去掉灰底与空白,保留渐变/彩标) */
+function rdCopyPrintCmd(){
+  const cmd=`(function(){var t=document.querySelector("table[width='600']")||document.querySelector("table[bgcolor='#c49dff']");if(!t){alert("未找到月报主卡片,请在已打开的月报页面运行");return;}var w=window.open("","_blank");w.document.write('<!doctype html><meta charset=utf-8><title>月报打印</title><style>html,body{margin:0;padding:0;background:#fff}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}</style>'+t.outerHTML);w.document.close();var run=function(){var h=Math.ceil(w.document.body.scrollHeight);var st=w.document.createElement("style");st.appendChild(w.document.createTextNode("@page{size:600px "+h+"px;margin:0}"));w.document.head.appendChild(st);w.focus();w.print();};var imgs=w.document.images,n=0;var iv=setInterval(function(){var ok=true;for(var i=0;i<imgs.length;i++){if(!imgs[i].complete){ok=false;break;}}if(ok||n++>80){clearInterval(iv);setTimeout(run,200);}},100);})();`;
+  const tip=$("#rd-arch-tip");
+  const done=()=>{if(tip){tip.textContent="✓ 已复制:打开月报页→F12→Console→粘贴回车";setTimeout(()=>{if(tip)tip.textContent="";},8000);}toast("已复制打印指令");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(cmd).then(done,()=>{cmpFallbackCopy(cmd);done();});}
+  else{cmpFallbackCopy(cmd);done();}
+}
+/* 复制已归档月报的线上链接(优先用当前页所在目录推导,file:// 时回退到 Pages 地址) */
+function rdCopyReportLink(path){
+  let base;
+  if(location.protocol==="http:"||location.protocol==="https:")base=location.href.replace(/[?#].*$/,"").replace(/[^/]*$/,"");
+  else base="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/";
+  const url=base+path;
+  const tip=$("#rd-arch-tip");
+  const done=()=>{if(tip){tip.textContent="✓ 已复制链接";setTimeout(()=>{if(tip)tip.textContent="";},4000);}toast("已复制:"+url);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,()=>{cmpFallbackCopy(url);done();});}
+  else{cmpFallbackCopy(url);done();}
+}
+/* 一键复制「月报生成指令」:把本项目沉淀的月报口径/结构/详略/排版规则固化为 prompt,粘贴给 Claude 即可产出与本模板一致的月报 */
+function copyMonthlyReportPrompt(){
+  const now=new Date();
+  const pm=new Date(now.getFullYear(),now.getMonth()-1,1);
+  const ym=pm.getFullYear()+"-"+String(pm.getMonth()+1).padStart(2,"0");
+  const ymCN=pm.getFullYear()+"年"+(pm.getMonth()+1)+"月";
+  const prompt=
+`# 任务:生成「汽车法规雷达 · 月报」(目标月份:${ym} —— 如需换月,直接改这里)
+
+请联查团队法规库,产出一份与既有模板、详略与排版完全一致的当月月报 HTML 文件。**禁止编造法规编号/条款/日期**——查不到就不写;末尾的更新数字必须真实。
+
+## 一、数据源与口径
+- Supabase 项目 project_id = nxiyifglhycvbrccbdhg,表 reg_radar。
+- **本月纳入口径**:pub_date 或 effective_date 命中目标月(SQL: pub_date ~ '${ym}' OR effective_date ~ '${ym}'),满足其一即算本月。
+- 常用字段:region,country,agency,title,summary,stage,topics,dims,pub_date,effective_date,status,source_name,note。
+- status='待确认' 的条目若被引用,正文里标注「未核实情报」;能不用则优先用「已确认」的。
+
+## 二、末尾「真实更新数字」(硬性)
+- 按国家/地区统计**当月真实条数**,列成「国家 - N 条更新」。
+- 合并「UNECE」与「联合国UNECE」为「联合国 UNECE」;「美国」与「美国(加州)」分开列(仿 InterRegs 的 US-Federal / California)。
+- 合计条数与覆盖国家数必须与库中一致,**不得凑数或编造**。
+
+## 三、结构与详略(仿 InterRegs Update Bulletin)
+1. **导语 Welcome**:一段总览,点名本期 Spotlight、本期法规更新与草案各几条、全月共 X 条覆盖 Y 个国家/地区。
+2. **法规聚焦 Spotlight**:只挑 1 条最吸睛(优先对中国车企出海影响最大/传播力最强)的,写 2–3 段深挖(法律定位、影响、与国际/既有法规的衔接落点)。
+3. **本期法规更新**:精选约 6 条「已发布/已生效/通过」的,**每条写足一整段**(≈120–240 字:文号+做了什么+适用范围+关键日期),少而精 —— 不要一句带过,也不要把当月所有条目全部罗列。
+4. **草案跟踪**:精选约 4 条「草案/征求意见/立法预告」在途项,同样每条一整段;含截止日的会自动显示「⏳ 截止 日期」标签。
+5. **末尾真实数字**:即第二节的国家/地区清单。
+
+## 四、写作规则
+- 每个精选条目一整段,信息密度对齐 InterRegs;不做「一句话+…」式截断。
+- Spotlight 与资讯的 stage 要能区分草案/已发布(模板据此自动上「阶段彩标」:草案琥珀、已生效绿)。
+- 不臆造:编号、条款、日期只写库里/官方确有的。
+
+## 五、渲染与交付(复用本项目现成生成器,保证模板/排版一致)
+- 本仓库 index.html 内已有月报生成器 radarBuildReportHtml(items, opts) 及配套函数(rdIndentPara / rdIsDraft / rdRptBadges / rdRptItemBlock / rdRptDivider / rdRptTeaser)。它已内置:1ClickTong Canva 模板(cover / 三张 divider / logo / CTA / 页脚)、蓝紫渐变块布局、阶段与⏳截止彩标、正文段落**首行缩进两字符**、末尾统计**整体右移两字符**。**不要改模板图片/CTA/页脚/字体。**
+- 做法:从 index.html 抽取上述函数,在 node 里用你的数据调用,写出 HTML 文件(参照历史做法:抽取 'const RD_RPT_ASSET=' 到 'function radarGenerateReport' 这段 eval 后调用)。
+- 入参:
+  - items = [spotlight, ...约6条更新, ...约4条草案];数组第 1 个即 Spotlight。每个对象为 {region, country, agency, title, summary, stage, pub_date}(summary 为你写的整段正文;Spotlight 可用 \\n 分多段,每段会自动首行缩进)。
+  - opts = { intro: 导语HTML串(可含<b>), counts: [[国家,条数]…] 真实统计, monthCN: '${ymCN}', newsCount: 6, draftCount: 4 }。
+- 输出:一份独立 HTML 文件(文件名含月份,如 法规雷达月报_${ym}.html),用发送文件的方式给我 —— 不要只在对话里贴大段文字。
+
+## 六、流程
+先查库 → 给我 **Spotlight 选题 + 本期更新/草案精选清单(每条标题 + 一句话)** 让我确认 → 我 OK 后你再写各条整段正文、算好真实数字、生成并发文件。`;
+  const tip=$("#rd-rpt-tip");
+  const done=()=>{if(tip){tip.textContent="✓ 已复制,粘贴给 Claude 发送即可";setTimeout(()=>{if(tip)tip.textContent="";},6000);}toast("已复制月报生成指令");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+  else{cmpFallbackCopy(prompt);done();}
 }
 /* 非PDF直链来源:一键复制检索词,自行去搜索引擎找官方PDF。
    优先用当地语言检索词 search_kw(法规原文名/编号+主管机构原文名);缺失时回退到中文国家+机构+标题 */
@@ -4836,14 +5430,185 @@ function exportRadarXlsx(){
   if(typeof XLSX==="undefined"||!_radar)return;
   const q=((($("#rd-q")&&$("#rd-q").value)||"").trim().toLowerCase());
   const fr=($("#rd-region")&&$("#rd-region").value)||"",ft=($("#rd-topic")&&$("#rd-topic").value)||"",fs=($("#rd-stage")&&$("#rd-stage").value)||"",fst=($("#rd-status")&&$("#rd-status").value)||"";
-  const rows=_radar.filter(r=>(!fr||r.region===fr)&&(!ft||(r.topics||[]).includes(ft))&&(!fs||r.stage===fs)&&(!fst||r.status===fst)&&(!q||[r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(q)));
-  const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","状态","置信","TBT号","来源类型","来源名","来源链接","检索词(原文)","备注"]];
-  rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.status||"",r.confidence||"",r.tbt_no||"",({pdf:"PDF直链",doc:"官方文件",news:"非直链"}[rdSrcType(r.source_url||"")]||""),r.source_name||"",r.source_url||"",r.search_kw||"",r.note||""]));
-  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:8},{wch:8},{wch:16},{wch:9},{wch:18},{wch:40},{wch:30},{wch:24}];
+  const pf=($("#rd-pubfrom")&&$("#rd-pubfrom").value)||"",pt=($("#rd-pubto")&&$("#rd-pubto").value)||"",ef=($("#rd-efffrom")&&$("#rd-efffrom").value)||"",et=($("#rd-effto")&&$("#rd-effto").value)||"";
+  const rows=_radar.filter(r=>{
+    if(fr&&r.region!==fr)return false;
+    if(ft&&!(r.topics||[]).includes(ft))return false;
+    if(fs&&r.stage!==fs)return false;
+    if(fst&&r.status!==fst)return false;
+    if(!rdDateRangeOk(r,pf,pt,ef,et))return false;
+    if(q&&![r.title,r.summary,r.agency,r.country,r.region,r.tbt_no,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(q))return false;
+    return true;});
+  const aoa=[["搜集日","地区","国家","机构","标题","摘要","主题","阶段","发布日","生效日","状态","置信","TBT号","来源类型","来源名","来源链接","检索词(原文)","备注"]];
+  rows.forEach(r=>aoa.push([r.collected_date||"",r.region||"",r.country||"",r.agency||"",r.title||"",r.summary||"",(r.topics||[]).join("、"),r.stage||"",r.pub_date||"",r.effective_date||"",r.status||"",r.confidence||"",r.tbt_no||"",({pdf:"PDF直链",doc:"官方文件",news:"非直链"}[rdSrcType(r.source_url||"")]||""),r.source_name||"",r.source_url||"",r.search_kw||"",r.note||""]));
+  const ws=XLSX.utils.aoa_to_sheet(aoa);ws["!cols"]=[{wch:11},{wch:10},{wch:12},{wch:20},{wch:34},{wch:46},{wch:16},{wch:9},{wch:10},{wch:10},{wch:8},{wch:8},{wch:16},{wch:9},{wch:18},{wch:40},{wch:30},{wch:24}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"法规雷达");
-  XLSX.writeFile(wb,"法规雷达_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"法规雷达_"+todayStr()+".xlsx");
 }
 
+/* ================= 21 贸易壁垒 · 补充线索源 ================= */
+/* 各类反贸易壁垒/技术性贸易措施(TBT)通报与关税/贸易救济平台,供法规雷达巡源。要加站点在此数组追加即可。 */
+const TB_SOURCES=[
+ {group:"多边通报平台(TBT/SPS · 全球最早暴露技术壁垒)",items:[
+   {name:"WTO ePing(SPS&TBT 通报订阅)",url:"https://epingalert.org",note:"各国 TBT/SPS 技术法规草案通报,可按产品/国家订阅,汽车类壁垒最早出处"},
+   {name:"WTO TBT 信息管理系统(TBT IMS)",url:"https://tbtims.wto.org",note:"官方 TBT 通报/关注贸易问题(STC)检索库"},
+   {name:"WTO I-TIP Goods(货物贸易措施)",url:"https://i-tip.wto.org/goods",note:"关税、非关税措施、贸易救济一站检索"},
+   {name:"WTO 贸易救济(反倾销/反补贴/保障)",url:"https://www.wto.org/english/tratop_e/adp_e/adp_e.htm",note:"WTO 成员反倾销/反补贴措施通报"},
+ ]},
+ {group:"全球贸易措施监测(独立/多边)",items:[
+   {name:"Global Trade Alert(GTA)",url:"https://www.globaltradealert.org",note:"全球贸易干预措施独立数据库,含关税/本地化/出口管制,更新快"},
+   {name:"UNCTAD TRAINS / NTM",url:"https://trainsonline.unctad.org",note:"各国非关税措施(NTM)与关税数据"},
+   {name:"World Bank WITS",url:"https://wits.worldbank.org",note:"关税与贸易数据综合查询"},
+   {name:"ITC Market Access Map(macmap)",url:"https://www.macmap.org",note:"各国适用关税、配额、贸易救济、原产地规则"},
+ ]},
+ {group:"中国官方(出海监测必看)",items:[
+   {name:"中国技术性贸易措施网(TBT-SPS)",url:"http://www.tbt-sps.gov.cn",note:"海关总署;各国 TBT/SPS 通报中文摘译与预警"},
+   {name:"商务部贸易救济调查局 / 贸易救济信息网",url:"https://trb.mofcom.gov.cn",note:"国外对华及中国发起的反倾销/反补贴/保障措施"},
+   {name:"中国贸易救济信息网",url:"https://cacs.mofcom.gov.cn",note:"国别贸易投资环境、预警、案件库(CACS)"},
+   {name:"中国贸促会 CCPIT",url:"https://www.ccpit.org",note:"国别营商环境与贸易壁垒报告"},
+ ]},
+ {group:"主要市场 · 关税/贸易壁垒门户",items:[
+   {name:"欧盟 Access2Markets",url:"https://trade.ec.europa.eu/access-to-markets",note:"欧盟进口关税、规则、贸易壁垒申报(Single Entry Point)"},
+   {name:"欧盟贸易救济(TRON/调查)",url:"https://tron.trade.ec.europa.eu",note:"欧盟反倾销/反补贴调查(含对华电动车案)"},
+   {name:"美国 USTR(NTE 国别贸易壁垒报告)",url:"https://ustr.gov/issue-areas/enforcement/national-trade-estimate-reports",note:"美国年度各国贸易壁垒评估"},
+   {name:"美国 BIS(出口管制/供应链)",url:"https://www.bis.gov",note:"ICTS 联网车、实体清单、出口管制"},
+   {name:"巴西 CAMEX/GECEX(MDIC)",url:"https://www.gov.br/mdic/pt-br/assuntos/camex",note:"巴西关税/配额决议(Resolução Gecex),CKD/SKD/CBU 税率"},
+   {name:"巴西官方公报 DOU(in.gov.br)",url:"https://www.in.gov.br",note:"GECEX/CAMEX 决议原文刊登处,核对文号用"},
+   {name:"印度 DGFT(对外贸易总局)",url:"https://www.dgft.gov.in",note:"进出口政策、本地化、配额、许可"},
+   {name:"印度 CBIC(海关关税)",url:"https://www.cbic.gov.in",note:"印度海关关税通知(Customs Notifications)"},
+ ]},
+];
+let _tradeCustom=[];
+async function loadTradeSources(){
+  try{_tradeCustom=await sbFetchAll("trade_sources","*","order=created_at.asc");}
+  catch(e){_tradeCustom=[];console.error("trade_sources",e);}
+}
+/* 合并团队自定义源 + 内置默认源:自定义源置顶(在前),内置在后;同名分组并入(留在置顶位) */
+function tbAllGroups(){
+  const groups=[],idx={};
+  const ensure=gn=>{if(idx[gn]==null){idx[gn]=groups.length;groups.push({g:gn,items:[]});}return groups[idx[gn]];};
+  (_tradeCustom||[]).forEach(c=>{
+    const gn=((c.group_name||"团队自定义源").trim())||"团队自定义源";
+    ensure(gn).items.push({name:c.name,url:c.url,note:c.note||"",delId:c.id});
+  });
+  TB_SOURCES.forEach(g=>{const grp=ensure(g.group);g.items.forEach(i=>grp.items.push({name:i.name,url:i.url,note:i.note}));});
+  return groups;
+}
+function tbarFlatUrls(){return tbAllGroups().flatMap(g=>g.items.map(i=>i.url));}
+function renderTbar(){
+  const host=$("#tbar-body");if(!host)return;
+  const q=(($("#tbar-q")&&$("#tbar-q").value)||"").trim().toLowerCase();
+  const groups=tbAllGroups().map(g=>({g:g.g,items:g.items.filter(i=>!q||(i.name+" "+(i.note||"")+" "+i.url).toLowerCase().includes(q))})).filter(g=>g.items.length);
+  if(!groups.length){host.innerHTML='<div class="bigmsg">没有匹配的源(或团队库为空)</div>';return;}
+  host.innerHTML=groups.map(g=>`<div class="card" style="margin-bottom:12px">
+    <h3 style="font-size:14px">${esc(g.g)} <span class="hint">${g.items.length} 个</span></h3>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+    ${g.items.map(i=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2)">
+      <div style="flex:1;min-width:0">
+        <a href="${esc(i.url)}" target="_blank" rel="noopener" style="font-weight:600;color:var(--blue);text-decoration:none;font-size:13.5px">${esc(i.name)} ↗</a>${i.delId?' <span style="font-size:10px;color:var(--accent);border:1px solid var(--accent);border-radius:6px;padding:0 5px">自定义</span>':''}
+        ${i.note?`<div style="font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:2px">${esc(i.note)}</div>`:''}
+        <div style="font-size:10.5px;color:var(--muted);font-family:var(--mono);margin-top:2px;word-break:break-all">${esc(i.url)}</div>
+      </div>
+      <div style="flex:none;display:flex;flex-direction:column;gap:4px">
+        <button class="btn light" onclick="tbarCopyOne('${esc(i.url)}')">复制</button>
+        ${i.delId?`<button class="btn light" style="color:var(--accent)" title="删除该自定义源" onclick="tbDelSource('${esc(i.delId)}')">🗑</button>`:''}
+      </div>
+    </div>`).join("")}
+    </div></div>`).join("");
+}
+async function tbAddSource(){
+  const name=(($("#ts-name")&&$("#ts-name").value)||"").trim();
+  let url=(($("#ts-url")&&$("#ts-url").value)||"").trim();
+  if(!name||!url){toast("站名和网址必填");return;}
+  if(!/^https?:\/\//i.test(url))url="https://"+url;
+  const row={name,url,group_name:(($("#ts-group")&&$("#ts-group").value)||"").trim()||"团队自定义源",note:(($("#ts-note")&&$("#ts-note").value)||"").trim()};
+  try{
+    await sbInsert("trade_sources",[row]);
+    await loadTradeSources();renderTbar();
+    ["ts-name","ts-url","ts-group","ts-note"].forEach(id=>{const e=$("#"+id);if(e)e.value="";});
+    const t=$("#tbar-tip");if(t){t.textContent="✓ 已添加并共享给团队";setTimeout(()=>{if(t)t.textContent="";},3000);}
+    toast("自定义源已添加");
+  }catch(err){toast("添加失败:"+err.message);console.error(err);}
+}
+async function tbDelSource(id){
+  if(!confirm("删除这个自定义源?全团队都会看到删除结果。"))return;
+  try{await sbReq("DELETE","trade_sources?id=eq."+id,undefined,"return=minimal");
+    _tradeCustom=(_tradeCustom||[]).filter(x=>x.id!==id);renderTbar();toast("已删除");}
+  catch(err){toast("删除失败:"+err.message);}
+}
+function tbarCopyOne(url){
+  const done=()=>{const t=$("#tbar-tip");if(t){t.textContent="✓ 已复制";setTimeout(()=>{if(t)t.textContent="";},2000);}toast("已复制:"+url);};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,()=>{cmpFallbackCopy(url);done();});}
+  else{cmpFallbackCopy(url);done();}
+}
+function tbarCopyAll(){
+  const txt=tbAllGroups().map(g=>g.g+"\n"+g.items.map(i=>i.name+" — "+i.url).join("\n")).join("\n\n");
+  const t=$("#tbar-tip");
+  const done=()=>{if(t){t.textContent="✓ 已复制全部网址";setTimeout(()=>{if(t)t.textContent="";},3000);}toast("已复制全部贸易壁垒源网址");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,()=>{cmpFallbackCopy(txt);done();});}
+  else{cmpFallbackCopy(txt);done();}
+}
+/* ================= 22 工作日志(ADHD友好:低摩擦捕获) ================= */
+let _wlog=[], _wlCats=["采集","核验","沟通","UI开发","数据","杂项"], _wlSelCat="";
+function wlChips(){
+  const host=$("#wl-chips");if(!host)return;
+  host.innerHTML='<span style="font-size:11px;color:var(--muted)">分类</span>'+_wlCats.map(c=>
+    `<button type="button" onclick="wlPickCat('${esc(c)}')" style="cursor:pointer;border:1px solid ${_wlSelCat===c?'var(--accent)':'var(--line)'};background:${_wlSelCat===c?'var(--accent)':'transparent'};color:${_wlSelCat===c?'#fff':'var(--ink2)'};font-size:12px;font-weight:600;padding:3px 11px;border-radius:14px">${esc(c)}</button>`
+  ).join("");
+}
+function wlPickCat(c){_wlSelCat=(_wlSelCat===c?"":c);wlChips();}
+async function loadWorkLogs(){
+  try{_wlog=await sbFetchAll("work_logs","*","order=log_date.desc,created_at.desc");}
+  catch(e){_wlog=[];console.error("work_logs",e);}
+}
+async function wlogAdd(){
+  const content=(($("#wl-content")&&$("#wl-content").value)||"").trim();
+  if(!content){toast("写一句就行 🙂");if($("#wl-content"))$("#wl-content").focus();return;}
+  const row={
+    log_date:(($("#wl-date")&&$("#wl-date").value)||"")||todayStr(),
+    category:_wlSelCat||(($("#wl-cat")&&$("#wl-cat").value)||"").trim(),
+    author:(($("#wl-author")&&$("#wl-author").value)||"").trim(),
+    content};
+  try{
+    await sbInsert("work_logs",[row]);
+    await loadWorkLogs();renderWlog();
+    if($("#wl-content")){$("#wl-content").value="";$("#wl-content").focus();}
+    if($("#wl-cat"))$("#wl-cat").value="";
+    _wlSelCat="";wlChips();
+    const n=(_wlog||[]).filter(x=>x.log_date===row.log_date).length;
+    const t=$("#wl-tip");if(t){t.textContent="✓ 已记 · "+wlDayLabel(row.log_date)+"第 "+n+" 条";setTimeout(()=>{if(t)t.textContent="";},2800);}
+  }catch(err){toast("保存失败:"+err.message);console.error(err);}
+}
+async function wlogDel(id){
+  if(!confirm("删除这条日志?团队都会看到删除结果。"))return;
+  try{await sbReq("DELETE","work_logs?id=eq."+id,undefined,"return=minimal");
+    _wlog=(_wlog||[]).filter(x=>x.id!==id);renderWlog();toast("已删除");}
+  catch(err){toast("删除失败:"+err.message);}
+}
+function wlDayLabel(d){
+  const t=todayStr();
+  const y=new Date(Date.now()+288e5-864e5).toISOString().slice(0,10);
+  if(d===t)return"今天";if(d===y)return"昨天";return d;
+}
+function renderWlog(){
+  const host=$("#wlog-body");if(!host)return;
+  const q=(($("#wl-q")&&$("#wl-q").value)||"").trim().toLowerCase();
+  const rows=(_wlog||[]).filter(r=>!q||((r.content||"")+" "+(r.category||"")+" "+(r.log_date||"")+" "+(r.author||"")).toLowerCase().includes(q));
+  if(!rows.length){host.innerHTML='<div class="card"><div class="bigmsg">'+((_wlog&&_wlog.length)?'没有匹配的日志。':'还没有日志。上面写一句、回车,就记下了 👆')+'</div></div>';return;}
+  const groups=[],idx={};
+  rows.forEach(r=>{const d=r.log_date||"未标日期";if(idx[d]==null){idx[d]=groups.length;groups.push({d,items:[]});}groups[idx[d]].items.push(r);});
+  const today=todayStr();
+  host.innerHTML=groups.map(g=>`<div class="card" style="margin-bottom:12px${g.d===today?';border-left:3px solid var(--accent)':''}">
+    <div style="font-weight:700;font-size:13px;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:6px;margin-bottom:6px">${esc(wlDayLabel(g.d))} <span class="hint" style="font-weight:400">${g.d===today||wlDayLabel(g.d)==='昨天'?esc(g.d)+' · ':''}${g.items.length} 条</span></div>
+    ${g.items.map(i=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px dashed var(--line)">
+      <div style="flex:1;min-width:0">
+        ${i.category?`<span style="display:inline-block;background:var(--panel2);color:var(--blue);font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:9px;margin-right:6px">${esc(i.category)}</span>`:''}<span style="font-size:13px;color:var(--ink);white-space:pre-wrap;line-height:1.65">${esc(i.content)}</span>
+        <div style="font-size:10px;color:var(--muted);font-family:var(--mono);margin-top:3px">${i.author?esc(i.author)+' · ':''}${esc(hm8(i.created_at))}</div>
+      </div>
+      <button class="btn light" style="flex:none;color:var(--accent)" title="删除该条" onclick="wlogDel('${esc(i.id)}')">🗑</button>
+    </div>`).join("")}
+  </div>`).join("");
+}
 /* ================= 20 汽车网络安全合规中心(维度6) ================= */
 let _cyHub=null,_cyAssess={},_cyAll=[],_cyProfile="团队基线",_cyProfiles=["团队基线"],_cyLoadedAssess=false,_cyView="assess",_cyChart=null;
 async function loadCyberHub(){if(_cyHub)return _cyHub;const r=await fetch("./data/cyber_hub.json");_cyHub=await r.json();return _cyHub;}
@@ -5034,7 +5799,7 @@ function exportCyber(){
   const rows=[];_cyHub.domains.forEach(d=>d.items.forEach(it=>{const a=_cyAssess[it.key]||{};rows.push({域:d.name,条目:it.text,状态:_cyHub.meta.status_labels[a.status||0],依据:it.ref,备注:a.note||""});}));
   const ws=XLSX.utils.json_to_sheet(rows);ws["!cols"]=[{wch:16},{wch:50},{wch:10},{wch:22},{wch:30}];
   const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"网络安全自评");
-  XLSX.writeFile(wb,"网络安全自评_"+new Date().toISOString().slice(0,10)+".xlsx");
+  XLSX.writeFile(wb,"网络安全自评_"+todayStr()+".xlsx");
 }
 
 /* ---- 影响驾驶舱(证据×法规):静态种子 + 团队在线编辑覆盖(cockpit_overrides 单行 id='team')---- */
@@ -5139,16 +5904,19 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-chain")openChainTab();
   if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
   if(t.dataset.p==="p-ncap"){const f=$("#ncap-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载 NCAP 矩阵
-  if(t.dataset.p==="p-advisor"){advInitEgs();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
+  if(t.dataset.p==="p-advisor"){advInitEgs();advInitReports();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
   if(t.dataset.p==="p-recall"){if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls();}
   if(t.dataset.p==="p-evpol"){if(!_evpol)loadEvPol().then(renderEvPol);else renderEvPol();}
   if(t.dataset.p==="p-unece"){if(!_unece)loadUnece().then(renderUnece);else renderUnece();}
   if(t.dataset.p==="p-radar"){if(!_radar)loadRadar().then(renderRadar);else renderRadar();}
   if(t.dataset.p==="p-cyber"){cyberEnter();}
+  if(t.dataset.p==="p-tbar"){renderTbar();loadTradeSources().then(renderTbar);}
+  if(t.dataset.p==="p-wlog"){const d=$("#wl-date");if(d&&!d.value)d.value=todayStr();wlChips();loadWorkLogs().then(renderWlog);setTimeout(()=>{const c=$("#wl-content");if(c)c.focus();},60);}
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
 (function(){const ai=$("#adv-q");if(ai)ai.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();askAdvisor();}});})();
+(function(){const wc=$("#wl-content");if(wc)wc.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){e.preventDefault();wlogAdd();}});})();
 
 /* ================= 启动:打开网页即从数据库读取 ================= */
 /* 给所有国家下拉加输入筛选(免滚动翻找);备忘的国家输入框本就是 datalist 可输入,跳过 */
