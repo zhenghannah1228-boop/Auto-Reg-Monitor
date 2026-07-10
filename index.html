@@ -955,7 +955,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="card">
       <h3>UNECE 法规状态 <span class="hint">ECE/TRANS/WP.29/343 · 1958 协定各 UN 法规增补的「通过(发布)/生效」日期 · 一键筛选现行 / 即将生效</span></h3>
       <div class="netctrl" style="flex-wrap:wrap">
-        <input id="un-q" class="csel" style="min-width:230px" placeholder="搜法规号或名称,如 79 / R79 / 转向 / steering" oninput="renderUnece()">
+        <input id="un-q" class="csel" style="min-width:230px" placeholder="搜法规号/名称/国家:79 / R79 / 转向 / steering / 日本 / Japan" oninput="renderUnece()">
         <label style="font-size:12px;display:flex;align-items:center;gap:5px">基准日期 <input type="text" readonly id="un-ref" class="csel calinput" style="width:150px;cursor:pointer" placeholder="yyyy-mm-dd" onchange="renderUnece()"></label>
         <span class="seg" style="display:inline-flex;gap:4px">
           <button class="btn light on" id="unf-all" onclick="uneceFilter('all',this)">全部</button>
@@ -4956,7 +4956,7 @@ function renderEvStats(list){
 /* tabs */
 /* ================= 18 UNECE 法规状态 ================= */
 const UNREG_CN={"0":"国际整车型式批准(IWVTA)","1":"前照灯(R2/HS1灯丝灯泡)","2":"白炽灯泡","3":"回复反射器","4":"后牌照板照明","5":"封闭式前照灯","6":"方向指示灯","7":"前后位置灯/制动灯/示廓灯","8":"前照灯(H1-H7卤素)","9":"三轮车噪声","10":"电磁兼容(EMC)","11":"门锁及门铰链","12":"转向机构碰撞保护","13":"重型车制动","13H":"乘用车制动","14":"安全带固定点","16":"安全带及约束系统","17":"座椅及头枕强度","18":"机动车防盗","19":"前雾灯","20":"前照灯(H4卤素)","21":"内部凸出物","22":"摩托车头盔及护目镜","23":"倒车灯","24":"柴油机烟度/可见污染物","25":"头枕","26":"外部凸出物","27":"三角警告牌","28":"声响警告装置(喇叭)","29":"商用车驾驶室乘员保护","30":"乘用车轮胎","31":"封闭式卤素前照灯","34":"防火(燃油箱)","37":"灯丝灯泡","38":"后雾灯","39":"车速表/里程表","41":"摩托车噪声","43":"安全玻璃材料","44":"儿童约束系统","45":"前照灯清洗器","46":"后视镜/间接视野装置","48":"灯具安装","49":"压燃/气体发动机排放","51":"M/N类噪声","53":"摩托车灯具安装","54":"商用车及挂车轮胎","55":"机械连接装置","58":"后下部防护","64":"临时备用轮胎/胎压报警","66":"客车上部结构强度","67":"LPG设备","73":"侧面防护","78":"摩托车制动","79":"转向装置","80":"客车座椅及固定强度","83":"轻型车排放(M1/N1)","85":"发动机/电驱动净功率","87":"昼间行驶灯","89":"限速装置","90":"替换制动衬片","91":"侧标志灯","93":"前下部防护","94":"正面碰撞乘员保护","95":"侧面碰撞乘员保护","98":"气体放电光源前照灯","99":"气体放电光源","100":"电动车安全(REESS/电安全)","101":"CO2排放/油耗/电耗/续驶里程","103":"替换催化转化器","104":"回复反射标识","105":"危险货物运输车辆","107":"M2/M3类客车结构","110":"CNG/LNG设备","112":"非对称光束前照灯","113":"对称光束前照灯","116":"整车防盗与报警","117":"轮胎噪声/湿地附着/滚动阻力","118":"内饰材料燃烧特性","119":"弯道照明灯","121":"手控/信号装置标识","122":"供暖系统","123":"自适应前照明系统(AFS)","124":"替换车轮","125":"驾驶员前方视野","127":"行人保护","128":"LED光源","129":"增强型儿童约束(i-Size)","130":"车道偏离预警(LDWS)","131":"商用车自动紧急制动(AEBS)","134":"氢燃料电池车安全","135":"柱碰(侧面)","137":"正面全宽碰撞","139":"制动辅助系统(BAS)","140":"电子稳定控制(ESC)","141":"胎压监测(TPMS)","142":"轮胎安装","145":"ISOFIX固定点","148":"灯光信号装置(LSD)","149":"道路照明装置(RID)","150":"回复反射装置(RRD)","151":"盲区信息系统(BSIS)","152":"AEBS(M1/N1)","153":"燃油系统及后碰电安全","154":"轻型车全球统一排放(WLTP)","155":"网络安全及CSMS","156":"软件升级及SUMS","157":"自动车道保持系统(ALKS)","158":"倒车探测(后方可见性)","159":"起步信息系统(MOIS)","160":"事件数据记录器(EDR)","161":"防止未经授权使用装置","162":"车辆报警系统(VAS)"};
-let _unece=null,_uneceFilter="all",_uneceP=null,_unOpen={},_unOpenS={};
+let _unece=null,_uneceFilter="all",_uneceP=null,_unOpen={},_unOpenS={},_unOpenP={};
 function loadUnece(force){
   if(_unece&&!force)return Promise.resolve(_unece);
   if(_uneceP&&!force)return _uneceP;
@@ -4970,7 +4970,28 @@ function uneceRef(){return($("#un-ref")&&$("#un-ref").value)||todayStr();}
 function uneceQ(){return((($("#un-q")&&$("#un-q").value)||"").trim().toLowerCase());}
 function uneceMatchReg(r,q){if(!q)return true;const n=q.replace(/^(un)?r/,""),no=(r.no||"").toLowerCase();
   if(no===q||no===n)return true;
-  return(no+" "+(r.name||"")+" "+(UNREG_CN[r.no]||"")).toLowerCase().includes(q);}
+  const hay=(no+" "+(r.name||"")+" "+(UNREG_CN[r.no]||"")+" "+(r.parties||[]).map(p=>p.country).join(" ")).toLowerCase();
+  return hay.includes(q);}
+function uneceToggleParties(no){_unOpenP[no]=!_unOpenP[no];renderUnece();}
+function uneceParties(r,open){
+  const parties=r.parties||[];
+  if(!open||!parties.length)return"";
+  const po=_unOpenP[r.no];
+  const chips=po?`<div style="padding:7px 12px 11px 30px;display:flex;flex-wrap:wrap;gap:5px">`+
+    parties.map(p=>`<span style="font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:1px 8px" title="自 ${esc(p.since||'—')} 适用">${esc(p.country)}${p.since?` <span style="color:var(--muted)">${esc(p.since.slice(6))}</span>`:""}</span>`).join("")+`</div>`:"";
+  return `<div>
+    <div onclick="uneceToggleParties('${esc(r.no).replace(/'/g,"\\'")}')" style="cursor:pointer;display:flex;gap:8px;align-items:center;padding:5px 12px 5px 26px;background:var(--panel2);border-top:1px solid var(--line);font-size:12px">
+      <span style="width:12px;color:var(--muted)">${po?"▾":"▸"}</span>
+      <b>🌐 缔约方 ${parties.length}</b>
+      <span style="color:var(--muted);font-size:11px">${r.orig_eif?"原始生效 "+esc(r.orig_eif)+" · ":""}各国「适用日期」以官方文件为准</span>
+    </div>${chips}</div>`;
+}
+function uneceGuidelines(){
+  const g=_unece&&_unece.guidelines;if(!g||!g.items)return"";
+  return `<details class="card" style="margin-bottom:8px"><summary style="cursor:pointer;font-weight:700;font-size:13px">📖 术语与程序指南(WP.29/1044) · ${g.items.length} 条 <span style="font-weight:400;color:var(--muted);font-size:11px">— 读懂状态表:系列 / 增补 / 勘误 / 过渡条款 / 文号含义</span></summary>
+    <div style="font-size:11px;color:var(--muted);font-family:var(--mono);margin:6px 0 8px">${esc(g.source)}</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:8px">${g.items.map(it=>`<div style="border:1px solid var(--line);border-radius:6px;padding:8px"><b style="font-size:12.5px">${esc(it.term)}</b><div style="font-size:11.5px;color:var(--muted);line-height:1.6;margin-top:2px">${esc(it.def)}</div></div>`).join("")}</div></details>`;
+}
 function uneceStat(eif,ref){if(!eif)return{t:"无日期",col:"#7a7f6a",bg:"#ececea"};return eif>ref?{t:"即将生效",col:"#a8401f",bg:"#f6e0d6"}:{t:"已生效",col:"#3d6630",bg:"#dcead2"};}
 function uneceYearAgo(ref){const d=new Date(ref+"T00:00:00");d.setFullYear(d.getFullYear()-1);return d.toISOString().slice(0,10);}
 function unecePassAmend(a,ref){const ya=uneceYearAgo(ref);
@@ -5001,7 +5022,7 @@ function renderUnece(){
   let allAm=[];(_unece.regs||[]).filter(r=>uneceMatchReg(r,q)).forEach(r=>(r.amendments||[]).forEach(a=>allAm.push(a)));
   const inN=allAm.filter(a=>a.eif&&a.eif<=ref).length,upN=allAm.filter(a=>a.eif&&a.eif>ref).length,noN=allAm.filter(a=>!a.eif).length;
   if($("#un-kpi"))$("#un-kpi").innerHTML=`法规 <b>${regs.length}</b> 项 · 增补 <b>${allAm.length}</b> 条 · <b style="color:#3d6630">已生效 ${inN}</b> · <b style="color:#a8401f">即将生效 ${upN}</b>${noN?` · 无日期 ${noN}`:""}  <span style="color:var(--muted)">(基准日 ${esc(ref)})</span>`;
-  if($("#un-note"))$("#un-note").innerHTML=`数据源:${esc(_unece.source||"")}(状态截至 ${esc(_unece.as_of||"")})。按 UN 法规编号升序;展开法规→系列(新→旧)→增补(按生效日新→旧)。「即将生效」=生效日晚于<b>基准日期</b>;有官方文号者附 📄 直链(undocs.org)。中文名为参考译名。`;
+  if($("#un-note"))$("#un-note").innerHTML=`数据源:${esc(_unece.source||"")}(状态截至 ${esc(_unece.as_of||"")})。按 UN 法规编号升序;展开法规→系列(新→旧)→增补(按生效日新→旧)、🌐 缔约方(哪些国家适用/自哪天起)。「即将生效」=生效日晚于<b>基准日期</b>;有官方文号者附 📄 直链(undocs.org)。<b>搜索框可按国家检索</b>(如输入「日本 / Japan / 韩国」列出该国适用的所有 UN 法规)。<br>官方文件:<a href="./docs/ECE-TRANS-WP.29-343-Rev.34-Add.1.pdf" target="_blank" rel="noopener" style="color:var(--blue)">📄 Add.1 缔约方适用</a> · <a href="./docs/ECE-TRANS-WP.29-343-Rev.34-Add.2.pdf" target="_blank" rel="noopener" style="color:var(--blue)">📄 Add.2 增补状态</a> · <a href="./docs/ECE-TRANS-WP29-1044-Rev3e.pdf" target="_blank" rel="noopener" style="color:var(--blue)">📄 WP.29/1044 程序指南</a>。缔约方适用日期为官方 PDF 解析结果,少数边界个案以官方文件为准。`;
   const autoExpand=q!==""||regs.length<=8;
   const html=regs.map(({r,am})=>{
     const open=_unOpen[r.no]||autoExpand;
@@ -5037,12 +5058,12 @@ function renderUnece(){
         <b style="font-size:14px;white-space:nowrap;color:var(--accent)">R${esc(r.no)}</b>
         <span style="min-width:0"><b>${cn?esc(cn):esc(r.name||"")}</b>${cn?` <span style="color:var(--muted);font-weight:400;font-size:11.5px">${esc(r.name||"")}</span>`:""}</span>
         <span style="flex:1"></span>
-        <span style="font-size:11px;color:var(--muted);white-space:nowrap">${seriesKeys.length} 系列 · ${am.length} 增补 · 最新 ${esc(latest.eif||"—")} ${latest.sess?"· "+esc(latest.sess):""}</span>
+        <span style="font-size:11px;color:var(--muted);white-space:nowrap">${seriesKeys.length} 系列 · ${am.length} 增补${(r.parties||[]).length?" · "+(r.parties||[]).length+" 缔约方":""} · 最新 ${esc(latest.eif||"—")} ${latest.sess?"· "+esc(latest.sess):""}</span>
         ${uneceBadge(st)}
         <a href="${uneceRegLink(r.no)}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="在 UNECE 官网查该法规最新合并版正文" style="color:var(--blue);font-size:11px;white-space:nowrap;margin-left:4px">🔎 最新正文</a>
-      </div>${seriesHtml}</div>`;
+      </div>${seriesHtml}${uneceParties(r,open)}</div>`;
   }).join("");
-  body.innerHTML=`<div class="card">${html||'<div class="bigmsg">无匹配法规</div>'}</div>`;
+  body.innerHTML=uneceGuidelines()+`<div class="card">${html||'<div class="bigmsg">无匹配法规</div>'}</div>`;
 }
 function exportUneceXlsx(){
   if(typeof XLSX==="undefined"||!_unece)return;
