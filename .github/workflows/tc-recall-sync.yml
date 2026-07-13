@@ -1,0 +1,29 @@
+name: Transport Canada → recalls (weekly)
+
+# 定期把加拿大交通部(Transport Canada)机动车安全召回数据库 Atom RSS 里的召回同步进
+# Supabase recalls 表,16 召回案例页会自动显示新记录。RSS 只含最近 ~30 条,每周更新,
+# 这里每周跑两次(周三、周六)以免漏抓。也可在 Actions 页手动触发(workflow_dispatch)。
+# 无需任何 Secret:Supabase url + anonKey 从仓库根 config.js 解析(anonKey 本就公开,RLS 全放行)。
+
+on:
+  schedule:
+    - cron: "34 6 * * 3,6"   # 每周三、周六 06:34 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tc-recall-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sync Transport Canada recalls
+        run: python tools/tc_recall_sync.py
