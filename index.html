@@ -3799,7 +3799,10 @@ ${scopeLine}
    ② **中国驻外经商处经贸新闻**(监控台 tab 21「中国驻外经商处·经贸新闻」分组已收录 90+ 国别站的准确网址,**直接去那一页取,不要自己拼路径**——各站新闻栏目不统一,有 jmxw / jmdt / jmyw / gzdt / xwbd / ydxw 等):这是**中文一手**汇总各国最新经贸、准入、关税、认证动态的渠道,适合按目标市场快速定位线索——**但只作发现线索用,入库前必须回到该国官方原文核实编号/日期,不能只凭经商处转述**。
 6. **挖小众、别只给大众头条**;长尾小市场若只有背景资料、无真正新发布项,宁可不收(保质量)。
 7. 跨国通用的(UNECE WP.29 / GTR / WTO TBT)单列国际/组织条目。
-8. **来源链接只收「PDF 直链」或「可打印的官方 HTML 原文」**:source_url 必须是 ① 能直接打开/下载的官方 PDF 直链(含 .pdf 结尾,或 lex.uz/pdffile、pravo.gov.ru/file/pdf、BORA /pdf/aviso、TYPO3 dumpFile、各部委 download 端点等官方下载链接),或 ② 官方一手 HTML 原文页且能在浏览器直接「打印成 PDF」留档(如各国法律库 adilet/rada/law.moj、官方公报详情页)。**新闻稿、门户列表、二手转述(含驻外经商处、律所/商会/媒体解读)一律不作为 source_url**——那类只作发现线索,须回官方原文取到 ①/② 之一再入库;两者都找不到的条目,把线索写进 search_kw 并注明「官方无直链」,宁缺毋滥、不用第三方顶替。
+8. **来源分两档收,先官方、也收有据的新闻动态**:
+   - **A 档·官方直链(首选,能取到就必须用)**:① 官方 PDF 直链(含 .pdf 结尾,或 lex.uz/pdffile、pravo.gov.ru/file/pdf、BORA /pdf/aviso、TYPO3 dumpFile、各部委 download 端点等),或 ② 官方一手 HTML 原文页(各国法律库 adilet/rada/law.moj、官方公报详情页、WTO 通报附件等,可在浏览器「打印成 PDF」留档)。
+   - **B 档·新闻动态(A 档暂时取不到时可收,不再一律排除)**:官方新闻稿、权威媒体、行业协会/标准机构快讯、中国驻外经商处经贸新闻等二手报道也可作 source_url,但**必须同时满足**:①**真实性**——至少 2 个独立来源相互印证,或有官方机构明确表态/公告佐证;单一传闻、小道消息、AI 生成内容、无法二次印证者不收;②**时效性**——近期(优先近 1–2 个月)发布且**注明确切发布日期**,过期旧闻不收;③**诚实标注**——source_name 写清媒体/机构名,summary 里点明「据 XX 报道,官方原文/编号待核」,confidence 填「新闻源·待核实」,note 追加「·新闻动态」标签;④**仍要努力回补**——把当地语言检索词写进 search_kw,后续找到官方 PDF/HTML 就升级为 A 档并替换 source_url。
+   - **底线(宁缺毋滥)**:纯传闻、无发布日期、无法交叉印证、或明显二手曲解的,一律不收;真实且有时效的新闻动态可收,但**绝不用杜撰或未经核实的内容顶替**。两档都取不到可靠来源的线索,把它写进 search_kw 并注明「官方无直链·待核」。
 
 ## 草稿每条须含字段
 - region(地区)/ country(国家或地区)/ agency(主管机构)
@@ -3816,7 +3819,8 @@ ${scopeLine}
 ## 我确认后,再写入 Supabase(此段你执行,我看草稿时先忽略)
 - 项目 project_id = nxiyifglhycvbrccbdhg,表 = reg_radar。
 - 列:collected_date(='${today}')、region、country、agency、title、summary、stage、topics(text[])、dims(int[])、tbt_no、source_url、source_name、pub_date(text,发布日期)、effective_date(text,生效日期,与pub_date分开填,没有就留空/null)、search_kw(当地语言检索词)、confidence(='待核实')、status(='待确认')、note。
-- note 约定:普通项填「采集·${today}」,横向准入类填「采集·${today}·横向准入」。
+- note 约定:普通项填「采集·${today}」;横向准入类追加「·横向准入」;B 档新闻动态类(非官方直链来源)追加「·新闻动态」;多标签可并列(如「采集·${today}·横向准入·新闻动态」)。
+- confidence 约定:官方直链项填「待核实」;B 档新闻动态项填「新闻源·待核实」(便于前端与我后续回补官方原文时区分)。
 - **去重**:与表中已有(同 country + 近似 title)重复的不再插入;**幂等**:同批用 \`delete from reg_radar where collected_date='${today}' and note like '采集·${today}%'\` 再 insert,避免重复落库。
 - 数组写法:topics 用 '{"a","b"}'::text[],dims 用 '{1,4}'::int[];文本里的英文单引号要转义。
 - 写完报告:新增条数、按地区分布、总条数,并提醒我去【19 法规雷达】用 📄 原文 核验后 ✓确认 / 🗑删除。`;
