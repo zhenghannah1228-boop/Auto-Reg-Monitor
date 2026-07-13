@@ -1,0 +1,34 @@
+name: EU Safety Gate → recalls (weekly)
+
+# 定期把欧盟 Safety Gate(RAPEX)每周报告里的「机动车」类预警同步进 Supabase recalls 表,
+# 16 召回案例页会自动显示新记录。Safety Gate 每周五发布,这里每周六跑一次。
+# 也可在 Actions 页手动触发(workflow_dispatch)。
+# 无需任何 Secret:Supabase url + anonKey 从仓库根 config.js 解析(anonKey 本就公开,RLS 全放行)。
+
+on:
+  schedule:
+    - cron: "17 6 * * 6"   # 每周六 06:17 UTC
+  workflow_dispatch:
+    inputs:
+      weeks:
+        description: "同步最近 N 期周报"
+        required: false
+        default: "8"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: safety-gate-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sync Safety Gate motor-vehicle alerts
+        run: python tools/safety_gate_sync.py --weeks "${{ github.event.inputs.weeks || '8' }}"
