@@ -975,14 +975,14 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   </div>
 
   <div class="pane" id="p-radar">
+    <div class="netctrl" style="margin:0 0 10px">
+      <button id="rdview-list" class="btn primary" onclick="rdSetView('list')">📡 雷达列表</button>
+      <button id="rdview-scan" class="btn light" onclick="rdSetView('scan')">🗺 扫描监工看板</button>
+      <span style="font-size:11px;color:var(--muted);margin-left:8px">监工看板:120 国/组织 × 10 维度 = 1200 格,追踪 Claude 每轮采集的扫描完整度(✓已扫 / 空格未扫·附原因)</span>
+    </div>
+    <div id="rd-view-list">
     <div class="card">
       <h3>法规雷达 <span class="hint">汽车法规/标准/政策实时更新 · 由 AI 联网搜集 → 你确认 → 入库;覆盖主要出口市场国别、WTO TBT 汽车类通报、主题线(ADAS/网安/排放/电池)</span></h3>
-      <div class="netctrl" style="margin:2px 0 8px">
-        <button id="rdview-list" class="btn primary" onclick="rdSetView('list')">📡 雷达列表</button>
-        <button id="rdview-scan" class="btn light" onclick="rdSetView('scan')">🗺 扫描监工看板</button>
-        <span style="font-size:11px;color:var(--muted);margin-left:8px">监工看板:120 国/组织 × 10 维度 = 1200 格,追踪 Claude 每轮采集的扫描完整度(✓已扫 / 空格未扫·附原因)</span>
-      </div>
-      <div id="rd-view-list">
       <div class="netctrl" style="flex-wrap:wrap">
         <input id="rd-q" class="csel" style="min-width:220px" placeholder="搜标题/机构/国家/摘要/TBT号" oninput="renderRadar()">
         <select class="csel" id="rd-region" onchange="renderRadar()"><option value="">全部地区</option></select>
