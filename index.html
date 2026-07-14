@@ -3856,7 +3856,11 @@ ${scopeLine}
 - confidence 约定:官方直链项填「待核实」;B 档新闻动态项填「新闻源·待核实」(便于前端与我后续回补官方原文时区分)。
 - **去重**:与表中已有(同 country + 近似 title)重复的不再插入;**幂等**:同批用 \`delete from reg_radar where collected_date='${today}' and note like '采集·${today}%'\` 再 insert,避免重复落库。
 - 数组写法:topics 用 '{"a","b"}'::text[],dims 用 '{1,4}'::int[];文本里的英文单引号要转义。
-- 写完报告:新增条数、按地区分布、总条数,并提醒我去【19 法规雷达】用 📄 原文 核验后 ✓确认 / 🗑删除。`;
+- **更新扫描监工看板(scan_matrix,tab19「🗺 扫描监工看板」)**:本轮写完后,据各 agent **本轮实际检索覆盖到的**「国家/组织 × 维度」给 scan_matrix 打勾——这是监工工具,只勾真扫过的,**绝不为凑满而虚勾**:
+  · 全维度扫射时,凡本轮 agent 真实检索过其官方源/贸易源的国家或组织,把该行 10 个维度全标 ✓;仅扫部分维度则只标对应维度。
+  · 打勾 SQL:update scan_matrix set cells = cells || '{"1":{"s":1,"d":"${today}","n":"${today}"},…,"10":{...}}'::jsonb, updated_at=now() where <country匹配>;cells 键用 1基维度号(1整车…10随车);country 字段含中英文(如「美国 America」「韩国 South Korea」),**按中文名精确匹配、勿用「中国」误吞「中国澳门/台湾/香港」**,可 country like '美国%' 或 country in (...) 明确列出本轮覆盖行。
+  · **未覆盖的行不要动**(留空,监工才有意义);确属本轮无源可查的(如 IEEE/IPC/GADSL/Latin NCAP 等纯组织无新动态),可把该格写 cells[dim]={s:0,n:"原因"} 让空格带原因。
+- 写完报告:新增条数、按地区分布、总条数;**并报告本轮扫描监工看板新打勾 X 格、当前累计 Y/1200**;提醒我去【19 法规雷达】用 📄 原文 核验后 ✓确认 / 🗑删除。`;
   const done=()=>{if(tip)tip.textContent="✓ 已复制采集指令,粘贴到 Claude 对话发送即可";};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
