@@ -977,6 +977,12 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="pane" id="p-radar">
     <div class="card">
       <h3>法规雷达 <span class="hint">汽车法规/标准/政策实时更新 · 由 AI 联网搜集 → 你确认 → 入库;覆盖主要出口市场国别、WTO TBT 汽车类通报、主题线(ADAS/网安/排放/电池)</span></h3>
+      <div class="netctrl" style="margin:2px 0 8px">
+        <button id="rdview-list" class="btn primary" onclick="rdSetView('list')">📡 雷达列表</button>
+        <button id="rdview-scan" class="btn light" onclick="rdSetView('scan')">🗺 扫描监工看板</button>
+        <span style="font-size:11px;color:var(--muted);margin-left:8px">监工看板:120 国/组织 × 10 维度 = 1200 格,追踪 Claude 每轮采集的扫描完整度(✓已扫 / 空格未扫·附原因)</span>
+      </div>
+      <div id="rd-view-list">
       <div class="netctrl" style="flex-wrap:wrap">
         <input id="rd-q" class="csel" style="min-width:220px" placeholder="搜标题/机构/国家/摘要/TBT号" oninput="renderRadar()">
         <select class="csel" id="rd-region" onchange="renderRadar()"><option value="">全部地区</option></select>
@@ -1026,6 +1032,32 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px">用法:点「📋 复制采集指令」→ 粘贴到 Claude 对话发送 → 我联网搜集并给出带<b>来源链接+日期+置信度</b>的草稿 → 你确认/改/删 → 我写入本表(去重)。每条均可点原文核验。</div>
     </div>
     <div id="rd-body"><div class="bigmsg">正在载入 法规雷达…</div></div>
+    </div><!-- /rd-view-list -->
+    <div id="rd-view-scan" style="display:none">
+      <style>
+      #rd-view-scan table.smx{border-collapse:separate;border-spacing:0;font-size:11px;font-family:var(--mono,monospace)}
+      #rd-view-scan table.smx th,#rd-view-scan table.smx td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:2px 4px;text-align:center}
+      #rd-view-scan table.smx thead th{position:sticky;top:0;z-index:3;background:#efeadd;font-weight:700}
+      #rd-view-scan table.smx th.smx-cty{position:sticky;left:0;z-index:2;background:var(--panel);text-align:left;white-space:nowrap;min-width:190px;max-width:230px;overflow:hidden;text-overflow:ellipsis;font-weight:400}
+      #rd-view-scan table.smx thead th.smx-cty{z-index:4;background:#efeadd}
+      #rd-view-scan table.smx th.smx-d{min-width:38px;width:38px}
+      #rd-view-scan table.smx td.smx-y{background:#e0efdc;color:#2f7d1f;font-weight:700;cursor:default}
+      #rd-view-scan table.smx td.smx-n{background:#fbf3ee;cursor:default}
+      #rd-view-scan table.smx td.smx-n:hover,#rd-view-scan table.smx td.smx-y:hover{outline:2px solid var(--accent);outline-offset:-2px}
+      #rd-view-scan table.smx td.smx-sum{background:#f4f1e8;font-weight:700}
+      #rd-view-scan table.smx tbody tr:hover th.smx-cty{background:#f0ead8}
+      </style>
+      <div id="rd-scan-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin:2px 0 8px"></div>
+      <div class="netctrl" style="flex-wrap:wrap;margin-bottom:6px">
+        <input id="rd-scan-q" class="csel" style="min-width:200px" placeholder="搜国家/组织(中/英文)" oninput="renderScanBoard()">
+        <label style="font-size:11.5px;color:var(--ink);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="rd-scan-gaponly" onchange="renderScanBoard()">只看有缺口的行(<10✓)</label>
+        <label style="font-size:11.5px;color:var(--ink);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="rd-scan-listmiss" onchange="renderScanBoard()">只看「清单缺失」国</label>
+        <span style="flex:1"></span>
+        <button class="btn light" onclick="loadScanMatrix(true).then(renderScanBoard)">↻ 刷新</button>
+        <span style="font-size:11px;color:var(--muted)">✓=已扫描(悬停看轮次/说明)· 空格=未扫描(悬停看原因)</span>
+      </div>
+      <div id="rd-scan-body" style="overflow:auto;max-height:74vh;border:1px solid var(--line);border-radius:6px"><div class="bigmsg">切换到看板即载入…</div></div>
+    </div>
   </div>
 
   <div class="pane" id="p-cyber">
@@ -5170,6 +5202,53 @@ async function radarDelete(id){
   try{await sbReq("DELETE","reg_radar?id=eq."+encodeURIComponent(id));
     _radar=(_radar||[]).filter(x=>x.id!==id);_radarSel.delete(id);renderRadar();}
   catch(e){alert("删除失败:"+(e&&e.message||e));}
+}
+/* ===== 19 扫描监工看板:120 国/组织 × 10 维度 = 1200 格,追踪每轮采集的扫描完整度 ===== */
+let _scanmx=null,_scanmxP=null,_rdView="list";
+const SCAN_DIMS=[[1,"整车","整车准入"],[2,"环保","环保全链条"],[3,"射频","射频认证"],[4,"电池","充电电池"],[5,"EV补","EV补贴"],[6,"网安","网络安全"],[7,"ADAS","ADAS"],[8,"标签","标签标识"],[9,"注册","注册监管"],[10,"随车","随车工具"]];
+function loadScanMatrix(force){
+  if(_scanmx&&!force)return Promise.resolve(_scanmx);
+  if(_scanmxP&&!force)return _scanmxP;
+  _scanmxP=sbFetchAll("scan_matrix","*","order=seq.asc").then(r=>{_scanmx=r;return r;}).catch(()=>{_scanmx=[];return [];});
+  return _scanmxP;
+}
+function rdSetView(v){
+  _rdView=v;
+  const L=$("#rd-view-list"),S=$("#rd-view-scan"),bl=$("#rdview-list"),bs=$("#rdview-scan");
+  if(L)L.style.display=v==="list"?"":"none";
+  if(S)S.style.display=v==="scan"?"":"none";
+  if(bl)bl.className="btn "+(v==="list"?"primary":"light");
+  if(bs)bs.className="btn "+(v==="scan"?"primary":"light");
+  if(v==="scan"){if(!_scanmx)loadScanMatrix().then(renderScanBoard);else renderScanBoard();}
+}
+function scanCell(row,dim){const c=row.cells&&row.cells[String(dim)];return c&&(c.s===1||c.s===true||c.s==="1")?c:null;}
+function renderScanBoard(){
+  const body=$("#rd-scan-body");if(!body)return;
+  if(!_scanmx){body.innerHTML='<div class="bigmsg">载入中…</div>';loadScanMatrix().then(renderScanBoard);return;}
+  const q=(($("#rd-scan-q")&&$("#rd-scan-q").value)||"").trim().toLowerCase();
+  const gapOnly=$("#rd-scan-gaponly")&&$("#rd-scan-gaponly").checked;
+  const missOnly=$("#rd-scan-listmiss")&&$("#rd-scan-listmiss").checked;
+  let scannedCells=0,fullRows=0,zeroRows=0;const dimDone=Array(10).fill(0);
+  (_scanmx||[]).forEach(r=>{let n=0;for(let d=1;d<=10;d++){if(scanCell(r,d)){n++;scannedCells++;dimDone[d-1]++;}}if(n===10)fullRows++;if(n===0)zeroRows++;});
+  const totalCells=(_scanmx||[]).length*10,pct=totalCells?Math.round(scannedCells/totalCells*100):0;
+  let rows=(_scanmx||[]).filter(r=>{
+    if(q&&!(r.country||"").toLowerCase().includes(q))return false;
+    if(missOnly&&r.has_list!=="缺失")return false;
+    if(gapOnly){let n=0;for(let d=1;d<=10;d++)if(scanCell(r,d))n++;if(n>=10)return false;}
+    return true;});
+  const kpi=$("#rd-scan-kpi");
+  if(kpi)kpi.innerHTML=`已扫描 <b style="color:#3d6630">${scannedCells}</b>/${totalCells} 格(<b>${pct}%</b>)· 全扫完国家 <b>${fullRows}</b>/${_scanmx.length} · 完全未扫 <b style="color:#a8401f">${zeroRows}</b> · 当前筛选 ${rows.length} 行`
+    +`<br>各维度已扫:`+SCAN_DIMS.map((d,i)=>`${d[0]} <b>${dimDone[i]}</b>`).join(" · ");
+  const th=`<th class="smx-cty">国家 / 组织</th>`+SCAN_DIMS.map(d=>`<th class="smx-d" title="${d[2]}">${d[0]}</th>`).join("")+`<th class="smx-d" title="该行已扫维度数 / 10">Σ</th>`;
+  const trs=rows.map(r=>{
+    let n=0;const tds=SCAN_DIMS.map(d=>{
+      const c=scanCell(r,d[0]);
+      if(c){n++;return `<td class="smx-y" title="${esc(r.country+" · "+d[2]+"\n已扫 "+(c.d||"")+(c.n?" · "+c.n:""))}">✓</td>`;}
+      const raw=r.cells&&r.cells[String(d[0])],reason=(raw&&raw.n)?raw.n:"尚未扫描";
+      return `<td class="smx-n" title="${esc(r.country+" · "+d[2]+"\n未扫描:"+reason)}"></td>`;});
+    const ctag=r.has_list==="缺失"?' <span style="color:#a8401f;font-size:9px">缺清单</span>':'';
+    return `<tr><th class="smx-cty" title="${esc((r.src_note||"")+" · 清单:"+(r.has_list||""))}"><span style="color:var(--muted);font-size:9px">${r.seq}</span> ${esc(r.country)}${ctag}</th>${tds.join("")}<td class="smx-sum">${n}</td></tr>`;}).join("");
+  body.innerHTML=`<table class="smx"><thead><tr>${th}</tr></thead><tbody>${trs||'<tr><td colspan="12" style="padding:16px;text-align:center;color:var(--muted)">无匹配行</td></tr>'}</tbody></table>`;
 }
 /* ---- 法规雷达月报:勾选条目 → 按邮件模板视觉风格生成独立HTML(纯前端,无后端) ---- */
 function radarToggleSel(id,checked){
