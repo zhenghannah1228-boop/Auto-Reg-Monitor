@@ -22,13 +22,13 @@ h1 .em{color:var(--o)}
 .btn-p:hover{background:var(--od);transform:translateY(-1px)}
 .btn-o{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
 .rail{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
-.ri{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;gap:0}
+.ri{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;gap:0;overflow-x:auto}
 .rstep{display:flex;align-items:center;font-size:13px;color:var(--greyl);white-space:nowrap}
 .rstep .n{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;margin-right:7px;background:#fff}
 .rstep.done .n{background:var(--ol);border-color:var(--o);color:var(--od)}
 .rstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
 .rstep.active{color:var(--ink);font-weight:700}
-.rstep::after{content:"";width:30px;height:1.5px;background:var(--line);margin:0 12px}
+.rstep::after{content:"";width:22px;height:1.5px;background:var(--line);margin:0 10px}
 .rstep:last-child::after{display:none}
 main{padding:34px 0 80px;min-height:60vh}
 .step{display:none;animation:fade .3s}
@@ -138,8 +138,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 <header class="hero"><div class="hi">
  <div class="brand"><div class="dot">一</div><b>一点通</b><span>· 国际汽车法规合规平台</span></div>
  <h1><span class="em">E-mark / e-mark</span> 合规成熟度评估</h1>
- <p class="sub">不止判定单个部件——四步测出你企业的整体合规成熟度，双轴定位 + 缺口报告 + 实施路线图。对标德国 msg UN Regulation Assessment。</p>
- <div class="badges"><span class="badge">四步 · <b>免费</b>评估</span><span class="badge"><b>双轴</b>成熟度模型</span><span class="badge"><b>94</b>项法规库</span><span class="badge">缺口驱动</span></div>
+ <p class="sub">不止判定单个部件——六步测出你企业的整体合规成熟度，企业画像 + 双轴定位 + 缺口报告 + 实施路线图。对标德国 msg UN Regulation Assessment。</p>
+ <div class="badges"><span class="badge">六步 · <b>免费</b>评估</span><span class="badge"><b>双轴</b>成熟度模型</span><span class="badge"><b>94</b>项法规库</span><span class="badge">缺口驱动</span></div>
  <button class="btn btn-p" onclick="go(1)">开始免费评估 →</button>
 </div></header>
 <nav class="rail"><div class="ri" id="rail"></div></nav>
@@ -149,13 +149,48 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 const GROUPS={"A": "约束/碰撞/燃料/高压电", "B": "弱势道路使用者/视野", "C": "底盘/制动/轮胎/转向", "D": "仪表/电气/灯具/网安", "E": "驾驶员/自动驾驶", "F": "车身构造", "G": "排放/环境", "H": "信息访问/软件"};
 </script>
 <script>
+/* Y 轴体系自评题库（Task 3 · 可配置：每维度可增删题目，维度分 = 题目均分） */
 const SYS=[
- {id:'cop',name:'CoP 生产一致性体系',desc:'量产件与批准样品一致性的维持机制'},
- {id:'version',name:'法规版本追踪机制',desc:'跟踪 UN R 修订与生效日期变化'},
- {id:'cyber',name:'CSMS/SUMS 网安体系',desc:'R155/R156 网络安全与软件更新管理'},
- {id:'doc',name:'技术文档管理',desc:'型式批准技术文件的编制与维护'}
+ {id:'cop',name:'CoP 生产一致性体系',desc:'量产件与批准样品一致性的维持机制',svc:'CoP 年度托管',qs:[
+   {id:'cop1',q:'已制定文件化的 CoP 控制计划',hint:'覆盖关键零部件与试验项目'},
+   {id:'cop2',q:'定期执行 CoP 试验/抽检并留存记录',hint:'频次满足各法规附件要求'},
+   {id:'cop3',q:'通过过批准机关的 CoP 审核 / 工厂检查',hint:'初始评估或周期性监督'}
+ ]},
+ {id:'version',name:'法规版本追踪机制',desc:'跟踪 UN R 修订与生效日期变化',svc:'版本追踪订阅',qs:[
+   {id:'ver1',q:'有专人或系统跟踪 UN R / EU 法规修订动态',hint:'WP.29 会议、官方公报'},
+   {id:'ver2',q:'掌握每张证书对应的法规版本与过渡期',hint:'series / supplement 台账'},
+   {id:'ver3',q:'法规更新后有「评估影响→整改→换证」闭环',hint:'覆盖新申请与在产车型'}
+ ]},
+ {id:'cyber',name:'CSMS/SUMS 网安体系',desc:'R155/R156 网络安全与软件更新管理',svc:'R155/R156 体系建设',qs:[
+   {id:'cyb1',q:'已建立 CSMS 网络安全管理体系（R155）',hint:'含风险评估与监控响应'},
+   {id:'cyb2',q:'已建立 SUMS 软件更新管理体系（R156）',hint:'含 RXSWIN 软件版本管理'},
+   {id:'cyb3',q:'网安要求已传递到供应链并有审核机制',hint:'关键零部件供应商'}
+ ]},
+ {id:'doc',name:'技术文档管理',desc:'型式批准技术文件的编制与维护',svc:'技术文档编制',qs:[
+   {id:'doc1',q:'型式批准信息文件夹完整并归档',hint:'图纸、参数、试验报告'},
+   {id:'doc2',q:'证书与试验报告有台账及到期/换版提醒',hint:'避免版本过期仍在出货'},
+   {id:'doc3',q:'设计变更有「扩展/修订申请」管理流程',hint:'变更触发合规重新评估'}
+ ]}
 ];
-const STEPS=["范围界定","现状盘点","成熟度评分","实施路线图"];
+/* 企业画像题库（Task 3 · 可配置：不计分，进报告与销售线索；pains 选项第 4 位为对应服务钩子） */
+const PROFILE=[
+ {id:'size',ttl:'企业规模',multi:false,req:true,opts:[
+   ['s','100 人以下','初创 / 小型零部件供应商'],['m','100–1000 人','成长期企业'],['l','1000 人以上','大型集团 / 主机厂体系']]},
+ {id:'exp',ttl:'欧盟 / 1958 缔约方出口经验',multi:false,req:false,opts:[
+   ['none','尚未出口','正在规划进入'],['lt3','1–3 年','已有初步出口业务'],['gt3','3 年以上','成熟出口业务']]},
+ {id:'timeline',ttl:'认证时间要求',multi:false,req:true,opts:[
+   ['urgent','3 个月内','订单在手，时间紧迫'],['half','半年内','按项目节点推进'],['year','一年内','提前布局'],['plan','暂在规划','了解阶段']]},
+ {id:'certs',ttl:'已持有认证（可多选）',multi:true,req:false,opts:[
+   ['cccgb','国内 CCC / GB 认证','有国内合规基础'],['emark','已有部分 E-mark 证书','有 UNECE 认证经验'],['other','其他市场认证','FMVSS / ADR / KMVSS 等'],['no','暂无','从零开始']]},
+ {id:'pains',ttl:'当前最大痛点（可多选）',multi:true,req:false,opts:[
+   ['p_scope','不清楚哪些法规适用','范围界定难',       '法规适用性界定'],
+   ['p_lead','认证周期长 / 实验室排队久','项目节点压力','实验室对接 + 认证代办'],
+   ['p_ver','法规版本更新跟不上','担心证书失效',        '版本追踪订阅'],
+   ['p_cop','CoP 审核压力','年度监督应对吃力',          'CoP 年度托管'],
+   ['p_cyb','R155/R156 网安新规','体系从零建立',        '网安体系建设'],
+   ['p_doc','技术文档管理混乱','找不到、版本乱',        '技术文档编制']]}
+];
+const STEPS=["企业画像","范围界定","法规盘点","体系自评","成熟度评分","实施路线图"];
 
 /* ===================================================================
    可配置结构 · Task 3 产品化占位（供业务/销售校准，改此处即可）
@@ -236,18 +271,19 @@ async function loadVerDB(){
       const j=await r.json();
       if(!j||!j.regs) continue;
       VERDB=buildVerDB(j); VERSTATE='ok';
-      if(cur===2) render();
+      if(cur===3) render();
       return;
     }catch(e){/* try next */}
   }
   VERSTATE='fail';
-  if(cur===2) render();
+  if(cur===3) render();
 }
 
 let cur=0;
 let sel={role:null,market:null,groups:[]};
+let profile={size:null,exp:null,timeline:null,certs:[],pains:[]}; // 企业画像（线索）
 let regStatus={}; // item -> done/prog/no/unk
-let sysStatus={}; // dim -> full/part/none
+let sysStatus={}; // 题目id -> full/part/none
 
 function railHTML(){
   return STEPS.map((s,i)=>`<div class="rstep ${i+1<cur?'done':(i+1===cur?'active':'')}"><span class="n">${i+1}</span>${s}</div>`).join('');
@@ -268,29 +304,52 @@ function render(){
   else if(cur===2) st.innerHTML=step2();
   else if(cur===3) st.innerHTML=step3();
   else if(cur===4) st.innerHTML=step4();
+  else if(cur===5) st.innerHTML=step5();
+  else if(cur===6) st.innerHTML=step6();
   bind();
 }
 
 function intro(){
   return `<div class="step on">
-   <div class="eyebrow">四步 · 免费企业合规成熟度评估</div>
+   <div class="eyebrow">六步 · 免费企业合规成熟度评估</div>
    <h2 class="st" style="margin-bottom:18px">评估流程</h2>
-   <div class="opts g2">
-     <div class="opt" style="cursor:default"><div class="ot">① 范围界定</div><div class="od">选目标市场、产品、角色，圈定适用法规集</div></div>
-     <div class="opt" style="cursor:default"><div class="ot">② 现状盘点</div><div class="od">逐项自评法规完成度 + 体系成熟度</div></div>
-     <div class="opt" style="cursor:default"><div class="ot">③ 成熟度评分</div><div class="od">双轴定位到四象限 + 缺口热力图</div></div>
-     <div class="opt" style="cursor:default"><div class="ot">④ 实施路线图</div><div class="od">按缺口生成待办 + 免费报告</div></div>
+   <div class="opts g3">
+     <div class="opt" style="cursor:default"><div class="ot">① 企业画像</div><div class="od">规模、出口经验、时间要求与痛点</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">② 范围界定</div><div class="od">选目标市场、产品、角色，圈定适用法规集</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">③ 法规盘点</div><div class="od">逐条自评认证状态，附现行版本/生效日期</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">④ 体系自评</div><div class="od">CoP / 版本 / 网安 / 文档，4 维 12 题</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">⑤ 成熟度评分</div><div class="od">双轴定位到四象限 + 明细数据表</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">⑥ 实施路线图</div><div class="od">缺口→服务映射 + 免费报告</div></div>
    </div>
    <div style="margin-top:26px"><button class="btn btn-p" onclick="go(1)">开始免费评估 →</button></div>
   </div>`;
 }
 
 function step1(){
+  const secs=PROFILE.map(p=>{
+    const chosen=k=> p.multi? profile[p.id].includes(k) : profile[p.id]===k;
+    const opts=p.opts.map(o=>`<button class="opt ${chosen(o[0])?'sel':''}" data-pq="${p.id}" data-val="${o[0]}"><div class="ot">${o[1]}</div><div class="od">${o[2]}</div></button>`).join('');
+    return `<div class="secttl">${p.ttl}${p.req?'':' <small style="font-weight:400;color:var(--greyl)">（选填）</small>'}</div><div class="opts g3">${opts}</div>`;
+  }).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 1 / 6 · 企业画像</div>
+    <h2 class="st">先认识一下你的企业</h2>
+    <p class="lead">这些信息帮我们把评估结论校准到你的实际处境——同样的缺口，对「订单在手 3 个月内要证」和「提前布局」的企业，优先级完全不同。</p>
+    ${secs}
+    <div class="nav"><button class="ghost" onclick="go(0)">← 返回</button><button class="btn btn-p" onclick="toStep2()">下一步：范围界定 →</button></div>
+  </div>`;
+}
+function toStep2(){
+  if(!profile.size||!profile.timeline){alert('请先选择企业规模和认证时间要求');return;}
+  go(2);
+}
+
+function step2(){
   const roles=[['OEM','OEM 整车厂','整车 WVTA，需盘点全系统'],['STU','系统集成商','系统作为技术单元认证'],['AFTER','售后件供应商','独立部件/替换件认证']];
   const markets=[['EU','欧盟 (EU)','2018/858 + 2019/2144'],['ECE','1958协定缔约方','E-mark 互认'],['BOTH','两者','大E + 小e 全覆盖']];
   const gopts=Object.entries(GROUPS).map(([k,v])=>`<button class="opt ${sel.groups.includes(k)?'sel':''}" data-grp="${k}"><div class="ot">${k} 组</div><div class="od">${v}</div></button>`).join('');
   return `<div class="step on">
-    <div class="eyebrow">STEP 1 / 4 · 范围界定</div>
+    <div class="eyebrow">STEP 2 / 6 · 范围界定</div>
     <h2 class="st">你的企业与产品范围</h2>
     <p class="lead">选定角色、目标市场与涉及的部件分类组，系统据此圈定「适用法规集」。</p>
     <div class="secttl">① 你的角色</div>
@@ -299,12 +358,12 @@ function step1(){
     <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div><div class="od">${m[2]}</div></button>`).join('')}</div>
     <div class="secttl">③ 涉及的部件分类组（可多选，不选=全部）</div>
     <div class="opts g3">${gopts}</div>
-    <div class="nav"><span></span><button class="btn btn-p" onclick="toStep2()">下一步：现状盘点 →</button></div>
+    <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="toStep3()">下一步：法规盘点 →</button></div>
   </div>`;
 }
-function toStep2(){
+function toStep3(){
   if(!sel.role||!sel.market){alert('请先选择角色和目标市场');return;}
-  go(2);
+  go(3);
 }
 
 function verCell(i){
@@ -318,11 +377,9 @@ function verBanner(){
   if(VERSTATE==='loading') return `<div class="verhint">正在接入 WP.29/343 活数据以标注现行版本…</div>`;
   return `<div class="verhint">⚠ 活数据暂不可用，已回退到内置生效日期<b>快照</b>（可能非最新，建议开通版本追踪）。</div>`;
 }
-function step2(){
+function step3(){
   const items=applicable();
-  // init defaults
   items.forEach(i=>{if(!regStatus[i.item])regStatus[i.item]='unk';});
-  SYS.forEach(s=>{if(!sysStatus[s.id])sysStatus[s.id]='none';});
   const rows=items.map(i=>`<div class="arow">
      <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${verCell(i)}</div>
      <div class="seg" data-item="${i.item}">
@@ -331,23 +388,36 @@ function step2(){
        <button class="${regStatus[i.item]==='no'?'on no-b':''}" data-v="no">未开始</button>
        <button class="${regStatus[i.item]==='unk'?'on unk-b':''}" data-v="unk">不清楚</button>
      </div></div>`).join('');
-  const sysrows=SYS.map(s=>`<div class="arow">
-     <div class="al"><b>${s.name}</b> <small>${s.desc}</small></div>
-     <div class="seg" data-sys="${s.id}">
-       <button class="${sysStatus[s.id]==='full'?'on done-b':''}" data-v="full">已建立</button>
-       <button class="${sysStatus[s.id]==='part'?'on prog-b':''}" data-v="part">部分</button>
-       <button class="${sysStatus[s.id]==='none'?'on no-b':''}" data-v="none">无</button>
-     </div></div>`).join('');
   return `<div class="step on">
-    <div class="eyebrow">STEP 2 / 4 · 现状盘点（评估核心）</div>
-    <h2 class="st">逐项自评你的合规现状</h2>
-    <p class="lead">如实勾选。你填的每一项既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条法规 + 4 项体系。</p>
+    <div class="eyebrow">STEP 3 / 6 · 法规盘点（X 轴）</div>
+    <h2 class="st">逐条自评法规认证状态</h2>
+    <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。</p>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
-    <div class="secttl">Y 轴 · 体系成熟度（4 项支撑体系）</div>
-    ${sysrows}
-    <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="go(3)">生成评估结果 →</button></div>
+    <div class="nav"><button class="ghost" onclick="go(2)">← 上一步</button><button class="btn btn-p" onclick="go(4)">下一步：体系自评 →</button></div>
+  </div>`;
+}
+
+function step4(){
+  SYS.forEach(s=>s.qs.forEach(q=>{if(!sysStatus[q.id])sysStatus[q.id]='none';}));
+  const qcount=SYS.reduce((a,s)=>a+s.qs.length,0);
+  const secs=SYS.map(s=>{
+    const rows=s.qs.map(q=>`<div class="arow">
+       <div class="al"><b>${q.q}</b> ${q.hint?`<small>${q.hint}</small>`:''}</div>
+       <div class="seg" data-sys="${q.id}">
+         <button class="${sysStatus[q.id]==='full'?'on done-b':''}" data-v="full">已建立</button>
+         <button class="${sysStatus[q.id]==='part'?'on prog-b':''}" data-v="part">部分</button>
+         <button class="${sysStatus[q.id]==='none'?'on no-b':''}" data-v="none">无</button>
+       </div></div>`).join('');
+    return `<div class="secttl">${s.name} <small style="font-weight:400;color:var(--grey)">· ${s.desc}</small></div>${rows}`;
+  }).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 4 / 6 · 体系自评（Y 轴）</div>
+    <h2 class="st">支撑体系成熟度自评</h2>
+    <p class="lead">证书只是起点，体系决定证书能不能「活着」——共 ${SYS.length} 个维度 ${qcount} 题，每维度得分为题目均分。</p>
+    ${secs}
+    <div class="nav"><button class="ghost" onclick="go(3)">← 上一步</button><button class="btn btn-p" onclick="go(5)">生成评估结果 →</button></div>
   </div>`;
 }
 
@@ -358,12 +428,22 @@ function computeScores(){
   let x=0;
   items.forEach(i=>{ const w=rw[regStatus[i.item]]; x += (typeof w==='number'?w:0); });
   const X=items.length? Math.round(x/items.length*100):0;
-  // Y 轴 · 体系成熟度（各维度可加权，见 CONFIG.weights.sysWeight；默认等权，与验证行为一致）
+  // Y 轴 · 体系成熟度：维度分 = 该维题目均分（有=1/部分=0.5/无=0），再按 sysWeight 加权
+  //（默认等权 + 每题同分时与原 4 粗题行为一致，评分语义未变）
   const sw=CONFIG.weights.sysScore, ww=CONFIG.weights.sysWeight;
   let y=0, wsum=0;
-  SYS.forEach(s=>{ const w=(typeof ww[s.id]==='number'?ww[s.id]:1); wsum+=w; const sc=sw[sysStatus[s.id]]; y += (typeof sc==='number'?sc:0)*w; });
+  SYS.forEach(s=>{
+    const w=(typeof ww[s.id]==='number'?ww[s.id]:1); wsum+=w;
+    const m=s.qs.reduce((a,q)=>{const sc=sw[sysStatus[q.id]];return a+(typeof sc==='number'?sc:0);},0)/s.qs.length;
+    y+=m*w;
+  });
   const Y=wsum? Math.round(y/wsum*100):0;
   return {X,Y,items};
+}
+function dimScore(s){ // 单维度 0-100（矩阵明细表用）
+  const sw=CONFIG.weights.sysScore;
+  const m=s.qs.reduce((a,q)=>{const sc=sw[sysStatus[q.id]];return a+(typeof sc==='number'?sc:0);},0)/s.qs.length;
+  return Math.round(m*100);
 }
 function quadrant(X,Y){
   const T=CONFIG.threshold;
@@ -373,7 +453,7 @@ function quadrant(X,Y){
   return{key:'naked',name:'裸奔',color:'#6B7280',desc:'新进入者，尚未起步',svc:'全流程托管 / 入门培训'};
 }
 
-function step3(){
+function step5(){
   const {X,Y,items}=computeScores();
   const q=quadrant(X,Y);
   const copy=QUADRANT_COPY[q.key]||{risk:'',recs:[]};
@@ -382,8 +462,8 @@ function step3(){
   items.forEach(i=>{const s=regStatus[i.item];if(s==='done')done++;else if(s==='prog')prog++;else if(s==='no')nostart++;else unk++;});
   const total=items.length, gaps=nostart+unk;
   const donePct=total?Math.round(done/total*100):0;
-  // Y 轴明细（每维度 有=100/部分=50/无=0）
-  const sysDetail=SYS.map(s=>{const v=sysStatus[s.id];const sc=v==='full'?100:(v==='part'?50:0);const lab=v==='full'?'已建立':(v==='part'?'部分':'缺失');return {name:s.name,sc,lab};});
+  // Y 轴明细（每维度 = 该维题目均分 0-100）
+  const sysDetail=SYS.map(s=>{const sc=dimScore(s);const lab=sc===100?'已建立':(sc===0?'缺失':'部分');return {name:s.name,sc,lab};});
   // 定位点坐标：cx=60+X*3.4, cy=20+(100-Y)*3.4（绘图区 60..400 / 20..360）
   const cx=(60+X*3.4).toFixed(1), cy=(20+(100-Y)*3.4).toFixed(1);
   const labY=(+cy-14).toFixed(1);   // 「你 (X,Y)」标签在定位点上方
@@ -423,9 +503,9 @@ function step3(){
     </svg>`;
   const recsHTML=copy.recs.map(r=>`<li>${r}</li>`).join('');
   return `<div class="step on">
-    <div class="eyebrow">STEP 3 / 4 · 成熟度评分</div>
+    <div class="eyebrow">STEP 5 / 6 · 成熟度评分</div>
     <h2 class="st">合规成熟度定位</h2>
-    <p class="lead">基于 ${total} 条适用法规自评与 ${SYS.length} 项体系自评，双轴模型将你的企业定位于下列矩阵——定位点随自评实时移动。</p>
+    <p class="lead">基于 ${total} 条适用法规自评与 ${SYS.reduce((a,s)=>a+s.qs.length,0)} 题体系自评，双轴模型将你的企业定位于下列矩阵——定位点随自评实时移动。</p>
     <div class="mx-block">
       <div class="mx-left">
         <div class="mx-eyebrow">COMPLIANCE MATURITY MATRIX</div>
@@ -457,11 +537,16 @@ function step3(){
         <tr class="tot"><td>${SYS.length} 维加权</td><td></td><td class="r">Y=${Y}</td></tr></table></div>
     </div>
     <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。</p>
-    <div class="nav"><button class="ghost" onclick="go(2)">← 修改自评</button><button class="btn btn-p" onclick="go(4)">查看实施路线图 →</button></div>
+    <div class="nav"><button class="ghost" onclick="go(4)">← 修改自评</button><button class="btn btn-p" onclick="go(6)">查看实施路线图 →</button></div>
   </div>`;
 }
 
-function step4(){
+function plabel(id){
+  const def=PROFILE.find(p=>p.id===id);
+  if(def.multi){const t=profile[id].map(k=>{const o=def.opts.find(o=>o[0]===k);return o?o[1]:k;}).join('、');return t||'—';}
+  const o=def.opts.find(o=>o[0]===profile[id]);return o?o[1]:'—';
+}
+function step6(){
   const {X,Y,items}=computeScores();
   const q=quadrant(X,Y);
   // gap -> service mapping
@@ -472,24 +557,28 @@ function step4(){
     else if(s==='unk') gapRows.push({sev:'amber',txt:`${i.cn} 状态不清楚`,svc:'版本追踪订阅'});
   });
   SYS.forEach(s=>{
-    if(sysStatus[s.id]==='none'){
-      const svc=s.id==='cop'?'CoP 年度托管':(s.id==='cyber'?'R155/R156 体系建设':(s.id==='doc'?'技术文档编制':'版本追踪订阅'));
-      gapRows.push({sev:'red',txt:`缺少「${s.name}」`,svc});
-    }else if(sysStatus[s.id]==='part'){
-      gapRows.push({sev:'amber',txt:`${s.name} 不完整`,svc:'体系补强'});
-    }
+    s.qs.forEach(qq=>{
+      const v=sysStatus[qq.id];
+      if(v==='none') gapRows.push({sev:'red',txt:`${s.name}：缺少「${qq.q}」`,svc:s.svc});
+      else if(v==='part') gapRows.push({sev:'amber',txt:`${s.name}：「${qq.q}」不完整`,svc:'体系补强'});
+    });
   });
-  const shown=gapRows.slice(0,12);
+  const shown=gapRows.slice(0,14);
   const gapHTML=shown.map(g=>`<div class="gap"><span class="gdot ${g.sev}"></span><span>${g.txt}</span><span class="gsvc">${g.svc}</span></div>`).join('') || '<div class="gap"><span>暂无明显缺口，恭喜！</span></div>';
+  // 痛点 → 服务钩子（企业画像多选，opts 第 4 位为服务）
+  const painDef=PROFILE.find(p=>p.id==='pains');
+  const painHTML=profile.pains.map(k=>{const o=painDef.opts.find(x=>x[0]===k);return o?`<div class="gap"><span class="gdot amber"></span><span>${o[1]} <small style="color:var(--grey)">${o[2]}</small></span><span class="gsvc">${o[3]||'专家解读'}</span></div>`:'';}).join('');
   return `<div class="step on">
-    <div class="eyebrow">STEP 4 / 4 · 实施路线图</div>
+    <div class="eyebrow">STEP 6 / 6 · 实施路线图</div>
     <h2 class="st">你的合规待办清单</h2>
     <p class="lead">下列每一项缺口都对应一项可落地的服务。共识别 ${gapRows.length} 项，展示前 ${shown.length} 项。</p>
     <div class="gaplist">
       <div class="gaphd">📋 缺口 → 服务映射</div>
       ${gapHTML}
     </div>
+    ${painHTML?`<div class="gaplist"><div class="gaphd">🎯 你标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
     <div class="rcard-g">
+      <div class="rcard"><div class="rk">企业画像</div><div class="rv">规模：${plabel('size')} · 出口经验：${plabel('exp')}<br>时间要求：${plabel('timeline')}<br>已持认证：${plabel('certs')}</div></div>
       <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}</div></div>
       <div class="rcard"><div class="rk">成熟度定位</div><div class="rv">X ${X} / Y ${Y} · ${gapRows.length} 项缺口</div></div>
     </div>
@@ -499,12 +588,18 @@ function step4(){
       <p>报告已列出全部 ${gapRows.length} 项缺口。想知道「每一项具体怎么补、优先做哪个」？<br>预约我们的专家，一对一为你解读。</p>
       <button class="btn" onclick="alert('（示意）已记录：企业定位『'+'${q.name}象限'+'』· ${gapRows.length}项缺口 · 将转销售预约专家解读')">预约专家解读我的缺口 →</button>
     </div>
-    <div class="nav"><button class="ghost" onclick="go(3)">← 返回评分</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
+    <div class="nav"><button class="ghost" onclick="go(5)">← 返回评分</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
 }
-function restart(){sel={role:null,market:null,groups:[]};regStatus={};sysStatus={};go(0);}
+function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,certs:[],pains:[]};regStatus={};sysStatus={};go(0);}
 
 function bind(){
+  document.querySelectorAll('[data-pq]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.pq, v=b.dataset.val, def=PROFILE.find(p=>p.id===id);
+    if(def.multi){const arr=profile[id];const i=arr.indexOf(v);if(i>=0)arr.splice(i,1);else arr.push(v);}
+    else profile[id]=(profile[id]===v? null : v);
+    render();
+  });
   document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{sel.role=b.dataset.role;render();});
   document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{sel.market=b.dataset.mkt;render();});
   document.querySelectorAll('[data-grp]').forEach(b=>b.onclick=()=>{const g=b.dataset.grp;const i=sel.groups.indexOf(g);if(i>=0)sel.groups.splice(i,1);else sel.groups.push(g);render();});
