@@ -978,7 +978,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="netctrl" style="margin:0 0 10px">
       <button id="rdview-list" class="btn primary" onclick="rdSetView('list')">📡 雷达列表</button>
       <button id="rdview-scan" class="btn light" onclick="rdSetView('scan')">🗺 扫描监工看板</button>
-      <span style="font-size:11px;color:var(--muted);margin-left:8px">监工看板:120 国/组织 × 10 维度 = 1200 格,追踪 Claude 每轮采集的扫描完整度(✓已扫 / 空格未扫·附原因)</span>
+      <span style="font-size:11px;color:var(--muted);margin-left:8px">监工看板:121 国/组织 × 10 维度 · <b>每轮采集重置、只显示当轮覆盖</b>(✓本轮已扫 / 空格本轮未扫)——这样"本轮漏了哪些国"一眼可见;跨轮历史见「📋 扫描日志」</span>
     </div>
     <div id="rd-view-list">
     <div class="card">
@@ -3860,11 +3860,12 @@ ${scopeLine}
 - confidence 约定:官方直链项填「待核实」;B 档新闻动态项填「新闻源·待核实」(便于前端与我后续回补官方原文时区分)。
 - **去重**:与表中已有(同 country + 近似 title)重复的不再插入;**幂等**:同批用 \`delete from reg_radar where collected_date='${today}' and note like '采集·${today}%'\` 再 insert,避免重复落库。
 - 数组写法:topics 用 '{"a","b"}'::text[],dims 用 '{1,4}'::int[];文本里的英文单引号要转义。
-- **更新扫描监工看板(scan_matrix,tab19「🗺 扫描监工看板」)**:本轮写完后,据各 agent **本轮实际检索覆盖到的**「国家/组织 × 维度」给 scan_matrix 打勾——这是监工工具,只勾真扫过的,**绝不为凑满而虚勾**:
-  · 全维度扫射时,凡本轮 agent 真实检索过其官方源/贸易源的国家或组织,把该行 10 个维度全标 ✓;仅扫部分维度则只标对应维度。
-  · 打勾 SQL:update scan_matrix set cells = cells || '{"1":{"s":1,"d":"${today}","n":"${today}"},…,"10":{...}}'::jsonb, updated_at=now() where <country匹配>;cells 键用 1基维度号(1整车…10随车);country 字段含中英文(如「美国 America」「韩国 South Korea」),**按中文名精确匹配、勿用「中国」误吞「中国澳门/台湾/香港」**,可 country like '美国%' 或 country in (...) 明确列出本轮覆盖行。
-  · **未覆盖的行不要动**(留空,监工才有意义);确属本轮无源可查的(如 IEEE/IPC/GADSL/Latin NCAP 等纯组织无新动态),可把该格写 cells[dim]={s:0,n:"原因"} 让空格带原因。
-- 写完报告:新增条数、按地区分布、总条数;**并报告本轮扫描监工看板新打勾 X 格、当前累计 Y/1200**;提醒我去【19 法规雷达】用 📄 原文 核验后 ✓确认 / 🗑删除。`;
+- **更新扫描监工看板(scan_matrix,tab19「🗺 扫描监工看板」)——每轮重置,只显示当轮覆盖**:这是监工工具,看板只反映**本轮**实际扫到哪些国、漏哪些国,所以每轮开始要清空上轮打勾。只勾真扫过的,**绝不为凑满而虚勾**:
+  · **① 先清空上轮**:\`update scan_matrix set cells='{}'::jsonb, updated_at=now();\`
+  · **② 只标本轮实际覆盖的行**:据各 agent 本轮真实检索过其官方源/贸易源的国家/组织,把该行 10 维全标 ✓(仅扫部分维度则只标对应维度)。SQL:\`update scan_matrix set cells=(select jsonb_object_agg(d::text,jsonb_build_object('s',1,'d','${today}','n','${today}全维度')) from generate_series(1,10) d), updated_at=now() where country like any(array['美国%','韩国%',...本轮覆盖行...]);\`。country 字段含中英文,**按中文名精确匹配、勿用「中国」误吞「中国澳门/台湾/香港」**;'印度 India%' 与 '印度尼西亚%' 分开列以免误吞。
+  · **③ 记一条到扫描日志 scan_runs(跨轮历史)**:\`insert into scan_runs(run_date,covered_count,cells_count,note,countries) select '${today}',count(*),count(*)*10,'本轮说明(如:全维度采集,长尾小国未扫)',string_agg(country,'、' order by seq) from scan_matrix where cells<>'{}'::jsonb;\`
+  · **未覆盖的行保持空白**——监工看板就是要让"本轮漏了哪些国"一眼可见;长尾小国/纯组织本轮没扫就留空,别硬凑。
+- 写完报告:新增条数、按地区分布、总条数;**并报告本轮扫描监工看板覆盖 X 国/${'1210'}格中 Y 格、本轮漏扫哪些区域**;提醒我去【19 法规雷达】用 📄 原文 核验后 ✓确认 / 🗑删除。`;
   const done=()=>{if(tip)tip.textContent="✓ 已复制采集指令,粘贴到 Claude 对话发送即可";};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
@@ -5230,20 +5231,24 @@ function rdSetView(v){
   if(v==="scan"){if(!_scanmx)loadScanMatrix().then(renderScanBoard);else renderScanBoard();}
 }
 function scanCell(row,dim){const c=row.cells&&row.cells[String(dim)];return c&&(c.s===1||c.s===true||c.s==="1")?c:null;}
+let _scanruns=null,_scanrunsP=null;
+function loadScanRuns(force){
+  if(_scanruns&&!force)return Promise.resolve(_scanruns);
+  if(_scanrunsP&&!force)return _scanrunsP;
+  _scanrunsP=sbFetchAll("scan_runs","*","order=run_date.desc,created_at.desc").then(r=>{_scanruns=r;return r;}).catch(()=>{_scanruns=[];return [];});
+  return _scanrunsP;
+}
 function rdScanLog(){
   const box=$("#rd-scan-log");if(!box)return;
   if(box.style.display!=='none'){box.style.display='none';return;}
-  if(!_scanmx){box.style.display='block';box.innerHTML='<div class="bigmsg">载入中…</div>';loadScanMatrix().then(rdScanLog);return;}
-  const groups={};
-  (_scanmx||[]).forEach(r=>{const c=r.cells||{};for(let d=1;d<=10;d++){const cell=c[String(d)];if(cell&&(cell.s===1||cell.s===true||cell.s==='1')){const dt=cell.d||'(无日期)',nt=cell.n||'';const k=dt+'|||'+nt;if(!groups[k])groups[k]={date:dt,note:nt,cells:0,countries:new Set()};groups[k].cells++;groups[k].countries.add(r.country);}}});
-  const arr=Object.values(groups).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-  box.style.display='block';
-  if(!arr.length){box.innerHTML='<div style="color:var(--muted);font-size:12px;padding:6px">暂无扫描记录——每格在采集打勾时会记录日期与轮次说明,这里按「日期×轮次」聚合展示。</div>';return;}
-  const totalCells=arr.reduce((s,g)=>s+g.cells,0);
-  const rows=arr.map(g=>{const cs=[...g.countries];const shown=cs.slice(0,18).map(esc).join('、')+(cs.length>18?` …等${cs.length}`:'');
-    return `<tr><td style="white-space:nowrap;font-family:var(--mono);font-weight:700;text-align:left">${esc(g.date)}</td><td>${g.countries.size}</td><td>${g.cells}</td><td style="text-align:left">${esc(g.note)||'—'}</td><td style="text-align:left;font-size:11px;color:var(--ink2)">${shown}</td></tr>`;}).join("");
-  box.innerHTML=`<div style="font-family:var(--mono);font-size:11.5px;margin-bottom:6px"><b>📋 扫描日志</b> · 共 ${arr.length} 条记录 · 累计打勾 ${totalCells} 格(按「日期 × 轮次说明」聚合)· 再点按钮收起</div>`
-    +`<table class="smx" style="min-width:auto;width:100%"><thead><tr><th style="text-align:left">日期</th><th>国家/组织数</th><th>格数</th><th style="text-align:left">轮次说明</th><th style="text-align:left">覆盖对象</th></tr></thead><tbody>${rows}</tbody></table>`;
+  box.style.display='block';box.innerHTML='<div class="bigmsg">载入日志…</div>';
+  loadScanRuns(true).then(runs=>{
+    if(!runs||!runs.length){box.innerHTML='<div style="color:var(--muted);font-size:12px;padding:6px">暂无扫描日志——每轮采集会记录一条(覆盖国家数/格数/说明)。看板只显示最新一轮覆盖,历史轮次进这里。</div>';return;}
+    const rows=runs.map(r=>{const cs=r.countries||'';const shown=cs.length>240?cs.slice(0,240)+'…':cs;
+      return `<tr><td style="white-space:nowrap;font-family:var(--mono);font-weight:700;text-align:left">${esc(r.run_date||'')}</td><td>${r.covered_count||0}</td><td>${r.cells_count||0}</td><td style="text-align:left">${esc(r.note||'')||'—'}</td><td style="text-align:left;font-size:11px;color:var(--ink2)">${esc(shown)}</td></tr>`;}).join("");
+    box.innerHTML=`<div style="font-family:var(--mono);font-size:11.5px;margin-bottom:6px"><b>📋 扫描日志(跨轮历史)</b> · 共 ${runs.length} 轮 · <span style="color:var(--accent)">看板只显示最新一轮的覆盖(每轮重置),历史轮次看这里</span> · 再点收起</div>`
+      +`<table class="smx" style="min-width:auto;width:100%"><thead><tr><th style="text-align:left">轮次日期</th><th>覆盖国家/组织</th><th>格数</th><th style="text-align:left">说明</th><th style="text-align:left">覆盖对象</th></tr></thead><tbody>${rows}</tbody></table>`;
+  });
 }
 function renderScanBoard(){
   const body=$("#rd-scan-body");if(!body)return;
@@ -5260,8 +5265,8 @@ function renderScanBoard(){
     if(gapOnly){let n=0;for(let d=1;d<=10;d++)if(scanCell(r,d))n++;if(n>=10)return false;}
     return true;});
   const kpi=$("#rd-scan-kpi");
-  if(kpi)kpi.innerHTML=`已扫描 <b style="color:#3d6630">${scannedCells}</b>/${totalCells} 格(<b>${pct}%</b>)· 全扫完国家 <b>${fullRows}</b>/${_scanmx.length} · 完全未扫 <b style="color:#a8401f">${zeroRows}</b> · 当前筛选 ${rows.length} 行`
-    +`<br>各维度已扫:`+SCAN_DIMS.map((d,i)=>`${d[0]} <b>${dimDone[i]}</b>`).join(" · ");
+  if(kpi)kpi.innerHTML=`<b style="color:var(--accent)">本轮</b>已扫 <b style="color:#3d6630">${scannedCells}</b>/${totalCells} 格(<b>${pct}%</b>)· 本轮覆盖 <b>${fullRows}</b>/${_scanmx.length} 国 · 本轮未扫 <b style="color:#a8401f">${zeroRows}</b> · 当前筛选 ${rows.length} 行 · 跨轮历史见「📋 扫描日志」`
+    +`<br>本轮各维度已扫:`+SCAN_DIMS.map((d,i)=>`${d[0]} <b>${dimDone[i]}</b>`).join(" · ");
   const th=`<th class="smx-cty">国家 / 组织</th>`+SCAN_DIMS.map(d=>`<th class="smx-d" title="${d[2]}">${d[0]}</th>`).join("")+`<th class="smx-d" title="该行已扫维度数 / 10">Σ</th>`;
   const trs=rows.map(r=>{
     let n=0;const tds=SCAN_DIMS.map(d=>{
