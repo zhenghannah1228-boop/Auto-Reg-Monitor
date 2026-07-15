@@ -1053,9 +1053,11 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <label style="font-size:11.5px;color:var(--ink);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="rd-scan-gaponly" onchange="renderScanBoard()">只看有缺口的行(<10✓)</label>
         <label style="font-size:11.5px;color:var(--ink);display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" id="rd-scan-listmiss" onchange="renderScanBoard()">只看「清单缺失」国</label>
         <span style="flex:1"></span>
+        <button class="btn light" onclick="rdScanLog()">📋 扫描日志</button>
         <button class="btn light" onclick="loadScanMatrix(true).then(renderScanBoard)">↻ 刷新</button>
         <span style="font-size:11px;color:var(--muted)">✓=已扫描(悬停看轮次/说明)· 空格=未扫描(悬停看原因)</span>
       </div>
+      <div id="rd-scan-log" style="display:none;margin-bottom:8px;border:1px solid var(--line);border-radius:6px;background:var(--panel);padding:8px 10px;max-height:44vh;overflow:auto"></div>
       <div id="rd-scan-body" style="overflow:auto;max-height:74vh;border:1px solid var(--line);border-radius:6px"><div class="bigmsg">切换到看板即载入…</div></div>
     </div>
   </div>
@@ -5228,6 +5230,21 @@ function rdSetView(v){
   if(v==="scan"){if(!_scanmx)loadScanMatrix().then(renderScanBoard);else renderScanBoard();}
 }
 function scanCell(row,dim){const c=row.cells&&row.cells[String(dim)];return c&&(c.s===1||c.s===true||c.s==="1")?c:null;}
+function rdScanLog(){
+  const box=$("#rd-scan-log");if(!box)return;
+  if(box.style.display!=='none'){box.style.display='none';return;}
+  if(!_scanmx){box.style.display='block';box.innerHTML='<div class="bigmsg">载入中…</div>';loadScanMatrix().then(rdScanLog);return;}
+  const groups={};
+  (_scanmx||[]).forEach(r=>{const c=r.cells||{};for(let d=1;d<=10;d++){const cell=c[String(d)];if(cell&&(cell.s===1||cell.s===true||cell.s==='1')){const dt=cell.d||'(无日期)',nt=cell.n||'';const k=dt+'|||'+nt;if(!groups[k])groups[k]={date:dt,note:nt,cells:0,countries:new Set()};groups[k].cells++;groups[k].countries.add(r.country);}}});
+  const arr=Object.values(groups).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  box.style.display='block';
+  if(!arr.length){box.innerHTML='<div style="color:var(--muted);font-size:12px;padding:6px">暂无扫描记录——每格在采集打勾时会记录日期与轮次说明,这里按「日期×轮次」聚合展示。</div>';return;}
+  const totalCells=arr.reduce((s,g)=>s+g.cells,0);
+  const rows=arr.map(g=>{const cs=[...g.countries];const shown=cs.slice(0,18).map(esc).join('、')+(cs.length>18?` …等${cs.length}`:'');
+    return `<tr><td style="white-space:nowrap;font-family:var(--mono);font-weight:700;text-align:left">${esc(g.date)}</td><td>${g.countries.size}</td><td>${g.cells}</td><td style="text-align:left">${esc(g.note)||'—'}</td><td style="text-align:left;font-size:11px;color:var(--ink2)">${shown}</td></tr>`;}).join("");
+  box.innerHTML=`<div style="font-family:var(--mono);font-size:11.5px;margin-bottom:6px"><b>📋 扫描日志</b> · 共 ${arr.length} 条记录 · 累计打勾 ${totalCells} 格(按「日期 × 轮次说明」聚合)· 再点按钮收起</div>`
+    +`<table class="smx" style="min-width:auto;width:100%"><thead><tr><th style="text-align:left">日期</th><th>国家/组织数</th><th>格数</th><th style="text-align:left">轮次说明</th><th style="text-align:left">覆盖对象</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
 function renderScanBoard(){
   const body=$("#rd-scan-body");if(!body)return;
   if(!_scanmx){body.innerHTML='<div class="bigmsg">载入中…</div>';loadScanMatrix().then(renderScanBoard);return;}
