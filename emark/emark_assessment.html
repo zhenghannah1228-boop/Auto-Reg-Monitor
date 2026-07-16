@@ -114,6 +114,7 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .mkb-e{color:var(--od);background:var(--ol)}
 .mkb-le{color:#fff;background:var(--blue)}
 .mkb-n{color:var(--greyl);background:#EEF0F2;font-weight:400}
+.mkb-ce{color:#7A3E00;background:#FBE7CF}
 .reachb{display:inline-block;font-size:10.5px;color:var(--green);background:#E7F3EC;border:none;border-radius:4px;padding:2px 7px;margin-left:6px;vertical-align:1px;cursor:pointer;font-family:inherit}
 .reachb:hover{background:#CFE9DA;text-decoration:underline}
 .dirbtn{font-family:inherit;font-size:12px;font-weight:600;color:var(--od);background:var(--ol);border:1px solid var(--o);border-radius:8px;padding:6px 13px;cursor:pointer;margin-left:8px}
@@ -503,6 +504,12 @@ function markBadge(i){
   if(i.mark==='e') return `<span class="mkb mkb-le" title="仅 EU 条例覆盖、无对应 UN 法规，只能打小 e（欧盟内有效）">小e</span>`;
   return `<span class="mkb mkb-n" title="整车/系统级要求，非可独立打标的部件">整车级</span>`;
 }
+// 烟火制品另需 CE：含气体发生器/预紧器点火药的部件（(EU) 2013/29 第 6 条 P1 类、第 8 条）——与 UN 型批并行
+const PYRO_ITEMS={A23:'含气体发生器',A5:'烟火式预紧器'};
+function pyroBadge(i){
+  if(!PYRO_ITEMS[i.item]) return '';
+  return `<span class="mkb mkb-ce" onclick="event.stopPropagation();openMarkSelector()" style="cursor:pointer" title="${PYRO_ITEMS[i.item]}属车用烟火制品，另需按 (EU) 2013/29 第 6 条(P1 类)/第 8 条打 CE，与大E型批并行。点开标志选择器">+CE烟火</span>`;
+}
 function reachBadge(i){
   const n=partiesCount(i.reg); if(!n) return '';
   const m=/(?:UN\s*)?R\s*(\d{1,3})/i.exec(i.reg||''); const no=m?m[1]:'';
@@ -570,6 +577,8 @@ const MARK_RULES=[
   basis:'无线部分适用无线电设备指令 RED 2014/53/EU（一并覆盖射频、EMC 与健康安全），需追加 CE。（注：RED 已取代旧 R&TTE 指令）'},
  {id:'mach',q:'含机械运动 / 液压 / 举升等机械部件',marks:['CE（机械）'],
   basis:'机械部分适用机械指令 2006/42/EC；自 2027-01-20 起由机械条例 (EU) 2023/1230 取代（当前为过渡期），需追加 CE。'},
+ {id:'pyro',q:'含烟火制品（气囊气体发生器 / 微型气体发生器 / 烟火式安全带预紧器）',marks:['CE（烟火制品）'],
+  basis:'气体发生器、安全带预紧器点火药等属<b>车用烟火制品</b>，由烟火制品指令 <b>(EU) 2013/29</b>（重铸 2007/23/EC）监管：第 3 条定义「车用烟火制品」为车辆安全装置中含烟火物质用于触发的部件；<b>第 6 条</b>将其（含气囊与安全带预紧器系统）归 <b>P1 类</b>；<b>第 8 条</b>要求制造商出具 EU 符合性声明并加贴 CE（涉生产控制阶段时 CE 后附公告机构编号）。此 CE 针对<b>烟火部件本身</b>，与整车/STU 的 UN 型式批准（如替换气囊 R114、安全带 R16）<b>并行</b>，两证不互相替代。'},
  {id:'euonly',q:'仅欧盟条例覆盖、无对应 UN 法规的项（如部分 2021/535 附件项目）',marks:['e-mark（小e）'],
   basis:'无对应 UN 法规、仅由 EU 条例覆盖的项，按 EU 型式批准打小 e（欧盟内部），不进入 1958 协定多国互认。'},
  {id:'mech',q:'纯机械 / 结构 / 光学件（无电子、无无线、无机械动力）',marks:['E-mark 或 e-mark'],
@@ -603,7 +612,7 @@ function renderMarkResult(){
   el.innerHTML=`<div class="mark-out">
     <div class="mark-badges">你的部件可能需要：${marks.map(m=>{const k=/大E/.test(m)?'bigE':/小e/.test(m)?'smalle':/CE/.test(m)?'ce':'';return `<span class="mark-b"${k?` style="cursor:help" onclick="openGloss('${k}')" title="点看释义"`:''}>${m}${k?' ?':''}</span>`;}).join('')}</div>
     <ul class="mark-ul">${chosen.map(r=>`<li>${r.basis}</li>`).join('')}</ul>
-    ${marks.length>1?'<div class="mark-multi">⚠ 多标志并存：各标志走各自的评定路径与机构（型式批准机关 / RED 公告机构 / 机械评定），互不替代，勿漏其一。</div>':''}
+    ${marks.length>1?'<div class="mark-multi">⚠ 多标志并存：各标志走各自的评定路径与机构（型式批准机关 / RED 公告机构 / 机械评定 / 烟火公告机构），互不替代，勿漏其一。</div>':''}
   </div>`;
 }
 async function loadVerDB(){
@@ -766,7 +775,7 @@ function step3(){
   const items=applicable();
   items.forEach(i=>{if(!regStatus[i.item])regStatus[i.item]='unk';});
   const rows=items.map(i=>`<div class="arow">
-     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${VEH[i.item]?`<span class="vehb">${VEH[i.item]}</span>`:''}${iwvtaChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}</div>
+     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${VEH[i.item]?`<span class="vehb">${VEH[i.item]}</span>`:''}${iwvtaChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}</div>
      <div class="seg" data-item="${i.item}">
        <button class="${regStatus[i.item]==='done'?'on done-b':''}" data-v="done">已认证</button>
        <button class="${regStatus[i.item]==='prog'?'on prog-b':''}" data-v="prog">进行中</button>
@@ -778,7 +787,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。勾「已认证」后若该法规已有更新系列生效，会自动提示核对。</p>
     ${focusNote()}
-    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button><button class="dirbtn" onclick="openIWVTA()">🚗 IWVTA 整车必备法规（${IWVTA_REQ.length}）</button> <span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标。点「🌍 N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}</span></div>
+    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button><button class="dirbtn" onclick="openIWVTA()">🚗 IWVTA 整车必备法规（${IWVTA_REQ.length}）</button> <span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标 / <span class="mkb mkb-ce">+CE烟火</span>含气囊气发·预紧器另按 (EU) 2013/29 打 CE。点「🌍 N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}</span></div>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
