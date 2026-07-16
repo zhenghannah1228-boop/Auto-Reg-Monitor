@@ -487,7 +487,7 @@ function dirFilter(q){ q=(q||'').toLowerCase(); document.querySelectorAll('#dir-
 // ===== 标志选择器：E-mark / e-mark / CE，按现行 EU 指令编号（2026-07 核验）=====
 const MARK_RULES=[
  {id:'auto',q:'车用电子件（含电子电路，装于 M/N/O/L/T 类车辆）',marks:['E-mark（大E）'],
-  basis:'车用电磁兼容由 UN R10 型式批准，经 (EU) 2018/858 纳入整车批准；车辆及其电子子组件(ESA)已排除出通用 EMC 指令 2014/30/EU，因此打大 E、不单独打 CE-EMC。'},
+  basis:'车用电磁兼容由 UN R10 型式批准，经 (EU) 2018/858 纳入整车批准；车辆及其电子子组件(ESA)已排除出通用 EMC 指令 2014/30/EU，因此打大 E、不单独打 CE-EMC。<br><b>为什么是大 E 不是小 e：</b>凡有对应 UN 法规的车用项（EMC=R10、灯具=R48…），EU 直接采用该 UN 法规、打<b>大 E</b>（1958 协定多国互认）；只有<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项才打小 e（见下方「仅欧盟条例覆盖」选项）。'},
  {id:'radio',q:'含无线/射频模块（蓝牙 / Wi-Fi / 蜂窝 / GNSS / 无钥匙进入等）',marks:['CE（无线电设备指令 RED）'],
   basis:'无线部分适用无线电设备指令 RED 2014/53/EU（一并覆盖射频、EMC 与健康安全），需追加 CE。（注：RED 已取代旧 R&TTE 指令）'},
  {id:'mach',q:'含机械运动 / 液压 / 举升等机械部件',marks:['CE（机械）'],
@@ -502,7 +502,8 @@ function openMarkSelector(){
   markSel={};
   const rows=MARK_RULES.map(r=>`<button class="mark-row" data-mark="${r.id}" onclick="toggleMark('${r.id}',this)"><span class="mark-ck">☐</span><span>${r.q}</span></button>`).join('');
   const body=`<div style="padding:14px 16px">
-    <div style="font-size:12.5px;color:var(--ink2);margin-bottom:10px">勾选你的部件特性（可多选），下方即时给出所需标志组合与现行法规依据：</div>
+    <div style="font-size:12.5px;color:var(--ink2);margin-bottom:8px">勾选你的部件特性（可多选），下方即时给出所需标志组合与现行法规依据：</div>
+    <div style="font-size:11.5px;color:var(--grey);background:var(--bg);border-radius:7px;padding:8px 11px;margin-bottom:12px;line-height:1.6"><b>大 E</b>＝按 UN 法规批准（1958 协定，多国互认）· <b>小 e</b>＝按 EU 条例批准（欧盟内部）· <b>CE</b>＝非车用指令（无线/机械等）。判定原则：<b>有对应 UN 法规即大 E，仅 EU 条例覆盖才小 e</b>。</div>
     ${rows}
     <div id="mark-result"></div>
   </div>`;
