@@ -58,7 +58,7 @@
     {
      "doc": "Add.0/Rev.6/Amend.1",
      "status": "07 series",
-     "eif": null,
+     "eif": "2025-06-17",
      "eif_raw": "17.06.2025",
      "sess": "194 (Nov.24)",
      "sym": "2024/89"
@@ -66,15 +66,15 @@
     {
      "doc": "Add.0/Rev.7",
      "status": "07 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2026-06-04",
+     "eif_raw": "[04.06.2026]",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.0/Rev.7/Amend.1",
      "status": "08 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.2026]",
      "sess": "197 (Nov.25)",
      "sym": "2025/159"
@@ -1473,7 +1473,7 @@
     {
      "doc": "Add.3/Rev.3/Amend.1",
      "status": "Suppl.17 to 00",
-     "eif": null,
+     "eif": "2015-06-15",
      "eif_raw": "15.06.2015",
      "sess": "164 (Nov. 14)",
      "sym": ""
@@ -3456,7 +3456,7 @@
     {
      "doc": "Add.8/Rev.4/Amend.3",
      "status": "Suppl. 3 to 08",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (Jun 2025)",
      "sym": "2025/67"
@@ -3785,14 +3785,6 @@
      "sym": ""
     },
     {
-     "doc": "The status has been divided into 2 pages, each of them reflecting the status of its 04 and 05 series of amendments to the UN Regulation",
-     "status": "The status has been divided into 2 pages, each of them reflecting the status of its 04 and 05 series of amendments to the UN Regulation",
-     "eif": null,
-     "eif_raw": "The status has been divided into 2 pages, each of them reflecting the status of its 04 and 05 series of amendments to the UN Regulation",
-     "sess": "The status has been divided into 2 pages, each of them reflecting the status of its 04 and 05 series of amendments to the UN Regulation",
-     "sym": ""
-    },
-    {
      "doc": "Add.9/Rev.6",
      "status": "06 series",
      "eif": null,
@@ -3803,7 +3795,7 @@
     {
      "doc": "Add.9/Rev.6/Amend.4",
      "status": "07 series",
-     "eif": null,
+     "eif": "2025-06-17",
      "eif_raw": "17.06.2025",
      "sess": "194 (Nov.24)",
      "sym": "2024/90"
@@ -3811,7 +3803,7 @@
     {
      "doc": "Add.9/Rev.6/Amend.5",
      "status": "Suppl. 4 to the 06 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.2026]",
      "sess": "197 (Nov.25)",
      "sym": "2025/113"
@@ -3827,7 +3819,7 @@
     {
      "doc": "Add.9/Rev.7/Amend.1",
      "status": "Suppl. 1 to the 07 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.2026]",
      "sess": "197 (Nov.25)",
      "sym": "2025/110"
@@ -5097,15 +5089,15 @@
     {
      "doc": "Add.12/Rev.9",
      "status": "12 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2023-01-04",
+     "eif_raw": "04.01.23",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.12/Rev.9/Amend.8",
      "status": "Supp. 7 to the 12 series",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (Jun. 25)",
      "sym": "2025/57"
@@ -5113,15 +5105,15 @@
     {
      "doc": "Add.12/Rev.10",
      "status": "13 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-09-22",
+     "eif_raw": "22.09.24",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.12/Rev.10/Amend.6",
      "status": "Supp. 5 to the 13",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": "2025/58"
@@ -5129,15 +5121,15 @@
     {
      "doc": "Add.12/Rev.11",
      "status": "14 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-09-26",
+     "eif_raw": "26.09.25",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.12/Rev.11/Amend.3",
      "status": "Supp. 2 to the 14 series",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": "2025/59"
@@ -5145,15 +5137,15 @@
     {
      "doc": "Add.12/Rev.12",
      "status": "15 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2026-01-11",
+     "eif_raw": "11.01.2026",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.12/Rev.12/Amend.1",
      "status": "Supp. 1 to the 15 series",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": "2025/60"
@@ -6731,8 +6723,8 @@
     {
      "doc": "Add.15/Rev.8/Amend.4",
      "status": "07 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2017-06-22",
+     "eif_raw": "22.06.17",
      "sess": "22.06.17",
      "sym": ""
     },
@@ -6747,8 +6739,8 @@
     {
      "doc": "Add.15/Rev.9/Amend.1",
      "status": "Suppl.1 to 07",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2018-02-10",
+     "eif_raw": "10.02.18",
      "sess": "10.02.18",
      "sym": ""
     },
@@ -6763,8 +6755,8 @@
     {
      "doc": "Add.15/Rev.9/Amend.2",
      "status": "Suppl.2 to 07",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2018-07-19",
+     "eif_raw": "19.07.18",
      "sess": "19.07.18",
      "sym": ""
     },
@@ -6779,48 +6771,48 @@
     {
      "doc": "Add.15/Rev.9/Amend.3",
      "status": "Suppl.3 to 07",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2018-12-29",
+     "eif_raw": "29.12.18",
      "sess": "29.12.18",
      "sym": ""
     },
     {
      "doc": "Add.15/Rev.9/Amend.4",
      "status": "Suppl.4 to 07",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2019-05-28",
+     "eif_raw": "28.05.19",
      "sess": "28.05.19",
      "sym": ""
     },
     {
      "doc": "Add.15/Rev.9/Amend.5",
      "status": "08 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2019-05-28",
+     "eif_raw": "28.05.19",
      "sess": "28.05.19",
      "sym": ""
     },
     {
      "doc": "Add.15/Rev.9/Amend.6",
      "status": "Suppl.5 to 07",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2020-05-29",
+     "eif_raw": "29.05.20",
      "sess": "29.05.20",
      "sym": ""
     },
     {
      "doc": "Add.15/Rev.9/Amend.7",
      "status": "Suppl.6 to 07",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2021-06-09",
+     "eif_raw": "09.06.21",
      "sess": "09.06.21",
      "sym": ""
     },
     {
      "doc": "Add.15/Rev.9/Amend.8",
      "status": "Suppl. 7 to 07",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2022-06-22",
+     "eif_raw": "22.06.22",
      "sess": "22.06.22",
      "sym": ""
     },
@@ -6843,7 +6835,7 @@
     {
      "doc": "Add.15/Rev.10/Amend.4",
      "status": "Suppl. 4 to 08",
-     "eif": null,
+     "eif": "2024-01-05",
      "eif_raw": "05.01.2024",
      "sess": "190 (June. 23)",
      "sym": "2023/46"
@@ -6851,7 +6843,7 @@
     {
      "doc": "Add.15/Rev.10/Amend.7",
      "status": "Suppl. 6 to the 08 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/120"
@@ -6859,15 +6851,15 @@
     {
      "doc": "Add.15/Rev.11",
      "status": "09 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.15/Rev.11/Amend.3",
      "status": "Suppl. 2 to the 10 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/122"
@@ -6875,15 +6867,15 @@
     {
      "doc": "Add.15/Rev.12",
      "status": "10 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2026-01-11",
+     "eif_raw": "11.01.2026",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.15/Rev.12/Add.1",
      "status": "Suppl.1 to 10",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": "2025/49"
@@ -7455,15 +7447,15 @@
     {
      "doc": "Add.16/Rev.8",
      "status": "11 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2026-01-11",
+     "eif_raw": "11.01.2026",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.16/Rev.8/Amend.1",
      "status": "12 series",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": ""
@@ -10859,80 +10851,80 @@
     {
      "doc": "Add.25/Amend.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "01 series",
+     "eif": "1973-09-11",
+     "eif_raw": "11.09.73",
      "sess": "11.09.73",
      "sym": ""
     },
     {
      "doc": "Add.25/Corr.1",
      "status": "Corr.1",
-     "eif": null,
-     "eif_raw": "Corr.1",
+     "eif": "1986-05-23",
+     "eif_raw": "23.05.86",
      "sess": "23.05.86",
      "sym": ""
     },
     {
      "doc": "Add.25/Amend.2",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "02 series",
+     "eif": "1996-12-13",
+     "eif_raw": "13.12.96",
      "sess": "13.12.96",
      "sym": ""
     },
     {
      "doc": "Add.25/Amend.3",
      "status": "Suppl.1 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 02",
+     "eif": "2000-07-06",
+     "eif_raw": "06.07.00",
      "sess": "06.07.00",
      "sym": ""
     },
     {
      "doc": "Add.25/Amend.4",
      "status": "03 series",
-     "eif": null,
-     "eif_raw": "03 series",
+     "eif": "2005-06-23",
+     "eif_raw": "23.06.05",
      "sess": "23.06.05",
      "sym": ""
     },
     {
      "doc": "Add.25/Amend.5",
      "status": "Suppl.1 to 03",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 03",
+     "eif": "2007-06-11",
+     "eif_raw": "11.06.07",
      "sess": "11.06.07",
      "sym": ""
     },
     {
      "doc": "Add.25/Rev.1",
      "status": "Suppl.2 to 03",
-     "eif": null,
-     "eif_raw": "Suppl.2 to 03",
+     "eif": "2013-07-15",
+     "eif_raw": "15.07.13",
      "sess": "15.07.13",
      "sym": ""
     },
     {
      "doc": "Add.25/Rev.1/Amend.1",
      "status": "Suppl.3 to 03",
-     "eif": null,
-     "eif_raw": "Suppl.3 to 03",
+     "eif": "2016-06-18",
+     "eif_raw": "18.06.16",
      "sess": "18.06.16",
      "sym": ""
     },
     {
      "doc": "Add.25/Rev.1/Amend.2",
      "status": "Suppl.4 to 03",
-     "eif": null,
-     "eif_raw": "Suppl.4 to 03",
+     "eif": "2020-09-25",
+     "eif_raw": "25.09.20",
      "sess": "25.09.20",
      "sym": ""
     },
     {
      "doc": "Add.25/Rev.1/Amend.3",
      "status": "04 series",
-     "eif": null,
-     "eif_raw": "04 series",
+     "eif": "2020-09-25",
+     "eif_raw": "25.09.20",
      "sess": "25.09.20",
      "sym": ""
     },
@@ -10940,7 +10932,7 @@
      "doc": "Add.25/Rev.2",
      "status": "04 series",
      "eif": null,
-     "eif_raw": "04 series",
+     "eif_raw": "",
      "sess": "-",
      "sym": ""
     }
@@ -13384,14 +13376,6 @@
      "sym": ""
     },
     {
-     "doc": "1\tSuppl.4 to 02 to be incorporated in document .../Add.33/Rev.2",
-     "status": "1\tSuppl.4 to 02 to be incorporated in document .../Add.33/Rev.2",
-     "eif": null,
-     "eif_raw": "1\tSuppl.4 to 02 to be incorporated in document .../Add.33/Rev.2",
-     "sess": "1\tSuppl.4 to 02 to be incorporated in document .../Add.33/Rev.2",
-     "sym": ""
-    },
-    {
      "doc": "Add.33/Rev.2/Corr.2 (Erratum)",
      "status": "Corr.2 to Rev.2",
      "eif": null,
@@ -13784,7 +13768,7 @@
     {
      "doc": "Add.34/Rev.1/Amend.3",
      "status": "Suppl. 1 to the 01 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/82"
@@ -15913,7 +15897,7 @@
     {
      "doc": "Add.40/Rev.2/Amend.13",
      "status": "Suppl.12 to 04",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": "2025/69"
@@ -15929,7 +15913,7 @@
     {
      "doc": "Add.40/Rev.3/Amend.4",
      "status": "Suppl.4 to 05",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": "2025/70"
@@ -15937,7 +15921,7 @@
     {
      "doc": "Add.40/Rev.3/Amend.5",
      "status": "06 series",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": "2025/66"
@@ -18041,23 +18025,23 @@
     {
      "doc": "Add.45/Rev.7",
      "status": "05 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-09-22",
+     "eif_raw": "22.09.24",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.45/Rev.8",
      "status": "06 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.45/Rev.8/Amend.2",
      "status": "07 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/103"
@@ -18742,899 +18726,891 @@
    "amendments": [
     {
      "doc": "Add.47/Rev.6",
-     "status": "Add.47/Rev.6",
-     "eif": null,
-     "eif_raw": "Suppl.3 to 04",
-     "sess": "24.10.09",
-     "sym": ""
+     "status": "Suppl.3 to 04",
+     "eif_raw": "24.10.09",
+     "eif": "2009-10-24",
+     "sess": "147 (Mar 09)",
+     "sym": "2009/22 +"
     },
     {
      "doc": "Add.47/Rev.6",
-     "status": "Add.47/Rev.6",
-     "eif": null,
-     "eif_raw": "Corr.1 to Rev.5",
-     "sess": "11.11.09",
-     "sym": ""
+     "status": "Corr.1 to Rev.5",
+     "eif_raw": "11.11.09",
+     "eif": "2009-11-11",
+     "sess": "149 (Nov. 09)",
+     "sym": "2009/89 +"
     },
     {
      "doc": "Add.47/Rev.6",
-     "status": "Add.47/Rev.6",
-     "eif": null,
-     "eif_raw": "Corr.1 to Suppl.2 to 04",
-     "sess": "11.11.09",
-     "sym": ""
+     "status": "Corr.1 to Suppl.2 to 04",
+     "eif_raw": "11.11.09",
+     "eif": "2009-11-11",
+     "sess": "149 (Nov. 09)",
+     "sym": "2009/90 + Add.1"
     },
     {
      "doc": "Add.47/Rev.6",
-     "status": "Add.47/Rev.6",
-     "eif": null,
-     "eif_raw": "Corr.2 to Rev.5",
-     "sess": "10.03.10",
-     "sym": ""
+     "status": "Corr.2 to Rev.5",
+     "eif_raw": "10.03.10",
+     "eif": "2010-03-10",
+     "sess": "150 (Mar. 10)",
+     "sym": "2010/19"
     },
     {
      "doc": "Add.47/Rev.6",
-     "status": "Add.47/Rev.6",
-     "eif": null,
-     "eif_raw": "Corr.1 to Suppl.3 to 04",
-     "sess": "10.03.10",
-     "sym": ""
+     "status": "Corr.1 to Suppl.3 to 04",
+     "eif_raw": "10.03.10",
+     "eif": "2010-03-10",
+     "sess": "150 (Mar. 10)",
+     "sym": "2010/20"
     },
     {
      "doc": "Add.47/Rev.6",
-     "status": "Add.47/Rev.6",
-     "eif": null,
-     "eif_raw": "Corr.1 to Suppl.4 to 03",
-     "sess": "10.03.10",
-     "sym": ""
+     "status": "Corr.1 to Suppl.4 to 03",
+     "eif_raw": "10.03.10",
+     "eif": "2010-03-10",
+     "sess": "150 (Mar. 10)",
+     "sym": "2010/21 +"
     },
     {
      "doc": "Add.47/Rev.6/Corr.1",
-     "status": "Add.47/Rev.6/Corr.1",
-     "eif": null,
-     "eif_raw": "Corr.2 to Suppl.3 to 04",
-     "sess": "23.06.10",
-     "sym": ""
+     "status": "Corr.2 to Suppl.3 to 04",
+     "eif_raw": "23.06.10",
+     "eif": "2010-06-23",
+     "sess": "151 (June 10)",
+     "sym": "2010/90 +"
     },
     {
      "doc": "Add.47/Rev.6/Amend.1",
-     "status": "Add.47/Rev.6/Amend.1",
-     "eif": null,
-     "eif_raw": "Suppl.4 to 04",
-     "sess": "19.08.10",
-     "sym": ""
+     "status": "Suppl.4 to 04",
+     "eif_raw": "19.08.10",
+     "eif": "2010-08-19",
+     "sess": "149 (Nov. 09)",
+     "sym": "2009/91 + para. 55 of"
     },
     {
      "doc": "Add.47/Rev.6/Corr.2",
-     "status": "Add.47/Rev.6/Corr.2",
-     "eif": null,
-     "eif_raw": "Corr.1 to Rev.6",
-     "sess": "10.11.10",
-     "sym": ""
+     "status": "Corr.1 to Rev.6",
+     "eif_raw": "10.11.10",
+     "eif": "2010-11-10",
+     "sess": "152 (Nov. 10)",
+     "sym": "2010/105"
     },
     {
      "doc": "Add.47/Rev.6/Corr.3",
-     "status": "Add.47/Rev.6/Corr.3",
-     "eif": null,
-     "eif_raw": "Corr.2 to Rev.6",
-     "sess": "10.11.10",
-     "sym": ""
+     "status": "Corr.2 to Rev.6",
+     "eif_raw": "10.11.10",
+     "eif": "2010-11-10",
+     "sess": "152 (Nov. 10)",
+     "sym": "2010/106"
     },
     {
      "doc": "Add.47/Rev.6/Amend.1/Corr.1",
-     "status": "Add.47/Rev.6/Amend.1/Corr.1",
-     "eif": null,
-     "eif_raw": "Corr.1 to Suppl.4 to 04",
-     "sess": "10.11.10",
-     "sym": ""
+     "status": "Corr.1 to Suppl.4 to 04",
+     "eif_raw": "10.11.10",
+     "eif": "2010-11-10",
+     "sess": "152 (Nov. 10)",
+     "sym": "2010/108"
     },
     {
      "doc": "Add.47/Rev.6/Amend.2",
-     "status": "Add.47/Rev.6/Amend.2",
-     "eif": null,
-     "eif_raw": "Suppl.5 to 03",
-     "sess": "09.12.10",
-     "sym": ""
+     "status": "Suppl.5 to 03",
+     "eif_raw": "09.12.10",
+     "eif": "2010-12-09",
+     "sess": "150 (Mar. 10)",
+     "sym": "2010/22"
     },
     {
      "doc": "Add.47/Rev.6/Amend.12",
-     "status": "Add.47/Rev.6/Amend.12",
-     "eif": null,
-     "eif_raw": "Suppl.6 to 03",
-     "sess": "15.10.19",
-     "sym": ""
+     "status": "Suppl.6 to 03",
+     "eif_raw": "15.10.19",
+     "eif": "2019-10-15",
+     "sess": "177 (Mar. 19)",
+     "sym": "2018/102"
     },
     {
      "doc": "Add.47/Rev.6/Amend.13",
-     "status": "Add.47/Rev.6/Amend.13",
-     "eif": null,
-     "eif_raw": "Suppl. 7 to 03",
-     "sess": "22.06.22",
-     "sym": ""
+     "status": "Suppl. 7 to 03",
+     "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
+     "sess": "185 (Nov. 21)",
+     "sym": "2021/90"
     },
     {
      "doc": "Add.47/Rev.6/Amend.4",
      "status": "Suppl.6 to 04",
-     "eif": null,
-     "eif_raw": "Suppl.6 to 04",
-     "sess": "Suppl.6 to 04",
-     "sym": ""
-    },
-    {
-     "doc": "The status has been divided into 3 pages, each of them reflecting the status of its 04, 05 and 06 series of amendments to the UN Regulation",
-     "status": "The status has been divided into 3 pages, each of them reflecting the status of its 04, 05 and 06 series of amendments to the UN Regulation",
-     "eif": null,
-     "eif_raw": "The status has been divided into 3 pages, each of them reflecting the status of its 04, 05 and 06 series of amendments to the UN Regulation",
-     "sess": "The status has been divided into 3 pages, each of them reflecting the status of its 04, 05 and 06 series of amendments to the UN Regulation",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.13",
-     "status": "07 series",
-     "eif": null,
-     "eif_raw": "",
-     "sess": "-",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.13/Amend.10",
-     "status": "Suppl. 9 to 07",
-     "eif": null,
-     "eif_raw": "[04.06.26]",
-     "sess": "197 (Nov.25)",
-     "sym": "2025/115"
-    },
-    {
-     "doc": "Add.47/Rev.14",
-     "status": "08 series",
-     "eif": null,
-     "eif_raw": "",
-     "sess": "-",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.15",
-     "status": "09 series",
-     "eif": null,
-     "eif_raw": "",
-     "sess": "",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.15/Amend.2",
-     "status": "Suppl. 2 to 09",
-     "eif": null,
-     "eif_raw": "[04.06.26]",
-     "sess": "197 (Nov.25)",
-     "sym": "2025/117"
+     "eif_raw": "30.01.11",
+     "eif": "2011-01-30",
+     "sess": "151 (June 10)",
+     "sym": "2010/89"
     },
     {
      "doc": "Add.47/Rev.6/Amend.5",
      "status": "05 series",
-     "eif": "2011-01-30",
      "eif_raw": "30.01.11",
+     "eif": "2011-01-30",
      "sess": "151 (June 10)",
      "sym": "2010/90"
     },
     {
      "doc": "Add.47/Rev.6/Corr.4",
-     "status": "Corr.3 to Rev.6 (Suppl.3 to 04)",
-     "eif": "2011-03-09",
+     "status": "Corr.3 to Rev.6 (Suppl.3",
      "eif_raw": "09.03.11",
+     "eif": "2011-03-09",
      "sess": "153 (Mar. 11)",
-     "sym": ""
+     "sym": "2011/27 +"
     },
     {
      "doc": "Add.47/Rev.6/Amend.3/Corr.1",
      "status": "Corr.1 to Suppl.5 to 04",
-     "eif": "2011-03-09",
      "eif_raw": "09.03.11",
+     "eif": "2011-03-09",
      "sess": "153 (Mar. 11)",
      "sym": "2011/26"
     },
     {
      "doc": "Add.47/Rev.6/Amend.5/Corr.1",
      "status": "Corr.1 to 05",
-     "eif": "2011-03-09",
      "eif_raw": "09.03.11",
+     "eif": "2011-03-09",
      "sess": "153 (Mar. 11)",
      "sym": "2011/25"
     },
     {
      "doc": "Add.47/Rev.6/Amend.6",
      "status": "Suppl.7 to 04",
-     "eif": "2011-10-28",
      "eif_raw": "28.10.11",
+     "eif": "2011-10-28",
      "sess": "153 (Mar. 11)",
      "sym": "2011/11"
     },
     {
      "doc": "Add.47/Rev.6/Amend.7",
      "status": "Suppl.8 to 04",
-     "eif": "2012-07-26",
      "eif_raw": "26.07.12",
+     "eif": "2012-07-26",
      "sess": "155 (Nov. 11)",
-     "sym": ""
+     "sym": "2011/98  + 2011/151 +"
     },
     {
      "doc": "Add.47/Rev.6/Amend.8",
      "status": "Suppl.1 to 05",
-     "eif": "2012-07-26",
      "eif_raw": "26.07.12",
+     "eif": "2012-07-26",
      "sess": "155 (Nov. 11)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.6/Amend.6/Corr.1",
-     "status": "Corr.1 to Suppl.7 to 04",
-     "eif": "2012-11-14",
-     "eif_raw": "14.11.12",
-     "sess": "158 (Nov. 12)",
-     "sym": "2012/111"
+     "sym": "2011/132 + para. 69 of"
     },
     {
      "doc": "Add.47/Rev.6/Amend.9",
      "status": "Suppl.9 to 04",
-     "eif": "2012-11-18",
      "eif_raw": "18.11.12",
+     "eif": "2012-11-18",
      "sess": "156 (Mar. 12)",
      "sym": "2012/10"
     },
     {
      "doc": "Add.47/Rev.6/Amend.10",
      "status": "Suppl.2 to 05",
-     "eif": "2012-11-18",
      "eif_raw": "18.11.12",
+     "eif": "2012-11-18",
      "sess": "156 (Mar. 12)",
      "sym": "2012/37"
     },
     {
      "doc": "Add.47/Rev.6/Amend.11",
      "status": "06 series",
-     "eif": "2012-11-18",
      "eif_raw": "18.11.12",
+     "eif": "2012-11-18",
      "sess": "156 (Mar. 12)",
      "sym": "2012/11"
     },
     {
+     "doc": "Add.47/Rev.6/Amend.6/Corr.1",
+     "status": "Corr.1 to Suppl.7 to 04",
+     "eif_raw": "14.11.12",
+     "eif": "2012-11-14",
+     "sess": "158 (Nov. 12)",
+     "sym": "2012/111"
+    },
+    {
+     "doc": "Add.47/Rev.6/Amend.14",
+     "status": "Suppl. 8 to 03",
+     "eif_raw": "04.01.23",
+     "eif": "2023-01-04",
+     "sess": "187 (June 22)",
+     "sym": "2022/95"
+    },
+    {
+     "doc": "Add.47/Rev.6/Amend.15",
+     "status": "Suppl. 9 to 03",
+     "eif_raw": "24.09.23",
+     "eif": "2023-09-24",
+     "sess": "189 (Mar. 23)",
+     "sym": "2023/25"
+    },
+    {
+     "doc": "Add.47/Rev.6/Amend.16",
+     "status": "Supp. 10 to 03",
+     "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
+     "sess": "195 (Mar. 25)",
+     "sym": "2025/30"
+    },
+    {
      "doc": "Add.47/Rev.7",
-     "status": "Covering the 04 series  Corr.2 to Suppl.3 to 04 Corr.1 to Rev.6 Corr.2 to Rev.6 Suppl.4 to 04 Corr.1 to Suppl.4 to 04 Suppl.5 to 03 Suppl.5 to 04 Suppl.6 to 04 Corr.3 to Rev.6 Corr.1 to Suppl.5 to 04 Suppl.7 to 04 Corr.1 to Suppl.7 to 04 Suppl.8 to 04 Suppl.9 to 04",
-     "eif": "2012-11-18",
-     "eif_raw": "18.11.12",
+     "status": "Covering the 04 series",
+     "eif_raw": "",
+     "eif": null,
      "sess": "",
      "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.8",
-     "status": "Covering the 05 series  05 series Suppl.1 to 05 Corr.1 to 05 Suppl.2 to 05",
-     "eif": "2012-11-18",
-     "eif_raw": "18.11.12",
-     "sess": "",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.9",
-     "status": "06 series",
-     "eif": "2012-11-18",
-     "eif_raw": "18.11.12",
-     "sess": "",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.7/Amend.1/Corr.1",
-     "status": "Corr.1 to Suppl.10 to 04",
-     "eif": "2013-03-13",
-     "eif_raw": "13.03.13",
-     "sess": "159 (Mar. 13)",
-     "sym": "2013/28"
-    },
-    {
-     "doc": "Add.47/Rev.8/Amend.1/Corr.1",
-     "status": "Corr.1 to Suppl.3 to 05",
-     "eif": "2013-03-13",
-     "eif_raw": "13.03.13",
-     "sess": "159 (Mar. 13)",
-     "sym": "2013/28"
-    },
-    {
-     "doc": "Add.47/Rev.9/Amend.1/Corr.1",
-     "status": "Corr.1 to Suppl.1 to 06",
-     "eif": "2013-03-13",
-     "eif_raw": "13.03.13",
-     "sess": "159 (Mar. 13)",
-     "sym": "2013/28"
     },
     {
      "doc": "Add.47/Rev.7/Amend.1",
      "status": "Suppl.10 to 04",
-     "eif": "2013-07-15",
      "eif_raw": "15.07.13",
+     "eif": "2013-07-15",
      "sess": "158 (Nov. 12)",
+     "sym": "2012/73 +"
+    },
+    {
+     "doc": "Add.47/Rev.7/Amend.1/Corr.1",
+     "status": "Corr.1 to Suppl.10 to 04",
+     "eif_raw": "13.03.13",
+     "eif": "2013-03-13",
+     "sess": "159 (Mar. 13)",
+     "sym": "2013/28"
+    },
+    {
+     "doc": "Add.47/Rev.7/Amend.2",
+     "status": "Suppl.11 to 04",
+     "eif_raw": "03.11.13",
+     "eif": "2013-11-03",
+     "sess": "159 (Mar. 13)",
+     "sym": "2013/20"
+    },
+    {
+     "doc": "Add.47/Rev.7/Amend.3",
+     "status": "Suppl.12 to 04",
+     "eif_raw": "10.06.14",
+     "eif": "2014-06-10",
+     "sess": "161 (Nov. 13)",
+     "sym": "2013/80"
+    },
+    {
+     "doc": "Add.47/Rev.10",
+     "status": "Suppl.13 to 04",
+     "eif_raw": "09.10.14",
+     "eif": "2014-10-09",
+     "sess": "162 (Mar. 14)",
+     "sym": "2014/19"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.1",
+     "status": "Suppl.14 to 04",
+     "eif_raw": "15.06.15",
+     "eif": "2015-06-15",
+     "sess": "164 (Nov. 14)",
+     "sym": "2014/57"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.2",
+     "status": "Suppl.15 to 04",
+     "eif_raw": "08.10.15",
+     "eif": "2015-10-08",
+     "sess": "165 (Mar. 15)",
+     "sym": "2015/23 + Corr.1"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.3",
+     "status": "Suppl.16 to 04",
+     "eif_raw": "08.10.16",
+     "eif": "2016-10-08",
+     "sess": "168 (Mar. 16)",
+     "sym": "2016/20"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.4",
+     "status": "Suppl.17 to 04",
+     "eif_raw": "22.06.17",
+     "eif": "2017-06-22",
+     "sess": "170 (Nov. 16)",
+     "sym": "2016/78"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.5",
+     "status": "Suppl.18 to 04",
+     "eif_raw": "15.10.19",
+     "eif": "2019-10-15",
+     "sess": "177 (Mar. 19)",
+     "sym": "2018/101"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.6",
+     "status": "Suppl.19 to 04",
+     "eif_raw": "30.09.21",
+     "eif": "2021-09-30",
+     "sess": "183 (Mar. 21)",
+     "sym": "2021/28"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.7",
+     "status": "Suppl. 20 to 04",
+     "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
+     "sess": "185 (Nov. 21)",
+     "sym": "2021/91"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.8",
+     "status": "Suppl. 21 to 04",
+     "eif_raw": "04.01.23",
+     "eif": "2023-01-04",
+     "sess": "187 (June 22)",
+     "sym": "2022/96"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.9",
+     "status": "Suppl. 22 to 04",
+     "eif_raw": "24.09.23",
+     "eif": "2023-09-24",
+     "sess": "189 (Mar. 23)",
+     "sym": "2023/26"
+    },
+    {
+     "doc": "Add.47/Rev.10/Amend.10",
+     "status": "Suppl. 23 to 04",
+     "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
+     "sess": "195 (Mar. 25)",
+     "sym": "2025/31"
+    },
+    {
+     "doc": "Add.47/Rev.8",
+     "status": "Covering the 05 series",
+     "eif_raw": "18.11.12",
+     "eif": "2012-11-18",
+     "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.47/Rev.8/Amend.1",
      "status": "Suppl.3 to 05",
-     "eif": "2013-07-15",
      "eif_raw": "15.07.13",
+     "eif": "2013-07-15",
+     "sess": "158 (Nov. 12)",
+     "sym": "2012/73 +"
+    },
+    {
+     "doc": "Add.47/Rev.8/Amend.1/Corr.1",
+     "status": "Corr.1 to Suppl.3 to 05",
+     "eif_raw": "13.03.13",
+     "eif": "2013-03-13",
+     "sess": "159 (Mar. 13)",
+     "sym": "2013/28"
+    },
+    {
+     "doc": "Add.47/Rev.8/Amend.2",
+     "status": "Suppl.4 to 05",
+     "eif_raw": "03.11.13",
+     "eif": "2013-11-03",
+     "sess": "159 (Mar. 13)",
+     "sym": "2013/21"
+    },
+    {
+     "doc": "Add.47/Rev.8/Amend.3",
+     "status": "Suppl.5 to 05",
+     "eif_raw": "10.06.14",
+     "eif": "2014-06-10",
+     "sess": "161 (Nov. 13)",
+     "sym": "2013/81"
+    },
+    {
+     "doc": "Add.47/Rev.11",
+     "status": "Suppl.6 to 05",
+     "eif_raw": "09.10.14",
+     "eif": "2014-10-09",
+     "sess": "162 (Mar. 14)",
+     "sym": "2014/20"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.1",
+     "status": "Suppl.7 to 05",
+     "eif_raw": "15.06.15",
+     "eif": "2015-06-15",
+     "sess": "164 (Nov. 14)",
+     "sym": "2014/58"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.2",
+     "status": "Suppl.8 to 05",
+     "eif_raw": "08.10.15",
+     "eif": "2015-10-08",
+     "sess": "165 (Mar. 15)",
+     "sym": "2015/22 + Corr.1"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.3",
+     "status": "Suppl.9 to 05",
+     "eif_raw": "08.10.16",
+     "eif": "2016-10-08",
+     "sess": "168 (Mar. 16)",
+     "sym": "2016/19"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.4",
+     "status": "Suppl.10 to 05",
+     "eif_raw": "22.06.17",
+     "eif": "2017-06-22",
+     "sess": "170 (Nov. 16)",
+     "sym": "2016/79"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.5",
+     "status": "Suppl.11 to 05",
+     "eif_raw": "10.02.18",
+     "eif": "2018-02-10",
+     "sess": "172 (June 17)",
+     "sym": "2017/106"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.6",
+     "status": "Suppl.12 to 05",
+     "eif_raw": "28.05.19",
+     "eif": "2019-05-28",
+     "sess": "176 (Nov. 18)",
+     "sym": "2018/85"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.7",
+     "status": "Suppl.13 to 05",
+     "eif_raw": "15.10.19",
+     "eif": "2019-10-15",
+     "sess": "177 (Mar. 19)",
+     "sym": "2018/100/Rev.1"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.8",
+     "status": "Suppl.14 to 05",
+     "eif_raw": "30.09.21",
+     "eif": "2021-09-30",
+     "sess": "183 (Mar. 21)",
+     "sym": "2021/29"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.9",
+     "status": "Suppl. 15 to 05",
+     "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
+     "sess": "185 (Nov. 21)",
+     "sym": "2021/92"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.10",
+     "status": "Suppl. 16 to 05",
+     "eif_raw": "04.01.23",
+     "eif": "2023-01-04",
+     "sess": "187 (June 22)",
+     "sym": "2022/97"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.11",
+     "status": "Suppl. 17 to 05",
+     "eif_raw": "24.09.23",
+     "eif": "2023-09-24",
+     "sess": "189 (Mar. 23)",
+     "sym": "2023/27"
+    },
+    {
+     "doc": "Add.47/Rev.11/Amend.12",
+     "status": "Suppl. 18 to 05",
+     "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
+     "sess": "195 (Mar. 25)",
+     "sym": "2025/32"
+    },
+    {
+     "doc": "Add.47/Rev.9",
+     "status": "06 series",
+     "eif_raw": "18.11.12",
+     "eif": "2012-11-18",
      "sess": "158 (Nov. 12)",
      "sym": ""
     },
     {
      "doc": "Add.47/Rev.9/Amend.1",
      "status": "Suppl.1 to 06",
-     "eif": "2013-07-15",
      "eif_raw": "15.07.13",
+     "eif": "2013-07-15",
      "sess": "158 (Nov. 12)",
-     "sym": ""
+     "sym": "2012/73 +"
     },
     {
-     "doc": "Add.47/Rev.7/Amend.2",
-     "status": "Suppl.11 to 04",
-     "eif": "2013-11-03",
-     "eif_raw": "03.11.13",
+     "doc": "Add.47/Rev.9/Amend.1/Corr.1",
+     "status": "Corr.1 to Suppl.1 to 06",
+     "eif_raw": "13.03.13",
+     "eif": "2013-03-13",
      "sess": "159 (Mar. 13)",
-     "sym": "2013/20"
-    },
-    {
-     "doc": "Add.47/Rev.8/Amend.2",
-     "status": "Suppl.4 to 05",
-     "eif": "2013-11-03",
-     "eif_raw": "03.11.13",
-     "sess": "159 (Mar. 13)",
-     "sym": "2013/21"
+     "sym": "2013/28"
     },
     {
      "doc": "Add.47/Rev.9/Amend.2",
      "status": "Suppl.2 to 06",
-     "eif": "2013-11-03",
      "eif_raw": "03.11.13",
+     "eif": "2013-11-03",
      "sess": "159 (Mar. 13)",
      "sym": "2013/22"
     },
     {
-     "doc": "Add.47/Rev.7/Amend.3",
-     "status": "Suppl.12 to 04",
-     "eif": "2014-06-10",
-     "eif_raw": "10.06.14",
-     "sess": "161 (Nov. 13)",
-     "sym": "2013/80"
-    },
-    {
-     "doc": "Add.47/Rev.8/Amend.3",
-     "status": "Suppl.5 to 05",
-     "eif": "2014-06-10",
-     "eif_raw": "10.06.14",
-     "sess": "161 (Nov. 13)",
-     "sym": "2013/81"
-    },
-    {
      "doc": "Add.47/Rev.9/Amend.3",
      "status": "Suppl.3 to 06",
-     "eif": "2014-06-10",
      "eif_raw": "10.06.14",
+     "eif": "2014-06-10",
      "sess": "161 (Nov. 13)",
      "sym": "2013/82"
     },
     {
-     "doc": "Add.47/Rev.10",
-     "status": "Suppl.13 to 04",
-     "eif": "2014-10-09",
-     "eif_raw": "09.10.14",
-     "sess": "162 (Mar. 14)",
-     "sym": "2014/19"
-    },
-    {
-     "doc": "Add.47/Rev.11",
-     "status": "Suppl.6 to 05",
-     "eif": "2014-10-09",
-     "eif_raw": "09.10.14",
-     "sess": "162 (Mar. 14)",
-     "sym": "2014/20"
-    },
-    {
      "doc": "Add.47/Rev.12",
      "status": "Suppl.4 to 06",
-     "eif": "2014-10-09",
      "eif_raw": "09.10.14",
+     "eif": "2014-10-09",
      "sess": "162 (Mar. 14)",
      "sym": "2014/21"
     },
     {
-     "doc": "Add.47/Rev.10/Amend.1",
-     "status": "Suppl.14 to 04",
-     "eif": "2015-06-15",
-     "eif_raw": "15.06.15",
-     "sess": "164 (Nov. 14)",
-     "sym": "2014/57"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.1",
-     "status": "Suppl.7 to 05",
-     "eif": "2015-06-15",
-     "eif_raw": "15.06.15",
-     "sess": "164 (Nov. 14)",
-     "sym": "2014/58"
-    },
-    {
      "doc": "Add.47/Rev.12/Amend.1",
      "status": "Suppl.5 to 06",
-     "eif": "2015-06-15",
      "eif_raw": "15.06.15",
+     "eif": "2015-06-15",
      "sess": "164 (Nov. 14)",
      "sym": "2014/59"
     },
     {
-     "doc": "Add.47/Rev.10/Amend.2",
-     "status": "Suppl.15 to 04",
-     "eif": "2015-10-08",
-     "eif_raw": "08.10.15",
-     "sess": "165 (Mar. 15)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.2",
-     "status": "Suppl.8 to 05",
-     "eif": "2015-10-08",
-     "eif_raw": "08.10.15",
-     "sess": "165 (Mar. 15)",
-     "sym": ""
-    },
-    {
      "doc": "Add.47/Rev.12/Amend.2",
      "status": "Suppl.6 to 06",
-     "eif": "2015-10-08",
      "eif_raw": "08.10.15",
+     "eif": "2015-10-08",
      "sess": "165 (Mar. 15)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.10/Amend.3",
-     "status": "Suppl.16 to 04",
-     "eif": "2016-10-08",
-     "eif_raw": "08.10.16",
-     "sess": "168 (Mar. 16)",
-     "sym": "2016/20"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.3",
-     "status": "Suppl.9 to 05",
-     "eif": "2016-10-08",
-     "eif_raw": "08.10.16",
-     "sess": "168 (Mar. 16)",
-     "sym": "2016/19"
+     "sym": "2015/21 + Corr.1"
     },
     {
      "doc": "Add.47/Rev.12/Amend.3",
      "status": "Suppl.7 to 06",
-     "eif": "2016-10-08",
      "eif_raw": "08.10.16",
+     "eif": "2016-10-08",
      "sess": "168 (Mar. 16)",
      "sym": "2016/18"
     },
     {
-     "doc": "Add.47/Rev.10/Amend.4",
-     "status": "Suppl.17 to 04",
-     "eif": "2017-06-22",
-     "eif_raw": "22.06.17",
-     "sess": "170 (Nov. 16)",
-     "sym": "2016/78"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.4",
-     "status": "Suppl.10 to 05",
-     "eif": "2017-06-22",
-     "eif_raw": "22.06.17",
-     "sess": "170 (Nov. 16)",
-     "sym": "2016/79"
-    },
-    {
      "doc": "Add.47/Rev.12/Amend.4",
      "status": "Suppl.8 to 06",
-     "eif": "2017-06-22",
      "eif_raw": "22.06.17",
+     "eif": "2017-06-22",
      "sess": "170 (Nov. 16)",
      "sym": "2016/80"
     },
     {
-     "doc": "Add.47/Rev.11/Amend.5",
-     "status": "Suppl.11 to 05",
-     "eif": "2018-02-10",
-     "eif_raw": "10.02.18",
-     "sess": "172 (June 17)",
-     "sym": "2017/106"
-    },
-    {
      "doc": "Add.47/Rev.12/Amend.5",
      "status": "Suppl.9 to 06",
-     "eif": "2018-02-10",
      "eif_raw": "10.02.18",
+     "eif": "2018-02-10",
      "sess": "172 (June 17)",
      "sym": "2017/79"
     },
     {
      "doc": "Add.47/Rev.12/Amend.6",
      "status": "Suppl.10 to 06",
-     "eif": "2018-07-19",
      "eif_raw": "19.07.18",
+     "eif": "2018-07-19",
      "sess": "173 (Nov. 17)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.6",
-     "status": "Suppl.12 to 05",
-     "eif": "2019-05-28",
-     "eif_raw": "28.05.19",
-     "sess": "176 (Nov. 18)",
-     "sym": "2018/85"
+     "sym": "2017/110+"
     },
     {
      "doc": "Add.47/Rev.12/Amend.7",
      "status": "Suppl.11 to 06",
-     "eif": "2019-05-28",
      "eif_raw": "28.05.19",
+     "eif": "2019-05-28",
      "sess": "176 (Nov. 18)",
      "sym": "2018/84"
     },
     {
-     "doc": "Add.47/Rev.10/Amend.5",
-     "status": "Suppl.18 to 04",
-     "eif": "2019-10-15",
-     "eif_raw": "15.10.19",
-     "sess": "177 (Mar. 19)",
-     "sym": "2018/101"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.7",
-     "status": "Suppl.13 to 05",
-     "eif": "2019-10-15",
-     "eif_raw": "15.10.19",
-     "sess": "177 (Mar. 19)",
-     "sym": ""
-    },
-    {
      "doc": "Add.47/Rev.12/Amend.8",
      "status": "Suppl.12 to 06",
-     "eif": "2019-10-15",
      "eif_raw": "15.10.19",
+     "eif": "2019-10-15",
      "sess": "177 (Mar. 19)",
-     "sym": ""
+     "sym": "2018/99/Rev.2"
     },
     {
      "doc": "Add.47/Rev.12/Amend.9",
      "status": "Suppl.13 to 06",
-     "eif": "2020-05-29",
      "eif_raw": "29.05.20",
+     "eif": "2020-05-29",
      "sess": "179 (Nov. 19)",
      "sym": "2019/84"
     },
     {
      "doc": "Add.47/Rev.12/Amend.10",
      "status": "07 series",
-     "eif": "2020-09-25",
      "eif_raw": "25.09.20",
+     "eif": "2020-09-25",
      "sess": "180 (Mar. 20)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.10/Amend.6",
-     "status": "Suppl.19 to 04",
-     "eif": "2021-09-30",
-     "eif_raw": "30.09.21",
-     "sess": "183 (Mar. 21)",
-     "sym": "2021/28"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.8",
-     "status": "Suppl.14 to 05",
-     "eif": "2021-09-30",
-     "eif_raw": "30.09.21",
-     "sess": "183 (Mar. 21)",
-     "sym": "2021/29"
+     "sym": "2020/36 +"
     },
     {
      "doc": "Add.47/Rev.12/Amend.11",
      "status": "Suppl.14 to 06",
-     "eif": "2021-09-30",
      "eif_raw": "30.09.21",
+     "eif": "2021-09-30",
      "sess": "183 (Mar. 21)",
+     "sym": "2021/30 +"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.12",
+     "status": "Suppl. 15 to 06",
+     "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
+     "sess": "185 (Nov. 21)",
+     "sym": "2021/93"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.13",
+     "status": "Suppl. 16 to 06",
+     "eif_raw": "04.01.23",
+     "eif": "2023-01-04",
+     "sess": "187 (June 22)",
+     "sym": "2022/89"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.14",
+     "status": "Suppl. 17 to 06",
+     "eif_raw": "05.06.23",
+     "eif": "2023-06-05",
+     "sess": "188 (Nov. 22)",
+     "sym": "2022/112"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.15",
+     "status": "Suppl. 18 to 06",
+     "eif_raw": "24.09.23",
+     "eif": "2023-09-24",
+     "sess": "189 (Mar. 23)",
+     "sym": "2023/28"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.16",
+     "status": "Suppl. 19 to 06",
+     "eif_raw": "15.06.24",
+     "eif": "2024-06-15",
+     "sess": "191 (Nov. 23)",
+     "sym": "2023/94"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.17",
+     "status": "Suppl. 20 to 06",
+     "eif_raw": "22.09.24",
+     "eif": "2024-09-22",
+     "sess": "192 (Mar. 24)",
+     "sym": "2024/19"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.18",
+     "status": "Suppl. 21 to 06",
+     "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
+     "sess": "195 (Mar. 25)",
+     "sym": "2025/33"
+    },
+    {
+     "doc": "Add.47/Rev.12/Amend.19",
+     "status": "Suppl. 22 to 06",
+     "eif_raw": "04.06.26",
+     "eif": "2026-06-04",
+     "sess": "197 (Nov.25)",
+     "sym": "2025/114"
+    },
+    {
+     "doc": "Add.47/Rev.13",
+     "status": "07 series",
+     "eif_raw": "",
+     "eif": null,
+     "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.47/Rev.13/Amend.1",
      "status": "Suppl.1 to 07",
-     "eif": "2021-09-30",
      "eif_raw": "30.09.21",
+     "eif": "2021-09-30",
      "sess": "183 (Mar. 21)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.10/Amend.7",
-     "status": "Suppl. 20 to 04",
-     "eif": "2022-06-22",
-     "eif_raw": "22.06.22",
-     "sess": "185 (Nov. 21)",
-     "sym": "2021/91"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.9",
-     "status": "Suppl. 15 to 05",
-     "eif": "2022-06-22",
-     "eif_raw": "22.06.22",
-     "sess": "185 (Nov. 21)",
-     "sym": "2021/92"
-    },
-    {
-     "doc": "Add.47/Rev.12/Amend.12",
-     "status": "Suppl. 15 to 06",
-     "eif": "2022-06-22",
-     "eif_raw": "22.06.22",
-     "sess": "185 (Nov. 21)",
-     "sym": "2021/93"
+     "sym": "2021/31 +"
     },
     {
      "doc": "Add.47/Rev.13/Amend.2",
      "status": "Suppl. 2 to 07",
-     "eif": "2022-06-22",
      "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
      "sess": "185 (Nov. 21)",
      "sym": "2021/94"
     },
     {
      "doc": "Add.47/Rev.13/Amend.3",
      "status": "08 series",
-     "eif": "2022-06-22",
      "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
      "sess": "185 (Nov. 21)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.6/Amend.14",
-     "status": "Suppl. 8 to 03",
-     "eif": "2023-01-04",
-     "eif_raw": "04.01.23",
-     "sess": "187 (June 22)",
-     "sym": "2022/95"
-    },
-    {
-     "doc": "Add.47/Rev.10/Amend.8",
-     "status": "Suppl. 21 to 04",
-     "eif": "2023-01-04",
-     "eif_raw": "04.01.23",
-     "sess": "187 (June 22)",
-     "sym": "2022/96"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.10",
-     "status": "Suppl. 16 to 05",
-     "eif": "2023-01-04",
-     "eif_raw": "04.01.23",
-     "sess": "187 (June 22)",
-     "sym": "2022/97"
-    },
-    {
-     "doc": "Add.47/Rev.12/Amend.13",
-     "status": "Suppl. 16 to 06",
-     "eif": "2023-01-04",
-     "eif_raw": "04.01.23",
-     "sess": "187 (June 22)",
-     "sym": "2022/89"
+     "sym": "2021/86 +"
     },
     {
      "doc": "Add.47/Rev.13/Amend.4",
      "status": "Suppl. 3 to 07",
-     "eif": "2023-01-04",
      "eif_raw": "04.01.23",
+     "eif": "2023-01-04",
      "sess": "187 (June 22)",
      "sym": "2022/90"
     },
     {
-     "doc": "Add.47/Rev.14/Amend.1",
-     "status": "Suppl. 1 to 08",
-     "eif": "2023-01-04",
-     "eif_raw": "04.01.23",
-     "sess": "187 (June 22)",
-     "sym": "2022/91"
-    },
-    {
-     "doc": "Add.47/Rev.12/Amend.14",
-     "status": "Suppl. 17 to 06",
-     "eif": "2023-06-05",
-     "eif_raw": "05.06.23",
-     "sess": "188 (Nov. 22)",
-     "sym": "2022/112"
-    },
-    {
      "doc": "Add.47/Rev.13/Amend.5",
      "status": "Suppl. 4 to 07",
-     "eif": "2023-06-05",
      "eif_raw": "05.06.23",
+     "eif": "2023-06-05",
      "sess": "188 (Nov. 22)",
      "sym": "2022/113"
     },
     {
-     "doc": "Add.47/Rev.14/Amend.2",
-     "status": "Suppl. 2 to 08",
-     "eif": "2023-06-05",
-     "eif_raw": "05.06.23",
-     "sess": "188 (Nov. 22)",
-     "sym": "2022/114"
-    },
-    {
-     "doc": "Add.47/Rev.6/Amend.15",
-     "status": "Suppl. 9 to 03",
-     "eif": "2023-09-24",
-     "eif_raw": "24.09.23",
-     "sess": "189 (Mar. 23)",
-     "sym": "2023/25"
-    },
-    {
-     "doc": "Add.47/Rev.10/Amend.9",
-     "status": "Suppl. 22 to 04",
-     "eif": "2023-09-24",
-     "eif_raw": "24.09.23",
-     "sess": "189 (Mar. 23)",
-     "sym": "2023/26"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.11",
-     "status": "Suppl. 17 to 05",
-     "eif": "2023-09-24",
-     "eif_raw": "24.09.23",
-     "sess": "189 (Mar. 23)",
-     "sym": "2023/27"
-    },
-    {
-     "doc": "Add.47/Rev.12/Amend.15",
-     "status": "Suppl. 18 to 06",
-     "eif": "2023-09-24",
-     "eif_raw": "24.09.23",
-     "sess": "189 (Mar. 23)",
-     "sym": "2023/28"
-    },
-    {
      "doc": "Add.47/Rev.13/Amend.6",
      "status": "Suppl. 5 to the 07",
-     "eif": "2023-09-24",
      "eif_raw": "24.09.23",
+     "eif": "2023-09-24",
      "sess": "189 (Mar. 23)",
      "sym": "2023/29"
     },
     {
-     "doc": "Add.47/Rev.14/Amend.3",
-     "status": "Suppl. 3 to 08",
-     "eif": "2023-09-24",
-     "eif_raw": "24.09.23",
-     "sess": "189 (Mar. 23)",
-     "sym": "2023/30"
-    },
-    {
-     "doc": "Add.47/Rev.12/Amend.16",
-     "status": "Suppl. 19 to 06",
-     "eif": "2024-06-15",
-     "eif_raw": "15.06.24",
-     "sess": "191 (Nov. 23)",
-     "sym": "2023/94"
-    },
-    {
      "doc": "Add.47/Rev.13/Amend.7",
      "status": "Suppl. 6 to the 07",
-     "eif": "2024-06-15",
      "eif_raw": "15.06.24",
+     "eif": "2024-06-15",
      "sess": "191 (Nov. 23)",
      "sym": "2023/95"
     },
     {
-     "doc": "Add.47/Rev.14/Amend.4",
-     "status": "Suppl. 4 to 08",
-     "eif": "2024-06-15",
-     "eif_raw": "15.06.24",
-     "sess": "191 (Nov. 23)",
-     "sym": "2023/96"
-    },
-    {
-     "doc": "Add.47/Rev.12/Amend.17",
-     "status": "Suppl. 20 to 06",
-     "eif": "2024-09-22",
-     "eif_raw": "22.09.24",
-     "sess": "192 (Mar. 24)",
-     "sym": "2024/19"
-    },
-    {
      "doc": "Add.47/Rev.13/Amend.8",
      "status": "Suppl. 7 to the 07",
-     "eif": "2024-09-22",
      "eif_raw": "22.09.24",
+     "eif": "2024-09-22",
      "sess": "192 (Mar. 24)",
      "sym": "2024/20"
     },
     {
+     "doc": "Add.47/Rev.13/Amend.9",
+     "status": "Suppl. 8 to the 07",
+     "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
+     "sess": "195 (Mar. 25)",
+     "sym": "2025/34"
+    },
+    {
+     "doc": "Add.47/Rev.13/Amend.10",
+     "status": "Suppl. 9 to 07",
+     "eif_raw": "[04.06.26]",
+     "eif": "2026-06-04",
+     "sess": "197 (Nov.25)",
+     "sym": "2025/115"
+    },
+    {
+     "doc": "Add.47/Rev.14",
+     "status": "08 series",
+     "eif_raw": "",
+     "eif": null,
+     "sess": "",
+     "sym": ""
+    },
+    {
+     "doc": "Add.47/Rev.14/Amend.1",
+     "status": "Suppl. 1 to 08",
+     "eif_raw": "04.01.23",
+     "eif": "2023-01-04",
+     "sess": "187 (June 22)",
+     "sym": "2022/91"
+    },
+    {
+     "doc": "Add.47/Rev.14/Amend.2",
+     "status": "Suppl. 2 to 08",
+     "eif_raw": "05.06.23",
+     "eif": "2023-06-05",
+     "sess": "188 (Nov. 22)",
+     "sym": "2022/114"
+    },
+    {
+     "doc": "Add.47/Rev.14/Amend.3",
+     "status": "Suppl. 3 to 08",
+     "eif_raw": "24.09.23",
+     "eif": "2023-09-24",
+     "sess": "189 (Mar. 23)",
+     "sym": "2023/30"
+    },
+    {
+     "doc": "Add.47/Rev.14/Amend.4",
+     "status": "Suppl. 4 to 08",
+     "eif_raw": "15.06.24",
+     "eif": "2024-06-15",
+     "sess": "191 (Nov. 23)",
+     "sym": "2023/96"
+    },
+    {
      "doc": "Add.47/Rev.14/Amend.5",
      "status": "Suppl.5 to 08",
-     "eif": "2024-09-22",
      "eif_raw": "22.09.24",
+     "eif": "2024-09-22",
      "sess": "192 (Mar. 24)",
      "sym": "2024/21"
     },
     {
      "doc": "Add.47/Rev.14/Amend.6",
      "status": "09 series",
-     "eif": "2024-09-22",
      "eif_raw": "22.09.24",
+     "eif": "2024-09-22",
      "sess": "192 (Mar. 24)",
-     "sym": ""
-    },
-    {
-     "doc": "Add.47/Rev.6/Amend.16",
-     "status": "Supp. 10 to 03",
-     "eif": "2025-09-26",
-     "eif_raw": "26.09.25",
-     "sess": "195 (Mar. 25)",
-     "sym": "2025/30"
-    },
-    {
-     "doc": "Add.47/Rev.10/Amend.10",
-     "status": "Suppl. 23 to 04",
-     "eif": "2025-09-26",
-     "eif_raw": "26.09.25",
-     "sess": "195 (Mar. 25)",
-     "sym": "2025/31"
-    },
-    {
-     "doc": "Add.47/Rev.11/Amend.12",
-     "status": "Suppl. 18 to 05",
-     "eif": "2025-09-26",
-     "eif_raw": "26.09.25",
-     "sess": "195 (Mar. 25)",
-     "sym": "2025/32"
-    },
-    {
-     "doc": "Add.47/Rev.12/Amend.18",
-     "status": "Suppl. 21 to 06",
-     "eif": "2025-09-26",
-     "eif_raw": "26.09.25",
-     "sess": "195 (Mar. 25)",
-     "sym": "2025/33"
-    },
-    {
-     "doc": "Add.47/Rev.13/Amend.9",
-     "status": "Suppl. 8 to the 07",
-     "eif": "2025-09-26",
-     "eif_raw": "26.09.25",
-     "sess": "195 (Mar. 25)",
-     "sym": "2025/34"
+     "sym": "2024/28 + para. 94 of the"
     },
     {
      "doc": "Add.47/Rev.14/Amend.7",
      "status": "Suppl.6 to 08",
-     "eif": "2025-09-26",
      "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
      "sess": "195 (Mar. 25)",
      "sym": "2025/35"
     },
     {
-     "doc": "Add.47/Rev.15/Amend.1",
-     "status": "Supp. 1 to 09",
-     "eif": "2025-09-26",
+     "doc": "Add.47/Rev.14/Amend.8",
+     "status": "Suppl. 7 to the 08 series",
+     "eif_raw": "04.06.26",
+     "eif": "2026-06-04",
+     "sess": "197 (Nov.25)",
+     "sym": "2025/116"
+    },
+    {
+     "doc": "Add.47/Rev.15",
+     "status": "09 series",
      "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
      "sess": "195 (Mar. 25)",
      "sym": ""
     },
     {
-     "doc": "Add.47/Rev.12/Amend.19",
-     "status": "Suppl. 22 to 06",
-     "eif": "2026-06-04",
-     "eif_raw": "04.06.26",
-     "sess": "197 (Nov.25)",
-     "sym": "2025/114"
+     "doc": "Add.47/Rev.15/Amend.1",
+     "status": "Supp. 1 to 09",
+     "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
+     "sess": "195 (Mar. 25)",
+     "sym": "2025/36 as amended by"
     },
     {
-     "doc": "Add.47/Rev.14/Amend.8",
-     "status": "Suppl. 7 to the 08 series",
+     "doc": "Add.47/Rev.15/Amend.2",
+     "status": "Suppl. 2 to 09",
+     "eif_raw": "[04.06.26]",
      "eif": "2026-06-04",
-     "eif_raw": "04.06.26",
      "sess": "197 (Nov.25)",
-     "sym": "2025/116"
+     "sym": "2025/117"
     }
    ],
    "parties": [
@@ -19914,18 +19890,10 @@
      "sym": ""
     },
     {
-     "doc": "The status has been divided into 2 pages, each of them reflecting the status of its 05 and 06 series of amendments to the UN Regulation",
-     "status": "The status has been divided into 2 pages, each of them reflecting the status of its 05 and 06 series of amendments to the UN Regulation",
-     "eif": null,
-     "eif_raw": "The status has been divided into 2 pages, each of them reflecting the status of its 05 and 06 series of amendments to the UN Regulation",
-     "sess": "The status has been divided into 2 pages, each of them reflecting the status of its 05 and 06 series of amendments to the UN Regulation",
-     "sym": ""
-    },
-    {
      "doc": "Add.48/Rev.5/Amend.4",
      "status": "Suppl.7 to 05",
-     "eif": null,
-     "eif_raw": "Suppl.7 to 05",
+     "eif": "2015-01-22",
+     "eif_raw": "22.01.15",
      "sess": "22.01.15",
      "sym": ""
     },
@@ -19940,24 +19908,24 @@
     {
      "doc": "Add.48/Rev.5/Amend.5",
      "status": "Suppl.8 to 05",
-     "eif": null,
-     "eif_raw": "Suppl.8 to 05",
+     "eif": "2017-02-09",
+     "eif_raw": "09.02.17",
      "sess": "09.02.17",
      "sym": ""
     },
     {
      "doc": "Add.48/Rev.5/Amend.6",
      "status": "Suppl.9 to 05",
-     "eif": null,
-     "eif_raw": "Suppl.9 to 05",
+     "eif": "2018-07-19",
+     "eif_raw": "19.07.18",
      "sess": "19.07.18",
      "sym": ""
     },
     {
      "doc": "Add.48/Rev.5/Amend.7",
      "status": "Suppl.10 to 05",
-     "eif": null,
-     "eif_raw": "Suppl.10 to 05",
+     "eif": "2018-12-29",
+     "eif_raw": "29.12.18",
      "sess": "29.12.18",
      "sym": ""
     },
@@ -19965,30 +19933,30 @@
      "doc": "Add.48/Rev.7/Corr.1",
      "status": "Erratum to Rev.7",
      "eif": null,
-     "eif_raw": "Erratum to Rev.7",
+     "eif_raw": "",
      "sess": "-",
      "sym": ""
     },
     {
      "doc": "Add.48/Rev.5/Amend.8",
      "status": "Suppl.11 to 05",
-     "eif": null,
-     "eif_raw": "Suppl.11 to 05",
+     "eif": "2022-06-22",
+     "eif_raw": "22.06.22",
      "sess": "22.06.22",
      "sym": ""
     },
     {
      "doc": "Add.48/Rev.5/Amend.9",
      "status": "Suppl.12 to 05",
-     "eif": null,
-     "eif_raw": "Suppl.12 to 05",
+     "eif": "2025-01-10",
+     "eif_raw": "10.01.25",
      "sess": "10.01.25",
      "sym": ""
     },
     {
      "doc": "Add.48/Rev.6/Amend.12",
      "status": "Suppl. 11 to 06",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/93"
@@ -20004,7 +19972,7 @@
     {
      "doc": "Add.48/Rev.8/Amend.3",
      "status": "Suppl. 3 to 07",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/94"
@@ -21691,8 +21659,8 @@
     {
      "doc": "Add.52/Rev.6",
      "status": "04 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-09-22",
+     "eif_raw": "22.09.24",
      "sess": "",
      "sym": ""
     },
@@ -22301,7 +22269,7 @@
     {
      "doc": "Add.53/Rev.3/Amend.10",
      "status": "Suppl. 28 to 00",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": ""
@@ -25116,7 +25084,7 @@
     {
      "doc": "Add.61/Rev.1/Amend.1",
      "status": "Suppl. 1 to 01",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": ""
@@ -26130,123 +26098,123 @@
    "amendments": [
     {
      "doc": "Add.64/Rev.1",
-     "status": "Add.64/Rev.1",
+     "status": "Rev. 1",
+     "eif_raw": "",
      "eif": null,
-     "eif_raw": "Rev. 1",
-     "sess": "-",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.1/Corr.1  (F only)",
-     "status": "Add.64/Rev.1/Corr.1  (F only)",
-     "eif": null,
-     "eif_raw": "Erratum to Rev.1",
-     "sess": "-",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.1/Amend.1",
-     "status": "Add.64/Rev.1/Amend.1",
-     "eif": null,
-     "eif_raw": "Suppl.5 to 00",
-     "sess": "02.02.07",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.1/Amend.2",
-     "status": "Add.64/Rev.1/Amend.2",
-     "eif": null,
-     "eif_raw": "Suppl.6 to 00",
-     "sess": "15.10.08",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.1/Amend.2",
-     "status": "Add.64/Rev.1/Amend.2",
-     "eif": null,
-     "eif_raw": "Corr.1 to Suppl.6 to 00",
-     "sess": "15.10.08",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.1/Amend.3",
-     "status": "Add.64/Rev.1/Amend.3",
-     "eif": null,
-     "eif_raw": "Suppl.7 to 00",
-     "sess": "23.06.11",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.2",
-     "status": "Add.64/Rev.2",
-     "eif": null,
-     "eif_raw": "Rev. 2",
-     "sess": "-",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.2/Corr.1 (E only)",
-     "status": "Add.64/Rev.2/Corr.1 (E only)",
-     "eif": null,
-     "eif_raw": "Erratum 1 to Rev.2",
-     "sess": "-",
-     "sym": ""
-    },
-    {
-     "doc": "Add.64/Rev.2/Corr.2",
-     "status": "Add.64/Rev.2/Corr.2",
-     "eif": null,
-     "eif_raw": "Erratum 2 to Rev.2",
      "sess": "",
      "sym": ""
     },
     {
-     "doc": "Add.64/Rev.2/Amend.1",
-     "status": "Add.64/Rev.2/Amend.1",
+     "doc": "Add.64/Rev.1/Corr.1",
+     "status": "(F only)",
+     "eif_raw": "",
      "eif": null,
-     "eif_raw": "Suppl.8 to 00",
-     "sess": "18.11.12",
+     "sess": "",
      "sym": ""
+    },
+    {
+     "doc": "Add.64/Rev.1/Amend.1",
+     "status": "Suppl.5 to 00",
+     "eif_raw": "02.02.07",
+     "eif": "2007-02-02",
+     "sess": "139 (June 06)",
+     "sym": "2006/59"
+    },
+    {
+     "doc": "Add.64/Rev.1/Amend.2",
+     "status": "Suppl.6 to 00",
+     "eif_raw": "15.10.08",
+     "eif": "2008-10-15",
+     "sess": "144 (Mar. 08)",
+     "sym": "2008/22"
+    },
+    {
+     "doc": "Add.64/Rev.1/Amend.2",
+     "status": "Corr.1 to Suppl.6 to 00",
+     "eif_raw": "15.10.08",
+     "eif": "2008-10-15",
+     "sess": "145 (June 08)",
+     "sym": "2008/79"
+    },
+    {
+     "doc": "Add.64/Rev.1/Amend.3",
+     "status": "Suppl.7 to 00",
+     "eif_raw": "23.06.11",
+     "eif": "2011-06-23",
+     "sess": "152 (Nov. 10)",
+     "sym": "2010/99"
+    },
+    {
+     "doc": "Add.64/Rev.2",
+     "status": "Rev. 2",
+     "eif_raw": "",
+     "eif": null,
+     "sess": "",
+     "sym": ""
+    },
+    {
+     "doc": "Add.64/Rev.2/Corr.1",
+     "status": "(E only)",
+     "eif_raw": "",
+     "eif": null,
+     "sess": "",
+     "sym": ""
+    },
+    {
+     "doc": "Add.64/Rev.2/Corr.2",
+     "status": "Erratum 2 to Rev.2",
+     "eif_raw": "18.11.12",
+     "eif": "2012-11-18",
+     "sess": "156 (Mar. 12)",
+     "sym": ""
+    },
+    {
+     "doc": "Add.64/Rev.2/Amend.1",
+     "status": "Suppl.8 to 00",
+     "eif_raw": "18.11.12",
+     "eif": "2012-11-18",
+     "sess": "156 (Mar. 12)",
+     "sym": "2012/12"
     },
     {
      "doc": "Add.64/Rev.2/Amend.2",
-     "status": "Add.64/Rev.2/Amend.2",
-     "eif": null,
-     "eif_raw": "Suppl.9 to 00",
-     "sess": "09.10.14",
-     "sym": ""
+     "status": "Suppl.9 to 00",
+     "eif_raw": "09.10.14",
+     "eif": "2014-10-09",
+     "sess": "162 (Mar. 14)",
+     "sym": "2014/22"
     },
     {
      "doc": "Add.64/Rev.2/Amend.3",
-     "status": "Add.64/Rev.2/Amend.3",
-     "eif": null,
-     "eif_raw": "Suppl.10 to 00",
-     "sess": "10.10.17",
-     "sym": ""
+     "status": "Suppl.10 to 00",
+     "eif_raw": "10.10.17",
+     "eif": "2017-10-10",
+     "sess": "171 (Mar. 17)",
+     "sym": "2017/29"
     },
     {
      "doc": "Add.64/Rev.2/Amend.4",
-     "status": "Add.64/Rev.2/Amend.4",
-     "eif": null,
-     "eif_raw": "Suppl.11 to 00",
-     "sess": "30.09.21",
-     "sym": ""
+     "status": "Suppl.11 to 00",
+     "eif_raw": "30.09.21",
+     "eif": "2021-09-30",
+     "sess": "183 (Mar. 21)",
+     "sym": "2021/34"
     },
     {
      "doc": "Add.64/Rev.2/Amend.5",
-     "status": "Add.64/Rev.2/Amend.5",
-     "eif": null,
-     "eif_raw": "Suppl. 12 to 00",
-     "sess": "24.09.23",
-     "sym": ""
+     "status": "Suppl. 12 to 00",
+     "eif_raw": "24.09.23",
+     "eif": "2023-09-24",
+     "sess": "189 (Mar. 23)",
+     "sym": "2023/34"
     },
     {
      "doc": "Add.64/Rev.2/Amend.6",
-     "status": "Add.64/Rev.2/Amend.6",
-     "eif": null,
-     "eif_raw": "Suppl. 13 to 00",
-     "sess": "[04.06.26]",
-     "sym": ""
+     "status": "Suppl. 13 to 00",
+     "eif_raw": "[04.06.26]",
+     "eif": "2026-06-04",
+     "sess": "197 (Nov.25)",
+     "sym": "2025/111"
     }
    ],
    "parties": [
@@ -28714,7 +28682,7 @@
     {
      "doc": "Add.72/Rev.1/Amend.3",
      "status": "02 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/104"
@@ -29015,8 +28983,8 @@
     {
      "doc": "Add.73/Rev.4",
      "status": "03 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
@@ -30611,8 +30579,8 @@
     {
      "doc": "Add.77/Rev.4",
      "status": "06 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-01-10",
+     "eif_raw": "10.01.25",
      "sess": "",
      "sym": ""
     },
@@ -31045,7 +31013,7 @@
     {
      "doc": "Add.78/Rev.4/Amend.12",
      "status": "Suppl. 11 to 03",
-     "eif": null,
+     "eif": "2025-01-10",
      "eif_raw": "10.01.2025",
      "sess": "193 (June 24)",
      "sym": "2024/61"
@@ -31053,7 +31021,7 @@
     {
      "doc": "Add.78/Rev.4/Amend.15",
      "status": "Suppl. 14 to 03",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/137"
@@ -31069,7 +31037,7 @@
     {
      "doc": "Add.78/Rev.5/Amend.6",
      "status": "Suppl. 6 to 04",
-     "eif": null,
+     "eif": "2025-01-10",
      "eif_raw": "10.01.2025",
      "sess": "193 (June 24)",
      "sym": "2024/62"
@@ -31077,7 +31045,7 @@
     {
      "doc": "Add.78/Rev.5/Amend.9",
      "status": "Suppl. 9 to 04",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/138"
@@ -32601,31 +32569,15 @@
     {
      "doc": "Add.82/Rev.3/Amend.14",
      "status": "Suppl. 19 to 05",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/95"
     },
     {
-     "doc": "The status has been divided into 2 pages, each of them reflecting the status of its 06 and 07 series of amendments to the UN Regulation",
-     "status": "The status has been divided into 2 pages, each of them reflecting the status of its 06 and 07 series of amendments to the UN Regulation",
-     "eif": null,
-     "eif_raw": "The status has been divided into 2 pages, each of them reflecting the status of its 06 and 07 series of amendments to the UN Regulation",
-     "sess": "The status has been divided into 2 pages, each of them reflecting the status of its 06 and 07 series of amendments to the UN Regulation",
-     "sym": ""
-    },
-    {
-     "doc": "1\tConsolidated version by series of amendments. 2\tCorr.1 to 06 and Corr.1 to Suppl.7 to 05 incorporated in document …/Add.82/Rev.4.",
-     "status": "1\tConsolidated version by series of amendments. 2\tCorr.1 to 06 and Corr.1 to Suppl.7 to 05 incorporated in document …/Add.82/Rev.4.",
-     "eif": null,
-     "eif_raw": "1\tConsolidated version by series of amendments. 2\tCorr.1 to 06 and Corr.1 to Suppl.7 to 05 incorporated in document …/Add.82/Rev.4.",
-     "sess": "1\tConsolidated version by series of amendments. 2\tCorr.1 to 06 and Corr.1 to Suppl.7 to 05 incorporated in document …/Add.82/Rev.4.",
-     "sym": ""
-    },
-    {
      "doc": "Add.82/Rev.4/Amend.21",
      "status": "Suppl. 21 to 06",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/96"
@@ -32633,7 +32585,7 @@
     {
      "doc": "Add.82/Rev.5/Amend.19",
      "status": "Suppl. 18 to 07",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/97"
@@ -32641,15 +32593,15 @@
     {
      "doc": "Add.82/Rev.6",
      "status": "08 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-01-10",
+     "eif_raw": "10.01.25",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.82/Rev.6/Amend.3",
      "status": "Suppl. 3 to 08",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/98"
@@ -34092,8 +34044,8 @@
     {
      "doc": "Add.85/Rev.5",
      "status": "03 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
@@ -35301,7 +35253,7 @@
     {
      "doc": "Add.89/Rev.2/Amend.3",
      "status": "Suppl 13 to 01",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": ""
@@ -35317,7 +35269,7 @@
     {
      "doc": "Add.89/Rev.3/Amend.12",
      "status": "Suppl. 12 to the 02 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": ""
@@ -36834,8 +36786,8 @@
     {
      "doc": "Add.93/Rev.5",
      "status": "05 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
@@ -37360,8 +37312,8 @@
     {
      "doc": "Add.94/Rev.5",
      "status": "06 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
@@ -39354,14 +39306,6 @@
    "name": "Electric power trained vehicles",
    "amendments": [
     {
-     "doc": "The status has been divided into 2 pages, each of them reflecting the status of its 01 and 02 series of amendments to the UN Regulation",
-     "status": "The status has been divided into 2 pages, each of them reflecting the status of its 01 and 02 series of amendments to the UN Regulation",
-     "eif": null,
-     "eif_raw": "The status has been divided into 2 pages, each of them reflecting the status of its 01 and 02 series of amendments to the UN Regulation",
-     "sess": "The status has been divided into 2 pages, each of them reflecting the status of its 01 and 02 series of amendments to the UN Regulation",
-     "sym": ""
-    },
-    {
      "doc": "Add.99/Rev.3",
      "status": "03 series",
      "eif": null,
@@ -39372,7 +39316,7 @@
     {
      "doc": "Add.99/Rev.3/Corr.1",
      "status": "Corr.1 to 03 (F only)",
-     "eif": null,
+     "eif": "2023-11-15",
      "eif_raw": "15.11.2023",
      "sess": "191 (Nov. 23)",
      "sym": ""
@@ -39380,16 +39324,16 @@
     {
      "doc": "Add.99/Rev.4",
      "status": "04 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.99/Rev.5",
      "status": "05 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-11-12",
+     "eif_raw": "12.11.25",
      "sess": "",
      "sym": ""
     },
@@ -41439,15 +41383,15 @@
     {
      "doc": "Add.104/Rev.4",
      "status": "07 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-11-12",
+     "eif_raw": "12.11.2025",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.104/Rev.4/Corr.1",
      "status": "Corr.1 to 07",
-     "eif": null,
+     "eif": "2025-11-12",
      "eif_raw": "12.11.2025",
      "sess": "197 (Nov.25)",
      "sym": "2025/107"
@@ -42424,14 +42368,6 @@
      "sym": ""
     },
     {
-     "doc": "The status has been divided into 4 pages, each of them reflecting the status of its 04, 05, 06 and 07 series of amendments to the Regulation",
-     "status": "The status has been divided into 4 pages, each of them reflecting the status of its 04, 05, 06 and 07 series of amendments to the Regulation",
-     "eif": null,
-     "eif_raw": "The status has been divided into 4 pages, each of them reflecting the status of its 04, 05, 06 and 07 series of amendments to the Regulation",
-     "sess": "The status has been divided into 4 pages, each of them reflecting the status of its 04, 05, 06 and 07 series of amendments to the Regulation",
-     "sym": ""
-    },
-    {
      "doc": "",
      "status": "Covering the 04 series",
      "eif": null,
@@ -42514,8 +42450,8 @@
     {
      "doc": "Add.106/Rev.6/Corr.4 (Erratum)",
      "status": "Corr.4 to Rev.6",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-03-06",
+     "eif_raw": "06.03.24",
      "sess": "",
      "sym": ""
     },
@@ -42578,15 +42514,15 @@
     {
      "doc": "Add.106/Rev.10",
      "status": "10 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2026-06-04",
+     "eif_raw": "[04.06.26]",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.106/Rev.10/Amend.1",
      "status": "11 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/105"
@@ -43446,15 +43382,15 @@
     {
      "doc": "Add.107/Rev.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2026-01-11",
+     "eif_raw": "11.01.2026",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.107/Rev.1/Amend.1",
      "status": "Suppl.1 to 01",
-     "eif": null,
+     "eif": "2026-01-11",
      "eif_raw": "11.01.2026",
      "sess": "196 (June 25)",
      "sym": ""
@@ -43836,8 +43772,8 @@
     {
      "doc": "Add.108/Rev.2",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2026-01-11",
+     "eif_raw": "11.01.26",
      "sess": "",
      "sym": ""
     },
@@ -44277,7 +44213,7 @@
     {
      "doc": "Add.109",
      "status": "Corr.1 to 00",
-     "eif": null,
+     "eif": "2000-11-08",
      "eif_raw": "8.11.00",
      "sess": "8.11.00",
      "sym": ""
@@ -47067,112 +47003,112 @@
     {
      "doc": "Add.116/Rev.2",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "02 series",
+     "eif": "2011-01-30",
+     "eif_raw": "30.01.11",
      "sess": "30.01.11",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.2",
      "status": "Corr.1 to 02",
-     "eif": null,
-     "eif_raw": "Corr.1 to 02",
+     "eif": "2011-01-30",
+     "eif_raw": "30.01.11",
      "sess": "30.01.11",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.2 (R only)",
      "status": "Corr.2 to 02",
-     "eif": null,
-     "eif_raw": "Corr.2 to 02",
+     "eif": "2011-06-22",
+     "eif_raw": "22.06.11",
      "sess": "22.06.11",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.2",
      "status": "Corr.3 to 02",
-     "eif": null,
-     "eif_raw": "Corr.3 to 02",
+     "eif": "2011-06-22",
+     "eif_raw": "22.06.11",
      "sess": "22.06.11",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.2/Amend.1",
      "status": "Suppl.1 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 02",
+     "eif": "2012-11-18",
+     "eif_raw": "18.11.12",
      "sess": "18.11.12",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.2/Amend.2",
      "status": "Suppl.2 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.2 to 02",
+     "eif": "2013-07-15",
+     "eif_raw": "15.07.13",
      "sess": "15.07.13",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.2/Amend.3",
      "status": "Suppl.3 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.3 to 02",
+     "eif": "2013-11-03",
+     "eif_raw": "03.11.13",
      "sess": "03.11.13",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.3",
      "status": "Suppl.4 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.4 to 02",
+     "eif": "2014-02-13",
+     "eif_raw": "13.02.14",
      "sess": "13.02.14",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.3/Amend.1",
      "status": "Suppl.5 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.5 to 02",
+     "eif": "2014-06-10",
+     "eif_raw": "10.06.14",
      "sess": "10.06.14",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.3/Corr.1",
      "status": "Corr.4 to 02",
-     "eif": null,
-     "eif_raw": "Corr.4 to 02",
+     "eif": "2014-03-12",
+     "eif_raw": "12.03.14",
      "sess": "12.03.14",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.3/Corr.2 (R only)",
      "status": "Corr.5 to 02",
-     "eif": null,
-     "eif_raw": "Corr.5 to 02",
+     "eif": "2014-03-12",
+     "eif_raw": "12.03.14",
      "sess": "12.03.14",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.3/Amend.2",
      "status": "Suppl.6 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.6 to 02",
+     "eif": "2014-10-09",
+     "eif_raw": "09.10.14",
      "sess": "09.10.14",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.3/Amend.3",
      "status": "Suppl.7 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.7 to 02",
+     "eif": "2015-10-08",
+     "eif_raw": "08.10.15",
      "sess": "08.10.15",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.3/Amend.4",
      "status": "Suppl.8 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.8 to 02",
+     "eif": "2016-01-20",
+     "eif_raw": "20.01.16",
      "sess": "20.01.16",
      "sym": ""
     },
@@ -47180,103 +47116,103 @@
      "doc": "Add.116/Rev.4",
      "status": "Rev.4",
      "eif": null,
-     "eif_raw": "Rev.4",
+     "eif_raw": "",
      "sess": "-",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.1",
      "status": "Suppl.9 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.9 to 02",
+     "eif": "2017-02-09",
+     "eif_raw": "09.02.17",
      "sess": "09.02.17",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.2",
      "status": "Suppl.10 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.10 to 02",
+     "eif": "2020-01-11",
+     "eif_raw": "11.01.20",
      "sess": "11.01.20",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.3",
      "status": "Suppl.11 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.11 to 02",
+     "eif": "2020-09-25",
+     "eif_raw": "25.09.20",
      "sess": "25.09.20",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.4",
      "status": "Suppl.12 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.12 to 02",
+     "eif": "2021-01-03",
+     "eif_raw": "03.01.21",
      "sess": "03.01.21",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.5",
      "status": "Suppl.13 to 02",
-     "eif": null,
-     "eif_raw": "Suppl.13 to 02",
+     "eif": "2021-09-30",
+     "eif_raw": "30.09.21",
      "sess": "30.09.21",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.6",
      "status": "Suppl. 14 to 02",
-     "eif": null,
-     "eif_raw": "Suppl. 14 to 02",
+     "eif": "2022-10-08",
+     "eif_raw": "08.10.22",
      "sess": "08.10.22",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.7",
      "status": "03 series",
-     "eif": null,
-     "eif_raw": "03 series",
+     "eif": "2023-01-04",
+     "eif_raw": "04.01.23",
      "sess": "04.01.23",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.8",
      "status": "Suppl. 15 to 02",
-     "eif": null,
-     "eif_raw": "Suppl. 15 to 02",
+     "eif": "2023-09-24",
+     "eif_raw": "24.09.23",
      "sess": "24.09.23",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.9",
      "status": "Suppl. 16 to 02",
-     "eif": null,
-     "eif_raw": "Suppl. 16 to 02",
+     "eif": "2025-01-10",
+     "eif_raw": "10.01.25",
      "sess": "10.01.25",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.4/Amend.10",
      "status": "Suppl. 17 to the 02",
-     "eif": null,
-     "eif_raw": "Suppl. 17 to the 02",
+     "eif": "2026-01-11",
+     "eif_raw": "11.01.26",
      "sess": "11.01.26",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.5",
      "status": "03 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2023-09-24",
+     "eif_raw": "24.09.23",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.116/Rev.6",
      "status": "04 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-01-05",
+     "eif_raw": "05.01.24",
      "sess": "",
      "sym": ""
     },
@@ -47642,163 +47578,163 @@
    "amendments": [
     {
      "doc": "Add.117",
-     "status": "Add.117",
-     "eif": null,
-     "eif_raw": "00 series",
-     "sess": "06.04.05",
+     "status": "00 series",
+     "eif_raw": "06.04.05",
+     "eif": "2005-04-06",
+     "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.117/Amend.1",
-     "status": "Add.117/Amend.1",
-     "eif": null,
-     "eif_raw": "01 series",
-     "sess": "09.12.10",
-     "sym": ""
+     "status": "01 series",
+     "eif_raw": "09.12.10",
+     "eif": "2010-12-09",
+     "sess": "150 (Mar. 10)",
+     "sym": "2010/42 + Corr.1"
     },
     {
      "doc": "Add.117/Amend.2",
-     "status": "Add.117/Amend.2",
-     "eif": null,
-     "eif_raw": "Suppl. 1 to 00",
-     "sess": "17.06.25",
-     "sym": ""
+     "status": "Suppl. 1 to 00",
+     "eif_raw": "[17.06.25]",
+     "eif": "2025-06-17",
+     "sess": "194 (Nov.24)",
+     "sym": "2024/111 as amended"
     },
     {
      "doc": "Add.117/Amend.3",
-     "status": "Add.117/Amend.3",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 01",
-     "sess": "17.06.25",
-     "sym": ""
+     "status": "Suppl.1 to 01",
+     "eif_raw": "[17.06.25]",
+     "eif": "2025-06-17",
+     "sess": "194 (Nov.24)",
+     "sym": "2024/112 as amended"
     },
     {
      "doc": "Add.117/Rev.1",
-     "status": "Add.117/Rev.1",
-     "eif": null,
-     "eif_raw": "02 series",
-     "sess": "26.07.12",
-     "sym": ""
+     "status": "02 series",
+     "eif_raw": "26.07.12",
+     "eif": "2012-07-26",
+     "sess": "155 (Nov. 11)",
+     "sym": "2011/111"
     },
     {
      "doc": "Add.117/Rev.1/Amend.1",
-     "status": "Add.117/Rev.1/Amend.1",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 02",
-     "sess": "03.11.13",
-     "sym": ""
+     "status": "Suppl.1 to 02",
+     "eif_raw": "03.11.13",
+     "eif": "2013-11-03",
+     "sess": "159 (Mar. 13)",
+     "sym": "2013/12"
     },
     {
      "doc": "Add.117/Rev.1/Amend.2",
-     "status": "Add.117/Rev.1/Amend.2",
-     "eif": null,
-     "eif_raw": "Suppl.2 to 02",
-     "sess": "08.10.16",
-     "sym": ""
+     "status": "Suppl.2 to 02",
+     "eif_raw": "08.10.16",
+     "eif": "2016-10-08",
+     "sess": "168 (Mar. 16)",
+     "sym": "2016/14"
     },
     {
      "doc": "Add.117/Rev.1/Amend.3",
-     "status": "Add.117/Rev.1/Amend.3",
-     "eif": null,
-     "eif_raw": "Suppl.3 to 02",
-     "sess": "10.10.17",
-     "sym": ""
+     "status": "Suppl.3 to 02",
+     "eif_raw": "10.10.17",
+     "eif": "2017-10-10",
+     "sess": "171 (Mar. 17)",
+     "sym": "2017/16"
     },
     {
      "doc": "Add.117/Rev.1/Amend.4",
-     "status": "Add.117/Rev.1/Amend.4",
-     "eif": null,
-     "eif_raw": "03 series",
-     "sess": "10.10.17",
-     "sym": ""
+     "status": "03 series",
+     "eif_raw": "10.10.17",
+     "eif": "2017-10-10",
+     "sess": "171 (Mar. 17)",
+     "sym": "2017/18"
     },
     {
      "doc": "Add.117/Rev.1/Amend.5",
-     "status": "Add.117/Rev.1/Amend.5",
-     "eif": null,
-     "eif_raw": "Suppl.4 to 02",
-     "sess": "16.10.18",
-     "sym": ""
+     "status": "Suppl.4 to 02",
+     "eif_raw": "16.10.18",
+     "eif": "2018-10-16",
+     "sess": "174 (Mar. 18)",
+     "sym": "2018/23"
     },
     {
      "doc": "Add.117/Rev.1/Amend.6",
-     "status": "Add.117/Rev.1/Amend.6",
-     "eif": null,
-     "eif_raw": "Suppl. 5 to 02",
-     "sess": "22.06.22",
-     "sym": ""
+     "status": "Suppl. 5 to 02",
+     "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
+     "sess": "185 (Nov. 21)",
+     "sym": "2021/152"
     },
     {
      "doc": "Add.117/Rev.1/Amend.7",
-     "status": "Add.117/Rev.1/Amend.7",
-     "eif": null,
-     "eif_raw": "Suppl. 6 to 02",
-     "sess": "17.06.25",
-     "sym": ""
+     "status": "Suppl. 6 to 02",
+     "eif_raw": "17.06.25",
+     "eif": "2025-06-17",
+     "sess": "194 (Nov.24)",
+     "sym": "2024/113 as amended"
     },
     {
      "doc": "Add.117/Rev.2",
-     "status": "Add.117/Rev.2",
+     "status": "03 series",
+     "eif_raw": "",
      "eif": null,
-     "eif_raw": "03 series",
-     "sess": "-",
+     "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.117/Rev.2/Amend.1",
-     "status": "Add.117/Rev.2/Amend.1",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 03",
-     "sess": "16.10.18",
-     "sym": ""
+     "status": "Suppl.1 to 03",
+     "eif_raw": "16.10.18",
+     "eif": "2018-10-16",
+     "sess": "174 (Mar. 18)",
+     "sym": "2018/24"
     },
     {
      "doc": "Add.117/Rev.2/Amend.2",
-     "status": "Add.117/Rev.2/Amend.2",
-     "eif": null,
-     "eif_raw": "04 series",
-     "sess": "30.09.21",
-     "sym": ""
+     "status": "04 series",
+     "eif_raw": "30.09.21",
+     "eif": "2021-09-30",
+     "sess": "183 (Mar. 21)",
+     "sym": "2021/27"
     },
     {
      "doc": "Add.117/Rev.2/Amend.3",
-     "status": "Add.117/Rev.2/Amend.3",
-     "eif": null,
-     "eif_raw": "Suppl. 2 to 03",
-     "sess": "22.06.22",
-     "sym": ""
+     "status": "Suppl. 2 to 03",
+     "eif_raw": "22.06.22",
+     "eif": "2022-06-22",
+     "sess": "185 (Nov. 21)",
+     "sym": "2021/101"
     },
     {
      "doc": "Add.117/Rev.2/Amend.4",
-     "status": "Add.117/Rev.2/Amend.4",
-     "eif": null,
-     "eif_raw": "Suppl. 3 to 03",
-     "sess": "17.06.25",
-     "sym": ""
+     "status": "Suppl. 3 to 03",
+     "eif_raw": "17.06.25",
+     "eif": "2025-06-17",
+     "sess": "194 (Nov.24)",
+     "sym": "2024/114"
     },
     {
      "doc": "Add.117/Rev.3",
-     "status": "Add.117/Rev.3",
+     "status": "04 series",
+     "eif_raw": "",
      "eif": null,
-     "eif_raw": "04 series",
-     "sess": "-",
+     "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.117/Rev.3/Amend.1",
-     "status": "Add.117/Rev.3/Amend.1",
-     "eif": null,
-     "eif_raw": "Suppl. 1 to 04",
-     "sess": "05.06.23",
-     "sym": ""
+     "status": "Suppl. 1 to 04",
+     "eif_raw": "05.06.23",
+     "eif": "2023-06-05",
+     "sess": "188 (Nov. 22)",
+     "sym": "2022/121"
     },
     {
      "doc": "Add.117/Rev.3/Amend.2",
-     "status": "Add.117/Rev.3/Amend.2",
-     "eif": null,
-     "eif_raw": "Suppl. 2 to 04",
-     "sess": "17.06.25",
-     "sym": ""
+     "status": "Suppl. 2 to 04",
+     "eif_raw": "17.06.25",
+     "eif": "2025-06-17",
+     "sess": "194 (Nov.24)",
+     "sym": "2024/136"
     }
    ],
    "parties": [
@@ -48097,96 +48033,96 @@
     {
      "doc": "Add.118",
      "status": "00 series",
-     "eif": null,
-     "eif_raw": "00 series",
+     "eif": "2005-04-06",
+     "eif_raw": "06.04.05",
      "sess": "06.04.05",
      "sym": ""
     },
     {
      "doc": "Add.118/Amend.1",
      "status": "Suppl.1 to 00",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 00",
+     "eif": "2007-02-02",
+     "eif_raw": "02.02.07",
      "sess": "02.02.07",
      "sym": ""
     },
     {
      "doc": "Add.118/Amend.2",
      "status": "Suppl.2 to 00",
-     "eif": null,
-     "eif_raw": "Suppl.2 to 00",
+     "eif": "2008-07-11",
+     "eif_raw": "11.07.08",
      "sess": "11.07.08",
      "sym": ""
     },
     {
      "doc": "Add.118/Amend.3",
      "status": "Suppl.3 to 00",
-     "eif": null,
-     "eif_raw": "Suppl.3 to 00",
+     "eif": "2008-10-15",
+     "eif_raw": "15.10.08",
      "sess": "15.10.08",
      "sym": ""
     },
     {
      "doc": "Add.118/Amend.4",
      "status": "Suppl.4 to 00",
-     "eif": null,
-     "eif_raw": "Suppl.4 to 00",
+     "eif": "2009-07-22",
+     "eif_raw": "22.07.09",
      "sess": "22.07.09",
      "sym": ""
     },
     {
      "doc": "Add.118/Amend.5",
      "status": "Suppl.5 to 00",
-     "eif": null,
-     "eif_raw": "Suppl.5 to 00",
+     "eif": "2010-12-09",
+     "eif_raw": "09.12.10",
      "sess": "09.12.10",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "01 series",
+     "eif": "2011-06-23",
+     "eif_raw": "23.06.11",
      "sess": "23.06.11",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1",
      "status": "Corr.1 to 01",
-     "eif": null,
-     "eif_raw": "Corr.1 to 01",
+     "eif": "2011-06-23",
+     "eif_raw": "23.06.11",
      "sess": "23.06.11",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1/Amend.1",
      "status": "Suppl.1 to 01",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 01",
+     "eif": "2012-11-18",
+     "eif_raw": "18.11.12",
      "sess": "18.11.12",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1/Amend.2",
      "status": "Suppl.2 to 01",
-     "eif": null,
-     "eif_raw": "Suppl.2 to 01",
+     "eif": "2013-07-15",
+     "eif_raw": "15.07.13",
      "sess": "15.07.13",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1/Amend.3",
      "status": "Suppl.3 to 01",
-     "eif": null,
-     "eif_raw": "Suppl.3 to 01",
+     "eif": "2013-11-03",
+     "eif_raw": "03.11.13",
      "sess": "03.11.13",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1/Amend.4",
      "status": "Suppl.4 to 01",
-     "eif": null,
-     "eif_raw": "Suppl.4 to 01",
+     "eif": "2015-10-08",
+     "eif_raw": "08.10.15",
      "sess": "08.10.15",
      "sym": ""
     },
@@ -48201,24 +48137,24 @@
     {
      "doc": "Add.118/Rev.1/Amend.5",
      "status": "Suppl.5 to 01",
-     "eif": null,
-     "eif_raw": "Suppl.5 to 01",
+     "eif": "2017-10-10",
+     "eif_raw": "10.10.17",
      "sess": "10.10.17",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1/Amend.6",
      "status": "Suppl.6 to 01",
-     "eif": null,
-     "eif_raw": "Suppl.6 to 01",
+     "eif": "2018-02-10",
+     "eif_raw": "10.02.18",
      "sess": "10.02.18",
      "sym": ""
     },
     {
      "doc": "Add.118/Rev.1/Amend.7",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "02 series",
+     "eif": "2019-10-15",
+     "eif_raw": "15.10.19",
      "sess": "15.10.19",
      "sym": ""
     },
@@ -48226,7 +48162,7 @@
      "doc": "Add.118/Rev.3",
      "status": "02 series",
      "eif": null,
-     "eif_raw": "02 series",
+     "eif_raw": "",
      "sess": "-",
      "sym": ""
     }
@@ -48895,7 +48831,7 @@
     {
      "doc": "Add.120/Rev.2/Amend.7",
      "status": "Suppl. 7 to 01",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/108"
@@ -48911,7 +48847,7 @@
     {
      "doc": "Add.121/Amend.7",
      "status": "Suppl.7 to 00",
-     "eif": null,
+     "eif": "2024-06-05",
      "eif_raw": "5.06.24",
      "sess": "191 (Nov. 23)",
      "sym": "2023/100"
@@ -49863,51 +49799,51 @@
    "amendments": [
     {
      "doc": "Add.123",
-     "status": "Add.123",
-     "eif": null,
-     "eif_raw": "00 series",
-     "sess": "02.02.07",
-     "sym": ""
+     "status": "00 series",
+     "eif_raw": "02.02.07",
+     "eif": "2007-02-02",
+     "sess": "139 (June 06)",
+     "sym": "2005/46 + Amend.1"
     },
     {
      "doc": "Add.123/Corr.1",
-     "status": "Add.123/Corr.1",
+     "status": "Erratum to 00",
+     "eif_raw": "",
      "eif": null,
-     "eif_raw": "Erratum to 00",
-     "sess": "-",
+     "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.123/Amend.1",
-     "status": "Add.123/Amend.1",
-     "eif": null,
-     "eif_raw": "Suppl.1 to 00",
-     "sess": "30.01.11",
-     "sym": ""
+     "status": "Suppl.1 to 00",
+     "eif_raw": "30.01.11",
+     "eif": "2011-01-30",
+     "sess": "151 (June 10)",
+     "sym": "2010/71"
     },
     {
      "doc": "Add.123/Amend.2",
-     "status": "Add.123/Amend.2",
-     "eif": null,
-     "eif_raw": "Suppl.2 to 00",
-     "sess": "30.09.21",
-     "sym": ""
+     "status": "Suppl.2 to 00",
+     "eif_raw": "30.09.21",
+     "eif": "2021-09-30",
+     "sess": "183 (Mar. 21)",
+     "sym": "2021/9"
     },
     {
      "doc": "Add.123/Amend.3",
-     "status": "Add.123/Amend.3",
-     "eif": null,
-     "eif_raw": "Suppl.3 to 00",
-     "sess": "07.01.22",
-     "sym": ""
+     "status": "Suppl.3 to 00",
+     "eif_raw": "07.01.22",
+     "eif": "2022-01-07",
+     "sess": "184 (June 21)",
+     "sym": "2021/78"
     },
     {
      "doc": "Add.123/Amend.4",
-     "status": "Add.123/Amend.4",
-     "eif": null,
-     "eif_raw": "Suppl.4 to 00",
-     "sess": "26.09.25",
-     "sym": ""
+     "status": "Suppl.4 to 00",
+     "eif_raw": "26.09.25",
+     "eif": "2025-09-26",
+     "sess": "195 (Mar. 25)",
+     "sym": "2025/5"
     }
    ],
    "parties": [
@@ -50640,18 +50576,18 @@
    "amendments": [
     {
      "doc": "Add.125",
-     "status": "Add.125",
-     "eif": null,
-     "eif_raw": "00",
-     "sess": "09.11.07",
-     "sym": ""
+     "status": "00",
+     "eif_raw": "09.11.07",
+     "eif": "2007-11-09",
+     "sess": "141 (Mar. 07)",
+     "sym": "2005/88 + Amend.1"
     },
     {
      "doc": "Add.125/Corr.1",
-     "status": "Add.125/Corr.1",
+     "status": "Erratum to 00",
+     "eif_raw": "",
      "eif": null,
-     "eif_raw": "Erratum to 00",
-     "sess": "-",
+     "sess": "",
      "sym": ""
     }
    ],
@@ -50967,7 +50903,7 @@
     {
      "doc": "Add.126/Rev.2/Amend.1",
      "status": "Suppl. 1 to 02",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/126"
@@ -50983,7 +50919,7 @@
     {
      "doc": "Add.126/Rev.3/Amend.5",
      "status": "Suppl. 4 to 03",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "[04.06.26]",
      "sym": ""
@@ -50991,15 +50927,15 @@
     {
      "doc": "Add.126/Rev.4",
      "status": "04 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-01-05",
+     "eif_raw": "05.01.24",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.126/Rev.4/Amend.3",
      "status": "Suppl. 3 to 04",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "[04.06.26]",
      "sym": ""
@@ -51854,15 +51790,15 @@
     {
      "doc": "Add.128/Rev.5",
      "status": "04 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-11-13",
+     "eif_raw": "13.11.24",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.128/Rev.5/Amend.4",
      "status": "Suppl.4 to 04",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": ""
@@ -52941,15 +52877,15 @@
     {
      "doc": "Add.130/Rev.2",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2023-09-24",
+     "eif_raw": "24.09.23",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.130/Rev.2/Amend.3",
      "status": "Suppl. 3 to 02",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/141"
@@ -54007,15 +53943,15 @@
     {
      "doc": "Add.133/Rev.2",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
     {
      "doc": "Add.133/Rev.2/Amend.3",
      "status": "Suppl.3 to 02",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/131"
@@ -54023,7 +53959,7 @@
     {
      "doc": "Add.133/Rev.2/Amend.4",
      "status": "03 series",
-     "eif": null,
+     "eif": "2026-06-04",
      "eif_raw": "[04.06.26]",
      "sess": "197 (Nov.25)",
      "sym": "2025/130"
@@ -54452,8 +54388,8 @@
     {
      "doc": "Add.134/Rev.2",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-01-05",
+     "eif_raw": "05.01.24",
      "sess": "",
      "sym": ""
     },
@@ -55232,8 +55168,8 @@
     {
      "doc": "Add.136/Rev.3",
      "status": "03 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
@@ -55690,8 +55626,8 @@
     {
      "doc": "Add.137/Rev.2",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-09-26",
+     "eif_raw": "26.09.25",
      "sess": "",
      "sym": ""
     },
@@ -58217,8 +58153,8 @@
     {
      "doc": "Add.144/Rev.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2025-06-17",
+     "eif_raw": "17.06.25",
      "sess": "",
      "sym": ""
     },
@@ -59256,8 +59192,8 @@
     {
      "doc": "Add.147/Rev.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2023-09-24",
+     "eif_raw": "24.09.23",
      "sess": "-",
      "sym": ""
     },
@@ -59719,8 +59655,8 @@
     {
      "doc": "Add.148/Rev.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2023-09-24",
+     "eif_raw": "24.09.23",
      "sess": "-",
      "sym": ""
     },
@@ -60158,8 +60094,8 @@
     {
      "doc": "Add.149/Rev.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2023-09-24",
+     "eif_raw": "24.09.23",
      "sess": "-",
      "sym": "2023/40"
     },
@@ -61811,8 +61747,8 @@
     {
      "doc": "Add.153/Rev.2",
      "status": "02 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2022-10-08",
+     "eif_raw": "08.10.22",
      "sess": "-",
      "sym": ""
     },
@@ -61843,8 +61779,8 @@
     {
      "doc": "Add.153/Rev.3",
      "status": "03 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2024-06-15",
+     "eif_raw": "15.06.24",
      "sess": "-",
      "sym": ""
     },
@@ -62921,8 +62857,8 @@
     {
      "doc": "Add.156/Rev.1",
      "status": "01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2023-09-24",
+     "eif_raw": "24.09.23",
      "sess": "",
      "sym": ""
     },
@@ -63991,8 +63927,8 @@
     {
      "doc": "Add.159/Amend.1/Corr.1",
      "status": "Erratum to 01",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2022-10-08",
+     "eif_raw": "08.10.22",
      "sess": "",
      "sym": ""
     },
@@ -64023,8 +63959,8 @@
     {
      "doc": "Add.159/Rev.1/Corr.1",
      "status": "Erratum to 01 series",
-     "eif": null,
-     "eif_raw": "",
+     "eif": "2022-10-08",
+     "eif_raw": "08.10.22",
      "sess": "",
      "sym": ""
     },
@@ -68898,7 +68834,7 @@
      "doc": "Add.173",
      "status": "00 series",
      "eif": "2025-07-06",
-     "eif_raw": "[06.0725]",
+     "eif_raw": "",
      "sess": "194 (Nov.24)",
      "sym": "2024/153"
     },
