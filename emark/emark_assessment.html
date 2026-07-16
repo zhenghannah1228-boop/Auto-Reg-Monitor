@@ -109,7 +109,29 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .probe b{color:var(--od)}
 .ver.warn{color:var(--amber);font-weight:600}
 .vehb{display:inline-block;font-size:10.5px;color:var(--blue);background:#EAF1F7;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
-.reachb{display:inline-block;font-size:10.5px;color:var(--green);background:#E7F3EC;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.reachb{display:inline-block;font-size:10.5px;color:var(--green);background:#E7F3EC;border:none;border-radius:4px;padding:2px 7px;margin-left:6px;vertical-align:1px;cursor:pointer;font-family:inherit}
+.reachb:hover{background:#CFE9DA;text-decoration:underline}
+.dirbtn{font-family:inherit;font-size:12px;font-weight:600;color:var(--od);background:var(--ol);border:1px solid var(--o);border-radius:8px;padding:6px 13px;cursor:pointer;margin-left:8px}
+.dirbtn:hover{background:var(--o);color:#fff}
+/* 缔约方/机关名录弹窗 */
+.emk-ov{position:fixed;inset:0;background:rgba(20,24,28,.55);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:36px 14px;overflow-y:auto}
+.emk-ov.on{display:flex}
+.emk-modal{background:#fff;border-radius:14px;max-width:780px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.emk-hd{background:linear-gradient(120deg,var(--ink),#2A2F36);color:#fff;padding:15px 20px;display:flex;align-items:center;gap:12px;border-radius:14px 14px 0 0}
+.emk-hd h3{font-size:15px;color:#fff;flex:1;font-weight:700;line-height:1.4}
+.emk-x{background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px;flex:none}
+.emk-x:hover{background:rgba(255,255,255,.3)}
+.emk-bd{max-height:72vh;overflow-y:auto}
+.emk-search{padding:10px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
+.emk-search input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;outline:none}
+.emk-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.emk-tbl th{position:sticky;top:0;background:#F4F5F7;text-align:left;padding:9px 14px;font-size:11px;color:var(--grey);border-bottom:1px solid var(--line);white-space:nowrap}
+.emk-tbl td{padding:8px 14px;border-bottom:1px solid #F0F1F3;vertical-align:top}
+.emk-tbl td.r{text-align:right}
+.emk-tbl tr:hover td{background:var(--cream)}
+.emk-tbl a{color:var(--blue)}
+.emk-sgs{display:inline-block;background:var(--o);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px}
+.emk-note{padding:9px 16px;font-size:11.5px;color:var(--grey);background:#FBF7F2;border-top:1px solid var(--line)}
 .stn-extra{font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 11px;margin-top:10px;line-height:1.55;color:var(--ink2)}
 .stn-extra a{color:var(--blue)}
 .stn-extra.sgs-fact{background:var(--ol);border-color:var(--o);color:var(--od)}
@@ -384,9 +406,48 @@ function partiesCount(regStr){
   return reg.parties.length;
 }
 function reachBadge(i){
-  const n=partiesCount(i.reg);
-  return n? `<span class="reachb" title="按 WP.29/343 Add.1，${n} 个 1958 协定缔约方适用该法规——你的 E-mark 证书在这些国家互认">🌍 ${n} 国互认</span>`:'';
+  const n=partiesCount(i.reg); if(!n) return '';
+  const m=/(?:UN\s*)?R\s*(\d{1,3})/i.exec(i.reg||''); const no=m?m[1]:'';
+  return `<button class="reachb" onclick="openParties('${no}')" title="点击查看适用该法规的全部缔约方名单">🌍 ${n} 国互认</button>`;
 }
+// ===== 缔约方 / 机关名录弹窗 =====
+function emkModal(title, bodyHTML, note){
+  let ov=document.getElementById('emk-ov');
+  if(!ov){
+    ov=document.createElement('div'); ov.id='emk-ov'; ov.className='emk-ov';
+    ov.addEventListener('click',e=>{if(e.target===ov)emkClose();});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')emkClose();});
+    document.body.appendChild(ov);
+  }
+  ov.innerHTML=`<div class="emk-modal" role="dialog" aria-modal="true">
+    <div class="emk-hd"><h3>${title}</h3><button class="emk-x" onclick="emkClose()" aria-label="关闭">✕</button></div>
+    <div class="emk-bd">${bodyHTML}</div>
+    ${note?`<div class="emk-note">${note}</div>`:''}</div>`;
+  ov.classList.add('on');
+}
+function emkClose(){ const ov=document.getElementById('emk-ov'); if(ov) ov.classList.remove('on'); }
+function partyRows(parties){
+  return parties.map(p=>{
+    const a=authInfo(p.code);
+    return `<tr><td><b>E${p.code}</b> ${p.country||''}</td><td>${p.since||'—'}</td><td>${a&&a.a?a.a:'—'}</td><td class="r">${a?a.ts:'—'}</td><td>${a&&a.sgs?'<span class="emk-sgs">SGS</span>':''}</td></tr>`;
+  }).join('');
+}
+function openParties(no){
+  const reg=(typeof VERDB!=='undefined'&&VERDB)?VERDB.byNo[no]:null;
+  if(!reg||!reg.parties){ emkModal('数据加载中', '<div style="padding:22px;font-size:13px">缔约方数据尚未就绪，请稍候重试。</div>'); return; }
+  const ps=reg.parties.slice().sort((a,b)=>a.code-b.code);
+  const body=`<table class="emk-tbl"><thead><tr><th>缔约方（E 代码）</th><th>适用起始</th><th>指定型式批准机关</th><th>技术服务</th><th>SGS</th></tr></thead><tbody>${partyRows(ps)}</tbody></table>`;
+  emkModal(`UN R${no} · ${ps.length} 个 1958 缔约方适用（你的 E-mark 证书互认范围）`, body,
+    '数据源：WP.29/343 Add.1（缔约方适用日期与指定机关）。橙色 SGS = 该国有 SGS 实体为政府指定技术服务机构。');
+}
+function openAuthDir(){
+  const rows=AUTHDIR.slice().sort((a,b)=>a.e-b.e).map(o=>`<tr><td><b>E${o.e}</b></td><td>${o.cn}</td><td>${o.a||'—'}</td><td>${o.w?`<a href="${o.w}" target="_blank" rel="noopener">官网</a>`:''}</td><td class="r">${o.ts}</td><td>${o.sgs?'<span class="emk-sgs">SGS</span>':''}</td></tr>`).join('');
+  const body=`<div class="emk-search"><input id="dir-q" placeholder="搜索国家 / 机关名…" oninput="dirFilter(this.value)" autocomplete="off"></div>
+    <table class="emk-tbl"><thead><tr><th>E 码</th><th>国家</th><th>指定型式批准机关</th><th>官网</th><th>技术服务</th><th>SGS</th></tr></thead><tbody id="dir-tb">${rows}</tbody></table>`;
+  emkModal(`1958 协定缔约方 · 型式批准机关与技术服务名录（${AUTHDIR.length} 国）`, body,
+    '数据源：WP.29/343 Add.1 · Annex 1（各缔约国政府指定的型式批准机关与技术服务机构官方名录）。');
+}
+function dirFilter(q){ q=(q||'').toLowerCase(); document.querySelectorAll('#dir-tb tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none'; }); }
 async function loadVerDB(){
   const urls=[
     '../data/unece_status.json',
@@ -556,6 +617,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。勾「已认证」后若该法规已有更新系列生效，会自动提示核对。</p>
     ${focusNote()}
+    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button> <span style="font-size:11.5px;color:var(--grey)">点每条法规的「🌍 N 国互认」看适用该法规的完整国家名单</span></div>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
@@ -771,8 +833,8 @@ function stationExtra(st){
   }
   if(st.id==='authority'){
     const e=AUTH_ECODE[profile.authority], a=e&&authInfo(e);
-    if(a) return `<div class="stn-extra">你选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。</div>`;
-    return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、卢森堡 SNCH(E13)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。</div>`;
+    if(a) return `<div class="stn-extra">你选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()">📖 查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
+    return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、卢森堡 SNCH(E13)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()">📖 查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
   }
   if(st.id==='ts'){
     const cs=sgsTScountries();
