@@ -132,6 +132,18 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .emk-tbl a{color:var(--blue)}
 .emk-sgs{display:inline-block;background:var(--o);color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:10px}
 .emk-note{padding:9px 16px;font-size:11.5px;color:var(--grey);background:#FBF7F2;border-top:1px solid var(--line)}
+/* 标志选择器 */
+.mark-row{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font-family:inherit;font-size:13px;background:#fff;border:1.5px solid var(--line);border-radius:9px;padding:11px 13px;margin-bottom:7px;cursor:pointer;color:var(--ink)}
+.mark-row:hover{border-color:var(--o)}
+.mark-row.on{border-color:var(--o);background:var(--cream)}
+.mark-ck{font-size:16px;color:var(--o);flex:none}
+.mark-out{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
+.mark-badges{font-size:13px;font-weight:700;margin-bottom:9px}
+.mark-b{display:inline-block;background:var(--o);color:#fff;font-size:12px;font-weight:700;padding:2px 10px;border-radius:12px;margin:0 4px 4px 0}
+.mark-ul{margin:0 0 4px;padding-left:18px;font-size:12px;color:var(--ink2);line-height:1.6}
+.mark-ul li{margin-bottom:6px}
+.mark-multi{font-size:12px;color:var(--amber);background:#FDF6EC;border-radius:7px;padding:8px 11px;line-height:1.55}
+.mark-empty{font-size:12.5px;color:var(--greyl);padding:6px 0}
 .stn-extra{font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 11px;margin-top:10px;line-height:1.55;color:var(--ink2)}
 .stn-extra a{color:var(--blue)}
 .stn-extra.sgs-fact{background:var(--ol);border-color:var(--o);color:var(--od)}
@@ -448,6 +460,50 @@ function openAuthDir(){
     '数据源：WP.29/343 Add.1 · Annex 1（各缔约国政府指定的型式批准机关与技术服务机构官方名录）。');
 }
 function dirFilter(q){ q=(q||'').toLowerCase(); document.querySelectorAll('#dir-tb tr').forEach(tr=>{ tr.style.display=tr.textContent.toLowerCase().includes(q)?'':'none'; }); }
+
+// ===== 标志选择器：E-mark / e-mark / CE，按现行 EU 指令编号（2026-07 核验）=====
+const MARK_RULES=[
+ {id:'auto',q:'车用电子件（含电子电路，装于 M/N/O/L/T 类车辆）',marks:['E-mark（大E）'],
+  basis:'车用电磁兼容由 UN R10 型式批准，经 (EU) 2018/858 纳入整车批准；车辆及其电子子组件(ESA)已排除出通用 EMC 指令 2014/30/EU，因此打大 E、不单独打 CE-EMC。'},
+ {id:'radio',q:'含无线/射频模块（蓝牙 / Wi-Fi / 蜂窝 / GNSS / 无钥匙进入等）',marks:['CE（无线电设备指令 RED）'],
+  basis:'无线部分适用无线电设备指令 RED 2014/53/EU（一并覆盖射频、EMC 与健康安全），需追加 CE。（注：RED 已取代旧 R&TTE 指令）'},
+ {id:'mach',q:'含机械运动 / 液压 / 举升等机械部件',marks:['CE（机械）'],
+  basis:'机械部分适用机械指令 2006/42/EC；自 2027-01-20 起由机械条例 (EU) 2023/1230 取代（当前为过渡期），需追加 CE。'},
+ {id:'euonly',q:'仅欧盟条例覆盖、无对应 UN 法规的项（如部分 2021/535 附件项目）',marks:['e-mark（小e）'],
+  basis:'无对应 UN 法规、仅由 EU 条例覆盖的项，按 EU 型式批准打小 e（欧盟内部），不进入 1958 协定多国互认。'},
+ {id:'mech',q:'纯机械 / 结构 / 光学件（无电子、无无线、无机械动力）',marks:['E-mark 或 e-mark'],
+  basis:'按具体 UN R（大E，1958 多国互认）或 EU 条例（小e）型式批准，通常不涉 CE。大 E 与小 e 之别在互认范围，不可混用。'}
+];
+let markSel={};
+function openMarkSelector(){
+  markSel={};
+  const rows=MARK_RULES.map(r=>`<button class="mark-row" data-mark="${r.id}" onclick="toggleMark('${r.id}',this)"><span class="mark-ck">☐</span><span>${r.q}</span></button>`).join('');
+  const body=`<div style="padding:14px 16px">
+    <div style="font-size:12.5px;color:var(--ink2);margin-bottom:10px">勾选你的部件特性（可多选），下方即时给出所需标志组合与现行法规依据：</div>
+    ${rows}
+    <div id="mark-result"></div>
+  </div>`;
+  emkModal('我的部件要打哪些标？· E-mark / e-mark / CE 选择器', body,
+    '标志判定最终以认可技术服务机构 / 型式批准机关对具体产品的评定为准；本工具依现行 EU 指令/条例编号给出方向性判断（2026-07 核验），不构成正式合规意见。');
+  renderMarkResult();
+}
+function toggleMark(id,el){
+  markSel[id]=!markSel[id];
+  el.classList.toggle('on',markSel[id]);
+  el.querySelector('.mark-ck').textContent=markSel[id]?'☑':'☐';
+  renderMarkResult();
+}
+function renderMarkResult(){
+  const el=document.getElementById('mark-result'); if(!el) return;
+  const chosen=MARK_RULES.filter(r=>markSel[r.id]);
+  if(!chosen.length){ el.innerHTML='<div class="mark-empty">未选择——勾选上方特性后显示结果。</div>'; return; }
+  const marks=[...new Set(chosen.flatMap(r=>r.marks))];
+  el.innerHTML=`<div class="mark-out">
+    <div class="mark-badges">你的部件可能需要：${marks.map(m=>`<span class="mark-b">${m}</span>`).join('')}</div>
+    <ul class="mark-ul">${chosen.map(r=>`<li>${r.basis}</li>`).join('')}</ul>
+    ${marks.length>1?'<div class="mark-multi">⚠ 多标志并存：各标志走各自的评定路径与机构（型式批准机关 / RED 公告机构 / 机械评定），互不替代，勿漏其一。</div>':''}
+  </div>`;
+}
 async function loadVerDB(){
   const urls=[
     '../data/unece_status.json',
@@ -580,6 +636,7 @@ function step2(){
     ${focusNote()}
     <div class="secttl">② 目标市场</div>
     <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div><div class="od">${m[2]}</div></button>`).join('')}</div>
+    <div class="probe" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">🏷️ 不确定你的部件要打大 E、小 e 还是 CE？<button class="dirbtn" onclick="openMarkSelector()">打开标志选择器</button><span style="font-size:11.5px;color:var(--grey)">电子/无线/机械件常需多标并存</span></div>
     <div class="secttl">③ 涉及的部件分类组（可多选，不选=全部）</div>
     <div class="opts g3">${gopts}</div>
     <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="toStep3()">下一步：法规盘点 →</button></div>
