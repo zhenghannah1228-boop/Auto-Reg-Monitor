@@ -114,6 +114,35 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 /* disclaimer */
 .disclaimer{font-size:12px;color:var(--grey);background:#FBF7F2;border:1px dashed var(--ol);border-radius:9px;padding:11px 15px;margin:18px 0;line-height:1.6}
 .disclaimer b{color:var(--od)}
+/* 认证旅程导览（Step 5 主线） */
+.jbar{background:var(--cream);border:1px solid var(--ol);border-radius:12px;padding:13px 16px;margin-bottom:16px}
+.jbar-l{font-size:13px;color:var(--ink2);margin-bottom:9px;line-height:1.6}
+.jbar-l b{color:var(--od)}
+.jtag{display:inline-block;color:#fff;font-weight:700;font-size:12px;padding:1px 10px;border-radius:4px}
+.jprog{height:7px;background:#EDE6DA;border-radius:5px;overflow:hidden}
+.jprog-f{height:100%;background:linear-gradient(90deg,var(--o),var(--od));border-radius:5px;transition:width .3s}
+.jmap{margin-bottom:18px}
+.stn{border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:#fff;overflow:hidden}
+.stn>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:13px 15px;cursor:pointer}
+.stn>summary::-webkit-details-marker{display:none}
+.stn>summary:hover{background:var(--cream)}
+.stn-no{width:26px;height:26px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center;flex:none}
+.stn-h{flex:1;display:flex;flex-direction:column;min-width:0}
+.stn-h b{font-size:14px}.stn-h small{font-size:11px;color:var(--greyl);font-family:Georgia,serif}
+.stn-st{font-size:12px;font-weight:700;white-space:nowrap}
+.stn[open]>summary{border-bottom:1px solid var(--line);background:var(--cream)}
+.stn-body{padding:13px 15px 15px 53px;font-size:13px}
+@media(max-width:520px){.stn-body{padding-left:15px}}
+.stn-note{border-left:3px solid;background:var(--bg);border-radius:0 6px 6px 0;padding:7px 11px;font-weight:600;margin-bottom:10px}
+.stn-what{color:var(--ink2);line-height:1.65;margin-bottom:10px}
+.stn-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--grey);margin-bottom:10px}
+.stn-pit{font-size:12.5px;color:var(--amber);background:#FDF6EC;border-radius:7px;padding:8px 11px;line-height:1.55;margin-bottom:10px}
+.stn-sgs{font-size:13px;background:var(--ol);border-radius:7px;padding:9px 12px;color:var(--od);line-height:1.5}
+.stn-sgs b{color:var(--od)}
+.mfold{margin-bottom:18px;border:1px dashed var(--line);border-radius:10px;padding:0 14px}
+.mfold>summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--od);padding:12px 0;list-style:none}
+.mfold>summary::-webkit-details-marker{display:none}
+.mfold-b{padding:4px 0 14px}
 /* accessibility: visible focus ring */
 button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px solid var(--o);outline-offset:2px;border-radius:8px}
 /* ===== consulting-grade maturity matrix (Step 3) ===== */
@@ -146,9 +175,9 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 </style></head><body>
 <header class="hero"><div class="hi">
  <div class="brand"><div class="dot">一</div><b>一点通</b><span>· 国际汽车法规合规平台</span></div>
- <h1><span class="em">E-mark / e-mark</span> 合规成熟度评估</h1>
- <p class="sub">不止判定单个部件——六步测出你企业的整体合规成熟度，企业画像 + 双轴定位 + 缺口报告 + 实施路线图。对标德国 msg UN Regulation Assessment。</p>
- <div class="badges"><span class="badge">六步 · <b>免费</b>评估</span><span class="badge"><b>双轴</b>成熟度模型</span><span class="badge"><b>94</b>项法规库</span><span class="badge">缺口驱动</span></div>
+ <h1><span class="em">E-mark / e-mark</span> 认证导航</h1>
+ <p class="sub">不止判定单个部件——带你走完一圈 E-mark 部件型式批准流程。先自评现状，再生成你的<b>专属 9 站认证路线</b>：每一站标出你的进度、常见坑与可承接的环节。对标德国 msg UN Regulation Assessment。</p>
+ <div class="badges"><span class="badge"><b>9 站</b>认证旅程</span><span class="badge">现状<b>自动定位</b></span><span class="badge"><b>94</b>项法规库</span><span class="badge">缺口→服务</span></div>
  <button class="btn btn-p" onclick="go(1)">开始免费评估 →</button>
 </div></header>
 <nav class="rail"><div class="ri" id="rail"></div></nav>
@@ -236,7 +265,7 @@ const PROFILE=[
    ['p_cyb','R155/R156 网安新规','体系从零建立',        '网安体系建设'],
    ['p_doc','技术文档管理混乱','找不到、版本乱',        '技术文档编制']]}
 ];
-const STEPS=["企业画像","范围界定","法规盘点","体系自评","成熟度评分","实施路线图"];
+const STEPS=["企业画像","范围界定","法规盘点","体系自评","认证旅程","行动清单"];
 
 /* ===================================================================
    可配置结构 · Task 3 产品化占位（供业务/销售校准，改此处即可）
@@ -410,15 +439,15 @@ function render(){
 
 function intro(){
   return `<div class="step on">
-   <div class="eyebrow">六步 · 免费企业合规成熟度评估</div>
-   <h2 class="st" style="margin-bottom:18px">评估流程</h2>
+   <div class="eyebrow">六步 · 免费 E-mark 认证导航</div>
+   <h2 class="st" style="margin-bottom:18px">怎么用</h2>
    <div class="opts g3">
-     <div class="opt" style="cursor:default"><div class="ot">① 企业画像</div><div class="od">规模、出口经验、时间要求与痛点</div></div>
-     <div class="opt" style="cursor:default"><div class="ot">② 范围界定</div><div class="od">选目标市场、产品、角色，圈定适用法规集</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">① 企业画像</div><div class="od">规模、出口经验、时间要求、意向机关与痛点</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">② 范围界定</div><div class="od">选目标市场、角色、产品，圈定适用法规集</div></div>
      <div class="opt" style="cursor:default"><div class="ot">③ 法规盘点</div><div class="od">逐条自评认证状态，附现行版本/生效日期</div></div>
      <div class="opt" style="cursor:default"><div class="ot">④ 体系自评</div><div class="od">CoP / 版本 / 网安 / 文档，4 维 12 题</div></div>
-     <div class="opt" style="cursor:default"><div class="ot">⑤ 成熟度评分</div><div class="od">双轴定位到四象限 + 明细数据表</div></div>
-     <div class="opt" style="cursor:default"><div class="ot">⑥ 实施路线图</div><div class="od">缺口→服务映射 + 免费报告</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">⑤ 认证旅程</div><div class="od">生成专属 9 站认证路线，逐站标出你的现状</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">⑥ 行动清单</div><div class="od">缺口→服务映射 + 可下载免费报告</div></div>
    </div>
    <div style="margin-top:26px"><button class="btn btn-p" onclick="go(1)">开始免费评估 →</button></div>
   </div>`;
@@ -520,7 +549,7 @@ function step4(){
     <h2 class="st">支撑体系成熟度自评</h2>
     <p class="lead">证书只是起点，体系决定证书能不能「活着」——共 ${SYS.length} 个维度 ${qcount} 题，每维度得分为题目均分。</p>
     ${secs}
-    <div class="nav"><button class="ghost" onclick="go(3)">← 上一步</button><button class="btn btn-p" onclick="go(5)">生成评估结果 →</button></div>
+    <div class="nav"><button class="ghost" onclick="go(3)">← 上一步</button><button class="btn btn-p" onclick="go(5)">生成认证路线 →</button></div>
   </div>`;
 }
 
@@ -556,21 +585,81 @@ function quadrant(X,Y){
   return{key:'naked',name:'裸奔',color:'#6B7280',desc:'新进入者，尚未起步',svc:'全流程托管 / 入门培训'};
 }
 
-function step5(){
+/* ===== 认证旅程（导览主线）· 9 站 E-mark 部件/STU 型式批准流程 =====
+   dim = 关联体系维度（现状取自体系自评）；reg = 现状取自法规盘点计数 */
+const STAGES=[
+ {no:1,id:'scope',name:'定标的与适用法规',en:'Scope & Applicable Regulations',actor:'你（可 SGS 协助）',dur:'1–2 周',cost:'低 · 咨询/内部工时',
+  what:'确定产品属哪类部件、适用哪条 UN R、覆盖哪些车型类别，以及按「部件」还是「独立技术单元（STU）」申请。',
+  pitfall:'同一产品可能同时落多条法规（如一个灯具总成涉及多个 R 号）；大 E（UNECE）与小 e（EU）路线选错，返工成本最高。',
+  sgs:'法规适用性界定、E/e 路线建议'},
+ {no:2,id:'authority',name:'选型式批准机关',en:'Choose Type Approval Authority',actor:'你',dur:'约 1 周',cost:'机关申请费（各国不同）',
+  what:'选定一个 1958 协定缔约方的批准机关，它决定你证书上的 E 号（如荷兰 RDW = E4、德国 KBA = E1）。',
+  pitfall:'脱欧后英国 VCA 只能签发 UNECE E 标、不能签 EU e 标；各机关语言、排队、费用差异明显。',
+  sgs:'机关选择建议与对接'},
+ {no:3,id:'ts',name:'委托技术服务机构',en:'Appoint Technical Service',actor:'你 + 技术服务',dur:'1–2 周确定 + 排期',cost:'（测试费在下一站）',
+  what:'委托一家获认可的技术服务机构（实验室）执行法规规定的测试。SGS 即为全球获认可的技术服务机构。',
+  pitfall:'实验室排期是整个周期最大的变量；技术服务的资质范围必须覆盖你的全部法规项。',
+  sgs:'SGS 作为认可技术服务机构直接承接测试（核心环节）'},
+ {no:4,id:'doc',name:'编制技术文档',en:'Technical Documentation',actor:'你（可 SGS 编制）',dur:'2–4 周',cost:'中 · 编制工时',
+  what:'编制型式批准信息文件夹：图纸、技术参数、材料清单、试验方案等。',
+  pitfall:'文档与实物不一致是机关审核最高频的退回点。',
+  sgs:'技术文档编制',dim:'doc'},
+ {no:5,id:'test',name:'送样与测试',en:'Sample Submission & Testing',actor:'技术服务',dur:'4–12 周（视法规项）',cost:'高 · 测试费主体',
+  what:'向技术服务机构送样，实验室按法规执行测试并出具测试报告。',
+  pitfall:'一次不通过要整改重测，直接翻倍周期；送样状态必须代表量产件。',
+  sgs:'SGS 测试与预测试',reg:true},
+ {no:6,id:'apply',name:'递交批准申请',en:'Submit Application',actor:'你 + 批准机关',dur:'4–8 周（机关审）',cost:'机关费',
+  what:'向批准机关递交申请，连同测试报告与技术文档。',
+  pitfall:'文件不齐被退；跨语言往返拖长周期。',
+  sgs:'认证代办',reg:true},
+ {no:7,id:'grant',name:'获证与打标',en:'Approval & Marking',actor:'批准机关 → 你',dur:'随申请签发',cost:'—',
+  what:'机关签发型式批准证书 + E 标授权（圈 E + 国别号 + 批准号），你按规在产品上打标。',
+  pitfall:'打标位置、尺寸、信息不符规定，本身也构成不合规。',
+  sgs:'打标合规核查',reg:true},
+ {no:8,id:'cop',name:'生产一致性 CoP',en:'Conformity of Production',actor:'你 + 机关/技术服务',dur:'持续',cost:'中 · 年度',
+  what:'建立并维持生产一致性体系，初次评估 + 周期性监督，保证量产件与批准样一致。',
+  pitfall:'拿证后忽视 CoP，监督不通过可导致批准被暂停乃至撤销——这正是「有证无体系」脆弱象限的根因。',
+  sgs:'CoP 年度托管',dim:'cop'},
+ {no:9,id:'life',name:'持证运营',en:'Lifecycle Management',actor:'你（可 SGS 订阅）',dur:'持续',cost:'低–中 · 订阅',
+  what:'设计变更走扩展申请、法规修订换版、维护证书台账与到期提醒。',
+  pitfall:'UN R 系列更新后，新车型申请必须按新系列——旧证不会自动失效但会限制新申请。',
+  sgs:'版本追踪订阅',dim:'version'}
+];
+const STAGE_STATE={done:{c:'#1F7A4D',t:'已完成'},prog:{c:'#B45309',t:'进行中'},todo:{c:'#9AA1AB',t:'未开始'},gap:{c:'#C0392B',t:'缺口'}};
+// 每一站的现状：从画像 + 法规盘点 + 体系自评推导
+function journeyStatus(){
+  const {items}=computeScores();
+  let done=0,prog=0;
+  items.forEach(i=>{const s=regStatus[i.item];if(s==='done')done++;else if(s==='prog')prog++;});
+  const total=items.length;
+  const regDone=total>0&&done===total, regSome=done>0||prog>0;
+  const copSc=dimScore(SYS.find(x=>x.id==='cop'));
+  return STAGES.map(st=>{
+    let state='todo', note='';
+    if(st.id==='scope'){state='done';note=`已识别 ${total} 项适用法规`;}
+    else if(st.id==='authority'){const ok=profile.authority&&profile.authority!=='undecided';state=ok?'done':'todo';note=ok?'已选定 '+plabel('authority'):'尚未选定批准机关';}
+    else if(st.id==='ts'){state='todo';note='建议由 SGS 承接测试';}
+    else if(st.dim){const sc=dimScore(SYS.find(x=>x.id===st.dim));state=sc>=100?'done':(sc>0?'prog':'todo');note={done:'体系已建立',prog:'体系部分建立',todo:'体系尚缺'}[state];
+      if(st.id==='cop'&&done>0&&copSc===0){state='gap';note='已有证书但无 CoP 体系——证书面临失效风险';}}
+    else if(st.reg){
+      if(st.id==='grant'){state=done>0?(regDone?'done':'prog'):'todo';note=`已获 ${done} / ${total} 张证书`;}
+      else{state=regDone?'done':(regSome?'prog':'todo');note=`${done} 已认证 · ${prog} 进行中 · ${total-done-prog} 未开始`;}
+    }
+    return Object.assign({},st,{state,note});
+  });
+}
+function maturityBlock(){
   const {X,Y,items}=computeScores();
   const q=quadrant(X,Y);
   const copy=QUADRANT_COPY[q.key]||{risk:'',recs:[]};
-  // X 轴明细
   let done=0,prog=0,nostart=0,unk=0;
   items.forEach(i=>{const s=regStatus[i.item];if(s==='done')done++;else if(s==='prog')prog++;else if(s==='no')nostart++;else unk++;});
   const total=items.length, gaps=nostart+unk;
   const donePct=total?Math.round(done/total*100):0;
-  // Y 轴明细（每维度 = 该维题目均分 0-100）
   const sysDetail=SYS.map(s=>{const sc=dimScore(s);const lab=sc===100?'已建立':(sc===0?'缺失':'部分');return {name:s.name,sc,lab};});
   const ref=REF_POINT[sel.role]||REF_POINT._default;
-  // 定位点坐标：cx=60+X*3.4, cy=20+(100-Y)*3.4（绘图区 60..400 / 20..360）
   const cx=(60+X*3.4).toFixed(1), cy=(20+(100-Y)*3.4).toFixed(1);
-  const labY=(+cy-14).toFixed(1);   // 「你 (X,Y)」标签在定位点上方
+  const labY=(+cy-14).toFixed(1);
   const svg=`<svg viewBox="0 0 420 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="合规成熟度矩阵，你的定位 X ${X} Y ${Y}，${q.name}象限">
       <defs><pattern id="mxg" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0 L0 0 0 34" fill="none" stroke="#2A2F38" stroke-width="0.5"/></pattern></defs>
       <rect x="60" y="20" width="340" height="340" fill="url(#mxg)"/>
@@ -606,11 +695,7 @@ function step5(){
       <text x="${cx}" y="${labY}" fill="#E6E9ED" font-size="10.5" text-anchor="middle" font-weight="bold">你 (${X}, ${Y})</text>
     </svg>`;
   const recsHTML=copy.recs.map(r=>`<li>${r}</li>`).join('');
-  return `<div class="step on">
-    <div class="eyebrow">STEP 5 / 6 · 成熟度评分</div>
-    <h2 class="st">合规成熟度定位</h2>
-    <p class="lead">基于 ${total} 条适用法规自评与 ${SYS.reduce((a,s)=>a+s.qs.length,0)} 题体系自评，双轴模型将你的企业定位于下列矩阵——定位点随自评实时移动。</p>
-    <div class="mx-block">
+  return `<div class="mx-block">
       <div class="mx-left">
         <div class="mx-eyebrow">COMPLIANCE MATURITY MATRIX</div>
         ${svg}
@@ -639,9 +724,44 @@ function step5(){
       <div class="mx-dt"><div class="mx-dth">体系成熟度明细 · Y 轴</div><table>
         ${sysDetail.map(d=>`<tr><td>${d.name}</td><td class="r"><b>${d.sc}</b></td><td class="r g">${d.lab}</td></tr>`).join('')}
         <tr class="tot"><td>${SYS.length} 维加权</td><td></td><td class="r">Y=${Y}</td></tr></table></div>
+    </div>`;
+}
+
+function step5(){
+  const js=journeyStatus();
+  const doneCount=js.filter(s=>s.state==='done').length;
+  const pct=Math.round(doneCount/js.length*100);
+  const curStation=js.find(s=>s.state!=='done');
+  const {X,Y}=computeScores(); const q=quadrant(X,Y);
+  const stationsHTML=js.map(st=>{
+    const sc=STAGE_STATE[st.state];
+    return `<details class="stn">
+      <summary>
+        <span class="stn-no" style="background:${sc.c}">${st.no}</span>
+        <span class="stn-h"><b>${st.name}</b><small>${st.en}</small></span>
+        <span class="stn-st" style="color:${sc.c}">${sc.t}</span>
+      </summary>
+      <div class="stn-body">
+        <div class="stn-note" style="border-color:${sc.c}">你的现状：${st.note}</div>
+        <p class="stn-what">${st.what}</p>
+        <div class="stn-meta"><span>👥 ${st.actor}</span><span>⏱ ${st.dur}</span><span>💰 ${st.cost}</span></div>
+        <div class="stn-pit">⚠ 常见坑：${st.pitfall}</div>
+        <div class="stn-sgs">🔧 SGS 在这一站能替你做：<b>${st.sgs}</b></div>
+      </div>
+    </details>`;
+  }).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 5 / 6 · 认证旅程</div>
+    <h2 class="st">你的 E-mark 认证路线</h2>
+    <p class="lead">基于前面的自评，这是你走完 E-mark 部件型式批准要经过的 9 站——每一站标出你现在所处的状态与 SGS 可承接的环节。点开任意一站看细节。</p>
+    <div class="jbar">
+      <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curStation?` · 当前重点：第 <b>${curStation.no}</b> 站「${curStation.name}」`:' · 全部完成 🎉'}</div>
+      <div class="jprog"><div class="jprog-f" style="width:${pct}%"></div></div>
     </div>
+    <div class="jmap">${stationsHTML}</div>
+    <details class="mfold"><summary>▸ 展开完整成熟度矩阵（评分明细，评估折叠于此）</summary><div class="mfold-b">${maturityBlock()}</div></details>
     <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。</p>
-    <div class="nav"><button class="ghost" onclick="go(4)">← 修改自评</button><button class="btn btn-p" onclick="go(6)">查看实施路线图 →</button></div>
+    <div class="nav"><button class="ghost" onclick="go(4)">← 修改自评</button><button class="btn btn-p" onclick="go(6)">查看行动清单与报告 →</button></div>
   </div>`;
 }
 
@@ -734,7 +854,7 @@ function step6(){
   const painDef=PROFILE.find(p=>p.id==='pains');
   const painHTML=profile.pains.map(k=>{const o=painDef.opts.find(x=>x[0]===k);return o?`<div class="gap"><span class="gdot amber"></span><span>${o[1]} <small style="color:var(--grey)">${o[2]}</small></span><span class="gsvc">${o[3]||'专家解读'}</span></div>`:'';}).join('');
   return `<div class="step on">
-    <div class="eyebrow">STEP 6 / 6 · 实施路线图</div>
+    <div class="eyebrow">STEP 6 / 6 · 行动清单与报告</div>
     <h2 class="st">你的合规待办清单</h2>
     <p class="lead">下列每一项缺口都对应一项可落地的服务。共识别 ${gapRows.length} 项，展示前 ${shown.length} 项。</p>
     <div class="gaplist">
@@ -754,7 +874,7 @@ function step6(){
       <button class="btn" onclick="alert('（示意）已记录：报告 ${reportNo()} · ${q.name}象限 · ${gapRows.length}项缺口 · 将转销售预约专家解读')">预约专家解读我的缺口 →</button>
       <button class="btn" style="margin-left:10px" onclick="downloadReport()">⬇ 下载评估报告</button>
     </div>
-    <div class="nav"><button class="ghost" onclick="go(5)">← 返回评分</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
+    <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
 }
 function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};window._rno=null;go(0);}
