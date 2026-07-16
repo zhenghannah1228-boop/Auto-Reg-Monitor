@@ -308,10 +308,30 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .mkb,.emk-search input,.mark-multi,.stn-extra,.verhint+*{border-radius:8px}
 /* 提示条（probe）统一为左强调条 callout，去掉杂色 */
 .probe{background:#FBF7F2;border-left:3px solid var(--o)}
+/* 交付物自查清单 */
+.deliv{background:#fff;border:1px solid #ECEEF1;border-radius:10px;padding:13px 15px;margin-top:12px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.deliv-h{font-size:13px;font-weight:800;margin-bottom:9px}
+.deliv-h b{color:var(--od)}
+.chk{display:flex;align-items:flex-start;gap:9px;padding:7px 4px;border-radius:7px;cursor:pointer;transition:.12s}
+.chk:hover{background:var(--cream)}
+.chk input{margin-top:3px;width:15px;height:15px;accent-color:var(--o);flex:none;cursor:pointer}
+.chk-t{font-size:13px;line-height:1.5;color:var(--ink)}
+.chk-t small{display:block;font-size:11.5px;color:var(--grey)}
+.chk.on .chk-t{color:var(--grey);text-decoration:line-through;text-decoration-color:#C9CFD8}
+.chk.on .chk-t small{text-decoration:none}
+/* FAQ 手风琴 */
+.faq{border-bottom:1px solid var(--line);padding:4px 0}
+.faq:last-child{border-bottom:none}
+.faq summary{font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;padding:9px 4px;list-style:none;display:flex;align-items:center;gap:8px}
+.faq summary::before{content:"+";color:var(--o);font-weight:800;width:14px;flex:none}
+.faq[open] summary::before{content:"−"}
+.faq summary:hover{color:var(--od)}
+.faq-a{font-size:12.5px;color:var(--ink2);line-height:1.7;padding:0 4px 11px 22px}
+.faq-a b{color:var(--od)}
 </style></head><body>
 <header class="topbar"><div class="tb-in">
  <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统 · 对标德国 msg UN Regulation Assessment</span></div>
- <div class="tb-act"><button class="badge-g" onclick="openGlossary()" title="术语速查"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>术语速查</button><a class="tb-home" href="../index.html" target="_top">返回导航首页</a></div>
+ <div class="tb-act"><button class="badge-g" onclick="openFAQ()" title="常见问题"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.2A2.5 2.5 0 0 1 14.4 10c0 1.6-2.4 2-2.4 3.4M12 16.6v.1"/></svg>常见问题</button><button class="badge-g" onclick="openGlossary()" title="术语速查"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>术语速查</button><a class="tb-home" href="../index.html" target="_top">返回导航首页</a></div>
 </div></header>
 <div class="layout">
  <aside class="sidebar">
@@ -1010,6 +1030,96 @@ const STAGES=[
   sgs:'版本追踪订阅',dim:'version'}
 ];
 const STAGE_STATE={done:{c:'#1F7A4D',t:'已完成'},prog:{c:'#B45309',t:'进行中'},todo:{c:'#9AA1AB',t:'未开始'},gap:{c:'#C0392B',t:'缺口'}};
+// ===== 每站交付物自查清单（按官方程序整理：2018/858 Art 24/31/Annex I、各 UN R 附件、WP.29/1044；
+// 周期/报价类精确数据未入库——档位见各站 meta，精确值以技术服务机构对具体产品评估为准）=====
+const DELIV={
+ scope:[
+  {t:'产品技术定义书',b:'部件 / 独立技术单元（STU，2018/858 Art 3(20)）属性判定、适用车型类别（M/N/O/L）'},
+  {t:'适用法规清单（含现行系列/增补版本）',b:'对照 WP.29/343 现行状态（盘点页右上版本标注）'},
+  {t:'标志路线判定记录（大E / 小e / CE 组合）',b:'标志选择器结果存档，多标并存项分别立项'},
+  {t:'（供整车配套时）IWVTA 要求系列核对',b:'对照 UN R0 整车必备 43 项系列级别（WP.29/2025/159 Annex 4）'}],
+ authority:[
+  {t:'批准机关申请表', b:'目标机关官方表格（RDW/KBA/SNCH 等各机关自有格式）'},
+  {t:'制造商注册资料', b:'企业资质、地址、联系人；部分机关要求境内代表信息'},
+  {t:'申请语言要求确认', b:'各机关接受语言不同（EN/DE/NL…），译文成本计入预算'}],
+ ts:[
+  {t:'技术服务机构委托合同 / 报价单', b:'（精确报价以技服按产品评估为准）'},
+  {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖你的全部法规项——WP.29/343 Add.1 Annex 1 名录'},
+  {t:'测试排期确认单', b:'排期是全周期最大变量，尽早锁定'}],
+ doc:[
+  {t:'信息文档 Information Document', b:'按对应 UN 法规附件的信息文档模板逐项填写'},
+  {t:'总装图 / 零件图纸（带版本号）', b:'图纸版本与送样实物一致'},
+  {t:'技术参数表与材料清单（BOM）', b:''},
+  {t:'试验方案 / 内部预测试记录', b:'预测试可大幅降低正式测试不通过风险'},
+  {t:'商标与打标位置图', b:'E 标位置、尺寸预先设计'},
+  {t:'文档-实物一致性核查记录', b:'机关审核最高频退回点，交前自查'}],
+ test:[
+  {t:'送样清单（数量按各法规规定）', b:'样品状态必须代表量产件'},
+  {t:'样品标识与追溯记录', b:''},
+  {t:'技服出具的测试报告', b:'核对报告引用的法规系列/增补版本'},
+  {t:'不符合项整改与复测记录（如有）', b:''}],
+ apply:[
+  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款'},
+  {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）'},
+  {t:'机关往来问题答复记录', b:'跨语言往返是周期黑洞，指定专人跟进'}],
+ grant:[
+  {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）'},
+  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息'},
+  {t:'打标合规自查照片记录', b:'打标不符规定本身构成不合规'}],
+ cop:[
+  {t:'CoP 控制计划（检验项 / 频次 / 判定标准）', b:'2018/858 Art 31；各 UN R CoP 附件'},
+  {t:'例行试验记录', b:'按控制计划留痕，监督审核必查'},
+  {t:'年度监督审核安排', b:''},
+  {t:'不合格品处理与纠正措施流程', b:''}],
+ life:[
+  {t:'证书台账与换版提醒机制', b:'编号 / 系列 / 各缔约方适用状态'},
+  {t:'法规版本追踪机制（订阅/负责人）', b:'跟踪 UN R 新系列/增补生效（数据源 WP.29/343）'},
+  {t:'设计变更 → 扩展申请流程', b:'变更未申报可致证书失效'},
+  {t:'过渡期日历（Date a/b/c）', b:'WP.29/1044/Rev.3 §25/26——点「过渡条款速查」'}]
+};
+let stnChk={}; // 交付物勾选状态：`${站id}_${序号}` -> true
+function toggleChk(k){stnChk[k]=!stnChk[k];render();}
+function delivHTML(st){
+  const list=DELIV[st.id]; if(!list) return '';
+  const done=list.filter((_,i)=>stnChk[st.id+'_'+i]).length;
+  const rows=list.map((d,i)=>{const k=st.id+'_'+i, on=!!stnChk[k];
+    return `<label class="chk ${on?'on':''}"><input type="checkbox" ${on?'checked':''} onchange="toggleChk('${k}')"><span class="chk-t">${d.t}${d.b?`<small>${d.b}</small>`:''}</span></label>`;}).join('');
+  return `<div class="deliv"><div class="deliv-h">本站交付物自查 <b>${done}/${list.length}</b></div>${rows}</div>`;
+}
+// ===== 常见问题（口径均为工具内已核验引用）=====
+const FAQ=[
+ {q:'我的部件到底打大 E 还是小 e？',a:'有对应 UN 法规的项打<b>大 E</b>——依 (EU) 2018/858 <b>Art 57/58</b>，Annex II 所列 UN 法规与 EU 法规等效、成员国须接受 E 标替代 EU 标，且大 E 在 1958 协定缔约方间互认。仅 EU 条例覆盖、无对应 UN 法规的项（eCall、前防护系统、氢系统材料、酒精锁安装）才打<b>小 e</b>，只在欧盟内有效。不确定就用「标志选择器」。'},
+ {q:'一张 E-mark 证书能在多少个国家用？',a:'按<b>法规逐条</b>看：盘点页每条法规的「N 国互认」徽标给出适用该法规的缔约方数量与完整国家名单（数据：WP.29/343 Add.1）。互认不是一揽子的——不同法规的适用缔约方集合不同。'},
+ {q:'法规出了新系列，我的老证书作废吗？',a:'不会自动作废。按 WP.29/1044/Rev.3 过渡框架：<b>Date (b)</b> 后首次签发的旧系列批准，缔约方不再有义务接受（§25(b)）；<b>Date (c)</b> 起一律不再有义务接受（§25(c)）。完整规则点「过渡条款速查」。'},
+ {q:'小批量 / 售后件也要做 CoP 吗？',a:'要。生产一致性是型式批准的组成部分（(EU) 2018/858 <b>Art 31</b> 及各 UN 法规 CoP 条款），监督不通过可导致批准被暂停乃至撤销，与批量大小无关。'},
+ {q:'部件带蓝牙 / Wi-Fi，拿了 E-mark 就够了吗？',a:'不够。无线模块另按 <b>RED 2014/53/EU</b> 打 CE，与 E-mark 并行、互不替代——两条独立的评定路径（型式批准机关 vs RED 公告机构）。'},
+ {q:'气囊、安全带预紧器为什么还要 CE？',a:'内含气体发生器 / 点火药属<b>车用烟火制品</b>：按 (EU) 2013/29 <b>第 6 条</b>归 P1 类、<b>第 8 条</b>须加贴 CE，与 UN 型批（替换气囊 R114、安全带 R16）并行，两证不互相替代。'},
+ {q:'网络安全 R155 跟我做机械件有关系吗？',a:'R155/R156 是<b>整车级</b>型式批准要求。除非你的申报范围本身含这两条、或你是涉及电子/智能网联的系统集成商，否则不适用——本工具也不会因此扣你的体系分。'},
+ {q:'证书上的 E4、E1 数字是什么意思？',a:'是签发批准的缔约方<b>国别代号</b>（E1=德国、E4=荷兰、E11=英国、E13=卢森堡…），由你选择的批准机关决定，与产品销往哪国无关；证书在共同适用该法规的缔约方间互认。'},
+ {q:'英国脱欧后 VCA 的证书还能用吗？',a:'VCA 仍是 1958 协定缔约方机关，可正常签发 <b>UNECE E 标（大 E）</b>；但不能再签发 EU e 标（小 e）——若产品必须满足仅 EU 条例覆盖的项，需另选欧盟成员国机关。'},
+ {q:'认证到底要多久、多少钱？',a:'差异极大：取决于法规项数量、实验室排期与整改轮次。本工具在「认证旅程」各站给出<b>档位</b>（工时 / 机关费 / 测试费主体 / 年度费用），精确周期与报价以技术服务机构按具体产品评估为准——工具不臆造数字。'}
+];
+function openFAQ(){
+  const body=`<div style="padding:6px 18px 14px">`+FAQ.map((f,i)=>`<details class="faq"${i===0?' open':''}><summary>${f.q}</summary><div class="faq-a">${f.a}</div></details>`).join('')+`</div>`;
+  emkModal('常见问题 · E-mark 认证 FAQ', body,
+    '口径均出自工具内已核验的官方引用（(EU) 2018/858 / WP.29 系列文件 / 各专项指令），正式判定以认可技术服务机构 / 型式批准机关为准。');
+}
+// ===== 成熟度雷达图（X 法规完成度 + 各体系维度）=====
+function radarSVG(size){
+  const {X}=computeScores();
+  const axes=[{n:'法规完成度',v:X}].concat(activeSys().map(s=>({n:s.name.replace(/体系|机制|管理$/g,'').slice(0,7),v:dimScore(s)})));
+  const N=axes.length, R=(size||220)/2-34, cx=(size||220)/2, cy=(size||220)/2+4;
+  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  const ring=f=>axes.map((_,i)=>pt(i,R*f).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const poly=axes.map((ax,i)=>pt(i,R*ax.v/100).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const labels=axes.map((ax,i)=>{const [x,y]=pt(i,R+16);const anch=Math.abs(x-cx)<8?'middle':(x>cx?'start':'end');
+    return `<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" font-size="10.5" fill="#6B7280" text-anchor="${anch}">${ax.n} ${ax.v}</text>`;}).join('');
+  const spokes=axes.map((_,i)=>{const [x,y]=pt(i,R);return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#ECEEF1"/>`;}).join('');
+  return `<svg viewBox="0 0 ${size||220} ${size||220}" width="100%" style="max-width:${size||220}px" aria-label="成熟度雷达图">
+    ${[0.25,0.5,0.75,1].map(f=>`<polygon points="${ring(f)}" fill="none" stroke="#ECEEF1"/>`).join('')}${spokes}
+    <polygon points="${poly}" fill="rgba(232,98,44,.18)" stroke="#E8622C" stroke-width="1.8" stroke-linejoin="round"/>
+    ${axes.map((ax,i)=>{const [x,y]=pt(i,R*ax.v/100);return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="#E8622C"/>`;}).join('')}${labels}</svg>`;
+}
 // 每一站的现状：从画像 + 法规盘点 + 体系自评推导
 function journeyStatus(){
   const {items}=computeScores();
@@ -1151,6 +1261,7 @@ function step5(){
       <p class="stn-what">${st.what}</p>
       <div class="stn-meta"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.2A3 3 0 0 1 16 12M17 14.2c2.3.4 4 2.3 4 4.8"/></svg>${st.actor}</span><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 13V9M12 13l2.5 2M9.5 3.5h5"/></svg>${st.dur}</span><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M14.5 9.3c-.6-.7-1.5-1-2.5-1-1.4 0-2.5.8-2.5 2s1.1 1.8 2.5 1.8 2.5.6 2.5 1.9-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1"/></svg>${st.cost}</span></div>
       <div class="stn-pit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>常见坑：${st.pitfall}</div>
+      ${delivHTML(st)}
       ${stationExtra(st)}`;
   return `<div class="step on">
     <div class="eyebrow">STEP 5 / 6 · 认证旅程</div>
@@ -1232,6 +1343,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid 
 <table><tr><td>企业规模</td><td>${esc(plabel('size'))}</td></tr><tr><td>出口经验</td><td>${esc(plabel('exp'))}</td></tr><tr><td>认证时间要求</td><td>${esc(plabel('timeline'))}</td></tr><tr><td>意向批准机关</td><td>${esc(plabel('authority'))}</td></tr><tr><td>已持认证</td><td>${esc(plabel('certs'))}</td></tr><tr><td>关注痛点</td><td>${esc(plabel('pains'))}</td></tr></table>
 <h2>二、成熟度定位</h2>
 <p><span class="tag">${q.name}象限</span> &nbsp; X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b>（适用法规 ${items.length} 项，象限分界 ${CONFIG.threshold}）</p>
+<div style="text-align:center;margin:10px 0">${radarSVG(240)}</div>
 <p><b>风险研判：</b>${esc(copy.risk)}</p>
 <p><b>优先建议：</b></p><ol>${copy.recs.map(r=>`<li>${esc(r)}</li>`).join('')}</ol>
 <h2>三、体系成熟度明细（Y 轴）</h2><table>${sysLis}</table>
@@ -1269,8 +1381,8 @@ function step6(){
     ${painHTML?`<div class="gaplist"><div class="gaphd"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>你标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
     <div class="rcard-g">
       <div class="rcard"><div class="rk">企业画像</div><div class="rv">规模：${plabel('size')} · 出口经验：${plabel('exp')}<br>时间要求：${plabel('timeline')}<br>已持认证：${plabel('certs')}</div></div>
-      <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}</div></div>
-      <div class="rcard"><div class="rk">成熟度定位</div><div class="rv">X ${X} / Y ${Y} · ${gapRows.length} 项缺口</div></div>
+      <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}<br><small style="color:var(--grey)">X ${X} / Y ${Y} · ${gapRows.length} 项缺口</small></div></div>
+      <div class="rcard" style="text-align:center"><div class="rk">成熟度雷达</div>${radarSVG(210)}</div>
     </div>
     <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</p>
     <div class="cta-box">
@@ -1282,7 +1394,7 @@ function step6(){
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
 }
-function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};_sysActive=null;_stnActive=null;window._rno=null;objName='';const inp=document.getElementById('objname');if(inp)inp.value='';go(0);}
+function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};stnChk={};_sysActive=null;_stnActive=null;window._rno=null;objName='';const inp=document.getElementById('objname');if(inp)inp.value='';go(0);}
 
 function bind(){
   document.querySelectorAll('[data-pq]').forEach(b=>b.onclick=()=>{
@@ -1301,7 +1413,7 @@ function bind(){
 const SAVE_KEY='emark_nav_progress_v1';
 function saveProgress(){
   try{
-    localStorage.setItem(SAVE_KEY,JSON.stringify({cur,objName,sel,profile,regStatus,sysStatus,_sysActive,_stnActive,ts:Date.now()}));
+    localStorage.setItem(SAVE_KEY,JSON.stringify({cur,objName,sel,profile,regStatus,sysStatus,stnChk,_sysActive,_stnActive,ts:Date.now()}));
     const b=document.querySelector('.saveBtn'); if(b){const o=b.textContent;b.textContent='✓ 已保存';setTimeout(()=>b.textContent=o,1400);}
   }catch(e){alert('保存失败：浏览器存储不可用');}
 }
@@ -1310,7 +1422,7 @@ function loadProgress(){
     const raw=localStorage.getItem(SAVE_KEY); if(!raw) return;
     const s=JSON.parse(raw); if(!s||typeof s.cur!=='number') return;
     cur=s.cur; objName=s.objName||''; sel=s.sel||sel; profile=s.profile||profile;
-    regStatus=s.regStatus||{}; sysStatus=s.sysStatus||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
+    regStatus=s.regStatus||{}; sysStatus=s.sysStatus||{}; stnChk=s.stnChk||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
     const inp=document.getElementById('objname'); if(inp) inp.value=objName;
   }catch(e){/* ignore corrupt save */}
 }
