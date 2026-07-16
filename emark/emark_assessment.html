@@ -23,8 +23,10 @@ h1 .em{color:var(--o)}
 .btn-o{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
 .rail{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
 .ri{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;gap:0;overflow-x:auto}
-.rstep{display:flex;align-items:center;font-size:13px;color:var(--greyl);white-space:nowrap}
-.rstep .n{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;margin-right:7px;background:#fff}
+.rstep{display:flex;align-items:center;font-size:13px;color:var(--greyl);white-space:nowrap;cursor:pointer;transition:color .15s}
+.rstep:hover{color:var(--ink)}
+.rstep:hover .n{border-color:var(--o)}
+.rstep .n{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;margin-right:7px;background:#fff;transition:border-color .15s}
 .rstep.done .n{background:var(--ol);border-color:var(--o);color:var(--od)}
 .rstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
 .rstep.active{color:var(--ink);font-weight:700}
@@ -364,9 +366,19 @@ let regStatus={}; // item -> done/prog/no/unk
 let sysStatus={}; // 题目id -> full/part/none
 
 function railHTML(){
-  return STEPS.map((s,i)=>`<div class="rstep ${i+1<cur?'done':(i+1===cur?'active':'')}"><span class="n">${i+1}</span>${s}</div>`).join('');
+  return STEPS.map((s,i)=>`<div class="rstep ${i+1<cur?'done':(i+1===cur?'active':'')}" role="button" tabindex="0" title="跳到「${s}」"
+    onclick="goStep(${i+1})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goStep(${i+1});}"><span class="n">${i+1}</span>${s}</div>`).join('');
 }
 function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
+// 点导航条跳步：后退随意；前进时校验前置必填项，未满足则停在对应关卡
+function goStep(n){
+  if(n===cur) return;
+  if(n>cur){
+    if(n>=2 && (!profile.size||!profile.timeline)){alert('请先完成「企业画像」（企业规模、认证时间要求）');return;}
+    if(n>=3 && (!sel.role||!sel.market)){alert('请先在「范围界定」选择角色和目标市场');return;}
+  }
+  go(n);
+}
 
 function applicable(){
   // 分类组筛选（不选=全部）+ 角色聚焦：STU=可独立认证条目；售后件=显式独立认证条目
