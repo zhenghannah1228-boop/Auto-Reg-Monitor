@@ -295,10 +295,23 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
   .saveBtn{margin:0 0 0 auto;padding:8px 16px}
   .reglist{position:static}
 }
+/* ===== 设计系统整理（保留橙色品牌，统一质感）===== */
+.ico{width:15px;height:15px;display:inline-block;vertical-align:-2px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:5px}
+/* 柔化卡片：更淡边框 + 极轻阴影分层，替代满屏硬边框 */
+.opt,.rcard,.gaplist,.reglist,.mark-row,.stn-extra,.emk-modal,.jcard{border-color:#ECEEF1!important;box-shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.05)}
+.opt:hover{box-shadow:0 6px 20px rgba(232,98,44,.12)}
+/* 去除所有虚线框（表单感的主要来源）*/
+.disc{border-style:solid;border-color:var(--ol);background:var(--cream);color:var(--ink2)}
+.mark-out{border-top:1px solid var(--line)}
+/* 统一小圆角 + 更克制的分节线 */
+.secttl{border-bottom-width:1px;border-color:var(--line)}
+.mkb,.emk-search input,.mark-multi,.stn-extra,.verhint+*{border-radius:8px}
+/* 提示条（probe）统一为左强调条 callout，去掉杂色 */
+.probe{background:#FBF7F2;border-left:3px solid var(--o)}
 </style></head><body>
 <header class="topbar"><div class="tb-in">
  <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统 · 对标德国 msg UN Regulation Assessment</span></div>
- <div class="tb-act"><button class="badge-g" onclick="openGlossary()" title="术语速查">📖 术语速查</button><a class="tb-home" href="../index.html" target="_top">返回导航首页</a></div>
+ <div class="tb-act"><button class="badge-g" onclick="openGlossary()" title="术语速查"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>术语速查</button><a class="tb-home" href="../index.html" target="_top">返回导航首页</a></div>
 </div></header>
 <div class="layout">
  <aside class="sidebar">
@@ -495,7 +508,7 @@ const GLOSSARY={
 };
 function openGloss(key){const g=GLOSSARY[key];if(!g)return;
   emkModal(g.t, `<div style="padding:16px 18px;font-size:13px;line-height:1.75;color:var(--ink2)">${g.d}</div>`,
-    '<button class="dirbtn" style="margin:0" onclick="openGlossary()">📖 查看全部术语</button>');}
+    '<button class="dirbtn" style="margin:0" onclick="openGlossary()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部术语</button>');}
 function openGlossary(){
   const rows=Object.keys(GLOSSARY).map(k=>`<tr><td style="white-space:nowrap;font-weight:700;color:var(--od)">${GLOSSARY[k].t}</td><td>${GLOSSARY[k].d}</td></tr>`).join('');
   emkModal('术语速查 · E-mark 认证常用词', `<table class="emk-tbl gloss-tbl">${rows}</table>`,
@@ -532,7 +545,7 @@ function seriesAlert(i){
   const m=/(?:UN\s*)?R\s*(\d{1,3})\.(\d{2})/i.exec(i.reg||''); if(!m) return '';
   const latest=latestInForceSeries(m[1]);
   if(latest!=null && latest>+m[2])
-    return `<span class="ver warn">⚠ R${m[1]} 已有 ${String(latest).padStart(2,'0')} series 生效——按 ${m[2]} 系列取得的证书请核对过渡期条款与新申请适用性 <button class="tp-link" onclick="openTransitional()">过渡期怎么算?</button></span>`;
+    return `<span class="ver warn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>R${m[1]} 已有 ${String(latest).padStart(2,'0')} series 生效——按 ${m[2]} 系列取得的证书请核对过渡期条款与新申请适用性 <button class="tp-link" onclick="openTransitional()">过渡期怎么算?</button></span>`;
   return '';
 }
 // 该 UN R 编号即将生效的修订（eif > 今天，取最近一条），用于路线图倒计时
@@ -573,7 +586,7 @@ function pyroBadge(i){
 function reachBadge(i){
   const n=partiesCount(i.reg); if(!n) return '';
   const m=/(?:UN\s*)?R\s*(\d{1,3})/i.exec(i.reg||''); const no=m?m[1]:'';
-  return `<button class="reachb" onclick="openParties('${no}')" title="点击查看适用该法规的全部缔约方名单">🌍 ${n} 国互认</button>`;
+  return `<button class="reachb" onclick="openParties('${no}')" title="点击查看适用该法规的全部缔约方名单"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>${n} 国互认</button>`;
 }
 // ===== 缔约方 / 机关名录弹窗 =====
 function emkModal(title, bodyHTML, note){
@@ -672,7 +685,7 @@ function renderMarkResult(){
   el.innerHTML=`<div class="mark-out">
     <div class="mark-badges">你的部件可能需要：${marks.map(m=>{const k=/大E/.test(m)?'bigE':/小e/.test(m)?'smalle':/CE/.test(m)?'ce':'';return `<span class="mark-b"${k?` style="cursor:help" onclick="openGloss('${k}')" title="点看释义"`:''}>${m}${k?' ?':''}</span>`;}).join('')}</div>
     <ul class="mark-ul">${chosen.map(r=>`<li>${r.basis}</li>`).join('')}</ul>
-    ${marks.length>1?'<div class="mark-multi">⚠ 多标志并存：各标志走各自的评定路径与机构（型式批准机关 / RED 公告机构 / 机械评定 / 烟火公告机构），互不替代，勿漏其一。</div>':''}
+    ${marks.length>1?'<div class="mark-multi"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>多标志并存：各标志走各自的评定路径与机构（型式批准机关 / RED 公告机构 / 机械评定 / 烟火公告机构），互不替代，勿漏其一。</div>':''}
   </div>`;
 }
 async function loadVerDB(){
@@ -737,7 +750,7 @@ const STEP_REGS={
 };
 function reglistHTML(n){
   const items=STEP_REGS[n]||[];
-  const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">📄 </a>`:''}${r.c}</span></div>`).join('')
+  const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg></a>`:''}${r.c}</span></div>`).join('')
     : '<div class="rl-empty">本步无强制关联法规。</div>';
   return `<div class="rl-h">法规清单（相关法规）</div>${body}<div class="rl-note">编号与条款均已对 UNECE / 欧盟官方文本核验；确切条款全文见「术语速查」及各模态弹窗。以官方最新版本为准。</div>`;
 }
@@ -764,7 +777,7 @@ function focusNote(){
   if(sel.role!=='STU'&&sel.role!=='AFTER') return '';
   const n=applicable().length;
   const what=sel.role==='STU'?'可独立认证（部件/技术单元）':'典型售后件（显式独立认证）';
-  return `<div class="probe">🎯 已按你的角色聚焦到${what}条目：<b>${n} / ${ITEMS.length} 项</b>参与评估${n===0?'——当前所选分类组内没有此类条目，请放宽分类组':''}。</div>`;
+  return `<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>已按你的角色聚焦到${what}条目：<b>${n} / ${ITEMS.length} 项</b>参与评估${n===0?'——当前所选分类组内没有此类条目，请放宽分类组':''}。</div>`;
 }
 // R155/R156 网安体系为整车级要求：整车厂强制；部件/售后件仅当申报范围含网安/
 // 软件更新法规项、或系统集成商涉及电子/智能网联(D/E 组)时才相关，否则不该出现
@@ -811,7 +824,7 @@ function step1(){
   const secs=PROFILE.map(p=>{
     const chosen=k=> p.multi? profile[p.id].includes(k) : profile[p.id]===k;
     const opts=p.opts.map(o=>`<button class="opt ${chosen(o[0])?'sel':''}" data-pq="${p.id}" data-val="${o[0]}"><div class="ot">${o[1]}</div><div class="od">${o[2]}</div></button>`).join('');
-    const fb=(!p.multi && p.fb && profile[p.id] && p.fb[profile[p.id]])?`<div class="probe">💡 ${p.fb[profile[p.id]]}</div>`:'';
+    const fb=(!p.multi && p.fb && profile[p.id] && p.fb[profile[p.id]])?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${p.fb[profile[p.id]]}</div>`:'';
     return `<div class="secttl">${p.ttl}${p.req?'':' <small style="font-weight:400;color:var(--greyl)">（选填）</small>'}</div><div class="opts g3">${opts}</div>${fb}`;
   }).join('');
   return `<div class="step on">
@@ -837,11 +850,11 @@ function step2(){
     <p class="lead">选定角色、目标市场与涉及的部件分类组，系统据此圈定「适用法规集」。</p>
     <div class="secttl">① 你的角色</div>
     <div class="opts g3">${roles.map(r=>`<button class="opt ${sel.role===r[0]?'sel':''}" data-role="${r[0]}"><div class="ot">${r[1]}</div><div class="od">${r[2]}</div></button>`).join('')}</div>
-    ${sel.role&&ROLE_FB[sel.role]?`<div class="probe">💡 ${ROLE_FB[sel.role]}</div>`:''}
+    ${sel.role&&ROLE_FB[sel.role]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${ROLE_FB[sel.role]}</div>`:''}
     ${focusNote()}
     <div class="secttl">② 目标市场</div>
     <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div><div class="od">${m[2]}</div></button>`).join('')}</div>
-    <div class="probe" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">🏷️ 不确定你的部件要打大 E、小 e 还是 CE？<button class="dirbtn" onclick="openMarkSelector()">打开标志选择器</button><span style="font-size:11.5px;color:var(--grey)">电子/无线/机械件常需多标并存</span></div>
+    <div class="probe" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.5 12 4h6.5V10.5L10 19a1.8 1.8 0 0 1-2.6 0l-3.9-3.9a1.8 1.8 0 0 1 0-2.6Z"/><circle cx="15.5" cy="8.5" r="1.2"/></svg>不确定你的部件要打大 E、小 e 还是 CE？<button class="dirbtn" onclick="openMarkSelector()">打开标志选择器</button><span style="font-size:11.5px;color:var(--grey)">电子/无线/机械件常需多标并存</span></div>
     <div class="secttl">③ 涉及的部件分类组（可多选，不选=全部）</div>
     <div class="opts g3">${gopts}</div>
     <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="toStep3()">下一步：法规盘点 →</button></div>
@@ -861,7 +874,7 @@ function verCell(i){
 function verBanner(){
   if(VERSTATE==='ok') return `<div class="verhint">已接入 <b>WP.29/343</b> 活数据（截至 ${VERDB.as_of||'—'}）：右上显示各法规<b>现行版本 + 生效日期</b>，随 UNECE 更新自动跟随。勾「不清楚」的项，正是版本追踪订阅的价值所在。</div>`;
   if(VERSTATE==='loading') return `<div class="verhint">正在接入 WP.29/343 活数据以标注现行版本…</div>`;
-  return `<div class="verhint">⚠ 活数据暂不可用，已回退到内置生效日期<b>快照</b>（可能非最新，建议开通版本追踪）。</div>`;
+  return `<div class="verhint"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>活数据暂不可用，已回退到内置生效日期<b>快照</b>（可能非最新，建议开通版本追踪）。</div>`;
 }
 function step3(){
   const items=applicable();
@@ -879,7 +892,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。勾「已认证」后若该法规已有更新系列生效，会自动提示核对。</p>
     ${focusNote()}
-    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button><button class="dirbtn" onclick="openIWVTA()">🚗 IWVTA 整车必备法规（${IWVTA_REQ.length}）</button> <span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标 / <span class="mkb mkb-ce">+CE烟火</span>含气囊气发·预紧器另按 (EU) 2013/29 打 CE。点「🌍 N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}</span></div>
+    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button><button class="dirbtn" onclick="openIWVTA()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v-2.5L5.8 8h12.4L20 12.5V15"/><path d="M3.5 15h17v2.5h-2.5V15M6.5 17.5V15"/><circle cx="7.5" cy="17.5" r="1.6"/><circle cx="16.5" cy="17.5" r="1.6"/></svg>IWVTA 整车必备法规（${IWVTA_REQ.length}）</button> <span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标 / <span class="mkb mkb-ce">+CE烟火</span>含气囊气发·预紧器另按 (EU) 2013/29 打 CE。点「<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}</span></div>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
@@ -906,7 +919,7 @@ function step4(){
          <button class="${sysStatus[q.id]==='part'?'on prog-b':''}" data-v="part">部分</button>
          <button class="${sysStatus[q.id]==='none'?'on no-b':''}" data-v="none">无</button>
        </div></div>`).join('');
-  const cyberNote=cyberRelevant()?'':`<div class="probe">💡 网安体系（CSMS/SUMS · R155/R156）是<b>整车级</b>型式批准要求，与你当前申报范围（部件/售后件）无关，已从自评略去——不会因缺它而扣分。</div>`;
+  const cyberNote=cyberRelevant()?'':`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>网安体系（CSMS/SUMS · R155/R156）是<b>整车级</b>型式批准要求，与你当前申报范围（部件/售后件）无关，已从自评略去——不会因缺它而扣分。</div>`;
   return `<div class="step on">
     <div class="eyebrow">STEP 4 / 6 · 体系自评（Y 轴）</div>
     <h2 class="st">支撑体系成熟度自评</h2>
@@ -1103,12 +1116,12 @@ function maturityBlock(){
 function stationExtra(st){
   if(st.id==='scope'){
     let max=0; applicable().forEach(i=>{const n=partiesCount(i.reg)||0;if(n>max)max=n;});
-    return max? `<div class="stn-extra">🌍 一证多国：你范围内的法规最广被 <b>${max}</b> 个 1958 协定缔约方共同采纳——这正是 E-mark「一次认证、多国互认」的价值（数据：WP.29/343 Add.1）。</div>`:'';
+    return max? `<div class="stn-extra"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>一证多国：你范围内的法规最广被 <b>${max}</b> 个 1958 协定缔约方共同采纳——这正是 E-mark「一次认证、多国互认」的价值（数据：WP.29/343 Add.1）。</div>`:'';
   }
   if(st.id==='authority'){
     const e=AUTH_ECODE[profile.authority], a=e&&authInfo(e);
-    if(a) return `<div class="stn-extra">你选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()">📖 查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
-    return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、卢森堡 SNCH(E13)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()">📖 查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
+    if(a) return `<div class="stn-extra">你选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
+    return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、卢森堡 SNCH(E13)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
   }
   if(st.id==='ts'){
     const cs=sgsTScountries();
@@ -1136,15 +1149,15 @@ function step5(){
   const detail=`<div class="sb-mh">${st.name} <small style="font-family:Georgia,serif;color:var(--greyl);font-weight:400">${st.en}</small> <span class="stn-st" style="color:${sc.c};margin-left:6px">${sc.t}</span></div>
       <div class="stn-note" style="border-color:${sc.c};margin-top:8px">你的现状：${st.note}</div>
       <p class="stn-what">${st.what}</p>
-      <div class="stn-meta"><span>👥 ${st.actor}</span><span>⏱ ${st.dur}</span><span>💰 ${st.cost}</span></div>
-      <div class="stn-pit">⚠ 常见坑：${st.pitfall}</div>
+      <div class="stn-meta"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.2A3 3 0 0 1 16 12M17 14.2c2.3.4 4 2.3 4 4.8"/></svg>${st.actor}</span><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 13V9M12 13l2.5 2M9.5 3.5h5"/></svg>${st.dur}</span><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M14.5 9.3c-.6-.7-1.5-1-2.5-1-1.4 0-2.5.8-2.5 2s1.1 1.8 2.5 1.8 2.5.6 2.5 1.9-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1"/></svg>${st.cost}</span></div>
+      <div class="stn-pit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>常见坑：${st.pitfall}</div>
       ${stationExtra(st)}`;
   return `<div class="step on">
     <div class="eyebrow">STEP 5 / 6 · 认证旅程</div>
     <h2 class="st">你的 E-mark 认证路线</h2>
     <p class="lead">基于前面的自评，走完 E-mark 部件型式批准要经过 9 站——左侧选站，右侧看细节与你的现状。</p>
     <div class="jbar">
-      <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curIdx<0?' · 全部完成 🎉':` · 当前重点：第 <b>${js[curIdx].no}</b> 站「${js[curIdx].name}」`}</div>
+      <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curIdx<0?' · 全部完成 <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg>':` · 当前重点：第 <b>${js[curIdx].no}</b> 站「${js[curIdx].name}」`}</div>
       <div class="jprog"><div class="jprog-f" style="width:${pct}%"></div></div>
     </div>
     <div class="sb">
@@ -1250,10 +1263,10 @@ function step6(){
     <h2 class="st">你的合规待办清单</h2>
     <p class="lead">下列每一项缺口都对应一项可落地的服务。共识别 ${gapRows.length} 项，展示前 ${shown.length} 项。</p>
     <div class="gaplist">
-      <div class="gaphd">📋 缺口 → 服务映射</div>
+      <div class="gaphd"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6a1 1 0 0 1 1 1V6a1 1 0 0 1-1 1H9A1 1 0 0 1 8 6v-.5a1 1 0 0 1 1-1Z"/><path d="M8 5.5H6a1.5 1.5 0 0 0-1.5 1.5V19A1.5 1.5 0 0 0 6 20.5h12A1.5 1.5 0 0 0 19.5 19V7A1.5 1.5 0 0 0 18 5.5h-2M8.5 11h7M8.5 14.5h5"/></svg>缺口 → 服务映射</div>
       ${gapHTML}
     </div>
-    ${painHTML?`<div class="gaplist"><div class="gaphd">🎯 你标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
+    ${painHTML?`<div class="gaplist"><div class="gaphd"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>你标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
     <div class="rcard-g">
       <div class="rcard"><div class="rk">企业画像</div><div class="rv">规模：${plabel('size')} · 出口经验：${plabel('exp')}<br>时间要求：${plabel('timeline')}<br>已持认证：${plabel('certs')}</div></div>
       <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}</div></div>
