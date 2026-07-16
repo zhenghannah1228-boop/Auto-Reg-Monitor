@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E-mark 合规成熟度评估 · 一点通</title>
+<style>
+:root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--blue:#2563EB;--purple:#7C3AED;--green:#1F7A4D;--red:#C0392B;--amber:#B45309}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Microsoft YaHei","PingFang SC",-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+.hero{background:linear-gradient(120deg,#fff,#FDF6F0);border-bottom:1px solid var(--line)}
+.hi{max-width:1000px;margin:0 auto;padding:40px 24px 36px}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.dot{width:26px;height:26px;border-radius:7px;background:var(--o);display:grid;place-items:center;color:#fff;font-weight:800;font-size:13px}
+.brand b{font-size:15px}.brand span{color:var(--grey);font-size:13px}
+h1{font-size:31px;font-weight:800;letter-spacing:-.4px;margin-bottom:8px}
+h1 .em{color:var(--o)}
+.sub{font-size:15px;color:var(--ink2);max-width:620px;margin-bottom:20px}
+.badges{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:22px}
+.badge{font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 13px;color:var(--ink2)}
+.badge b{color:var(--o)}
+.btn{font-family:inherit;font-size:15px;font-weight:700;border:none;border-radius:9px;padding:13px 26px;cursor:pointer;transition:.15s}
+.btn-p{background:var(--o);color:#fff;box-shadow:0 2px 10px rgba(232,98,44,.28)}
+.btn-p:hover{background:var(--od);transform:translateY(-1px)}
+.btn-o{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.rail{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.ri{max-width:1000px;margin:0 auto;padding:14px 24px;display:flex;gap:0;overflow-x:auto}
+.rstep{display:flex;align-items:center;font-size:13px;color:var(--greyl);white-space:nowrap}
+.rstep .n{width:24px;height:24px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;margin-right:7px;background:#fff}
+.rstep.done .n{background:var(--ol);border-color:var(--o);color:var(--od)}
+.rstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
+.rstep.active{color:var(--ink);font-weight:700}
+.rstep::after{content:"";width:22px;height:1.5px;background:var(--line);margin:0 10px}
+.rstep:last-child::after{display:none}
+main{padding:34px 0 80px;min-height:60vh}
+.step{display:none;animation:fade .3s}
+.step.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.5px;color:var(--o);text-transform:uppercase;margin-bottom:8px}
+h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
+.lead{color:var(--ink2);font-size:14.5px;margin-bottom:24px;max-width:680px}
+.opts{display:grid;gap:12px}
+.opts.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.opts.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.opt{background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:16px 18px;cursor:pointer;transition:.15s;text-align:left;font-family:inherit}
+.opt:hover{border-color:var(--o);transform:translateY(-1px);box-shadow:0 4px 16px rgba(232,98,44,.1)}
+.opt.sel{border-color:var(--o);background:var(--cream)}
+.opt .ot{font-size:15px;font-weight:700;margin-bottom:3px}
+.opt .od{font-size:12.5px;color:var(--grey)}
+.nav{display:flex;justify-content:space-between;margin-top:30px;gap:12px}
+.ghost{background:none;border:none;color:var(--grey);font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;padding:12px 6px}
+.ghost:hover{color:var(--ink)}
+/* self-assessment rows */
+.secttl{font-size:16px;font-weight:800;margin:22px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--ol);color:var(--od)}
+.arow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:8px}
+.arow .al{font-size:13.5px}
+.arow .al b{font-weight:700}.arow .al small{color:var(--grey);font-size:12px}
+.seg{display:flex;gap:0;border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font-family:inherit;font-size:12px;font-weight:600;border:none;background:#fff;padding:8px 12px;cursor:pointer;color:var(--grey);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button.on{color:#fff}
+.seg button.on.done-b{background:var(--green)}
+.seg button.on.prog-b{background:var(--amber)}
+.seg button.on.no-b{background:var(--red)}
+.seg button.on.unk-b{background:var(--greyl)}
+/* result */
+.rhd{background:linear-gradient(120deg,var(--ink),#2A2F36);color:#fff;border-radius:16px;padding:28px 30px;margin-bottom:22px}
+.rlabel{font-size:12px;letter-spacing:1.5px;color:var(--o);font-weight:700;text-transform:uppercase;margin-bottom:10px}
+.rhd h2{font-size:26px;color:#fff;margin-bottom:4px}
+.rhd .qname{font-size:15px;color:#C9CDD3}
+.scores{display:flex;gap:26px;margin-top:18px;flex-wrap:wrap}
+.score .sv{font-size:34px;font-weight:800}
+.score .sl{font-size:12px;color:#C9CDD3}
+.quad-wrap{display:grid;grid-template-columns:320px 1fr;gap:22px;margin-bottom:24px;align-items:start}
+@media(max-width:720px){.quad-wrap{grid-template-columns:1fr}}
+.quad{position:relative;width:300px;height:300px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.quad .lbl{position:absolute;font-size:11px;font-weight:700;color:var(--greyl)}
+.quad .cell{position:absolute;width:50%;height:50%;display:grid;place-items:center;font-size:12px;font-weight:700;opacity:.85}
+.marker{position:absolute;width:20px;height:20px;border-radius:50%;background:var(--o);border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3);transform:translate(-50%,-50%);z-index:5}
+.rcard-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px;margin-bottom:22px}
+.rcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.rcard .rk{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--o);text-transform:uppercase;margin-bottom:7px}
+.rcard .rv{font-size:14px;line-height:1.5}
+.gaplist{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:22px}
+.gaphd{background:var(--cream);padding:14px 18px;font-weight:800;font-size:15px;color:var(--od);border-bottom:1px solid var(--ol)}
+.gap{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line);font-size:13.5px}
+.gap:last-child{border-bottom:none}
+.gdot{width:10px;height:10px;border-radius:50%}
+.gdot.red{background:var(--red)}.gdot.amber{background:var(--amber)}
+.gsvc{font-size:12px;font-weight:700;color:var(--o);background:var(--ol);padding:4px 11px;border-radius:12px;white-space:nowrap}
+.cta-box{background:linear-gradient(120deg,var(--o),var(--od));color:#fff;border-radius:16px;padding:26px 30px;text-align:center;margin-top:8px}
+.cta-box h3{font-size:20px;margin-bottom:6px;color:#fff}
+.cta-box p{color:#FCE8DD;font-size:14px;margin-bottom:16px}
+.cta-box .btn{background:#fff;color:var(--od)}
+.heat{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.hcell{width:26px;height:26px;border-radius:5px;display:grid;place-items:center;font-size:9px;font-weight:700;color:#fff}
+.foot{text-align:center;color:var(--greyl);font-size:12px;padding:26px 0}
+/* live version cell (Step 2) */
+.ver{display:block;margin-top:4px;font-size:11.5px}
+.ver.load{color:var(--greyl)}
+.ver.ok{color:var(--green)}
+.ver.ok b{color:var(--od)}
+.ver.snap{color:var(--grey)}
+.ver.na{color:var(--greyl)}
+.verhint{font-size:12px;color:var(--grey);margin:2px 0 10px}
+.verhint b{color:var(--o)}
+/* disclaimer */
+.disclaimer{font-size:12px;color:var(--grey);background:#FBF7F2;border:1px dashed var(--ol);border-radius:9px;padding:11px 15px;margin:18px 0;line-height:1.6}
+.disclaimer b{color:var(--od)}
+/* accessibility: visible focus ring */
+button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px solid var(--o);outline-offset:2px;border-radius:8px}
+/* ===== consulting-grade maturity matrix (Step 3) ===== */
+.mx-block{display:grid;grid-template-columns:1fr 1fr;background:#15181C;border-radius:14px;overflow:hidden;margin-bottom:18px;border:1px solid #23272E}
+@media(max-width:760px){.mx-block{grid-template-columns:1fr}}
+.mx-left{padding:22px 22px 16px;border-right:1px solid #23272E}
+@media(max-width:760px){.mx-left{border-right:none;border-bottom:1px solid #23272E}}
+.mx-eyebrow{font-family:Georgia,serif;font-size:10.5px;letter-spacing:2px;color:#6B7280;text-transform:uppercase;margin-bottom:8px}
+.mx-right{padding:22px 24px;color:#E6E9ED;display:flex;flex-direction:column;gap:15px}
+.mx-verdict{border-bottom:1px solid #23272E;padding-bottom:13px}
+.mx-tag{display:inline-block;font-family:Georgia,serif;font-size:17px;font-weight:700;color:#fff;padding:3px 14px;border-radius:4px;margin-bottom:8px}
+.mx-vd{font-size:13px;color:#AEB4BD;line-height:1.5}
+.mx-metrics{display:flex;gap:22px;border-bottom:1px solid #23272E;padding-bottom:15px;flex-wrap:wrap}
+.mx-metrics>div{display:flex;flex-direction:column}
+.mm-v{font-family:Georgia,serif;font-size:29px;font-weight:700;line-height:1}
+.mm-l{font-size:11px;color:#8A93A0;margin-top:4px}
+.mx-iph{font-family:Georgia,serif;font-size:11px;letter-spacing:1.5px;color:var(--o);text-transform:uppercase;margin:2px 0 6px}
+.mx-risk{font-size:12.5px;color:#C4CAD2;line-height:1.6;margin-bottom:11px}
+.mx-recs{margin:0;padding-left:18px;font-size:12.5px;color:#C4CAD2;line-height:1.5}
+.mx-recs li{margin-bottom:5px}
+.mx-tables{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+@media(max-width:760px){.mx-tables{grid-template-columns:1fr}}
+.mx-dt{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mx-dth{font-family:Georgia,serif;font-size:12px;color:var(--ink);font-weight:700;padding:11px 15px;background:#F4F5F7;border-bottom:1px solid var(--line)}
+.mx-dt table{width:100%;border-collapse:collapse;font-size:13px}
+.mx-dt td{padding:9px 15px;border-bottom:1px solid #F0F1F3}
+.mx-dt tr:last-child td{border-bottom:none}
+.mx-dt td.r{text-align:right}.mx-dt td.g{color:var(--grey)}.mx-dt td.rd{color:var(--red)}
+.mx-dt tr.tot td{background:#FBF3EC;font-weight:700;color:var(--ink)}
+</style></head><body>
+<header class="hero"><div class="hi">
+ <div class="brand"><div class="dot">一</div><b>一点通</b><span>· 国际汽车法规合规平台</span></div>
+ <h1><span class="em">E-mark / e-mark</span> 合规成熟度评估</h1>
+ <p class="sub">不止判定单个部件——六步测出你企业的整体合规成熟度，企业画像 + 双轴定位 + 缺口报告 + 实施路线图。对标德国 msg UN Regulation Assessment。</p>
+ <div class="badges"><span class="badge">六步 · <b>免费</b>评估</span><span class="badge"><b>双轴</b>成熟度模型</span><span class="badge"><b>94</b>项法规库</span><span class="badge">缺口驱动</span></div>
+ <button class="btn btn-p" onclick="go(1)">开始免费评估 →</button>
+</div></header>
+<nav class="rail"><div class="ri" id="rail"></div></nav>
+<main><div class="wrap" id="stage"></div></main>
+<div class="foot">一点通 · 依托风险管理一点通法规数据平台 · Demo 演示版</div>
+<script>const ITEMS=[{"g": "A", "item": "A1", "cn": "内饰保护", "reg": "UN R21.01", "mark": "—", "tc": "VEHICLE", "eif": "2025-06-17"}, {"g": "A", "item": "A2", "cn": "座椅及头枕", "reg": "UN R17.09", "mark": "E", "tc": "IMPLICIT", "eif": "2020-01-11"}, {"g": "A", "item": "A4", "cn": "安全带固定点", "reg": "UN R14.09", "mark": "—", "tc": "VEHICLE", "eif": "2025-06-17"}, {"g": "A", "item": "A5", "cn": "安全带", "reg": "UN R16.07", "mark": "E", "tc": "IMPLICIT", "eif": "2017-06-22"}, {"g": "A", "item": "A6", "cn": "安全带提醒", "reg": "UN R16.07", "mark": "—", "tc": "VEHICLE", "eif": "2017-06-22"}, {"g": "A", "item": "A7", "cn": "行李箱隔离系统", "reg": "UN R126.00", "mark": "E", "tc": "IMPLICIT", "eif": ""}, {"g": "A", "item": "A8", "cn": "儿童座椅固定点", "reg": "UN R145.00 (或 R14.07)", "mark": "—", "tc": "VEHICLE", "eif": "2025-11-12"}, {"g": "A", "item": "A9", "cn": "儿童座椅", "reg": "UN R44.04", "mark": "E", "tc": "IMPLICIT", "eif": "2026-01-11"}, {"g": "A", "item": "A10", "cn": "升级版儿童座椅 i-Size", "reg": "UN R129.00", "mark": "E", "tc": "IMPLICIT", "eif": "2022-06-22"}, {"g": "A", "item": "A12", "cn": "后下防护装置", "reg": "UN R58.03", "mark": "E", "tc": "IMPLICIT", "eif": "2022-06-22"}, {"g": "A", "item": "A14", "cn": "燃油箱安全", "reg": "UN R34.04", "mark": "E", "tc": "IMPLICIT", "eif": "2023-06-05"}, {"g": "A", "item": "A15", "cn": "LPG 系统安全", "reg": "UN R67.01", "mark": "E", "tc": "IMPLICIT", "eif": "2019-10-15"}, {"g": "A", "item": "A16", "cn": "CNG/LNG 系统安全", "reg": "UN R110.01", "mark": "E", "tc": "IMPLICIT", "eif": "2025-06-17"}, {"g": "A", "item": "A17", "cn": "氢系统安全", "reg": "UN R134.00", "mark": "E", "tc": "IMPLICIT", "eif": "2024-06-26"}, {"g": "A", "item": "A18", "cn": "氢系统材料", "reg": "(EU) 2021/55, Annex XIV", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "A", "item": "A19", "cn": "电气安全（含动力电池）", "reg": "UN R100.03", "mark": "E", "tc": "IMPLICIT", "eif": "2025-11-12"}, {"g": "A", "item": "A20", "cn": "偏置正碰", "reg": "UN R94.04", "mark": "—", "tc": "VEHICLE", "eif": "2024-01-05"}, {"g": "A", "item": "A21", "cn": "正面 100% 碰撞", "reg": "UN R137.02", "mark": "—", "tc": "VEHICLE", "eif": "2024-01-05"}, {"g": "A", "item": "A22", "cn": "转向防护装置", "reg": "UN R12.04", "mark": "—", "tc": "VEHICLE", "eif": "2018-07-19"}, {"g": "A", "item": "A23", "cn": "替换用安全气囊", "reg": "UN R114.00", "mark": "E", "tc": "IMPLICIT", "eif": ""}, {"g": "A", "item": "A25", "cn": "侧面碰撞", "reg": "UN R95.05", "mark": "—", "tc": "VEHICLE", "eif": "2024-06-15"}, {"g": "A", "item": "A26", "cn": "侧面柱碰", "reg": "UN R135.01", "mark": "—", "tc": "VEHICLE", "eif": "2024-06-15"}, {"g": "A", "item": "A27", "cn": "后面碰撞", "reg": "UN R153.00 (R34.03 等效)", "mark": "—", "tc": "VEHICLE", "eif": "2024-06-15"}, {"g": "A", "item": "A28", "cn": "eCall 紧急呼叫", "reg": "—", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "B", "item": "B1", "cn": "行人腿部/头部保护", "reg": "UN R127.02", "mark": "—", "tc": "VEHICLE", "eif": "2016-06-18"}, {"g": "B", "item": "B2", "cn": "扩大头部撞击区", "reg": "UN R127.03 (→127.04)", "mark": "—", "tc": "VEHICLE", "eif": "2025-06-17"}, {"g": "B", "item": "B3", "cn": "前防护系统（保杠）", "reg": "(EU) 2021/535 Annex XII", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "B", "item": "B4", "cn": "行人/骑行者紧急制动", "reg": "UN R152.02", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "B", "item": "B7", "cn": "倒车探测", "reg": "UN R158.00", "mark": "E", "tc": "IMPLICIT", "eif": "2025-09-26"}, {"g": "B", "item": "B8", "cn": "前视野", "reg": "UN R125.01", "mark": "—", "tc": "VEHICLE", "eif": "2022-10-08"}, {"g": "B", "item": "B10", "cn": "安全玻璃", "reg": "UN R43.01", "mark": "E", "tc": "IMPLICIT", "eif": "2025-06-17"}, {"g": "B", "item": "B11", "cn": "除霜/除雾", "reg": "(EU) 2021/535 Annex VI", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "B", "item": "B12", "cn": "雨刮/雨刷", "reg": "(EU) 2021/535 Annex IV", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "B", "item": "B13", "cn": "间接视野装置（后视镜）", "reg": "UN R46.04", "mark": "E", "tc": "IMPLICIT", "eif": "2021-09-30"}, {"g": "B", "item": "B14", "cn": "AVAS 行人警报", "reg": "UN R138.01", "mark": "E", "tc": "IMPLICIT", "eif": "2023-09-24"}, {"g": "C", "item": "C1", "cn": "转向装置", "reg": "UN R79.04", "mark": "E", "tc": "IMPLICIT", "eif": "2026-01-11"}, {"g": "C", "item": "C2", "cn": "车道偏离预警", "reg": "UN R130.00", "mark": "—", "tc": "VEHICLE", "eif": "2016-10-08"}, {"g": "C", "item": "C3", "cn": "紧急车道保持", "reg": "(EU) 2021/646", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "C", "item": "C4", "cn": "制动", "reg": "UN R13-H.00", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "C", "item": "C5", "cn": "替换用制动部件", "reg": "UN R90.02", "mark": "E", "tc": "EXPLICIT", "eif": "2024-06-15"}, {"g": "C", "item": "C6", "cn": "制动辅助", "reg": "UN R139.00", "mark": "—", "tc": "VEHICLE", "eif": "2018-12-29"}, {"g": "C", "item": "C7", "cn": "电子稳定性控制", "reg": "UN R140.00", "mark": "—", "tc": "VEHICLE", "eif": "2024-09-22"}, {"g": "C", "item": "C8", "cn": "重型 AEBS", "reg": "UN R131.01", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "C", "item": "C9", "cn": "轻型 AEBS", "reg": "UN R152.02", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "C", "item": "C10", "cn": "轮胎安全和环保性能", "reg": "UN R30.02 + R117.02", "mark": "E", "tc": "EXPLICIT", "eif": "2026-01-11"}, {"g": "C", "item": "C11", "cn": "备胎和欠压行驶", "reg": "UN R64.02", "mark": "E", "tc": "IMPLICIT", "eif": "2013-01-27"}, {"g": "C", "item": "C12", "cn": "翻新轮胎", "reg": "UN R108.00", "mark": "E", "tc": "EXPLICIT", "eif": "2022-10-08"}, {"g": "C", "item": "C13", "cn": "胎压监测 TPMS", "reg": "UN R141.01 (R64.02 等效)", "mark": "E", "tc": "IMPLICIT", "eif": "2023-01-04"}, {"g": "C", "item": "C15", "cn": "轮胎安装", "reg": "UN R142.01", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "C", "item": "C16", "cn": "替换用车轮", "reg": "UN R124.00", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D1", "cn": "喇叭", "reg": "UN R28.00", "mark": "E", "tc": "IMPLICIT", "eif": "2020-09-25"}, {"g": "D", "item": "D2", "cn": "电磁兼容 EMC", "reg": "UN R10.05 (建议 R10.06)", "mark": "E", "tc": "IMPLICIT", "eif": "2016-10-08"}, {"g": "D", "item": "D3", "cn": "防盗、IMMO、报警", "reg": "UN R97.01/R116/R161-163", "mark": "E", "tc": "IMPLICIT", "eif": "2021-09-30"}, {"g": "D", "item": "D4", "cn": "网络安全", "reg": "UN R155.00", "mark": "—", "tc": "VEHICLE", "eif": "2025-01-10"}, {"g": "D", "item": "D5", "cn": "限速器", "reg": "UN R39.01", "mark": "E", "tc": "IMPLICIT", "eif": "2022-10-08"}, {"g": "D", "item": "D6", "cn": "里程表", "reg": "UN R39.01", "mark": "—", "tc": "VEHICLE", "eif": "2022-10-08"}, {"g": "D", "item": "D8", "cn": "智能车速辅助", "reg": "(EU) 2021/1958", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "D", "item": "D9", "cn": "操作件和指示装置识别", "reg": "UN R121.01", "mark": "—", "tc": "VEHICLE", "eif": "2023-09-24"}, {"g": "D", "item": "D10", "cn": "加热系统（含燃油加热器）", "reg": "UN R122.00", "mark": "E", "tc": "IMPLICIT", "eif": ""}, {"g": "D", "item": "D11", "cn": "光信号装置（牌照灯/转向灯/位置灯/制动/前后雾/驻车/DRL/侧标）", "reg": "R4/R6/R7/R19/R23/R38/R77/R87/R91/R148", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D12", "cn": "道路照明装置（前照灯/AFS/角灯）", "reg": "R31/R98/R112/R119/R123/R149", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D13", "cn": "回复反射装置（反射器/标识材料）", "reg": "R3/R104/R150", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D14", "cn": "灯具光源（气体放电/LED/卤素灯泡）", "reg": "R37/R99/R128", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D15", "cn": "灯具与反光器整车安装", "reg": "UN R48.07", "mark": "—", "tc": "VEHICLE", "eif": "2023-06-05"}, {"g": "D", "item": "D16", "cn": "紧急制动信号", "reg": "UN R48.07", "mark": "—", "tc": "VEHICLE", "eif": "2023-06-05"}, {"g": "D", "item": "D17", "cn": "大灯清洗器", "reg": "UN R45.01", "mark": "E", "tc": "IMPLICIT", "eif": "2024-09-22"}, {"g": "D", "item": "D18", "cn": "换挡提示", "reg": "(EU) 2021/535 Annex IX", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E1", "cn": "酒精锁安装", "reg": "(EU) 2021/1243", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "E", "item": "E2", "cn": "DDAW", "reg": "(EU) 2021/1341", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E3", "cn": "驾驶员注意力分散提醒", "reg": "(EU) 2023/2590", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E4", "cn": "驾驶员可用性监测", "reg": "UN R157.00", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "E", "item": "E5", "cn": "事件数据记录", "reg": "UN R160.01", "mark": "E", "tc": "IMPLICIT", "eif": "2024-06-15"}, {"g": "E", "item": "E6", "cn": "ADS - 替代驾驶员操控", "reg": "UN R157.00", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "E", "item": "E7", "cn": "ADS - 状态/环境信息", "reg": "UN R157.00", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "E", "item": "E9", "cn": "ADS - 向他人提供安全信息", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E10", "cn": "动态控制辅助系统", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E11", "cn": "自动代客泊车", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F1", "cn": "向他人提供安全信息", "reg": "(EU) 2021/535 Annex III", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F2", "cn": "牌照板空间", "reg": "(EU) 2021/535 Annex XI", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F3", "cn": "门锁和门铰链", "reg": "UN R11.04", "mark": "E", "tc": "IMPLICIT", "eif": "2019-05-28"}, {"g": "F", "item": "F4", "cn": "步梯、扶手、踏板", "reg": "(EU) 2021/535 Annex X", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F5", "cn": "外部突出物", "reg": "UN R26.03", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F7", "cn": "拖拽装置 / VIN", "reg": "(EU) 2021/535 Annex II", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F8", "cn": "登记牌照", "reg": "(EU) 2021/535 Annex VII", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F9", "cn": "车轮护罩/挡泥板", "reg": "(EU) 2021/535 Annex V", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F11", "cn": "质量与尺寸", "reg": "(EU) 2021/535 Annex XIII", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F12", "cn": "机械式挂接装置（拖车钩）", "reg": "UN R55.01", "mark": "E", "tc": "IMPLICIT", "eif": "2022-06-22"}, {"g": "G", "item": "G1", "cn": "噪声", "reg": "UN R51.03 / R59.01", "mark": "E", "tc": "IMPLICIT", "eif": "2025-01-10"}, {"g": "G", "item": "G2-G12", "cn": "排放（欧6体系）", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "G", "item": "G13", "cn": "可回收性 RRR", "reg": "UN R133.00", "mark": "—", "tc": "VEHICLE", "eif": "2022-06-22"}, {"g": "G", "item": "G14", "cn": "空调系统", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "G", "item": "GA1-GA22", "cn": "欧7 排放、电池耐久、制动颗粒物等", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "H", "item": "H1", "cn": "OBD/维修保养信息访问", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "H", "item": "H2", "cn": "软件更新管理体系", "reg": "UN R156.00", "mark": "—", "tc": "VEHICLE", "eif": "2021-01-22"}];
+const GROUPS={"A": "约束/碰撞/燃料/高压电", "B": "弱势道路使用者/视野", "C": "底盘/制动/轮胎/转向", "D": "仪表/电气/灯具/网安", "E": "驾驶员/自动驾驶", "F": "车身构造", "G": "排放/环境", "H": "信息访问/软件"};
+</script>
+<script>
+/* Y 轴体系自评题库（Task 3 · 可配置：每维度可增删题目，维度分 = 题目均分） */
+const SYS=[
+ {id:'cop',name:'CoP 生产一致性体系',desc:'量产件与批准样品一致性的维持机制',svc:'CoP 年度托管',qs:[
+   {id:'cop1',q:'已制定文件化的 CoP 控制计划',hint:'覆盖关键零部件与试验项目'},
+   {id:'cop2',q:'定期执行 CoP 试验/抽检并留存记录',hint:'频次满足各法规附件要求'},
+   {id:'cop3',q:'通过过批准机关的 CoP 审核 / 工厂检查',hint:'初始评估或周期性监督'}
+ ]},
+ {id:'version',name:'法规版本追踪机制',desc:'跟踪 UN R 修订与生效日期变化',svc:'版本追踪订阅',qs:[
+   {id:'ver1',q:'有专人或系统跟踪 UN R / EU 法规修订动态',hint:'WP.29 会议、官方公报'},
+   {id:'ver2',q:'掌握每张证书对应的法规版本与过渡期',hint:'series / supplement 台账'},
+   {id:'ver3',q:'法规更新后有「评估影响→整改→换证」闭环',hint:'覆盖新申请与在产车型'}
+ ]},
+ {id:'cyber',name:'CSMS/SUMS 网安体系',desc:'R155/R156 网络安全与软件更新管理',svc:'R155/R156 体系建设',qs:[
+   {id:'cyb1',q:'已建立 CSMS 网络安全管理体系（R155）',hint:'含风险评估与监控响应'},
+   {id:'cyb2',q:'已建立 SUMS 软件更新管理体系（R156）',hint:'含 RXSWIN 软件版本管理'},
+   {id:'cyb3',q:'网安要求已传递到供应链并有审核机制',hint:'关键零部件供应商'}
+ ]},
+ {id:'doc',name:'技术文档管理',desc:'型式批准技术文件的编制与维护',svc:'技术文档编制',qs:[
+   {id:'doc1',q:'型式批准信息文件夹完整并归档',hint:'图纸、参数、试验报告'},
+   {id:'doc2',q:'证书与试验报告有台账及到期/换版提醒',hint:'避免版本过期仍在出货'},
+   {id:'doc3',q:'设计变更有「扩展/修订申请」管理流程',hint:'变更触发合规重新评估'}
+ ]}
+];
+/* 企业画像题库（Task 3 · 可配置：不计分，进报告与销售线索；pains 选项第 4 位为对应服务钩子） */
+const PROFILE=[
+ {id:'size',ttl:'企业规模',multi:false,req:true,opts:[
+   ['s','100 人以下','初创 / 小型零部件供应商'],['m','100–1000 人','成长期企业'],['l','1000 人以上','大型集团 / 主机厂体系']]},
+ {id:'exp',ttl:'欧盟 / 1958 缔约方出口经验',multi:false,req:false,opts:[
+   ['none','尚未出口','正在规划进入'],['lt3','1–3 年','已有初步出口业务'],['gt3','3 年以上','成熟出口业务']]},
+ {id:'timeline',ttl:'认证时间要求',multi:false,req:true,opts:[
+   ['urgent','3 个月内','订单在手，时间紧迫'],['half','半年内','按项目节点推进'],['year','一年内','提前布局'],['plan','暂在规划','了解阶段']]},
+ {id:'certs',ttl:'已持有认证（可多选）',multi:true,req:false,opts:[
+   ['cccgb','国内 CCC / GB 认证','有国内合规基础'],['emark','已有部分 E-mark 证书','有 UNECE 认证经验'],['other','其他市场认证','FMVSS / ADR / KMVSS 等'],['no','暂无','从零开始']]},
+ {id:'pains',ttl:'当前最大痛点（可多选）',multi:true,req:false,opts:[
+   ['p_scope','不清楚哪些法规适用','范围界定难',       '法规适用性界定'],
+   ['p_lead','认证周期长 / 实验室排队久','项目节点压力','实验室对接 + 认证代办'],
+   ['p_ver','法规版本更新跟不上','担心证书失效',        '版本追踪订阅'],
+   ['p_cop','CoP 审核压力','年度监督应对吃力',          'CoP 年度托管'],
+   ['p_cyb','R155/R156 网安新规','体系从零建立',        '网安体系建设'],
+   ['p_doc','技术文档管理混乱','找不到、版本乱',        '技术文档编制']]}
+];
+const STEPS=["企业画像","范围界定","法规盘点","体系自评","成熟度评分","实施路线图"];
+
+/* ===================================================================
+   可配置结构 · Task 3 产品化占位（供业务/销售校准，改此处即可）
+   —— 默认值与已验证评分行为完全一致（等权），改动前请与业务确认。
+   =================================================================== */
+const CONFIG={
+  weights:{
+    reg:{done:1, prog:0.5, no:0, unk:0},         // X 轴 · 各法规状态计分
+    sysScore:{full:1, part:0.5, none:0},         // Y 轴 · 各体系维度得分
+    sysWeight:{cop:1, version:1, cyber:1, doc:1}  // Y 轴 · 各体系权重（如需网安更重，调此）
+  },
+  threshold:50   // 象限分界（X/Y 以此为界）
+};
+// 四象限 · 风险研判 + 优先建议（咨询话术，供销售校准；象限 key 由 quadrant() 给出）
+const QUADRANT_COPY={
+  ready:{
+    risk:'低危：法规覆盖与支撑体系均达标。主要风险来自 UN R 版本迭代与新强制项扩容，需保持监控以维持领先。',
+    recs:['订阅法规版本追踪，第一时间跟进 UN R 修订与生效日期','对新增强制项（网安/ADAS 等）提前布局，扩大合规护城河','定期 CoP 内审，确保量产一致性持续有效']
+  },
+  fragile:{
+    risk:'高危：法规已满足但缺乏支撑体系，证书极可能在 CoP 审核或法规更新时失效，且企业往往对此无感知。',
+    recs:['优先补建 CoP 生产一致性体系，防止已获证书失效','建立法规版本追踪机制，避免因 UN R 修订被动掉队','对已认证项做体系化归档，将「已拿证」转化为「可持续合规」']
+  },
+  start:{
+    risk:'中危：体系基础已具备，但法规覆盖不全，产品面临无法准入或被通报的风险，缺口集中在尚未认证的条目。',
+    recs:['优先完成未开始的强制法规认证，打通市场准入','借助已有体系批量推进认证，缩短整体周期','对进行中项目做节点管理，避免拖期错过生效窗口']
+  },
+  naked:{
+    risk:'高危：法规与体系双缺，作为新进入者尚无合规基础，产品无法合法进入目标市场。',
+    recs:['从范围界定入手，锁定强制适用法规清单与优先级','认证与基础体系（CoP/文档）同步搭建，避免返工','引入全流程托管或入门培训，快速建立合规能力']
+  }
+};
+
+/* ===== Task 2 · 活数据：法规现行版本 / 生效日期（WP.29/343） ===== */
+let VERDB=null, VERSTATE='loading';   // loading | ok | fail
+function parseEif(a){
+  if(a && a.eif) return a.eif;                                   // 已归一 ISO
+  const raw=((a&&a.eif_raw)||'').replace(/[\[\]]/g,'').trim();   // 去掉 [暂定] 括号
+  const m=/(\d{1,2})\.(\d{1,2})\.(\d{2,4})/.exec(raw);
+  if(!m) return null;
+  let y=m[3]; if(y.length===2) y='20'+y;
+  return y+'-'+m[2].padStart(2,'0')+'-'+m[1].padStart(2,'0');
+}
+function buildVerDB(json){
+  const byNo={}; (json.regs||[]).forEach(r=>{byNo[String(r.no)]=r;});
+  return {byNo, as_of:json.as_of||''};
+}
+// 按 UN R 编号 + series 匹配，取该 series 下最新 eif
+function liveVersion(regStr){
+  if(!VERDB) return null;
+  const m=/(?:UN\s*)?R\s*(\d{1,3})\.(\d{2})/i.exec(regStr||'');
+  if(!m) return null;
+  const no=m[1], series=m[2];
+  const reg=VERDB.byNo[no];
+  if(!reg) return null;
+  const re=new RegExp('^(?:'+series+'\\s*series|Suppl\\.?\\s*\\d+\\s*to\\s*'+series+')$','i');
+  let best=null;
+  (reg.amendments||[]).forEach(a=>{
+    if(re.test((a.status||'').trim())){
+      const e=parseEif(a);
+      if(e && (!best || e>best.eif)) best={status:a.status.trim(), eif:e};
+    }
+  });
+  return best;
+}
+async function loadVerDB(){
+  const urls=[
+    '../data/unece_status.json',
+    'data/unece_status.json',
+    'https://raw.githubusercontent.com/zhenghannah1228-boop/Auto-Reg-Monitor/claude/lucid-lovelace-g0twqh/data/unece_status.json',
+    'https://raw.githubusercontent.com/zhenghannah1228-boop/Auto-Reg-Monitor/claude/clever-cerf-yimu1h/data/unece_status.json',
+    'https://raw.githubusercontent.com/zhenghannah1228-boop/Auto-Reg-Monitor/main/data/unece_status.json'
+  ];
+  for(const u of urls){
+    try{
+      const r=await fetch(u);
+      if(!r.ok) continue;
+      const j=await r.json();
+      if(!j||!j.regs) continue;
+      VERDB=buildVerDB(j); VERSTATE='ok';
+      if(cur===3) render();
+      return;
+    }catch(e){/* try next */}
+  }
+  VERSTATE='fail';
+  if(cur===3) render();
+}
+
+let cur=0;
+let sel={role:null,market:null,groups:[]};
+let profile={size:null,exp:null,timeline:null,certs:[],pains:[]}; // 企业画像（线索）
+let regStatus={}; // item -> done/prog/no/unk
+let sysStatus={}; // 题目id -> full/part/none
+
+function railHTML(){
+  return STEPS.map((s,i)=>`<div class="rstep ${i+1<cur?'done':(i+1===cur?'active':'')}"><span class="n">${i+1}</span>${s}</div>`).join('');
+}
+function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
+
+function applicable(){
+  // items in chosen groups; if none chosen, all
+  let gs=sel.groups.length?sel.groups:Object.keys(GROUPS);
+  return ITEMS.filter(i=>gs.includes(i.g));
+}
+
+function render(){
+  document.getElementById('rail').innerHTML=railHTML();
+  const st=document.getElementById('stage');
+  if(cur===0) st.innerHTML=intro();
+  else if(cur===1) st.innerHTML=step1();
+  else if(cur===2) st.innerHTML=step2();
+  else if(cur===3) st.innerHTML=step3();
+  else if(cur===4) st.innerHTML=step4();
+  else if(cur===5) st.innerHTML=step5();
+  else if(cur===6) st.innerHTML=step6();
+  bind();
+}
+
+function intro(){
+  return `<div class="step on">
+   <div class="eyebrow">六步 · 免费企业合规成熟度评估</div>
+   <h2 class="st" style="margin-bottom:18px">评估流程</h2>
+   <div class="opts g3">
+     <div class="opt" style="cursor:default"><div class="ot">① 企业画像</div><div class="od">规模、出口经验、时间要求与痛点</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">② 范围界定</div><div class="od">选目标市场、产品、角色，圈定适用法规集</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">③ 法规盘点</div><div class="od">逐条自评认证状态，附现行版本/生效日期</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">④ 体系自评</div><div class="od">CoP / 版本 / 网安 / 文档，4 维 12 题</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">⑤ 成熟度评分</div><div class="od">双轴定位到四象限 + 明细数据表</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">⑥ 实施路线图</div><div class="od">缺口→服务映射 + 免费报告</div></div>
+   </div>
+   <div style="margin-top:26px"><button class="btn btn-p" onclick="go(1)">开始免费评估 →</button></div>
+  </div>`;
+}
+
+function step1(){
+  const secs=PROFILE.map(p=>{
+    const chosen=k=> p.multi? profile[p.id].includes(k) : profile[p.id]===k;
+    const opts=p.opts.map(o=>`<button class="opt ${chosen(o[0])?'sel':''}" data-pq="${p.id}" data-val="${o[0]}"><div class="ot">${o[1]}</div><div class="od">${o[2]}</div></button>`).join('');
+    return `<div class="secttl">${p.ttl}${p.req?'':' <small style="font-weight:400;color:var(--greyl)">（选填）</small>'}</div><div class="opts g3">${opts}</div>`;
+  }).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 1 / 6 · 企业画像</div>
+    <h2 class="st">先认识一下你的企业</h2>
+    <p class="lead">这些信息帮我们把评估结论校准到你的实际处境——同样的缺口，对「订单在手 3 个月内要证」和「提前布局」的企业，优先级完全不同。</p>
+    ${secs}
+    <div class="nav"><button class="ghost" onclick="go(0)">← 返回</button><button class="btn btn-p" onclick="toStep2()">下一步：范围界定 →</button></div>
+  </div>`;
+}
+function toStep2(){
+  if(!profile.size||!profile.timeline){alert('请先选择企业规模和认证时间要求');return;}
+  go(2);
+}
+
+function step2(){
+  const roles=[['OEM','OEM 整车厂','整车 WVTA，需盘点全系统'],['STU','系统集成商','系统作为技术单元认证'],['AFTER','售后件供应商','独立部件/替换件认证']];
+  const markets=[['EU','欧盟 (EU)','2018/858 + 2019/2144'],['ECE','1958协定缔约方','E-mark 互认'],['BOTH','两者','大E + 小e 全覆盖']];
+  const gopts=Object.entries(GROUPS).map(([k,v])=>`<button class="opt ${sel.groups.includes(k)?'sel':''}" data-grp="${k}"><div class="ot">${k} 组</div><div class="od">${v}</div></button>`).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 2 / 6 · 范围界定</div>
+    <h2 class="st">你的企业与产品范围</h2>
+    <p class="lead">选定角色、目标市场与涉及的部件分类组，系统据此圈定「适用法规集」。</p>
+    <div class="secttl">① 你的角色</div>
+    <div class="opts g3">${roles.map(r=>`<button class="opt ${sel.role===r[0]?'sel':''}" data-role="${r[0]}"><div class="ot">${r[1]}</div><div class="od">${r[2]}</div></button>`).join('')}</div>
+    <div class="secttl">② 目标市场</div>
+    <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div><div class="od">${m[2]}</div></button>`).join('')}</div>
+    <div class="secttl">③ 涉及的部件分类组（可多选，不选=全部）</div>
+    <div class="opts g3">${gopts}</div>
+    <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="toStep3()">下一步：法规盘点 →</button></div>
+  </div>`;
+}
+function toStep3(){
+  if(!sel.role||!sel.market){alert('请先选择角色和目标市场');return;}
+  go(3);
+}
+
+function verCell(i){
+  const v=liveVersion(i.reg);
+  if(v) return `<span class="ver ok">现行 <b>${v.status}</b> · 生效 ${v.eif}</span>`;
+  if(VERSTATE==='loading') return `<span class="ver load">版本加载中…</span>`;
+  return i.eif? `<span class="ver snap">快照 · 生效 ${i.eif}</span>` : `<span class="ver na">现行版本待追踪</span>`;
+}
+function verBanner(){
+  if(VERSTATE==='ok') return `<div class="verhint">已接入 <b>WP.29/343</b> 活数据（截至 ${VERDB.as_of||'—'}）：右上显示各法规<b>现行版本 + 生效日期</b>，随 UNECE 更新自动跟随。勾「不清楚」的项，正是版本追踪订阅的价值所在。</div>`;
+  if(VERSTATE==='loading') return `<div class="verhint">正在接入 WP.29/343 活数据以标注现行版本…</div>`;
+  return `<div class="verhint">⚠ 活数据暂不可用，已回退到内置生效日期<b>快照</b>（可能非最新，建议开通版本追踪）。</div>`;
+}
+function step3(){
+  const items=applicable();
+  items.forEach(i=>{if(!regStatus[i.item])regStatus[i.item]='unk';});
+  const rows=items.map(i=>`<div class="arow">
+     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${verCell(i)}</div>
+     <div class="seg" data-item="${i.item}">
+       <button class="${regStatus[i.item]==='done'?'on done-b':''}" data-v="done">已认证</button>
+       <button class="${regStatus[i.item]==='prog'?'on prog-b':''}" data-v="prog">进行中</button>
+       <button class="${regStatus[i.item]==='no'?'on no-b':''}" data-v="no">未开始</button>
+       <button class="${regStatus[i.item]==='unk'?'on unk-b':''}" data-v="unk">不清楚</button>
+     </div></div>`).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 3 / 6 · 法规盘点（X 轴）</div>
+    <h2 class="st">逐条自评法规认证状态</h2>
+    <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。</p>
+    <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
+    ${verBanner()}
+    ${rows}
+    <div class="nav"><button class="ghost" onclick="go(2)">← 上一步</button><button class="btn btn-p" onclick="go(4)">下一步：体系自评 →</button></div>
+  </div>`;
+}
+
+function step4(){
+  SYS.forEach(s=>s.qs.forEach(q=>{if(!sysStatus[q.id])sysStatus[q.id]='none';}));
+  const qcount=SYS.reduce((a,s)=>a+s.qs.length,0);
+  const secs=SYS.map(s=>{
+    const rows=s.qs.map(q=>`<div class="arow">
+       <div class="al"><b>${q.q}</b> ${q.hint?`<small>${q.hint}</small>`:''}</div>
+       <div class="seg" data-sys="${q.id}">
+         <button class="${sysStatus[q.id]==='full'?'on done-b':''}" data-v="full">已建立</button>
+         <button class="${sysStatus[q.id]==='part'?'on prog-b':''}" data-v="part">部分</button>
+         <button class="${sysStatus[q.id]==='none'?'on no-b':''}" data-v="none">无</button>
+       </div></div>`).join('');
+    return `<div class="secttl">${s.name} <small style="font-weight:400;color:var(--grey)">· ${s.desc}</small></div>${rows}`;
+  }).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 4 / 6 · 体系自评（Y 轴）</div>
+    <h2 class="st">支撑体系成熟度自评</h2>
+    <p class="lead">证书只是起点，体系决定证书能不能「活着」——共 ${SYS.length} 个维度 ${qcount} 题，每维度得分为题目均分。</p>
+    ${secs}
+    <div class="nav"><button class="ghost" onclick="go(3)">← 上一步</button><button class="btn btn-p" onclick="go(5)">生成评估结果 →</button></div>
+  </div>`;
+}
+
+function computeScores(){
+  const items=applicable();
+  // X 轴 · 法规完成度（权重见 CONFIG.weights.reg；默认 done=1 / prog=0.5，与验证行为一致）
+  const rw=CONFIG.weights.reg;
+  let x=0;
+  items.forEach(i=>{ const w=rw[regStatus[i.item]]; x += (typeof w==='number'?w:0); });
+  const X=items.length? Math.round(x/items.length*100):0;
+  // Y 轴 · 体系成熟度：维度分 = 该维题目均分（有=1/部分=0.5/无=0），再按 sysWeight 加权
+  //（默认等权 + 每题同分时与原 4 粗题行为一致，评分语义未变）
+  const sw=CONFIG.weights.sysScore, ww=CONFIG.weights.sysWeight;
+  let y=0, wsum=0;
+  SYS.forEach(s=>{
+    const w=(typeof ww[s.id]==='number'?ww[s.id]:1); wsum+=w;
+    const m=s.qs.reduce((a,q)=>{const sc=sw[sysStatus[q.id]];return a+(typeof sc==='number'?sc:0);},0)/s.qs.length;
+    y+=m*w;
+  });
+  const Y=wsum? Math.round(y/wsum*100):0;
+  return {X,Y,items};
+}
+function dimScore(s){ // 单维度 0-100（矩阵明细表用）
+  const sw=CONFIG.weights.sysScore;
+  const m=s.qs.reduce((a,q)=>{const sc=sw[sysStatus[q.id]];return a+(typeof sc==='number'?sc:0);},0)/s.qs.length;
+  return Math.round(m*100);
+}
+function quadrant(X,Y){
+  const T=CONFIG.threshold;
+  if(X>=T&&Y>=T)return{key:'ready',name:'就绪',color:'#1F7A4D',desc:'法规满足、体系健全',svc:'版本追踪订阅，保持领先'};
+  if(X>=T&&Y<T)return{key:'fragile',name:'脆弱',color:'#C0392B',desc:'拿了证但缺体系——证书面临失效风险',svc:'CoP 托管 + 体系建设（最紧迫）'};
+  if(X<T&&Y>=T)return{key:'start',name:'起步',color:'#2563EB',desc:'有体系但法规未做全',svc:'认证代办，补齐缺的条数'};
+  return{key:'naked',name:'裸奔',color:'#6B7280',desc:'新进入者，尚未起步',svc:'全流程托管 / 入门培训'};
+}
+
+function step5(){
+  const {X,Y,items}=computeScores();
+  const q=quadrant(X,Y);
+  const copy=QUADRANT_COPY[q.key]||{risk:'',recs:[]};
+  // X 轴明细
+  let done=0,prog=0,nostart=0,unk=0;
+  items.forEach(i=>{const s=regStatus[i.item];if(s==='done')done++;else if(s==='prog')prog++;else if(s==='no')nostart++;else unk++;});
+  const total=items.length, gaps=nostart+unk;
+  const donePct=total?Math.round(done/total*100):0;
+  // Y 轴明细（每维度 = 该维题目均分 0-100）
+  const sysDetail=SYS.map(s=>{const sc=dimScore(s);const lab=sc===100?'已建立':(sc===0?'缺失':'部分');return {name:s.name,sc,lab};});
+  // 定位点坐标：cx=60+X*3.4, cy=20+(100-Y)*3.4（绘图区 60..400 / 20..360）
+  const cx=(60+X*3.4).toFixed(1), cy=(20+(100-Y)*3.4).toFixed(1);
+  const labY=(+cy-14).toFixed(1);   // 「你 (X,Y)」标签在定位点上方
+  const svg=`<svg viewBox="0 0 420 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="合规成熟度矩阵，你的定位 X ${X} Y ${Y}，${q.name}象限">
+      <defs><pattern id="mxg" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0 L0 0 0 34" fill="none" stroke="#2A2F38" stroke-width="0.5"/></pattern></defs>
+      <rect x="60" y="20" width="340" height="340" fill="url(#mxg)"/>
+      <rect x="60" y="20" width="170" height="170" fill="#2563EB" opacity="0.05"/>
+      <rect x="230" y="20" width="170" height="170" fill="#1F7A4D" opacity="0.06"/>
+      <rect x="60" y="190" width="170" height="170" fill="#6B7280" opacity="0.05"/>
+      <rect x="230" y="190" width="170" height="170" fill="#C0392B" opacity="0.06"/>
+      <line x1="230" y1="20" x2="230" y2="360" stroke="#3A414B" stroke-width="1" stroke-dasharray="3 3"/>
+      <line x1="60" y1="190" x2="400" y2="190" stroke="#3A414B" stroke-width="1" stroke-dasharray="3 3"/>
+      <line x1="60" y1="360" x2="400" y2="360" stroke="#5A6270" stroke-width="1.2"/>
+      <line x1="60" y1="20" x2="60" y2="360" stroke="#5A6270" stroke-width="1.2"/>
+      <text x="60" y="378" fill="#8A93A0" font-size="10" text-anchor="middle">0</text>
+      <text x="230" y="378" fill="#8A93A0" font-size="10" text-anchor="middle">50</text>
+      <text x="400" y="378" fill="#8A93A0" font-size="10" text-anchor="middle">100</text>
+      <text x="52" y="364" fill="#8A93A0" font-size="10" text-anchor="end">0</text>
+      <text x="52" y="194" fill="#8A93A0" font-size="10" text-anchor="end">50</text>
+      <text x="52" y="24" fill="#8A93A0" font-size="10" text-anchor="end">100</text>
+      <text x="145" y="54" fill="#2563EB" font-size="15" text-anchor="middle" font-style="italic" font-family="Georgia,serif">起步</text>
+      <text x="145" y="72" fill="#6B7280" font-size="8.5" text-anchor="middle">有体系 · 法规未全</text>
+      <text x="315" y="54" fill="#1F7A4D" font-size="15" text-anchor="middle" font-style="italic" font-family="Georgia,serif">就绪</text>
+      <text x="315" y="72" fill="#6B7280" font-size="8.5" text-anchor="middle">法规满足 · 体系健全</text>
+      <text x="145" y="332" fill="#8A93A0" font-size="15" text-anchor="middle" font-style="italic" font-family="Georgia,serif">裸奔</text>
+      <text x="145" y="350" fill="#6B7280" font-size="8.5" text-anchor="middle">双缺 · 尚未起步</text>
+      <text x="315" y="332" fill="#C0392B" font-size="15" text-anchor="middle" font-style="italic" font-family="Georgia,serif">脆弱</text>
+      <text x="315" y="350" fill="#6B7280" font-size="8.5" text-anchor="middle">有证 · 无体系</text>
+      <text x="230" y="405" fill="#C9CFD8" font-size="11" text-anchor="middle">X · 法规完成度 →</text>
+      <text x="18" y="190" fill="#C9CFD8" font-size="11" text-anchor="middle" transform="rotate(-90 18 190)">Y · 体系成熟度 →</text>
+      <circle cx="257.2" cy="217.2" r="5" fill="none" stroke="#8A93A0" stroke-width="1.5" stroke-dasharray="2 2"/>
+      <text x="266" y="220" fill="#8A93A0" font-size="8.5">行业典型</text>
+      <line x1="${cx}" y1="${cy}" x2="${cx}" y2="360" stroke="#E8622C" stroke-width="0.7" stroke-dasharray="2 2" opacity="0.6"/>
+      <line x1="${cx}" y1="${cy}" x2="60" y2="${cy}" stroke="#E8622C" stroke-width="0.7" stroke-dasharray="2 2" opacity="0.6"/>
+      <circle cx="${cx}" cy="${cy}" r="8" fill="${q.color}" stroke="#fff" stroke-width="2.5"/>
+      <text x="${cx}" y="${labY}" fill="#E6E9ED" font-size="10.5" text-anchor="middle" font-weight="bold">你 (${X}, ${Y})</text>
+    </svg>`;
+  const recsHTML=copy.recs.map(r=>`<li>${r}</li>`).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 5 / 6 · 成熟度评分</div>
+    <h2 class="st">合规成熟度定位</h2>
+    <p class="lead">基于 ${total} 条适用法规自评与 ${SYS.reduce((a,s)=>a+s.qs.length,0)} 题体系自评，双轴模型将你的企业定位于下列矩阵——定位点随自评实时移动。</p>
+    <div class="mx-block">
+      <div class="mx-left">
+        <div class="mx-eyebrow">COMPLIANCE MATURITY MATRIX</div>
+        ${svg}
+      </div>
+      <div class="mx-right">
+        <div class="mx-verdict"><span class="mx-tag" style="background:${q.color}">${q.name}象限</span><div class="mx-vd">${q.desc}</div></div>
+        <div class="mx-metrics">
+          <div><span class="mm-v" style="color:#60A5FA">${X}</span><span class="mm-l">法规完成度</span></div>
+          <div><span class="mm-v" style="color:#A78BFA">${Y}</span><span class="mm-l">体系成熟度</span></div>
+          <div><span class="mm-v" style="color:#E8935A">${gaps}</span><span class="mm-l">待处理缺口</span></div>
+        </div>
+        <div class="mx-ip">
+          <div class="mx-iph">风险研判</div>
+          <p class="mx-risk">${copy.risk}</p>
+          <div class="mx-iph">优先建议</div>
+          <ol class="mx-recs">${recsHTML}</ol>
+        </div>
+      </div>
+    </div>
+    <div class="mx-tables">
+      <div class="mx-dt"><div class="mx-dth">法规完成度明细 · X 轴</div><table>
+        <tr><td>已认证</td><td class="r"><b>${done}</b></td><td class="r g">${donePct}%</td></tr>
+        <tr><td>进行中</td><td class="r"><b>${prog}</b></td><td class="r g">计半分</td></tr>
+        <tr><td>未开始 / 不清楚</td><td class="r"><b>${gaps}</b></td><td class="r rd">缺口</td></tr>
+        <tr class="tot"><td>适用法规总数</td><td class="r"><b>${total}</b></td><td class="r">X=${X}</td></tr></table></div>
+      <div class="mx-dt"><div class="mx-dth">体系成熟度明细 · Y 轴</div><table>
+        ${sysDetail.map(d=>`<tr><td>${d.name}</td><td class="r"><b>${d.sc}</b></td><td class="r g">${d.lab}</td></tr>`).join('')}
+        <tr class="tot"><td>${SYS.length} 维加权</td><td></td><td class="r">Y=${Y}</td></tr></table></div>
+    </div>
+    <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。</p>
+    <div class="nav"><button class="ghost" onclick="go(4)">← 修改自评</button><button class="btn btn-p" onclick="go(6)">查看实施路线图 →</button></div>
+  </div>`;
+}
+
+function plabel(id){
+  const def=PROFILE.find(p=>p.id===id);
+  if(def.multi){const t=profile[id].map(k=>{const o=def.opts.find(o=>o[0]===k);return o?o[1]:k;}).join('、');return t||'—';}
+  const o=def.opts.find(o=>o[0]===profile[id]);return o?o[1]:'—';
+}
+function step6(){
+  const {X,Y,items}=computeScores();
+  const q=quadrant(X,Y);
+  // gap -> service mapping
+  const gapRows=[];
+  items.forEach(i=>{
+    const s=regStatus[i.item];
+    if(s==='no') gapRows.push({sev:'red',txt:`${i.cn}（${i.reg||'—'}）未开始认证`,svc:'实验室对接+代办'});
+    else if(s==='unk') gapRows.push({sev:'amber',txt:`${i.cn} 状态不清楚`,svc:'版本追踪订阅'});
+  });
+  SYS.forEach(s=>{
+    s.qs.forEach(qq=>{
+      const v=sysStatus[qq.id];
+      if(v==='none') gapRows.push({sev:'red',txt:`${s.name}：缺少「${qq.q}」`,svc:s.svc});
+      else if(v==='part') gapRows.push({sev:'amber',txt:`${s.name}：「${qq.q}」不完整`,svc:'体系补强'});
+    });
+  });
+  const shown=gapRows.slice(0,14);
+  const gapHTML=shown.map(g=>`<div class="gap"><span class="gdot ${g.sev}"></span><span>${g.txt}</span><span class="gsvc">${g.svc}</span></div>`).join('') || '<div class="gap"><span>暂无明显缺口，恭喜！</span></div>';
+  // 痛点 → 服务钩子（企业画像多选，opts 第 4 位为服务）
+  const painDef=PROFILE.find(p=>p.id==='pains');
+  const painHTML=profile.pains.map(k=>{const o=painDef.opts.find(x=>x[0]===k);return o?`<div class="gap"><span class="gdot amber"></span><span>${o[1]} <small style="color:var(--grey)">${o[2]}</small></span><span class="gsvc">${o[3]||'专家解读'}</span></div>`:'';}).join('');
+  return `<div class="step on">
+    <div class="eyebrow">STEP 6 / 6 · 实施路线图</div>
+    <h2 class="st">你的合规待办清单</h2>
+    <p class="lead">下列每一项缺口都对应一项可落地的服务。共识别 ${gapRows.length} 项，展示前 ${shown.length} 项。</p>
+    <div class="gaplist">
+      <div class="gaphd">📋 缺口 → 服务映射</div>
+      ${gapHTML}
+    </div>
+    ${painHTML?`<div class="gaplist"><div class="gaphd">🎯 你标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
+    <div class="rcard-g">
+      <div class="rcard"><div class="rk">企业画像</div><div class="rv">规模：${plabel('size')} · 出口经验：${plabel('exp')}<br>时间要求：${plabel('timeline')}<br>已持认证：${plabel('certs')}</div></div>
+      <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}</div></div>
+      <div class="rcard"><div class="rk">成熟度定位</div><div class="rv">X ${X} / Y ${Y} · ${gapRows.length} 项缺口</div></div>
+    </div>
+    <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</p>
+    <div class="cta-box">
+      <h3>你的免费评估报告已生成</h3>
+      <p>报告已列出全部 ${gapRows.length} 项缺口。想知道「每一项具体怎么补、优先做哪个」？<br>预约我们的专家，一对一为你解读。</p>
+      <button class="btn" onclick="alert('（示意）已记录：企业定位『'+'${q.name}象限'+'』· ${gapRows.length}项缺口 · 将转销售预约专家解读')">预约专家解读我的缺口 →</button>
+    </div>
+    <div class="nav"><button class="ghost" onclick="go(5)">← 返回评分</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
+  </div>`;
+}
+function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,certs:[],pains:[]};regStatus={};sysStatus={};go(0);}
+
+function bind(){
+  document.querySelectorAll('[data-pq]').forEach(b=>b.onclick=()=>{
+    const id=b.dataset.pq, v=b.dataset.val, def=PROFILE.find(p=>p.id===id);
+    if(def.multi){const arr=profile[id];const i=arr.indexOf(v);if(i>=0)arr.splice(i,1);else arr.push(v);}
+    else profile[id]=(profile[id]===v? null : v);
+    render();
+  });
+  document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{sel.role=b.dataset.role;render();});
+  document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{sel.market=b.dataset.mkt;render();});
+  document.querySelectorAll('[data-grp]').forEach(b=>b.onclick=()=>{const g=b.dataset.grp;const i=sel.groups.indexOf(g);if(i>=0)sel.groups.splice(i,1);else sel.groups.push(g);render();});
+  document.querySelectorAll('.seg[data-item]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{regStatus[seg.dataset.item]=btn.dataset.v;render();});});
+  document.querySelectorAll('.seg[data-sys]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{sysStatus[seg.dataset.sys]=btn.dataset.v;render();});});
+}
+render();
+loadVerDB();   // Task 2 · 后台拉取活数据（现行版本/生效日期），完成后若在 Step2 自动重渲染
+</script>
+</body></html>

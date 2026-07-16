@@ -623,6 +623,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-cyber"><span class="tn">20</span>网络安全中心</div>
     <div class="tab" data-p="p-tbar"><span class="tn">21</span>贸易壁垒源</div>
     <div class="tab" data-p="p-wlog"><span class="tn">22</span>工作日志</div>
+    <div class="tab" data-p="p-emark"><span class="tn">23</span>E-mark评估</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -882,6 +883,17 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <a class="btn light" style="text-decoration:none;margin-left:auto" id="ncap-open" href="./ncap/ncap_matrix_view.html" target="_blank">⤢ 新窗口打开</a>
     </div>
     <iframe id="ncap-frame" data-src="./ncap/ncap_matrix_view.html"
+      style="width:100%;height:calc(100vh - 200px);min-height:600px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>
+  </div>
+
+  <div class="pane" id="p-emark">
+    <div class="netctrl">
+      <span style="font-family:var(--serif);font-weight:900;color:var(--accent);font-size:14px">E-mark / e-mark 合规成熟度评估</span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">六步企业自评:企业画像→范围界定→法规盘点(94项)→体系自评(4维12题)→双轴象限定位→缺口路线图 · 对标 msg UN Regulation Assessment</span>
+      <a class="btn light" style="text-decoration:none;margin-left:auto" href="./emark/emark_assessment.html" target="_blank">⤢ 新窗口打开</a>
+      <a class="btn light" style="text-decoration:none" href="./emark/emark_assessment.html" download="E-mark_合规成熟度评估.html">⬇ 下载独立版</a>
+    </div>
+    <iframe id="emark-frame" data-src="./emark/emark_assessment.html"
       style="width:100%;height:calc(100vh - 200px);min-height:600px;border:1px solid var(--line);border-radius:8px;background:#fff"></iframe>
   </div>
 
@@ -6038,6 +6050,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-chain")openChainTab();
   if(t.dataset.p==="p-ins"){const f=$("#ins-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载看板
   if(t.dataset.p==="p-ncap"){const f=$("#ncap-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载 NCAP 矩阵
+  if(t.dataset.p==="p-emark"){const f=$("#emark-frame");if(f&&!f.src)f.src=f.dataset.src;} // 懒加载 E-mark 评估
   if(t.dataset.p==="p-advisor"){advInitEgs();advInitReports();advLoadInsights();if(typeof CERT==="undefined"||!CERT)loadCert().catch(()=>{});}
   if(t.dataset.p==="p-recall"){if(!recalls.length)loadRecalls().then(renderRecalls);else renderRecalls();}
   if(t.dataset.p==="p-evpol"){if(!_evpol)loadEvPol().then(renderEvPol);else renderEvPol();}
