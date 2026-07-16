@@ -425,25 +425,26 @@ function openGlossary(){
 function gloss(key,label){return `<button class="gloss" onclick="event.stopPropagation();openGloss('${key}')" title="点看释义">${label}<sup>?</sup></button>`;}
 // 过渡条款速查（权威依据 WP.29/1044/Rev.3 · UN 法规程序与过渡条款通用指南）
 function openTransitional(){
+  const src='WP.29/1044/Rev.3';   // 每条括号内为该文件确切段号
   const body=`<div style="padding:14px 16px;font-size:12.5px;line-height:1.7;color:var(--ink2)">
-    <div style="font-weight:700;color:var(--od);margin-bottom:6px">一、新系列生效后的三个关键日期（§25）</div>
-    <table class="emk-tbl" style="margin-bottom:12px"><thead><tr><th>日期</th><th>含义</th></tr></thead><tbody>
-      <tr><td><b>Date (a)</b></td><td>起，缔约方<b>可签发并须接受</b>按新系列的型式批准（通常＝生效日）。</td></tr>
-      <tr><td><b>Date (b)</b></td><td>起，对<b>此日之后新签发</b>的旧系列批准，缔约方<b>不再有义务接受</b>。</td></tr>
-      <tr><td><b>Date (c)</b></td><td>起，<b>无论签发日期</b>，缔约方对旧系列批准都<b>不再有接受义务</b>（未规定时 c＝b）。</td></tr>
+    <div style="font-weight:700;color:var(--od);margin-bottom:6px">一、新系列生效后的关键日期（${src} §25）</div>
+    <table class="emk-tbl" style="margin-bottom:12px"><thead><tr><th>日期</th><th>含义（原文表述）</th><th>依据</th></tr></thead><tbody>
+      <tr><td><b>Date (a)</b></td><td>起，缔约方<b>有权签发、且有义务接受</b>按修订后法规的型式批准（一般＝生效日）。</td><td class="g">§25(a)</td></tr>
+      <tr><td><b>Date (b)</b></td><td>起，对<b>此日之后首次签发</b>的旧版本批准，缔约方<b>不再有义务接受</b>。</td><td class="g">§25(b)</td></tr>
+      <tr><td><b>Date (c)</b></td><td>起，<b>无论签发日期</b>，缔约方对旧版本批准<b>不再有义务接受</b>；未规定 (c) 时视同 (b)。</td><td class="g">§25(c)+图1注</td></tr>
     </tbody></table>
-    <div class="stn-sgs" style="margin-bottom:12px">一句话：<b>老证书不会自动失效</b>，仍合法有效；但从 <b>Date (c)</b> 起缔约方可拒收，且<b>新申请必须按新系列</b>。Date (b)/(c) 通常定在某年 9 月 1 日。</div>
-    <div class="stn-extra" style="margin-bottom:12px"><b>真实案例 · UN R0（IWVTA）08 series：</b>据 WP.29/2025/159 提案，Date (a)＝该系列正式生效日；<b>Date (b)＝2026-09-01</b>（此日后新签发的旧系列 IWVTA 缔约方不再有义务接受）——正好印证「9 月 1 日」惯例。</div>
-    <div style="font-weight:700;color:var(--od);margin-bottom:6px">二、四类变更的法律区别（§25/28/32/39）</div>
-    <table class="emk-tbl"><thead><tr><th>类型</th><th>作用与影响</th></tr></thead><tbody>
-      <tr><td><b>系列 Series</b></td><td>提高/改变技术要求；<b>改变认证标志</b>；带过渡条款；产生新版本（00→01→02…）。</td></tr>
-      <tr><td><b>增补 Supplement</b></td><td>澄清试验方法或纳入新发展，<b>不提高严格度、不改标志</b>；自生效日起须接受。</td></tr>
-      <tr><td><b>勘误 Corrigendum</b></td><td>更正；<b>AC.1 通过即追溯生效（ab initio）</b>。</td></tr>
-      <tr><td><b>修订 Revision</b></td><td>UNECE 秘书处的<b>合并重印</b>，把原文＋各增补整合为一份，<b>无新法律内容、无独立生效日</b>——即本工具/看板标注的「合并版」。</td></tr>
+    <div class="stn-sgs" style="margin-bottom:12px">要点（均引原文）：<b>已有批准仍然有效</b>（§25 图1注）；<b>Date (b) 前签发</b>的旧版本批准及其扩展，各方<b>须接受至少到 Date (c)</b>（§26）；对 <b>Date (b) 之后新签发</b>的旧版本批准，缔约方不再有义务接受（§25b）；<b>Date (c)</b> 起对旧版本批准一律不再有义务接受（§25c）。Date (b)/(c) 在可行时<b>定于 9 月 1 日</b>（§27）。</div>
+    <div class="stn-extra" style="margin-bottom:12px"><b>真实案例 · UN R0（IWVTA）08 series（ECE/TRANS/WP.29/2025/159）：</b>Date (a)＝该系列正式生效日（提案 §12.13）；<b>Date (b)＝2026-09-01</b>——此日后首次签发的旧系列 IWVTA，缔约方不再有义务接受（提案 §12.14）。</div>
+    <div style="font-weight:700;color:var(--od);margin-bottom:6px">二、四类变更的法律区别（${src}）</div>
+    <table class="emk-tbl"><thead><tr><th>类型</th><th>作用与影响（原文表述）</th><th>依据</th></tr></thead><tbody>
+      <tr><td><b>系列 Series</b></td><td>需<b>修改认证标志</b>以区分新旧批准（§22）；带 Date (a)/(b)/(c) 过渡条款（§25）。</td><td class="g">§22,§25</td></tr>
+      <tr><td><b>增补 Supplement</b></td><td>澄清试验方法或纳入新发展、<b>不改变严格度</b>（§28）；<b>不修改认证标志</b>（§29）；自生效日起适用（§30）。</td><td class="g">§28–30</td></tr>
+      <tr><td><b>勘误 Corrigendum</b></td><td>对已通过文本的编辑性更正；更正<b>视为自始生效（ab initio）</b>（§33）。</td><td class="g">§33</td></tr>
+      <tr><td><b>修订 Revision</b></td><td>UNECE 秘书处的行政程序，将原文与各增补(Amend.+Corr.)<b>整合为合并文本</b>（§39）——即本工具/看板标注的「合并版」。</td><td class="g">§39</td></tr>
     </tbody></table>
   </div>`;
   emkModal('E-mark 过渡条款速查 · 老证书还能用多久？', body,
-    '权威依据：UNECE ECE/TRANS/WP.29/1044/Rev.3《UN 法规程序与过渡条款通用指南》§25/28/32/39。具体某法规的 Date (a)/(b)/(c) 以该法规该系列的过渡条款原文为准。');
+    '权威依据：UNECE ECE/TRANS/WP.29/1044/Rev.3《UN 法规程序与过渡条款通用指南》(段号见各行「依据」列)；R0.08 案例据 ECE/TRANS/WP.29/2025/159 §12.13–12.14。具体某法规的 Date (a)/(b)/(c) 以该法规该系列过渡条款原文为准。');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){
@@ -539,7 +540,7 @@ function openIWVTA(){
 // ===== 标志选择器：E-mark / e-mark / CE，按现行 EU 指令编号（2026-07 核验）=====
 const MARK_RULES=[
  {id:'auto',q:'车用电子件（含电子电路，装于 M/N/O/L/T 类车辆）',marks:['E-mark（大E）'],
-  basis:'车用电磁兼容由 UN R10 型式批准，经 (EU) 2018/858 纳入整车批准；车辆及其电子子组件(ESA)已排除出通用 EMC 指令 2014/30/EU，因此打大 E、不单独打 CE-EMC。<br><b>为什么是大 E 不是小 e：</b>凡有对应 UN 法规的车用项（EMC=R10、灯具=R48…），EU 直接采用该 UN 法规、打<b>大 E</b>（1958 协定多国互认）；只有<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项才打小 e（见下方「仅欧盟条例覆盖」选项）。'},
+  basis:'车用电磁兼容由 UN R10 型式批准，经 (EU) 2018/858 纳入整车批准；车用电气电子设备按 EMC 指令 2014/30/EU 第 2(2) 条排除出该指令、改由车辆型式批准框架处理，因此打大 E、不单独打 CE-EMC。<br><b>为什么是大 E 不是小 e：</b>凡有对应 UN 法规的车用项（EMC=R10、灯具=R48…），EU 直接采用该 UN 法规、打<b>大 E</b>（1958 协定多国互认）；只有<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项才打小 e（见下方「仅欧盟条例覆盖」选项）。'},
  {id:'radio',q:'含无线/射频模块（蓝牙 / Wi-Fi / 蜂窝 / GNSS / 无钥匙进入等）',marks:['CE（无线电设备指令 RED）'],
   basis:'无线部分适用无线电设备指令 RED 2014/53/EU（一并覆盖射频、EMC 与健康安全），需追加 CE。（注：RED 已取代旧 R&TTE 指令）'},
  {id:'mach',q:'含机械运动 / 液压 / 举升等机械部件',marks:['CE（机械）'],
