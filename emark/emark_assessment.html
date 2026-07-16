@@ -113,6 +113,8 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .reachb:hover{background:#CFE9DA;text-decoration:underline}
 .dirbtn{font-family:inherit;font-size:12px;font-weight:600;color:var(--od);background:var(--ol);border:1px solid var(--o);border-radius:8px;padding:6px 13px;cursor:pointer;margin-left:8px}
 .dirbtn:hover{background:var(--o);color:#fff}
+.tp-link{font-family:inherit;font-size:11px;font-weight:700;color:var(--od);background:#fff;border:1px solid var(--o);border-radius:10px;padding:1px 8px;cursor:pointer;margin-left:6px}
+.tp-link:hover{background:var(--o);color:#fff}
 /* 缔约方/机关名录弹窗 */
 .emk-ov{position:fixed;inset:0;background:rgba(20,24,28,.55);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:36px 14px;overflow-y:auto}
 .emk-ov.on{display:flex}
@@ -385,13 +387,34 @@ function latestInForceSeries(no){
   });
   return best;
 }
+// 过渡条款速查（权威依据 WP.29/1044/Rev.3 · UN 法规程序与过渡条款通用指南）
+function openTransitional(){
+  const body=`<div style="padding:14px 16px;font-size:12.5px;line-height:1.7;color:var(--ink2)">
+    <div style="font-weight:700;color:var(--od);margin-bottom:6px">一、新系列生效后的三个关键日期（§25）</div>
+    <table class="emk-tbl" style="margin-bottom:12px"><thead><tr><th>日期</th><th>含义</th></tr></thead><tbody>
+      <tr><td><b>Date (a)</b></td><td>起，缔约方<b>可签发并须接受</b>按新系列的型式批准（通常＝生效日）。</td></tr>
+      <tr><td><b>Date (b)</b></td><td>起，对<b>此日之后新签发</b>的旧系列批准，缔约方<b>不再有义务接受</b>。</td></tr>
+      <tr><td><b>Date (c)</b></td><td>起，<b>无论签发日期</b>，缔约方对旧系列批准都<b>不再有接受义务</b>（未规定时 c＝b）。</td></tr>
+    </tbody></table>
+    <div class="stn-sgs" style="margin-bottom:12px">一句话：<b>老证书不会自动失效</b>，仍合法有效；但从 <b>Date (c)</b> 起缔约方可拒收，且<b>新申请必须按新系列</b>。Date (b)/(c) 通常定在某年 9 月 1 日。</div>
+    <div style="font-weight:700;color:var(--od);margin-bottom:6px">二、四类变更的法律区别（§25/28/32/39）</div>
+    <table class="emk-tbl"><thead><tr><th>类型</th><th>作用与影响</th></tr></thead><tbody>
+      <tr><td><b>系列 Series</b></td><td>提高/改变技术要求；<b>改变认证标志</b>；带过渡条款；产生新版本（00→01→02…）。</td></tr>
+      <tr><td><b>增补 Supplement</b></td><td>澄清试验方法或纳入新发展，<b>不提高严格度、不改标志</b>；自生效日起须接受。</td></tr>
+      <tr><td><b>勘误 Corrigendum</b></td><td>更正；<b>AC.1 通过即追溯生效（ab initio）</b>。</td></tr>
+      <tr><td><b>修订 Revision</b></td><td>UNECE 秘书处的<b>合并重印</b>，把原文＋各增补整合为一份，<b>无新法律内容、无独立生效日</b>——即本工具/看板标注的「合并版」。</td></tr>
+    </tbody></table>
+  </div>`;
+  emkModal('E-mark 过渡条款速查 · 老证书还能用多久？', body,
+    '权威依据：UNECE ECE/TRANS/WP.29/1044/Rev.3《UN 法规程序与过渡条款通用指南》§25/28/32/39。具体某法规的 Date (a)/(b)/(c) 以该法规该系列的过渡条款原文为准。');
+}
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){
   if(regStatus[i.item]!=='done') return '';
   const m=/(?:UN\s*)?R\s*(\d{1,3})\.(\d{2})/i.exec(i.reg||''); if(!m) return '';
   const latest=latestInForceSeries(m[1]);
   if(latest!=null && latest>+m[2])
-    return `<span class="ver warn">⚠ R${m[1]} 已有 ${String(latest).padStart(2,'0')} series 生效——按 ${m[2]} 系列取得的证书请核对过渡期条款与新申请适用性</span>`;
+    return `<span class="ver warn">⚠ R${m[1]} 已有 ${String(latest).padStart(2,'0')} series 生效——按 ${m[2]} 系列取得的证书请核对过渡期条款与新申请适用性 <button class="tp-link" onclick="openTransitional()">过渡期怎么算?</button></span>`;
   return '';
 }
 // 该 UN R 编号即将生效的修订（eif > 今天，取最近一条），用于路线图倒计时
@@ -674,7 +697,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。勾「已认证」后若该法规已有更新系列生效，会自动提示核对。</p>
     ${focusNote()}
-    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button> <span style="font-size:11.5px;color:var(--grey)">点每条法规的「🌍 N 国互认」看适用该法规的完整国家名单</span></div>
+    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button> <span style="font-size:11.5px;color:var(--grey)">点每条法规的「🌍 N 国互认」看完整国家名单</span></div>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
@@ -896,6 +919,9 @@ function stationExtra(st){
   if(st.id==='ts'){
     const cs=sgsTScountries();
     return `<div class="stn-extra sgs-fact">✅ 依 WP.29/343 Add.1 官方名录（Annex 1），<b>SGS 已是 ${cs.join('、')} 等 ${cs.length} 个 1958 缔约国政府指定的技术服务机构</b>，可直接承接 E-mark 测试——无需你另找实验室。</div>`;
+  }
+  if(st.id==='life'){
+    return `<div class="stn-extra">法规系列更新后，老证书不会自动失效，但从过渡期 Date (c) 起缔约方可拒收、新申请须按新系列。<button class="tp-link" onclick="openTransitional()">⏳ 过渡条款速查</button><br><span style="font-size:11.5px;color:var(--grey)">依据 WP.29/1044/Rev.3</span></div>`;
   }
   return '';
 }
