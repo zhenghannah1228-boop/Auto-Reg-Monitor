@@ -110,6 +110,10 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .ver.warn{color:var(--amber);font-weight:600}
 .vehb{display:inline-block;font-size:10.5px;color:var(--blue);background:#EAF1F7;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
 .iwb{display:inline-block;font-size:10.5px;color:var(--purple);background:#EEE9F7;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.mkb{display:inline-block;font-size:10.5px;font-weight:700;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
+.mkb-e{color:var(--od);background:var(--ol)}
+.mkb-le{color:#fff;background:var(--blue)}
+.mkb-n{color:var(--greyl);background:#EEF0F2;font-weight:400}
 .reachb{display:inline-block;font-size:10.5px;color:var(--green);background:#E7F3EC;border:none;border-radius:4px;padding:2px 7px;margin-left:6px;vertical-align:1px;cursor:pointer;font-family:inherit}
 .reachb:hover{background:#CFE9DA;text-decoration:underline}
 .dirbtn{font-family:inherit;font-size:12px;font-weight:600;color:var(--od);background:var(--ol);border:1px solid var(--o);border-radius:8px;padding:6px 13px;cursor:pointer;margin-left:8px}
@@ -493,6 +497,12 @@ function partiesCount(regStr){
   const reg=VERDB.byNo[m[1]]; if(!reg||!reg.parties) return null;
   return reg.parties.length;
 }
+// 标志角标：该条打大 E / 小 e / 整车级不独立打标（数据 mark 字段：E / e / —）
+function markBadge(i){
+  if(i.mark==='E') return `<span class="mkb mkb-e" title="有对应 UN 法规，打大 E（1958 协定多国互认）">大E</span>`;
+  if(i.mark==='e') return `<span class="mkb mkb-le" title="仅 EU 条例覆盖、无对应 UN 法规，只能打小 e（欧盟内有效）">小e</span>`;
+  return `<span class="mkb mkb-n" title="整车/系统级要求，非可独立打标的部件">整车级</span>`;
+}
 function reachBadge(i){
   const n=partiesCount(i.reg); if(!n) return '';
   const m=/(?:UN\s*)?R\s*(\d{1,3})/i.exec(i.reg||''); const no=m?m[1]:'';
@@ -756,7 +766,7 @@ function step3(){
   const items=applicable();
   items.forEach(i=>{if(!regStatus[i.item])regStatus[i.item]='unk';});
   const rows=items.map(i=>`<div class="arow">
-     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${VEH[i.item]?`<span class="vehb">${VEH[i.item]}</span>`:''}${iwvtaChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}</div>
+     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${VEH[i.item]?`<span class="vehb">${VEH[i.item]}</span>`:''}${iwvtaChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}</div>
      <div class="seg" data-item="${i.item}">
        <button class="${regStatus[i.item]==='done'?'on done-b':''}" data-v="done">已认证</button>
        <button class="${regStatus[i.item]==='prog'?'on prog-b':''}" data-v="prog">进行中</button>
@@ -768,7 +778,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。勾「已认证」后若该法规已有更新系列生效，会自动提示核对。</p>
     ${focusNote()}
-    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button><button class="dirbtn" onclick="openIWVTA()">🚗 IWVTA 整车必备法规（${IWVTA_REQ.length}）</button> <span style="font-size:11.5px;color:var(--grey)">点每条法规的「🌍 N 国互认」看完整国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求的系列级别':''}</span></div>
+    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()">📖 1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button><button class="dirbtn" onclick="openIWVTA()">🚗 IWVTA 整车必备法规（${IWVTA_REQ.length}）</button> <span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标。点「🌍 N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}</span></div>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
