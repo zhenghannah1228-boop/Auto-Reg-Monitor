@@ -242,16 +242,76 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .mx-dt tr:last-child td{border-bottom:none}
 .mx-dt td.r{text-align:right}.mx-dt td.g{color:var(--grey)}.mx-dt td.rd{color:var(--red)}
 .mx-dt tr.tot td{background:#FBF3EC;font-weight:700;color:var(--ink)}
+/* ===== 三栏版式（左步骤栏 · 中内容 · 右法规清单）===== */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.tb-in{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px}
+.tb-title h1{font-size:22px;font-weight:800;letter-spacing:-.3px;margin:0}
+.tb-title .tb-sub{font-size:12.5px;color:var(--grey)}
+.tb-act{margin-left:auto;display:flex;align-items:center;gap:10px}
+.tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:8px;padding:8px 15px;text-decoration:none;white-space:nowrap;transition:.15s}
+.tb-home:hover{background:var(--o);color:#fff}
+.tb-act .badge-g{cursor:pointer;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 13px;color:var(--ink2)}
+.tb-act .badge-g:hover{border-color:var(--o);color:var(--o)}
+.layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
+.sidebar{position:sticky;top:78px;display:flex;flex-direction:column;gap:14px}
+.sb-h{font-size:13px;font-weight:800;color:var(--ink)}
+.snav{display:flex;flex-direction:column;gap:2px}
+.sstep{display:flex;align-items:center;gap:11px;font-size:13.5px;color:var(--grey);cursor:pointer;padding:9px 10px;border-radius:9px;transition:.13s;line-height:1.35}
+.sstep:hover{background:#fff;color:var(--ink)}
+.sstep .n{flex:none;width:26px;height:26px;border-radius:50%;border:1.6px solid var(--line);display:grid;place-items:center;font-size:12.5px;font-weight:700;background:#fff;transition:.13s}
+.sstep.done .n{background:var(--ol);border-color:var(--o);color:var(--od)}
+.sstep.done{color:var(--ink2)}
+.sstep.active{background:var(--cream);color:var(--ink);font-weight:700}
+.sstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
+.sstep .sc{position:relative;display:flex;align-items:center}
+.snav .sstep:not(:last-child) .n::after{content:"";position:absolute;left:12px;top:26px;width:1.6px;height:11px;background:var(--line)}
+.saveBtn{font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;margin-top:4px;box-shadow:0 2px 8px rgba(232,98,44,.25)}
+.saveBtn:hover{background:var(--od)}
+.center{min-width:0}
+.namebar{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.namebar label{font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap}
+.namebar label::after{content:" *";color:var(--o)}
+.namebar input{flex:1;font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:9px;padding:10px 13px;color:var(--ink);background:#fff}
+.namebar input:focus{outline:none;border-color:var(--o)}
+.reglist{position:sticky;top:78px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 16px 18px}
+.rl-h{font-size:13.5px;font-weight:800;color:var(--ink);padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+.rl-item{font-size:12.5px;line-height:1.55;margin-bottom:13px}
+.rl-item .rl-t{font-weight:700;color:var(--od)}
+.rl-item .rl-c{color:var(--ink2);display:block;margin-top:2px}
+.rl-item .rl-c b{color:var(--ink)}
+.rl-item a{color:var(--blue);text-decoration:none}
+.rl-item a:hover{text-decoration:underline}
+.rl-note{font-size:11px;color:var(--greyl);line-height:1.5;border-top:1px dashed var(--line);padding-top:9px;margin-top:2px}
+.rl-empty{font-size:12.5px;color:var(--greyl)}
+@media(max-width:940px){
+  .layout{grid-template-columns:1fr;gap:16px}
+  .sidebar{position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+  .sb-h{width:100%}
+  .snav{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .sstep{padding:6px 9px}
+  .snav .sstep:not(:last-child) .n::after{display:none}
+  .sstep .sc>span:last-child{display:none}
+  .sstep.active .sc>span:last-child{display:inline}
+  .saveBtn{margin:0 0 0 auto;padding:8px 16px}
+  .reglist{position:static}
+}
 </style></head><body>
-<header class="hero"><div class="hi">
- <div class="brand"><div class="dot">一</div><b>一点通</b><span>· 国际汽车法规合规平台</span></div>
- <h1><span class="em">E-mark / e-mark</span> 认证导航</h1>
- <p class="sub">不止判定单个部件——带你走完一圈 E-mark 部件型式批准流程。先自评现状，再生成你的<b>专属 9 站认证路线</b>：每一站标出你的进度、常见坑与可承接的环节。对标德国 msg UN Regulation Assessment。</p>
- <div class="badges"><span class="badge"><b>9 站</b>认证旅程</span><span class="badge">现状<b>自动定位</b></span><span class="badge"><b>94</b>项法规库</span><span class="badge">缺口→服务</span><span class="badge badge-g" onclick="openGlossary()" title="术语速查">📖 <b>术语速查</b></span></div>
- <button class="btn btn-p" onclick="go(1)">开始免费评估 →</button>
+<header class="topbar"><div class="tb-in">
+ <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统 · 对标德国 msg UN Regulation Assessment</span></div>
+ <div class="tb-act"><button class="badge-g" onclick="openGlossary()" title="术语速查">📖 术语速查</button><a class="tb-home" href="../index.html" target="_top">返回导航首页</a></div>
 </div></header>
-<nav class="rail"><div class="ri" id="rail"></div></nav>
-<main><div class="wrap" id="stage"></div></main>
+<div class="layout">
+ <aside class="sidebar">
+   <div class="sb-h">完整认证流程（共 6 步）</div>
+   <div class="snav" id="rail"></div>
+   <button class="saveBtn" onclick="saveProgress()">保存进度</button>
+ </aside>
+ <section class="center">
+   <div class="namebar"><label>评估对象名称</label><input id="objname" placeholder="如：XX 制动器 / XX 前照灯 / XX 灯具总成" oninput="objName=this.value"></div>
+   <div id="stage"></div>
+ </section>
+ <aside class="reglist" id="reglist"></aside>
+</div>
 <div class="foot">一点通 · 依托风险管理一点通法规数据平台 · Demo 演示版</div>
 <script>const ITEMS=[{"g": "A", "item": "A1", "cn": "内饰保护", "reg": "UN R21.01", "mark": "—", "tc": "VEHICLE", "eif": "2025-06-17"}, {"g": "A", "item": "A2", "cn": "座椅及头枕", "reg": "UN R17.09", "mark": "E", "tc": "IMPLICIT", "eif": "2020-01-11"}, {"g": "A", "item": "A4", "cn": "安全带固定点", "reg": "UN R14.09", "mark": "—", "tc": "VEHICLE", "eif": "2025-06-17"}, {"g": "A", "item": "A5", "cn": "安全带", "reg": "UN R16.07", "mark": "E", "tc": "IMPLICIT", "eif": "2017-06-22"}, {"g": "A", "item": "A6", "cn": "安全带提醒", "reg": "UN R16.07", "mark": "—", "tc": "VEHICLE", "eif": "2017-06-22"}, {"g": "A", "item": "A7", "cn": "行李箱隔离系统", "reg": "UN R126.00", "mark": "E", "tc": "IMPLICIT", "eif": ""}, {"g": "A", "item": "A8", "cn": "儿童座椅固定点", "reg": "UN R145.00 (或 R14.07)", "mark": "—", "tc": "VEHICLE", "eif": "2025-11-12"}, {"g": "A", "item": "A9", "cn": "儿童座椅", "reg": "UN R44.04", "mark": "E", "tc": "IMPLICIT", "eif": "2026-01-11"}, {"g": "A", "item": "A10", "cn": "升级版儿童座椅 i-Size", "reg": "UN R129.00", "mark": "E", "tc": "IMPLICIT", "eif": "2022-06-22"}, {"g": "A", "item": "A12", "cn": "后下防护装置", "reg": "UN R58.03", "mark": "E", "tc": "IMPLICIT", "eif": "2022-06-22"}, {"g": "A", "item": "A14", "cn": "燃油箱安全", "reg": "UN R34.04", "mark": "E", "tc": "IMPLICIT", "eif": "2023-06-05"}, {"g": "A", "item": "A15", "cn": "LPG 系统安全", "reg": "UN R67.01", "mark": "E", "tc": "IMPLICIT", "eif": "2019-10-15"}, {"g": "A", "item": "A16", "cn": "CNG/LNG 系统安全", "reg": "UN R110.01", "mark": "E", "tc": "IMPLICIT", "eif": "2025-06-17"}, {"g": "A", "item": "A17", "cn": "氢系统安全", "reg": "UN R134.00", "mark": "E", "tc": "IMPLICIT", "eif": "2024-06-26"}, {"g": "A", "item": "A18", "cn": "氢系统材料", "reg": "(EU) 2021/55, Annex XIV", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "A", "item": "A19", "cn": "电气安全（含动力电池）", "reg": "UN R100.03", "mark": "E", "tc": "IMPLICIT", "eif": "2025-11-12"}, {"g": "A", "item": "A20", "cn": "偏置正碰", "reg": "UN R94.04", "mark": "—", "tc": "VEHICLE", "eif": "2024-01-05"}, {"g": "A", "item": "A21", "cn": "正面 100% 碰撞", "reg": "UN R137.02", "mark": "—", "tc": "VEHICLE", "eif": "2024-01-05"}, {"g": "A", "item": "A22", "cn": "转向防护装置", "reg": "UN R12.04", "mark": "—", "tc": "VEHICLE", "eif": "2018-07-19"}, {"g": "A", "item": "A23", "cn": "替换用安全气囊", "reg": "UN R114.00", "mark": "E", "tc": "IMPLICIT", "eif": ""}, {"g": "A", "item": "A25", "cn": "侧面碰撞", "reg": "UN R95.05", "mark": "—", "tc": "VEHICLE", "eif": "2024-06-15"}, {"g": "A", "item": "A26", "cn": "侧面柱碰", "reg": "UN R135.01", "mark": "—", "tc": "VEHICLE", "eif": "2024-06-15"}, {"g": "A", "item": "A27", "cn": "后面碰撞", "reg": "UN R153.00 (R34.03 等效)", "mark": "—", "tc": "VEHICLE", "eif": "2024-06-15"}, {"g": "A", "item": "A28", "cn": "eCall 紧急呼叫", "reg": "—", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "B", "item": "B1", "cn": "行人腿部/头部保护", "reg": "UN R127.02", "mark": "—", "tc": "VEHICLE", "eif": "2016-06-18"}, {"g": "B", "item": "B2", "cn": "扩大头部撞击区", "reg": "UN R127.03 (→127.04)", "mark": "—", "tc": "VEHICLE", "eif": "2025-06-17"}, {"g": "B", "item": "B3", "cn": "前防护系统（保杠）", "reg": "(EU) 2021/535 Annex XII", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "B", "item": "B4", "cn": "行人/骑行者紧急制动", "reg": "UN R152.02", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "B", "item": "B7", "cn": "倒车探测", "reg": "UN R158.00", "mark": "E", "tc": "IMPLICIT", "eif": "2025-09-26"}, {"g": "B", "item": "B8", "cn": "前视野", "reg": "UN R125.01", "mark": "—", "tc": "VEHICLE", "eif": "2022-10-08"}, {"g": "B", "item": "B10", "cn": "安全玻璃", "reg": "UN R43.01", "mark": "E", "tc": "IMPLICIT", "eif": "2025-06-17"}, {"g": "B", "item": "B11", "cn": "除霜/除雾", "reg": "(EU) 2021/535 Annex VI", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "B", "item": "B12", "cn": "雨刮/雨刷", "reg": "(EU) 2021/535 Annex IV", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "B", "item": "B13", "cn": "间接视野装置（后视镜）", "reg": "UN R46.04", "mark": "E", "tc": "IMPLICIT", "eif": "2021-09-30"}, {"g": "B", "item": "B14", "cn": "AVAS 行人警报", "reg": "UN R138.01", "mark": "E", "tc": "IMPLICIT", "eif": "2023-09-24"}, {"g": "C", "item": "C1", "cn": "转向装置", "reg": "UN R79.04", "mark": "E", "tc": "IMPLICIT", "eif": "2026-01-11"}, {"g": "C", "item": "C2", "cn": "车道偏离预警", "reg": "UN R130.00", "mark": "—", "tc": "VEHICLE", "eif": "2016-10-08"}, {"g": "C", "item": "C3", "cn": "紧急车道保持", "reg": "(EU) 2021/646", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "C", "item": "C4", "cn": "制动", "reg": "UN R13-H.00", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "C", "item": "C5", "cn": "替换用制动部件", "reg": "UN R90.02", "mark": "E", "tc": "EXPLICIT", "eif": "2024-06-15"}, {"g": "C", "item": "C6", "cn": "制动辅助", "reg": "UN R139.00", "mark": "—", "tc": "VEHICLE", "eif": "2018-12-29"}, {"g": "C", "item": "C7", "cn": "电子稳定性控制", "reg": "UN R140.00", "mark": "—", "tc": "VEHICLE", "eif": "2024-09-22"}, {"g": "C", "item": "C8", "cn": "重型 AEBS", "reg": "UN R131.01", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "C", "item": "C9", "cn": "轻型 AEBS", "reg": "UN R152.02", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "C", "item": "C10", "cn": "轮胎安全和环保性能", "reg": "UN R30.02 + R117.02", "mark": "E", "tc": "EXPLICIT", "eif": "2026-01-11"}, {"g": "C", "item": "C11", "cn": "备胎和欠压行驶", "reg": "UN R64.02", "mark": "E", "tc": "IMPLICIT", "eif": "2013-01-27"}, {"g": "C", "item": "C12", "cn": "翻新轮胎", "reg": "UN R108.00", "mark": "E", "tc": "EXPLICIT", "eif": "2022-10-08"}, {"g": "C", "item": "C13", "cn": "胎压监测 TPMS", "reg": "UN R141.01 (R64.02 等效)", "mark": "E", "tc": "IMPLICIT", "eif": "2023-01-04"}, {"g": "C", "item": "C15", "cn": "轮胎安装", "reg": "UN R142.01", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "C", "item": "C16", "cn": "替换用车轮", "reg": "UN R124.00", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D1", "cn": "喇叭", "reg": "UN R28.00", "mark": "E", "tc": "IMPLICIT", "eif": "2020-09-25"}, {"g": "D", "item": "D2", "cn": "电磁兼容 EMC", "reg": "UN R10.05 (建议 R10.06)", "mark": "E", "tc": "IMPLICIT", "eif": "2016-10-08"}, {"g": "D", "item": "D3", "cn": "防盗、IMMO、报警", "reg": "UN R97.01/R116/R161-163", "mark": "E", "tc": "IMPLICIT", "eif": "2021-09-30"}, {"g": "D", "item": "D4", "cn": "网络安全", "reg": "UN R155.00", "mark": "—", "tc": "VEHICLE", "eif": "2025-01-10"}, {"g": "D", "item": "D5", "cn": "限速器", "reg": "UN R39.01", "mark": "E", "tc": "IMPLICIT", "eif": "2022-10-08"}, {"g": "D", "item": "D6", "cn": "里程表", "reg": "UN R39.01", "mark": "—", "tc": "VEHICLE", "eif": "2022-10-08"}, {"g": "D", "item": "D8", "cn": "智能车速辅助", "reg": "(EU) 2021/1958", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "D", "item": "D9", "cn": "操作件和指示装置识别", "reg": "UN R121.01", "mark": "—", "tc": "VEHICLE", "eif": "2023-09-24"}, {"g": "D", "item": "D10", "cn": "加热系统（含燃油加热器）", "reg": "UN R122.00", "mark": "E", "tc": "IMPLICIT", "eif": ""}, {"g": "D", "item": "D11", "cn": "光信号装置（牌照灯/转向灯/位置灯/制动/前后雾/驻车/DRL/侧标）", "reg": "R4/R6/R7/R19/R23/R38/R77/R87/R91/R148", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D12", "cn": "道路照明装置（前照灯/AFS/角灯）", "reg": "R31/R98/R112/R119/R123/R149", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D13", "cn": "回复反射装置（反射器/标识材料）", "reg": "R3/R104/R150", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D14", "cn": "灯具光源（气体放电/LED/卤素灯泡）", "reg": "R37/R99/R128", "mark": "E", "tc": "EXPLICIT", "eif": ""}, {"g": "D", "item": "D15", "cn": "灯具与反光器整车安装", "reg": "UN R48.07", "mark": "—", "tc": "VEHICLE", "eif": "2023-06-05"}, {"g": "D", "item": "D16", "cn": "紧急制动信号", "reg": "UN R48.07", "mark": "—", "tc": "VEHICLE", "eif": "2023-06-05"}, {"g": "D", "item": "D17", "cn": "大灯清洗器", "reg": "UN R45.01", "mark": "E", "tc": "IMPLICIT", "eif": "2024-09-22"}, {"g": "D", "item": "D18", "cn": "换挡提示", "reg": "(EU) 2021/535 Annex IX", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E1", "cn": "酒精锁安装", "reg": "(EU) 2021/1243", "mark": "e", "tc": "IMPLICIT", "eif": ""}, {"g": "E", "item": "E2", "cn": "DDAW", "reg": "(EU) 2021/1341", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E3", "cn": "驾驶员注意力分散提醒", "reg": "(EU) 2023/2590", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E4", "cn": "驾驶员可用性监测", "reg": "UN R157.00", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "E", "item": "E5", "cn": "事件数据记录", "reg": "UN R160.01", "mark": "E", "tc": "IMPLICIT", "eif": "2024-06-15"}, {"g": "E", "item": "E6", "cn": "ADS - 替代驾驶员操控", "reg": "UN R157.00", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "E", "item": "E7", "cn": "ADS - 状态/环境信息", "reg": "UN R157.00", "mark": "—", "tc": "VEHICLE", "eif": "2026-01-11"}, {"g": "E", "item": "E9", "cn": "ADS - 向他人提供安全信息", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E10", "cn": "动态控制辅助系统", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "E", "item": "E11", "cn": "自动代客泊车", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F1", "cn": "向他人提供安全信息", "reg": "(EU) 2021/535 Annex III", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F2", "cn": "牌照板空间", "reg": "(EU) 2021/535 Annex XI", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F3", "cn": "门锁和门铰链", "reg": "UN R11.04", "mark": "E", "tc": "IMPLICIT", "eif": "2019-05-28"}, {"g": "F", "item": "F4", "cn": "步梯、扶手、踏板", "reg": "(EU) 2021/535 Annex X", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F5", "cn": "外部突出物", "reg": "UN R26.03", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F7", "cn": "拖拽装置 / VIN", "reg": "(EU) 2021/535 Annex II", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F8", "cn": "登记牌照", "reg": "(EU) 2021/535 Annex VII", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F9", "cn": "车轮护罩/挡泥板", "reg": "(EU) 2021/535 Annex V", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F11", "cn": "质量与尺寸", "reg": "(EU) 2021/535 Annex XIII", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "F", "item": "F12", "cn": "机械式挂接装置（拖车钩）", "reg": "UN R55.01", "mark": "E", "tc": "IMPLICIT", "eif": "2022-06-22"}, {"g": "G", "item": "G1", "cn": "噪声", "reg": "UN R51.03 / R59.01", "mark": "E", "tc": "IMPLICIT", "eif": "2025-01-10"}, {"g": "G", "item": "G2-G12", "cn": "排放（欧6体系）", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "G", "item": "G13", "cn": "可回收性 RRR", "reg": "UN R133.00", "mark": "—", "tc": "VEHICLE", "eif": "2022-06-22"}, {"g": "G", "item": "G14", "cn": "空调系统", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "G", "item": "GA1-GA22", "cn": "欧7 排放、电池耐久、制动颗粒物等", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "H", "item": "H1", "cn": "OBD/维修保养信息访问", "reg": "—", "mark": "—", "tc": "VEHICLE", "eif": ""}, {"g": "H", "item": "H2", "cn": "软件更新管理体系", "reg": "UN R156.00", "mark": "—", "tc": "VEHICLE", "eif": "2021-01-22"}];
 const GROUPS={"A": "约束/碰撞/燃料/高压电", "B": "弱势道路使用者/视野", "C": "底盘/制动/轮胎/转向", "D": "仪表/电气/灯具/网安", "E": "驾驶员/自动驾驶", "F": "车身构造", "G": "排放/环境", "H": "信息访问/软件"};
@@ -639,6 +699,7 @@ async function loadVerDB(){
 }
 
 let cur=0;
+let objName='';
 let sel={role:null,market:null,groups:[]};
 let profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]}; // 企业画像（线索）
 let regStatus={}; // item -> done/prog/no/unk
@@ -647,8 +708,38 @@ let _sysActive=null; // 体系自评 · 当前维度id（侧边栏）
 let _stnActive=null; // 认证旅程 · 当前站索引（侧边栏）
 
 function railHTML(){
-  return STEPS.map((s,i)=>`<div class="rstep ${i+1<cur?'done':(i+1===cur?'active':'')}" role="button" tabindex="0" title="跳到「${s}」"
-    onclick="goStep(${i+1})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goStep(${i+1});}"><span class="n">${i+1}</span>${s}</div>`).join('');
+  return STEPS.map((s,i)=>`<div class="sstep ${i+1<cur?'done':(i+1===cur?'active':'')}" role="button" tabindex="0" title="跳到「${s}」"
+    onclick="goStep(${i+1})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goStep(${i+1});}"><span class="sc"><span class="n">${i+1}</span></span><span>${s}</span></div>`).join('');
+}
+// 右栏「法规清单（相关法规）」——按当前步骤列出相关法规与确切条款（引用均已在工具内对 primary source 核验）
+const D858='../docs/Reg-EU-2018-858-framework.pdf', D2144='../docs/Reg-EU-2019-2144-general-safety.pdf';
+const STEP_REGS={
+ 0:[{t:'适用框架',c:'1958 协定（UN 法规互认体系，大 E）＋ <b>(EU) 2018/858</b> 型式批准与市场监督框架条例。'}],
+ 1:[{t:'适用框架',c:'1958 协定多国互认（大 E）／ EU 型式批准（小 e）两条路线；本步为线索收集，据规模与时间要求校准结论。'},
+    {t:'(EU) 2018/858',c:'型式批准与市场监督框架条例。',l:D858}],
+ 2:[{t:'(EU) 2018/858 · Art 57/58',c:'Annex II 所列 UN 法规是 EU 型批要求组成部分（57）；UN 法规与 EU 法规<b>等效</b>、成员国须接受 E 标替代 EU 标（58）。',l:D858},
+    {t:'(EU) 2018/858 · Art 3(20)',c:'独立技术单元（STU）定义。',l:D858},
+    {t:'EMC 2014/30/EU · Art 2(2)',c:'车辆及 ESA 排除出通用 EMC 指令，改由 UN R10 覆盖 → 打大 E。'},
+    {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。'}],
+ 3:[{t:'WP.29/343 Add.1',c:'各缔约国指定型式批准机关与技术服务名录（63 国）＋缔约方适用（互认国数）。'},
+    {t:'WP.29/343 Add.2',c:'各 UN 法规系列/增补生效日期（工具版本标注数据源）。'},
+    {t:'WP.29/1044/Rev.3',c:'UN 法规程序与过渡条款通用指南（Date a/b/c、增补/勘误/修订区别）。'},
+    {t:'WP.29/2025/159',c:'UN R0 IWVTA 08 series 提案（整车必备 43 项法规系列）。'},
+    {t:'(EU) 2019/2144 · Art 16',c:'EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。',l:D2144}],
+ 4:[{t:'(EU) 2018/858 · Art 31',c:'生产一致性（CoP）安排——量产件须持续与批准样品一致。',l:D858},
+    {t:'UN R155 / R156',c:'CSMS 网络安全 / SUMS 软件更新管理体系（<b>整车级</b>，仅申报范围相关时计入）。'},
+    {t:'(EU) 2018/858 · Art 24/Annex I',c:'信息文件夹（技术文档）与型式批准申请材料。',l:D858}],
+ 5:[{t:'(EU) 2018/858 · Art 31',c:'CoP 生产一致性——「有证无体系」时证书面临失效风险。',l:D858},
+    {t:'WP.29/343 Add.1',c:'各国指定型式批准机关与技术服务机构（选机关/委托技服站）。'},
+    {t:'WP.29/1044/Rev.3',c:'过渡条款（持证运营站：Date a/b/c 如何算）。'}],
+ 6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144},
+    {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858}]
+};
+function reglistHTML(n){
+  const items=STEP_REGS[n]||[];
+  const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">📄 </a>`:''}${r.c}</span></div>`).join('')
+    : '<div class="rl-empty">本步无强制关联法规。</div>';
+  return `<div class="rl-h">法规清单（相关法规）</div>${body}<div class="rl-note">编号与条款均已对 UNECE / 欧盟官方文本核验；确切条款全文见「术语速查」及各模态弹窗。以官方最新版本为准。</div>`;
 }
 function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
 // 点导航条跳步：后退随意；前进时校验前置必填项，未满足则停在对应关卡
@@ -688,6 +779,7 @@ function activeSys(){ return SYS.filter(s=> s.id!=='cyber' || cyberRelevant()); 
 
 function render(){
   document.getElementById('rail').innerHTML=railHTML();
+  const rl=document.getElementById('reglist'); if(rl) rl.innerHTML=reglistHTML(cur);
   const st=document.getElementById('stage');
   if(cur===0) st.innerHTML=intro();
   else if(cur===1) st.innerHTML=step1();
@@ -1177,7 +1269,7 @@ function step6(){
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
 }
-function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};_sysActive=null;_stnActive=null;window._rno=null;go(0);}
+function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};_sysActive=null;_stnActive=null;window._rno=null;objName='';const inp=document.getElementById('objname');if(inp)inp.value='';go(0);}
 
 function bind(){
   document.querySelectorAll('[data-pq]').forEach(b=>b.onclick=()=>{
@@ -1192,6 +1284,24 @@ function bind(){
   document.querySelectorAll('.seg[data-item]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{regStatus[seg.dataset.item]=btn.dataset.v;render();});});
   document.querySelectorAll('.seg[data-sys]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{sysStatus[seg.dataset.sys]=btn.dataset.v;render();});});
 }
+// 保存进度 / 恢复（localStorage）
+const SAVE_KEY='emark_nav_progress_v1';
+function saveProgress(){
+  try{
+    localStorage.setItem(SAVE_KEY,JSON.stringify({cur,objName,sel,profile,regStatus,sysStatus,_sysActive,_stnActive,ts:Date.now()}));
+    const b=document.querySelector('.saveBtn'); if(b){const o=b.textContent;b.textContent='✓ 已保存';setTimeout(()=>b.textContent=o,1400);}
+  }catch(e){alert('保存失败：浏览器存储不可用');}
+}
+function loadProgress(){
+  try{
+    const raw=localStorage.getItem(SAVE_KEY); if(!raw) return;
+    const s=JSON.parse(raw); if(!s||typeof s.cur!=='number') return;
+    cur=s.cur; objName=s.objName||''; sel=s.sel||sel; profile=s.profile||profile;
+    regStatus=s.regStatus||{}; sysStatus=s.sysStatus||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
+    const inp=document.getElementById('objname'); if(inp) inp.value=objName;
+  }catch(e){/* ignore corrupt save */}
+}
+loadProgress();
 render();
 loadVerDB();   // Task 2 · 后台拉取活数据（现行版本/生效日期），完成后若在 Step2 自动重渲染
 </script>
