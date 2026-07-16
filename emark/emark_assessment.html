@@ -401,17 +401,18 @@ function latestInForceSeries(no){
 }
 // ===== 术语速查 =====
 const GLOSSARY={
- bigE:{t:'大 E（E-mark）',d:'按 UN 法规（1958 协定）取得的型式批准标志——圆圈 E + 国别号（如 E4＝荷兰、E1＝德国）。在所有适用该法规的缔约方之间<b>互认</b>：一次认证、多国通行。'},
- smalle:{t:'小 e（e-mark）',d:'按<b>欧盟条例</b>取得的型式批准标志——圆圈 e + 国别号。仅在欧盟内有效，用于<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项。大 E 与小 e 之别在互认范围。'},
+ bigE:{t:'大 E（E-mark）',d:'按 UN 法规（1958 协定）取得的型式批准标志——圆圈 E + 国别号（如 E4＝荷兰、E1＝德国）。在所有适用该法规的缔约方之间<b>互认</b>：一次认证、多国通行。<br>依据：(EU) 2018/858 <b>Art 57(1)</b>（Annex II 所列 UN 法规为 EU 型式批准要求的组成部分）、<b>Art 58(1)-(2)</b>（这些 UN 法规与对应 EU 法规<b>等效</b>，成员国机关须接受其批准及 E 标以替代 EU 标）。<a href="../docs/Reg-EU-2018-858-framework.pdf" target="_blank" rel="noopener">📄 2018/858 原文</a>'},
+ smalle:{t:'小 e（e-mark）',d:'按<b>欧盟条例</b>取得的型式批准标志——圆圈 e + 国别号。仅在欧盟内有效，用于<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项。大 E 与小 e 之别在互认范围。<br>标志与铭牌依据：(EU) 2018/858 <b>Art 38</b>。<a href="../docs/Reg-EU-2018-858-framework.pdf" target="_blank" rel="noopener">📄 2018/858 原文</a>'},
  ce:{t:'CE 标志',d:'欧盟对<b>非车用型式批准范畴</b>产品的合规标志（如无线走 RED 2014/53/EU、机械走机械指令）。与 E/e 是不同体系；含无线/机械的车用电子件可能需<b>多标并存</b>（E-mark + CE）。'},
- cop:{t:'生产一致性 CoP',d:'Conformity of Production——确保<b>量产件持续与批准样品一致</b>的质量控制机制。需制定 CoP 控制计划并纳入质量管理体系；批准机关<b>发证前核查、发证后周期性监督/工厂审计</b>。拿证只是起点，CoP 不达标证书会被暂停乃至撤销。'},
+ cop:{t:'生产一致性 CoP',d:'Conformity of Production——确保<b>量产件持续与批准样品一致</b>的质量控制机制。需制定 CoP 控制计划并纳入质量管理体系；批准机关<b>发证前核查、发证后周期性监督/工厂审计</b>。拿证只是起点，CoP 不达标证书会被暂停乃至撤销。<br>依据：(EU) 2018/858 <b>Art 31</b>（Conformity of production arrangements，机关可据此<b>撤销型式批准</b>）。<a href="../docs/Reg-EU-2018-858-framework.pdf" target="_blank" rel="noopener">📄 2018/858 原文</a>'},
  party:{t:'缔约方（Contracting Party）',d:'加入 1958 协定、承诺<b>相互承认型式批准</b>的国家/地区（欧盟、日本、韩国、俄罗斯、土耳其等 60+ 方，各有 E 号）。你的 E-mark 证书在共同适用该法规的缔约方之间互认。'},
  ta:{t:'型式批准（Type Approval）',d:'由官方机关确认某<b>"型号"</b>产品符合法规、准许量产上市的制度。区别于逐台检验：批准一个型号，量产件靠 CoP 保持一致即可。'},
  authority:{t:'型式批准机关（Approval Authority）',d:'缔约方政府指定、有权<b>签发型式批准证书</b>的机构（如荷兰 RDW、德国 KBA、英国 VCA、卢森堡 SNCH）。'},
  ts:{t:'技术服务机构（Technical Service）',d:'获批准机关<b>认可、执行法规规定测试</b>的实验室（SGS 即为其一）。出具测试报告供机关审批。与"批准机关"是两个角色。'},
  esa:{t:'电子子组件 ESA',d:'Electronic Sub-Assembly——可<b>独立于整车</b>单独型式批准的车载电子装置（控制器、灯具电子模块等）。UN R10 允许 ESA 独立认证。'},
  wvta:{t:'整车型式批准 WVTA',d:'Whole Vehicle Type Approval——对<b>整车</b>（而非单个部件）的型式批准；UN R0（IWVTA）通过引用各 UN 法规组合出整车要求。'},
- stu:{t:'独立技术单元 STU',d:'Separate Technical Unit——作为一个系统/单元单独认证的总成（如安全带、后视镜），介于"整车"与"零部件"之间。'}
+ stu:{t:'独立技术单元 STU',d:'Separate Technical Unit——可单独型式批准的装置，但仅针对一种或多种指定车型、且相关法规明文允许时。<br>定义原文：(EU) 2018/858 <b>Art 3(20)</b>。<a href="../docs/Reg-EU-2018-858-framework.pdf" target="_blank" rel="noopener">📄 2018/858 原文</a>'},
+ eif:{t:'生效日期 vs 强制适用日',d:'两者不同、勿混：<b>UNECE 增补生效日</b>＝某 UN 法规该系列/增补自此可获批准并在缔约方间互认（本工具版本标注用此，源自 WP.29/343 Add.2）；<b>EU 强制适用日</b>＝欧盟自此拒绝对不合规新型式批准（(EU) 2019/2144 <b>Art 16</b> + Annex II 所列日期）。<a href="../docs/Reg-EU-2019-2144-general-safety.pdf" target="_blank" rel="noopener">📄 2019/2144 原文</a>'}
 };
 function openGloss(key){const g=GLOSSARY[key];if(!g)return;
   emkModal(g.t, `<div style="padding:16px 18px;font-size:13px;line-height:1.75;color:var(--ink2)">${g.d}</div>`,
@@ -540,7 +541,7 @@ function openIWVTA(){
 // ===== 标志选择器：E-mark / e-mark / CE，按现行 EU 指令编号（2026-07 核验）=====
 const MARK_RULES=[
  {id:'auto',q:'车用电子件（含电子电路，装于 M/N/O/L/T 类车辆）',marks:['E-mark（大E）'],
-  basis:'车用电磁兼容由 UN R10 型式批准，经 (EU) 2018/858 纳入整车批准；车用电气电子设备按 EMC 指令 2014/30/EU 第 2(2) 条排除出该指令、改由车辆型式批准框架处理，因此打大 E、不单独打 CE-EMC。<br><b>为什么是大 E 不是小 e：</b>凡有对应 UN 法规的车用项（EMC=R10、灯具=R48…），EU 直接采用该 UN 法规、打<b>大 E</b>（1958 协定多国互认）；只有<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项才打小 e（见下方「仅欧盟条例覆盖」选项）。'},
+  basis:'车用电磁兼容由 UN R10 型式批准，经 (EU) 2018/858 纳入整车批准；车用电气电子设备按 EMC 指令 2014/30/EU 第 2(2) 条排除出该指令、改由车辆型式批准框架处理，因此打大 E、不单独打 CE-EMC。<br><b>为什么是大 E 不是小 e：</b>依 (EU) 2018/858 <b>Art 57(1)</b>，Annex II 所列 UN 法规是 EU 型式批准要求的组成部分；<b>Art 58(1)-(2)</b> 规定这些 UN 法规与对应 EU 法规<b>等效</b>、成员国须接受其批准及 E 标以替代 EU 标。故有对应 UN 法规的项（EMC=R10、灯具=R48…）打<b>大 E</b>（1958 协定多国互认）；仅 EU 条例覆盖、无对应 UN 法规的项才打小 e（见下方「仅欧盟条例覆盖」选项）。<a href="../docs/Reg-EU-2018-858-framework.pdf" target="_blank" rel="noopener">📄 2018/858 原文</a>'},
  {id:'radio',q:'含无线/射频模块（蓝牙 / Wi-Fi / 蜂窝 / GNSS / 无钥匙进入等）',marks:['CE（无线电设备指令 RED）'],
   basis:'无线部分适用无线电设备指令 RED 2014/53/EU（一并覆盖射频、EMC 与健康安全），需追加 CE。（注：RED 已取代旧 R&TTE 指令）'},
  {id:'mach',q:'含机械运动 / 液压 / 举升等机械部件',marks:['CE（机械）'],
