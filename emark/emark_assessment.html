@@ -164,6 +164,20 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 /* disclaimer */
 .disclaimer{font-size:12px;color:var(--grey);background:#FBF7F2;border:1px dashed var(--ol);border-radius:9px;padding:11px 15px;margin:18px 0;line-height:1.6}
 .disclaimer b{color:var(--od)}
+/* 侧边栏菜单 + 右侧内容（体系自评 / 认证旅程共用） */
+.sb{display:grid;grid-template-columns:212px 1fr;gap:16px;margin-bottom:18px}
+@media(max-width:720px){.sb{grid-template-columns:1fr;gap:10px}}
+.sb-nav{display:flex;flex-direction:column;gap:6px;align-self:start;position:sticky;top:70px}
+@media(max-width:720px){.sb-nav{flex-direction:row;overflow-x:auto;position:static;padding-bottom:4px}}
+.sb-item{display:flex;align-items:center;gap:9px;text-align:left;font-family:inherit;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 12px;cursor:pointer;color:var(--ink);white-space:nowrap;flex:none;transition:.12s}
+.sb-item:hover{border-color:var(--o)}
+.sb-item.on{border-color:var(--o);background:var(--cream);font-weight:700}
+.sb-dot{width:10px;height:10px;border-radius:50%;flex:none}
+.sb-num{width:24px;height:24px;border-radius:50%;color:#fff;font-weight:700;font-size:12px;display:grid;place-items:center;flex:none}
+.sb-item small{color:var(--greyl);font-size:11px;font-weight:400}
+.sb-main{min-width:0}
+.sb-mh{font-size:16px;font-weight:800;color:var(--od);margin-bottom:4px}
+.sb-msub{font-size:12px;color:var(--grey);margin-bottom:12px}
 /* 认证旅程导览（Step 5 主线） */
 .jbar{background:var(--cream);border:1px solid var(--ol);border-radius:12px;padding:13px 16px;margin-bottom:16px}
 .jbar-l{font-size:13px;color:var(--ink2);margin-bottom:9px;line-height:1.6}
@@ -610,6 +624,8 @@ let sel={role:null,market:null,groups:[]};
 let profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]}; // 企业画像（线索）
 let regStatus={}; // item -> done/prog/no/unk
 let sysStatus={}; // 题目id -> full/part/none
+let _sysActive=null; // 体系自评 · 当前维度id（侧边栏）
+let _stnActive=null; // 认证旅程 · 当前站索引（侧边栏）
 
 function railHTML(){
   return STEPS.map((s,i)=>`<div class="rstep ${i+1<cur?'done':(i+1===cur?'active':'')}" role="button" tabindex="0" title="跳到「${s}」"
@@ -760,28 +776,39 @@ function step3(){
   </div>`;
 }
 
+function sysPick(id){_sysActive=id;render();}
 function step4(){
   const act=activeSys();
   act.forEach(s=>s.qs.forEach(q=>{if(!sysStatus[q.id])sysStatus[q.id]='none';}));
+  if(!_sysActive||!act.find(s=>s.id===_sysActive)) _sysActive=act[0].id;
+  const cur=act.find(s=>s.id===_sysActive);
   const qcount=act.reduce((a,s)=>a+s.qs.length,0);
-  const secs=act.map(s=>{
-    const rows=s.qs.map(q=>`<div class="arow">
+  // 左侧菜单：各维度 + 状态点
+  const nav=act.map(s=>{const sc=dimScore(s);const col=sc>=100?'#1F7A4D':(sc>0?'#B45309':'#9AA1AB');
+    return `<button class="sb-item ${s.id===_sysActive?'on':''}" onclick="sysPick('${s.id}')"><span class="sb-dot" style="background:${col}"></span><span>${s.name}<br><small>${sc} 分</small></span></button>`;}).join('');
+  // 右侧内容：当前维度题目
+  const gk={cop:'cop'}[cur.id];
+  const rows=cur.qs.map(q=>`<div class="arow">
        <div class="al"><b>${q.q}</b> ${q.hint?`<small>${q.hint}</small>`:''}</div>
        <div class="seg" data-sys="${q.id}">
          <button class="${sysStatus[q.id]==='full'?'on done-b':''}" data-v="full">已建立</button>
          <button class="${sysStatus[q.id]==='part'?'on prog-b':''}" data-v="part">部分</button>
          <button class="${sysStatus[q.id]==='none'?'on no-b':''}" data-v="none">无</button>
        </div></div>`).join('');
-    const gk={cop:'cop'}[s.id];
-    return `<div class="secttl">${s.name}${gk?' '+gloss(gk,''):''} <small style="font-weight:400;color:var(--grey)">· ${s.desc}</small></div>${rows}`;
-  }).join('');
   const cyberNote=cyberRelevant()?'':`<div class="probe">💡 网安体系（CSMS/SUMS · R155/R156）是<b>整车级</b>型式批准要求，与你当前申报范围（部件/售后件）无关，已从自评略去——不会因缺它而扣分。</div>`;
   return `<div class="step on">
     <div class="eyebrow">STEP 4 / 6 · 体系自评（Y 轴）</div>
     <h2 class="st">支撑体系成熟度自评</h2>
-    <p class="lead">证书只是起点，体系决定证书能不能「活着」——共 ${act.length} 个维度 ${qcount} 题，每维度得分为题目均分。</p>
+    <p class="lead">证书只是起点，体系决定证书能不能「活着」——共 ${act.length} 个维度 ${qcount} 题。左侧选维度，右侧逐题自评。</p>
     ${cyberNote}
-    ${secs}
+    <div class="sb">
+      <div class="sb-nav">${nav}</div>
+      <div class="sb-main">
+        <div class="sb-mh">${cur.name}${gk?' '+gloss(gk,''):''}</div>
+        <div class="sb-msub">${cur.desc}</div>
+        ${rows}
+      </div>
+    </div>
     <div class="nav"><button class="ghost" onclick="go(3)">← 上一步</button><button class="btn btn-p" onclick="go(5)">生成认证路线 →</button></div>
   </div>`;
 }
@@ -821,7 +848,7 @@ function quadrant(X,Y){
 /* ===== 认证旅程（导览主线）· 9 站 E-mark 部件/STU 型式批准流程 =====
    dim = 关联体系维度（现状取自体系自评）；reg = 现状取自法规盘点计数 */
 const STAGES=[
- {no:1,id:'scope',name:'定标的与适用法规',en:'Scope & Applicable Regulations',actor:'你（可 SGS 协助）',dur:'1–2 周',cost:'低 · 咨询/内部工时',
+ {no:1,id:'scope',name:'定标的与适用法规',en:'Scope & Applicable Regulations',actor:'你 / 内部团队',dur:'1–2 周',cost:'低 · 咨询/内部工时',
   what:'确定产品属哪类部件、适用哪条 UN R、覆盖哪些车型类别，以及按「部件」还是「独立技术单元（STU）」申请。',
   pitfall:'同一产品可能同时落多条法规（如一个灯具总成涉及多个 R 号）；大 E（UNECE）与小 e（EU）路线选错，返工成本最高。',
   sgs:'法规适用性界定、E/e 路线建议'},
@@ -830,10 +857,10 @@ const STAGES=[
   pitfall:'脱欧后英国 VCA 只能签发 UNECE E 标、不能签 EU e 标；各机关语言、排队、费用差异明显。',
   sgs:'机关选择建议与对接'},
  {no:3,id:'ts',name:'委托技术服务机构',en:'Appoint Technical Service',actor:'你 + 技术服务',dur:'1–2 周确定 + 排期',cost:'（测试费在下一站）',
-  what:'委托一家获认可的技术服务机构（实验室）执行法规规定的测试。SGS 即为全球获认可的技术服务机构。',
+  what:'委托一家获认可的技术服务机构（实验室）执行法规规定的测试。',
   pitfall:'实验室排期是整个周期最大的变量；技术服务的资质范围必须覆盖你的全部法规项。',
   sgs:'SGS 作为认可技术服务机构直接承接测试（核心环节）'},
- {no:4,id:'doc',name:'编制技术文档',en:'Technical Documentation',actor:'你（可 SGS 编制）',dur:'2–4 周',cost:'中 · 编制工时',
+ {no:4,id:'doc',name:'编制技术文档',en:'Technical Documentation',actor:'你 / 内部团队',dur:'2–4 周',cost:'中 · 编制工时',
   what:'编制型式批准信息文件夹：图纸、技术参数、材料清单、试验方案等。',
   pitfall:'文档与实物不一致是机关审核最高频的退回点。',
   sgs:'技术文档编制',dim:'doc'},
@@ -853,7 +880,7 @@ const STAGES=[
   what:'建立并维持生产一致性体系，初次评估 + 周期性监督，保证量产件与批准样一致。',
   pitfall:'拿证后忽视 CoP，监督不通过可导致批准被暂停乃至撤销——这正是「有证无体系」脆弱象限的根因。',
   sgs:'CoP 年度托管',dim:'cop'},
- {no:9,id:'life',name:'持证运营',en:'Lifecycle Management',actor:'你（可 SGS 订阅）',dur:'持续',cost:'低–中 · 订阅',
+ {no:9,id:'life',name:'持证运营',en:'Lifecycle Management',actor:'你 / 内部团队',dur:'持续',cost:'低–中 · 订阅',
   what:'设计变更走扩展申请、法规修订换版、维护证书台账与到期提醒。',
   pitfall:'UN R 系列更新后，新车型申请必须按新系列——旧证不会自动失效但会限制新申请。',
   sgs:'版本追踪订阅',dim:'version'}
@@ -871,7 +898,7 @@ function journeyStatus(){
     let state='todo', note='';
     if(st.id==='scope'){state='done';note=`已识别 ${total} 项适用法规`;}
     else if(st.id==='authority'){const ok=profile.authority&&profile.authority!=='undecided';state=ok?'done':'todo';note=ok?'已选定 '+plabel('authority'):'尚未选定批准机关';}
-    else if(st.id==='ts'){state='todo';note='建议由 SGS 承接测试';}
+    else if(st.id==='ts'){state='todo';note='待委托认可技术服务机构';}
     else if(st.dim){const sc=dimScore(SYS.find(x=>x.id===st.dim));state=sc>=100?'done':(sc>0?'prog':'todo');note={done:'体系已建立',prog:'体系部分建立',todo:'体系尚缺'}[state];
       if(st.id==='cop'&&done>0&&copSc===0){state='gap';note='已有证书但无 CoP 体系——证书面临失效风险';}}
     else if(st.reg){
@@ -974,46 +1001,45 @@ function stationExtra(st){
   }
   if(st.id==='ts'){
     const cs=sgsTScountries();
-    return `<div class="stn-extra sgs-fact">✅ 依 WP.29/343 Add.1 官方名录（Annex 1），<b>SGS 已是 ${cs.join('、')} 等 ${cs.length} 个 1958 缔约国政府指定的技术服务机构</b>，可直接承接 E-mark 测试——无需你另找实验室。</div>`;
+    return `<div class="stn-extra">依 WP.29/343 Add.1 官方名录（Annex 1），SGS 是 ${cs.join('、')} 等 ${cs.length} 个 1958 缔约国政府指定的技术服务机构之一。</div>`;
   }
   if(st.id==='life'){
     return `<div class="stn-extra">法规系列更新后，老证书不会自动失效，但从过渡期 Date (c) 起缔约方可拒收、新申请须按新系列。<button class="tp-link" onclick="openTransitional()">⏳ 过渡条款速查</button><br><span style="font-size:11.5px;color:var(--grey)">依据 WP.29/1044/Rev.3</span></div>`;
   }
   return '';
 }
+function stnPick(i){_stnActive=i;render();}
 function step5(){
   const js=journeyStatus();
   const doneCount=js.filter(s=>s.state==='done').length;
   const pct=Math.round(doneCount/js.length*100);
-  const curStation=js.find(s=>s.state!=='done');
+  const curIdx=js.findIndex(s=>s.state!=='done');
   const {X,Y}=computeScores(); const q=quadrant(X,Y);
-  const stationsHTML=js.map(st=>{
-    const sc=STAGE_STATE[st.state];
-    return `<details class="stn">
-      <summary>
-        <span class="stn-no" style="background:${sc.c}">${st.no}</span>
-        <span class="stn-h"><b>${st.name}</b><small>${st.en}</small></span>
-        <span class="stn-st" style="color:${sc.c}">${sc.t}</span>
-      </summary>
-      <div class="stn-body">
-        <div class="stn-note" style="border-color:${sc.c}">你的现状：${st.note}</div>
-        <p class="stn-what">${st.what}</p>
-        <div class="stn-meta"><span>👥 ${st.actor}</span><span>⏱ ${st.dur}</span><span>💰 ${st.cost}</span></div>
-        <div class="stn-pit">⚠ 常见坑：${st.pitfall}</div>
-        <div class="stn-sgs">🔧 SGS 在这一站能替你做：<b>${st.sgs}</b></div>
-        ${stationExtra(st)}
-      </div>
-    </details>`;
-  }).join('');
+  if(_stnActive==null) _stnActive = curIdx<0?0:curIdx;
+  _stnActive=Math.max(0,Math.min(_stnActive,js.length-1));
+  const st=js[_stnActive], sc=STAGE_STATE[st.state];
+  // 左侧菜单：9 站 + 状态色
+  const nav=js.map((s,idx)=>{const c=STAGE_STATE[s.state];
+    return `<button class="sb-item ${idx===_stnActive?'on':''}" onclick="stnPick(${idx})"><span class="sb-num" style="background:${c.c}">${s.no}</span><span>${s.name}<br><small style="color:${c.c}">${c.t}</small></span></button>`;}).join('');
+  // 右侧内容：当前站详情（去掉逐站 SGS 推销，仅保留说明性附加信息）
+  const detail=`<div class="sb-mh">${st.name} <small style="font-family:Georgia,serif;color:var(--greyl);font-weight:400">${st.en}</small> <span class="stn-st" style="color:${sc.c};margin-left:6px">${sc.t}</span></div>
+      <div class="stn-note" style="border-color:${sc.c};margin-top:8px">你的现状：${st.note}</div>
+      <p class="stn-what">${st.what}</p>
+      <div class="stn-meta"><span>👥 ${st.actor}</span><span>⏱ ${st.dur}</span><span>💰 ${st.cost}</span></div>
+      <div class="stn-pit">⚠ 常见坑：${st.pitfall}</div>
+      ${stationExtra(st)}`;
   return `<div class="step on">
     <div class="eyebrow">STEP 5 / 6 · 认证旅程</div>
     <h2 class="st">你的 E-mark 认证路线</h2>
-    <p class="lead">基于前面的自评，这是你走完 E-mark 部件型式批准要经过的 9 站——每一站标出你现在所处的状态与 SGS 可承接的环节。点开任意一站看细节。</p>
+    <p class="lead">基于前面的自评，走完 E-mark 部件型式批准要经过 9 站——左侧选站，右侧看细节与你的现状。</p>
     <div class="jbar">
-      <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curStation?` · 当前重点：第 <b>${curStation.no}</b> 站「${curStation.name}」`:' · 全部完成 🎉'}</div>
+      <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curIdx<0?' · 全部完成 🎉':` · 当前重点：第 <b>${js[curIdx].no}</b> 站「${js[curIdx].name}」`}</div>
       <div class="jprog"><div class="jprog-f" style="width:${pct}%"></div></div>
     </div>
-    <div class="jmap">${stationsHTML}</div>
+    <div class="sb">
+      <div class="sb-nav">${nav}</div>
+      <div class="sb-main">${detail}</div>
+    </div>
     <details class="mfold"><summary>▸ 展开完整成熟度矩阵（评分明细，评估折叠于此）</summary><div class="mfold-b">${maturityBlock()}</div></details>
     <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。</p>
     <div class="nav"><button class="ghost" onclick="go(4)">← 修改自评</button><button class="btn btn-p" onclick="go(6)">查看行动清单与报告 →</button></div>
@@ -1132,7 +1158,7 @@ function step6(){
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
 }
-function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};window._rno=null;go(0);}
+function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};_sysActive=null;_stnActive=null;window._rno=null;go(0);}
 
 function bind(){
   document.querySelectorAll('[data-pq]').forEach(b=>b.onclick=()=>{
