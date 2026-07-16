@@ -5079,14 +5079,15 @@ function renderUnece(){
     .sort((a,b)=>uneceNum(a.r.no)-uneceNum(b.r.no)||String(a.r.no).localeCompare(String(b.r.no)));
   // KPI over matching regs' amendments
   let allAm=[];(_unece.regs||[]).filter(r=>uneceMatchReg(r,q)).forEach(r=>(r.amendments||[]).forEach(a=>allAm.push(a)));
-  const inN=allAm.filter(a=>a.eif&&a.eif<=ref).length,upN=allAm.filter(a=>a.eif&&a.eif>ref).length,noN=allAm.filter(a=>!a.eif).length;
-  if($("#un-kpi"))$("#un-kpi").innerHTML=`法规 <b>${regs.length}</b> 项 · 增补 <b>${allAm.length}</b> 条 · <b style="color:#3d6630">已生效 ${inN}</b> · <b style="color:#a8401f">即将生效 ${upN}</b>${noN?` · 无日期 ${noN}`:""}  <span style="color:var(--muted)">(基准日 ${esc(ref)})</span>`;
+  const subAm=allAm.filter(a=>!a.cons);   // 排除「合并版重印」(Consolidated version·无独立生效日),不计入增补/无日期
+  const inN=subAm.filter(a=>a.eif&&a.eif<=ref).length,upN=subAm.filter(a=>a.eif&&a.eif>ref).length,noN=subAm.filter(a=>!a.eif).length,consN=allAm.length-subAm.length;
+  if($("#un-kpi"))$("#un-kpi").innerHTML=`法规 <b>${regs.length}</b> 项 · 增补 <b>${subAm.length}</b> 条 · <b style="color:#3d6630">已生效 ${inN}</b> · <b style="color:#a8401f">即将生效 ${upN}</b>${noN?` · 无日期 ${noN}`:""}${consN?` · <span style="color:var(--muted)">合并版 ${consN}</span>`:""}  <span style="color:var(--muted)">(基准日 ${esc(ref)})</span>`;
   if($("#un-note"))$("#un-note").innerHTML=`数据源:${esc(_unece.source||"")}(状态截至 ${esc(_unece.as_of||"")})。按 UN 法规编号升序;展开法规→系列(新→旧)→增补(按生效日新→旧)、🌐 缔约方(哪些国家适用/自哪天起)。「即将生效」=生效日晚于<b>基准日期</b>;有官方文号者附 📄 直链(undocs.org)。<b>搜索框可按国家检索</b>(如输入「日本 / Japan / 韩国」列出该国适用的所有 UN 法规)。<br>官方文件:<a href="./docs/ECE-TRANS-WP.29-343-Rev.34-Add.1.pdf" target="_blank" rel="noopener" style="color:var(--blue)">📄 Add.1 缔约方适用</a> · <a href="./docs/ECE-TRANS-WP.29-343-Rev.34-Add.2.pdf" target="_blank" rel="noopener" style="color:var(--blue)">📄 Add.2 增补状态</a> · <a href="./docs/ECE-TRANS-WP29-1044-Rev3e.pdf" target="_blank" rel="noopener" style="color:var(--blue)">📄 WP.29/1044 程序指南</a>。缔约方适用日期为官方 PDF 解析结果,少数边界个案以官方文件为准。`;
   const autoExpand=q!==""||regs.length<=8;
   const html=regs.map(({r,am})=>{
     const open=_unOpen[r.no]||autoExpand;
     const cn=UNREG_CN[r.no]||"";
-    const latest=am.slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0"))[0]||{};
+    const latest=am.filter(a=>!a.cons).slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0"))[0]||{};
     const st=uneceStat(latest.eif,ref);
     // group amendments by series
     const byS={};am.forEach(a=>{const s=uneceSeriesOf(a.status);(byS[s]=byS[s]||[]).push(a);});
@@ -5094,8 +5095,17 @@ function renderUnece(){
     const seriesHtml=open?seriesKeys.map(sk=>{
       const skey=r.no+"|"+sk,sopen=_unOpenS[skey]||autoExpand;
       const list=byS[sk].slice().sort((a,b)=>(b.eif||"0").localeCompare(a.eif||"0"));
-      const sl=list[0]||{},sst=uneceStat(sl.eif,ref);
-      const amRows=sopen?list.map(a=>{const ast=uneceStat(a.eif,ref),pdf=unecePdf(a);
+      const sub=list.filter(a=>!a.cons);   // 实质增补(排除合并版重印)
+      const sl=sub[0]||list[0]||{},sst=uneceStat(sl.eif,ref);
+      const consC=list.length-sub.length;
+      const amRows=sopen?list.map(a=>{const pdf=unecePdf(a);
+        if(a.cons) return `<div style="display:grid;grid-template-columns:160px 110px 96px 84px 1fr;gap:8px;align-items:center;padding:4px 10px 4px 44px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted)">
+          <span style="font-weight:600">${esc(a.status||a.doc||"")}</span>
+          <span></span><span></span>
+          <span style="font-size:10px;background:#ececea;color:#7a7f6a;border-radius:3px;padding:1px 6px;white-space:nowrap;justify-self:start">合并版重印</span>
+          <span style="font-size:10.5px">${esc(a.doc||"")} · 无独立生效日(整合${esc(sk)}系列)</span>
+        </div>`;
+        const ast=uneceStat(a.eif,ref);
         return `<div style="display:grid;grid-template-columns:160px 110px 96px 84px 1fr;gap:8px;align-items:center;padding:4px 10px 4px 44px;border-top:1px solid var(--line);font-size:11.5px">
           <span style="font-weight:600">${esc(a.status||a.doc||"")}</span>
           <span style="color:var(--muted)">${esc(a.sess||"—")}</span>
@@ -5107,7 +5117,7 @@ function renderUnece(){
         <div onclick="uneceToggleSeries('${esc(skey).replace(/'/g,"\\'")}')" style="cursor:pointer;display:flex;gap:8px;align-items:center;padding:5px 10px 5px 26px;background:var(--panel2);border-top:1px solid var(--line);font-size:12px">
           <span style="width:12px;color:var(--muted)">${sopen?"▾":"▸"}</span>
           <b>${sk==="—"?"基础/其他":sk+" 系列"}</b>
-          <span style="color:var(--muted);font-size:11px">增补 ${list.length} · 最新生效 ${esc(sl.eif||"—")}</span>
+          <span style="color:var(--muted);font-size:11px">增补 ${sub.length} · 最新生效 ${esc(sl.eif||"—")}${consC?` · 合并版 ${consC}`:""}</span>
           ${uneceBadge(sst)}
         </div>${amRows}</div>`;
     }).join(""):"";
