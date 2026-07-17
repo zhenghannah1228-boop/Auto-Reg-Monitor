@@ -672,6 +672,22 @@ function markShapes(){
     <div style="font-size:11.5px;color:var(--grey);line-height:1.6;flex:1;min-width:180px">框内数字＝签发批准的成员国/缔约方代号：E1/e1 德国、E4/e4 荷兰、E8 捷克、E11 英国（脱欧后仅 E 标）、E13 卢森堡、E50 马耳他……完整对照见「缔约方名录」。旁边数字为批准号（示意）。</div>
   </div>`;
 }
+// ===== 适用对照表：整车/部件 × 大E/小e/CE（勾=适用；CE 恒为「追加」不替代 E/e）=====
+function markMatrix(){
+  const Y='<span style="color:var(--green);font-weight:700">✓</span>', N='<span style="color:var(--greyl)">✗</span>';
+  const rows=[
+   ['<b>整车 · M1 乘用车</b>', Y+'<small> R0 IWVTA·U 标</small>', Y+'<small> EU-WVTA·e 证</small>', N, '进欧盟以 EU-WVTA 为准；U-IWVTA 作为其中 UN 部分证据'],
+   ['<b>整车 · 其他类别</b>（M2/M3/N/O）', N+'<small> R0 仅限 M1</small>', Y+'<small> EU-WVTA</small>', N, ''],
+   ['<b>部件/STU · 有对应 UN 法规</b>（灯具/玻璃/R90…）', Y, N, N, 'Art 57/58：EU 直接采用 UN 法规，不走小 e'],
+   ['<b>部件/STU · 仅 EU 条例覆盖</b>（eCall/前防护/氢材料/酒精锁）', N+'<small> 无 UN 法规</small>', Y, N, ''],
+   ['部件 <b>+ 无线/射频模块</b>', '按上两行', '按上两行', Y+'<small> 追加·RED 2014/53</small>', '多标并存，各走各的评定'],
+   ['部件 <b>+ 机械动力</b>（液压/举升）', '按上两行', '按上两行', Y+'<small> 追加·2006/42→2023/1230</small>', ''],
+   ['部件 <b>+ 烟火件</b>（气囊气发/预紧器）', Y+'<small> R114/R16</small>', N, Y+'<small> 追加·2013/29</small>', '两证并行不互替']
+  ].map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' style="white-space:normal;min-width:150px"':(i===4?' style="white-space:normal;color:var(--grey);font-size:11px;min-width:130px"':' style="text-align:center"')}>${c}</td>`).join('')}</tr>`).join('');
+  return `<details style="margin-bottom:12px"><summary style="font-size:12.5px;font-weight:700;color:var(--od);cursor:pointer">▸ 适用对照表：整车 / 部件 × 大E · 小e · CE</summary>
+  <div style="overflow-x:auto;margin-top:8px"><table class="emk-tbl" style="min-width:640px"><tr><th>对象</th><th style="text-align:center">大 E（圆框·UNECE）</th><th style="text-align:center">小 e（方框·EU）</th><th style="text-align:center">CE</th><th>说明</th></tr>${rows}</table></div>
+  <div style="font-size:11px;color:var(--grey);margin-top:6px">要点：部件层面大 E / 小 e <b>互斥</b>（由有无对应 UN 法规决定）；CE 恒为<b>追加</b>（由无线/机械/烟火等产品特征触发），不替代 E/e。</div></details>`;
+}
 // ===== 标志选择器：E-mark / e-mark / CE，按现行 EU 指令编号（2026-07 核验）=====
 const MARK_RULES=[
  {id:'auto',q:'车用电子件（含电子电路，装于 M/N/O/L/T 类车辆）',marks:['E-mark（大E）'],
@@ -693,6 +709,7 @@ function openMarkSelector(){
   const rows=MARK_RULES.map(r=>`<button class="mark-row" data-mark="${r.id}" onclick="toggleMark('${r.id}',this)"><span class="mark-ck">☐</span><span>${r.q}</span></button>`).join('');
   const body=`<div style="padding:14px 16px">
     ${markShapes()}
+    ${markMatrix()}
     <div style="font-size:12.5px;color:var(--ink2);margin-bottom:8px">勾选你的部件特性（可多选），下方即时给出所需标志组合与现行法规依据：</div>
     <div style="font-size:11.5px;color:var(--grey);background:var(--bg);border-radius:7px;padding:8px 11px;margin-bottom:12px;line-height:1.6"><b>大 E</b>＝按 UN 法规批准（1958 协定，多国互认）· <b>小 e</b>＝按 EU 条例批准（欧盟内部）· <b>CE</b>＝非车用指令（无线/机械等）。判定原则：<b>有对应 UN 法规即大 E，仅 EU 条例覆盖才小 e</b>。</div>
     ${rows}
