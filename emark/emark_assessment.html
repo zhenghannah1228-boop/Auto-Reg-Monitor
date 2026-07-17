@@ -272,6 +272,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .snav .sstep:not(:last-child) .n::after{content:"";position:absolute;left:12px;top:26px;width:1.6px;height:11px;background:var(--line)}
 .saveBtn{font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;margin-top:4px;box-shadow:0 2px 8px rgba(232,98,44,.25)}
 .saveBtn:hover{background:var(--od)}
+.newBtn{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:9px;padding:9px;cursor:pointer;margin-top:-6px}
+.newBtn:hover{background:var(--cream)}
 .center{min-width:0}
 .namebar{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .namebar label{font-size:13.5px;font-weight:700;color:var(--ink);white-space:nowrap}
@@ -343,6 +345,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 <header class="topbar"><div class="tb-in">
  <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统 · 对标德国 msg UN Regulation Assessment</span></div>
  <div class="tb-act">
+   <button class="badge-g" onclick="openProfiles()" title="我的档案"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h4l2 2h7A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5Z"/></svg>我的档案</button>
    <div class="tb-menu">
      <button class="badge-g" onclick="tbToggle(event)" aria-haspopup="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg>速查工具 ▾</button>
      <div class="tb-dd" id="tb-dd">
@@ -363,6 +366,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
    <div class="sb-h">完整认证流程（共 6 步）</div>
    <div class="snav" id="rail"></div>
    <button class="saveBtn" onclick="saveProgress()">保存进度</button>
+   <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
  </aside>
  <section class="center">
    <div class="namebar"><label>评估对象名称</label><input id="objname" placeholder="如：XX 制动器 / XX 前照灯 / XX 灯具总成" oninput="objName=this.value"></div>
@@ -1642,23 +1646,59 @@ function bind(){
   document.querySelectorAll('.seg[data-sys]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{sysStatus[seg.dataset.sys]=btn.dataset.v;render();});});
 }
 // 保存进度 / 恢复（localStorage）
-const SAVE_KEY='emark_nav_progress_v1';
+// ===== 多档案系统（保存/新建/我的档案）=====
+const SAVE_KEY='emark_nav_progress_v1';           // 兼容旧单档
+const PROFILES_KEY='emark_profiles_v1', ACTIVE_KEY='emark_active_v1';
+function curState(){return {cur,objName,sel,profile,regStatus,sysStatus,stnChk,_sysActive,_stnActive,ts:Date.now()};}
+function applyState(s){
+  if(!s) return;
+  cur=typeof s.cur==='number'?s.cur:0; objName=s.objName||''; sel=s.sel||sel; sel.parts=sel.parts||[]; profile=s.profile||profile;
+  regStatus=s.regStatus||{}; sysStatus=s.sysStatus||{}; stnChk=s.stnChk||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
+  const inp=document.getElementById('objname'); if(inp) inp.value=objName;
+}
+function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
+function setProfiles(o){ try{localStorage.setItem(PROFILES_KEY,JSON.stringify(o));}catch(e){alert('保存失败：浏览器存储不可用');} }
+function activeId(){ return localStorage.getItem(ACTIVE_KEY)||''; }
 function saveProgress(){
-  try{
-    localStorage.setItem(SAVE_KEY,JSON.stringify({cur,objName,sel,profile,regStatus,sysStatus,stnChk,_sysActive,_stnActive,ts:Date.now()}));
-    const b=document.querySelector('.saveBtn'); if(b){const o=b.textContent;b.textContent='✓ 已保存';setTimeout(()=>b.textContent=o,1400);}
-  }catch(e){alert('保存失败：浏览器存储不可用');}
+  const ps=getProfiles(); let id=activeId();
+  if(!id||!ps[id]){ id='p'+Date.now().toString(36)+Math.floor(Math.random()*1000); }
+  const name=(objName||'').trim()||('未命名档案 '+(Object.keys(ps).length+1));
+  ps[id]={name, state:curState(), ts:Date.now()};
+  setProfiles(ps); localStorage.setItem(ACTIVE_KEY,id);
+  const b=document.querySelector('.saveBtn'); if(b){const o=b.textContent;b.textContent='✓ 已存入「'+name.slice(0,8)+'」';setTimeout(()=>b.textContent=o,1600);}
 }
-function loadProgress(){
-  try{
-    const raw=localStorage.getItem(SAVE_KEY); if(!raw) return;
-    const s=JSON.parse(raw); if(!s||typeof s.cur!=='number') return;
-    cur=s.cur; objName=s.objName||''; sel=s.sel||sel; sel.parts=sel.parts||[]; profile=s.profile||profile;
-    regStatus=s.regStatus||{}; sysStatus=s.sysStatus||{}; stnChk=s.stnChk||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
-    const inp=document.getElementById('objname'); if(inp) inp.value=objName;
-  }catch(e){/* ignore corrupt save */}
+function newProfile(){
+  if(!confirm('新建档案将清空当前填写、另存为一份新档案。已保存的档案不受影响。继续？')) return;
+  localStorage.removeItem(ACTIVE_KEY); restart();
 }
-loadProgress();
+function loadProfile(id){
+  const ps=getProfiles(); if(!ps[id]) return;
+  applyState(ps[id].state); localStorage.setItem(ACTIVE_KEY,id); emkClose(); render();
+}
+function renameProfile(id){
+  const ps=getProfiles(); if(!ps[id]) return;
+  const n=prompt('重命名档案：',ps[id].name); if(n==null) return;
+  ps[id].name=n.trim()||ps[id].name; setProfiles(ps); openProfiles();
+}
+function delProfile(id){
+  const ps=getProfiles(); if(!ps[id]) return;
+  if(!confirm('删除档案「'+ps[id].name+'」？此操作不可撤销。')) return;
+  delete ps[id]; setProfiles(ps); if(activeId()===id) localStorage.removeItem(ACTIVE_KEY); openProfiles();
+}
+function openProfiles(){
+  const ps=getProfiles(), ids=Object.keys(ps).sort((a,b)=>ps[b].ts-ps[a].ts), act=activeId();
+  const fmt=t=>{const d=new Date(t);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')+' '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
+  const rows=ids.length?ids.map(id=>`<tr${id===act?' style="background:var(--cream)"':''}><td><b>${ps[id].name}</b>${id===act?' <span style="font-size:10px;color:var(--od)">当前</span>':''}<br><span style="font-size:11px;color:var(--greyl)">步骤 ${ (ps[id].state.cur||0) }/6 · ${fmt(ps[id].ts)}</span></td><td class="r" style="white-space:nowrap"><button class="tp-link" onclick="loadProfile('${id}')">载入</button> · <button class="tp-link" onclick="renameProfile('${id}')">重命名</button> · <button class="tp-link" style="color:var(--red)" onclick="delProfile('${id}')">删除</button></td></tr>`).join('')
+    :'<tr><td colspan="2" style="color:var(--greyl);padding:16px">还没有已保存的档案。填写后点左侧「保存进度」即存为一份档案。</td></tr>';
+  emkModal('我的档案（'+ids.length+'）', `<table class="emk-tbl"><tbody>${rows}</tbody></table>`,
+    '档案保存在本浏览器（localStorage）。「保存进度」存入当前档案；「新建档案」另起一份。');
+}
+// 初始化：优先载入当前活动档案；否则迁移旧单档
+(function initProfiles(){
+  const ps=getProfiles(), id=activeId();
+  if(id&&ps[id]){ applyState(ps[id].state); return; }
+  try{ const raw=localStorage.getItem(SAVE_KEY); if(raw){ const s=JSON.parse(raw); if(s&&typeof s.cur==='number') applyState(s); } }catch(e){}
+})();
 render();
 loadVerDB();   // Task 2 · 后台拉取活数据（现行版本/生效日期），完成后若在 Step2 自动重渲染
 </script>
