@@ -765,20 +765,23 @@ function openParties(no){
   emkModal(`UN R${no} · ${ps.length} 个 1958 缔约方适用（你的 E-mark 证书互认范围）`, body,
     '数据源：WP.29/343 Add.1（缔约方适用日期与指定机关）。橙色 SGS = 该国有 SGS 实体为政府指定技术服务机构。');
 }
+// 官方名录中「Waiting for data」= 该缔约方尚未通报指定机构，剔除占位、不当作真实机构
+function realTs(e){return (TS_DIR[e]||[]).filter(n=>!/^waiting for data/i.test(n));}
+function authCell(a){ if(!a) return '—'; if(/^waiting for data/i.test(a)) return '<span style="color:var(--greyl)" title="该缔约方已加入协定，但尚未向 UNECE 通报指定机构（官方名录原文 Waiting for data）">待缔约方通报</span>'; return a; }
 function tsCell(o){
-  const list=TS_DIR[o.e];
-  if(list&&list.length) return `<button class="tp-link" onclick="openTsList('${o.e}')" title="点击列出该国全部技术服务机构">${list.length} 家 ›</button>`;
-  return o.ts||'—';
+  const list=realTs(o.e);
+  if(list.length) return `<button class="tp-link" onclick="openTsList('${o.e}')" title="点击列出该国全部技术服务机构">${list.length} 家 ›</button>`;
+  return '—';
 }
 function openAuthDir(){
-  const rows=AUTHDIR.slice().sort((a,b)=>a.e-b.e).map(o=>`<tr><td><b>E${o.e}</b></td><td>${o.cn}</td><td>${o.a||'—'}</td><td>${o.w?`<a href="${o.w}" target="_blank" rel="noopener">官网</a>`:''}</td><td class="r">${tsCell(o)}</td><td>${o.sgs?'<span class="emk-sgs">SGS</span>':''}</td></tr>`).join('');
+  const rows=AUTHDIR.slice().sort((a,b)=>a.e-b.e).map(o=>`<tr><td><b>E${o.e}</b></td><td>${o.cn}</td><td>${authCell(o.a)}</td><td>${o.w?`<a href="${o.w}" target="_blank" rel="noopener">官网</a>`:''}</td><td class="r">${tsCell(o)}</td><td>${o.sgs?'<span class="emk-sgs">SGS</span>':''}</td></tr>`).join('');
   const body=`<div class="emk-search"><input id="dir-q" placeholder="搜索国家 / 机关名…" oninput="dirFilter(this.value)" autocomplete="off"></div>
     <table class="emk-tbl"><thead><tr><th>E 码</th><th>国家</th><th>指定型式批准机关</th><th>官网</th><th>技术服务</th><th>SGS</th></tr></thead><tbody id="dir-tb">${rows}</tbody></table>`;
   emkModal(`1958 协定缔约方 · 型式批准机关与技术服务名录（${AUTHDIR.length} 国）`, body,
     '数据源：WP.29/343 Add.1 · Annex 1（各缔约国政府指定的型式批准机关与技术服务机构官方名录）。点「技术服务 N 家 ›」列出该国全部机构。');
 }
 function openTsList(e){
-  const list=TS_DIR[e]||[], o=AUTHDIR.find(x=>String(x.e)===String(e)), cn=o?o.cn:'';
+  const list=realTs(e), o=AUTHDIR.find(x=>String(x.e)===String(e)), cn=o?o.cn:'';
   const rows=list.map((n,i)=>`<tr><td class="r" style="color:var(--greyl);width:34px">${i+1}</td><td>${n}</td></tr>`).join('');
   const body=`<div style="padding:10px 16px"><button class="tp-link" onclick="openAuthDir()">‹ 返回名录</button></div>
     <table class="emk-tbl"><tbody>${rows}</tbody></table>`;
