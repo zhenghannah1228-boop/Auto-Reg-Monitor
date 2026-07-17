@@ -240,6 +240,12 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .tb-home:hover{background:var(--o);color:#fff}
 .tb-act .badge-g{cursor:pointer;font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:7px 13px;color:var(--ink2)}
 .tb-act .badge-g:hover{border-color:var(--o);color:var(--o)}
+.tb-menu{position:relative}
+.tb-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:246px;padding:6px;z-index:60}
+.tb-dd.on{display:block}
+.tb-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;cursor:pointer}
+.tb-dd button:hover{background:var(--cream);color:var(--od)}
+.tb-sep{height:1px;background:var(--line);margin:5px 8px}
 .layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
 .sidebar{position:sticky;top:78px;display:flex;flex-direction:column;gap:14px}
 .sb-h{font-size:13px;font-weight:800;color:var(--ink)}
@@ -318,7 +324,20 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 </style></head><body>
 <header class="topbar"><div class="tb-in">
  <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统 · 对标德国 msg UN Regulation Assessment</span></div>
- <div class="tb-act"><button class="badge-g" onclick="openFAQ()" title="常见问题"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.2A2.5 2.5 0 0 1 14.4 10c0 1.6-2.4 2-2.4 3.4M12 16.6v.1"/></svg>常见问题</button><button class="badge-g" onclick="openGlossary()" title="术语速查"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>术语速查</button><a class="tb-home" href="../index.html" target="_top">返回导航首页</a></div>
+ <div class="tb-act">
+   <div class="tb-menu">
+     <button class="badge-g" onclick="tbToggle(event)" aria-haspopup="true"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg>速查工具 ▾</button>
+     <div class="tb-dd" id="tb-dd">
+       <button onclick="tbGo(openFAQ)">常见问题 · FAQ</button>
+       <button onclick="tbGo(openGlossary)">术语速查</button>
+       <button onclick="tbGo(openMarkSelector)">标志速查（大E / 小e / CE）</button>
+       <div class="tb-sep"></div>
+       <button onclick="tbGo(openAuthDir)">1958 缔约方 · 机关与技服名录</button>
+       <button onclick="tbGo(openTransitional)">过渡条款速查</button>
+       <button onclick="tbGo(openIWVTA)">IWVTA 整车必备法规</button>
+     </div>
+   </div>
+   <a class="tb-home" href="../index.html" target="_top">返回导航首页</a></div>
 </div></header>
 <div class="layout">
  <aside class="sidebar">
@@ -753,16 +772,13 @@ function reglistHTML(n){
     : '<div class="rl-empty">本步无强制关联法规。</div>';
   return `<div class="rl-h">法规清单（相关法规）</div>${body}<div class="rl-note">编号与条款均已对 UNECE / 欧盟官方文本核验；确切条款全文见「术语速查」及各模态弹窗。以官方最新版本为准。</div>`;
 }
+// 顶栏「速查工具」下拉
+function tbToggle(ev){ ev.stopPropagation(); document.getElementById('tb-dd').classList.toggle('on'); }
+function tbGo(fn){ document.getElementById('tb-dd').classList.remove('on'); fn(); }
+document.addEventListener('click',e=>{ const dd=document.getElementById('tb-dd'); if(dd&&dd.classList.contains('on')&&!e.target.closest('.tb-menu')) dd.classList.remove('on'); });
 function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
-// 点导航条跳步：后退随意；前进时校验前置必填项，未满足则停在对应关卡
-function goStep(n){
-  if(n===cur) return;
-  if(n>cur){
-    if(n>=2 && (!profile.size||!profile.timeline)){alert('请先完成「企业画像」（企业规模、认证时间要求）');return;}
-    if(n>=3 && (!sel.role||!sel.market)){alert('请先在「范围界定」选择角色和目标市场');return;}
-  }
-  go(n);
-}
+// 侧边栏跳步不设关卡（业主要求，便于随时检查任意步）；「下一步」按钮仍保留必填校验作引导
+function goStep(n){ if(n!==cur) go(n); }
 
 function applicable(){
   // 分类组筛选（不选=全部）+ 角色聚焦：STU=可独立认证条目；售后件=显式独立认证条目
@@ -891,7 +907,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。勾「已认证」后若该法规已有更新系列生效，会自动提示核对。</p>
     ${focusNote()}
-    <div style="margin:6px 0 2px"><button class="dirbtn" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>1958 缔约方 · 认证机关与技术服务完整名录（${AUTHDIR.length} 国）</button><button class="dirbtn" onclick="openTransitional()">⏳ 过渡条款速查</button><button class="dirbtn" onclick="openIWVTA()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v-2.5L5.8 8h12.4L20 12.5V15"/><path d="M3.5 15h17v2.5h-2.5V15M6.5 17.5V15"/><circle cx="7.5" cy="17.5" r="1.6"/><circle cx="16.5" cy="17.5" r="1.6"/></svg>IWVTA 整车必备法规（${IWVTA_REQ.length}）</button> <span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标 / <span class="mkb mkb-ce">+CE烟火</span>含气囊气发·预紧器另按 (EU) 2013/29 打 CE。点「<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}</span></div>
+    <div style="margin:6px 0 2px"><span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标 / <span class="mkb mkb-ce">+CE烟火</span>含气囊气发·预紧器另按 (EU) 2013/29 打 CE。点「<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}；缔约方名录 / 过渡条款 / IWVTA 清单见右上「速查工具」</span></div>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
