@@ -1170,7 +1170,12 @@ function journeyStatus(){
     let state='todo', note='';
     if(st.id==='scope'){state='done';note=`已识别 ${total} 项适用法规`;}
     else if(st.id==='authority'){const ok=profile.authority&&profile.authority!=='undecided';state=ok?'done':'todo';note=ok?'已选定 '+plabel('authority'):'尚未选定批准机关';}
-    else if(st.id==='ts'){state='todo';note='待委托认可技术服务机构';}
+    else if(st.id==='ts'){
+      // 状态由本站交付物自查驱动（评估流程不采集此信息，此前写死「未开始」是盲点）
+      const list=DELIV.ts||[], dn=list.filter((_,i)=>stnChk['ts_'+i]).length;
+      state=list.length&&dn>=list.length?'done':(dn>0?'prog':'todo');
+      note=dn?`交付物自查 ${dn}/${list.length}${state==='done'?' · 已委托技术服务':''}`:'待委托认可技术服务机构——完成右侧「本站交付物自查」即更新状态';
+    }
     else if(st.dim){const sc=dimScore(SYS.find(x=>x.id===st.dim));state=sc>=100?'done':(sc>0?'prog':'todo');note={done:'体系已建立',prog:'体系部分建立',todo:'体系尚缺'}[state];
       if(st.id==='cop'&&done>0&&copSc===0){state='gap';note='已有证书但无 CoP 体系——证书面临失效风险';}}
     else if(st.reg){
