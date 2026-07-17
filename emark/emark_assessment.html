@@ -652,8 +652,7 @@ function regBlock(no){const s=REG_SRC[no];if(!s)return '';
 function openRegSrc(csv){const nos=String(csv).split(',').filter(n=>REG_SRC[n]);if(!nos.length)return;
   const body=`<div style="padding:16px 18px;font-size:13px;line-height:1.7;color:var(--ink2)">${nos.map(regBlock).join('')}</div>`;
   const title=nos.length>1?`适用范围与测试内容（${nos.length} 条法规）`:`UN R${nos[0]} · 适用范围`;
-  emkModal(title, body,
-    '摘自欧盟合并版（Official Journal consolidated）UN 法规第 1 节 Scope，逐条人工核对；完整要求以官方法规全文为准。');
+  emkModal(title, body);
 }
 // 过渡条款速查（权威依据 WP.29/1044/Rev.3 · UN 法规程序与过渡条款通用指南）
 function openTransitional(){
