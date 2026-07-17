@@ -661,26 +661,8 @@ function regBlock(no){const s=REG_SRC[no];if(!s)return '';
     ${s.ver?`<div style="margin-bottom:7px"><b>现行合并版</b>：${s.ver}</div>`:''}
     <div style="background:var(--bg);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--ink2);line-height:1.6"><span style="color:var(--greyl);font-size:11px">原文摘录（Scope §1）</span><br>${s.en}</div>
   </div>`;}
-// 国内可做 E-mark 测试的主要检测实验室（网络检索整理 · 非官方 · 仅列有资质的检测实验室，不含代理/咨询机构）
-const CN_LABS=[
- ['TÜV 莱茵 TÜV Rheinland','在华多地汽车实验室，提供 UNECE E-mark 零部件/系统测试（制动、安全带、后视镜等）'],
- ['TÜV 南德 TÜV SÜD','在华 ECE / E-mark 整车与零部件型式认证测试'],
- ['SGS 通标','在华 EMC(R10) 等 E-mark 测试；全球型式认证服务'],
- ['DEKRA 德凯','在华 E-mark / ECE 测试'],
- ['Bureau Veritas 必维','在华汽车零部件 E-mark 测试'],
- ['Applus IDIADA','在华实验室，整车与零部件 UNECE 测试'],
- ['CATARC 中汽研（中汽中心）','国家级汽车检测机构，承接大量 ECE/E-mark 相关测试']
-];
-function cnLabsBlock(){
-  return `<div style="margin-top:4px;background:#FBF7F2;border:1px solid #ECEEF1;border-radius:10px;padding:12px 14px">
-    <div style="font-weight:800;color:var(--od);margin-bottom:7px">国内可做测试的机构 <span style="font-weight:400;color:var(--greyl);font-size:11px">网络检索整理 · 非官方</span></div>
-    <div style="font-size:12px;line-height:1.75">${CN_LABS.map(l=>`• <b>${l[0]}</b> <span style="color:var(--grey)">— ${l[1]}</span>`).join('<br>')}</div>
-    <div style="font-size:11px;color:var(--greyl);line-height:1.6;margin-top:9px;border-top:1px dashed var(--line);padding-top:8px">
-    这些为在华设有汽车检测实验室、公开提供 E-mark/ECE 测试的机构（据网络检索整理，非最全名单，也非官方指定名录）。<b>具体某条法规的测试资质/范围以各机构现行认可为准</b>；<b>E-mark 型式批准证书仍由 1958 缔约方机关（KBA/RDW/VCA…）签发</b>，实验室出具的是测试报告。另有大量认证<b>代理/咨询机构</b>未列入——注意甄别，代理 ≠ 官方指定技术服务。</div>
-  </div>`;
-}
 function openRegSrc(csv){const nos=String(csv).split(',').filter(n=>REG_SRC[n]);if(!nos.length)return;
-  const body=`<div style="padding:16px 18px;font-size:13px;line-height:1.7;color:var(--ink2)">${nos.map(regBlock).join('')}${cnLabsBlock()}</div>`;
+  const body=`<div style="padding:16px 18px;font-size:13px;line-height:1.7;color:var(--ink2)">${nos.map(regBlock).join('')}</div>`;
   const title=nos.length>1?`适用范围与测试内容（${nos.length} 条法规）`:`UN R${nos[0]} · 适用范围`;
   emkModal(title, body);
 }
@@ -1303,6 +1285,7 @@ function delivHTML(st){
 }
 // ===== 常见问题（口径均为工具内已核验引用）=====
 const FAQ=[
+ {q:'国内有哪些实验室可以做 E-mark 测试？',a:'在华设有汽车检测实验室、公开提供 E-mark/ECE 测试的主要机构（网络检索整理·非官方·非最全名单）：<b>TÜV 莱茵</b>、<b>TÜV 南德</b>、<b>SGS 通标</b>、<b>DEKRA 德凯</b>、<b>Bureau Veritas 必维</b>、<b>Applus IDIADA</b>、<b>CATARC 中汽研（中汽中心）</b>。<br>要点：这些大实验室基本全品类通做，<b>具体某条法规的测试资质/范围以各机构现行认可为准</b>；<b>E-mark 型式批准证书仍由 1958 缔约方机关（KBA/RDW/VCA…）签发</b>，实验室出具的是测试报告。另有大量认证<b>代理/咨询机构</b>——注意甄别，<b>代理 ≠ 官方指定技术服务</b>（核验方法见上一条）。'},
  {q:'我的部件到底打大 E 还是小 e？',a:'<b>部件/STU 层面</b>：有对应 UN 法规的项打<b>大 E</b>——依 (EU) 2018/858 <b>Art 57/58</b>，Annex II 所列 UN 法规与 EU 法规等效、成员国须接受 E 标替代 EU 标，且大 E 在 1958 协定缔约方间互认。仅 EU 条例覆盖、无对应 UN 法规的项（eCall、前防护系统、氢系统材料、酒精锁安装）才打<b>小 e</b>，只在欧盟内有效。不确定就查「标志速查」对照表。<br>注意别与<b>整车层面</b>混淆：EU 整车型批（EU-WVTA）证书号以 e 开头、属 EU 框架，但它的技术要求大量引用 UN 法规、以部件大 E 批准为组成部分——「整车 e 证 + 部件大 E 标」并存是常态。'},
  {q:'一张 E-mark 证书能在多少个国家用？',a:'按<b>法规逐条</b>看：盘点页每条法规的「N 国互认」徽标给出适用该法规的缔约方数量与完整国家名单（数据：WP.29/343 Add.1）。互认不是一揽子的——不同法规的适用缔约方集合不同。'},
  {q:'法规出了新系列，我的老证书作废吗？',a:'不会自动作废。按 WP.29/1044/Rev.3 过渡框架：<b>Date (b)</b> 后首次签发的旧系列批准，缔约方不再有义务接受（§25(b)）；<b>Date (c)</b> 起一律不再有义务接受（§25(c)）。完整规则点「过渡条款速查」。'},
