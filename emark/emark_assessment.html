@@ -1487,14 +1487,25 @@ function downloadReport(){
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
   const gapLis=gaps.map(g=>`<tr><td style="color:${g.sev==='red'?'#C0392B':'#B45309'}">●</td><td>${esc(g.txt)}${g.due?` <b style="color:#C0392B">（距新版生效 ${g.due.days} 天，${esc(g.due.status)} · ${g.due.eif}）</b>`:''}</td><td>${esc(g.svc)}</td></tr>`).join('');
   const sysLis=activeSys().map(s=>`<tr><td>${esc(s.name)}</td><td style="text-align:right"><b>${dimScore(s)}</b></td></tr>`).join('');
-  const html=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>E-mark 合规成熟度评估报告 ${reportNo()}</title>
-<style>body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:#1A1D21;max-width:820px;margin:0 auto;padding:36px 28px;line-height:1.7}
-h1{font-size:22px;border-bottom:3px solid #E8622C;padding-bottom:10px}h2{font-size:16px;color:#C44E1E;margin-top:26px}
-table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid #E3E6EA;padding:7px 10px;text-align:left}
+  const objLine=objName?`评估对象：<b>${esc(objName)}</b> · `:'';
+  const html=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>E-mark评估报告_${reportNo()}</title>
+<style>
+@page{size:A4;margin:16mm}
+*{box-sizing:border-box}
+body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;color:#1A1D21;max-width:820px;margin:0 auto;padding:32px 28px;line-height:1.7}
+h1{font-size:22px;border-bottom:3px solid #E8622C;padding-bottom:10px}h2{font-size:16px;color:#C44E1E;margin-top:24px;page-break-after:avoid}
+table{width:100%;border-collapse:collapse;font-size:13px;page-break-inside:avoid}td,th{border:1px solid #E3E6EA;padding:7px 10px;text-align:left}
+tr{page-break-inside:avoid}
 .meta{font-size:12.5px;color:#6B7280}.tag{display:inline-block;background:${q.color};color:#fff;font-weight:700;padding:2px 12px;border-radius:4px}
-.disc{font-size:12px;color:#6B7280;border:1px dashed #E8622C;border-radius:8px;padding:10px 14px;margin-top:26px}</style></head><body>
+.disc{font-size:12px;color:#6B7280;border:1px solid #E8622C;border-radius:8px;padding:10px 14px;margin-top:24px}
+.bar{position:sticky;top:0;background:#1A1D21;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;margin:-32px -28px 20px;font-size:13px}
+.bar b{flex:1}
+.bar button{font-family:inherit;font-size:13px;font-weight:700;border:none;border-radius:7px;padding:8px 16px;cursor:pointer;background:#E8622C;color:#fff}
+@media print{.bar{display:none}body{padding-top:0}}
+</style></head><body>
+<div class="bar noprint"><b>报告已生成 — 在打印对话框中选择「目标打印机 → 另存为 PDF」即可导出</b><button onclick="window.print()">🖨 保存为 PDF</button></div>
 <h1>E-mark / e-mark 合规成熟度评估报告</h1>
-<p class="meta">报告编号：<b>${reportNo()}</b> · 生成日期：${dstr} · 一点通（SGS RMSC）国际汽车法规合规平台 · 数据基准：WP.29/343${VERDB?'（截至 '+esc(VERDB.as_of)+'）':'（内置快照）'}</p>
+<p class="meta">${objLine}报告编号：<b>${reportNo()}</b> · 生成日期：${dstr} · 一点通（SGS RMSC）国际汽车法规合规平台 · 数据基准：WP.29/343${VERDB?'（截至 '+esc(VERDB.as_of)+'）':'（内置快照）'}</p>
 <h2>一、企业画像</h2>
 <table><tr><td>企业规模</td><td>${esc(plabel('size'))}</td></tr><tr><td>出口经验</td><td>${esc(plabel('exp'))}</td></tr><tr><td>认证时间要求</td><td>${esc(plabel('timeline'))}</td></tr><tr><td>意向批准机关</td><td>${esc(plabel('authority'))}</td></tr><tr><td>已持认证</td><td>${esc(plabel('certs'))}</td></tr><tr><td>关注痛点</td><td>${esc(plabel('pains'))}</td></tr></table>
 <h2>二、成熟度定位</h2>
@@ -1506,15 +1517,11 @@ table{width:100%;border-collapse:collapse;font-size:13px}td,th{border:1px solid 
 <h2>四、缺口清单 → 服务映射（共 ${gaps.length} 项，按法规生效日历排序）</h2>
 <table><tr><th></th><th>缺口</th><th>对应服务</th></tr>${gapLis}</table>
 <div class="disc"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</div>
+<script>window.addEventListener('load',function(){setTimeout(function(){try{window.print();}catch(e){}},400);});<\/script>
 </body></html>`;
-  const blob=new Blob([html],{type:'text/html;charset=utf-8'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=`E-mark评估报告_${reportNo()}.html`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  const w=window.open('','_blank');
+  if(!w){alert('浏览器拦截了弹窗，请允许本站弹窗后重试导出 PDF。');return;}
+  w.document.open();w.document.write(html);w.document.close();
 }
 function step6(){
   const {X,Y,items}=computeScores();
@@ -1545,7 +1552,7 @@ function step6(){
       <h3>你的免费评估报告已生成</h3>
       <p>报告编号 <b>${reportNo()}</b> · 共 ${gapRows.length} 项缺口（按法规生效日历排序）。<br>想知道「每一项具体怎么补、优先做哪个」？预约我们的专家，一对一为你解读。</p>
       <button class="btn" onclick="alert('（示意）已记录：报告 ${reportNo()} · ${q.name}象限 · ${gapRows.length}项缺口 · 将转销售预约专家解读')">预约专家解读我的缺口 →</button>
-      <button class="btn" style="margin-left:10px" onclick="downloadReport()">⬇ 下载评估报告</button>
+      <button class="btn" style="margin-left:10px" onclick="downloadReport()">⬇ 导出 PDF 报告</button>
     </div>
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
