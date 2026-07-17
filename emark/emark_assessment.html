@@ -1505,7 +1505,7 @@ tr{page-break-inside:avoid}
 </style></head><body>
 <div class="bar noprint"><b>报告已生成 — 在打印对话框中选择「目标打印机 → 另存为 PDF」即可导出</b><button onclick="window.print()">🖨 保存为 PDF</button></div>
 <h1>E-mark / e-mark 合规成熟度评估报告</h1>
-<p class="meta">${objLine}报告编号：<b>${reportNo()}</b> · 生成日期：${dstr} · 一点通（SGS RMSC）国际汽车法规合规平台 · 数据基准：WP.29/343${VERDB?'（截至 '+esc(VERDB.as_of)+'）':'（内置快照）'}</p>
+<p class="meta">${objLine}报告编号：<b>${reportNo()}</b> · 生成日期：${dstr} · 一点通</p>
 <h2>一、企业画像</h2>
 <table><tr><td>企业规模</td><td>${esc(plabel('size'))}</td></tr><tr><td>出口经验</td><td>${esc(plabel('exp'))}</td></tr><tr><td>认证时间要求</td><td>${esc(plabel('timeline'))}</td></tr><tr><td>意向批准机关</td><td>${esc(plabel('authority'))}</td></tr><tr><td>已持认证</td><td>${esc(plabel('certs'))}</td></tr><tr><td>关注痛点</td><td>${esc(plabel('pains'))}</td></tr></table>
 <h2>二、成熟度定位</h2>
