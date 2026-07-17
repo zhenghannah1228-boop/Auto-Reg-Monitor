@@ -513,8 +513,8 @@ function latestInForceSeries(no){
 }
 // ===== 术语速查 =====
 const GLOSSARY={
- bigE:{t:'大 E（E-mark）',d:'按 UN 法规（1958 协定）取得的型式批准标志——圆圈 E + 国别号（如 E4＝荷兰、E1＝德国）。在所有适用该法规的缔约方之间<b>互认</b>：一次认证、多国通行。<br>依据：(EU) 2018/858 <b>Art 57(1)</b>（Annex II 所列 UN 法规为 EU 型式批准要求的组成部分）、<b>Art 58(1)-(2)</b>（这些 UN 法规与对应 EU 法规<b>等效</b>，成员国机关须接受其批准及 E 标以替代 EU 标）。'},
- smalle:{t:'小 e（e-mark）',d:'按<b>欧盟条例</b>取得的型式批准标志——圆圈 e + 国别号。仅在欧盟内有效，用于<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项。大 E 与小 e 之别在互认范围。<br>标志与铭牌依据：(EU) 2018/858 <b>Art 38</b>。'},
+ bigE:{t:'大 E（E-mark）',d:'按 UN 法规（1958 协定）取得的型式批准标志——<b>圆形外框</b> E + 国别号（如 E4＝荷兰、E1＝德国）。在所有适用该法规的缔约方之间<b>互认</b>：一次认证、多国通行。<br>依据：(EU) 2018/858 <b>Art 57(1)</b>（Annex II 所列 UN 法规为 EU 型式批准要求的组成部分）、<b>Art 58(1)-(2)</b>（这些 UN 法规与对应 EU 法规<b>等效</b>，成员国机关须接受其批准及 E 标以替代 EU 标）。标志外观见「标志选择器」顶部示意图。'},
+ smalle:{t:'小 e（e-mark）',d:'按<b>欧盟条例</b>取得的型式批准标志——<b>长方形外框</b> e + 国别号（区别于大 E 的圆形外框）。仅在欧盟内有效，用于<b>无对应 UN 法规、仅 EU 条例覆盖</b>的项。大 E 与小 e 之别在互认范围。<br>标志与铭牌依据：(EU) 2018/858 <b>Art 38</b>。标志外观见「标志选择器」顶部示意图。'},
  ce:{t:'CE 标志',d:'欧盟对<b>非车用型式批准范畴</b>产品的合规标志（如无线走 RED 2014/53/EU、机械走机械指令）。与 E/e 是不同体系；含无线/机械的车用电子件可能需<b>多标并存</b>（E-mark + CE）。'},
  cop:{t:'生产一致性 CoP',d:'Conformity of Production——确保<b>量产件持续与批准样品一致</b>的质量控制机制。需制定 CoP 控制计划并纳入质量管理体系；批准机关<b>发证前核查、发证后周期性监督/工厂审计</b>。拿证只是起点，CoP 不达标证书会被暂停乃至撤销。<br>依据：(EU) 2018/858 <b>Art 31</b>（Conformity of production arrangements，机关可据此<b>撤销型式批准</b>）。'},
  party:{t:'缔约方（Contracting Party）',d:'加入 1958 协定、承诺<b>相互承认型式批准</b>的国家/地区（欧盟、日本、韩国、俄罗斯、土耳其等 60+ 方，各有 E 号）。你的 E-mark 证书在共同适用该法规的缔约方之间互认。'},
@@ -662,6 +662,16 @@ function openIWVTA(){
     '权威来源：UNECE ECE/TRANS/WP.29/2025/159（UN R0 IWVTA 08 series 提案）Annex 4 Part A。');
 }
 
+// ===== 标志外观示意（矢量重绘）：圆形外框=UNECE 大 E；长方形外框=EU 小 e；框内数字=签发国代号 =====
+function markShapes(){
+  const E=`<svg viewBox="0 0 130 64" width="118" aria-label="大E标志示意"><circle cx="32" cy="32" r="24" fill="none" stroke="currentColor" stroke-width="3"/><text x="32" y="41" font-size="24" font-weight="700" text-anchor="middle" fill="currentColor" font-family="Arial">E4</text><text x="64" y="40" font-size="13" fill="currentColor" font-family="Arial">03 2439</text></svg>`;
+  const e=`<svg viewBox="0 0 130 64" width="118" aria-label="小e标志示意"><rect x="8" y="12" width="48" height="40" fill="none" stroke="currentColor" stroke-width="3"/><text x="32" y="41" font-size="24" font-weight="700" text-anchor="middle" fill="currentColor" font-family="Arial">e1</text><text x="62" y="40" font-size="13" fill="currentColor" font-family="Arial">00 0148</text></svg>`;
+  return `<div style="display:flex;gap:22px;flex-wrap:wrap;background:#fff;border:1px solid #ECEEF1;border-radius:10px;padding:12px 16px;margin-bottom:12px">
+    <div style="color:var(--od)">${E}<div style="font-size:11.5px;color:var(--ink2);margin-top:2px"><b>大 E</b> · 圆形外框＝UNECE（1958 协定）</div></div>
+    <div style="color:var(--blue)">${e}<div style="font-size:11.5px;color:var(--ink2);margin-top:2px"><b>小 e</b> · 长方形外框＝EU 条例/指令</div></div>
+    <div style="font-size:11.5px;color:var(--grey);line-height:1.6;flex:1;min-width:180px">框内数字＝签发批准的成员国/缔约方代号：E1/e1 德国、E4/e4 荷兰、E8 捷克、E11 英国（脱欧后仅 E 标）、E13 卢森堡、E50 马耳他……完整对照见「缔约方名录」。旁边数字为批准号（示意）。</div>
+  </div>`;
+}
 // ===== 标志选择器：E-mark / e-mark / CE，按现行 EU 指令编号（2026-07 核验）=====
 const MARK_RULES=[
  {id:'auto',q:'车用电子件（含电子电路，装于 M/N/O/L/T 类车辆）',marks:['E-mark（大E）'],
@@ -682,6 +692,7 @@ function openMarkSelector(){
   markSel={};
   const rows=MARK_RULES.map(r=>`<button class="mark-row" data-mark="${r.id}" onclick="toggleMark('${r.id}',this)"><span class="mark-ck">☐</span><span>${r.q}</span></button>`).join('');
   const body=`<div style="padding:14px 16px">
+    ${markShapes()}
     <div style="font-size:12.5px;color:var(--ink2);margin-bottom:8px">勾选你的部件特性（可多选），下方即时给出所需标志组合与现行法规依据：</div>
     <div style="font-size:11.5px;color:var(--grey);background:var(--bg);border-radius:7px;padding:8px 11px;margin-bottom:12px;line-height:1.6"><b>大 E</b>＝按 UN 法规批准（1958 协定，多国互认）· <b>小 e</b>＝按 EU 条例批准（欧盟内部）· <b>CE</b>＝非车用指令（无线/机械等）。判定原则：<b>有对应 UN 法规即大 E，仅 EU 条例覆盖才小 e</b>。</div>
     ${rows}
@@ -1095,7 +1106,7 @@ const FAQ=[
  {q:'部件带蓝牙 / Wi-Fi，拿了 E-mark 就够了吗？',a:'不够。无线模块另按 <b>RED 2014/53/EU</b> 打 CE，与 E-mark 并行、互不替代——两条独立的评定路径（型式批准机关 vs RED 公告机构）。'},
  {q:'气囊、安全带预紧器为什么还要 CE？',a:'内含气体发生器 / 点火药属<b>车用烟火制品</b>：按 (EU) 2013/29 <b>第 6 条</b>归 P1 类、<b>第 8 条</b>须加贴 CE，与 UN 型批（替换气囊 R114、安全带 R16）并行，两证不互相替代。'},
  {q:'网络安全 R155 跟我做机械件有关系吗？',a:'R155/R156 是<b>整车级</b>型式批准要求。除非你的申报范围本身含这两条、或你是涉及电子/智能网联的系统集成商，否则不适用——本工具也不会因此扣你的体系分。'},
- {q:'证书上的 E4、E1 数字是什么意思？',a:'是签发批准的缔约方<b>国别代号</b>（E1=德国、E4=荷兰、E11=英国、E13=卢森堡…），由你选择的批准机关决定，与产品销往哪国无关；证书在共同适用该法规的缔约方间互认。'},
+ {q:'证书上的 E4、E1 数字是什么意思？标志外框有讲究吗？',a:'数字是签发批准的缔约方<b>国别代号</b>（E1=德国、E4=荷兰、E8=捷克、E11=英国、E13=卢森堡、E50=马耳他…），由你选择的批准机关决定，与产品销往哪国无关。外框有讲究：<b>圆形外框＝UNECE 大 E</b>，<b>长方形外框＝EU 小 e</b>——看外框即知认证路线（示意图见标志选择器顶部）。证书在共同适用该法规的缔约方间互认。'},
  {q:'英国脱欧后 VCA 的证书还能用吗？',a:'VCA 仍是 1958 协定缔约方机关，可正常签发 <b>UNECE E 标（大 E）</b>；但不能再签发 EU e 标（小 e）——若产品必须满足仅 EU 条例覆盖的项，需另选欧盟成员国机关。'},
  {q:'认证到底要多久、多少钱？',a:'差异极大：取决于法规项数量、实验室排期与整改轮次。本工具在「认证旅程」各站给出<b>档位</b>（工时 / 机关费 / 测试费主体 / 年度费用），精确周期与报价以技术服务机构按具体产品评估为准——工具不臆造数字。'}
 ];
