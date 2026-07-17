@@ -923,7 +923,6 @@ function step4(){
   const nav=act.map(s=>{const sc=dimScore(s);const col=sc>=100?'#1F7A4D':(sc>0?'#B45309':'#9AA1AB');
     return `<button class="sb-item ${s.id===_sysActive?'on':''}" onclick="sysPick('${s.id}')"><span class="sb-dot" style="background:${col}"></span><span>${s.name}<br><small>${sc} 分</small></span></button>`;}).join('');
   // 右侧内容：当前维度题目
-  const gk={cop:'cop'}[cur.id];
   const rows=cur.qs.map(q=>`<div class="arow">
        <div class="al"><b>${q.q}</b> ${q.hint?`<small>${q.hint}</small>`:''}</div>
        <div class="seg" data-sys="${q.id}">
@@ -940,7 +939,7 @@ function step4(){
     <div class="sb">
       <div class="sb-nav">${nav}</div>
       <div class="sb-main">
-        <div class="sb-mh">${cur.name}${gk?' '+gloss(gk,''):''}</div>
+        <div class="sb-mh">${cur.name}</div>
         <div class="sb-msub">${cur.desc}</div>
         ${rows}
       </div>
