@@ -916,7 +916,7 @@ function step2(){
     ${sel.role&&ROLE_FB[sel.role]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${ROLE_FB[sel.role]}</div>`:''}
     ${focusNote()}
     <div class="secttl">② 目标市场</div>
-    <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div><div class="od">${m[2]}</div></button>`).join('')}</div>
+    <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div></button>`).join('')}</div>
     ${sel.market&&MARKET_FB[sel.market]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${MARKET_FB[sel.market]}</div>`:''}
     <div class="secttl">③ 按产品精选（推荐 · 可多选，只出你产品对应的法规）</div>
     <div class="pchips">${pchips}</div>
