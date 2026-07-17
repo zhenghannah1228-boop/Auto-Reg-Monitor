@@ -329,6 +329,13 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .faq summary:hover{color:var(--od)}
 .faq-a{font-size:12.5px;color:var(--ink2);line-height:1.7;padding:0 4px 11px 22px}
 .faq-a b{color:var(--od)}
+/* 体系维度法规要求速览 */
+.syslaw{background:#FBF7F2;border:1px solid #ECEEF1;border-radius:10px;margin:2px 0 14px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.syslaw summary{font-size:12.5px;font-weight:700;color:var(--od);cursor:pointer;padding:10px 13px;display:flex;align-items:center;list-style:none}
+.syslaw summary::-webkit-details-marker{display:none}
+.syslaw[open] summary{border-bottom:1px solid #ECEEF1}
+.syslaw-b{font-size:12.5px;line-height:1.75;color:var(--ink2);padding:11px 14px}
+.syslaw-b b{color:var(--ink)}
 </style></head><body>
 <header class="topbar"><div class="tb-in">
  <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统 · 对标德国 msg UN Regulation Assessment</span></div>
@@ -953,6 +960,19 @@ function intro(){
   </div>`;
 }
 
+// 体系维度的法规要求速览（据官方原文，逐条核对）——当前 CoP 维度
+const SYS_LAW={
+ cop:{ttl:'CoP 法规要求速览 · (EU) 2018/858 第 31 条 + 附件 IV',html:`
+  <b>法律基础</b>：CoP 不是"一张证书"，而是 <b>第 31 条</b>（生产一致性安排）+ <b>附件 IV</b>（生产一致性程序）规定的、由批准机关核查的机制。<br>
+  <b>目标</b>（附件 IV §1.1）：确保每一件量产的车辆/系统/部件/STU 持续与批准型式一致。<br>
+  <b>程序含两部分</b>（§1.2）：<br>
+  <b>① 初始评估（§2）</b>——批准前，机关核查制造商已建立"确保量产件与批准型式一致"的安排与程序；审核指引参 <b>EN ISO 19011:2011</b>；机关可采信制造商已有的 <b>EN ISO 9001:2015 或 ISO/TS 16949:2009</b>（后者现行版即 IATF 16949）质量体系认证作为证据（§2.3.1.1）。<br>
+  <b>② 产品一致性安排（§3）</b>——须有<b>与机关约定的书面控制计划</b>，按规定间隔做验证型式一致性的试验/检查（§3.2）。持证方义务（§3.3）：3.3.1 有效控制一致性的程序；3.3.2 具备检验设备；3.3.3 试验数据记录并留存<b>最长 10 年</b>；3.3.4 分析结果确保产品特性稳定；3.3.5 至少执行 Annex II 法规规定的检查/试验；3.3.6 出现不合格即追加抽样并采取纠正措施恢复生产。<br>
+  <b>监督周期</b>（第 31(4) 条）：按 Annex II 各法规规定频次；未规定的<b>至少每三年一次</b>。<br>
+  <span style="color:var(--grey)">要点：ISO 9001 / IATF 16949 是机关做 CoP 初始评估时<b>采信</b>的质量体系证据，非法规强制的"CoP 证书"；缺了也可由机关直接审你的生产一致性安排。</span>`}
+};
+function sysLaw(id){const s=SYS_LAW[id];if(!s)return '';
+  return `<details class="syslaw"><summary><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6a1 1 0 0 1 1 1V6a1 1 0 0 1-1 1H9A1 1 0 0 1 8 6v-.5a1 1 0 0 1 1-1Z"/><path d="M8 5.5H6a1.5 1.5 0 0 0-1.5 1.5V19A1.5 1.5 0 0 0 6 20.5h12A1.5 1.5 0 0 0 19.5 19V7A1.5 1.5 0 0 0 18 5.5h-2M8.5 11h7M8.5 14.5h5"/></svg>${s.ttl}</summary><div class="syslaw-b">${s.html}</div></details>`;}
 function step1(){
   const secs=PROFILE.map(p=>{
     const chosen=k=> p.multi? profile[p.id].includes(k) : profile[p.id]===k;
@@ -1098,6 +1118,7 @@ function step4(){
       <div class="sb-main">
         <div class="sb-mh">${cur.name}</div>
         <div class="sb-msub">${cur.desc}</div>
+        ${sysLaw(cur.id)}
         ${rows}
       </div>
     </div>
