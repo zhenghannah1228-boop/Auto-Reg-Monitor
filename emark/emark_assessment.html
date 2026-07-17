@@ -246,6 +246,12 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .tb-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;cursor:pointer}
 .tb-dd button:hover{background:var(--cream);color:var(--od)}
 .tb-sep{height:1px;background:var(--line);margin:5px 8px}
+.pchips{display:flex;flex-wrap:wrap;gap:8px}
+.pchip{font-family:inherit;font-size:12.5px;color:var(--ink);background:#fff;border:1px solid #ECEEF1;border-radius:18px;padding:7px 14px;cursor:pointer;transition:.12s;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.pchip small{color:var(--greyl);margin-left:5px;font-size:11px}
+.pchip:hover{border-color:var(--o)}
+.pchip.on{border-color:var(--o);background:var(--cream);color:var(--od);font-weight:700}
+.pchip.on small{color:var(--od)}
 .layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
 .sidebar{position:sticky;top:78px;display:flex;flex-direction:column;gap:14px}
 .sb-h{font-size:13px;font-weight:800;color:var(--ink)}
@@ -731,7 +737,7 @@ async function loadVerDB(){
 
 let cur=0;
 let objName='';
-let sel={role:null,market:null,groups:[]};
+let sel={role:null,market:null,groups:[],parts:[]};
 let profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]}; // 企业画像（线索）
 let regStatus={}; // item -> done/prog/no/unk
 let sysStatus={}; // 题目id -> full/part/none
@@ -781,6 +787,11 @@ function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
 function goStep(n){ if(n!==cur) go(n); }
 
 function applicable(){
+  // 产品精选优先：用户点选了具体产品时，精确锁定对应法规项（不再叠加分类组/角色过滤）
+  if(sel.parts&&sel.parts.length){
+    const set=new Set(sel.parts.flatMap(id=>{const p=PARTS.find(x=>x.id===id);return p?p.items:[];}));
+    return ITEMS.filter(i=>set.has(i.item));
+  }
   // 分类组筛选（不选=全部）+ 角色聚焦：STU=可独立认证条目；售后件=显式独立认证条目
   let gs=sel.groups.length?sel.groups:Object.keys(GROUPS);
   let base=ITEMS.filter(i=>gs.includes(i.g));
@@ -789,6 +800,7 @@ function applicable(){
   return base;
 }
 function focusNote(){
+  if(sel.parts&&sel.parts.length) return '';
   if(sel.role!=='STU'&&sel.role!=='AFTER') return '';
   const n=applicable().length;
   const what=sel.role==='STU'?'可独立认证（部件/技术单元）':'典型售后件（显式独立认证）';
@@ -855,9 +867,39 @@ function toStep2(){
   go(2);
 }
 
+// 常见产品精选：产品 → 具体法规项（item 码对应 ITEMS，已逐条核对）——避免刹车片厂家选 C 组带出一堆无关法规
+const PARTS=[
+ {id:'brake_pad',n:'刹车片/制动摩擦件（替换用）',items:['C5'],r:'R90'},
+ {id:'tyre',n:'轮胎',items:['C10'],r:'R30+R117'},
+ {id:'retread',n:'翻新轮胎',items:['C12'],r:'R108'},
+ {id:'wheel',n:'替换用车轮/轮毂',items:['C16'],r:'R124'},
+ {id:'siglamp',n:'光信号灯具',items:['D11'],r:'R4/R6/R7/R148…'},
+ {id:'headlamp',n:'前照灯/道路照明',items:['D12'],r:'R98/R112/R149…'},
+ {id:'reflector',n:'回复反射器/反光标识',items:['D13'],r:'R3/R104/R150'},
+ {id:'bulb',n:'灯泡/光源',items:['D14'],r:'R37/R99/R128'},
+ {id:'hlclean',n:'大灯清洗器',items:['D17'],r:'R45'},
+ {id:'glass',n:'安全玻璃',items:['B10'],r:'R43'},
+ {id:'mirror',n:'后视镜/间接视野装置',items:['B13'],r:'R46'},
+ {id:'horn',n:'喇叭',items:['D1'],r:'R28'},
+ {id:'seatbelt',n:'安全带',items:['A5'],r:'R16'},
+ {id:'crs',n:'儿童座椅',items:['A9','A10'],r:'R44/R129'},
+ {id:'airbag',n:'替换用安全气囊',items:['A23'],r:'R114'},
+ {id:'seat',n:'座椅及头枕',items:['A2'],r:'R17'},
+ {id:'towbar',n:'拖车钩/机械挂接装置',items:['F12'],r:'R55'},
+ {id:'rup',n:'后下防护装置',items:['A12'],r:'R58'},
+ {id:'gas',n:'LPG/CNG 系统部件',items:['A15','A16'],r:'R67/R110'},
+ {id:'emc',n:'车用电子件（EMC）',items:['D2'],r:'R10'},
+ {id:'antitheft',n:'防盗/报警/IMMO',items:['D3'],r:'R97/R116…'},
+ {id:'heater',n:'燃油加热器/加热系统',items:['D10'],r:'R122'},
+ {id:'reversing',n:'倒车探测装置',items:['B7'],r:'R158'},
+ {id:'edr',n:'事件数据记录 EDR',items:['E5'],r:'R160'},
+ {id:'doorlock',n:'门锁与铰链',items:['F3'],r:'R11'},
+ {id:'avas',n:'AVAS 行人警报',items:['B14'],r:'R138'}
+];
 function step2(){
   const roles=[['OEM','OEM 整车厂','整车 WVTA，需盘点全系统'],['STU','系统集成商','系统作为技术单元认证'],['AFTER','售后件供应商','独立部件/替换件认证']];
   const markets=[['EU','欧盟 (EU)','2018/858 + 2019/2144'],['ECE','1958协定缔约方','E-mark 互认'],['BOTH','两者','大E + 小e 全覆盖']];
+  const pchips=PARTS.map(p=>`<button class="pchip ${sel.parts.includes(p.id)?'on':''}" data-part="${p.id}">${p.n}<small>${p.r}</small></button>`).join('');
   const gopts=Object.entries(GROUPS).map(([k,v])=>`<button class="opt ${sel.groups.includes(k)?'sel':''}" data-grp="${k}"><div class="ot">${k} 组</div><div class="od">${v}</div></button>`).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 2 / 6 · 范围界定</div>
@@ -870,7 +912,10 @@ function step2(){
     <div class="secttl">② 目标市场</div>
     <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div><div class="od">${m[2]}</div></button>`).join('')}</div>
     <div class="probe" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.5 12 4h6.5V10.5L10 19a1.8 1.8 0 0 1-2.6 0l-3.9-3.9a1.8 1.8 0 0 1 0-2.6Z"/><circle cx="15.5" cy="8.5" r="1.2"/></svg>不确定你的部件要打大 E、小 e 还是 CE？<button class="dirbtn" onclick="openMarkSelector()">打开标志速查</button><span style="font-size:11.5px;color:var(--grey)">电子/无线/机械件常需多标并存</span></div>
-    <div class="secttl">③ 涉及的部件分类组（可多选，不选=全部）</div>
+    <div class="secttl">③ 按产品精选（推荐 · 可多选，只出你产品对应的法规）</div>
+    <div class="pchips">${pchips}</div>
+    ${sel.parts.length?`<div class="probe">已按产品精选，适用法规锁定为 <b>${applicable().length}</b> 条（下方分类组此时不生效）。</div>`:''}
+    <div class="secttl">④ 或按分类组粗选（可多选，不选=全部；已按产品精选时此项忽略）</div>
     <div class="opts g3">${gopts}</div>
     <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="toStep3()">下一步：法规盘点 →</button></div>
   </div>`;
@@ -1388,7 +1433,7 @@ function step6(){
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
 }
-function restart(){sel={role:null,market:null,groups:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};stnChk={};_sysActive=null;_stnActive=null;window._rno=null;objName='';const inp=document.getElementById('objname');if(inp)inp.value='';go(0);}
+function restart(){sel={role:null,market:null,groups:[],parts:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};stnChk={};_sysActive=null;_stnActive=null;window._rno=null;objName='';const inp=document.getElementById('objname');if(inp)inp.value='';go(0);}
 
 function bind(){
   document.querySelectorAll('[data-pq]').forEach(b=>b.onclick=()=>{
@@ -1400,6 +1445,7 @@ function bind(){
   document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{sel.role=b.dataset.role;render();});
   document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{sel.market=b.dataset.mkt;render();});
   document.querySelectorAll('[data-grp]').forEach(b=>b.onclick=()=>{const g=b.dataset.grp;const i=sel.groups.indexOf(g);if(i>=0)sel.groups.splice(i,1);else sel.groups.push(g);render();});
+  document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const g=b.dataset.part;const i=sel.parts.indexOf(g);if(i>=0)sel.parts.splice(i,1);else sel.parts.push(g);render();});
   document.querySelectorAll('.seg[data-item]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{regStatus[seg.dataset.item]=btn.dataset.v;render();});});
   document.querySelectorAll('.seg[data-sys]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{sysStatus[seg.dataset.sys]=btn.dataset.v;render();});});
 }
@@ -1415,7 +1461,7 @@ function loadProgress(){
   try{
     const raw=localStorage.getItem(SAVE_KEY); if(!raw) return;
     const s=JSON.parse(raw); if(!s||typeof s.cur!=='number') return;
-    cur=s.cur; objName=s.objName||''; sel=s.sel||sel; profile=s.profile||profile;
+    cur=s.cur; objName=s.objName||''; sel=s.sel||sel; sel.parts=sel.parts||[]; profile=s.profile||profile;
     regStatus=s.regStatus||{}; sysStatus=s.sysStatus||{}; stnChk=s.stnChk||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
     const inp=document.getElementById('objname'); if(inp) inp.value=objName;
   }catch(e){/* ignore corrupt save */}
