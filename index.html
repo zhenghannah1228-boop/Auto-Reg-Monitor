@@ -5864,8 +5864,23 @@ function renderCyAssess(body){
     });
     h+='</div>';
   });
-  body.innerHTML=h;cyRadar();
+  body.innerHTML=h;cyRadar();cyPersistSummary();
 }
+/* 网安评估摘要写入共享 localStorage,供 E-mark 工具(同源 iframe/独立版)Step4 回显 */
+function cyPersistSummary(){
+  try{
+    if(!_cyHub)return;
+    const doms=_cyHub.domains;
+    const overall=doms.reduce((a,d)=>a+cyDomScore(d),0)/doms.length;
+    const lv=cyLevel(overall),lvName=((_cyHub.meta.maturity_levels[lv-1])||{}).name||"";
+    let done=0,total=0;doms.forEach(d=>d.items.forEach(it=>{total++;if(((_cyAssess[it.key]||{}).status||0)===2)done++;}));
+    const summary={profile:_cyProfile,level:lv,levelName:lvName,overallPct:Math.round(overall*100),
+      done,total,domains:doms.map(d=>({name:d.name,pct:Math.round(cyDomScore(d)*100)})),ts:Date.now()};
+    localStorage.setItem("emark_cyber_summary_v1",JSON.stringify(summary));
+  }catch(e){/* 存储不可用则静默 */}
+}
+/* 供 E-mark 工具(iframe 内)调用:跳转到网络安全中心并触发懒加载 */
+window.jumpToCyber=function(){const t=[...document.querySelectorAll(".tab")].find(x=>x.dataset.p==="p-cyber");if(t)t.click();};
 function cyRadar(){
   const el=$("#cy-radar");if(!el||typeof echarts==="undefined")return;
   if(_cyChart){_cyChart.dispose();_cyChart=null;}
@@ -6072,6 +6087,8 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   if(t.dataset.p==="p-cmp"){if(typeof setCmpView==="function")setCmpView("txt");if(!_regCmp)loadRegCompare();}
   if(t.dataset.p==="p-path"){loadCert().then(()=>{fillPathAnchor();renderPath();});}
 }));
+// 深链:E-mark 独立版/新窗口以 #cyber 打开监控台时,自动定位网络安全中心
+if(/^#(p-)?cyber$/i.test(location.hash||"")) setTimeout(()=>{try{window.jumpToCyber&&window.jumpToCyber();}catch(e){}},0);
 (function(){const ai=$("#adv-q");if(ai)ai.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();askAdvisor();}});})();
 (function(){const wc=$("#wl-content");if(wc)wc.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey&&!e.isComposing){e.preventDefault();wlogAdd();}});})();
 
