@@ -781,7 +781,10 @@ function tsCell(o){
 }
 function openAuthDir(){
   const rows=AUTHDIR.slice().sort((a,b)=>a.e-b.e).map(o=>`<tr><td><b>E${o.e}</b></td><td>${o.cn}</td><td>${authCell(o.a)}</td><td>${o.w?`<a href="${o.w}" target="_blank" rel="noopener">官网</a>`:''}</td><td class="r">${tsCell(o)}</td><td>${o.sgs?'<span class="emk-sgs">SGS</span>':''}</td></tr>`).join('');
-  const body=`<div class="cn-note"><b>关于中国：</b>中国<b>非 1958 协定缔约方</b>（走 1998 协定/GTR 体系），没有独立的 E-mark 型式批准机关。全库<b>地址在中国的指定技术服务仅 2 家</b>（均由荷兰 RDW·E4 指定）：<span class="cnb">在华</span> GITI Tire（合肥）、Anhui Deji 安徽德基汽车检测中心——在各国名单中以「在华」标注。其余机构均在境外（含 SGS/TÜV/DEKRA 等，其在华办事处一般只做取样对接、非法定被指定实体）。</div>
+  const body=`<div class="cn-note"><b>关于中国（分三层看）：</b><br>
+  <b>① 测试：</b>国内能做 E-mark 测试的实验室其实很多——TÜV 莱茵/南德、SGS、DEKRA、Bureau Veritas、Applus IDIADA 等<b>被缔约方指定的技术服务</b>都在中国设有实验室，<b>测试在境内即可完成</b>。<br>
+  <b>② 被指定实体：</b>但这些外资技服的<b>法定被指定实体登记在境外</b>（如 TÜV Rheinland Kraftfahrt GmbH 登记于德国 E1），其中国实验室是该境外实体的"测试点"。故 Add.1 里<b>地址直接登记在中国的指定技术服务仅 2 家</b>（荷兰 RDW·E4 指定）：<span class="cnb">在华</span> GITI Tire（合肥）、Anhui Deji 安徽德基——在名单中以「在华」标注。<br>
+  <b>③ 签发证书：</b>中国实验室出具的是<b>测试报告</b>；<b>E-mark 型式批准证书只能由 1958 缔约方机关（KBA/RDW/VCA…）签发</b>，证书抬头为该境外机关 + 境外 E 号。中国<b>非 1958 缔约方</b>（走 1998 协定/GTR），无独立 E-mark 机关。</div>
     <div class="emk-search"><input id="dir-q" placeholder="搜索国家 / 机关名…" oninput="dirFilter(this.value)" autocomplete="off"></div>
     <table class="emk-tbl"><thead><tr><th>E 码</th><th>国家</th><th>指定型式批准机关</th><th>官网</th><th>技术服务</th><th>SGS</th></tr></thead><tbody id="dir-tb">${rows}</tbody></table>`;
   emkModal(`1958 协定缔约方 · 型式批准机关与技术服务名录（${AUTHDIR.length} 国）`, body,
