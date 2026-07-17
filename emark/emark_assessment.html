@@ -787,17 +787,19 @@ function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
 function goStep(n){ if(n!==cur) go(n); }
 
 function applicable(){
+  // 仅非欧盟缔约方市场：仅 EU 条例覆盖的小 e 项不适用，从盘点剔除
+  const mkt=b=> sel.market==='ECE'? b.filter(i=>i.mark!=='e') : b;
   // 产品精选优先：用户点选了具体产品时，精确锁定对应法规项（不再叠加分类组/角色过滤）
   if(sel.parts&&sel.parts.length){
     const set=new Set(sel.parts.flatMap(id=>{const p=PARTS.find(x=>x.id===id);return p?p.items:[];}));
-    return ITEMS.filter(i=>set.has(i.item));
+    return mkt(ITEMS.filter(i=>set.has(i.item)));
   }
   // 分类组筛选（不选=全部）+ 角色聚焦：STU=可独立认证条目；售后件=显式独立认证条目
   let gs=sel.groups.length?sel.groups:Object.keys(GROUPS);
   let base=ITEMS.filter(i=>gs.includes(i.g));
   if(sel.role==='STU') base=base.filter(i=>i.tc!=='VEHICLE');
   else if(sel.role==='AFTER') base=base.filter(i=>i.tc==='EXPLICIT');
-  return base;
+  return mkt(base);
 }
 function focusNote(){
   if(sel.parts&&sel.parts.length) return '';
@@ -898,7 +900,15 @@ const PARTS=[
 ];
 function step2(){
   const roles=[['OEM','OEM 整车厂','整车 WVTA，需盘点全系统'],['STU','系统集成商','系统作为技术单元认证'],['AFTER','售后件供应商','独立部件/替换件认证']];
-  const markets=[['EU','欧盟 (EU)','2018/858 + 2019/2144'],['ECE','1958协定缔约方','E-mark 互认'],['BOTH','两者','大E + 小e 全覆盖']];
+  // 口径说明：欧盟本身是 1958 协定缔约方（子集关系，非并列）；大E/小e 由「该项有无 UN 法规」决定，不由市场选择决定
+  const markets=[
+   ['EU','仅欧盟市场','有 UN 法规的项打大 E（欧盟必须接受，Art 57/58）；仅 EU 条例项打小 e'],
+   ['BOTH','欧盟 + 其他 1958 缔约方','大 E 一证多国互认（英/日/韩/澳等）；小 e 项出欧盟无效'],
+   ['ECE','仅非欧盟的 1958 缔约方','纯大 E 路线；仅 EU 条例项（小 e）不适用，自动从盘点剔除']];
+  const MARKET_FB={
+   EU:'欧盟也是 1958 缔约方：大 E 证书在欧盟有效且必须被接受（2018/858 Art 57/58）——不存在「为了欧盟单独改打小 e」的问题；小 e 只用于无 UN 法规的项。',
+   BOTH:`注意：盘点中「小 e」项（仅 EU 条例覆盖）只解决欧盟部分，出欧盟需按各缔约方当地要求另行处理。`,
+   ECE:`已从盘点中剔除仅 EU 条例覆盖的「小 e」项（此类项在非欧盟缔约方不适用）。`};
   const pchips=PARTS.map(p=>`<button class="pchip ${sel.parts.includes(p.id)?'on':''}" data-part="${p.id}">${p.n}<small>${p.r}</small></button>`).join('');
   const gopts=Object.entries(GROUPS).map(([k,v])=>`<button class="opt ${sel.groups.includes(k)?'sel':''}" data-grp="${k}"><div class="ot">${k} 组</div><div class="od">${v}</div></button>`).join('');
   return `<div class="step on">
@@ -909,8 +919,9 @@ function step2(){
     <div class="opts g3">${roles.map(r=>`<button class="opt ${sel.role===r[0]?'sel':''}" data-role="${r[0]}"><div class="ot">${r[1]}</div><div class="od">${r[2]}</div></button>`).join('')}</div>
     ${sel.role&&ROLE_FB[sel.role]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${ROLE_FB[sel.role]}</div>`:''}
     ${focusNote()}
-    <div class="secttl">② 目标市场</div>
+    <div class="secttl">② 目标市场（决定仅 EU 条例的「小 e」项是否纳入盘点）</div>
     <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div><div class="od">${m[2]}</div></button>`).join('')}</div>
+    ${sel.market&&MARKET_FB[sel.market]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${MARKET_FB[sel.market]}</div>`:''}
     <div class="probe" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 12.5 12 4h6.5V10.5L10 19a1.8 1.8 0 0 1-2.6 0l-3.9-3.9a1.8 1.8 0 0 1 0-2.6Z"/><circle cx="15.5" cy="8.5" r="1.2"/></svg>不确定你的部件要打大 E、小 e 还是 CE？<button class="dirbtn" onclick="openMarkSelector()">打开标志速查</button><span style="font-size:11.5px;color:var(--grey)">电子/无线/机械件常需多标并存</span></div>
     <div class="secttl">③ 按产品精选（推荐 · 可多选，只出你产品对应的法规）</div>
     <div class="pchips">${pchips}</div>
