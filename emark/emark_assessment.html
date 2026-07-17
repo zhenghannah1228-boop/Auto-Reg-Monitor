@@ -887,8 +887,7 @@ function verCell(i){
   return i.eif? `<span class="ver snap">快照 · 生效 ${i.eif}</span>` : `<span class="ver na">现行版本待追踪</span>`;
 }
 function verBanner(){
-  if(VERSTATE==='ok') return `<div class="verhint">已接入 <b>WP.29/343</b> 活数据（截至 ${VERDB.as_of||'—'}）：右上显示各法规<b>现行版本 + 生效日期</b>，随 UNECE 更新自动跟随。勾「不清楚」的项，正是版本追踪订阅的价值所在。</div>`;
-  if(VERSTATE==='loading') return `<div class="verhint">正在接入 WP.29/343 活数据以标注现行版本…</div>`;
+  if(VERSTATE==='ok'||VERSTATE==='loading') return '';
   return `<div class="verhint"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>活数据暂不可用，已回退到内置生效日期<b>快照</b>（可能非最新，建议开通版本追踪）。</div>`;
 }
 function step3(){
@@ -905,9 +904,7 @@ function step3(){
   return `<div class="step on">
     <div class="eyebrow">STEP 3 / 6 · 法规盘点（X 轴）</div>
     <h2 class="st">逐条自评法规认证状态</h2>
-    <p class="lead">如实勾选。你填的每一条既算成熟度分，也是我们理解你需求的依据——共 ${items.length} 条适用法规。勾「已认证」后若该法规已有更新系列生效，会自动提示核对。</p>
     ${focusNote()}
-    <div style="margin:6px 0 2px"><span style="font-size:11.5px;color:var(--grey)">标志角标：<span class="mkb mkb-e">大E</span>有 UN 法规·多国互认 / <span class="mkb mkb-le">小e</span>仅 EU 条例·欧盟内 / <span class="mkb mkb-n">整车级</span>不独立打标 / <span class="mkb mkb-ce">+CE烟火</span>含气囊气发·预紧器另按 (EU) 2013/29 打 CE。点「<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>N 国互认」看国家名单${sel.role==='OEM'?'；紫色 IWVTA:NN 为整车要求系列':''}；缔约方名录 / 过渡条款 / IWVTA 清单见右上「速查工具」</span></div>
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     ${rows}
