@@ -107,6 +107,18 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 /* 内行反馈条（每步选择后的专业提示） */
 .probe{font-size:12.5px;color:var(--ink2);background:var(--cream);border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:9px 13px;margin:10px 0 4px;line-height:1.65}
 .probe b{color:var(--od)}
+.cybr{background:linear-gradient(120deg,#fff,var(--cream));border:1.5px solid var(--ol);border-radius:12px;padding:14px 16px;margin:6px 0 14px}
+.cybr .ct{font-weight:800;font-size:13.5px;color:var(--od);display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.cybr .cm{font-size:12px;color:var(--ink2);margin:6px 0 8px;line-height:1.65}
+.cybr .clv{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--ol);border-radius:20px;padding:3px 11px;font-size:12.5px;font-weight:700;color:var(--od)}
+.cybar{display:grid;grid-template-columns:96px 1fr 36px;gap:8px;align-items:center;font-size:11.5px;margin:3px 0}
+.cybar>span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+.cybar .bt{background:var(--line);border-radius:6px;height:7px;overflow:hidden}
+.cybar .bf{height:100%;background:var(--o);border-radius:6px}
+.cybtn{font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:9px 16px;cursor:pointer;margin-top:8px}
+.cybtn:hover{background:var(--od)}
+.cybtn.ghost{background:#fff;color:var(--od);border:1.5px solid var(--ol)}
+.cybtn.ghost:hover{background:var(--cream)}
 .ver.warn{color:var(--amber);font-weight:600}
 .vehb{display:inline-block;font-size:10.5px;color:var(--blue);background:#EAF1F7;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
 .iwb{display:inline-block;font-size:10.5px;color:var(--purple);background:#EEE9F7;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px}
@@ -1140,6 +1152,30 @@ function step3(){
 }
 
 function sysPick(id){_sysActive=id;render();}
+/* ===== 网安中心桥接（并列工具）：Step4 跳转 tab20 + 结果回显 =====
+   两工具同源(GitHub Pages)共享 localStorage；tab20 评估后写 emark_cyber_summary_v1，此处读回。*/
+function cyberSummary(){ try{ return JSON.parse(localStorage.getItem('emark_cyber_summary_v1'))||null; }catch(e){ return null; } }
+function goCyber(){
+  try{ var p=window.parent; if(p&&p!==window&&typeof p.jumpToCyber==='function'){ p.jumpToCyber(); return; } }catch(e){}
+  try{ window.open('../index.html#cyber','_blank'); }catch(e){ alert('请在监控台打开「20 网络安全中心」标签页进行深度网安自评。'); }
+}
+function cyberBridgeCard(){
+  const E=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const s=cyberSummary();
+  const ic='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z"/></svg>';
+  if(!s){
+    return `<div class="cybr"><div class="ct">${ic}深度网安自评 · 网络安全中心</div>
+      <div class="cm">R155/R156 · ISO 21434 成熟度模型（10 域）、TARA / OTA / 事件响应 / 取证工程流程,由监控台<b>网络安全中心</b>承载。在那里完成评估后,成熟度结果会自动回显到这里,供本维度参考。</div>
+      <button class="cybtn" onclick="goCyber()">前往网安中心评估 ↗</button></div>`;
+  }
+  const bars=s.domains.slice().sort((a,b)=>b.pct-a.pct).slice(0,6).map(d=>
+    `<div class="cybar"><span title="${E(d.name)}">${E(d.name)}</span><div class="bt"><div class="bf" style="width:${Math.max(0,Math.min(100,d.pct))}%"></div></div><span style="text-align:right;color:var(--grey)">${d.pct}%</span></div>`).join('');
+  let when=''; try{when=new Date(s.ts).toLocaleDateString('zh-CN');}catch(e){}
+  return `<div class="cybr"><div class="ct">${ic}网安中心评估结果 <span style="flex:1"></span><span class="clv">成熟度 L${E(s.level)} ${E(s.levelName||'')}</span></div>
+    <div class="cm">档案「${E(s.profile||'团队基线')}」· 综合完成度 <b>${E(s.overallPct)}%</b> · 已达成 ${E(s.done)}/${E(s.total)} 项${when?' · 更新于 '+when:''}</div>
+    ${bars}
+    <button class="cybtn ghost" onclick="goCyber()">打开网安中心（更新评估）↗</button></div>`;
+}
 function step4(){
   const act=activeSys();
   act.forEach(s=>s.qs.forEach(q=>{if(!sysStatus[q.id])sysStatus[q.id]='none';}));
@@ -1168,6 +1204,7 @@ function step4(){
       <div class="sb-main">
         <div class="sb-mh">${cur.name}</div>
         <div class="sb-msub">${cur.desc}</div>
+        ${cur.id==='cyber'?cyberBridgeCard():''}
         ${sysLaw(cur.id)}
         ${rows}
       </div>
@@ -1700,6 +1737,9 @@ function openProfiles(){
   try{ const raw=localStorage.getItem(SAVE_KEY); if(raw){ const s=JSON.parse(raw); if(s&&typeof s.cur==='number') applyState(s); } }catch(e){}
 })();
 render();
+// 网安中心评估结果回流：tab20 写入 emark_cyber_summary_v1 时(跨文档 storage 事件),若正处 Step4 则实时刷新
+window.addEventListener('storage',function(e){ if(e.key==='emark_cyber_summary_v1' && cur===4) render(); });
+document.addEventListener('visibilitychange',function(){ if(!document.hidden && cur===4) render(); });
 loadVerDB();   // Task 2 · 后台拉取活数据（现行版本/生效日期），完成后若在 Step2 自动重渲染
 </script>
 </body></html>
