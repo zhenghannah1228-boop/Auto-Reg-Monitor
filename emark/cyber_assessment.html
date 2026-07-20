@@ -9,13 +9,43 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:"Microsoft YaHei","PingFang SC",-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
 a{color:var(--od)}
-.hero{background:linear-gradient(120deg,var(--ink),#2A2F36);color:#fff;padding:20px 26px;position:sticky;top:0;z-index:30}
-.hero .in{max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.hero h1{font-size:18px;margin:0;font-weight:900;letter-spacing:.5px}
-.hero .sub{font-size:12px;color:#c9ced4;margin-top:2px}
-.hero .back{margin-left:auto;font-size:13px;color:#fff;background:rgba(255,255,255,.14);border:none;border-radius:9px;padding:9px 15px;cursor:pointer;text-decoration:none;font-family:inherit}
-.hero .back:hover{background:rgba(255,255,255,.28)}
-.wrap{max-width:1040px;margin:0 auto;padding:20px 20px 60px}
+/* ===== 布局:对齐 E-mark 母工具(浅色顶栏 + 左侧栏 + 内容)===== */
+.topbar{background:linear-gradient(120deg,#fff,var(--cream));border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.tb-in{max-width:1160px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tb-title h1{font-size:21px;font-weight:800;letter-spacing:-.3px;margin:0;color:var(--ink)}
+.tb-title h1 .em{color:var(--o)}
+.tb-title .tb-sub{font-size:12px;color:var(--grey);margin-top:2px}
+.tb-act{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
+.badge-g:hover{background:var(--o);color:#fff}
+.badge-g .ico{stroke:currentColor;margin-right:4px}
+.tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
+.tb-home:hover{background:var(--o);color:#fff}
+.layout{max-width:1160px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:216px minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr;gap:14px}}
+.sidebar{position:sticky;top:74px;display:flex;flex-direction:column;gap:8px}
+@media(max-width:860px){.sidebar{position:static}}
+.sb-h{font-size:12px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:2px}
+.snav{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.sstep{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grey);cursor:pointer;padding:8px 10px;border-radius:9px;transition:.12s;line-height:1.3;font-family:inherit;background:none;border:none;text-align:left;width:100%}
+.sstep:hover{background:#fff;color:var(--ink)}
+.sstep .n{flex:none;width:24px;height:24px;border-radius:50%;border:1.6px solid var(--line);display:grid;place-items:center;font-size:11.5px;font-weight:700;background:#fff;color:var(--grey)}
+.sstep.active{background:var(--cream);color:var(--ink);font-weight:700}
+.sstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
+.sstep .stx{display:flex;flex-direction:column;min-width:0}
+.sstep .stx small{color:var(--greyl);font-size:10.5px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sgrp{font-size:10px;font-weight:700;color:var(--greyl);letter-spacing:.5px;margin:8px 2px 1px}
+.saveBtn{font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;box-shadow:0 2px 8px rgba(232,98,44,.25)}
+.saveBtn:hover{background:var(--od)}
+.newBtn{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:9px;padding:9px;cursor:pointer}
+.newBtn:hover{background:var(--cream)}
+.center{min-width:0}
+.namebar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.namebar label{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.namebar label::after{content:" *";color:var(--o)}
+.namebar input{flex:1;font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:9px;padding:10px 13px;color:var(--ink);background:#fff}
+.namebar input:focus{outline:none;border-color:var(--o)}
+#main{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
 .ico{width:15px;height:15px;display:inline-block;vertical-align:-2px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:5px}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px;align-items:center}
 .btn{font-family:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
@@ -116,7 +146,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 .pbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 16px}
 .pbar #pname{font-family:inherit;font-size:13px;min-width:220px;flex:0 1 300px;border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;color:var(--ink);background:#fff}
 .pbar #pname:focus{outline:none;border-color:var(--o)}
-.pstate{font-size:11.5px;color:var(--grey);white-space:nowrap}
+.pstate{font-size:11px;color:var(--grey);line-height:1.4;margin-top:2px}
 .btn.sm{font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px}
 /* 我的档案 模态 */
 .pmodal{position:fixed;inset:0;background:rgba(20,24,28,.5);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto}
@@ -215,29 +245,31 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 </style>
 </head>
 <body>
-<div class="hero"><div class="in">
-  <div>
-    <h1>网安 &amp; 功能安全 · 合规评估台</h1>
-    <div class="sub">21434 CAL 风险评级 · R155 CSMS / R156 SUMS 认证就绪度 · ISO 26262 ASIL 定级</div>
+<div class="topbar"><div class="tb-in">
+  <div class="tb-title">
+    <h1>网安 <span class="em">&amp;</span> 功能安全 · 合规评估台</h1>
+    <div class="tb-sub">ISO 21434 CAL · UN R155 CSMS / R156 SUMS · ISO 26262 ASIL</div>
   </div>
-  <a class="back" href="emark_assessment.html" id="backlink">← 返回 E-mark 评估</a>
+  <div class="tb-act">
+    <button class="badge-g" onclick="openProfiles()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h4l2 2h7A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5Z"/></svg>我的档案</button>
+    <button class="badge-g" onclick="exportReport()">🖨 导出报告</button>
+    <a class="tb-home" href="emark_assessment.html" id="backbtn">← 返回评估工具</a>
+  </div>
 </div></div>
-<div class="wrap">
-  <div class="pbar">
-    <input id="pname" placeholder="档案名称（如 Model X 2027 / 欧盟项目）" autocomplete="off">
-    <button class="btn p" id="savebtn" onclick="saveProgress()">保存进度</button>
-    <button class="btn" onclick="newProfile()">＋ 新建档案</button>
-    <button class="btn" onclick="openProfiles()">我的档案</button>
-    <span id="pstate" class="pstate"></span>
-    <span style="flex:1"></span>
-    <a class="btn" href="emark_assessment.html" id="backbtn">← 返回评估工具</a>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-h">评估模块</div>
+    <div class="snav" id="nav"></div>
+    <button class="saveBtn" id="savebtn" onclick="saveProgress()">保存进度</button>
+    <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
+    <div class="pstate" id="pstate"></div>
   </div>
-  <div id="summary"></div>
-  <div class="sb">
-    <div class="sb-nav" id="nav"></div>
-    <div class="sb-main" id="main"></div>
+  <div class="center">
+    <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off"></div>
+    <div id="summary"></div>
+    <div id="main"></div>
+    <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与驾驶舱数据按<b>档案</b>保存在本浏览器。</div>
   </div>
-  <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与驾驶舱数据按<b>档案</b>保存在本浏览器。</div>
 </div>
 <div id="report" class="report"></div>
 <div id="lvlmenu" class="lvlmenu"></div>
@@ -626,19 +658,19 @@ function renderTaraSummary(){
 function domDot(pct){ return pct>=100?'var(--green)':(pct>0?'var(--amber)':'var(--greyl)'); }
 function renderNav(){
   const ts=taraStats(), rs=r156Stats(), cs=r155Stats(), ha=haraStats();
-  const dotPct=p=>p>=80?'var(--green)':(p>=40?'var(--amber)':'var(--red)');
-  let h='<button class="sb-item'+(active==='home'?' on':'')+'" onclick="pick(\'home\')"><span class="sb-dot" style="background:var(--ink)"></span><span class="tx"><span>总览 Dashboard</span><small>四项就绪度 / 等级一览 · 导出报告</small></span></button>';
-  h+='<div class="navsep">合规认证就绪度</div>';
-  h+='<button class="sb-item'+(active==='csms'?' on':'')+'" onclick="pick(\'csms\')"><span class="sb-dot" style="background:'+dotPct(cs.pct)+'"></span><span class="tx"><span>① R155 CSMS 认证就绪度</span><small>就绪度 '+cs.pct+'% · 已建立 '+cs.done+'/'+cs.total+'</small></span></button>';
-  h+='<button class="sb-item'+(active==='r156'?' on':'')+'" onclick="pick(\'r156\')"><span class="sb-dot" style="background:'+dotPct(rs.pct)+'"></span><span class="tx"><span>② R156 SUMS 认证就绪度</span><small>就绪度 '+rs.pct+'% · 已建立 '+rs.done+'/'+rs.total+'</small></span></button>';
-  h+='<div class="navsep">工程评级方法</div>';
-  h+='<button class="sb-item'+(active==='tara'?' on':'')+'" onclick="pick(\'tara\')"><span class="sb-dot" style="background:var(--red)"></span><span class="tx"><span>③ 21434 CAL 风险评级</span><small>'+(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total+'</small></span></button>';
-  h+='<button class="sb-item'+(active==='hara'?' on':'')+'" onclick="pick(\'hara\')"><span class="sb-dot" style="background:'+(ha.maxA==='—'?'var(--greyl)':(ASIL_COL[ha.maxA]||[])[1]||'var(--o)')+'"></span><span class="tx"><span>④ ISO 26262 ASIL 定级</span><small>'+(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total+'</small></span></button>';
-  h+='<div class="navsep">参考</div>';
-  h+='<button class="sb-item'+(active==='cockpit'?' on':'')+'" onclick="pick(\'cockpit\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>影响驾驶舱</span><small>证据域 × 法规体系</small></span></button>';
-  h+='<button class="sb-item'+(active==='std'?' on':'')+'" onclick="pick(\'std\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>相关标准速览</span><small>R155/R156 · 21434 · CRA…</small></span></button>';
-  h+='<button class="sb-item'+(active==='glos'?' on':'')+'" onclick="pick(\'glos\')"><span class="sb-dot" style="background:var(--blue)"></span><span class="tx"><span>术语速查</span><small>'+GLOSSARY.length+' 条 · CSMS/SUMS/CAL/ASIL…</small></span></button>';
-  h+='<button class="sb-item'+(active==='faq'?' on':'')+'" onclick="pick(\'faq\')"><span class="sb-dot" style="background:var(--blue)"></span><span class="tx"><span>常见问答 FAQ</span><small>'+FAQS.length+' 问</small></span></button>';
+  const step=(id,n,title,sub)=>'<button class="sstep'+(active===id?' active':'')+'" onclick="pick(\''+id+'\')"><span class="n">'+n+'</span><span class="stx"><span>'+title+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</span></button>';
+  let h=step('home','◎','总览 Dashboard','四项一览 · 导出报告');
+  h+='<div class="sgrp">合规认证就绪度</div>';
+  h+=step('csms','1','R155 CSMS 就绪度','就绪度 '+cs.pct+'% · '+cs.done+'/'+cs.total);
+  h+=step('r156','2','R156 SUMS 就绪度','就绪度 '+rs.pct+'% · '+rs.done+'/'+rs.total);
+  h+='<div class="sgrp">工程评级方法</div>';
+  h+=step('tara','3','21434 CAL 风险评级',(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total);
+  h+=step('hara','4','26262 ASIL 定级',(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total);
+  h+='<div class="sgrp">参考</div>';
+  h+=step('cockpit','·','影响驾驶舱','证据域 × 法规体系');
+  h+=step('std','·','相关标准速览','R155/R156 · 21434 · CRA');
+  h+=step('glos','·','术语速查',GLOSSARY.length+' 条');
+  h+=step('faq','·','常见问答 FAQ',FAQS.length+' 问');
   document.getElementById('nav').innerHTML=h;
 }
 function taraRefHTML(){
