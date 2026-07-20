@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>深度网安成熟度自评 · R155/R156 · ISO 21434</title>
+<title>网安 & 功能安全 · 合规评估台 · 21434 CAL / R155-R156 / 26262 ASIL</title>
 <style>
 :root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--green:#1F7A4D;--red:#C0392B;--amber:#B45309}
 *{box-sizing:border-box}
@@ -152,12 +152,40 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 /* R156 SUMS 就绪度分组 */
 .r156g{margin-bottom:14px}
 .r156gh{font-size:13.5px;font-weight:800;color:var(--od);border-bottom:2px solid var(--ol);padding-bottom:4px;margin-bottom:6px}
+/* 总览 Dashboard */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:4px 0 8px}
+.dcard{text-align:left;font-family:inherit;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;cursor:pointer;transition:.12s;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.dcard:hover{border-color:var(--o);box-shadow:0 4px 14px rgba(16,24,40,.09)}
+.dcard .dct{font-size:12.5px;color:var(--grey);font-weight:600}
+.dcard .dcbig{font-size:30px;font-weight:900;line-height:1.15;margin:5px 0}
+.dcard .dcsub{font-size:11.5px;color:var(--grey)}
+/* 导出报告 */
+.report{display:none}
+.report .rhead{border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:12px}
+.report .rtitle{font-size:20px;font-weight:800}
+.report .rmeta{font-size:11px;color:#555;margin-top:4px}
+.report .rsum{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;margin-bottom:14px}
+.report h2{font-size:15px;margin:16px 0 6px;border-left:4px solid #E8622C;padding-left:8px}
+.report h3{font-size:12.5px;margin:10px 0 4px;color:#333}
+.report .rt{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:8px}
+.report .rt th{background:#f0f0f0;border:1px solid #ccc;padding:4px 6px;text-align:left}
+.report .rt td{border:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.report .rref{color:#666;font-size:10px;white-space:nowrap}
+.report .rst{text-align:center;font-weight:700;white-space:nowrap}
+.report .rst.s2{color:#1F7A4D}.report .rst.s1{color:#B45309}.report .rst.s0{color:#C0392B}
+.report .rfoot{font-size:10px;color:#666;margin-top:14px;border-top:1px solid #ccc;padding-top:6px;line-height:1.6}
+@media print{
+  body.printing>*{display:none !important}
+  body.printing>#report{display:block !important}
+  .report h2{page-break-after:avoid}
+  .report .rt tr{page-break-inside:avoid}
+}
 </style>
 </head>
 <body>
 <div class="hero"><div class="in">
   <div>
-    <h1>深度网安成熟度自评</h1>
+    <h1>网安 &amp; 功能安全 · 合规评估台</h1>
     <div class="sub">21434 CAL 风险评级 · R155 CSMS / R156 SUMS 认证就绪度 · ISO 26262 ASIL 定级</div>
   </div>
   <a class="back" href="emark_assessment.html" id="backlink">← 返回 E-mark 评估</a>
@@ -179,6 +207,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
   </div>
   <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与驾驶舱数据按<b>档案</b>保存在本浏览器。</div>
 </div>
+<div id="report" class="report"></div>
 <div id="lvlmenu" class="lvlmenu"></div>
 <div id="pmodal" class="pmodal" onclick="if(event.target===this)closeProfiles()">
   <div class="pmbox">
@@ -315,7 +344,7 @@ function haraStats(){
 }
 const PROFILES_KEY='emark_cyber_profiles_v1', ACTIVE_KEY='emark_cyber_active_v1', SUM_KEY='emark_cyber_summary_v1';
 const OLD_ANS='emark_cyber_assess_v1', OLD_CK='emark_cockpit_v1';
-let ans={}, cockpit=null, tara=null, hara=null, active='tara', ckEdit=false; // active: 'tara'/'r156'/'csms'/'hara'/'cockpit'/'std'
+let ans={}, cockpit=null, tara=null, hara=null, active='home', ckEdit=false; // active: 'tara'/'r156'/'csms'/'hara'/'cockpit'/'std'
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 /* ===== 空白驾驶舱模板(默认;保留 4 仪表/8 证据域/8 法规体系结构与标签,数值与等级全空)===== */
@@ -350,11 +379,11 @@ function saveProgress(){
 function newProfile(){
   if(!confirm('新建档案将清空当前页面(自评 + 驾驶舱)、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
   try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}
-  ans={}; cockpit=blankCockpit(); tara=seedTara(); hara=seedHara(); ckEdit=false; active='tara';
+  ans={}; cockpit=blankCockpit(); tara=seedTara(); hara=seedHara(); ckEdit=false; active='home';
   const el=document.getElementById('pname'); if(el) el.value='';
   writeSummary(); updatePBar(); render();
 }
-function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; ckEdit=false; active='tara'; closeProfiles(); writeSummary(); updatePBar(); render(); }
+function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; ckEdit=false; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
 function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;} openProfiles(); updatePBar(); }
 function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; delete ps[id]; setProfiles(ps); if(activeId()===id){try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}} openProfiles(); updatePBar(); }
 function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 未保存(填写后点「保存进度」建立档案)'; }
@@ -448,6 +477,7 @@ function persist(){ autosave(); }
 function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); renderMain(); }
 function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 function renderSummary(){
+  if(active==='home'){ document.getElementById('summary').innerHTML=''; return; }
   if(active==='r156'){ renderR156Summary(); return; }
   if(active==='csms'){ renderCsmsSummary(); return; }
   if(active==='hara'){ renderHaraSummary(); return; }
@@ -495,12 +525,14 @@ function renderTaraSummary(){
 }
 function domDot(pct){ return pct>=100?'var(--green)':(pct>0?'var(--amber)':'var(--greyl)'); }
 function renderNav(){
-  const ts=taraStats();
-  const rs=r156Stats();
-  let h='<button class="sb-item'+(active==='tara'?' on':'')+'" onclick="pick(\'tara\')"><span class="sb-dot" style="background:var(--red)"></span><span class="tx"><span>① 21434 风险评级 (CAL)</span><small>'+(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total+'</small></span></button>';
-  h+='<button class="sb-item'+(active==='r156'?' on':'')+'" onclick="pick(\'r156\')"><span class="sb-dot" style="background:'+(rs.pct>=80?'var(--green)':rs.pct>=40?'var(--amber)':'var(--red)')+'"></span><span class="tx"><span>② R156 SUMS 认证就绪度</span><small>就绪度 '+rs.pct+'% · 已建立 '+rs.done+'/'+rs.total+'</small></span></button>';
-  const cs=r155Stats(), ha=haraStats();
-  h+='<button class="sb-item'+(active==='csms'?' on':'')+'" onclick="pick(\'csms\')"><span class="sb-dot" style="background:'+(cs.pct>=80?'var(--green)':cs.pct>=40?'var(--amber)':'var(--red)')+'"></span><span class="tx"><span>③ R155 CSMS 认证就绪度</span><small>就绪度 '+cs.pct+'% · 已建立 '+cs.done+'/'+cs.total+'</small></span></button>';
+  const ts=taraStats(), rs=r156Stats(), cs=r155Stats(), ha=haraStats();
+  const dotPct=p=>p>=80?'var(--green)':(p>=40?'var(--amber)':'var(--red)');
+  let h='<button class="sb-item'+(active==='home'?' on':'')+'" onclick="pick(\'home\')"><span class="sb-dot" style="background:var(--ink)"></span><span class="tx"><span>总览 Dashboard</span><small>四项就绪度 / 等级一览 · 导出报告</small></span></button>';
+  h+='<div class="navsep">合规认证就绪度</div>';
+  h+='<button class="sb-item'+(active==='csms'?' on':'')+'" onclick="pick(\'csms\')"><span class="sb-dot" style="background:'+dotPct(cs.pct)+'"></span><span class="tx"><span>① R155 CSMS 认证就绪度</span><small>就绪度 '+cs.pct+'% · 已建立 '+cs.done+'/'+cs.total+'</small></span></button>';
+  h+='<button class="sb-item'+(active==='r156'?' on':'')+'" onclick="pick(\'r156\')"><span class="sb-dot" style="background:'+dotPct(rs.pct)+'"></span><span class="tx"><span>② R156 SUMS 认证就绪度</span><small>就绪度 '+rs.pct+'% · 已建立 '+rs.done+'/'+rs.total+'</small></span></button>';
+  h+='<div class="navsep">工程评级方法</div>';
+  h+='<button class="sb-item'+(active==='tara'?' on':'')+'" onclick="pick(\'tara\')"><span class="sb-dot" style="background:var(--red)"></span><span class="tx"><span>③ 21434 CAL 风险评级</span><small>'+(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total+'</small></span></button>';
   h+='<button class="sb-item'+(active==='hara'?' on':'')+'" onclick="pick(\'hara\')"><span class="sb-dot" style="background:'+(ha.maxA==='—'?'var(--greyl)':(ASIL_COL[ha.maxA]||[])[1]||'var(--o)')+'"></span><span class="tx"><span>④ ISO 26262 ASIL 定级</span><small>'+(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total+'</small></span></button>';
   h+='<div class="navsep">参考</div>';
   h+='<button class="sb-item'+(active==='cockpit'?' on':'')+'" onclick="pick(\'cockpit\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>影响驾驶舱</span><small>证据域 × 法规体系</small></span></button>';
@@ -516,8 +548,29 @@ function taraRefHTML(){
     '<div><div class="mtxh">CAL 矩阵 <span>ISO 21434 附录 E(资料性 informative)</span></div>'+cal+'</div></div>'+
     '<div class="ckleg">说明:<b>影响</b>取 S 安全 / F 财务 / O 运营 / P 隐私 四类中最严一档;<b>攻击可行性</b>可用攻击潜力法 / CVSS / 攻击向量法评估。CAL 为附录 E <b>资料性</b>方法(非强制),用于决定工程保障严苛度;<b>R155 型式批准不直接给 CAL、也无 L 等级</b>(CSMS 认证 = 通过/不通过)。评级随当前档案本地保存。</div>';
 }
+function dashCard(title,big,sub,col,onclick){
+  return '<button class="dcard" onclick="'+onclick+'"><div class="dct">'+esc(title)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+sub+'</div></button>';
+}
+function renderHome(m){
+  const cs=r155Stats(), rs=r156Stats(), ts=taraStats(), ha=haraStats();
+  const pc=p=>p>=80?'var(--green)':(p>=40?'var(--amber)':'var(--red)');
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'(未保存草稿)';
+  let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px">'+
+    '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">网安 & 功能安全合规评估台</div>'+
+    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 四项标准评估一览。R155/R156 为整车型批前置(通过/不通过);CAL/ASIL 为工程定级(21434 / 26262)。</div></div>'+
+    '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
+  s+='<div class="dgrid">'+
+    dashCard('① R155 CSMS 就绪度', cs.pct+'%', '已建立 '+cs.done+'/'+cs.total+' 项', pc(cs.pct), "pick('csms')")+
+    dashCard('② R156 SUMS 就绪度', rs.pct+'%', '已建立 '+rs.done+'/'+rs.total+' 项', pc(rs.pct), "pick('r156')")+
+    dashCard('③ 21434 最高 CAL', (ts.maxCal>0?'CAL '+ts.maxCal:'—'), '已评 '+ts.rated+'/'+ts.total+' 条威胁', (ts.maxCal>0?(CAL_COL[ts.maxCal]||[])[1]:'var(--greyl)'), "pick('tara')")+
+    dashCard('④ 26262 最高 ASIL', (ha.maxA==='—'?'—':'ASIL '+ha.maxA), '已评 '+ha.rated+'/'+ha.total+' 项危害', (ha.maxA==='—'?'var(--greyl)':(ASIL_COL[ha.maxA]||[])[1]), "pick('hara')")+
+    '</div>';
+  s+='<div class="ckleg">四项均按当前档案本地保存。点卡片进入对应模块评估;「导出评估报告」把四项现状生成一份可打印/存 PDF 的报告。就绪度 % 与 CAL/ASIL 均为自查参照,非型式批准结论。</div>';
+  m.innerHTML=s;
+}
 function renderMain(){
   const m=document.getElementById('main');
+  if(active==='home'){ renderHome(m); return; }
   if(active==='tara'){
     let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
       '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">ISO 21434 风险评级 · TARA → 风险值 / CAL</div>'+
@@ -668,6 +721,29 @@ function renderMain(){
     h+='<div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+'</div><div class="seg">'+seg+'</div></div>';
   });
   m.innerHTML=h;
+}
+/* ===== 导出评估报告(浏览器打印 → PDF)===== */
+function exportReport(){
+  const cs=r155Stats(), rs=r156Stats(), ts=taraStats(), ha=haraStats();
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'未命名档案';
+  let d=''; try{ d=new Date().toLocaleDateString('zh-CN'); }catch(e){}
+  const labs=['无','部分','已建立'];
+  const chk=groups=>groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:62%">条目</th><th>依据</th><th>状态</th></tr>'+
+    g.items.map(it=>{const v=ans[it.k]||0;return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+labs[v]+'</td></tr>';}).join('')+'</table>').join('');
+  let html='<div class="rhead"><div class="rtitle">网安 &amp; 功能安全 · 合规评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准结论</div></div>';
+  html+='<div class="rsum"><div>① R155 CSMS 就绪度 <b>'+cs.pct+'%</b>（'+cs.done+'/'+cs.total+'）</div><div>② R156 SUMS 就绪度 <b>'+rs.pct+'%</b>（'+rs.done+'/'+rs.total+'）</div><div>③ 21434 最高 <b>'+(ts.maxCal>0?'CAL '+ts.maxCal:'—')+'</b>（已评 '+ts.rated+'/'+ts.total+'）</div><div>④ 26262 最高 <b>'+(ha.maxA==='—'?'—':'ASIL '+ha.maxA)+'</b>（已评 '+ha.rated+'/'+ha.total+'）</div></div>';
+  html+='<h2>① UN R155 · CSMS 认证就绪度</h2>'+chk(R155.groups);
+  html+='<h2>② UN R156 · SUMS 认证就绪度</h2>'+chk(R156.groups);
+  html+='<h2>③ ISO 21434 · 风险评级(TARA → 风险值 / CAL)</h2><table class="rt"><tr><th>威胁场景</th><th>资产</th><th>影响</th><th>可行性</th><th>风险值</th><th>CAL</th></tr>'+
+    tara.map(t=>{const rv=riskOf(t),c=calOf(t);return '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.asset||'')+'</td><td>'+(t.impact?esc(impactCn(t.impact)):'—')+'</td><td>'+(t.feas?esc(feasCn(t.feas)):'—')+'</td><td class="rst">'+(rv||'—')+'</td><td class="rst">'+(c!=null?(c>0?'CAL '+c:'无需'):'—')+'</td></tr>';}).join('')+'</table>';
+  html+='<h2>④ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
+    hara.map(h=>{const a=asilOf(h);return '<tr><td>'+esc(h.name)+'</td><td>'+esc(h.fn||'')+'</td><td class="rst">'+(h.s||'—')+'</td><td class="rst">'+(h.e||'—')+'</td><td class="rst">'+(h.c||'—')+'</td><td class="rst">'+(a!=null?(a==='QM'?'QM':'ASIL '+a):'—')+'</td></tr>';}).join('')+'</table>';
+  html+='<div class="rfoot">评级方法依据 ISO/SAE 21434(风险值 / CAL,附录 E 资料性)、ISO 26262-3(ASIL)与 UN R155/R156 条款;R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;正式判定以认可技术服务 / 批准机关为准。</div>';
+  const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
+  document.body.classList.add('printing');
+  const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
+  window.addEventListener('afterprint',cleanup);
+  setTimeout(()=>{ try{window.print();}catch(e){cleanup();} }, 80);
 }
 function render(){ renderSummary(); renderNav(); renderMain(); }
 (function(){
