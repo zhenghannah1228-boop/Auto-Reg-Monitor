@@ -995,6 +995,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div id="rd-view-list">
     <div class="card">
       <h3>法规雷达 <span class="hint">汽车法规/标准/政策实时更新 · 由 AI 联网搜集 → 你确认 → 入库;覆盖主要出口市场国别、WTO TBT 汽车类通报、主题线(ADAS/网安/排放/电池)</span></h3>
+      <div style="font-size:11px;color:var(--muted);font-family:var(--mono);line-height:1.7;margin-bottom:6px">自动数据源:🇺🇸 <a href="https://www.federalregister.gov/agencies/national-highway-traffic-safety-administration" target="_blank" rel="noopener" style="color:var(--blue)">美国联邦公报 NHTSA</a> · <a href="https://www.federalregister.gov/agencies/environmental-protection-agency" target="_blank" rel="noopener" style="color:var(--blue)">EPA ↗</a> 汽车相关规则/拟议规则 <b>每周一/四自动同步</b>(GitHub Actions 抓官方 API → 每条带 govinfo 官方 PDF 直链 → 去重入库);不合规/缺陷请愿类notice自动分流至【16 召回案例】。其余市场仍由「📋 复制采集指令」人工核实入库。</div>
       <div class="netctrl" style="flex-wrap:wrap">
         <input id="rd-q" class="csel" style="min-width:220px" placeholder="搜标题/机构/国家/摘要/TBT号" oninput="renderRadar()">
         <select class="csel" id="rd-region" onchange="renderRadar()"><option value="">全部地区</option></select>
