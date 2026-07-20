@@ -90,7 +90,15 @@ a{color:var(--od)}
 .cin{font-family:inherit;font-size:12px;width:100%;border:1px solid var(--line);border-radius:6px;padding:5px 7px;color:var(--ink);background:#fff}
 .cin:focus{outline:none;border-color:var(--o)}
 select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
-select.cin option{font-size:14px;padding:4px}
+/* 自定义下拉:按钮 + 弹层(字号完全可控) */
+.lvlbtn{font-family:inherit;font-size:13.5px;width:100%;text-align:left;border:1px solid var(--line);border-radius:6px;padding:6px 9px;background:#fff;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:4px}
+.lvlbtn:hover{border-color:var(--o)}
+.lvlbtn .cae{color:var(--greyl);font-size:11px;flex:none}
+.lvlmenu{position:absolute;z-index:200;background:#fff;border:1px solid var(--line);border-radius:9px;box-shadow:0 10px 28px rgba(16,24,40,.2);padding:5px;display:none}
+.lvlmenu.on{display:block}
+.lvlmenu button{display:block;width:100%;text-align:left;font-family:inherit;font-size:14px;border:none;background:#fff;padding:9px 13px;border-radius:6px;cursor:pointer;color:var(--ink);white-space:nowrap}
+.lvlmenu button:hover{background:var(--cream)}
+.lvlmenu button.sel{color:var(--od);font-weight:700;background:var(--cream)}
 .cin.num{width:72px;flex:none;text-align:center}
 .cin.sm{font-size:11px;margin-top:5px;color:var(--grey)}
 .cin.col{min-width:104px}
@@ -146,6 +154,7 @@ select.cin option{font-size:14px;padding:4px}
   </div>
   <div class="note">成熟度模型内容蒸馏自公开网络安全手册与 ISO/SAE 21434、UN R155/R156，用于团队自查参照，<b>非型式批准结论</b>；正式判定以认可技术服务 / 批准机关为准。评估与驾驶舱数据按<b>档案</b>保存在本浏览器，并把成熟度摘要回传给 E-mark 评估工具 Step 4 展示。</div>
 </div>
+<div id="lvlmenu" class="lvlmenu"></div>
 <div id="pmodal" class="pmodal" onclick="if(event.target===this)closeProfiles()">
   <div class="pmbox">
     <div class="pmh">我的档案 <button class="pmx" onclick="closeProfiles()" aria-label="关闭">✕</button></div>
@@ -211,6 +220,25 @@ function openProfiles(){
   document.getElementById('pmlist').innerHTML=h; document.getElementById('pmodal').classList.add('on');
 }
 function closeProfiles(){ const m=document.getElementById('pmodal'); if(m) m.classList.remove('on'); }
+/* ===== 自定义下拉(替代原生 select,弹层字号可控)===== */
+const LVL_OPTS=[['','— 无'],['High','High 强证据'],['Support','Support 支撑'],['Medium','Medium 中等'],['Trace','Trace 可追溯']];
+const TONE_OPTS=[['red','🔴 红 · 高风险'],['amber','🟠 琥珀 · 关注'],['green','🟢 绿 · 良好']];
+function toneLabel(t){ const o=TONE_OPTS.find(x=>x[0]===t); return o?o[1]:'（选口径）'; }
+let _menuCb=null;
+function showMenu(btn,opts,cur,cb){
+  _menuCb=cb;
+  const menu=document.getElementById('lvlmenu');
+  menu.innerHTML=opts.map(o=>'<button class="'+(o[0]===cur?'sel':'')+'" onclick="pickMenu(\''+String(o[0]).replace(/'/g,"\\'")+'\')">'+esc(o[1])+'</button>').join('');
+  const r=btn.getBoundingClientRect();
+  menu.style.left=(window.scrollX+r.left)+'px';
+  menu.style.top=(window.scrollY+r.bottom+3)+'px';
+  menu.style.minWidth=Math.max(r.width,150)+'px';
+  menu.classList.add('on');
+}
+function pickMenu(v){ const cb=_menuCb; const m=document.getElementById('lvlmenu'); if(m)m.classList.remove('on'); _menuCb=null; if(cb)cb(v); }
+function lvlOpen(ri,ci,btn,ev){ ev.stopPropagation(); const c=cockpit.rows[ri].cells[ci]; const cur=(c&&c.level)||''; showMenu(btn,LVL_OPTS,cur,function(v){ ckCell(ri,ci,'level',v); renderMain(); }); }
+function toneOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,TONE_OPTS,cockpit.kpis[i].tone,function(v){ ckKpi(i,'tone',v); renderMain(); }); }
+document.addEventListener('click',function(){ const m=document.getElementById('lvlmenu'); if(m)m.classList.remove('on'); });
 /* ===== 驾驶舱编辑(改动即时自动存入当前档案)===== */
 function ckToggle(){ ckEdit=!ckEdit; renderMain(); }
 function ckClear(){ if(!confirm('清空驾驶舱全部数值与等级(结构与标签保留)？'))return; cockpit=blankCockpit(); autosave(); renderMain(); }
@@ -289,7 +317,7 @@ function renderMain(){
       if(ed){
         return '<div class="kc"><input class="cin" value="'+escA(k.label)+'" placeholder="仪表名称" oninput="ckKpi('+i+",'label',this.value)\">"+
           '<div style="display:flex;gap:6px;align-items:center;margin:6px 0"><input class="cin num" type="number" min="0" max="100" value="'+(hasV?v:'')+'" placeholder="—" oninput="ckKpi('+i+",'value',this.value)\"><span style=\"font-size:12px;color:var(--grey)\">%</span></div>"+
-          '<select class="cin" style="margin-bottom:6px" onchange="ckKpi('+i+",'tone',this.value)\">"+[['red','🔴 红 · 高风险'],['amber','🟠 琥珀 · 关注'],['green','🟢 绿 · 良好']].map(t=>'<option value="'+t[0]+'"'+(k.tone===t[0]?' selected':'')+'>'+t[1]+'</option>').join('')+'</select>'+
+          '<button class="lvlbtn" style="margin-bottom:6px" onclick="toneOpen('+i+',this,event)">'+esc(toneLabel(k.tone))+' <span class="cae">▾</span></button>'+
           '<input class="cin" value="'+escA(k.note)+'" placeholder="说明 / 依据" oninput="ckKpi('+i+",'note',this.value)\"></div>";
       }
       return '<div class="kc"><div class="kl">'+esc(k.label)+'</div><div class="kv" style="color:'+(hasV?col:'var(--greyl)')+'">'+(hasV?v+'%':'—')+'</div>'+
@@ -309,7 +337,7 @@ function renderMain(){
         if(ed){
           const lv=cell&&cell.level!=null?cell.level:'';
           const pc=cell&&cell.pct!=null?cell.pct:'';
-          return '<td><select class="cin lvl" onchange="ckCell('+ri+','+ci+",'level',this.value)\"><option value=\"\">— 无</option>"+LVLS.map(L=>'<option value="'+L+'"'+(lv===L?' selected':'')+'>'+L+'</option>').join('')+'</select>'+
+          return '<td><button class="lvlbtn" onclick="lvlOpen('+ri+','+ci+',this,event)">'+(lv?esc(lv):'— 无')+' <span class="cae">▾</span></button>'+
             '<input class="cin num2" type="number" min="0" max="100" value="'+pc+'" placeholder="%" oninput="ckCell('+ri+','+ci+",'pct',this.value)\"></td>";
         }
         if(!cell||cell.level==null)return '<td class="dash">–</td>';
