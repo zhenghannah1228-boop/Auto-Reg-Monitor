@@ -21,6 +21,11 @@ a{color:var(--od)}
 .badge-g .ico{stroke:currentColor;margin-right:4px}
 .tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
 .tb-home:hover{background:var(--o);color:#fff}
+.tb-menu{position:relative}
+.tb-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:200px;padding:6px;z-index:60}
+.tb-dd.on{display:block}
+.tb-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;cursor:pointer}
+.tb-dd button:hover{background:var(--cream);color:var(--od)}
 .layout{max-width:1160px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:216px minmax(0,1fr);gap:24px;align-items:start}
 @media(max-width:860px){.layout{grid-template-columns:1fr;gap:14px}}
 .sidebar{position:sticky;top:74px;display:flex;flex-direction:column;gap:8px}
@@ -251,6 +256,14 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
     <div class="tb-sub">ISO 21434 CAL · UN R155 CSMS / R156 SUMS · ISO 26262 ASIL</div>
   </div>
   <div class="tb-act">
+    <div class="tb-menu">
+      <button class="badge-g" onclick="event.stopPropagation();toggleTools()">☰ 速查工具 ▾</button>
+      <div class="tb-dd" id="tb-dd">
+        <button onclick="openTool('glos')">📖 术语速查</button>
+        <button onclick="openTool('faq')">❔ 常见问答 FAQ</button>
+        <button onclick="openTool('std')">📑 相关标准速览</button>
+      </div>
+    </div>
     <button class="badge-g" onclick="openProfiles()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h4l2 2h7A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5Z"/></svg>我的档案</button>
     <button class="badge-g" onclick="exportReport()">🖨 导出报告</button>
     <a class="tb-home" href="emark_assessment.html" id="backbtn">← 返回评估工具</a>
@@ -277,6 +290,12 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
   <div class="pmbox">
     <div class="pmh">我的档案 <button class="pmx" onclick="closeProfiles()" aria-label="关闭">✕</button></div>
     <div id="pmlist" class="pmlist"></div>
+  </div>
+</div>
+<div id="gmodal" class="pmodal" onclick="if(event.target===this)gmClose()">
+  <div class="pmbox" style="max-width:760px">
+    <div class="pmh"><span id="gmtitle"></span><button class="pmx" onclick="gmClose()" aria-label="关闭">✕</button></div>
+    <div id="gmbody" class="pmlist"></div>
   </div>
 </div>
 <script>
@@ -668,9 +687,6 @@ function renderNav(){
   h+=step('hara','4','26262 ASIL 定级',(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total);
   h+='<div class="sgrp">参考</div>';
   h+=step('cockpit','·','影响驾驶舱','证据域 × 法规体系');
-  h+=step('std','·','相关标准速览','R155/R156 · 21434 · CRA');
-  h+=step('glos','·','术语速查',GLOSSARY.length+' 条');
-  h+=step('faq','·','常见问答 FAQ',FAQS.length+' 问');
   document.getElementById('nav').innerHTML=h;
 }
 function taraRefHTML(){
@@ -927,6 +943,20 @@ function glosListHTML(){
   return '<div class="glosgrid">'+list.map(g=>'<div class="glos"><div class="glost">'+esc(g.t)+' <span class="glosf">'+esc(g.full)+'</span></div><div class="glosd">'+esc(g.d)+'</div></div>').join('')+'</div>';
 }
 function glosSearch(v){ _glosQ=v; const el=document.getElementById('glosList'); if(el) el.innerHTML=glosListHTML(); }
+function faqHTML(){ return '<div class="std">'+FAQS.map((f,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(f.q)+'</summary><div class="sc">'+esc(f.a)+'</div></details>').join('')+'</div>'; }
+function stdHTML(){ return '<div class="std">'+(CYBER.standards||[]).map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
+/* 速查工具下拉 + 弹窗 */
+function toggleTools(){ const d=document.getElementById('tb-dd'); if(d) d.classList.toggle('on'); }
+function openTool(which){
+  const d=document.getElementById('tb-dd'); if(d) d.classList.remove('on');
+  const t=document.getElementById('gmtitle'), bd=document.getElementById('gmbody');
+  if(which==='glos'){ t.textContent='术语速查（'+GLOSSARY.length+' 条）'; bd.innerHTML='<input class="cin" id="glosq" style="max-width:340px;margin-bottom:12px" placeholder="搜索术语,如 CAL / RXSWIN / 攻击可行性" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)"><div id="glosList">'+glosListHTML()+'</div>'; }
+  else if(which==='faq'){ t.textContent='常见问答 FAQ'; bd.innerHTML=faqHTML(); }
+  else { t.textContent='相关标准 / 法规速览'; bd.innerHTML=stdHTML(); }
+  document.getElementById('gmodal').classList.add('on');
+}
+function gmClose(){ const m=document.getElementById('gmodal'); if(m) m.classList.remove('on'); }
+document.addEventListener('click',function(e){ const dd=document.getElementById('tb-dd'); if(dd&&dd.classList.contains('on')&&!e.target.closest('.tb-menu')) dd.classList.remove('on'); });
 function render(){ renderSummary(); renderNav(); renderMain(); }
 (function(){
   const bl=document.getElementById('backlink'), bb=document.getElementById('backbtn');
