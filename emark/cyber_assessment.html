@@ -109,7 +109,7 @@ a{color:var(--od)}
 .glost .glosf{font-weight:400;font-size:10.5px;color:var(--greyl)}
 .glosd{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.6}
 .note{font-size:11.5px;color:var(--grey);background:#FBF7F2;border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.7}
-/* 影响驾驶舱 */
+/* 证据—法规映射 */
 .ckpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
 .kc{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .kc .kl{font-size:11.5px;color:var(--grey)}
@@ -281,7 +281,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
     <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off"></div>
     <div id="summary"></div>
     <div id="main"></div>
-    <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与驾驶舱数据按<b>档案</b>保存在本浏览器。</div>
+    <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与映射数据按<b>档案</b>保存在本浏览器。</div>
   </div>
 </div>
 <div id="report" class="report"></div>
@@ -300,7 +300,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 </div>
 <script>
 const CYBER={"levels":["临时 Ad Hoc","可重复 Repeatable","已管理 Managed","已优化 Optimized","韧性 Resilient"],"labels":["未开始","部分达成","已达成"],"domains":[{"key":"csms","name":"治理与 CSMS","desc":"网络安全管理体系、组织职责、政策与生命周期治理(R155 核心)。","levels":["无安全角色或政策","安全政策文档化、角色已分配","CSMS 认证、安全指导委员会、有度量","与企业风险管理集成","持续改进、行业信息共享"],"items":[{"k":"csms.1","t":"已建立书面 CSMS 政策,明确角色/职责/汇报线(CISO 或等效)","r":"UN R155 / ISO 21434 Cl.5"},{"k":"csms.2","t":"网络安全活动覆盖开发/生产/后生产全生命周期并有阶段门禁","r":"UN R155"},{"k":"csms.3","t":"持有有效 CSMS 证书,且每个在售车型有 CS 型式批准","r":"UN R155"},{"k":"csms.4","t":"与供应商签订网络安全责任接口协议(DIA),职责边界清晰","r":"ISO 21434 Cl.15"},{"k":"csms.5","t":"把网络安全纳入采购准入与项目里程碑评审","r":"Handbook Ch1/Ch15"}]},{"key":"tara","name":"威胁分析与风险评估(TARA)","desc":"资产识别、威胁建模、攻击路径与风险定级及处置。","levels":["无 TARA、临时风险讨论","部分条目做了 TARA、无正式方法","按 21434 全量 TARA、分配 CAL、链接设计","TARA 自动化、持续更新","数据驱动、威胁情报回灌"],"items":[{"k":"tara.1","t":"对每个项目识别资产与其网络安全属性(C/I/A)","r":"ISO 21434 Cl.15"},{"k":"tara.2","t":"用结构化方法(STRIDE/攻击树)枚举威胁场景与攻击路径","r":"Handbook Ch6"},{"k":"tara.3","t":"按影响×攻击可行性给出风险值并决定处置(降/避/转/留)","r":"ISO 21434"},{"k":"tara.4","t":"TARA 与功能安全 HARA 对齐(安全-安全集成)","r":"ISO 26262 / Ch7"},{"k":"tara.5","t":"TARA 随设计变更与新情报定期复评、版本留痕","r":"ISO 21434"}]},{"key":"arch","name":"安全架构与纵深防御","desc":"域隔离、网关防护、最小权限与边界防御。","levels":["无安全架构、信任边界未文档化","基础分域、部分安全设计模式","正式信任模型、网关控制、HSM 集成","零信任(Zero Trust)架构","运行时验证、SDV 安全栈"],"items":[{"k":"arch.1","t":"对外接口(蜂窝/Wi-Fi/蓝牙/USB/OBD)清单化并最小化暴露面","r":"Handbook Ch2/Ch8"},{"k":"arch.2","t":"网络分域隔离,中央网关做消息过滤与访问控制","r":"Ch8"},{"k":"arch.3","t":"关键总线/域采用消息认证(如 SecOC)防伪造重放","r":"Ch8/Ch9"},{"k":"arch.4","t":"落实最小权限与默认拒绝;调试/诊断接口(JTAG/OBD/DoIP)生产态受控","r":"Ch8"},{"k":"arch.5","t":"后端/云 API 鉴权与授权严格(防 BOLA 越权枚举)","r":"附录C 案例"}]},{"key":"crypto","name":"安全启动·密码学·身份","desc":"Secure Boot、密钥管理、HSM、身份与后量子准备。","levels":["明文/硬编码密钥、无安全启动","部分 ECU 启用 Secure Boot、密钥基础管理","HSM 保护密钥+分级轮换、唯一身份与吊销","密码敏捷、算法可在线替换","完成 PQC(ML-KEM/ML-DSA)迁移并试点"],"items":[{"k":"crypto.1","t":"关键 ECU 启用 Secure Boot / 信任根校验固件完整性","r":"Handbook Ch9"},{"k":"crypto.2","t":"密钥由 HSM/安全存储保护,具备分级与轮换机制","r":"Ch9"},{"k":"crypto.3","t":"每车/每件唯一身份与证书(PKI),支持吊销","r":"Ch9"},{"k":"crypto.4","t":"采用密码敏捷设计,算法可经更新替换","r":"NIST PQC / 附录J"},{"k":"crypto.5","t":"已制定后量子密码(ML-KEM/ML-DSA)迁移路线","r":"FIPS 203/204/205"}]},{"key":"ota","name":"OTA 安全更新(SUMS)","desc":"软件更新管理体系、签名校验、回滚与 RXSWIN。","levels":["无 OTA 或手动刷写、无回滚","有 OTA 但签名/回滚不完整","SUMS+端到端签名+A/B 回滚+RXSWIN","分群灰度+管线 SLSA 溯源","<24h 关键补丁 OTA、自动化发布门禁"],"items":[{"k":"ota.1","t":"已建立 SUMS,更新包端到端签名与完整性校验","r":"UN R156 / Ch10"},{"k":"ota.2","t":"更新失败可安全回滚(A/B 分区),具备防变砖保护","r":"Ch10"},{"k":"ota.3","t":"维护 RXSWIN/软件物料清单,更新前评估型式批准影响","r":"UN R156"},{"k":"ota.4","t":"向用户告知更新内容/影响,记录可追溯","r":"UN R156"},{"k":"ota.5","t":"更新后端管线自身受保护(HSM 签名密钥、发布门禁)","r":"Ch10"}]},{"key":"devtest","name":"安全开发与测试","desc":"安全编码、SAST/DAST、模糊测试与渗透测试。","levels":["仅发布前渗透、无回归","CI 中 SAST+基础 fuzz+SOP 渗透","完整金字塔:SAST+单元+fuzz+HIL+渗透","自动化回归+对抗 ML 测试+红队","持续红队、SOP 前红队演练"],"items":[{"k":"devtest.1","t":"安全需求可追溯至 TARA,并纳入验收门禁","r":"Handbook Ch11"},{"k":"devtest.2","t":"CI 中集成静态/组成成分分析(SAST/SCA)","r":"Ch11"},{"k":"devtest.3","t":"对接口/协议做模糊测试(fuzzing)","r":"Ch11"},{"k":"devtest.4","t":"发布前由独立方做渗透测试并闭环整改","r":"Ch11"},{"k":"devtest.5","t":"测试证据归档,支撑型式批准审计","r":"ISO 21434"}]},{"key":"monitor","name":"检测·日志·监控(VSOC)","desc":"车端异常检测、安全日志与车队级安全运营中心。","levels":["无监控、手动打补丁","基础日志与告警","IDS 部署+基础告警+补丁流程","车队 SOC+MTTD/MTTR 跟踪+playbook","AI 异常检测+预测分析"],"items":[{"k":"monitor.1","t":"车端记录安全相关事件日志,可上报后端","r":"Handbook Ch12"},{"k":"monitor.2","t":"部署入侵检测/异常监控(IDS,规则+行为基线)","r":"Ch12"},{"k":"monitor.3","t":"运营 VSOC,对车队遥测做关联分析与告警","r":"Ch12"},{"k":"monitor.4","t":"关注新威胁情报(Auto-ISAC)并映射到在产车型","r":"UN R155 后生产"}]},{"key":"ir","name":"事件响应与漏洞管理","desc":"PSIRT、漏洞披露、应急处置与监管上报。","levels":["无预案、临时应对","有联系人/基础流程","PSIRT+playbook+定期演练","车队级快速响应+取证流程","<24h OTA 缓解+Auto-ISAC 共享"],"items":[{"k":"ir.1","t":"设立 PSIRT/CSIRT 与事件响应预案并定期演练","r":"Handbook Ch13"},{"k":"ir.2","t":"有协调式漏洞披露(CVD)渠道与处理 SLA","r":"Ch13"},{"k":"ir.3","t":"具备应急 OTA/缓解下发能力","r":"Ch10/Ch13"},{"k":"ir.4","t":"明确监管/客户上报流程(含 CRA 24h 上报)","r":"EU CRA"}]},{"key":"supply","name":"供应链与 SBOM","desc":"软件物料清单、第三方/开源组件与供应商安全。","levels":["假设供应商安全、无 SBOM","供应商问卷+基础安全条款","SBOM 必需+21434 Cl.7 审核+TARA 复评","实时 CVE 监控+供应商评分+SLSA L3+","全自动 CVE 告警+预测性分析"],"items":[{"k":"supply.1","t":"为车载软件维护 SBOM(CycloneDX/SPDX)并随版本更新","r":"EU CRA / 附录D"},{"k":"supply.2","t":"持续监测组件已知漏洞(CVE,结合 EPSS+ASIL 加权)","r":"附录D"},{"k":"supply.3","t":"对供应商做网络安全能力评估与合同约束","r":"ISO 21434 Cl.15"},{"k":"supply.4","t":"构建与发布管线防篡改(SLSA 供应链完整性)","r":"附录D"}]},{"key":"diag","name":"诊断与刷写安全","desc":"OBD-II/UDS-over-DoIP 接口防护、Security Access、Bootloader 签名校验(诊断手册 Ch2/8/19)。","levels":["0x27 明文种子-密钥、无失败锁定、诊断口无防护","有失败锁定/S3超时,但仍用对称种子-密钥","关键服务分会话/分安全级管控(访问控制矩阵)","0x29 证书/HMAC 认证(HSM 支撑)覆盖编程级访问","DoIP TLS 1.3 双向认证+OEM 签名固件+诊断接口纳入 TARA"],"items":[{"k":"diag.1","t":"已制定诊断服务访问控制矩阵(哪些 SID 需哪个会话/安全级/证书)","r":"诊断手册 Ch19.5"},{"k":"diag.2","t":"Security Access(0x27)采用 HSM 支撑的种子-密钥,或已升级到 0x29 证书/HMAC 认证","r":"诊断手册 Ch2.5/19.2"},{"k":"diag.3","t":"失败尝试触发锁定(NRC 0x37)与强制延时,S3 会话超时兜底","r":"诊断手册 Ch19.3"},{"k":"diag.4","t":"DoIP 远程诊断通道启用 TLS 1.3 双向认证(ISO 13400-2:2019)","r":"诊断手册 Ch19.3"},{"k":"diag.5","t":"刷写服务(0x34/0x36/0x37)要求 OEM 签名固件,Bootloader 校验签名后才跳转应用","r":"诊断手册 Ch8.2/19.5"},{"k":"diag.6","t":"OBD 物理端口对敏感模式(编程/标定)做接入管控或选择性禁用","r":"诊断手册 Ch19.3"}]}],"standards":[{"name":"UNECE R155 — 网络安全与 CSMS","id":"UN R155","region":"联合国 WP.29(签署国通行)","scope":"要求 OEM 建立并通过审核的网络安全管理体系(CSMS),并对每个车型做型式批准;覆盖整车生命周期的风险识别与缓解。","points":["CSMS 证书 + 逐车型 CS 型式批准,二者缺一不可","附件5列出威胁与对应缓解措施清单(设计须逐项应对)","覆盖开发、生产、后生产(运营/事件监测)全周期","不合规 = 型式批准被拒/吊销 → 签署国市场不得销售"],"timeline":"2022-07 起新车型强制;2024-07 起所有在产新车强制(欧盟/日/韩/印度等)。"},{"name":"UNECE R156 — 软件更新与 SUMS","id":"UN R156","region":"联合国 WP.29","scope":"要求建立软件更新管理体系(SUMS),保障 OTA/线下更新的完整性、真实性与可追溯;管理 RXSWIN 软件标识。","points":["SUMS 证书 + 车型批准;每个受管软件配 RXSWIN","更新前评估对型式批准与安全的影响","保证更新真实性/完整性(签名),失败可回滚","向用户告知更新内容与影响,记录可追溯"],"timeline":"与 R155 同步强制(2022-07 / 2024-07)。"},{"name":"ISO/SAE 21434 — 道路车辆网络安全工程","id":"ISO/SAE 21434","region":"国际标准(R155 的事实落地方法)","scope":"定义从概念、开发到生产运维的网络安全工程流程;TARA 是其核心方法。是证明 R155 符合性的主要技术依据。","points":["面向风险的全生命周期工程(概念/开发/生产/运维/退役)","TARA:资产→威胁→攻击路径→影响→风险值→处置","要求工作产物与证据链(可审计);用 CAL 分级严苛度","分布式开发责任划分(OEM↔供应商,DIA 接口协议)"],"timeline":"2021 发布;当前行业基线。"},{"name":"ISO 26262 — 功能安全(ASIL)","id":"ISO 26262","region":"国际标准","scope":"功能安全标准,与网络安全需协同(安全-安全集成):安全攸关功能须考虑被攻击导致的失效。","points":["ASIL A–D 风险分级(严重度×暴露×可控性)","HARA(危害分析)与 TARA 需对齐","安全机制不得被网络攻击绕过","Security 为 Safety 提供完整性前提"],"timeline":"2018(第二版)。"},{"name":"欧盟网络弹性法案(Cyber Resilience Act)","id":"EU CRA","region":"欧盟","scope":"面向所有含数字要素的产品(横向法),强制安全设计、漏洞处理与上报义务;与车辆 R155 并行适用于车载数字组件/后端。","points":["默认安全设计 + 全生命周期漏洞管理","已知被利用漏洞须在 24 小时内向 ENISA 上报","提供 SBOM 与安全更新支持期","不合规可处全球营业额比例罚款"],"timeline":"2024-12 生效;主要义务 2026–2027 分阶段适用。"},{"name":"NIST 后量子密码(FIPS 203/204/205)","id":"NIST PQC","region":"美国 NIST(全球参考)","scope":"抗量子算法标准:车辆生命周期长(10–15 年),今日加密数据面临『先窃取后解密』风险,需规划密码敏捷与迁移。","points":["FIPS 203 ML-KEM(密钥封装,替代 Kyber/ECDH)","FIPS 204 ML-DSA(签名,替代 Dilithium)/ 205 SLH-DSA(哈希签名)","密码敏捷(crypto-agility):可在线升级算法","OTA/Secure Boot 签名链优先迁移规划"],"timeline":"2024-08 正式发布;车规迁移规划应即启动。"},{"name":"ISO 14229 — UDS 统一诊断服务","id":"ISO 14229","region":"国际标准(诊断协议基座)","scope":"定义 ECU 诊断/编程/标定的服务集(SID);OBD-II 端口与 UDS-over-DoIP 是主要汽车攻击向量,ISO 21434 要求对所有诊断接口做 TARA。","points":["0x27 Security Access(种子-密钥)已可被 0x29 Authentication(证书/HMAC,HSM 支撑)取代","0x34/0x36 刷写、0x2E 标定写入等敏感服务须分会话/分安全级管控","失败锁定 NRC 0x37、S3 会话超时 5 秒兜底","DoIP(ISO 13400-2:2019)支持 TLS 1.3 双向认证"],"timeline":"ISO 14229-1:2020(现行);0x29 Authentication 为该版新增服务。"}]};
-const COCKPIT={"title":"证据—法规影响驾驶舱","subtitle":"工程证据驱动的就绪度看板。点「✎ 编辑驾驶舱」按团队真实证据填写,本地保存;法规矩阵仍是条款的事实来源。初始为种子模板,请替换为你的实际数据。","kpis":[{"key":"market","label":"市场准入风险","value":60,"tone":"red","note":"3 个法规族已映射"},{"key":"gov","label":"企业治理风险","value":65,"tone":"amber","note":"NIS2 式治理视角(源自工程证据)"},{"key":"eng","label":"工程能力","value":92,"tone":"green","note":"8 HARA / 6 TARA / 3 FTA 关联"},{"key":"supplier","label":"供应商网络风险","value":96,"tone":"red","note":"6 个供应商 · 3 条高危 TARA 链"}],"levels":[{"key":"High","label":"High 强证据"},{"key":"Support","label":"Support 支撑"},{"key":"Medium","label":"Medium 中等"},{"key":"Trace","label":"Trace 可追溯"}],"cols":["ISO 26262","ISO 21434","UN R155/R156","NIS2","ASPICE","NCAP/ADAS","CRA","证据包"],"rows":[{"domain":"HARA","desc":"安全危害分析证据","cells":[{"level":"High","pct":86},{"level":"Support","pct":71},{"level":"Trace","pct":67},null,{"level":"Support","pct":74},{"level":"Medium","pct":69},null,{"level":"Trace","pct":82}]},{"domain":"TARA","desc":"网络威胁与风险评估证据","cells":[{"level":"Support","pct":63},{"level":"High","pct":88},{"level":"High","pct":84},{"level":"Medium","pct":76},{"level":"Trace","pct":66},{"level":"Support","pct":59},{"level":"Medium","pct":72},{"level":"High","pct":81}]},{"domain":"FTA / FMEA","desc":"失效树 / 失效模式证据","cells":[{"level":"High","pct":79},{"level":"Trace","pct":58},null,null,{"level":"Support","pct":70},{"level":"Medium","pct":64},null,{"level":"Support","pct":75}]},{"domain":"SIL / HIL 测试","desc":"集成与在环测试证据","cells":[{"level":"High","pct":90},{"level":"Support","pct":68},{"level":"Support","pct":62},null,{"level":"High","pct":83},{"level":"Support","pct":71},{"level":"Trace","pct":55},{"level":"High","pct":88}]},{"domain":"渗透测试","desc":"安全渗透测试证据","cells":[null,{"level":"High","pct":85},{"level":"High","pct":80},{"level":"Support","pct":67},{"level":"Trace","pct":52},{"level":"Medium","pct":60},{"level":"Support","pct":69},{"level":"High","pct":78}]},{"domain":"SBOM / 供应链","desc":"物料清单与供应链证据","cells":[null,{"level":"Support","pct":64},{"level":"Medium","pct":61},{"level":"Support","pct":70},{"level":"Trace","pct":57},null,{"level":"High","pct":83},{"level":"Support","pct":72}]},{"domain":"现场监控 / VSOC","desc":"车队检测与事件响应证据","cells":[null,{"level":"Support","pct":66},{"level":"High","pct":79},{"level":"High","pct":82},null,{"level":"Trace","pct":54},{"level":"Support","pct":68},{"level":"Medium","pct":63}]},{"domain":"OTA / 更新","desc":"软件更新与回滚证据","cells":[{"level":"Trace","pct":56},{"level":"Support","pct":70},{"level":"High","pct":87},null,{"level":"Support","pct":65},null,{"level":"Medium","pct":62},{"level":"High","pct":80}]}]};
+const COCKPIT={"title":"证据—法规映射","subtitle":"工程证据驱动的就绪度看板。点「✎ 编辑映射」按团队真实证据填写,本地保存;法规矩阵仍是条款的事实来源。初始为种子模板,请替换为你的实际数据。","kpis":[{"key":"market","label":"市场准入风险","value":60,"tone":"red","note":"3 个法规族已映射"},{"key":"gov","label":"企业治理风险","value":65,"tone":"amber","note":"NIS2 式治理视角(源自工程证据)"},{"key":"eng","label":"工程能力","value":92,"tone":"green","note":"8 HARA / 6 TARA / 3 FTA 关联"},{"key":"supplier","label":"供应商网络风险","value":96,"tone":"red","note":"6 个供应商 · 3 条高危 TARA 链"}],"levels":[{"key":"High","label":"High 强证据"},{"key":"Support","label":"Support 支撑"},{"key":"Medium","label":"Medium 中等"},{"key":"Trace","label":"Trace 可追溯"}],"cols":["ISO 26262","ISO 21434","UN R155/R156","NIS2","ASPICE","NCAP/ADAS","CRA","证据包"],"rows":[{"domain":"HARA","desc":"安全危害分析证据","cells":[{"level":"High","pct":86},{"level":"Support","pct":71},{"level":"Trace","pct":67},null,{"level":"Support","pct":74},{"level":"Medium","pct":69},null,{"level":"Trace","pct":82}]},{"domain":"TARA","desc":"网络威胁与风险评估证据","cells":[{"level":"Support","pct":63},{"level":"High","pct":88},{"level":"High","pct":84},{"level":"Medium","pct":76},{"level":"Trace","pct":66},{"level":"Support","pct":59},{"level":"Medium","pct":72},{"level":"High","pct":81}]},{"domain":"FTA / FMEA","desc":"失效树 / 失效模式证据","cells":[{"level":"High","pct":79},{"level":"Trace","pct":58},null,null,{"level":"Support","pct":70},{"level":"Medium","pct":64},null,{"level":"Support","pct":75}]},{"domain":"SIL / HIL 测试","desc":"集成与在环测试证据","cells":[{"level":"High","pct":90},{"level":"Support","pct":68},{"level":"Support","pct":62},null,{"level":"High","pct":83},{"level":"Support","pct":71},{"level":"Trace","pct":55},{"level":"High","pct":88}]},{"domain":"渗透测试","desc":"安全渗透测试证据","cells":[null,{"level":"High","pct":85},{"level":"High","pct":80},{"level":"Support","pct":67},{"level":"Trace","pct":52},{"level":"Medium","pct":60},{"level":"Support","pct":69},{"level":"High","pct":78}]},{"domain":"SBOM / 供应链","desc":"物料清单与供应链证据","cells":[null,{"level":"Support","pct":64},{"level":"Medium","pct":61},{"level":"Support","pct":70},{"level":"Trace","pct":57},null,{"level":"High","pct":83},{"level":"Support","pct":72}]},{"domain":"现场监控 / VSOC","desc":"车队检测与事件响应证据","cells":[null,{"level":"Support","pct":66},{"level":"High","pct":79},{"level":"High","pct":82},null,{"level":"Trace","pct":54},{"level":"Support","pct":68},{"level":"Medium","pct":63}]},{"domain":"OTA / 更新","desc":"软件更新与回滚证据","cells":[{"level":"Trace","pct":56},{"level":"Support","pct":70},{"level":"High","pct":87},null,{"level":"Support","pct":65},null,{"level":"Medium","pct":62},{"level":"High","pct":80}]}]};
 const CK_TONE={red:'#C0392B',amber:'#B45309',green:'#1F7A4D'};
 const CK_LVL={High:['#f3d9d2','#a23b1f'],Support:['#d3e2ef','#2c5670'],Medium:['#f4e6bd','#7a5a10'],Trace:['#d9e8d1','#3d6b2c']};
 /* ===== ISO/SAE 21434 风险评级(TARA → 风险值 1–5 / CAL 1–4)=====
@@ -495,10 +495,10 @@ let ans={}, cockpit=null, tara=null, hara=null, itemMeta={}, active='home', ckEd
 let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
-/* ===== 空白驾驶舱模板(默认;保留 4 仪表/8 证据域/8 法规体系结构与标签,数值与等级全空)===== */
+/* ===== 空白映射模板(默认;保留 4 仪表/8 证据域/8 法规体系结构与标签,数值与等级全空)===== */
 function blankCockpit(){
   const c=JSON.parse(JSON.stringify(COCKPIT));
-  c.subtitle='工程证据驱动的就绪度看板。默认空白——点「✎ 编辑驾驶舱」按团队真实证据逐项填写;结构(证据域 × 法规体系)作为脚手架保留。';
+  c.subtitle='工程证据驱动的就绪度看板。默认空白——点「✎ 编辑映射」按团队真实证据逐项填写;结构(证据域 × 法规体系)作为脚手架保留。';
   c.kpis.forEach(k=>{k.value=null;k.note='';k.tone='amber';});
   c.rows.forEach(r=>{r.cells=(r.cells||[]).map(()=>null);});
   return c;
@@ -525,7 +525,7 @@ function saveProgress(){
   const b=document.getElementById('savebtn'); if(b){const o=b.textContent;b.textContent='✓ 已存入「'+name.slice(0,8)+'」';setTimeout(()=>b.textContent=o,1500);}
 }
 function newProfile(){
-  if(!confirm('新建档案将清空当前页面(自评 + 驾驶舱)、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
+  if(!confirm('新建档案将清空当前页面(自评 + 映射)、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
   try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}
   ans={}; cockpit=blankCockpit(); tara=seedTara(); hara=seedHara(); itemMeta={}; _openItems={}; ckEdit=false; active='home';
   const el=document.getElementById('pname'); if(el) el.value='';
@@ -564,10 +564,10 @@ function pickMenu(v){ const cb=_menuCb; const m=document.getElementById('lvlmenu
 function lvlOpen(ri,ci,btn,ev){ ev.stopPropagation(); const c=cockpit.rows[ri].cells[ci]; const cur=(c&&c.level)||''; showMenu(btn,LVL_OPTS,cur,function(v){ ckCell(ri,ci,'level',v); renderMain(); }); }
 function toneOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,TONE_OPTS,cockpit.kpis[i].tone,function(v){ ckKpi(i,'tone',v); renderMain(); }); }
 document.addEventListener('click',function(){ const m=document.getElementById('lvlmenu'); if(m)m.classList.remove('on'); });
-/* ===== 驾驶舱编辑(改动即时自动存入当前档案)===== */
+/* ===== 映射编辑(改动即时自动存入当前档案)===== */
 function ckToggle(){ ckEdit=!ckEdit; renderMain(); }
-function ckClear(){ if(!confirm('清空驾驶舱全部数值与等级(结构与标签保留)？'))return; cockpit=blankCockpit(); autosave(); renderMain(); }
-function ckSeed(){ if(!confirm('载入参考示例(KPIT 手册示意值)?会覆盖当前驾驶舱,仅供了解填写格式。'))return; cockpit=JSON.parse(JSON.stringify(COCKPIT)); autosave(); renderMain(); }
+function ckClear(){ if(!confirm('清空映射全部数值与等级(结构与标签保留)？'))return; cockpit=blankCockpit(); autosave(); renderMain(); }
+function ckSeed(){ if(!confirm('载入参考示例(KPIT 手册示意值)?会覆盖当前映射,仅供了解填写格式。'))return; cockpit=JSON.parse(JSON.stringify(COCKPIT)); autosave(); renderMain(); }
 function ckKpi(i,f,v){ if(!cockpit.kpis[i])return; cockpit.kpis[i][f]= f==='value'? (v===''?null:Math.max(0,Math.min(100,Math.round(+v||0)))) : v; autosave(); }
 function ckCol(i,v){ cockpit.cols[i]=v; autosave(); }
 function ckRow(i,f,v){ if(!cockpit.rows[i])return; cockpit.rows[i][f]=v; autosave(); }
@@ -632,7 +632,7 @@ function renderSummary(){
   if(active==='r156'){ renderR156Summary(); return; }
   if(active==='csms'){ renderCsmsSummary(); return; }
   if(active==='hara'){ renderHaraSummary(); return; }
-  renderTaraSummary(); // CAL 为默认头部;其他视图(驾驶舱/标准)也用它
+  renderTaraSummary(); // CAL 为默认头部;其他视图(映射/标准)也用它
 }
 function renderCsmsSummary(){
   const st=r155Stats();
@@ -686,7 +686,7 @@ function renderNav(){
   h+=step('tara','3','21434 CAL 风险评级',(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total);
   h+=step('hara','4','26262 ASIL 定级',(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total);
   h+='<div class="sgrp">参考</div>';
-  h+=step('cockpit','·','影响驾驶舱','证据域 × 法规体系');
+  h+=step('cockpit','·','证据—法规映射','证据域 × 法规体系');
   document.getElementById('nav').innerHTML=h;
 }
 function taraRefHTML(){
@@ -832,10 +832,10 @@ function renderMain(){
     const cp=cockpit, ed=ckEdit;
     const LVLS=['High','Support','Medium','Trace'];
     let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px">';
-    s+='<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">'+esc(cp.title||'证据—法规影响驾驶舱')+'</div>'+
+    s+='<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">'+esc(cp.title||'证据—法规映射')+'</div>'+
       '<div class="sb-msub" style="margin-bottom:0">'+esc(cp.subtitle||'')+'</div></div>'+
       '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none">'+
-      '<button class="btn'+(ed?' p':'')+'" onclick="ckToggle()">'+(ed?'✓ 完成编辑':'✎ 编辑驾驶舱')+'</button>'+
+      '<button class="btn'+(ed?' p':'')+'" onclick="ckToggle()">'+(ed?'✓ 完成编辑':'✎ 编辑映射')+'</button>'+
       (ed?'<button class="btn" onclick="ckClear()">清空</button><button class="btn" onclick="ckSeed()">载入示例</button>':'')+'</div></div>';
     if(ed) s+='<div class="ckhint">按团队真实工程证据填写:改风险仪表(名称/数值/口径/说明)、法规体系列头、每格证据强度(High 强证据 / Support 支撑 / Medium 中等 / Trace 可追溯 / — 无)与百分比。改动即时存入当前档案。</div>';
     // KPI
@@ -968,12 +968,12 @@ function render(){ renderSummary(); renderNav(); renderMain(); }
   const ps=getProfiles(), id=activeId();
   if(id&&ps[id]){ applyState(ps[id].state); const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; }
   else {
-    // 首次:迁移旧的自评答案(真实输入)作为草稿;驾驶舱一律空白起步(不再带示意种子)
+    // 首次:迁移旧的自评答案(真实输入)作为草稿;映射一律空白起步(不再带示意种子)
     let migAns=null; try{ migAns=JSON.parse(localStorage.getItem(OLD_ANS)); }catch(e){}
     ans=(migAns&&typeof migAns==='object')?migAns:{};
     cockpit=blankCockpit();
     tara=seedTara(); hara=seedHara(); itemMeta={};
-    try{ localStorage.removeItem(OLD_CK); }catch(e){} // 清掉旧驾驶舱种子缓存
+    try{ localStorage.removeItem(OLD_CK); }catch(e){} // 清掉旧映射种子缓存
   }
   updatePBar(); writeSummary(); render();
 })();
