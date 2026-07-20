@@ -1,0 +1,40 @@
+name: US Federal Register → reg_radar + recalls (weekly)
+
+# 定期把美国联邦公报(Federal Register)里 NHTSA + EPA 的汽车相关文件同步进 Supabase:
+# 规则/拟议规则/法规类通知 → reg_radar(19 法规雷达);不合规/缺陷请愿类通知 → recalls(16 召回案例)。
+# 每条带 govinfo.gov 官方 PDF 直链(A 档)。默认回填最近 14 天,按 document_number 去重幂等。
+# 每周一、周四跑。也可在 Actions 页手动触发(workflow_dispatch,可指定 since 起始发布日)。
+# 无需任何 Secret:Supabase url + anonKey 从仓库根 config.js 解析(anonKey 本就公开,RLS 全放行)。
+
+on:
+  schedule:
+    - cron: "27 7 * * 1,4"   # 每周一、周四 07:27 UTC
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "起始发布日 YYYY-MM-DD(留空=最近14天)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: federal-register-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sync Federal Register (NHTSA + EPA)
+        run: |
+          if [ -n "${{ github.event.inputs.since }}" ]; then
+            python tools/federal_register_sync.py --since "${{ github.event.inputs.since }}"
+          else
+            python tools/federal_register_sync.py
+          fi
