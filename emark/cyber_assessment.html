@@ -149,13 +149,16 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 .mtx th{padding:5px 9px;border:1px solid var(--line);background:var(--bg);font-weight:600;white-space:nowrap}
 .mtx td{padding:6px 12px;border:1px solid var(--line);text-align:center;font-weight:700}
 .mtx td.lft{text-align:left;font-weight:600;background:var(--bg);white-space:nowrap}
+/* R156 SUMS 就绪度分组 */
+.r156g{margin-bottom:14px}
+.r156gh{font-size:13.5px;font-weight:800;color:var(--od);border-bottom:2px solid var(--ol);padding-bottom:4px;margin-bottom:6px}
 </style>
 </head>
 <body>
 <div class="hero"><div class="in">
   <div>
     <h1>深度网安成熟度自评</h1>
-    <div class="sub">ISO 21434 风险评级(TARA → 风险值 / CAL 1–4) + 成熟度自查 · R155 附件 5 威胁目录</div>
+    <div class="sub">21434 风险评级(CAL) · R156 SUMS 认证就绪度 · 成熟度自查 · R155 附件 5 威胁目录</div>
   </div>
   <a class="back" href="emark_assessment.html" id="backlink">← 返回 E-mark 评估</a>
 </div></div>
@@ -216,6 +219,41 @@ function seedTara(){ return [
   {name:'个人数据/隐私被越权访问或泄露',asset:'用户数据',ref:'R155 附件5 §4.3.8',impact:'',feas:''},
   {name:'供应链/第三方组件引入的漏洞被利用',asset:'第三方软硬件',ref:'R155 附件5 §4.3.7/21434 Cl.15',impact:'',feas:''}
 ]; }
+/* ===== UN R156 · SUMS 认证就绪度自查(逐条对照 R156 条款;整车/OEM 级)=====
+   条款以 UN R156 现行版为准;答案沿用 ans(键前缀 r156.),随档案保存。*/
+const R156={groups:[
+  {name:'SUMS 体系与证书',items:[
+    {k:'r156.a1',t:'已建立文件化的软件更新管理体系(SUMS),覆盖流程、职责与记录',r:'R156 §7.1.1'},
+    {k:'r156.a2',t:'持有缔约方批准机关签发的有效 SUMS 合规证书(约 3 年,周期复审)',r:'R156 §6 / 附录1'},
+    {k:'r156.a3',t:'每个在售车型已取得 R156 型式批准',r:'R156 §7'}
+  ]},
+  {name:'软件配置与 RXSWIN 管理',items:[
+    {k:'r156.b1',t:'记录整车相关硬件/软件版本与配置,可追溯',r:'R156 §7.1.1'},
+    {k:'r156.b2',t:'为受监管软件分配并管理 RXSWIN,车辆可读取',r:'R156 §7.1.1.2'},
+    {k:'r156.b3',t:'RXSWIN 与型式批准文件关联;受监管软件变更即更新 RXSWIN',r:'R156 §7.1.1.2'}
+  ]},
+  {name:'更新影响评估',items:[
+    {k:'r156.c1',t:'能识别"与型式批准相关的软件",判断某次更新是否影响型式批准',r:'R156 §7.1.1'},
+    {k:'r156.c2',t:'评估更新对车辆安全运行及与其他系统交互的影响',r:'R156 §7.1.1'},
+    {k:'r156.c3',t:'更新若影响型式批准,先取得批准/扩展后再下发',r:'R156 §7.1.1 / §7.1.2'}
+  ]},
+  {name:'更新完整性与真实性',items:[
+    {k:'r156.d1',t:'更新包端到端签名,车辆校验完整性与来源真实性',r:'R156 §7.1.1'},
+    {k:'r156.d2',t:'具备防止未授权篡改/伪造更新的机制',r:'R156 §7.1.1'}
+  ]},
+  {name:'OTA 无线更新安全执行(附加要求)',items:[
+    {k:'r156.e1',t:'仅在车辆安全状态下执行更新(行驶中不得影响安全)',r:'R156 §7.1.2'},
+    {k:'r156.e2',t:'确保有足够电量/条件使更新可完成',r:'R156 §7.1.2'},
+    {k:'r156.e3',t:'更新失败可恢复到先前版本或安全状态(回滚)',r:'R156 §7.1.2'},
+    {k:'r156.e4',t:'向用户告知更新目的/内容/结果及所需操作',r:'R156 §7.1.2'}
+  ]},
+  {name:'记录、追溯与告知',items:[
+    {k:'r156.f1',t:'更新记录归档、可审计,含 RXSWIN 变更历史',r:'R156 §7.1.1'},
+    {k:'r156.f2',t:'明确对用户/机关的告知与文档留存流程',r:'R156 §7.1.1'}
+  ]}
+]};
+function r156Items(){ return R156.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function r156Stats(){ const its=r156Items(); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;}); return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
 const PROFILES_KEY='emark_cyber_profiles_v1', ACTIVE_KEY='emark_cyber_active_v1', SUM_KEY='emark_cyber_summary_v1';
 const OLD_ANS='emark_cyber_assess_v1', OLD_CK='emark_cockpit_v1';
 let ans={}, cockpit=null, tara=null, active='tara', ckEdit=false; // active: 侧栏视图 'tara'/0..N-1/'cockpit'/'std'
@@ -343,12 +381,23 @@ function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); render
 function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 function renderSummary(){
   if(active==='tara'){ renderTaraSummary(); return; }
+  if(active==='r156'){ renderR156Summary(); return; }
   const st=stats();
   document.getElementById('summary').innerHTML=
     '<div class="sum"><div class="rad">'+radarSVG(210)+'</div><div class="info">'+
     '<div class="lv">成熟度自查 <b>L'+st.level+' · '+esc(st.levelName)+'</b> <span style="font-size:11px;font-weight:400;color:var(--grey)">（CMM 式,非法定等级）</span></div>'+
     '<div class="meta">综合完成度 <b>'+st.pct+'%</b> · 已达成 '+st.done+'/'+st.total+' 项 · 共 '+CYBER.domains.length+' 域 · 三档:'+CYBER.labels.map(esc).join(' / ')+'</div>'+
     '<div class="pills">'+CYBER.levels.map((n,i)=>'<span class="pill'+(i+1===st.level?' on':'')+'">L'+(i+1)+' '+esc(n)+'</span>').join('')+'</div>'+
+    '</div></div>';
+}
+function renderR156Summary(){
+  const st=r156Stats();
+  const col=st.pct>=80?'var(--green)':(st.pct>=40?'var(--amber)':'var(--red)');
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">UN R156 · SUMS 认证就绪度 <b style="color:'+col+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已建立 <b>'+st.done+'</b>/'+st.total+' 项 · 逐条对照 R156 条款自查(无 / 部分 / 已建立)· 整车/OEM 级</div>'+
+    '<div class="pills"><span class="pill">SUMS 体系</span><span class="pill">RXSWIN</span><span class="pill">更新影响评估</span><span class="pill">完整性/真实性</span><span class="pill">OTA 安全执行</span></div>'+
     '</div></div>';
 }
 function renderTaraSummary(){
@@ -364,7 +413,9 @@ function renderTaraSummary(){
 function domDot(pct){ return pct>=100?'var(--green)':(pct>0?'var(--amber)':'var(--greyl)'); }
 function renderNav(){
   const ts=taraStats();
+  const rs=r156Stats();
   let h='<button class="sb-item'+(active==='tara'?' on':'')+'" onclick="pick(\'tara\')"><span class="sb-dot" style="background:var(--red)"></span><span class="tx"><span>① 21434 风险评级 (CAL)</span><small>'+(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total+'</small></span></button>';
+  h+='<button class="sb-item'+(active==='r156'?' on':'')+'" onclick="pick(\'r156\')"><span class="sb-dot" style="background:'+(rs.pct>=80?'var(--green)':rs.pct>=40?'var(--amber)':'var(--red)')+'"></span><span class="tx"><span>② R156 SUMS 认证就绪度</span><small>就绪度 '+rs.pct+'% · 已建立 '+rs.done+'/'+rs.total+'</small></span></button>';
   h+='<div class="navsep">成熟度自查（非法定等级）</div>';
   h+=CYBER.domains.map((d,i)=>{
     const pct=Math.round(domScore(d)*100),lv=level(domScore(d));
@@ -410,6 +461,22 @@ function renderMain(){
     });
     s+='</table></div>';
     s+=taraRefHTML();
+    m.innerHTML=s; return;
+  }
+  if(active==='r156'){
+    const labs=['无','部分','已建立'];
+    let s='<div class="sb-mh">UN R156 · SUMS 认证就绪度自查</div>'+
+      '<div class="sb-msub">逐条对照 R156 <b>软件更新管理体系(SUMS)</b>条款自查(无 / 部分 / 已建立)。<b>整车/OEM 级</b>,证书由缔约方批准机关签发;非零部件级、非本工具最终判定。</div>';
+    R156.groups.forEach((g,gi)=>{
+      s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>';
+      g.items.forEach(it=>{
+        const v=ans[it.k]||0;
+        const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+labs[kk]+'</button>').join('');
+        s+='<div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+'</div><div class="seg">'+seg+'</div></div>';
+      });
+      s+='</div>';
+    });
+    s+='<div class="ckleg">条款编号以 UN R156 现行版为准;R156 与 R155 同为整车型式批准前置,2022-07 新车型 / 2024-07 所有新注册车强制。落地方法学参考 ISO 24089。就绪度随当前档案本地保存。</div>';
     m.innerHTML=s; return;
   }
   if(active==='cockpit'){
