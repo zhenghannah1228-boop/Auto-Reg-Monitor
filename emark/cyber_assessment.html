@@ -158,7 +158,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 <div class="hero"><div class="in">
   <div>
     <h1>深度网安成熟度自评</h1>
-    <div class="sub">ISO 21434 风险评级(CAL 1–4) · UN R156 SUMS 认证就绪度 · R155 附件 5 威胁目录</div>
+    <div class="sub">21434 CAL 风险评级 · R155 CSMS / R156 SUMS 认证就绪度 · ISO 26262 ASIL 定级</div>
   </div>
   <a class="back" href="emark_assessment.html" id="backlink">← 返回 E-mark 评估</a>
 </div></div>
@@ -254,9 +254,68 @@ const R156={groups:[
 ]};
 function r156Items(){ return R156.groups.reduce((a,g)=>a.concat(g.items),[]); }
 function r156Stats(){ const its=r156Items(); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;}); return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
+/* ===== UN R155 · CSMS 认证就绪度自查(逐条对照 R155 §7.2/§7.3 + 附件 5)===== */
+const R155={groups:[
+  {name:'CSMS 体系与证书',items:[
+    {k:'r155.a1',t:'已建立文件化的网络安全管理体系(CSMS),明确角色/职责/汇报线',r:'R155 §7.2.2'},
+    {k:'r155.a2',t:'持有缔约方批准机关签发的有效 CSMS 合规证书(约 3 年,周期复审)',r:'R155 §7.2 / 附录'},
+    {k:'r155.a3',t:'每个在售车型已取得网络安全(CS)型式批准',r:'R155 §7.3'}
+  ]},
+  {name:'全生命周期风险管理',items:[
+    {k:'r155.b1',t:'对车型识别、评估、分类网络安全风险(TARA),并决定处置',r:'R155 §7.2.2 / ISO 21434'},
+    {k:'r155.b2',t:'网络安全活动覆盖开发/生产/后生产全阶段并有阶段门禁',r:'R155 §7.2.2'},
+    {k:'r155.b3',t:'风险处置与残余风险有记录、经评审接受',r:'R155 §7.3.7'}
+  ]},
+  {name:'附件 5 威胁与缓解',items:[
+    {k:'r155.c1',t:'对附件 5(Part A)所列威胁逐项识别其对车型的适用性',r:'R155 附件5 Part A'},
+    {k:'r155.c2',t:'针对适用威胁在设计中落实对应缓解(Part B/C)',r:'R155 附件5 Part B/C'},
+    {k:'r155.c3',t:'验证缓解措施的有效性并留存证据',r:'R155 §7.3.7'}
+  ]},
+  {name:'供应链与责任接口',items:[
+    {k:'r155.d1',t:'与供应商签订网络安全责任接口协议(DIA),职责边界清晰',r:'R155 §7.2.2 / ISO 21434 Cl.15'},
+    {k:'r155.d2',t:'向关键供应商传递网安要求并做能力评估/审核',r:'R155 §7.2.2'}
+  ]},
+  {name:'后生产监测与响应',items:[
+    {k:'r155.e1',t:'持续监测新威胁/漏洞并映射到在产车型',r:'R155 §7.2.2 (后生产)'},
+    {k:'r155.e2',t:'具备网络安全事件检测、响应与应急处置能力',r:'R155 §7.2.2'},
+    {k:'r155.e3',t:'明确向批准机关的事件上报与信息共享流程',r:'R155 §7.2.2'}
+  ]},
+  {name:'记录与审计',items:[
+    {k:'r155.f1',t:'保持可审计的证据链(风险/缓解/验证/决策留痕)',r:'R155 §7.3.7'},
+    {k:'r155.f2',t:'变更管理:设计变更触发风险复评与记录更新',r:'R155 §7.2.2'}
+  ]}
+]};
+function r155Items(){ return R155.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function r155Stats(){ const its=r155Items(); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;}); return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
+/* ===== ISO 26262 · ASIL 定级(HARA:严重度 S × 暴露 E × 可控性 C → ASIL)=====
+   ISO 26262-3 Table 4:任一为 0 类(S0/E0/C0)→ QM;否则 ASIL 由 S+E+C 之和决定
+   (S1..3、E1..4、C1..3):和 7→A、8→B、9→C、10→D、≤6→QM。安全-安全集成:HARA↔TARA、ASIL↔CAL。*/
+const SEV=[['S0','S0 无伤害'],['S1','S1 轻中度伤害'],['S2','S2 严重(可存活)'],['S3','S3 危及生命/致命']];
+const EXP=[['E0','E0 极罕见'],['E1','E1 很低'],['E2','E2 低'],['E3','E3 中'],['E4','E4 高']];
+const CTRL=[['C0','C0 一般可控'],['C1','C1 易控'],['C2','C2 通常可控'],['C3','C3 难控/不可控']];
+const ASIL_COL={QM:['#eef0f2','#6b7280'],A:['#d9e8d1','#3d6b2c'],B:['#f4e6bd','#7a5a10'],C:['#f6ddc9','#a2531f'],D:['#f3d0d0','#b02222']};
+const ASIL_RANK={QM:0,A:1,B:2,C:3,D:4};
+function svNum(s){return {S1:1,S2:2,S3:3}[s]||0;}
+function exNum(e){return {E1:1,E2:2,E3:3,E4:4}[e]||0;}
+function ctNum(c){return {C1:1,C2:2,C3:3}[c]||0;}
+function asilOf(h){ if(!h||!h.s||!h.e||!h.c)return null; if(h.s==='S0'||h.e==='E0'||h.c==='C0')return 'QM'; const sum=svNum(h.s)+exNum(h.e)+ctNum(h.c); return sum>=10?'D':sum===9?'C':sum===8?'B':sum===7?'A':'QM'; }
+function seedHara(){ return [
+  {name:'被攻击导致非预期加速或动力丧失',fn:'动力/驱动',s:'',e:'',c:''},
+  {name:'被攻击导致意外制动或制动失效',fn:'制动系统',s:'',e:'',c:''},
+  {name:'被攻击导致转向异常/失控',fn:'转向系统',s:'',e:'',c:''},
+  {name:'被攻击篡改 ADAS 感知/决策 → 误动作',fn:'ADAS/自动驾驶',s:'',e:'',c:''},
+  {name:'被攻击禁用安全气囊/约束系统',fn:'被动安全',s:'',e:'',c:''},
+  {name:'被攻击致仪表/警告信息错误或缺失',fn:'人机接口',s:'',e:'',c:''}
+]; }
+function haraStats(){
+  const rated=hara.filter(h=>h.s&&h.e&&h.c);
+  const cnt={QM:0,A:0,B:0,C:0,D:0}; let maxR=0,maxA='—';
+  rated.forEach(h=>{const a=asilOf(h); if(a){cnt[a]++; if(ASIL_RANK[a]>maxR){maxR=ASIL_RANK[a];maxA=a;}}});
+  return {total:hara.length,rated:rated.length,cnt,maxA};
+}
 const PROFILES_KEY='emark_cyber_profiles_v1', ACTIVE_KEY='emark_cyber_active_v1', SUM_KEY='emark_cyber_summary_v1';
 const OLD_ANS='emark_cyber_assess_v1', OLD_CK='emark_cockpit_v1';
-let ans={}, cockpit=null, tara=null, active='tara', ckEdit=false; // active: 侧栏视图 'tara'/0..N-1/'cockpit'/'std'
+let ans={}, cockpit=null, tara=null, hara=null, active='tara', ckEdit=false; // active: 'tara'/'r156'/'csms'/'hara'/'cockpit'/'std'
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 /* ===== 空白驾驶舱模板(默认;保留 4 仪表/8 证据域/8 法规体系结构与标签,数值与等级全空)===== */
@@ -271,8 +330,8 @@ function blankCockpit(){
 function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
 function setProfiles(o){ try{localStorage.setItem(PROFILES_KEY,JSON.stringify(o));}catch(e){alert('保存失败：浏览器存储不可用');} }
 function activeId(){ try{return localStorage.getItem(ACTIVE_KEY)||'';}catch(e){return '';} }
-function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), cockpit:JSON.parse(JSON.stringify(cockpit)), tara:JSON.parse(JSON.stringify(tara))}; }
-function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; cockpit=(s&&s.cockpit&&s.cockpit.rows)?JSON.parse(JSON.stringify(s.cockpit)):blankCockpit(); tara=(s&&Array.isArray(s.tara))?JSON.parse(JSON.stringify(s.tara)):seedTara(); }
+function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), cockpit:JSON.parse(JSON.stringify(cockpit)), tara:JSON.parse(JSON.stringify(tara)), hara:JSON.parse(JSON.stringify(hara))}; }
+function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; cockpit=(s&&s.cockpit&&s.cockpit.rows)?JSON.parse(JSON.stringify(s.cockpit)):blankCockpit(); tara=(s&&Array.isArray(s.tara))?JSON.parse(JSON.stringify(s.tara)):seedTara(); hara=(s&&Array.isArray(s.hara))?JSON.parse(JSON.stringify(s.hara)):seedHara(); }
 function writeSummary(){
   // 成熟度自查已从 UI 移除;started 只按成熟度域条目判定(排除 r156.*),避免 Step4 误显示
   try{ const st=stats(); localStorage.setItem(SUM_KEY,JSON.stringify({level:st.level,levelName:st.levelName,overallPct:st.pct,done:st.done,total:st.total,domains:CYBER.domains.map(d=>({name:d.name,pct:Math.round(domScore(d)*100)})),ts:Date.now(),started:Object.keys(ans).some(k=>ans[k]>0&&!/^r156\./.test(k))})); }catch(e){}
@@ -291,7 +350,7 @@ function saveProgress(){
 function newProfile(){
   if(!confirm('新建档案将清空当前页面(自评 + 驾驶舱)、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
   try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}
-  ans={}; cockpit=blankCockpit(); tara=seedTara(); ckEdit=false; active='tara';
+  ans={}; cockpit=blankCockpit(); tara=seedTara(); hara=seedHara(); ckEdit=false; active='tara';
   const el=document.getElementById('pname'); if(el) el.value='';
   writeSummary(); updatePBar(); render();
 }
@@ -348,6 +407,14 @@ function taraFeasOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（
 function taraAdd(){ tara.push({name:'',asset:'',ref:'',impact:'',feas:''}); autosave(); render(); }
 function taraDel(i){ if(!confirm('删除该威胁场景行？'))return; tara.splice(i,1); autosave(); render(); }
 function taraReseed(){ if(!confirm('恢复为 R155 附件 5 威胁目录种子?当前威胁清单与评级将被覆盖。'))return; tara=seedTara(); autosave(); render(); }
+/* ===== ISO 26262 ASIL(HARA)行编辑 ===== */
+function haraField(i,f,v){ if(!hara[i])return; hara[i][f]=v; autosave(); }
+function haraSevOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(SEV.map(x=>[x[0],x[1]])),hara[i].s||'',function(v){ haraField(i,'s',v); render(); }); }
+function haraExpOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(EXP.map(x=>[x[0],x[1]])),hara[i].e||'',function(v){ haraField(i,'e',v); render(); }); }
+function haraCtrlOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(CTRL.map(x=>[x[0],x[1]])),hara[i].c||'',function(v){ haraField(i,'c',v); render(); }); }
+function haraAdd(){ hara.push({name:'',fn:'',s:'',e:'',c:''}); autosave(); render(); }
+function haraDel(i){ if(!confirm('删除该危害事件行？'))return; hara.splice(i,1); autosave(); render(); }
+function haraReseed(){ if(!confirm('恢复为示例危害事件?当前 HARA 清单与定级将被覆盖。'))return; hara=seedHara(); autosave(); render(); }
 function taraStats(){
   const rated=tara.filter(t=>t.impact&&t.feas);
   const calCount={1:0,2:0,3:0,4:0}, riskCount={1:0,2:0,3:0,4:0,5:0};
@@ -382,7 +449,29 @@ function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); render
 function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 function renderSummary(){
   if(active==='r156'){ renderR156Summary(); return; }
+  if(active==='csms'){ renderCsmsSummary(); return; }
+  if(active==='hara'){ renderHaraSummary(); return; }
   renderTaraSummary(); // CAL 为默认头部;其他视图(驾驶舱/标准)也用它
+}
+function renderCsmsSummary(){
+  const st=r155Stats();
+  const col=st.pct>=80?'var(--green)':(st.pct>=40?'var(--amber)':'var(--red)');
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">UN R155 · CSMS 认证就绪度 <b style="color:'+col+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已建立 <b>'+st.done+'</b>/'+st.total+' 项 · 逐条对照 R155 §7.2/§7.3 + 附件5(无 / 部分 / 已建立)· 整车/OEM 级</div>'+
+    '<div class="pills"><span class="pill">CSMS 体系</span><span class="pill">风险管理</span><span class="pill">附件5 缓解</span><span class="pill">供应链 DIA</span><span class="pill">后生产监测</span></div>'+
+    '</div></div>';
+}
+function renderHaraSummary(){
+  const st=haraStats();
+  const cc=ASIL_COL[st.maxA]||['#eef0f2','#6b7280'];
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">ISO 26262 · HARA 定级 · 最高 <b style="color:'+cc[1]+'">'+(st.maxA==='—'?'—':'ASIL '+st.maxA)+'</b></div>'+
+    '<div class="meta">已评 <b>'+st.rated+'</b>/'+st.total+' 项危害 · 严重度 S × 暴露 E × 可控性 C → ASIL(QM/A/B/C/D)· 与网安 CAL 对齐</div>'+
+    '<div class="pills">'+['A','B','C','D'].map(a=>{const x=ASIL_COL[a];return '<span class="pill" style="border-color:'+x[0]+';color:'+x[1]+(a===st.maxA?';background:'+x[0]+';font-weight:700':'')+'">ASIL '+a+' · '+st.cnt[a]+'</span>';}).join('')+'</div>'+
+    '</div></div>';
 }
 function renderR156Summary(){
   const st=r156Stats();
@@ -410,6 +499,9 @@ function renderNav(){
   const rs=r156Stats();
   let h='<button class="sb-item'+(active==='tara'?' on':'')+'" onclick="pick(\'tara\')"><span class="sb-dot" style="background:var(--red)"></span><span class="tx"><span>① 21434 风险评级 (CAL)</span><small>'+(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total+'</small></span></button>';
   h+='<button class="sb-item'+(active==='r156'?' on':'')+'" onclick="pick(\'r156\')"><span class="sb-dot" style="background:'+(rs.pct>=80?'var(--green)':rs.pct>=40?'var(--amber)':'var(--red)')+'"></span><span class="tx"><span>② R156 SUMS 认证就绪度</span><small>就绪度 '+rs.pct+'% · 已建立 '+rs.done+'/'+rs.total+'</small></span></button>';
+  const cs=r155Stats(), ha=haraStats();
+  h+='<button class="sb-item'+(active==='csms'?' on':'')+'" onclick="pick(\'csms\')"><span class="sb-dot" style="background:'+(cs.pct>=80?'var(--green)':cs.pct>=40?'var(--amber)':'var(--red)')+'"></span><span class="tx"><span>③ R155 CSMS 认证就绪度</span><small>就绪度 '+cs.pct+'% · 已建立 '+cs.done+'/'+cs.total+'</small></span></button>';
+  h+='<button class="sb-item'+(active==='hara'?' on':'')+'" onclick="pick(\'hara\')"><span class="sb-dot" style="background:'+(ha.maxA==='—'?'var(--greyl)':(ASIL_COL[ha.maxA]||[])[1]||'var(--o)')+'"></span><span class="tx"><span>④ ISO 26262 ASIL 定级</span><small>'+(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total+'</small></span></button>';
   h+='<div class="navsep">参考</div>';
   h+='<button class="sb-item'+(active==='cockpit'?' on':'')+'" onclick="pick(\'cockpit\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>影响驾驶舱</span><small>证据域 × 法规体系</small></span></button>';
   h+='<button class="sb-item'+(active==='std'?' on':'')+'" onclick="pick(\'std\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>相关标准速览</span><small>R155/R156 · 21434 · CRA…</small></span></button>';
@@ -465,6 +557,44 @@ function renderMain(){
       s+='</div>';
     });
     s+='<div class="ckleg">条款编号以 UN R156 现行版为准;R156 与 R155 同为整车型式批准前置,2022-07 新车型 / 2024-07 所有新注册车强制。落地方法学参考 ISO 24089。就绪度随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='csms'){
+    const labs=['无','部分','已建立'];
+    let s='<div class="sb-mh">UN R155 · CSMS 认证就绪度自查</div>'+
+      '<div class="sb-msub">逐条对照 R155 <b>网络安全管理体系(CSMS)</b>及附件 5 威胁/缓解自查(无 / 部分 / 已建立)。<b>整车/OEM 级</b>,证书由缔约方批准机关签发;落地方法学参考 ISO/SAE 21434。</div>';
+    R155.groups.forEach((g,gi)=>{
+      s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>';
+      g.items.forEach(it=>{
+        const v=ans[it.k]||0;
+        const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+labs[kk]+'</button>').join('');
+        s+='<div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+'</div><div class="seg">'+seg+'</div></div>';
+      });
+      s+='</div>';
+    });
+    s+='<div class="ckleg">条款编号以 UN R155 现行版为准;R155(CSMS)与 R156(SUMS)同为整车型式批准前置,2022-07 / 2024-07 强制。附件 5 列出威胁与对应缓解,须逐项应对。就绪度随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='hara'){
+    let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
+      '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">ISO 26262 · ASIL 定级(HARA)</div>'+
+      '<div class="sb-msub">逐条危害事件按 <b>严重度 S × 暴露 E × 可控性 C</b> → ASIL(QM/A/B/C/D,ISO 26262-3 Table 4)。功能安全与网安需协同:<b>HARA↔TARA、ASIL↔CAL</b> 对齐(21434 安全-安全集成)。</div></div>'+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="haraAdd()">＋ 添加危害</button><button class="btn" onclick="haraReseed()">↺ 恢复示例</button></div></div>';
+    s+='<div style="overflow:auto"><table class="taratab"><tr><th class="lft">#　危害事件 / 功能</th><th>严重度 S</th><th>暴露 E</th><th>可控性 C</th><th>ASIL</th><th></th></tr>';
+    hara.forEach((h,i)=>{
+      const a=asilOf(h), ac=(a!=null)?ASIL_COL[a]:null;
+      s+='<tr><td class="lft"><div style="display:flex;gap:7px"><span class="tnum">'+(i+1)+'</span><div style="flex:1;min-width:0">'
+        + '<input class="cin" value="'+escA(h.name)+'" placeholder="危害事件" oninput="haraField('+i+',\'name\',this.value)">'
+        + '<input class="cin sm" style="margin-top:4px" value="'+escA(h.fn)+'" placeholder="相关功能 / 系统" oninput="haraField('+i+',\'fn\',this.value)">'
+        + '</div></div></td>'
+        + '<td><button class="lvlbtn" onclick="haraSevOpen('+i+',this,event)">'+(h.s?esc(h.s):'—')+' <span class="cae">▾</span></button></td>'
+        + '<td><button class="lvlbtn" onclick="haraExpOpen('+i+',this,event)">'+(h.e?esc(h.e):'—')+' <span class="cae">▾</span></button></td>'
+        + '<td><button class="lvlbtn" onclick="haraCtrlOpen('+i+',this,event)">'+(h.c?esc(h.c):'—')+' <span class="cae">▾</span></button></td>'
+        + '<td style="text-align:center">'+(a!=null?'<span class="rvb" style="background:'+ac[0]+';color:'+ac[1]+'">'+(a==='QM'?'QM':'ASIL '+a)+'</span>':'<span class="muted">—</span>')+'</td>'
+        + '<td style="text-align:center"><button class="delx" onclick="haraDel('+i+')" title="删除该行">✕</button></td></tr>';
+    });
+    s+='</table></div>';
+    s+='<div class="ckleg">定级规则(ISO 26262-3 Table 4):任一为 0 类(S0/E0/C0)→ <b>QM</b>;否则按 S+E+C 之和 → 7=A · 8=B · 9=C · 10=D。S1–3 / E1–4 / C1–3。ASIL 决定功能安全开发严苛度;与网安 <b>CAL</b> 互为姊妹刻度(21434 Cl.6 安全-安全集成)。定级随当前档案本地保存。</div>';
     m.innerHTML=s; return;
   }
   if(active==='cockpit'){
@@ -554,7 +684,7 @@ function render(){ renderSummary(); renderNav(); renderMain(); }
     let migAns=null; try{ migAns=JSON.parse(localStorage.getItem(OLD_ANS)); }catch(e){}
     ans=(migAns&&typeof migAns==='object')?migAns:{};
     cockpit=blankCockpit();
-    tara=seedTara();
+    tara=seedTara(); hara=seedHara();
     try{ localStorage.removeItem(OLD_CK); }catch(e){} // 清掉旧驾驶舱种子缓存
   }
   updatePBar(); writeSummary(); render();
