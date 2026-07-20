@@ -67,6 +67,12 @@ a{color:var(--od)}
 .std .sc{font-size:12px;color:var(--ink2);margin:6px 0 4px}
 .std ul{margin:4px 0;padding-left:18px;font-size:12px}
 .std .tl{font-size:11px;color:var(--od);font-family:ui-monospace,Menlo,Consolas,monospace}
+/* 术语速查 */
+.glosgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.glos{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fff}
+.glost{font-weight:800;font-size:13px;color:var(--ink)}
+.glost .glosf{font-weight:400;font-size:10.5px;color:var(--greyl)}
+.glosd{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.6}
 .note{font-size:11.5px;color:var(--grey);background:#FBF7F2;border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.7}
 /* 影响驾驶舱 */
 .ckpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
@@ -388,7 +394,53 @@ function haraStats(){
 }
 const PROFILES_KEY='emark_cyber_profiles_v1', ACTIVE_KEY='emark_cyber_active_v1', SUM_KEY='emark_cyber_summary_v1';
 const OLD_ANS='emark_cyber_assess_v1', OLD_CK='emark_cockpit_v1';
-let ans={}, cockpit=null, tara=null, hara=null, itemMeta={}, active='home', ckEdit=false; // active: 'home'/'tara'/'r156'/'csms'/'hara'/'cockpit'/'std'
+/* ===== 术语速查 & FAQ(内容按标准编写)===== */
+const GLOSSARY=[
+  {t:'CSMS',full:'Cyber Security Management System',d:'网络安全管理体系。UN R155 要求 OEM 建立并通过审核的组织级体系,覆盖开发/生产/后生产的网安风险管理;缔约方批准机关审核后签发证书。'},
+  {t:'SUMS',full:'Software Update Management System',d:'软件更新管理体系。UN R156 要求;管理软件更新的完整性、真实性、可追溯与 RXSWIN。'},
+  {t:'RXSWIN',full:'Regulation X Software Identification Number',d:'与型式批准要求相关的软件标识。车辆可读、须登记;受监管软件变更时更新,并评估更新是否影响型式批准。'},
+  {t:'TARA',full:'Threat Analysis and Risk Assessment',d:'威胁分析与风险评估。ISO 21434 核心方法:资产 → 威胁场景 → 攻击路径 → 影响 × 攻击可行性 → 风险值 → 处置。'},
+  {t:'HARA',full:'Hazard Analysis and Risk Assessment',d:'危害分析与风险评估。ISO 26262 功能安全方法:严重度 S × 暴露 E × 可控性 C → ASIL。'},
+  {t:'CAL',full:'Cybersecurity Assurance Level',d:'网络安全保障等级 1–4。ISO 21434 附录 E(资料性),由影响 × 攻击可行性推导,决定网安工程的保障严苛度。不是成熟度评分。'},
+  {t:'ASIL',full:'Automotive Safety Integrity Level',d:'汽车安全完整性等级 QM/A/B/C/D。ISO 26262 由 S × E × C 决定,决定功能安全开发严苛度。'},
+  {t:'S / E / C',full:'Severity / Exposure / Controllability',d:'ASIL 三要素:严重度、暴露概率、可控性。任一为 0 类(S0/E0/C0)→ QM。'},
+  {t:'S / F / O / P',full:'Safety / Financial / Operational / Privacy',d:'ISO 21434 影响分级的四个维度:安全 / 财务 / 运营 / 隐私。分别评估,取最严一档作为总影响。'},
+  {t:'攻击可行性',full:'Attack Feasibility',d:'攻击实现的难易程度,分 高/中/低/极低。可用攻击潜力法、CVSS 法或攻击向量法评估(21434 附录 G)。'},
+  {t:'攻击潜力',full:'Attack Potential',d:'21434 附录 G 方法:耗时、专业能力、对象知识、机会窗口、装备 五因子点数求和 → 可行性(0–13 高 / 14–19 中 / 20–24 低 / ≥25 极低)。'},
+  {t:'风险值',full:'Risk Value',d:'1–5。由影响 × 攻击可行性决定(ISO 21434 Cl.15.5,示例矩阵可按组织风险准则裁剪)。'},
+  {t:'DIA',full:'Development Interface Agreement',d:'开发接口协议。划分 OEM 与供应商的网络安全责任边界(ISO 21434 Cl.15)。'},
+  {t:'UN R155',full:'UN Regulation No.155',d:'网络安全与 CSMS 法规(WP.29)。整车型式批准前置,无 L 等级(通过/不通过)。'},
+  {t:'UN R156',full:'UN Regulation No.156',d:'软件更新与 SUMS 法规。与 R155 同为整车型批前置。'},
+  {t:'ISO/SAE 21434',full:'Road vehicles — Cybersecurity engineering',d:'道路车辆网络安全工程标准,是证明 R155 符合性的主要技术依据。'},
+  {t:'ISO 24089',full:'Road vehicles — Software update engineering',d:'软件更新工程标准,R156 的落地方法学。'},
+  {t:'ISO 26262',full:'Road vehicles — Functional safety',d:'道路车辆功能安全标准,定义 ASIL 与安全生命周期。'},
+  {t:'OTA',full:'Over-the-Air',d:'无线软件更新。R156 对 OTA 有附加要求:安全状态执行、失败回滚、用户告知。'},
+  {t:'Secure Boot',full:'安全启动',d:'由信任根逐级校验固件完整性与真实性,防止运行被篡改的软件。'},
+  {t:'HSM',full:'Hardware Security Module',d:'硬件安全模块。安全存储与运算密钥,支撑签名/认证。'},
+  {t:'SBOM',full:'Software Bill of Materials',d:'软件物料清单(CycloneDX/SPDX)。用于追踪组件与已知漏洞(CVE)。'},
+  {t:'PSIRT',full:'Product Security Incident Response Team',d:'产品安全事件响应团队。负责漏洞处置与应急响应。'},
+  {t:'VSOC',full:'Vehicle Security Operations Center',d:'车队级安全运营中心。对遥测做关联分析、检测与告警。'},
+  {t:'CVD',full:'Coordinated Vulnerability Disclosure',d:'协调式漏洞披露。对外接收并处理漏洞报告的渠道与 SLA。'},
+  {t:'SecOC',full:'Secure Onboard Communication',d:'车载安全通信。对关键报文加认证码,防伪造与重放。'},
+  {t:'QM',full:'Quality Management',d:'质量管理级。ASIL 之下,无特定安全完整性要求的档位。'},
+  {t:'缔约方',full:'Contracting Party',d:'1958 协定缔约方。型式批准由缔约方机关签发(如德国 KBA、荷兰 RDW、英国 VCA)。中国非 1958 缔约方。'}
+];
+const FAQS=[
+  {q:'R155 和 R156 有什么区别?',a:'R155 = 网络安全(CSMS);R156 = 软件更新(SUMS)。两者都是整车型式批准的前置,缺一不可。'},
+  {q:'CAL 和 ASIL 是一回事吗?',a:'不是。CAL 是网络安全保障等级(ISO 21434,1–4);ASIL 是功能安全完整性等级(ISO 26262,QM/A/B/C/D)。二者在"安全-安全集成"中需对齐,但坐标不同(网安 vs 功能安全)。'},
+  {q:'R155 / R156 有 L1–L5 等级吗?',a:'没有。它们是 CSMS/SUMS 认证 + 逐车型型式批准,判定为通过/不通过。唯一的"等级"来自 ISO 21434 的 CAL(由风险推导)。'},
+  {q:'中国是缔约方吗?证书谁签发?',a:'中国非 1958 协定缔约方。R155/R156 型批证书由缔约方批准机关签发(如德国 KBA、荷兰 RDW、英国 VCA)。中国的 GB 44495(网安)/ GB 44496(OTA)是与之映射的本国强制标准。'},
+  {q:'零部件厂需要做 R155/R156 吗?',a:'R155/R156 是整车/OEM 级。零部件供应商通常是配合 OEM 的 CSMS/SUMS(签 DIA、提供证据),而非自己申请型批;除非作为独立技术单元且涉及网安/软件。'},
+  {q:'RXSWIN 是什么?',a:'与型式批准要求相关的软件标识。车辆可读、须登记;受监管软件变更时更新,并评估更新是否影响型式批准与安全运行。'},
+  {q:'攻击可行性怎么评?',a:'可直接选(高/中/低/极低),或用"攻击潜力法"(21434 附录 G):耗时/专业能力/对象知识/机会窗口/装备 五因子点数求和 → 分档(0–13 高、14–19 中、20–24 低、≥25 极低);也可用 CVSS 或攻击向量法。'},
+  {q:'影响为什么分 S/F/O/P 四类?',a:'ISO 21434 要求从安全 / 财务 / 运营 / 隐私四个维度评估损害,取最严一档作为总影响,再与攻击可行性组合确定风险值与 CAL。'},
+  {q:'这个报告能当合规证明吗?',a:'不能。本工具是团队自查参照;CAL 属附录 E 资料性方法。正式判定以认可技术服务 / 批准机关为准,型式批准为 CSMS/SUMS 认证(通过/不通过)。'},
+  {q:'为什么去掉了成熟度自查?',a:'那是 CMM 式、非法定的自评,容易与法定等级混淆。现聚焦 R155/R156 认证就绪度 + CAL/ASIL 法定/标准评级。'},
+  {q:'ISO 21434 / 24089 / 26262 各管什么?',a:'21434 = 网络安全工程(R155 的落地方法);24089 = 软件更新工程(R156 的落地方法);26262 = 功能安全(ASIL)。'},
+  {q:'什么时候强制?',a:'R155/R156:2022-07 起新车型、2024-07 起所有新注册车强制(欧盟、日本、韩国、印度等采纳方)。车辆类别 M、N、O 等。'}
+];
+let _glosQ='';
+let ans={}, cockpit=null, tara=null, hara=null, itemMeta={}, active='home', ckEdit=false; // active: 'home'/'tara'/'r156'/'csms'/'hara'/'cockpit'/'std'/'glos'/'faq'
 let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
@@ -585,6 +637,8 @@ function renderNav(){
   h+='<div class="navsep">参考</div>';
   h+='<button class="sb-item'+(active==='cockpit'?' on':'')+'" onclick="pick(\'cockpit\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>影响驾驶舱</span><small>证据域 × 法规体系</small></span></button>';
   h+='<button class="sb-item'+(active==='std'?' on':'')+'" onclick="pick(\'std\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>相关标准速览</span><small>R155/R156 · 21434 · CRA…</small></span></button>';
+  h+='<button class="sb-item'+(active==='glos'?' on':'')+'" onclick="pick(\'glos\')"><span class="sb-dot" style="background:var(--blue)"></span><span class="tx"><span>术语速查</span><small>'+GLOSSARY.length+' 条 · CSMS/SUMS/CAL/ASIL…</small></span></button>';
+  h+='<button class="sb-item'+(active==='faq'?' on':'')+'" onclick="pick(\'faq\')"><span class="sb-dot" style="background:var(--blue)"></span><span class="tx"><span>常见问答 FAQ</span><small>'+FAQS.length+' 问</small></span></button>';
   document.getElementById('nav').innerHTML=h;
 }
 function taraRefHTML(){
@@ -786,6 +840,17 @@ function renderMain(){
     });
     s+='</div>'; m.innerHTML=s; return;
   }
+  if(active==='glos'){
+    let s='<div class="sb-mh">术语速查</div><div class="sb-msub">网安 & 功能安全合规常用术语('+GLOSSARY.length+' 条)。可搜索中/英/缩写。</div>'+
+      '<input class="cin" id="glosq" style="max-width:320px;margin-bottom:12px" placeholder="搜索术语,如 CAL / RXSWIN / 攻击可行性" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)">'+
+      '<div id="glosList">'+glosListHTML()+'</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='faq'){
+    let s='<div class="sb-mh">常见问答 FAQ</div><div class="sb-msub">口径依据 ISO/SAE 21434、ISO 26262、UN R155/R156;自查参照,非型式批准结论。</div><div class="std">';
+    FAQS.forEach((f,i)=>{ s+='<details'+(i===0?' open':'')+'><summary>'+esc(f.q)+'</summary><div class="sc">'+esc(f.a)+'</div></details>'; });
+    s+='</div>'; m.innerHTML=s; return;
+  }
   const d=CYBER.domains[active],sc=domScore(d),dlv=level(sc);
   let h='<div class="sb-mh">'+(active+1)+'. '+esc(d.name)+'</div><div class="sb-msub">'+esc(d.desc)+' · 本域 <b style="color:var(--od)">L'+dlv+' · '+Math.round(sc*100)+'%</b></div>';
   if(d.levels&&d.levels.length===5){
@@ -823,6 +888,13 @@ function exportReport(){
   window.addEventListener('afterprint',cleanup);
   setTimeout(()=>{ try{window.print();}catch(e){cleanup();} }, 80);
 }
+function glosListHTML(){
+  const q=(_glosQ||'').trim().toLowerCase();
+  const list=GLOSSARY.filter(g=>!q||(g.t+' '+g.full+' '+g.d).toLowerCase().indexOf(q)>=0);
+  if(!list.length) return '<div class="pmempty">没有匹配「'+esc(_glosQ)+'」的术语。</div>';
+  return '<div class="glosgrid">'+list.map(g=>'<div class="glos"><div class="glost">'+esc(g.t)+' <span class="glosf">'+esc(g.full)+'</span></div><div class="glosd">'+esc(g.d)+'</div></div>').join('')+'</div>';
+}
+function glosSearch(v){ _glosQ=v; const el=document.getElementById('glosList'); if(el) el.innerHTML=glosListHTML(); }
 function render(){ renderSummary(); renderNav(); renderMain(); }
 (function(){
   const bl=document.getElementById('backlink'), bb=document.getElementById('backbtn');
