@@ -159,6 +159,25 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 .idet{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 12px;background:var(--cream);border:1px solid var(--ol);border-radius:9px;padding:10px 12px;margin:2px 0 8px}
 .idet label{display:flex;flex-direction:column;font-size:11px;color:var(--grey);gap:3px;font-weight:600}
 .idet label .cin{font-weight:400;color:var(--ink)}
+/* TARA 四类影响 + 攻击潜力 */
+.impcell{min-width:120px}
+.improw{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.improw .implab{flex:none;width:14px;font-size:11px;font-weight:700;color:var(--grey)}
+.improw .lvlbtn{padding:4px 7px;font-size:12px}
+.impder{font-size:11px;color:var(--od);font-weight:700;margin-top:2px}
+.feascell{min-width:110px}
+.feasder{font-size:13px;font-weight:700;color:var(--od)}
+.feasder .cae2{font-size:10.5px;color:var(--grey);font-weight:400}
+.apt{display:block;margin-top:5px;font-family:inherit;font-size:10.5px;color:var(--blue);background:none;border:none;cursor:pointer;padding:0}
+.apt:hover{text-decoration:underline}
+.aprow>td{background:var(--cream);padding:0}
+.apbox{padding:10px 14px}
+.apttl{font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:8px}
+.apnote{font-weight:400;color:var(--grey)}
+.apgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.apf{display:flex;flex-direction:column;gap:3px}
+.apflab{font-size:11px;color:var(--grey);font-weight:600}
+.apf .lvlbtn{font-size:12px}
 /* 总览 Dashboard */
 .dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:4px 0 8px}
 .dcard{text-align:left;font-family:inherit;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;cursor:pointer;transition:.12s;box-shadow:0 1px 3px rgba(16,24,40,.05)}
@@ -242,18 +261,36 @@ const CAL_COL={0:['#eef0f2','#9aa1ab'],1:['#d9e8d1','#3d6b2c'],2:['#f4e6bd','#7a
 function impactCn(k){const o=IMPACTS.find(x=>x[0]===k);return o?o[1]:'';}
 function feasCn(k){const o=FEAS.find(x=>x[0]===k);return o?o[1]:'';}
 function feasIdx(k){return FEAS.findIndex(x=>x[0]===k);}
-function riskOf(t){ if(!t||!t.impact||!t.feas)return null; const i=feasIdx(t.feas); if(i<0)return null; return (RISK[t.impact]||[])[i]??null; }
-function calOf(t){ if(!t||!t.impact||!t.feas)return null; const i=feasIdx(t.feas); if(i<0)return null; return (CAL_TBL[t.impact]||[])[i]??null; }
+const SEVRANK={Severe:4,Major:3,Moderate:2,Negligible:1};
+const IMP_CATS=[['S','安全'],['F','财务'],['O','运营'],['P','隐私']];
+// 四类影响 S/F/O/P 取最严一档(21434 Cl.15.3);兼容旧的单一 impact
+function derivedImpact(t){ if(!t)return null; if(t.imp){let best=null,br=0;IMP_CATS.forEach(c=>{const v=t.imp[c[0]];if(v&&SEVRANK[v]>br){br=SEVRANK[v];best=v;}});if(best)return best;} return t.impact||null; }
+// 攻击潜力法(21434 附录 G):5 因子点数求和 → 攻击可行性
+const AP_FACTORS=[
+  {k:'et',name:'耗时',opts:[['≤1天',0],['≤1周',1],['≤1月',4],['≤6月',17],['>6月',19]]},
+  {k:'ex',name:'专业能力',opts:[['外行',0],['熟练',3],['专家',6],['多专家',8]]},
+  {k:'kn',name:'对象知识',opts:[['公开',0],['受限',3],['机密',7],['严格机密',11]]},
+  {k:'wo',name:'机会窗口',opts:[['无限',0],['容易',1],['中等',4],['困难',10]]},
+  {k:'eq',name:'装备',opts:[['标准',0],['专门',4],['定制',7],['多定制',9]]}
+];
+function apComplete(t){ return !!(t&&t.ap&&AP_FACTORS.every(f=>t.ap[f.k]!=null&&t.ap[f.k]!=='')); }
+function apSum(t){ return AP_FACTORS.reduce((s,f)=>s+(+((t.ap||{})[f.k])||0),0); }
+function apFeasKey(sum){ return sum<=13?'High':(sum<=19?'Medium':(sum<=24?'Low':'VeryLow')); }
+function apLabel(fk,val){ const f=AP_FACTORS.find(x=>x.k===fk); if(!f)return''; const o=f.opts.find(o=>String(o[1])===String(val)); return o?o[0]:''; }
+// 有效攻击可行性:攻击潜力齐全则用其推导,否则用直接选择
+function effFeas(t){ if(apComplete(t))return apFeasKey(apSum(t)); return (t&&t.feas)||''; }
+function riskOf(t){ const di=derivedImpact(t), fe=effFeas(t); if(!di||!fe)return null; const i=feasIdx(fe); if(i<0)return null; return (RISK[di]||[])[i]??null; }
+function calOf(t){ const di=derivedImpact(t), fe=effFeas(t); if(!di||!fe)return null; const i=feasIdx(fe); if(i<0)return null; return (CAL_TBL[di]||[])[i]??null; }
 // UN R155 附件 5(Part A)威胁目录做种子(威胁名预置、评级留空,逐条评)
 function seedTara(){ return [
-  {name:'后端服务器被入侵并被用作攻击车辆的跳板',asset:'后端/云服务',ref:'R155 附件5 §4.3.1',impact:'',feas:''},
-  {name:'车辆通信信道被欺骗/篡改(消息注入、重放)',asset:'V2X / 车内总线',ref:'R155 附件5 §4.3.2/§4.3.3',impact:'',feas:''},
-  {name:'更新流程被滥用(固件被篡改、回滚到有漏洞版本)',asset:'OTA / 软件更新',ref:'R155 附件5 §4.3.4',impact:'',feas:''},
-  {name:'对外接口(OBD/USB/充电)被用于注入恶意代码或提权',asset:'诊断/外设接口',ref:'R155 附件5 §4.3.6',impact:'',feas:''},
-  {name:'密钥/凭证管理不当被提取,用于伪造身份或解密',asset:'密钥 / PKI',ref:'R155 附件5 §4.3.5',impact:'',feas:''},
-  {name:'拒绝服务(总线泛洪/资源耗尽)导致安全功能失效',asset:'车内网络 / ECU',ref:'R155 附件5 §4.3.7',impact:'',feas:''},
-  {name:'个人数据/隐私被越权访问或泄露',asset:'用户数据',ref:'R155 附件5 §4.3.8',impact:'',feas:''},
-  {name:'供应链/第三方组件引入的漏洞被利用',asset:'第三方软硬件',ref:'R155 附件5 §4.3.7/21434 Cl.15',impact:'',feas:''}
+  {name:'后端服务器被入侵并被用作攻击车辆的跳板',asset:'后端/云服务',ref:'R155 附件5 §4.3.1',imp:{},feas:'',ap:{}},
+  {name:'车辆通信信道被欺骗/篡改(消息注入、重放)',asset:'V2X / 车内总线',ref:'R155 附件5 §4.3.2/§4.3.3',imp:{},feas:'',ap:{}},
+  {name:'更新流程被滥用(固件被篡改、回滚到有漏洞版本)',asset:'OTA / 软件更新',ref:'R155 附件5 §4.3.4',imp:{},feas:'',ap:{}},
+  {name:'对外接口(OBD/USB/充电)被用于注入恶意代码或提权',asset:'诊断/外设接口',ref:'R155 附件5 §4.3.6',imp:{},feas:'',ap:{}},
+  {name:'密钥/凭证管理不当被提取,用于伪造身份或解密',asset:'密钥 / PKI',ref:'R155 附件5 §4.3.5',imp:{},feas:'',ap:{}},
+  {name:'拒绝服务(总线泛洪/资源耗尽)导致安全功能失效',asset:'车内网络 / ECU',ref:'R155 附件5 §4.3.7',imp:{},feas:'',ap:{}},
+  {name:'个人数据/隐私被越权访问或泄露',asset:'用户数据',ref:'R155 附件5 §4.3.8',imp:{},feas:'',ap:{}},
+  {name:'供应链/第三方组件引入的漏洞被利用',asset:'第三方软硬件',ref:'R155 附件5 §4.3.7/21434 Cl.15',imp:{},feas:'',ap:{}}
 ]; }
 /* ===== UN R156 · SUMS 认证就绪度自查(逐条对照 R156 条款;整车/OEM 级)=====
    条款以 UN R156 现行版为准;答案沿用 ans(键前缀 r156.),随档案保存。*/
@@ -439,9 +476,12 @@ function ckCell(ri,ci,f,v){
 }
 /* ===== 21434 风险评级(TARA)行编辑 ===== */
 function taraField(i,f,v){ if(!tara[i])return; tara[i][f]=v; autosave(); }
-function taraImpactOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(IMPACTS.map(x=>[x[0],x[1]+' '+x[0]])),tara[i].impact||'',function(v){ taraField(i,'impact',v); render(); }); }
+let _openAP={}; // TARA 行"攻击潜力"展开态(不持久化)
+function taraImpOpen(i,cat,btn,ev){ ev.stopPropagation(); const cur=(tara[i].imp||{})[cat]||''; showMenu(btn,[['','—']].concat(IMPACTS.map(x=>[x[0],x[1]+' '+x[0]])),cur,function(v){ tara[i].imp=tara[i].imp||{}; tara[i].imp[cat]=v; autosave(); render(); }); }
 function taraFeasOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(FEAS.map(x=>[x[0],x[1]+' '+x[0]])),tara[i].feas||'',function(v){ taraField(i,'feas',v); render(); }); }
-function taraAdd(){ tara.push({name:'',asset:'',ref:'',impact:'',feas:''}); autosave(); render(); }
+function toggleAP(i){ _openAP[i]=!_openAP[i]; render(); }
+function taraApOpen(i,fk,btn,ev){ ev.stopPropagation(); const f=AP_FACTORS.find(x=>x.k===fk); const cur=String((tara[i].ap||{})[fk]!=null?(tara[i].ap||{})[fk]:''); showMenu(btn,[['','—']].concat(f.opts.map(o=>[String(o[1]),o[0]+'（'+o[1]+'）'])),cur,function(v){ tara[i].ap=tara[i].ap||{}; if(v==='')delete tara[i].ap[fk]; else tara[i].ap[fk]=+v; autosave(); render(); }); }
+function taraAdd(){ tara.push({name:'',asset:'',ref:'',imp:{},feas:'',ap:{}}); autosave(); render(); }
 function taraDel(i){ if(!confirm('删除该威胁场景行？'))return; tara.splice(i,1); autosave(); render(); }
 function taraReseed(){ if(!confirm('恢复为 R155 附件 5 威胁目录种子?当前威胁清单与评级将被覆盖。'))return; tara=seedTara(); autosave(); render(); }
 /* ===== ISO 26262 ASIL(HARA)行编辑 ===== */
@@ -554,7 +594,7 @@ function taraRefHTML(){
     IMPACTS.map(im=>'<tr><td class="lft">'+esc(im[1])+'</td>'+FEAS.map((f,fi)=>{const v=CAL_TBL[im[0]][fi];const c=CAL_COL[v];return '<td style="background:'+c[0]+';color:'+c[1]+'">'+(v>0?'CAL '+v:'—')+'</td>';}).join('')+'</tr>').join('')+'</table>';
   return '<div class="mtxwrap"><div><div class="mtxh">风险值矩阵 <span>ISO 21434 Cl.15.5(示例矩阵,组织可按风险准则裁剪)</span></div>'+risk+'</div>'+
     '<div><div class="mtxh">CAL 矩阵 <span>ISO 21434 附录 E(资料性 informative)</span></div>'+cal+'</div></div>'+
-    '<div class="ckleg">说明:<b>影响</b>取 S 安全 / F 财务 / O 运营 / P 隐私 四类中最严一档;<b>攻击可行性</b>可用攻击潜力法 / CVSS / 攻击向量法评估。CAL 为附录 E <b>资料性</b>方法(非强制),用于决定工程保障严苛度;<b>R155 型式批准不直接给 CAL、也无 L 等级</b>(CSMS 认证 = 通过/不通过)。评级随当前档案本地保存。</div>';
+    '<div class="ckleg">说明:<b>影响</b>按 S 安全 / F 财务 / O 运营 / P 隐私 四类分别评,取最严一档(Cl.15.3);<b>攻击可行性</b>可直接选,或点「攻击潜力法」按 21434 附录 G 五因子(耗时/专业能力/对象知识/机会窗口/装备)点数求和自动推导(0–13 高 / 14–19 中 / 20–24 低 / ≥25 极低)。CAL 为附录 E <b>资料性</b>方法(非强制);<b>R155 型式批准不直接给 CAL、也无 L 等级</b>(CSMS 认证 = 通过/不通过)。评级随当前档案本地保存。</div>';
 }
 function dashCard(title,big,sub,col,onclick){
   return '<button class="dcard" onclick="'+onclick+'"><div class="dct">'+esc(title)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+sub+'</div></button>';
@@ -607,21 +647,34 @@ function renderMain(){
       '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">ISO 21434 风险评级 · TARA → 风险值 / CAL</div>'+
       '<div class="sb-msub" style="margin-bottom:0">逐条威胁按 <b>影响(Cl.15.3)× 攻击可行性(Cl.15.4)</b> → 风险值 1–5(Cl.15.5)与 CAL 1–4(附录 E)。种子取自 <b>UN R155 附件 5</b> 威胁目录,可增删改。</div></div>'+
       '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="taraAdd()">＋ 添加威胁</button><button class="btn" onclick="taraReseed()">↺ 恢复 R155 目录</button></div></div>';
-    s+='<div style="overflow:auto"><table class="taratab"><tr><th class="lft">#　威胁场景 / 资产 / 依据</th><th>影响 Impact</th><th>攻击可行性</th><th>风险值</th><th>CAL</th><th></th></tr>';
+    s+='<div style="overflow:auto"><table class="taratab"><tr><th class="lft">#　威胁场景 / 资产 / 依据</th><th>影响 S/F/O/P（取最严）</th><th>攻击可行性</th><th>风险值</th><th>CAL</th><th></th></tr>';
     tara.forEach((t,i)=>{
       const rv=riskOf(t), cal=calOf(t);
       const rc=rv?RISK_COL[rv]:null, cc=(cal!=null)?CAL_COL[cal]:null;
+      const di=derivedImpact(t);
+      const imp=t.imp||{};
+      const impCell=IMP_CATS.map(c=>'<div class="improw"><span class="implab">'+c[0]+'</span><button class="lvlbtn" onclick="taraImpOpen('+i+',\''+c[0]+'\',this,event)">'+(imp[c[0]]?esc(impactCn(imp[c[0]])):'—')+' <span class="cae">▾</span></button></div>').join('')
+        +'<div class="impder">→ '+(di?esc(impactCn(di)):'—')+'</div>';
+      const apOn=apComplete(t);
+      let feasCell;
+      if(apOn){ const fe=effFeas(t); feasCell='<div class="feasder">'+esc(feasCn(fe))+' <span class="cae2">潜力 '+apSum(t)+'</span></div><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起潜力':'▾ 攻击潜力')+'</button>'; }
+      else { feasCell='<button class="lvlbtn" onclick="taraFeasOpen('+i+',this,event)">'+(t.feas?esc(feasCn(t.feas)):'—')+' <span class="cae">▾</span></button><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起潜力':'▾ 攻击潜力法')+'</button>'; }
       s+='<tr><td class="lft"><div style="display:flex;gap:7px"><span class="tnum">'+(i+1)+'</span><div style="flex:1;min-width:0">'
         + '<input class="cin" value="'+escA(t.name)+'" placeholder="威胁场景" oninput="taraField('+i+',\'name\',this.value)">'
         + '<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap">'
         +   '<input class="cin sm" style="flex:1;min-width:90px" value="'+escA(t.asset)+'" placeholder="资产 / 目标" oninput="taraField('+i+',\'asset\',this.value)">'
         +   '<input class="cin sm" style="flex:1;min-width:120px" value="'+escA(t.ref)+'" placeholder="依据(如 R155 附件5 §…)" oninput="taraField('+i+',\'ref\',this.value)">'
         + '</div></div></div></td>'
-        + '<td><button class="lvlbtn" onclick="taraImpactOpen('+i+',this,event)">'+(t.impact?esc(impactCn(t.impact)):'—')+' <span class="cae">▾</span></button></td>'
-        + '<td><button class="lvlbtn" onclick="taraFeasOpen('+i+',this,event)">'+(t.feas?esc(feasCn(t.feas)):'—')+' <span class="cae">▾</span></button></td>'
+        + '<td class="impcell">'+impCell+'</td>'
+        + '<td class="feascell">'+feasCell+'</td>'
         + '<td style="text-align:center">'+(rv?'<span class="rvb" style="background:'+rc[0]+';color:'+rc[1]+'">'+rv+'</span>':'<span class="muted">—</span>')+'</td>'
         + '<td style="text-align:center">'+(cal!=null?(cal>0?'<span class="rvb" style="background:'+cc[0]+';color:'+cc[1]+'">CAL '+cal+'</span>':'<span class="muted">无需</span>'):'<span class="muted">—</span>')+'</td>'
         + '<td style="text-align:center"><button class="delx" onclick="taraDel('+i+')" title="删除该行">✕</button></td></tr>';
+      if(_openAP[i]){
+        const ap=t.ap||{};
+        const factors=AP_FACTORS.map(f=>{const val=ap[f.k]; return '<div class="apf"><span class="apflab">'+esc(f.name)+'</span><button class="lvlbtn" onclick="taraApOpen('+i+',\''+f.k+'\',this,event)">'+(val!=null&&val!==''?esc(apLabel(f.k,val))+'（'+val+'）':'—')+' <span class="cae">▾</span></button></div>';}).join('');
+        s+='<tr class="aprow"><td colspan="6"><div class="apbox"><div class="apttl">攻击潜力法(ISO 21434 附录 G)· 五因子点数求和 → 可行性　<span class="apnote">合计 '+apSum(t)+'（0–13 高 / 14–19 中 / 20–24 低 / ≥25 极低）'+(apComplete(t)?' → <b>'+esc(feasCn(apFeasKey(apSum(t))))+'</b>,覆盖上方直选':' · 五项填全后自动生效')+'</span></div><div class="apgrid">'+factors+'</div></div></td></tr>';
+      }
     });
     s+='</table></div>';
     s+=taraRefHTML();
@@ -760,7 +813,7 @@ function exportReport(){
   html+='<h2>① UN R155 · CSMS 认证就绪度</h2>'+chk(R155.groups);
   html+='<h2>② UN R156 · SUMS 认证就绪度</h2>'+chk(R156.groups);
   html+='<h2>③ ISO 21434 · 风险评级(TARA → 风险值 / CAL)</h2><table class="rt"><tr><th>威胁场景</th><th>资产</th><th>影响</th><th>可行性</th><th>风险值</th><th>CAL</th></tr>'+
-    tara.map(t=>{const rv=riskOf(t),c=calOf(t);return '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.asset||'')+'</td><td>'+(t.impact?esc(impactCn(t.impact)):'—')+'</td><td>'+(t.feas?esc(feasCn(t.feas)):'—')+'</td><td class="rst">'+(rv||'—')+'</td><td class="rst">'+(c!=null?(c>0?'CAL '+c:'无需'):'—')+'</td></tr>';}).join('')+'</table>';
+    tara.map(t=>{const rv=riskOf(t),c=calOf(t);const di=derivedImpact(t),fe=effFeas(t);return '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.asset||'')+'</td><td>'+(di?esc(impactCn(di)):'—')+'</td><td>'+(fe?esc(feasCn(fe))+(apComplete(t)?'（潜力'+apSum(t)+'）':''):'—')+'</td><td class="rst">'+(rv||'—')+'</td><td class="rst">'+(c!=null?(c>0?'CAL '+c:'无需'):'—')+'</td></tr>';}).join('')+'</table>';
   html+='<h2>④ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
     hara.map(h=>{const a=asilOf(h);return '<tr><td>'+esc(h.name)+'</td><td>'+esc(h.fn||'')+'</td><td class="rst">'+(h.s||'—')+'</td><td class="rst">'+(h.e||'—')+'</td><td class="rst">'+(h.c||'—')+'</td><td class="rst">'+(a!=null?(a==='QM'?'QM':'ASIL '+a):'—')+'</td></tr>';}).join('')+'</table>';
   html+='<div class="rfoot">评级方法依据 ISO/SAE 21434(风险值 / CAL,附录 E 资料性)、ISO 26262-3(ASIL)与 UN R155/R156 条款;R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;正式判定以认可技术服务 / 批准机关为准。</div>';
