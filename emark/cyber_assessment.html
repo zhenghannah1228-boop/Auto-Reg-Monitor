@@ -115,6 +115,18 @@ a{color:var(--od)}
 .modtab td.lft,.modtab th.lft{position:sticky;left:0;background:#fff;min-width:130px}
 .modtab th.lft{background:var(--bg)}
 .mlegal{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11px;font-weight:700;white-space:nowrap}
+/* 审计就绪包:优先处理三栏 + 台账链接 */
+.actwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.actcol{border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:#fff}
+.acth{font-size:12px;font-weight:800;color:var(--ink2);margin-bottom:6px}
+.actrow{display:flex;align-items:baseline;gap:7px;width:100%;text-align:left;font-family:inherit;background:none;border:none;border-top:1px solid var(--line);padding:7px 2px;cursor:pointer;color:var(--ink);font-size:12px;line-height:1.4}
+.actrow:first-of-type{border-top:none}
+.actrow:hover{color:var(--od)}
+.actrow>span{flex:1;min-width:0}
+.actrow small{flex:none;color:var(--greyl);font-size:10.5px;max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.actmore{font-size:11px;color:var(--grey);padding:6px 2px 0}
+.lnk{font-family:inherit;font-size:12px;text-align:left;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;font-weight:600;line-height:1.4}
+.lnk:hover{color:var(--od);text-decoration:underline}
 .note{font-size:11.5px;color:var(--grey);background:#FBF7F2;border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.7}
 /* 卡片 / 自定义下拉 / 输入(TARA·HARA 行编辑共用) */
 .ckpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
@@ -504,6 +516,7 @@ const MODULES=[
 let _glosQ='';
 let ans={}, tara=null, hara=null, itemMeta={}, active='home'; // active: 'home'/'tara'/'r156'/'csms'/'hara'/'std'/'glos'/'faq'
 let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
+let _packGapOnly=false; // 审计就绪包:只看缺口(不持久化)
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 /* ===== 多档案:保存进度 / 新建档案 / 我的档案(存 localStorage)===== */
@@ -581,11 +594,12 @@ function haraAdd(){ hara.push({name:'',fn:'',s:'',e:'',c:''}); autosave(); rende
 function haraDel(i){ if(!confirm('删除该危害事件行？'))return; hara.splice(i,1); autosave(); render(); }
 function haraReseed(){ if(!confirm('恢复为示例危害事件?当前 HARA 清单与定级将被覆盖。'))return; hara=seedHara(); autosave(); render(); }
 function taraStats(){
-  const rated=tara.filter(t=>t.impact&&t.feas);
+  // 「已评」以能否推出风险值为准(影响 S/F/O/P 或旧 impact × 攻击可行性 或攻击潜力法),
+  // 与表格/CAL 计算口径一致;旧版按 t.impact&&t.feas 过滤会漏掉 S/F/O/P + 攻击潜力法评的行。
   const calCount={1:0,2:0,3:0,4:0}, riskCount={1:0,2:0,3:0,4:0,5:0};
-  let maxCal=0,maxRisk=0;
-  rated.forEach(t=>{const c=calOf(t),r=riskOf(t); if(c>0){calCount[c]++; if(c>maxCal)maxCal=c;} if(r){riskCount[r]++; if(r>maxRisk)maxRisk=r;}});
-  return {total:tara.length,rated:rated.length,calCount,riskCount,maxCal,maxRisk};
+  let maxCal=0,maxRisk=0,rated=0;
+  tara.forEach(t=>{const r=riskOf(t),c=calOf(t); if(r==null)return; rated++; riskCount[r]++; if(r>maxRisk)maxRisk=r; if(c>0){calCount[c]++; if(c>maxCal)maxCal=c;}});
+  return {total:tara.length,rated,calCount,riskCount,maxCal,maxRisk};
 }
 function domScore(d){ if(!d.items.length)return 0; let s=0; d.items.forEach(it=>s+=(ans[it.k]||0)); return s/(2*d.items.length); }
 function level(sc){ return 1+Math.round(sc*4); }
@@ -613,7 +627,7 @@ function persist(){ autosave(); }
 function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); renderMain(); }
 function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 function renderSummary(){
-  if(active==='home'){ document.getElementById('summary').innerHTML=''; return; }
+  if(active==='home'||active==='pack'){ document.getElementById('summary').innerHTML=''; return; }
   if(active==='r156'){ renderR156Summary(); return; }
   if(active==='csms'){ renderCsmsSummary(); return; }
   if(active==='hara'){ renderHaraSummary(); return; }
@@ -670,6 +684,9 @@ function renderNav(){
   h+='<div class="sgrp">工程评级方法</div>';
   h+=step('tara','3','21434 CAL 风险评级',(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total);
   h+=step('hara','4','26262 ASIL 定级',(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total);
+  h+='<div class="sgrp">交付物</div>';
+  const pk=packStats();
+  h+=step('pack','⑤','审计就绪包',(pk.noEv||pk.unmet)?('缺口 '+(pk.noEv+pk.unmet)+' · 可导出'):'台账/登记册 · 可导出');
   document.getElementById('nav').innerHTML=h;
 }
 function taraRefHTML(){
@@ -731,7 +748,7 @@ function renderMain(){
     let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
       '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">ISO 21434 风险评级 · TARA → 风险值 / CAL</div>'+
       '<div class="sb-msub" style="margin-bottom:0">逐条威胁按 <b>影响(Cl.15.3)× 攻击可行性(Cl.15.4)</b> → 风险值 1–5(Cl.15.5)与 CAL 1–4(附录 E)。种子取自 <b>UN R155 附件 5</b> 威胁目录,可增删改。</div></div>'+
-      '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="taraAdd()">＋ 添加威胁</button><button class="btn" onclick="taraReseed()">↺ 恢复 R155 目录</button></div></div>';
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="taraAdd()">＋ 添加威胁</button><button class="btn sm" onclick="exportTaraCSV()">⬇ CSV</button><button class="btn" onclick="taraReseed()">↺ 恢复 R155 目录</button></div></div>';
     s+='<div style="overflow:auto"><table class="taratab"><tr><th class="lft">#　威胁场景 / 资产 / 依据</th><th>影响 S/F/O/P（取最严）</th><th>攻击可行性</th><th>风险值</th><th>CAL</th><th></th></tr>';
     tara.forEach((t,i)=>{
       const rv=riskOf(t), cal=calOf(t);
@@ -793,7 +810,7 @@ function renderMain(){
     let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
       '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">ISO 26262 · ASIL 定级(HARA)</div>'+
       '<div class="sb-msub">逐条危害事件按 <b>严重度 S × 暴露 E × 可控性 C</b> → ASIL(QM/A/B/C/D,ISO 26262-3 Table 4)。功能安全与网安需协同:<b>HARA↔TARA、ASIL↔CAL</b> 对齐(21434 安全-安全集成)。</div></div>'+
-      '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="haraAdd()">＋ 添加危害</button><button class="btn" onclick="haraReseed()">↺ 恢复示例</button></div></div>';
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="haraAdd()">＋ 添加危害</button><button class="btn sm" onclick="exportHaraCSV()">⬇ CSV</button><button class="btn" onclick="haraReseed()">↺ 恢复示例</button></div></div>';
     s+='<div style="overflow:auto"><table class="taratab"><tr><th class="lft">#　危害事件 / 功能</th><th>严重度 S</th><th>暴露 E</th><th>可控性 C</th><th>ASIL</th><th></th></tr>';
     hara.forEach((h,i)=>{
       const a=asilOf(h), ac=(a!=null)?ASIL_COL[a]:null;
@@ -832,6 +849,7 @@ function renderMain(){
     FAQS.forEach((f,i)=>{ s+='<details'+(i===0?' open':'')+'><summary>'+esc(f.q)+'</summary><div class="sc">'+esc(f.a)+'</div></details>'; });
     s+='</div>'; m.innerHTML=s; return;
   }
+  if(active==='pack'){ renderPack(m); return; }
   const d=CYBER.domains[active]; if(!d){ renderHome(m); return; }
   const sc=domScore(d),dlv=level(sc);
   let h='<div class="sb-mh">'+(active+1)+'. '+esc(d.name)+'</div><div class="sb-msub">'+esc(d.desc)+' · 本域 <b style="color:var(--od)">L'+dlv+' · '+Math.round(sc*100)+'%</b></div>';
@@ -869,6 +887,137 @@ function exportReport(){
   const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
   window.addEventListener('afterprint',cleanup);
   setTimeout(()=>{ try{window.print();}catch(e){cleanup();} }, 80);
+}
+/* ===== ⑤ 审计就绪包:证据台账 + 风险登记册 + 优先整改 + CSV 导出 ===== */
+function csvCell(v){ v=String(v==null?'':v); return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function downloadCSV(name,rows){
+  const csv=rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'}); // BOM 保证 Excel 正确识别中文
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },120);
+}
+function todayStr(){ try{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }catch(e){ return ''; } }
+function riskPrio(rv){ return rv>=4?'高':(rv===3?'中':(rv?'低':'')); }
+function asilPrio(a){ return (a==='C'||a==='D')?'高':(a==='B'?'中':(a==='A'?'低':'')); }
+// 风险登记册排序:威胁按风险值→CAL 降序;危害按 ASIL 降序
+function taraSorted(){ return tara.map((t,i)=>({t,i})).sort(function(a,b){ return (riskOf(b.t)||0)-(riskOf(a.t)||0) || (calOf(b.t)||0)-(calOf(a.t)||0); }); }
+function haraSorted(){ return hara.map((h,i)=>({h,i})).sort(function(a,b){ return (ASIL_RANK[asilOf(b.h)]||0)-(ASIL_RANK[asilOf(a.h)]||0); }); }
+// 全部自查条款(R155 → R156)扁平化,带体系/分组
+function allClauses(){ const out=[];
+  R155.groups.forEach(g=>g.items.forEach(it=>out.push({sys:'R155',grp:g.name,it})));
+  R156.groups.forEach(g=>g.items.forEach(it=>out.push({sys:'R156',grp:g.name,it})));
+  return out; }
+// 条款审计风险判定:已建立但无证据=补证据即可闭环;未达标=尚未建立;逾期=有目标日期且已过且未达标
+function clauseFlag(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}; const today=todayStr();
+  const overdue=!!(m.due&&today&&m.due<today&&v<2);
+  if(v<2) return {type:'unmet', label:(v===0?'未开始':'部分'), overdue};
+  if(!m.ev) return {type:'noev', label:'缺证据', overdue:false};
+  return {type:'ok', label:'已闭环', overdue:false}; }
+function packStats(){ const cs=allClauses(); let done=0,noEv=0,unmet=0,overdue=0;
+  cs.forEach(c=>{ const f=clauseFlag(c), v=ans[c.it.k]||0; if(v===2)done++; if(f.type==='noev')noEv++; if(f.type==='unmet')unmet++; if(f.overdue)overdue++; });
+  return {total:cs.length,done,noEv,unmet,overdue}; }
+function gotoItem(k){ _openItems[k]=true; active=(k.indexOf('r156.')===0)?'r156':'csms'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+// —— CSV 导出 ——
+function exportTaraCSV(){ const rows=[['#','威胁场景','资产/目标','依据','影响(取最严)','攻击可行性','攻击潜力合计','风险值','CAL','建议优先级']];
+  taraSorted().forEach(function(o,n){ const t=o.t, di=derivedImpact(t), fe=effFeas(t), rv=riskOf(t), c=calOf(t);
+    rows.push([n+1, t.name||'', t.asset||'', t.ref||'', di?impactCn(di):'', fe?feasCn(fe):'', apComplete(t)?apSum(t):'', rv||'', c!=null?(c>0?'CAL '+c:'无需'):'', riskPrio(rv)]); });
+  downloadCSV('TARA风险登记册_'+todayStr()+'.csv', rows); }
+function exportHaraCSV(){ const rows=[['#','危害事件','功能/系统','严重度S','暴露E','可控性C','ASIL','建议优先级']];
+  haraSorted().forEach(function(o,n){ const h=o.h, a=asilOf(h);
+    rows.push([n+1, h.name||'', h.fn||'', h.s||'', h.e||'', h.c||'', a!=null?(a==='QM'?'QM':'ASIL '+a):'', asilPrio(a)]); });
+  downloadCSV('HARA危害登记册_'+todayStr()+'.csv', rows); }
+function exportLedgerCSV(){ const rows=[['体系','分组','条款','依据','状态','证据/记录','责任人','差距/整改','目标日期','审计风险']];
+  const labs=['无','部分','已建立'];
+  allClauses().forEach(function(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}, f=clauseFlag(c);
+    const flag=f.type==='ok'?'':(f.type==='noev'?'已建立但缺证据':(f.label))+(f.overdue?'·逾期':'');
+    rows.push([c.sys, c.grp, c.it.t, c.it.r||'', labs[v], m.ev||'', m.owner||'', m.gap||'', m.due||'', flag]); });
+  downloadCSV('R155-R156证据台账_'+todayStr()+'.csv', rows); }
+function togglePackGap(){ _packGapOnly=!_packGapOnly; renderMain(); }
+function packKpi(t,big,sub,col){ return '<div class="dcard" style="cursor:default"><div class="dct">'+esc(t)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+esc(sub)+'</div></div>'; }
+function renderPack(m){
+  const ps=packStats();
+  let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
+    '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">审计就绪包 · 证据台账与风险登记册</div>'+
+    '<div class="sb-msub" style="margin-bottom:0">把 R155/R156 逐条证据与 TARA/HARA 风险汇成可交付、可导出的一页,直接对接认证审核与项目整改。均取自当前档案,本地生成。</div></div>'+
+    '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
+  // KPI
+  s+='<div class="dgrid">'+
+    packKpi('自查条款总数', ps.total, 'R155 + R156', 'var(--ink)')+
+    packKpi('已建立', ps.done+'/'+ps.total, '状态 = 已建立', ps.done?'var(--green)':'var(--greyl)')+
+    packKpi('⚠ 缺证据', ps.noEv, '已建立但无证据/记录', ps.noEv?'var(--red)':'var(--green)')+
+    packKpi('未达标', ps.unmet+(ps.overdue?' · 逾期'+ps.overdue:''), '状态 = 无 / 部分', ps.unmet?'var(--amber)':'var(--green)')+
+    '</div>';
+  // —— 建议优先处理 ——
+  const unmetList=allClauses().filter(c=>clauseFlag(c).type==='unmet').sort((a,b)=>(ans[a.it.k]||0)-(ans[b.it.k]||0));
+  const noEvList=allClauses().filter(c=>clauseFlag(c).type==='noev');
+  const hiThreat=taraSorted().filter(o=>(riskOf(o.t)||0)>=4);
+  const hiHazard=haraSorted().filter(o=>ASIL_RANK[asilOf(o.h)]>=3); // C/D
+  const chip=(txt,col)=>'<span class="mlegal" style="background:'+col[0]+';color:'+col[1]+'">'+esc(txt)+'</span>';
+  s+='<div style="font-size:13px;font-weight:800;margin:14px 0 6px">建议优先处理 <span style="font-weight:400;color:var(--grey);font-size:11.5px">按「拿证阻塞 → 补证据即可闭环 → 高风险工程项」排序</span></div>';
+  if(!unmetList.length&&!noEvList.length&&!hiThreat.length&&!hiHazard.length){
+    s+='<div class="ckleg" style="margin-top:0">暂无待办:条款均已建立且有证据,且无高风险威胁 / 高 ASIL 危害。继续维护证据与定期复评即可。</div>';
+  } else {
+    s+='<div class="actwrap">';
+    if(unmetList.length){ s+='<div class="actcol"><div class="acth">① 拿证阻塞 · 未达标条款('+unmetList.length+')</div>'+
+      unmetList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f3d0d0','#b02222'])+' <span>'+esc(c.it.t)+'</span><small>'+esc(c.it.r||'')+'</small></button>').join('')+
+      (unmetList.length>8?'<div class="actmore">…另 '+(unmetList.length-8)+' 条,见下方台账</div>':'')+'</div>'; }
+    if(noEvList.length){ s+='<div class="actcol"><div class="acth">② 补证据即可闭环('+noEvList.length+')</div>'+
+      noEvList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f4e6bd','#7a5a10'])+' <span>'+esc(c.it.t)+'</span><small>状态已建立 · 缺证据/记录</small></button>').join('')+
+      (noEvList.length>8?'<div class="actmore">…另 '+(noEvList.length-8)+' 条</div>':'')+'</div>'; }
+    if(hiThreat.length||hiHazard.length){ s+='<div class="actcol"><div class="acth">③ 高风险工程项('+(hiThreat.length+hiHazard.length)+')</div>'+
+      hiThreat.slice(0,6).map(o=>'<button class="actrow" onclick="pick(\'tara\')">'+chip('风险'+riskOf(o.t),(RISK_COL[riskOf(o.t)]||['#eee','#555']))+' <span>'+esc(o.t.name||'(未命名威胁)')+'</span><small>'+esc(o.t.asset||'')+'</small></button>').join('')+
+      hiHazard.slice(0,6).map(o=>{const a=asilOf(o.h);return '<button class="actrow" onclick="pick(\'hara\')">'+chip('ASIL '+a,(ASIL_COL[a]||['#eee','#555']))+' <span>'+esc(o.h.name||'(未命名危害)')+'</span><small>'+esc(o.h.fn||'')+'</small></button>';}).join('')+'</div>'; }
+    s+='</div>';
+  }
+  // —— 条款证据台账 ——
+  const labs=['无','部分','已建立'], stCol=['#f3d0d0','#f4e6bd','#d9e8d1'], stFg=['#b02222','#7a5a10','#3d6b2c'];
+  s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
+    '<div style="font-size:13px;font-weight:800">条款证据台账 <span style="font-weight:400;color:var(--grey);font-size:11.5px">R155 + R156 · 证据/责任人/差距在「就绪度清单」里填,这里汇总</span></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="pill'+(_packGapOnly?' on':'')+'" style="cursor:pointer" onclick="togglePackGap()">'+(_packGapOnly?'✓ 只看缺口':'只看缺口')+'</button><button class="btn sm" onclick="exportLedgerCSV()">⬇ 导出台账 CSV</button></div></div>';
+  let rows=allClauses();
+  if(_packGapOnly) rows=rows.filter(c=>clauseFlag(c).type!=='ok');
+  s+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">条款</th><th>体系</th><th>状态</th><th>证据/记录</th><th>责任人</th><th>差距/整改</th><th>目标</th><th>审计风险</th></tr>';
+  if(!rows.length){ s+='<tr><td colspan="8" style="color:var(--grey)">无缺口:全部条款已建立且有证据。</td></tr>'; }
+  rows.forEach(function(c){ const v=ans[c.it.k]||0, mm=itemMeta[c.it.k]||{}, f=clauseFlag(c);
+    const flagBadge=f.type==='ok'?'<span style="color:var(--green)">✓ 闭环</span>':
+      (f.type==='noev'?'<span class="mlegal" style="background:#f3d0d0;color:#b02222">⚠ 缺证据</span>':
+       '<span class="mlegal" style="background:#f4e6bd;color:#7a5a10">未达标</span>')+(f.overdue?' <span class="mlegal" style="background:#f3d0d0;color:#b02222">逾期</span>':'');
+    s+='<tr'+(f.type!=='ok'?' style="background:#fdf6f0"':'')+'><td class="lft"><button class="lnk" onclick="gotoItem(\''+c.it.k+'\')">'+esc(c.it.t)+'</button><div style="font-size:10.5px;color:var(--grey)">'+esc(c.it.r||'')+'</div></td>'+
+      '<td>'+esc(c.sys)+'</td>'+
+      '<td><span class="mlegal" style="background:'+stCol[v]+';color:'+stFg[v]+'">'+labs[v]+'</span></td>'+
+      '<td>'+(mm.ev?esc(mm.ev):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td>'+(mm.owner?esc(mm.owner):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td>'+(mm.gap?esc(mm.gap):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td style="white-space:nowrap">'+(mm.due?esc(mm.due):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td style="white-space:nowrap">'+flagBadge+'</td></tr>';
+  });
+  s+='</table></div>';
+  // —— 风险登记册 ——
+  s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
+    '<div style="font-size:13px;font-weight:800">风险登记册 <span style="font-weight:400;color:var(--grey);font-size:11.5px">TARA 威胁按风险值 / HARA 危害按 ASIL 降序</span></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" onclick="exportTaraCSV()">⬇ TARA CSV</button><button class="btn sm" onclick="exportHaraCSV()">⬇ HARA CSV</button></div></div>';
+  s+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">威胁场景(TARA)</th><th>资产</th><th>影响</th><th>可行性</th><th>风险值</th><th>CAL</th><th>优先级</th></tr>';
+  const ts=taraSorted();
+  if(!ts.length){ s+='<tr><td colspan="7" style="color:var(--grey)">尚无威胁条目。</td></tr>'; }
+  ts.forEach(function(o){ const t=o.t, di=derivedImpact(t), fe=effFeas(t), rv=riskOf(t), c=calOf(t), rc=rv?RISK_COL[rv]:null, cc=(c!=null)?CAL_COL[c]:null;
+    s+='<tr><td class="lft">'+esc(t.name||'(未命名)')+'</td><td>'+esc(t.asset||'')+'</td><td>'+(di?esc(impactCn(di)):'—')+'</td><td>'+(fe?esc(feasCn(fe)):'—')+'</td>'+
+      '<td>'+(rv?'<span class="mlegal" style="background:'+rc[0]+';color:'+rc[1]+'">'+rv+'</span>':'—')+'</td>'+
+      '<td>'+(c!=null?(c>0?'<span class="mlegal" style="background:'+cc[0]+';color:'+cc[1]+'">CAL '+c+'</span>':'无需'):'—')+'</td>'+
+      '<td>'+(riskPrio(rv)||'—')+'</td></tr>';
+  });
+  s+='</table></div>';
+  s+='<div style="overflow:auto;margin-top:10px"><table class="modtab"><tr><th class="lft">危害事件(HARA)</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th><th>优先级</th></tr>';
+  const hs=haraSorted();
+  if(!hs.length){ s+='<tr><td colspan="7" style="color:var(--grey)">尚无危害条目。</td></tr>'; }
+  hs.forEach(function(o){ const h=o.h, a=asilOf(h), ac=(a!=null)?ASIL_COL[a]:null;
+    s+='<tr><td class="lft">'+esc(h.name||'(未命名)')+'</td><td>'+esc(h.fn||'')+'</td><td>'+(h.s||'—')+'</td><td>'+(h.e||'—')+'</td><td>'+(h.c||'—')+'</td>'+
+      '<td>'+(a!=null?'<span class="mlegal" style="background:'+ac[0]+';color:'+ac[1]+'">'+(a==='QM'?'QM':'ASIL '+a)+'</span>':'—')+'</td>'+
+      '<td>'+(asilPrio(a)||'—')+'</td></tr>';
+  });
+  s+='</table></div>';
+  s+='<div class="ckleg">「审计风险」口径:<b>未达标</b>=状态为无/部分(拿证阻塞);<b>⚠ 缺证据</b>=已勾选已建立但未填证据/记录——审核现场无法举证,补上即可闭环;<b>逾期</b>=有目标日期且已过而仍未达标。CSV 为 UTF-8(含 BOM),Excel 可直接打开。全部为团队自查参照,非型式批准结论。</div>';
+  m.innerHTML=s;
 }
 function glosListHTML(){
   const q=(_glosQ||'').trim().toLowerCase();
