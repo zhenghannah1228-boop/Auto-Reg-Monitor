@@ -526,8 +526,20 @@ function activeId(){ try{return localStorage.getItem(ACTIVE_KEY)||'';}catch(e){r
 function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), tara:JSON.parse(JSON.stringify(tara)), hara:JSON.parse(JSON.stringify(hara)), itemMeta:JSON.parse(JSON.stringify(itemMeta))}; }
 function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; tara=(s&&Array.isArray(s.tara))?JSON.parse(JSON.stringify(s.tara)):seedTara(); hara=(s&&Array.isArray(s.hara))?JSON.parse(JSON.stringify(s.hara)):seedHara(); itemMeta=(s&&s.itemMeta)?JSON.parse(JSON.stringify(s.itemMeta)):{}; }
 function writeSummary(){
-  // 成熟度自查已从 UI 移除;started 只按成熟度域条目判定(排除 r156.*),避免 Step4 误显示
-  try{ const st=stats(); localStorage.setItem(SUM_KEY,JSON.stringify({level:st.level,levelName:st.levelName,overallPct:st.pct,done:st.done,total:st.total,domains:CYBER.domains.map(d=>({name:d.name,pct:Math.round(domScore(d)*100)})),ts:Date.now(),started:Object.keys(ans).some(k=>ans[k]>0&&!/^r156\./.test(k))})); }catch(e){}
+  // 供 E-mark 母工具跨页回显(同源 localStorage)。口径已随本工具改版:
+  // 不再是 L1–L5 成熟度,而是 R155/R156 就绪度 + 21434 CAL / 26262 ASIL 定级。
+  try{
+    const cs=r155Stats(), rs=r156Stats(), ts=taraStats(), ha=haraStats();
+    const started = cs.done>0||rs.done>0||ts.rated>0||ha.rated>0||Object.keys(ans).some(k=>ans[k]>0);
+    localStorage.setItem(SUM_KEY,JSON.stringify({
+      v:2,
+      r155:{pct:cs.pct,done:cs.done,total:cs.total},
+      r156:{pct:rs.pct,done:rs.done,total:rs.total},
+      maxCal:ts.maxCal, calRated:ts.rated, calTotal:ts.total,
+      maxA:ha.maxA, asilRated:ha.rated, asilTotal:ha.total,
+      ts:Date.now(), started
+    }));
+  }catch(e){}
 }
 function autosave(){ const id=activeId(); if(id){ const ps=getProfiles(); if(ps[id]){ ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); } } writeSummary(); }
 function curName(){ const el=document.getElementById('pname'); return el?el.value.trim():''; }
@@ -684,7 +696,7 @@ function renderNav(){
   h+='<div class="sgrp">工程评级方法</div>';
   h+=step('tara','3','21434 CAL 风险评级',(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total);
   h+=step('hara','4','26262 ASIL 定级',(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total);
-  h+='<div class="sgrp">交付物</div>';
+  h+='<div class="sgrp">审计与导出</div>';
   const pk=packStats();
   h+=step('pack','⑤','审计就绪包',(pk.noEv||pk.unmet)?('缺口 '+(pk.noEv+pk.unmet)+' · 可导出'):'台账/登记册 · 可导出');
   document.getElementById('nav').innerHTML=h;

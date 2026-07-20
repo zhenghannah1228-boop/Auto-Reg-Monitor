@@ -1153,24 +1153,25 @@ function step3(){
 }
 
 function sysPick(id){_sysActive=id;render();}
-/* ===== 网安成熟度自评桥接：跳转独立页 cyber_assessment.html，结果经同源 localStorage 回显 ===== */
+/* ===== 网安合规评估桥接：跳转独立页 cyber_assessment.html（R155/R156 就绪度 + CAL/ASIL），结果经同源 localStorage 回显 ===== */
 function cyberSummary(){ try{ return JSON.parse(localStorage.getItem('emark_cyber_summary_v1'))||null; }catch(e){ return null; } }
 function cyberBridgeCard(){
   const E=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const ic='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z"/></svg>';
   const s=cyberSummary();
-  if(!s||!s.started){
-    return `<div class="cybr"><div class="ct">${ic}深度网安成熟度自评（R155/R156 · ISO 21434）</div>
-      <div class="cm">上面三题是快速判定;若产品涉及网络安全 / 软件更新,可打开<b>独立的网安成熟度自评页</b>逐项自评 <b>10 域 48 项</b>(TARA / OTA / VSOC / 事件响应 / 供应链 / 诊断刷写…),得出 L1–L5 成熟度与雷达画像。完成后结果自动回显到这里。</div>
-      <a class="cybtn" href="cyber_assessment.html" target="_blank" rel="noopener">打开网安成熟度自评页 ↗</a></div>`;
+  if(!s||!s.r155||!s.started){
+    return `<div class="cybr"><div class="ct">${ic}网安 &amp; 功能安全合规评估（R155/R156 · CAL/ASIL）</div>
+      <div class="cm">上面三题是快速判定;若产品涉及网络安全 / 软件更新,可打开<b>独立的网安合规评估台</b>:逐条自查 <b>R155 CSMS / R156 SUMS 认证就绪度</b>,并用 <b>ISO 21434 CAL</b> 与 <b>ISO 26262 ASIL</b> 为威胁 / 危害定级,一键生成审计就绪包与可打印报告。完成后就绪度自动回显到这里。</div>
+      <a class="cybtn" href="cyber_assessment.html" target="_blank" rel="noopener">打开网安合规评估台 ↗</a></div>`;
   }
-  const bars=(s.domains||[]).slice().sort((a,b)=>b.pct-a.pct).slice(0,6).map(d=>
-    `<div class="cybar"><span title="${E(d.name)}">${E(d.name)}</span><div class="bt"><div class="bf" style="width:${Math.max(0,Math.min(100,d.pct))}%"></div></div><span style="text-align:right;color:var(--grey)">${d.pct}%</span></div>`).join('');
+  const bar=(name,pct)=>`<div class="cybar"><span title="${E(name)}">${E(name)}</span><div class="bt"><div class="bf" style="width:${Math.max(0,Math.min(100,+pct||0))}%"></div></div><span style="text-align:right;color:var(--grey)">${E(pct)}%</span></div>`;
+  const cal=(s.maxCal>0)?('CAL '+E(s.maxCal)):'—';
+  const asil=(!s.maxA||s.maxA==='—')?'—':('ASIL '+E(s.maxA));
   let when=''; try{when=new Date(s.ts).toLocaleDateString('zh-CN');}catch(e){}
-  return `<div class="cybr"><div class="ct">${ic}网安成熟度自评结果 <span style="flex:1"></span><span class="clv">成熟度 L${E(s.level)} ${E(s.levelName||'')}</span></div>
-    <div class="cm">综合完成度 <b>${E(s.overallPct)}%</b> · 已达成 ${E(s.done)}/${E(s.total)} 项(共 10 域)${when?' · 更新于 '+when:''}</div>
-    ${bars}
-    <a class="cybtn ghost" href="cyber_assessment.html" target="_blank" rel="noopener">打开自评页（查看 / 更新）↗</a></div>`;
+  return `<div class="cybr"><div class="ct">${ic}网安 &amp; 功能安全合规评估结果 <span style="flex:1"></span><span class="clv">R155 ${E(s.r155.pct)}% · R156 ${E(s.r156.pct)}%</span></div>
+    <div class="cm">最高 <b>${cal}</b>(已评 ${E(s.calRated)}/${E(s.calTotal)} 威胁) · 最高 <b>${asil}</b>(已评 ${E(s.asilRated)}/${E(s.asilTotal)} 危害)${when?' · 更新于 '+when:''}</div>
+    ${bar('R155 CSMS 就绪度',s.r155.pct)}${bar('R156 SUMS 就绪度',s.r156.pct)}
+    <a class="cybtn ghost" href="cyber_assessment.html" target="_blank" rel="noopener">打开评估台（查看 / 更新）↗</a></div>`;
 }
 function step4(){
   const act=activeSys();
