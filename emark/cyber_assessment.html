@@ -158,7 +158,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 <div class="hero"><div class="in">
   <div>
     <h1>深度网安成熟度自评</h1>
-    <div class="sub">21434 风险评级(CAL) · R156 SUMS 认证就绪度 · 成熟度自查 · R155 附件 5 威胁目录</div>
+    <div class="sub">ISO 21434 风险评级(CAL 1–4) · UN R156 SUMS 认证就绪度 · R155 附件 5 威胁目录</div>
   </div>
   <a class="back" href="emark_assessment.html" id="backlink">← 返回 E-mark 评估</a>
 </div></div>
@@ -177,7 +177,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
     <div class="sb-nav" id="nav"></div>
     <div class="sb-main" id="main"></div>
   </div>
-  <div class="note">成熟度模型内容蒸馏自公开网络安全手册与 ISO/SAE 21434、UN R155/R156，用于团队自查参照，<b>非型式批准结论</b>；正式判定以认可技术服务 / 批准机关为准。评估与驾驶舱数据按<b>档案</b>保存在本浏览器，并把成熟度摘要回传给 E-mark 评估工具 Step 4 展示。</div>
+  <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与驾驶舱数据按<b>档案</b>保存在本浏览器。</div>
 </div>
 <div id="lvlmenu" class="lvlmenu"></div>
 <div id="pmodal" class="pmodal" onclick="if(event.target===this)closeProfiles()">
@@ -274,7 +274,8 @@ function activeId(){ try{return localStorage.getItem(ACTIVE_KEY)||'';}catch(e){r
 function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), cockpit:JSON.parse(JSON.stringify(cockpit)), tara:JSON.parse(JSON.stringify(tara))}; }
 function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; cockpit=(s&&s.cockpit&&s.cockpit.rows)?JSON.parse(JSON.stringify(s.cockpit)):blankCockpit(); tara=(s&&Array.isArray(s.tara))?JSON.parse(JSON.stringify(s.tara)):seedTara(); }
 function writeSummary(){
-  try{ const st=stats(); localStorage.setItem(SUM_KEY,JSON.stringify({level:st.level,levelName:st.levelName,overallPct:st.pct,done:st.done,total:st.total,domains:CYBER.domains.map(d=>({name:d.name,pct:Math.round(domScore(d)*100)})),ts:Date.now(),started:Object.keys(ans).some(k=>ans[k]>0)})); }catch(e){}
+  // 成熟度自查已从 UI 移除;started 只按成熟度域条目判定(排除 r156.*),避免 Step4 误显示
+  try{ const st=stats(); localStorage.setItem(SUM_KEY,JSON.stringify({level:st.level,levelName:st.levelName,overallPct:st.pct,done:st.done,total:st.total,domains:CYBER.domains.map(d=>({name:d.name,pct:Math.round(domScore(d)*100)})),ts:Date.now(),started:Object.keys(ans).some(k=>ans[k]>0&&!/^r156\./.test(k))})); }catch(e){}
 }
 function autosave(){ const id=activeId(); if(id){ const ps=getProfiles(); if(ps[id]){ ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); } } writeSummary(); }
 function curName(){ const el=document.getElementById('pname'); return el?el.value.trim():''; }
@@ -380,15 +381,8 @@ function persist(){ autosave(); }
 function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); renderMain(); }
 function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 function renderSummary(){
-  if(active==='tara'){ renderTaraSummary(); return; }
   if(active==='r156'){ renderR156Summary(); return; }
-  const st=stats();
-  document.getElementById('summary').innerHTML=
-    '<div class="sum"><div class="rad">'+radarSVG(210)+'</div><div class="info">'+
-    '<div class="lv">成熟度自查 <b>L'+st.level+' · '+esc(st.levelName)+'</b> <span style="font-size:11px;font-weight:400;color:var(--grey)">（CMM 式,非法定等级）</span></div>'+
-    '<div class="meta">综合完成度 <b>'+st.pct+'%</b> · 已达成 '+st.done+'/'+st.total+' 项 · 共 '+CYBER.domains.length+' 域 · 三档:'+CYBER.labels.map(esc).join(' / ')+'</div>'+
-    '<div class="pills">'+CYBER.levels.map((n,i)=>'<span class="pill'+(i+1===st.level?' on':'')+'">L'+(i+1)+' '+esc(n)+'</span>').join('')+'</div>'+
-    '</div></div>';
+  renderTaraSummary(); // CAL 为默认头部;其他视图(驾驶舱/标准)也用它
 }
 function renderR156Summary(){
   const st=r156Stats();
@@ -416,12 +410,6 @@ function renderNav(){
   const rs=r156Stats();
   let h='<button class="sb-item'+(active==='tara'?' on':'')+'" onclick="pick(\'tara\')"><span class="sb-dot" style="background:var(--red)"></span><span class="tx"><span>① 21434 风险评级 (CAL)</span><small>'+(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total+'</small></span></button>';
   h+='<button class="sb-item'+(active==='r156'?' on':'')+'" onclick="pick(\'r156\')"><span class="sb-dot" style="background:'+(rs.pct>=80?'var(--green)':rs.pct>=40?'var(--amber)':'var(--red)')+'"></span><span class="tx"><span>② R156 SUMS 认证就绪度</span><small>就绪度 '+rs.pct+'% · 已建立 '+rs.done+'/'+rs.total+'</small></span></button>';
-  h+='<div class="navsep">成熟度自查（非法定等级）</div>';
-  h+=CYBER.domains.map((d,i)=>{
-    const pct=Math.round(domScore(d)*100),lv=level(domScore(d));
-    return '<button class="sb-item'+(active===i?' on':'')+'" onclick="pick('+i+')"><span class="sb-dot" style="background:'+domDot(pct)+'"></span>'+
-      '<span class="tx"><span>'+(i+1)+'. '+esc(d.name)+'</span><small>本域 L'+lv+' · '+pct+'%</small></span></button>';
-  }).join('');
   h+='<div class="navsep">参考</div>';
   h+='<button class="sb-item'+(active==='cockpit'?' on':'')+'" onclick="pick(\'cockpit\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>影响驾驶舱</span><small>证据域 × 法规体系</small></span></button>';
   h+='<button class="sb-item'+(active==='std'?' on':'')+'" onclick="pick(\'std\')"><span class="sb-dot" style="background:var(--o)"></span><span class="tx"><span>相关标准速览</span><small>R155/R156 · 21434 · CRA…</small></span></button>';
