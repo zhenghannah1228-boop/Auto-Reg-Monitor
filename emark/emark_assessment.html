@@ -274,6 +274,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .pchip:hover{border-color:var(--o)}
 .pchip.on{border-color:var(--o);background:var(--cream);color:var(--od);font-weight:700}
 .pchip.on small{color:var(--od)}
+.sysdom{font-size:11.5px;font-weight:800;color:var(--od);margin:14px 0 8px;letter-spacing:.02em}
+.sysdom:first-of-type{margin-top:4px}
 .layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
 .sidebar{position:sticky;top:78px;display:flex;flex-direction:column;gap:14px}
 .sb-h{font-size:13px;font-weight:800;color:var(--ink)}
@@ -1066,9 +1068,9 @@ function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
 function goStep(n){ if(n!==cur) go(n); }
 
 function applicable(){
-  // 产品精选优先：用户点选了具体产品时，精确锁定对应法规项（不再叠加分类组/角色过滤）
+  // 产品/系统精选优先：用户点选后精确锁定对应法规项。id 命中 PARTS→展开其 items；否则视为原始 item 编码（系统集成商按系统选）
   if(sel.parts&&sel.parts.length){
-    const set=new Set(sel.parts.flatMap(id=>{const p=PARTS.find(x=>x.id===id);return p?p.items:[];}));
+    const set=new Set(sel.parts.flatMap(id=>{const p=PARTS.find(x=>x.id===id);return p?p.items:[id];}));
     return ITEMS.filter(i=>set.has(i.item));
   }
   // 分类组筛选（不选=全部）+ 角色聚焦：STU=可独立认证条目；售后件=显式独立认证条目
@@ -1211,6 +1213,17 @@ function oemScopeHTML(){
     <div class="opts g3">${powBtns}</div>
     ${sel.powers.length?`<div class="probe">已选动力类型：盘点中约 <b>${na}</b> 条法规按此动力通常不适用（下一步以灰标提示，仍保留可核对；GA 欧7 与噪声等跨全部动力不受影响）。</div>`:''}`;
 }
+// 系统集成商专属精选：按系统域列出「可作技术单元(STU)认证」的系统（tc≠VEHICLE），从数据自动生成、始终同步
+function shortReg(r){ r=r||''; const m=r.match(/R\s?\d{1,3}(?:-H)?/g); if(m) return m.slice(0,3).join('/')+(m.length>3?'…':''); const e=r.match(/\((?:EU|EC)\)\s*\d+\/\d+/); return e?e[0]:''; }
+function stuPicker(){
+  const DOMS=[['A','约束 / 碰撞 / 燃料 / 高压电'],['C','底盘 / 制动 / 轮胎 / 转向'],['D','仪表 / 电气 / 灯具 / 网安'],['B','弱势道路使用者 / 视野'],['E','驾驶员 / 自动驾驶'],['F','车身构造'],['G','排放 / 环境'],['H','信息访问 / 软件']];
+  const sys=ITEMS.filter(i=>i.tc!=='VEHICLE');
+  return DOMS.map(([g,label])=>{
+    const rows=sys.filter(i=>i.g===g); if(!rows.length) return '';
+    const chips=rows.map(i=>`<button class="pchip ${sel.parts.includes(i.item)?'on':''}" data-part="${i.item}">${i.cn}<small>${shortReg(i.reg)}</small></button>`).join('');
+    return `<div class="sysdom">${label}</div><div class="pchips">${chips}</div>`;
+  }).join('');
+}
 function step2(){
   const roles=[['OEM','OEM 整车厂','整车 WVTA，需盘点全系统'],['STU','系统集成商','系统作为技术单元认证'],['AFTER','售后件供应商','独立部件/替换件认证']];
   // 口径说明：欧盟本身是 1958 协定缔约方（子集关系，非并列）；大E/小e 由「该项有无 UN 法规」决定，不由市场选择决定
@@ -1232,7 +1245,10 @@ function step2(){
     <div class="secttl">② 目标市场</div>
     <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div></button>`).join('')}</div>
     ${sel.market&&MARKET_FB[sel.market]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${MARKET_FB[sel.market]}</div>`:''}
-    ${sel.role==='OEM'? oemScopeHTML() : `
+    ${sel.role==='OEM'? oemScopeHTML() : sel.role==='STU'? `
+    <div class="secttl">③ 按系统选（可多选，只出你要认证的技术单元对应法规；不选=全部可独立认证系统）</div>
+    ${stuPicker()}
+    ${sel.parts.length?`<div class="probe">已按系统精选，适用法规锁定为 <b>${applicable().length}</b> 条。</div>`:''}` : `
     <div class="secttl">③ 按产品精选（推荐 · 可多选，只出你产品对应的法规）</div>
     <div class="pchips">${pchips}</div>
     ${sel.parts.length?`<div class="probe">已按产品精选，适用法规锁定为 <b>${applicable().length}</b> 条。</div>`:''}`}
@@ -1835,7 +1851,7 @@ function bind(){
     else profile[id]=(profile[id]===v? null : v);
     render();
   });
-  document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{sel.role=b.dataset.role;render();});
+  document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{if(sel.role!==b.dataset.role){sel.parts=[];sel.cats=[];sel.powers=[];}sel.role=b.dataset.role;render();});
   document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{sel.market=b.dataset.mkt;render();});
   document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const g=b.dataset.part;const i=sel.parts.indexOf(g);if(i>=0)sel.parts.splice(i,1);else sel.parts.push(g);render();});
   document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{const cs=b.dataset.cat.split(',');const all=cs.every(c=>sel.cats.includes(c));if(all)sel.cats=sel.cats.filter(c=>!cs.includes(c));else cs.forEach(c=>{if(!sel.cats.includes(c))sel.cats.push(c);});render();});
