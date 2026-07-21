@@ -48221,6 +48221,32 @@
    "orig_eif": "21/09/2001"
   },
   {
+   "no": "114",
+   "name": "Airbag module for a replacement airbag system",
+   "amendments": [
+    {
+     "doc": "Add.113",
+     "status": "00 series",
+     "eif_raw": "01.02.03",
+     "eif": "2003-02-01",
+     "sess": "127",
+     "sym": "881",
+     "cons": false
+    },
+    {
+     "doc": "Add.113/Amend.1",
+     "status": "Suppl.1 to 00",
+     "eif_raw": "17.06.25",
+     "eif": "2025-06-17",
+     "sess": "194 (Nov.24)",
+     "sym": "2024/134",
+     "cons": false
+    }
+   ],
+   "parties": [],
+   "orig_eif": "2003-02-01"
+  },
+  {
    "no": "115",
    "name": "LPG and CNG retrofit systems",
    "amendments": [
@@ -51594,6 +51620,113 @@
     }
    ],
    "orig_eif": "18/01/2006"
+  },
+  {
+   "no": "122",
+   "name": "Heating systems",
+   "amendments": [
+    {
+     "doc": "Add.121",
+     "status": "00 series",
+     "eif_raw": "18.01.06",
+     "eif": "2006-01-18",
+     "sess": "136",
+     "sym": "2004/22 + Corr.1",
+     "cons": false
+    },
+    {
+     "doc": "Add.121",
+     "status": "Corr.1 to 00",
+     "eif_raw": "18.01.06",
+     "eif": "2006-01-18",
+     "sess": "137 (Nov. 05)",
+     "sym": "2005/19; 2005/81 + Amend.1",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Corr.1",
+     "status": "Corr.2 to 00",
+     "eif_raw": "15.11.06",
+     "eif": "2006-11-15",
+     "sess": "140 (Nov. 06)",
+     "sym": "2006/109 + Amend.1",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.1",
+     "status": "Suppl.1 to 00",
+     "eif_raw": "22.07.09",
+     "eif": "2009-07-22",
+     "sess": "146 (Nov. 08)",
+     "sym": "2008/100",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.1/Corr.1",
+     "status": "Erratum to Suppl.1 to 00",
+     "eif_raw": "",
+     "eif": null,
+     "sess": "",
+     "sym": "",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.2",
+     "status": "Suppl.2 to 00",
+     "eif_raw": "23.06.11",
+     "eif": "2011-06-23",
+     "sess": "152 (Nov. 10)",
+     "sym": "2010/115",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.3",
+     "status": "Suppl.3 to 00",
+     "eif_raw": "26.07.12",
+     "eif": "2012-07-26",
+     "sess": "155 (Nov. 11)",
+     "sym": "2011/113",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.4",
+     "status": "Suppl.4 to 00",
+     "eif_raw": "16.10.18",
+     "eif": "2018-10-16",
+     "sess": "174 (Mar. 18)",
+     "sym": "2018/27",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.5",
+     "status": "Suppl.5 to 00",
+     "eif_raw": "15.10.19",
+     "eif": "2019-10-15",
+     "sess": "177 (Mar.19)",
+     "sym": "2019/15",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.6",
+     "status": "Suppl.6 to 00",
+     "eif_raw": "25.09.20",
+     "eif": "2020-09-25",
+     "sess": "180 (Mar. 20)",
+     "sym": "2020/23",
+     "cons": false
+    },
+    {
+     "doc": "Add.121/Amend.7",
+     "status": "Suppl.7 to 00",
+     "eif_raw": "05.06.24",
+     "eif": "2024-06-05",
+     "sess": "191 (Nov. 23)",
+     "sym": "2023/100",
+     "cons": false
+    }
+   ],
+   "parties": [],
+   "orig_eif": "2006-01-18"
   },
   {
    "no": "123",
