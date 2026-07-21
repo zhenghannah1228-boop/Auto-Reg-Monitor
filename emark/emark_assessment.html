@@ -94,7 +94,11 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .vb-tbl td{vertical-align:top}
 .vb-tbl .vb-eif{color:var(--grey)}
 .vb-tpnote{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--od);background:#FBF3E8;border-radius:5px;padding:4px 6px}
-.vb-eu-na{color:var(--greyl);font-size:11.5px}
+.vb-eu-na{color:var(--greyl);font-size:11px}
+.vb-euver{font-size:11.5px;color:var(--ink2)}
+.vb-euim{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--blue);background:#EEF3FA;border-radius:5px;padding:4px 6px}
+.vb-euim-h{display:block;font-weight:700;color:var(--od);margin-bottom:1px}
+.vb-euim.vb-euim-na{color:var(--greyl);background:transparent;padding:2px 0;font-style:italic}
 .vb-eu{display:inline-block;font-size:9.5px;font-weight:700;color:var(--blue);background:#EAF1F7;border-radius:4px;padding:1px 5px;margin-left:4px}
 .vb-row-b{background:#FCEFEC}
 .vb-b{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 8px;white-space:nowrap}
@@ -844,13 +848,15 @@ function regSeriesTimeline(no){
   let latest=null; series.forEach(s=>{if(!s.future&&(latest==null||s.n>latest))latest=s.n;});
   return {series,latest};
 }
-// 工具涉及的 UN R 编号 → 覆盖主题（用于表格法规列）
+// 工具涉及的 UN R 编号 → 覆盖主题 + EU 强制适用日（据 (EU) 2019/2144 Art 16 + Annex II，存于 EU_ITEMS.im）
 function unRegsInScope(){
-  const map={};
+  const emIm={}; EU_ITEMS.forEach(x=>{ if(x.im&&x.im.trim()) emIm[x.it]=x.im.trim(); });
+  const map={}, imMap={};
   ITEMS.forEach(i=>{ (regTokens(i.reg)||[]).forEach(k=>{const mm=/^UN R(\d{1,3}(?:-H)?)$/.exec(k);if(!mm)return;
-    const no=mm[1]; (map[no]||(map[no]=[])).push(i.cn); }); });
+    const no=mm[1]; (map[no]||(map[no]=[])).push(i.cn);
+    const im=emIm[i.item]; if(im){ (imMap[no]||(imMap[no]=new Set())).add(im); } }); });
   return Object.keys(map).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b))
-    .map(no=>({no,subjects:[...new Set(map[no])]}));
+    .map(no=>({no,subjects:[...new Set(map[no])],ims:[...(imMap[no]||new Set())]}));
 }
 function openVersionBoard(){
   const s2=n=>String(n).padStart(2,'0');
@@ -873,19 +879,24 @@ function openVersionBoard(){
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
         trs+=`<td rowspan="${span}"><b>UN R${rg.no}</b><br><small>${rg.subjects.slice(0,3).join('、')}${rg.subjects.length>3?'…':''}</small>${note}</td>`;
-        trs+=`<td rowspan="${span}">${euRef!=null?`<b>${s2(euRef)} series</b>`:'<span class="vb-eu-na" title="现行合并版 2019/2144 Annex II 对 UN 法规为开放引用，未固定系列">未固定</span>'}</td>`;
+        const euver=euRef!=null?`<b>${s2(euRef)} series</b>`:'<span class="vb-eu-na" title="现行合并版 (EU) 2019/2144 Annex II 仅写「UN Regulation No X」，不固定系列">开放引用<br>（现行 UN 版本）</span>';
+        const euim=rg.ims.length?`<div class="vb-euim"><span class="vb-euim-h">强制适用日</span>${rg.ims.map(x=>`<div>${x}</div>`).join('')}</div>`:'<div class="vb-euim vb-euim-na">强制适用日：见 EU 型批全表</div>';
+        trs+=`<td rowspan="${span}"><div class="vb-euver">引用版本：${euver}</div>${euim}</td>`;
         trs+=`<td rowspan="${span}">${t.latest!=null?`<b>${s2(t.latest)} series</b>`:'—'}</td>`;
       }
       trs+=`<td>${s2(s.n)} series${euBadge}</td><td>${s.eif}</td><td>${s.supEif?s.supEif:'<span class="vb-eif">—（现行）</span>'}</td><td>${stat}</td></tr>`;
     });
   });
   const body=`<div style="padding:12px 15px">
-    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · 共 <b>${expiredCnt}</b> 个已被取代系列（<span class="vb-k behind">红行</span>）· 数据 as_of <b>${VERDB.as_of||'—'}</b>${Object.keys(EU_REF_SERIES).length?'':' · <span class="vb-k unk">EU 引用系列未固定（开放引用现行 UN 版本）</span>'}</div>
-    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 引用系列<br>(最低门槛)</th><th>现行最新</th><th>系列</th><th>生效日</th><th>失效/被取代日</th><th>状态</th></tr></thead>
+    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · 共 <b>${expiredCnt}</b> 个已被取代系列（<span class="vb-k behind">红行</span>）· UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
+    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用版本 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日</th><th>失效/被取代日</th><th>状态</th></tr></thead>
     <tbody>${trs}</tbody></table></div>
   </div>`;
   emkModal('版本时效自查表 · 各系列生效 / 失效时间',body,
-    '口径（WP.29/1044/Rev.3）：UN 型批不会自动作废。表中「失效/被取代日」= 下一系列的生效日（从该日起新型式须转下一系列）；红行为已被更新系列取代的旧系列。<b>被取代≠法定作废</b>——法定"缔约方不再有义务接受"的截止以该法规过渡条款 Date (b)/(c) 为准（点顶栏「过渡条款速查」），确切 Date (b)/(c) 值尚未逐条入库。<b>EU 引用系列全列「未固定」</b>：现行合并版 (EU) 2019/2144 Annex II 对 UN 法规为开放引用、不固定系列（含义＝以适用日时的现行 UN 版本为准）；如需历史固定系列，须用 2019 原始 OJ 版本另行入库。个别 dated 截止（R44/R117/R127）已在法规行标注。数据源 data/unece_status.json。');
+    '<b>官方依据（可据此回复质疑）：</b><br>'+
+    '① <b>UN 系列时效</b> — 各系列生效日源自 UNECE 状态表（ECE/TRANS/WP.29/343）；表中「失效/被取代日」= 下一系列生效日（新型式自该日须转下一系列），红行=已被更新系列取代。<b>被取代≠法定作废</b>：据 <b>ECE/TRANS/WP.29/1044/Rev.3 §25 及图1注</b>，既有 UN 型批 remain valid，缔约方"不再有义务接受"的截止以该法规过渡条款 <b>Date (b)/(c)</b> 为准（点「过渡条款速查」）；Date (b)/(c) 精确值尚未逐条入库。<br>'+
+    '② <b>EU 引用版本</b> — 现行合并版 <b>(EU) 2019/2144 Annex II</b> 对 UN 法规均为<b>开放引用</b>（原文仅「UN Regulation No X」，不固定系列；2019 原始 OJ 版曾固定，经 M5 修订剥离）。故不存在"EU 最低门槛系列"；EU 侧真正约束是<b>强制适用日</b>（本列第二行，据 (EU) 2019/2144 <b>Art 16 + Annex II 适用日期码</b>），非某个系列门槛。<br>'+
+    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源 data/unece_status.json + EU_ITEMS（据 2019/2144 原文）。');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){
