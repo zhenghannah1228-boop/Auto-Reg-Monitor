@@ -827,8 +827,21 @@ function openTransitional(){
 }
 // ===== 版本时效自查表：逐法规逐系列列出「生效日 / 被取代日(≈失效)」，被取代系列标红，附 EU 引用系列(最低门槛) =====
 // EU 引用系列(最低门槛)：据 (EU) 2019/2144 Annex II 原文固定的最低系列；空=Annex 未固定具体系列(以现行为准)
-// 现行合并版 (EU) 2019/2144 Annex II 对 UN 法规均为开放引用(不固定系列)→ EU_REF_SERIES 全空；如需历史固定系列须用 2019 原始 OJ 版
-const EU_REF_SERIES={};   // { "17":"09", ... } 若某法规 Annex II 固定了系列才填；现行合并版全部未固定
+// EU 引用系列(最低门槛)：据 (EU) 2019/2144 【Annex I】"Art 4(2) 所列 UN 法规清单"逐条钉定的适用系列
+// 值=两位系列号("00"=Original version)。数据源=合并版 2019/2144 Annex I(反映至 M7 · 2025-09-01)
+const EU_REF_SERIES={
+ "1":"02","3":"02","4":"00","6":"01","7":"02","8":"05","10":"05","11":"04","12":"04","13":"11","13-H":"00",
+ "14":"09","16":"07","17":"09","18":"03","19":"04","20":"03","21":"01","23":"00","26":"03","28":"00","29":"03",
+ "30":"02","31":"02","34":"04","37":"03","38":"00","39":"01","43":"01","44":"04","45":"01","46":"04","48":"07",
+ "54":"00","55":"01","58":"03","61":"00","64":"02","66":"02","67":"01","73":"01","77":"00","79":"04","80":"03",
+ "87":"00","89":"00","90":"02","91":"00","93":"00","94":"04","95":"05","97":"01","98":"01","99":"00","100":"03",
+ "102":"00","104":"00","105":"05","107":"07","108":"00","109":"00","110":"01","112":"01","114":"00","115":"00",
+ "116":"00","117":"04","118":"03","119":"01","121":"01","122":"00","123":"01","124":"00","125":"01","126":"00",
+ "127":"04","128":"00","129":"00","130":"00","131":"01","134":"00","135":"01","137":"02","139":"00","140":"00",
+ "141":"01","142":"01","145":"00","148":"00","149":"00","150":"00","151":"00","152":"02","153":"00","155":"00",
+ "157":"00","158":"00","159":"00","160":"01","161":"00","162":"00","163":"00","167":"00","169":"00","171":"00"
+ // 注：R8 另钉「Corrigendum 1 to Rev.4」，R25 钉「Supplement 1 to 04 series」——如入表另加说明
+};
 // Annex II 附注里为数不多的真实 dated 截止(失效性质)——据 (EU) 2019/2144 Annex II 附注 12/18/19
 const EU_TP_NOTE={
  "44":"附注12：2023-09-01 前投放市场的 R44 儿童座椅可继续供货至 <b>2024-09-01</b>（此后失效）。",
@@ -879,9 +892,9 @@ function openVersionBoard(){
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
         trs+=`<td rowspan="${span}"><b>UN R${rg.no}</b><br><small>${rg.subjects.slice(0,3).join('、')}${rg.subjects.length>3?'…':''}</small>${note}</td>`;
-        const euver=euRef!=null?`<b>${s2(euRef)} series</b>`:'<span class="vb-eu-na" title="现行合并版 (EU) 2019/2144 Annex II 仅写「UN Regulation No X」，不固定系列">开放引用<br>（现行 UN 版本）</span>';
+        const euver=euRef!=null?`<b>${euRef==='00'?'Original':s2(euRef)+' series'}</b>`:'<span class="vb-eu-na" title="Annex I 未列此 UN 法规">未列入 Annex I</span>';
         const euim=rg.ims.length?`<div class="vb-euim"><span class="vb-euim-h">强制适用日</span>${rg.ims.map(x=>`<div>${x}</div>`).join('')}</div>`:'<div class="vb-euim vb-euim-na">强制适用日：见 EU 型批全表</div>';
-        trs+=`<td rowspan="${span}"><div class="vb-euver">引用版本：${euver}</div>${euim}</td>`;
+        trs+=`<td rowspan="${span}"><div class="vb-euver">引用系列：${euver}</div>${euim}</td>`;
         trs+=`<td rowspan="${span}">${t.latest!=null?`<b>${s2(t.latest)} series</b>`:'—'}</td>`;
       }
       trs+=`<td>${s2(s.n)} series${euBadge}</td><td>${s.eif}</td><td>${s.supEif?s.supEif:'<span class="vb-eif">—（现行）</span>'}</td><td>${stat}</td></tr>`;
@@ -889,14 +902,14 @@ function openVersionBoard(){
   });
   const body=`<div style="padding:12px 15px">
     <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · 共 <b>${expiredCnt}</b> 个已被取代系列（<span class="vb-k behind">红行</span>）· UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
-    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用版本 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日</th><th>失效/被取代日</th><th>状态</th></tr></thead>
+    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日</th><th>失效/被取代日</th><th>状态</th></tr></thead>
     <tbody>${trs}</tbody></table></div>
   </div>`;
   emkModal('版本时效自查表 · 各系列生效 / 失效时间',body,
     '<b>官方依据（可据此回复质疑）：</b><br>'+
     '① <b>UN 系列时效</b> — 各系列生效日源自 UNECE 状态表（ECE/TRANS/WP.29/343）；表中「失效/被取代日」= 下一系列生效日（新型式自该日须转下一系列），红行=已被更新系列取代。<b>被取代≠法定作废</b>：据 <b>ECE/TRANS/WP.29/1044/Rev.3 §25 及图1注</b>，既有 UN 型批 remain valid，缔约方"不再有义务接受"的截止以该法规过渡条款 <b>Date (b)/(c)</b> 为准（点「过渡条款速查」）；Date (b)/(c) 精确值尚未逐条入库。<br>'+
-    '② <b>EU 引用版本</b> — 现行合并版 <b>(EU) 2019/2144 Annex II</b> 对 UN 法规均为<b>开放引用</b>（原文仅「UN Regulation No X」，不固定系列；2019 原始 OJ 版曾固定，经 M5 修订剥离）。故不存在"EU 最低门槛系列"；EU 侧真正约束是<b>强制适用日</b>（本列第二行，据 (EU) 2019/2144 <b>Art 16 + Annex II 适用日期码</b>），非某个系列门槛。<br>'+
-    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源 data/unece_status.json + EU_ITEMS（据 2019/2144 原文）。');
+    '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 以升级系列，故常低于 UNECE 最新系列（属正常，非"落后"）。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
+    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源 data/unece_status.json（UNECE）+ (EU) 2019/2144 Annex I/II（EU_REF_SERIES / EU_ITEMS）。');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){
