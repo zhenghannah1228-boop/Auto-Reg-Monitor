@@ -790,7 +790,13 @@ function openTransitional(){
     </tbody></table>
     <div class="stn-sgs" style="margin-bottom:12px">要点（均引原文）：<b>已有批准仍然有效</b>（§25 图1注）；<b>Date (b) 前签发</b>的旧版本批准及其扩展，各方<b>须接受至少到 Date (c)</b>（§26）；对 <b>Date (b) 之后新签发</b>的旧版本批准，缔约方不再有义务接受（§25b）；<b>Date (c)</b> 起对旧版本批准一律不再有义务接受（§25c）。Date (b)/(c) 在可行时<b>定于 9 月 1 日</b>（§27）。</div>
     <div class="stn-extra" style="margin-bottom:12px"><b>真实案例 · UN R0（IWVTA）08 series（ECE/TRANS/WP.29/2025/159）：</b>Date (a)＝该系列正式生效日（提案 §12.13）；<b>Date (b)＝2026-09-01</b>——此日后首次签发的旧系列 IWVTA，缔约方不再有义务接受（提案 §12.14）。</div>
-    <div style="font-weight:700;color:var(--od);margin-bottom:6px">二、四类变更的法律区别（${src}）</div>
+    <div style="font-weight:700;color:var(--od);margin-bottom:6px">二、过渡条款按产品类别分（${src} 附件1 §3）</div>
+    <table class="emk-tbl" style="margin-bottom:12px"><thead><tr><th>类别</th><th>范围（原文表述）</th><th>Date (a)/(b)/(c) 适用</th></tr></thead><tbody>
+      <tr><td><b>V</b></td><td>车辆、车辆系统，及在<b>新车</b>上装配装备/部件。</td><td>完整 (a)/(b)/(c) 阶梯（V.1–V.9bis）。</td></tr>
+      <tr><td><b>C</b></td><td>作为独立供货的<b>装备与部件</b>。</td><td>同 V 的 (a)/(b)/(c)，但含<b>替换件豁免</b>：仅供在用车替换、且技术上无法满足新要求时可续用旧系列（C.5）。</td></tr>
+      <tr><td><b>R</b></td><td><b>在用车</b>的替换件。</td><td><b>无 (b)/(c) 阶梯</b>：以生效日 + 可选「…个月」窗口为准（R.1–R.5）。</td></tr>
+    </tbody></table>
+    <div style="font-weight:700;color:var(--od);margin-bottom:6px">三、四类变更的法律区别（${src}）</div>
     <table class="emk-tbl"><thead><tr><th>类型</th><th>作用与影响（原文表述）</th><th>依据</th></tr></thead><tbody>
       <tr><td><b>系列 Series</b></td><td>需<b>修改认证标志</b>以区分新旧批准（§22）；带 Date (a)/(b)/(c) 过渡条款（§25）。</td><td class="g">§22,§25</td></tr>
       <tr><td><b>增补 Supplement</b></td><td>澄清试验方法或纳入新发展、<b>不改变严格度</b>（§28）；<b>不修改认证标志</b>（§29）；自生效日起适用（§30）。</td><td class="g">§28–30</td></tr>
@@ -1056,7 +1062,7 @@ const STEP_REGS={
     {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。'}],
  3:[{t:'WP.29/343 Add.1',c:'各缔约国指定型式批准机关与技术服务名录（63 国）＋缔约方适用（互认国数）。'},
     {t:'WP.29/343 Add.2',c:'各 UN 法规系列/增补生效日期（工具版本标注数据源）。'},
-    {t:'WP.29/1044/Rev.3',c:'UN 法规程序与过渡条款通用指南（Date a/b/c、增补/勘误/修订区别）。'},
+    {t:'WP.29/1044/Rev.3',c:'UN 法规程序与过渡条款通用指南（Date (a)/(b)/(c)、增补/勘误/修订区别）。'},
     {t:'WP.29/2025/159',c:'UN R0 IWVTA 08 series 提案（整车必备 43 项法规系列）。'},
     {t:'(EU) 2019/2144 · Art 16',c:'EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。',l:D2144}],
  4:[{t:'(EU) 2018/858 · Art 31',c:'生产一致性（CoP）安排——量产件须持续与批准样品一致。',l:D858},
@@ -1064,7 +1070,7 @@ const STEP_REGS={
     {t:'(EU) 2018/858 · Art 24/Annex I',c:'信息文件夹（技术文档）与型式批准申请材料。',l:D858}],
  5:[{t:'(EU) 2018/858 · Art 31',c:'CoP 生产一致性——「有证无体系」时证书面临失效风险。',l:D858},
     {t:'WP.29/343 Add.1',c:'各国指定型式批准机关与技术服务机构（选机关/委托技服站）。'},
-    {t:'WP.29/1044/Rev.3',c:'过渡条款（持证运营站：Date a/b/c 如何算）。'}],
+    {t:'WP.29/1044/Rev.3',c:'过渡期关键日期 Date (a)/(b)/(c)——老证书能用多久（详见顶栏「速查工具 → 过渡条款速查」）。'}],
  6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144},
     {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858}]
 };
@@ -1574,7 +1580,7 @@ const DELIV={
   {t:'证书台账与换版提醒机制', b:'编号 / 系列 / 各缔约方适用状态'},
   {t:'法规版本追踪机制（订阅/负责人）', b:'跟踪 UN R 新系列/增补生效（数据源 WP.29/343）'},
   {t:'设计变更 → 扩展申请流程', b:'变更未申报可致证书失效'},
-  {t:'过渡期日历（Date a/b/c）', b:'WP.29/1044/Rev.3 §25/26——点「过渡条款速查」'}]
+  {t:'过渡期日历（Date (a)/(b)/(c)）', b:'WP.29/1044/Rev.3 §25/26——点「过渡条款速查」'}]
 };
 let stnChk={}; // 交付物勾选状态：`${站id}_${序号}` -> true
 function toggleChk(k){stnChk[k]=!stnChk[k];render();}
