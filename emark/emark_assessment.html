@@ -60,7 +60,7 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .seg button:last-child{border-right:none}
 .seg button.on{color:#fff}
 .seg button.on.done-b{background:var(--green)}
-.seg button.on.prog-b{background:var(--amber)}
+.seg button.on.prog-b{background:#E7A400;color:#40300A}
 .seg button.on.no-b{background:var(--red)}
 .seg button.on.unk-b{background:var(--greyl)}
 /* Step 3 结构总览轨 */
@@ -1337,7 +1337,8 @@ function verBanner(){
   return `<div class="verhint"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>活数据暂不可用，已回退到内置生效日期<b>快照</b>（可能非最新，建议开通版本追踪）。</div>`;
 }
 // ===== Step 3 结构总览轨（可视化结构，与下方信息串列表双轨并存）=====
-const STAT_COL={done:'var(--green)',prog:'var(--amber)',no:'var(--red)',unk:'var(--greyl)'};
+// 盘点状态配色（bg 底色 + fg 字色）：进行中用金黄+深字，与未开始的红（白字）从色相/明暗/字色三向拉开
+const STAT_COL={done:{bg:'#1F7A4D',fg:'#fff'},prog:{bg:'#E7A400',fg:'#40300A'},no:{bg:'#C0392B',fg:'#fff'},unk:{bg:'#9AA1AB',fg:'#fff'}};
 const STAT_LAB={done:'已认证',prog:'进行中',no:'未开始',unk:'不清楚'};
 function structAxes(items){
   if(_structAxis==='domain'){
@@ -1360,8 +1361,8 @@ function structHTML(items){
   const ring=`<svg class="wring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}" class="wr-bg"/><circle cx="32" cy="32" r="${R}" class="wr-fg" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off}"/></svg><span class="wr-t">${pct}%</span>`;
   const blockHTML=blocks.map(b=>{
     const bd=b.rows.filter(i=>regStatus[i.item]==='done').length;
-    const tiles=b.rows.map(i=>{const st=regStatus[i.item]||'unk';
-      return `<button class="stile" style="--c:${STAT_COL[st]}" data-jump="${i.item}" title="${i.cn}（${i.reg||'—'}）· ${STAT_LAB[st]}">${i.item}</button>`;}).join('');
+    const tiles=b.rows.map(i=>{const st=regStatus[i.item]||'unk';const c=STAT_COL[st];
+      return `<button class="stile" style="--c:${c.bg};color:${c.fg}" data-jump="${i.item}" title="${i.cn}（${i.reg||'—'}）· ${STAT_LAB[st]}">${i.item}</button>`;}).join('');
     return `<div class="sblock"><div class="sblock-h"><b>${b.label}</b><span class="sblock-n">${bd}/${b.rows.length}</span>${b.sub?`<small>${b.sub}</small>`:''}</div><div class="stiles">${tiles}</div></div>`;
   }).join('');
   return `<div class="struct">
@@ -1370,7 +1371,7 @@ function structHTML(items){
       <div class="struct-ring">${ring}<div class="struct-ktr"><b>${done}</b> 已认证 · <b>${prog}</b> 进行中 · 共 ${items.length} 条<br><small>点色块定位到下方条目；两轨状态同步</small></div></div>
     </div>
     ${blockHTML}
-    <div class="slegend">${Object.keys(STAT_LAB).map(k=>`<span><i style="background:${STAT_COL[k]}"></i>${STAT_LAB[k]}</span>`).join('')}</div>
+    <div class="slegend">${Object.keys(STAT_LAB).map(k=>`<span><i style="background:${STAT_COL[k].bg}"></i>${STAT_LAB[k]}</span>`).join('')}</div>
   </div>`;
 }
 function step3(){
