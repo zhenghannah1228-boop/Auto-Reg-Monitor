@@ -136,6 +136,8 @@ def main():
     ap.add_argument("--full", action="store_true", help="遍历全部品牌(默认仅精选)")
     ap.add_argument("--min-year", type=int, default=datetime.now(timezone.utc).year - 1,
                     help="仅收召回编号年份≥此值(默认当前年-1)")
+    ap.add_argument("--years-back", type=int, default=8,
+                    help="遍历的车辆生产年份回溯窗口(默认8,即近8个年份;召回按覆盖的生产年份归档)")
     ap.add_argument("--sleep", type=float, default=0.25)
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
@@ -145,7 +147,10 @@ def main():
     makes = options(get(op, BASE + "/recall-type/vehicle/make"))
     if not args.full:
         makes = [m for m in makes if CURATED.search(m)]
-    print(f"品牌 {len(makes)} 个{'(全量)' if args.full else '(精选)'};min-year={args.min_year}")
+    cur = datetime.now(timezone.utc).year
+    years = list(range(cur, cur - args.years_back, -1))   # 近 N 个生产年份
+    print(f"品牌 {len(makes)} 个{'(全量)' if args.full else '(精选)'};min-year={args.min_year};"
+          f"遍历生产年份 {years[-1]}-{years[0]}")
     existing = set() if args.dry_run else sb_existing_refs(base, key)
 
     new_rows, seen = [], set()
@@ -155,19 +160,19 @@ def main():
         except Exception as e:
             print(f"[warn] make {mk}: {e}", file=sys.stderr); continue
         for md in options(mh):
-            url = BASE + f"/recall-type/vehicle/make/{q(mk)}/model/{q(md)}/recalls"
-            try:
-                rh = get(op, url)
-            except Exception as e:
-                print(f"[warn] {mk}/{md}: {e}", file=sys.stderr); continue
-            for rec in parse_recalls(rh):
-                ref = rec["num"]
-                yr = int(ref.split("/")[1])
-                if yr < args.min_year or ref in seen or ref in existing:
-                    continue
-                seen.add(ref); new_rows.append(map_recall(mk, md, rec, url))
-            time.sleep(args.sleep)
-        time.sleep(args.sleep)
+            for yr in years:
+                url = BASE + f"/recall-type/vehicle/make/{q(mk)}/model/{q(md)}/year/{yr}/recalls"
+                try:
+                    rh = get(op, url)
+                except Exception as e:
+                    print(f"[warn] {mk}/{md}/{yr}: {e}", file=sys.stderr); continue
+                for rec in parse_recalls(rh):
+                    ref = rec["num"]
+                    ryr = int(ref.split("/")[1])
+                    if ryr < args.min_year or ref in seen or ref in existing:
+                        continue
+                    seen.add(ref); new_rows.append(map_recall(mk, md, rec, url))
+                time.sleep(args.sleep)
     print(f"新增 {len(new_rows)} 条(去重后,编号年份≥{args.min_year})")
     if args.dry_run:
         for r in new_rows[:20]:
