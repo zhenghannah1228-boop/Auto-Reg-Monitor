@@ -301,6 +301,12 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .rl-item .rl-c b{color:var(--ink)}
 .rl-item a{color:var(--blue);text-decoration:none}
 .rl-item a:hover{text-decoration:underline}
+.rl-sub{font-size:11.5px;font-weight:800;color:var(--od);letter-spacing:.02em;text-transform:none;padding:9px 0 8px;margin:4px 0 10px;border-top:1px dashed var(--line)}
+.rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--blue);text-decoration:none;font-weight:700}
+.rl-lk:hover{text-decoration:underline}
+.rl-lk.ph{color:var(--od);cursor:pointer}
+.rl-lk.ph:hover{color:var(--o);text-decoration:underline dotted}
+.rl-lk .ico{margin-right:2px;opacity:.85}
 .rl-note{font-size:11px;color:var(--greyl);line-height:1.5;border-top:1px dashed var(--line);padding-top:9px;margin-top:2px}
 .rl-empty{font-size:12.5px;color:var(--greyl)}
 @media(max-width:940px){
@@ -951,6 +957,47 @@ function railHTML(){
 }
 // 右栏「法规清单（相关法规）」——按当前步骤列出相关法规与确切条款（引用均已在工具内对 primary source 核验）
 const D858='../docs/Reg-EU-2018-858-framework.pdf', D2144='../docs/Reg-EU-2019-2144-general-safety.pdf';
+// 法规→「一点通」链接占位表：键 = 规范化法规号（regTokens 产出）。当前全部占位（''），后期逐条填该法规在「一点通」的 URL。
+const REG_LINKS={
+ // —— UN 法规（ECE R）——
+ "UN R3":"","UN R4":"","UN R10":"","UN R11":"","UN R12":"","UN R13-H":"","UN R14":"","UN R16":"","UN R17":"","UN R21":"","UN R26":"","UN R28":"",
+ "UN R30":"","UN R31":"","UN R34":"","UN R37":"","UN R39":"","UN R43":"","UN R44":"","UN R45":"","UN R46":"","UN R48":"","UN R51":"","UN R55":"",
+ "UN R58":"","UN R64":"","UN R67":"","UN R79":"","UN R90":"","UN R94":"","UN R95":"","UN R97":"","UN R100":"","UN R108":"",
+ "UN R110":"","UN R114":"","UN R121":"","UN R122":"","UN R124":"","UN R125":"","UN R126":"","UN R127":"","UN R129":"","UN R130":"",
+ "UN R131":"","UN R133":"","UN R134":"","UN R135":"","UN R137":"","UN R138":"","UN R139":"","UN R140":"","UN R141":"","UN R142":"",
+ "UN R145":"","UN R152":"","UN R153":"","UN R155":"","UN R156":"","UN R157":"","UN R158":"","UN R160":"","UN R171":"","UN R179":"",
+ // —— EU / EC 法规 ——
+ "(EU) 2017/79":"","(EU) 540/2014":"","(EU) 2018/858":"","(EU) 2019/2144":"","(EU) 2021/535":"","(EU) 2021/646":"","(EU) 2021/1243":"","(EU) 2021/1341":"","(EU) 2021/1958":"","(EU) 2022/1426":"",
+ "(EU) 2023/2590":"","(EU) 2024/1257":"","(EU) 2025/1706":"","(EU) 2025/2161":"","(EC) 595/2009":"","(EC) 715/2007":"",
+ // —— 指令（Directive）——
+ "Directive 2005/64/EC":"","Directive 2006/40/EC":""
+};
+function regLink(k){ return (REG_LINKS[k]||'').trim() || '#'; }
+// 从法规文本(紧凑格式)抽取规范化法规号：UN R21.01→UN R21；(EU) 2021/535 Annex XIV→(EU) 2021/535；Directive 2005/64/EC
+function regTokens(s){
+  s=s||''; const out=[]; let m;
+  const re1=/UN\s*R\s?(\d{1,3}(?:-H)?)/gi;
+  while((m=re1.exec(s))) out.push('UN R'+m[1].toUpperCase());
+  const re2=/\((EU|EC)\)\s*(?:No\s*)?(\d{1,4}\/\d{2,4})/gi;
+  while((m=re2.exec(s))) out.push('('+m[1]+') '+m[2]);
+  const re3=/Directive\s*(\d{4}\/\d+\/E[UC])/gi;
+  while((m=re3.exec(s))) out.push('Directive '+m[1]);
+  return out;
+}
+// 当前页「适用法规明细」：从 applicable() 汇总去重的每条法规 + 其覆盖的主题清单（用于 02/03 步右栏动态列出）
+function pageRegList(){
+  const map=new Map(); // key -> Set(主题短名)
+  applicable().forEach(i=>{
+    regTokens(i.reg).forEach(k=>{
+      if(!map.has(k)) map.set(k,new Set());
+      if(i.cn) map.get(k).add(i.cn);
+    });
+  });
+  const rank=k=>{ let mm=k.match(/^UN R(\d+)(-H)?$/); if(mm) return [0,+mm[1],mm[2]?1:0];
+    mm=k.match(/^\((EU|EC)\) (\d+)\/(\d+)$/); if(mm) return [1,+mm[3],+mm[2]]; return [2,0,0]; };
+  return [...map.entries()].map(([k,subs])=>({k,subs:[...subs]}))
+    .sort((a,b)=>{const x=rank(a.k),y=rank(b.k);return x[0]-y[0]||x[1]-y[1]||x[2]-y[2];});
+}
 const STEP_REGS={
  0:[{t:'适用框架',c:'1958 协定（UN 法规互认体系，大 E）＋ <b>(EU) 2018/858</b> 型式批准与市场监督框架条例。'}],
  1:[{t:'适用框架',c:'1958 协定多国互认（大 E）／ EU 型式批准（小 e）两条路线；本步为线索收集，据规模与时间要求校准结论。'},
@@ -973,11 +1020,23 @@ const STEP_REGS={
  6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144},
     {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858}]
 };
+const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
+// 每条法规号渲染为可点链接（占位 # → 后期填「一点通」URL；已填则新窗打开）
+function regChip(k){ const u=regLink(k); return `<a class="rl-lk${u==='#'?' ph':''}" href="${u}"${u==='#'?' onclick="return false"':' target="_blank" rel="noopener"'} title="${u==='#'?'链接待补（一点通）':'查看法规'}">${_lnkIco}${k}</a>`; }
 function reglistHTML(n){
   const items=STEP_REGS[n]||[];
-  const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg></a>`:''}${r.c}</span></div>`).join('')
+  const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">${_lnkIco}</a>`:''}${r.c}</span></div>`).join('')
     : '<div class="rl-empty">本步无强制关联法规。</div>';
-  return `<div class="rl-h">法规清单（相关法规）</div>${body}<div class="rl-note">编号与条款均已对 UNECE / 欧盟官方文本核验；确切条款全文见「术语速查」及各模态弹窗。以官方最新版本为准。</div>`;
+  // 02 范围界定 / 03 法规盘点：动态列出本页所有被引用的适用法规（去重，附覆盖主题 + 占位链接）
+  let dyn='';
+  if(n===2||n===3){
+    const list=pageRegList();
+    if(list.length){
+      const rows=list.map(o=>`<div class="rl-item"><span class="rl-t">${regChip(o.k)}</span><span class="rl-c">${o.subs.slice(0,6).join('、')}${o.subs.length>6?` 等 ${o.subs.length} 项`:''}</span></div>`).join('');
+      dyn=`<div class="rl-sub">本页被引用法规 · ${list.length} 部</div>${rows}`;
+    }
+  }
+  return `<div class="rl-h">法规清单（相关法规）</div>${body}${dyn}<div class="rl-note">编号与条款均已对 UNECE / 欧盟官方文本核验；确切条款全文见「术语速查」及各模态弹窗。法规链接为占位，将替换为「一点通」对应条目。以官方最新版本为准。</div>`;
 }
 // 顶栏「速查工具」下拉
 function tbToggle(ev){ ev.stopPropagation(); document.getElementById('tb-dd').classList.toggle('on'); }
