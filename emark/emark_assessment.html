@@ -86,6 +86,19 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .stile:hover{opacity:1;transform:translateY(-1px);box-shadow:0 2px 6px rgba(16,24,40,.18)}
 .slegend{display:flex;gap:15px;margin-top:13px;padding-top:11px;border-top:1px dashed var(--ol);font-size:11px;color:var(--grey)}
 .slegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+/* 版本时效自查表 */
+.vb-sum{font-size:12.5px;color:var(--ink2);margin-bottom:11px}
+.vb-k{font-weight:700}.vb-k.behind{color:var(--red)}.vb-k.cur{color:var(--green)}.vb-k.unk{color:var(--grey)}
+.vb-scroll{max-height:62vh;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.vb-tbl td small{color:var(--grey);font-size:11.5px}
+.vb-tbl td{vertical-align:top}
+.vb-tbl .vb-eif{color:var(--grey)}
+.vb-tpnote{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--od);background:#FBF3E8;border-radius:5px;padding:4px 6px}
+.vb-eu-na{color:var(--greyl);font-size:11.5px}
+.vb-eu{display:inline-block;font-size:9.5px;font-weight:700;color:var(--blue);background:#EAF1F7;border-radius:4px;padding:1px 5px;margin-left:4px}
+.vb-row-b{background:#FCEFEC}
+.vb-b{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 8px;white-space:nowrap}
+.vb-b.behind{background:#C0392B;color:#fff}.vb-b.cur{background:#E7F3EC;color:var(--green)}.vb-b.ahead{background:#EAF1F7;color:var(--blue)}.vb-b.unk{background:#f0efe9;color:var(--grey)}
 .arow.flash{animation:flashrow 1.4s ease}
 @keyframes flashrow{0%,100%{background:#fff}28%{background:var(--ol)}}
 /* result */
@@ -405,6 +418,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
        <div class="tb-sep"></div>
        <button onclick="tbGo(openAuthDir)">1958 缔约方 · 机关与技服名录</button>
        <button onclick="tbGo(openTransitional)">过渡条款速查</button>
+      <button onclick="tbGo(openVersionBoard)">版本时效自查表（各系列生效/失效）</button>
        <button onclick="tbGo(openIWVTA)">IWVTA 整车必备法规</button>
        <button onclick="tbGo(openEuTable)">EU 型批法规全表（含强制实施日期）</button>
      </div>
@@ -806,6 +820,72 @@ function openTransitional(){
   </div>`;
   emkModal('E-mark 过渡条款速查 · 老证书还能用多久？', body,
     '权威依据：UNECE ECE/TRANS/WP.29/1044/Rev.3《UN 法规程序与过渡条款通用指南》(段号见各行「依据」列)；R0.08 案例据 ECE/TRANS/WP.29/2025/159 §12.13–12.14。具体某法规的 Date (a)/(b)/(c) 以该法规该系列过渡条款原文为准。');
+}
+// ===== 版本时效自查表：逐法规逐系列列出「生效日 / 被取代日(≈失效)」，被取代系列标红，附 EU 引用系列(最低门槛) =====
+// EU 引用系列(最低门槛)：据 (EU) 2019/2144 Annex II 原文固定的最低系列；空=Annex 未固定具体系列(以现行为准)
+// 现行合并版 (EU) 2019/2144 Annex II 对 UN 法规均为开放引用(不固定系列)→ EU_REF_SERIES 全空；如需历史固定系列须用 2019 原始 OJ 版
+const EU_REF_SERIES={};   // { "17":"09", ... } 若某法规 Annex II 固定了系列才填；现行合并版全部未固定
+// Annex II 附注里为数不多的真实 dated 截止(失效性质)——据 (EU) 2019/2144 Annex II 附注 12/18/19
+const EU_TP_NOTE={
+ "44":"附注12：2023-09-01 前投放市场的 R44 儿童座椅可继续供货至 <b>2024-09-01</b>（此后失效）。",
+ "117":"附注19：按 R117 02/03 系列批准、2026-07-07 前制造的轮胎，可装配在用车至 <b>2029-01-06</b>。",
+ "127":"附注18：R127 04 系列——WAD2-100 边界条款受理至 <b>2029-09-01</b>；发动机罩后缘条款至 <b>2031-09-01</b>。"
+};
+// 该 UN R 编号的各「系列」时间线：生效日(eif) + 被取代日(下一系列生效日)，及是否已被取代/未生效
+function regSeriesTimeline(no){
+  const reg=VERDB.byNo[String(no)]||VERDB.byNo[String(no).replace(/-/g,'')]; if(!reg) return null;
+  const map={};
+  (reg.amendments||[]).forEach(a=>{const m=/^(\d{2})\s*series$/i.exec((a.status||'').trim());if(!m)return;
+    const n=+m[1],e=a.eif;if(!e)return; if(map[n]==null||e<map[n]) map[n]=e;});
+  const nums=Object.keys(map).map(Number).sort((a,b)=>a-b);
+  const today=new Date().toISOString().slice(0,10);
+  const series=nums.map((n,idx)=>{const eif=map[n];const supEif=idx<nums.length-1?map[nums[idx+1]]:null;
+    return {n,eif,supEif,expired:!!(supEif&&supEif<=today),future:eif>today};});
+  let latest=null; series.forEach(s=>{if(!s.future&&(latest==null||s.n>latest))latest=s.n;});
+  return {series,latest};
+}
+// 工具涉及的 UN R 编号 → 覆盖主题（用于表格法规列）
+function unRegsInScope(){
+  const map={};
+  ITEMS.forEach(i=>{ (regTokens(i.reg)||[]).forEach(k=>{const mm=/^UN R(\d{1,3}(?:-H)?)$/.exec(k);if(!mm)return;
+    const no=mm[1]; (map[no]||(map[no]=[])).push(i.cn); }); });
+  return Object.keys(map).sort((a,b)=>parseInt(a)-parseInt(b)||a.localeCompare(b))
+    .map(no=>({no,subjects:[...new Set(map[no])]}));
+}
+function openVersionBoard(){
+  const s2=n=>String(n).padStart(2,'0');
+  if(VERSTATE!=='ok'){
+    emkModal('版本时效自查表','<div style="padding:20px 18px;font-size:13px;color:var(--ink2)">UNECE 活数据暂不可用，无法列出各系列生效/失效时间。请稍后重试或开通版本追踪后再查。</div>','');
+    return;
+  }
+  const regs=unRegsInScope();
+  let expiredCnt=0, trs='';
+  regs.forEach(rg=>{
+    const t=regSeriesTimeline(rg.no); if(!t||!t.series.length) return;
+    const euRef=EU_REF_SERIES[rg.no];
+    const span=t.series.length;
+    t.series.forEach((s,idx)=>{
+      if(s.expired) expiredCnt++;
+      const isLatest=s.n===t.latest;
+      const stat=s.future?'<span class="vb-b unk">未生效</span>':(isLatest?'<span class="vb-b cur">现行</span>':(s.expired?'<span class="vb-b behind">已被取代</span>':'<span class="vb-b unk">在行</span>'));
+      const euBadge=(euRef!=null&&+euRef===s.n)?' <span class="vb-eu">EU 门槛</span>':'';
+      trs+=`<tr class="${s.expired?'vb-row-b':''}">`;
+      if(idx===0){
+        const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
+        trs+=`<td rowspan="${span}"><b>UN R${rg.no}</b><br><small>${rg.subjects.slice(0,3).join('、')}${rg.subjects.length>3?'…':''}</small>${note}</td>`;
+        trs+=`<td rowspan="${span}">${euRef!=null?`<b>${s2(euRef)} series</b>`:'<span class="vb-eu-na" title="现行合并版 2019/2144 Annex II 对 UN 法规为开放引用，未固定系列">未固定</span>'}</td>`;
+        trs+=`<td rowspan="${span}">${t.latest!=null?`<b>${s2(t.latest)} series</b>`:'—'}</td>`;
+      }
+      trs+=`<td>${s2(s.n)} series${euBadge}</td><td>${s.eif}</td><td>${s.supEif?s.supEif:'<span class="vb-eif">—（现行）</span>'}</td><td>${stat}</td></tr>`;
+    });
+  });
+  const body=`<div style="padding:12px 15px">
+    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · 共 <b>${expiredCnt}</b> 个已被取代系列（<span class="vb-k behind">红行</span>）· 数据 as_of <b>${VERDB.as_of||'—'}</b>${Object.keys(EU_REF_SERIES).length?'':' · <span class="vb-k unk">EU 引用系列未固定（开放引用现行 UN 版本）</span>'}</div>
+    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 引用系列<br>(最低门槛)</th><th>现行最新</th><th>系列</th><th>生效日</th><th>失效/被取代日</th><th>状态</th></tr></thead>
+    <tbody>${trs}</tbody></table></div>
+  </div>`;
+  emkModal('版本时效自查表 · 各系列生效 / 失效时间',body,
+    '口径（WP.29/1044/Rev.3）：UN 型批不会自动作废。表中「失效/被取代日」= 下一系列的生效日（从该日起新型式须转下一系列）；红行为已被更新系列取代的旧系列。<b>被取代≠法定作废</b>——法定"缔约方不再有义务接受"的截止以该法规过渡条款 Date (b)/(c) 为准（点顶栏「过渡条款速查」），确切 Date (b)/(c) 值尚未逐条入库。<b>EU 引用系列全列「未固定」</b>：现行合并版 (EU) 2019/2144 Annex II 对 UN 法规为开放引用、不固定系列（含义＝以适用日时的现行 UN 版本为准）；如需历史固定系列，须用 2019 原始 OJ 版本另行入库。个别 dated 截止（R44/R117/R127）已在法规行标注。数据源 data/unece_status.json。');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){
