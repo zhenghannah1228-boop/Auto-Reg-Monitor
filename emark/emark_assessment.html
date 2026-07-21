@@ -1202,7 +1202,7 @@ function oemScopeHTML(){
   const CATG=[['M1','M1 乘用车'],['M2,M3','M2·M3 客车'],['N1','N1 轻型商用车'],['N2,N3','N2·N3 载货车'],['O1,O2,O3,O4','O 挂车']];
   const catBtns=CATG.map(([codes,label])=>{const cs=codes.split(',');const on=cs.every(c=>sel.cats.includes(c));
     return `<button class="opt ${on?'sel':''}" data-cat="${codes}"><div class="ot">${label}</div></button>`;}).join('');
-  const POWG=[['ICE','汽油 / 柴油'],['HEV','混动 HEV·PHEV'],['BEV','纯电 BEV'],['FCEV','燃料电池 FCEV'],['GAS','燃气 LPG·CNG']];
+  const POWG=[['ICE','汽油 / 柴油'],['HEV','混动 HEV·PHEV'],['BEV','纯电 BEV'],['FCEV','燃料电池 FCEV'],['GAS','燃气 LPG·CNG·LNG']];
   const powBtns=POWG.map(([k,label])=>`<button class="opt ${sel.powers.includes(k)?'sel':''}" data-pow="${k}"><div class="ot">${label}</div></button>`).join('');
   const na=applicable().filter(powNA).length;
   return `
