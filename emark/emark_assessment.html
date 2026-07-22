@@ -60,6 +60,12 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .arow-gh b{font-weight:800}.arow-gh small{color:var(--od);font-size:11.5px;margin-left:2px}
 .ghico{color:var(--o);font-weight:800;margin-right:6px}
 .arow-sub{margin-left:20px;border-left:3px solid var(--ol)}
+/* 二选一等效项 */
+.alt-tag{display:inline-block;font-size:10.5px;font-weight:800;color:#40300A;background:#FFE9A8;border-radius:5px;padding:2px 8px;margin:0 8px 4px 0;vertical-align:middle}
+.alt-opt{display:inline-flex;align-items:center;flex-wrap:wrap;gap:6px;background:#F7F5EE;border:1px solid var(--line);border-radius:8px;padding:4px 9px;margin:4px 0}
+.alt-r{font-size:12.5px;font-weight:800;color:var(--ink)}
+.alt-cn{font-size:11.5px;color:var(--grey)}
+.alt-sep{display:inline-block;font-size:11.5px;font-weight:700;color:var(--od);margin:0 8px}
 .seg{display:flex;gap:0;border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
 .seg button{font-family:inherit;font-size:12px;font-weight:600;border:none;background:#fff;padding:8px 12px;cursor:pointer;color:var(--grey);border-right:1px solid var(--line)}
 .seg button:last-child{border-right:none}
@@ -1341,6 +1347,19 @@ function subItemsOf(p){
             mark:'E', tc:p.tc, g:p.g, eif:'', _parent:p.item, _pcn:p.cn, _no:no};
   });
 }
+// ===== 二选一等效项（业主指示）：两条法规对同一要求等效，取得任一批准即可，不拆成两行、保持单一自评 =====
+// A8 儿童座椅固定点：R145（专项）或 R14（含 ISOFIX 固定点条款）任一批准均可（UNECE 官方：三种固定点按 R14 或 R145 批准）
+const ALT_REGS={A8:['145','14']};
+// 渲染并列的两个等效法规选项，各带自己的中文名/引用系列/国互认/现行版本
+function altInfo(i){
+  const alts=ALT_REGS[i.item]; if(!alts) return '';
+  const opts=alts.map(no=>{
+    const rm=REG_META[no]||{}; const nn=_srNN(rm.sr);
+    const si={item:i.item+'@'+no, cn:rm.s, reg:'UN R'+no+(nn?'.'+nn:''), mark:'E', tc:i.tc, g:i.g, eif:''};
+    return `<span class="alt-opt"><b class="alt-r">UN R${no}${nn?'.'+nn:''}</b>${rm.s?`<span class="alt-cn">${rm.s}</span>`:''}${reachBadge(si)}${verCell(si)}</span>`;
+  });
+  return `<span class="alt-tag" title="两条法规对该固定点等效，取得任一批准即可，无需两条都做">二选一等效</span>${opts.join('<span class="alt-sep">或</span>')}`;
+}
 function applicable(){
   let base;
   // 产品/系统精选优先：用户点选后精确锁定对应法规项。id 命中 PARTS→展开其 items；否则视为原始 item 编码（系统集成商按系统选）
@@ -1723,8 +1742,12 @@ function step3(){
     }
     lastP=i._parent||null;
     const cls='arow'+(powNA(i)?' pt-na':'')+(i._parent?' arow-sub':'');
+    const vehb=(!i._parent&&VEH[i.item])?`<span class="vehb">${VEH[i.item]}</span>`:'';
+    const al = ALT_REGS[i.item]
+      ? `<b>${i.cn}</b> <small>${i.item}</small>${markBadge(i)}${vehb}${altInfo(i)}${powTag(i)}`
+      : `<b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${vehb}${iwvtaChip(i)}${srcChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}${powTag(i)}`;
     return gh+`<div class="${cls}" id="row-${i.item}">
-     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${(!i._parent&&VEH[i.item])?`<span class="vehb">${VEH[i.item]}</span>`:''}${iwvtaChip(i)}${srcChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}${powTag(i)}</div>
+     <div class="al">${al}</div>
      <div class="seg" data-item="${i.item}">
        <button class="${regStatus[i.item]==='done'?'on done-b':''}" data-v="done">已认证</button>
        <button class="${regStatus[i.item]==='prog'?'on prog-b':''}" data-v="prog">进行中</button>
