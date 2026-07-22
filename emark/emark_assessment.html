@@ -106,6 +106,12 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .vb-legal{display:inline-block;font-size:9.5px;font-weight:700;color:#fff;background:#8A1C1C;border-radius:4px;padding:1px 5px;margin-left:3px;vertical-align:1px}
 .vb-proxy{color:var(--grey)}.vb-proxy-t{font-size:10px;color:var(--greyl)}
 .vb-row-b{background:#FCEFEC}
+.vb-row-eu{background:#EAF1FB}
+.vb-legend2{font-size:11px;color:var(--grey);margin:-4px 0 11px;line-height:1.7}
+.vb-legend2 .lg{white-space:nowrap}.vb-legend2 .lg::before{content:'';display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+.vb-legend2 .lg-eu::before{background:#2E6FB8}.vb-legend2 .lg-red::before{background:#C0392B}.vb-legend2 .lg-cur::before{background:var(--green)}
+.vb-b.euref{background:#2E6FB8;color:#fff;line-height:1.25;text-align:center}
+.vb-b.euref small{font-weight:400;opacity:.9}
 .vb-b{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 8px;white-space:nowrap}
 .vb-b.behind{background:#C0392B;color:#fff}.vb-b.cur{background:#E7F3EC;color:var(--green)}.vb-b.ahead{background:#EAF1F7;color:var(--blue)}.vb-b.unk{background:#f0efe9;color:var(--grey)}
 .arow.flash{animation:flashrow 1.4s ease}
@@ -931,11 +937,18 @@ function openVersionBoard(){
     const span=t.series.length;
     const tpReg=UNECE_TP[rg.no]||{};
     t.series.forEach((s,idx)=>{
-      if(s.expired) expiredCnt++;
       const tp=tpReg[s2(s.n)]||{};
       const isLatest=s.n===t.latest;
-      const stat=s.future?'<span class="vb-b unk">未生效</span>':(isLatest?'<span class="vb-b cur">现行</span>':(s.expired?'<span class="vb-b behind">已被取代</span>':'<span class="vb-b unk">在行</span>'));
-      const euBadge=(euRef!=null&&+euRef===s.n)?' <span class="vb-eu">EU 门槛</span>':'';
+      const isEuRef=(euRef!=null&&+euRef===s.n);
+      if(s.expired && !isEuRef) expiredCnt++;   // 红行=UNECE 已被取代且非 EU 门槛
+      let stat;
+      if(s.future) stat='<span class="vb-b unk">未生效</span>';
+      else if(isEuRef&&isLatest) stat='<span class="vb-b cur">现行 · EU 门槛</span>';
+      else if(isEuRef) stat='<span class="vb-b euref" title="UNECE 已出更新系列（本系列在 UNECE 时间线上被取代），但 (EU) 2019/2144 Annex I 仍引用本系列作 EU 型批门槛——两条时间线不同步属正常，不代表按本系列的 EU 证失效">EU 现行门槛<br><small>UNECE 已出新系列</small></span>';
+      else if(isLatest) stat='<span class="vb-b cur">现行</span>';
+      else if(s.expired) stat='<span class="vb-b behind">已被取代</span>';
+      else stat='<span class="vb-b unk">在行</span>';
+      const euBadge=isEuRef?' <span class="vb-eu">EU 门槛</span>':'';
       // 生效日 + 新型式须合规日(Col4)
       let eifCell=`${s.eif}`;
       if(tp.c4) eifCell+=`<div class="vb-c4">新型式须合规 ${d2iso(tp.c4)}</div>`;
@@ -945,7 +958,7 @@ function openVersionBoard(){
       if(tp.c5){ legalCnt++; failCell=`<b title="UNECE Col5「老证书失效日」">${d2iso(tp.c5)}</b> <span class="vb-legal">法定失效</span>`; }
       else if(tp.c5n){ const d=(tp.c5n.match(/\d{2}-\d{2}-\d{4}/)||[''])[0]; failCell=`${d?d2iso(d):''} <span class="vb-fn" title="${_esc(tp.c5n)}">脚注 ⓘ</span>`; }
       else failCell=s.supEif?`<span class="vb-proxy" title="下一系列生效日，非法定失效">${s.supEif}<span class="vb-proxy-t"> 被取代</span></span>`:'<span class="vb-eif">—（现行）</span>';
-      trs+=`<tr class="${s.expired?'vb-row-b':''}">`;
+      trs+=`<tr class="${isEuRef?'vb-row-eu':(s.expired?'vb-row-b':'')}">`;
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
         const fn=UNECE_FN[rg.no]?`<div class="vb-fnnote">⏳ ${UNECE_FN[rg.no]}</div>`:'';
@@ -959,7 +972,8 @@ function openVersionBoard(){
     });
   });
   const body=`<div style="padding:12px 15px">
-    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${expiredCnt}</b> 个已被取代系列（<span class="vb-k behind">红行</span>）· <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
+    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${expiredCnt}</b> 个 UNECE 已被取代系列（<span class="vb-k behind">红行</span>）· <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
+    <div class="vb-legend2"><span class="lg lg-eu">蓝行=EU 现行门槛</span>（EU 型批仍引用；即便 UNECE 已出更新系列）　<span class="lg lg-red">红行=UNECE 已被更新系列取代</span>（≠法定作废）　<span class="lg lg-cur">现行=UNECE 最新已生效</span></div>
     <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日 /<br>新型式强制日</th><th>失效日<br>(法定 / 被取代)</th><th>状态</th></tr></thead>
     <tbody>${trs}</tbody></table></div>
   </div>`;
