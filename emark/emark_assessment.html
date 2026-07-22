@@ -327,6 +327,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .pchip:hover{border-color:var(--o)}
 .pchip.on{border-color:var(--o);background:var(--cream);color:var(--od);font-weight:700}
 .pchip.on small{color:var(--od)}
+.sys-basis{font-size:11.5px;color:var(--grey);background:#F4F6F9;border-left:3px solid var(--blue);border-radius:6px;padding:8px 11px;line-height:1.6;margin-bottom:6px}
 .sysdom{font-size:11.5px;font-weight:800;color:var(--od);margin:14px 0 8px;letter-spacing:.02em}
 .sysdom:first-of-type{margin-top:4px}
 .layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
@@ -1422,16 +1423,36 @@ function oemScopeHTML(){
     <div class="opts g3">${powBtns}</div>
     ${sel.powers.length?`<div class="probe">已选动力类型：盘点中约 <b>${na}</b> 条法规按此动力通常不适用（下一步以灰标提示，仍保留可核对；GA 欧7 与噪声等跨全部动力不受影响）。</div>`:''}`;
 }
-// 系统集成商专属精选：按系统域列出「可作技术单元(STU)认证」的系统（tc≠VEHICLE），从数据自动生成、始终同步
+// UN 法规批准类型（据 (EU) 2018/858 Art 3 (18)system/(19)component/(20)STU，按各 UN 法规官方标题判定）
+// component=独立部件（归售后件）；system/stu/mixed=系统或技术单元（归系统集成商）
+const REG_APPTYPE={
+ "10":"mixed","11":"system","12":"system","13-H":"system","14":"system","16":"mixed","17":"system","21":"system","26":"system","28":"mixed",
+ "30":"component","34":"mixed","39":"system","43":"component","44":"component","45":"mixed","46":"mixed","48":"system","51":"system","55":"component",
+ "58":"mixed","64":"system","67":"mixed","79":"system","90":"component","100":"mixed","108":"component","110":"mixed","114":"component","121":"system",
+ "122":"mixed","124":"component","125":"system","126":"stu","127":"system","129":"component","130":"system","131":"system","133":"system","134":"mixed",
+ "135":"system","137":"system","138":"system","139":"system","140":"system","141":"system","142":"system","145":"system","152":"system","153":"system",
+ "155":"system","156":"system","157":"system","158":"system","160":"system","171":"system",
+ // 灯具/反射器/光源等独立部件法规（D11–D14 引用）→ component
+ "3":"component","4":"component","6":"component","7":"component","19":"component","23":"component","31":"component","37":"component","38":"component","77":"component",
+ "87":"component","91":"component","98":"component","99":"component","104":"component","112":"component","117":"component","119":"component","123":"component","128":"component","148":"component","149":"component","150":"component"
+};
+// 某项是否「纯独立部件」（其全部 UN R 均为 component）→ 归售后件，不进系统集成商
+function itemComponentOnly(i){
+  const nos=(regTokens(i.reg)||[]).map(k=>k.replace(/^UN R/,''));
+  if(!nos.length) return false;
+  return nos.every(n=>REG_APPTYPE[n]==='component');
+}
+// 系统集成商专属精选：按系统域列出「可作系统/技术单元(STU)认证」的项（tc≠VEHICLE 且非纯独立部件），从数据自动生成、始终同步
 function shortReg(r){ r=r||''; const m=r.match(/R\s?\d{1,3}(?:-H)?/g); if(m) return m.slice(0,3).join('/')+(m.length>3?'…':''); const e=r.match(/\((?:EU|EC)\)\s*\d+\/\d+/); return e?e[0]:''; }
 function stuPicker(){
   const DOMS=[['A','约束 / 碰撞 / 燃料 / 高压电'],['C','底盘 / 制动 / 轮胎 / 转向'],['D','仪表 / 电气 / 灯具 / 网安'],['B','弱势道路使用者 / 视野'],['E','驾驶员 / 自动驾驶'],['F','车身构造'],['G','排放 / 环境'],['H','信息访问 / 软件']];
-  const sys=ITEMS.filter(i=>i.tc!=='VEHICLE');
-  return DOMS.map(([g,label])=>{
+  const sys=ITEMS.filter(i=>i.tc!=='VEHICLE' && !itemComponentOnly(i));
+  const doms=DOMS.map(([g,label])=>{
     const rows=sys.filter(i=>i.g===g); if(!rows.length) return '';
     const chips=rows.map(i=>`<button class="pchip ${sel.parts.includes(i.item)?'on':''}" data-part="${i.item}">${i.cn}<small>${shortReg(i.reg)}</small></button>`).join('');
     return `<div class="sysdom">${label}</div><div class="pchips">${chips}</div>`;
   }).join('');
+  return `<div class="sys-basis">仅列「系统 / 独立技术单元(STU)」——据 (EU) 2018/858 第 3 条 (18)(19)(20)：纯独立部件（轮胎、玻璃、车轮、灯具、儿童座椅、替换制动件/气囊、挂接等）属「售后件供应商」，不在此。</div>${doms}`;
 }
 function step2(){
   const roles=[['OEM','OEM 整车厂','整车 WVTA，需盘点全系统'],['STU','系统集成商','系统作为技术单元认证'],['AFTER','售后件供应商','独立部件/替换件认证']];
