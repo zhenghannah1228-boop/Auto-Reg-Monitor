@@ -1744,7 +1744,7 @@ function cyberBridgeCard(){
   const s=cyberSummary();
   if(!s||!s.r155||!s.started){
     return `<div class="cybr"><div class="ct">${ic}网安 &amp; 功能安全合规评估（R155/R156 · CAL/ASIL）</div>
-      <div class="cm">上面三题是快速判定;若产品涉及网络安全 / 软件更新,可打开<b>独立的网安合规评估台</b>:逐条自查 <b>R155 CSMS / R156 SUMS 认证就绪度</b>,并用 <b>ISO 21434 CAL</b> 与 <b>ISO 26262 ASIL</b> 为威胁 / 危害定级,一键生成审计就绪包与可打印报告。完成后就绪度自动回显到这里。</div>
+      <div class="cm">若产品涉及网络安全 / 软件更新,可打开<b>独立的网安合规评估台</b>:逐条自查 <b>R155 CSMS / R156 SUMS 认证就绪度</b>,并用 <b>ISO 21434 CAL</b> 与 <b>ISO 26262 ASIL</b> 为威胁 / 危害定级,一键生成审计就绪包与可打印报告。</div>
       <a class="cybtn" href="cyber_assessment.html" target="_blank" rel="noopener">打开网安合规评估台 ↗</a></div>`;
   }
   const bar=(name,pct)=>`<div class="cybar"><span title="${E(name)}">${E(name)}</span><div class="bt"><div class="bf" style="width:${Math.max(0,Math.min(100,+pct||0))}%"></div></div><span style="text-align:right;color:var(--grey)">${E(pct)}%</span></div>`;
