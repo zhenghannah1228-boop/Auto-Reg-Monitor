@@ -885,7 +885,8 @@ function openTransitional(){
   emkModal('E-mark 过渡条款速查 · 老证书还能用多久？', body,
     '权威依据：UNECE ECE/TRANS/WP.29/1044/Rev.3《UN 法规程序与过渡条款通用指南》(段号见各行「依据」列)；R0.08 案例据 ECE/TRANS/WP.29/2025/159 §12.13–12.14。具体某法规的 Date (a)/(b)/(c) 以该法规该系列过渡条款原文为准。');
 }
-// ===== 版本时效自查表：逐法规逐系列列出「生效日 / 被取代日(≈失效)」，被取代系列标红，附 EU 引用系列(最低门槛) =====
+// ===== 版本时效自查表：逐法规逐系列列出生效日与 UNECE 法定失效日，附 EU 引用系列(最低门槛)。
+// 注意口径（业主指示）：不展示「被取代/已被取代」类标注——系列更替不影响既有证书效力，仅法定失效才标红。 =====
 // EU 引用系列(最低门槛)：据 (EU) 2019/2144 Annex II 原文固定的最低系列；空=Annex 未固定具体系列(以现行为准)
 // EU 引用系列(最低门槛)：据 (EU) 2019/2144 【Annex I】"Art 4(2) 所列 UN 法规清单"逐条钉定的适用系列
 // 值=两位系列号("00"=Original version)。数据源=合并版 2019/2144 Annex I(反映至 M7 · 2025-09-01)
@@ -908,7 +909,7 @@ const EU_TP_NOTE={
  "117":"附注19：按 R117 02/03 系列批准、2026-07-07 前制造的轮胎，可装配在用车至 <b>2029-01-06</b>。",
  "127":"附注18：R127 04 系列——WAD2-100 边界条款受理至 <b>2029-09-01</b>；发动机罩后缘条款至 <b>2031-09-01</b>。"
 };
-// 该 UN R 编号的各「系列」时间线：生效日(eif) + 被取代日(下一系列生效日)，及是否已被取代/未生效
+// 该 UN R 编号的各「系列」时间线：生效日(eif) + 下一系列生效日(supEif)；expired/future 为内部标记（UI 不展示「被取代」口径）
 function regSeriesTimeline(no){
   const reg=VERDB.byNo[String(no)]||VERDB.byNo[String(no).replace(/-/g,'')]; if(!reg) return null;
   const map={};
@@ -979,7 +980,7 @@ function openVersionBoard(){
     return;
   }
   const regs=unRegsInScope();
-  let expiredCnt=0, legalCnt=0, trs='';
+  let legalCnt=0, trs='';
   regs.forEach(rg=>{
     const t=regSeriesTimeline(rg.no); if(!t||!t.series.length) return;
     const euRef=EU_REF_SERIES[rg.no];
@@ -989,25 +990,23 @@ function openVersionBoard(){
       const tp=tpReg[s2(s.n)]||{};
       const isLatest=s.n===t.latest;
       const isEuRef=(euRef!=null&&+euRef===s.n);
-      if(s.expired && !isEuRef) expiredCnt++;   // 红行=UNECE 已被取代且非 EU 门槛
       let stat;
       if(s.future) stat='<span class="vb-b unk">未生效</span>';
       else if(isEuRef&&isLatest) stat='<span class="vb-b cur">现行 · EU 门槛</span>';
       else if(isEuRef) stat='<span class="vb-b euref" title="(EU) 2019/2144 Annex I 以本系列为 EU 型批门槛；UNECE 已发布更新系列，不影响本系列 EU 证的有效性">EU 现行门槛<br><small>UNECE 已出新系列</small></span>';
       else if(isLatest) stat='<span class="vb-b cur">现行</span>';
-      else if(s.expired) stat='<span class="vb-b behind">已被取代</span>';
-      else stat='<span class="vb-b unk">在行</span>';
+      else stat='';   // 非最新系列不作标注：系列更替不影响既有证书效力（业主指示删「已被取代」标签，只留法定失效）
       const euBadge=isEuRef?' <span class="vb-eu">EU 门槛</span>':'';
       // 生效日 + 新型式须合规日(Col4)
       let eifCell=`${s.eif}`;
       if(tp.c4) eifCell+=`<div class="vb-c4">新型式须合规 ${d2iso(tp.c4)}</div>`;
       else if(tp.c4n) eifCell+=`<div class="vb-c4"><span class="vb-fn" title="${_esc(tp.c4n)}">新型式须合规：按类别/脚注 ⓘ</span></div>`;
-      // 失效日：优先 UNECE Col5 法定失效日；否则脚注；否则被取代日(代理)
+      // 失效日：仅 UNECE Col5 法定失效日 / 脚注；无则「—」（系列更替不产生失效日）
       let failCell;
       if(tp.c5){ legalCnt++; failCell=`<b title="UNECE Col5「老证书失效日」">${d2iso(tp.c5)}</b> <span class="vb-legal">法定失效</span>`; }
       else if(tp.c5n){ const d=(tp.c5n.match(/\d{2}-\d{2}-\d{4}/)||[''])[0]; failCell=`${d?d2iso(d):''} <span class="vb-fn" title="${_esc(tp.c5n)}">脚注 ⓘ</span>`; }
-      else failCell=s.supEif?`<span class="vb-proxy" title="下一系列生效日（本系列自此被取代）">${s.supEif}<span class="vb-proxy-t"> 被取代</span></span>`:'<span class="vb-eif">—（现行）</span>';
-      trs+=`<tr class="${isEuRef?'vb-row-eu':(s.expired?'vb-row-b':'')}">`;
+      else failCell='<span class="vb-eif" title="UNECE 未公布法定失效日；老证书接受截止以该法规过渡条款 Date (b)/(c) 为准">—</span>';
+      trs+=`<tr class="${isEuRef?'vb-row-eu':''}">`;
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
         const fn=UNECE_FN[rg.no]?`<div class="vb-fnnote">⏳ ${UNECE_FN[rg.no]}</div>`:'';
@@ -1021,14 +1020,14 @@ function openVersionBoard(){
     });
   });
   const body=`<div style="padding:12px 15px">
-    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${expiredCnt}</b> 个 UNECE 已被取代系列（<span class="vb-k behind">红行</span>）· <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
-    <div class="vb-legend2"><span class="lg lg-eu">蓝行=EU 现行门槛</span>（EU 型批仍引用；即便 UNECE 已出更新系列）　<span class="lg lg-red">红行=UNECE 已被更新系列取代</span>（≠法定作废）　<span class="lg lg-cur">现行=UNECE 最新已生效</span></div>
-    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日 /<br>新型式强制日</th><th>失效日<br>(法定 / 被取代)</th><th>状态</th></tr></thead>
+    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
+    <div class="vb-legend2"><span class="lg lg-eu">蓝行=EU 现行门槛</span>（EU 型批仍引用；即便 UNECE 已出更新系列）　<span class="lg lg-cur">现行=UNECE 最新已生效</span>　失效日仅在 UNECE 公布<span class="vb-legal">法定失效</span>时显示；其余系列老证书持续有效，接受截止以各法规过渡条款 Date (b)/(c) 为准</div>
+    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日 /<br>新型式强制日</th><th>法定失效日</th><th>状态</th></tr></thead>
     <tbody>${trs}</tbody></table></div>
   </div>`;
   emkModal('版本时效自查表 · 各系列生效 / 失效时间',body,
     '<b>官方依据：</b><br>'+
-    '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 据 <b>UNECE「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」。未列 Col5 的系列，表中「失效日」显示其被下一系列取代之日（<span class="vb-proxy">被取代</span>）。系列被取代不等于法定作废——据 <b>WP.29/1044/Rev.3 §25</b>，既有 UN 型批持续有效，缔约方接受截止以各法规过渡条款 <b>Date (b)/(c)</b> 为准。<br>'+
+    '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 据 <b>UNECE「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」。未列 Col5 的系列不显示失效日——系列更替不影响既有证书效力：据 <b>WP.29/1044/Rev.3 §25</b>，既有 UN 型批持续有效，缔约方接受截止以各法规过渡条款 <b>Date (b)/(c)</b> 为准。<br>'+
     '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 升级系列，故 EU 引用系列可低于 UNECE 最新系列。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
     '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。');
 }
