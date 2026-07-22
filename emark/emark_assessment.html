@@ -470,7 +470,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .syslaw-b b{color:var(--ink)}
 </style></head><body>
 <header class="topbar"><div class="tb-in">
- <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统 · 对标德国 msg UN Regulation Assessment</span></div>
+ <div class="tb-title"><h1><span class="em">E-mark / e-mark</span> 认证导航</h1><span class="tb-sub">部件型式批准流程智能引导系统</span></div>
  <div class="tb-act">
    <button class="badge-g" onclick="openProfiles()" title="我的档案"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h4l2 2h7A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5Z"/></svg>我的档案</button>
    <div class="tb-menu">
@@ -589,9 +589,9 @@ const PROFILE=[
   fb:{s:'小型供应商通常没有专职法规岗——本评估的体系题按批准机关审核清单设计，答完即是一份可执行的补齐清单。',
       m:'成长期企业最常见的断层：认证由项目工程师兼办、无人持续维护——「拿证靠项目、失证无人知」，体系自评环节请重点如实作答。',
       l:'集团型企业请按「本次评估的产品线」作答而非集团整体，评估精度更高。'}},
- {id:'exp',ttl:'欧盟 / 1958 缔约方出口经验',multi:false,req:false,opts:[
+ {id:'exp',ttl:'出口经验',multi:false,req:false,opts:[
    ['none','尚未出口','正在规划进入'],['lt3','1–3 年','已有初步出口业务'],['gt3','3 年以上','成熟出口业务']],
-  fb:{none:'首次进入建议先明确目标市场走大 E（UNECE 互认）还是小 e（EU 专属）——两者标志、依据法规与互认范围都不同，选错路线返工成本最高。',
+  fb:{none:'',
       lt3:'有初步业务后最易踩的坑是「版本冻结」：拿证时的法规系列在持续修订，证书不会自动失效但新车型申请必须按新系列。',
       gt3:'成熟出口企业的重心应从「拿证」转向「持证运营」：CoP 年审、版本跟踪与证书台账是审核抽查的高频项。'}},
  {id:'timeline',ttl:'认证时间要求',multi:false,req:true,opts:[
@@ -605,7 +605,7 @@ const PROFILE=[
    ['kba','德国 KBA','e1 / E1 · 以严格权威著称'],
    ['snch','卢森堡 SNCH','e13 / E13 · 流程紧凑'],
    ['vca','英国 VCA','E11 · 注意：仅 UNECE E 标'],
-   ['undecided','还没想好','听听专业建议']],
+   ['undecided','还没想好','']],
   fb:{rdw:'RDW 英语流程成熟、对海外制造商接待经验丰富，是中国零部件企业最常用的入口机关之一。',
       kba:'KBA 权威度高、文档审核细致，适合有品牌背书诉求的企业；首次申请建议预留更长的文档往返时间。',
       snch:'SNCH 体量小、沟通路径短，适合标准化程度高的部件产品线走量。',
@@ -1422,7 +1422,6 @@ function step1(){
   return `<div class="step on">
     <div class="eyebrow">STEP 1 / 6 · 企业画像</div>
     <h2 class="st">先认识一下你的企业</h2>
-    <p class="lead">这些信息帮我们把评估结论校准到你的实际处境——同样的缺口，对「订单在手 3 个月内要证」和「提前布局」的企业，优先级完全不同。</p>
     ${secs}
     <div class="nav"><button class="ghost" onclick="go(0)">← 返回</button><button class="btn btn-p" onclick="toStep2()">下一步：范围界定 →</button></div>
   </div>`;
@@ -1562,7 +1561,7 @@ function step2(){
   const pchips=PARTS.map(p=>`<button class="pchip ${sel.parts.includes(p.id)?'on':''}" data-part="${p.id}">${p.n}<small>${p.r}</small></button>`).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 2 / 6 · 范围界定</div>
-    <h2 class="st">你的企业与产品范围</h2>
+    <h2 class="st">你的产品范围</h2>
     <p class="lead">选定角色与产品/车型范围，系统据此圈定「适用法规集」，并<b>自动判断需做的认证与可通行国家</b>（不必再选目标市场）。</p>
     <div class="secttl">① 你的角色</div>
     <div class="opts g3">${roles.map(r=>`<button class="opt ${sel.role===r[0]?'sel':''}" data-role="${r[0]}"><div class="ot">${r[1]}</div><div class="od">${r[2]}</div></button>`).join('')}</div>
@@ -1694,7 +1693,6 @@ function certConclusionCard(){
       <div class="rc-list" id="rc-list">${rowsHtml}</div>
       <div class="rc-cnt">共 ${d.rows.length} 个国家 / 地区${d.eOnly?'　·　本范围全部为小 e，出欧盟需当地另办':small.length?`　·　另有小 e ${small.length} 项仅欧盟有效，出欧盟需当地另办`:''}</div>
     </div>`;})()}
-    <div class="cc-src">${EMARK_SRC}</div>
   </div>`;
 }
 function step3(){
@@ -1830,9 +1828,9 @@ function quadrant(X,Y){
 /* ===== 认证旅程（导览主线）· 9 站 E-mark 部件/STU 型式批准流程 =====
    dim = 关联体系维度（现状取自体系自评）；reg = 现状取自法规盘点计数 */
 const STAGES=[
- {no:1,id:'scope',name:'定标的与适用法规',en:'Scope & Applicable Regulations',actor:'你 / 内部团队',dur:'1–2 周',cost:'低 · 咨询/内部工时',
+ {no:1,id:'scope',name:'定标的与适用法规',en:'Scope & Applicable Regulations',actor:'',dur:'',cost:'',
   what:'确定产品属哪类部件、适用哪条 UN R、覆盖哪些车型类别，以及按「部件」还是「独立技术单元（STU）」申请。',
-  pitfall:'同一产品可能同时落多条法规（如一个灯具总成涉及多个 R 号）；大 E（UNECE）与小 e（EU）路线选错，返工成本最高。',
+  pitfall:'',
   sgs:'法规适用性界定、E/e 路线建议'},
  {no:2,id:'authority',name:'选型式批准机关',en:'Choose Type Approval Authority',actor:'你',dur:'约 1 周',cost:'机关申请费（各国不同）',
   what:'选定一个 1958 协定缔约方的批准机关，它决定你证书上的 E 号（如荷兰 RDW = E4、德国 KBA = E1）。',
@@ -1874,8 +1872,7 @@ const DELIV={
  scope:[
   {t:'产品技术定义书',b:'部件 / 独立技术单元（STU，2018/858 Art 3(20)）属性判定、适用车型类别（M/N/O/L）'},
   {t:'适用法规清单（含现行系列/增补版本）',b:'对照 WP.29/343 现行状态（盘点页右上版本标注）'},
-  {t:'标志路线判定记录（大E / 小e / CE 组合）',b:'标志速查对照表判定存档，多标并存项分别立项'},
-  {t:'（供整车配套时）IWVTA 要求系列核对',b:'对照 UN R0 整车必备 43 项系列级别（WP.29/2025/159 Annex 4）'}],
+],
  authority:[
   {t:'批准机关申请表', b:'目标机关官方表格（RDW/KBA/SNCH 等各机关自有格式）'},
   {t:'制造商注册资料', b:'企业资质、地址、联系人；部分机关要求境内代表信息'},
@@ -2072,7 +2069,7 @@ function maturityBlock(){
 function stationExtra(st){
   if(st.id==='scope'){
     let max=0; applicable().forEach(i=>{const n=partiesCount(i.reg)||0;if(n>max)max=n;});
-    return max? `<div class="stn-extra"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>一证多国：你范围内的法规最广被 <b>${max}</b> 个 1958 协定缔约方共同采纳——这正是 E-mark「一次认证、多国互认」的价值（数据：WP.29/343 Add.1）。</div>`:'';
+    return max? `<div class="stn-extra"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>一证多国：你范围内的法规最广被 <b>${max}</b> 个 1958 协定缔约方共同采纳（数据：WP.29/343 Add.1）。</div>`:'';
   }
   if(st.id==='authority'){
     const e=AUTH_ECODE[profile.authority], a=e&&authInfo(e);
@@ -2106,8 +2103,8 @@ function step5(){
   const detail=`<div class="sb-mh">${st.name} <small style="font-family:Georgia,serif;color:var(--greyl);font-weight:400">${st.en}</small> <span class="stn-st" style="color:${sc.c};margin-left:6px">${sc.t}</span></div>
       <div class="stn-note" style="border-color:${sc.c};margin-top:8px">你的现状：${st.note}</div>
       <p class="stn-what">${st.what}</p>
-      <div class="stn-meta"><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.2A3 3 0 0 1 16 12M17 14.2c2.3.4 4 2.3 4 4.8"/></svg>${st.actor}</span><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 13V9M12 13l2.5 2M9.5 3.5h5"/></svg>${st.dur}</span><span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M14.5 9.3c-.6-.7-1.5-1-2.5-1-1.4 0-2.5.8-2.5 2s1.1 1.8 2.5 1.8 2.5.6 2.5 1.9-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1"/></svg>${st.cost}</span></div>
-      <div class="stn-pit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>常见坑：${st.pitfall}</div>
+      ${(st.actor||st.dur||st.cost)?`<div class="stn-meta">${st.actor?`<span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.2A3 3 0 0 1 16 12M17 14.2c2.3.4 4 2.3 4 4.8"/></svg>${st.actor}</span>`:''}${st.dur?`<span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 13V9M12 13l2.5 2M9.5 3.5h5"/></svg>${st.dur}</span>`:''}${st.cost?`<span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M14.5 9.3c-.6-.7-1.5-1-2.5-1-1.4 0-2.5.8-2.5 2s1.1 1.8 2.5 1.8 2.5.6 2.5 1.9-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1"/></svg>${st.cost}</span>`:''}</div>`:''}
+      ${st.pitfall?`<div class="stn-pit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>常见坑：${st.pitfall}</div>`:''}
       ${delivHTML(st)}
       ${stationExtra(st)}`;
   return `<div class="step on">
