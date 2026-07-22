@@ -100,6 +100,10 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .vb-euim-h{display:block;font-weight:700;color:var(--od);margin-bottom:1px}
 .vb-euim.vb-euim-na{color:var(--greyl);background:transparent;padding:2px 0;font-style:italic}
 .vb-eu{display:inline-block;font-size:9.5px;font-weight:700;color:var(--blue);background:#EAF1F7;border-radius:4px;padding:1px 5px;margin-left:4px}
+.vb-c4{font-size:10.5px;color:var(--od);margin-top:2px}
+.vb-fn{border-bottom:1px dotted var(--grey);cursor:help}
+.vb-legal{display:inline-block;font-size:9.5px;font-weight:700;color:#fff;background:#8A1C1C;border-radius:4px;padding:1px 5px;margin-left:3px;vertical-align:1px}
+.vb-proxy{color:var(--grey)}.vb-proxy-t{font-size:10px;color:var(--greyl)}
 .vb-row-b{background:#FCEFEC}
 .vb-b{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:2px 8px;white-space:nowrap}
 .vb-b.behind{background:#C0392B;color:#fff}.vb-b.cur{background:#E7F3EC;color:var(--green)}.vb-b.ahead{background:#EAF1F7;color:var(--blue)}.vb-b.unk{background:#f0efe9;color:var(--grey)}
@@ -861,6 +865,42 @@ function regSeriesTimeline(no){
   let latest=null; series.forEach(s=>{if(!s.future&&(latest==null||s.n>latest))latest=s.n;});
   return {series,latest};
 }
+// UNECE「Entry dates – ECE Regulations」(2026-06-30 版) 的 Col4/Col5：c4=新型式须合规日，c5=老证书法定失效日
+// (c4n/c5n=该格为按类别/脚注限定，存原文不折算)。仅收录有值的系列；其余系列只有生效日(见 unece_status)。
+const UNECE_TP={
+ "10":{"02":{"c4n":"01-01-1998 (footnote 12)"},"03":{"c4":"11-07-2009"},"04":{"c4":"28-10-2014"}},
+ "11":{"02":{"c5":"15-03-1983"},"03":{"c4":"12-08-2012"},"04":{"c4":"01-09-2016"}},
+ "12":{"03":{"c4n":"24-08-1996 (footnote 14)"},"04":{"c4n":"two per-category dates: 23-06-2013 (footnote 18), 23-06-2014 (footnote 19)"}},
+ "14":{"03":{"c4":"01-07-1992"},"04":{"c4n":"two per-category dates: 19-03-1999 (footnote 32), 01-10-1999 (footnote 33)"},"05":{"c4":"04-10-2000"},"06":{"c4n":"26-02-2006 (footnote 36)"},"07":{"c4":"22-07-2011"}},
+ "16":{"05":{"c4":"03-08-2009","c5n":"03-02-2014 (footnote 37)"},"06":{"c4":"22-07-2011"}},
+ "17":{"04":{"c4":"28-01-1994"},"05":{"c4":"26-12-1998","c5":"26-12-2000"},"06":{"c4":"01-10-1999"},"07":{"c4":"06-08-2000","c5":"06-08-2002"},"08":{"c4":"22-07-2011"}},
+ "26":{"02":{"c4":"13-12-1998","c5":"13-12-1999"},"03":{"c4":"23-06-2007"}},
+ "30":{"02":{"c5n":"01-10-1995 (footnote 44) - carried on Sup.4 to 02 series (that supplement also shows col4 01-03-1994, footnote 43)"}},
+ "34":{"02":{"c4":"16-07-2004"},"03":{"c4":"01-09-2018"}},
+ "39":{"01":{"c4":"01-09-2017"}},
+ "43":{"01":{"c4":"28-10-2013"}},
+ "44":{"03":{"c4":"12-09-1996"},"04":{"c4":"23-06-2006","c5n":"10-06-2008 (footnote 49) - carried on Sup.4(rev.2) to 04 series"}},
+ "45":{"01":{"c4":"09-02-1990"}},
+ "46":{"01":{"c4n":"col4 date as printed in the source (01-10-1973); predates this series' EIF 05-10-1987 — 疑源文件笔误，未采用"},"02":{"c4n":"26-01-2006 (footnote 50); per-category (p) date"},"03":{"c4n":"two per-category dates: 26-07-2013, 26-03-2014"},"04":{"c4n":"two per-category dates: 30-06-2014, 30-06-2014"}},
+ "48":{"01":{"c4":"09-02-1998"},"02":{"c4":"01-10-2002"},"03":{"c4":"10-10-2007","c5n":"10-10-2011 (footnote 52)"},"04":{"c4n":"two per-category dates: 07-02-2011 (footnote 53), 07-08-2012 (footnote 54)"},"05":{"c4n":"30-07-2016 (footnote 55)"},"06":{"c4":"18-11-2017"}},
+ "51":{"02":{"c4":"01-10-1995"},"03":{"c4n":"01-07-2022 (footnote 73)"}},
+ "58":{"02":{"c4n":"two per-category dates: 11-01-2010, 11-07-2012"},"03":{"c4":"01-09-2019"}},
+ "64":{"01":{"c4":"03-02-2011"},"03":{"c4":"01-09-2018"}},
+ "67":{"01":{"c4n":"two per-category dates: 13-02-2000, 13-11-2000"}},
+ "90":{"01":{"c4":"01-01-1995"}},
+ "94":{"01":{"c4":"01-10-1998"},"02":{"c4n":"two per-category dates: 23-06-2013 (footnote 118), 23-06-2014 (footnote 119)"},"03":{"c4":"01-09-2018"}},
+ "95":{"01":{"c4":"01-10-1998"},"02":{"c4":"16-07-2004"},"03":{"c4n":"two per-category dates: 23-06-2013, 23-03-2014 (footnote 120)"}},
+ "97":{"01":{"c4n":"two per-category dates: 13-01-2001, 13-01-2002"}},
+ "100":{"01":{"c4":"04-12-2012"},"02":{"c4":"15-07-2016"}},
+ "110":{"01":{"c4n":"two per-category dates: 15-07-2014, 15-01-2015"},"02":{"c4n":"two per-category dates: 01-09-2017, 01-09-2018"}},
+ "121":{"01":{"c4":"15-06-2017"}},
+ "125":{"01":{"c4":"15-07-2015"}},
+ "127":{"01":{"c4":"01-09-2017"},"02":{"c4":"31-12-2017"}},
+ "129":{"01":{"c4":"01-09-2018"},"02":{"c4":"01-09-2022"}},
+ "13-H":{"01":{"c4":"01-09-2018"}}
+};
+function d2iso(s){const m=/^(\d{2})-(\d{2})-(\d{4})$/.exec(s||'');return m?m[3]+'-'+m[2]+'-'+m[1]:(s||'');}
+function _esc(s){return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 // 工具涉及的 UN R 编号 → 覆盖主题 + EU 强制适用日（据 (EU) 2019/2144 Art 16 + Annex II，存于 EU_ITEMS.im）
 function unRegsInScope(){
   const emIm={}; EU_ITEMS.forEach(x=>{ if(x.im&&x.im.trim()) emIm[x.it]=x.im.trim(); });
@@ -878,16 +918,27 @@ function openVersionBoard(){
     return;
   }
   const regs=unRegsInScope();
-  let expiredCnt=0, trs='';
+  let expiredCnt=0, legalCnt=0, trs='';
   regs.forEach(rg=>{
     const t=regSeriesTimeline(rg.no); if(!t||!t.series.length) return;
     const euRef=EU_REF_SERIES[rg.no];
     const span=t.series.length;
+    const tpReg=UNECE_TP[rg.no]||{};
     t.series.forEach((s,idx)=>{
       if(s.expired) expiredCnt++;
+      const tp=tpReg[s2(s.n)]||{};
       const isLatest=s.n===t.latest;
       const stat=s.future?'<span class="vb-b unk">未生效</span>':(isLatest?'<span class="vb-b cur">现行</span>':(s.expired?'<span class="vb-b behind">已被取代</span>':'<span class="vb-b unk">在行</span>'));
       const euBadge=(euRef!=null&&+euRef===s.n)?' <span class="vb-eu">EU 门槛</span>':'';
+      // 生效日 + 新型式须合规日(Col4)
+      let eifCell=`${s.eif}`;
+      if(tp.c4) eifCell+=`<div class="vb-c4">新型式须合规 ${d2iso(tp.c4)}</div>`;
+      else if(tp.c4n) eifCell+=`<div class="vb-c4"><span class="vb-fn" title="${_esc(tp.c4n)}">新型式须合规：按类别/脚注 ⓘ</span></div>`;
+      // 失效日：优先 UNECE Col5 法定失效日；否则脚注；否则被取代日(代理)
+      let failCell;
+      if(tp.c5){ legalCnt++; failCell=`<b title="UNECE Col5「老证书失效日」">${d2iso(tp.c5)}</b> <span class="vb-legal">法定失效</span>`; }
+      else if(tp.c5n){ const d=(tp.c5n.match(/\d{2}-\d{2}-\d{4}/)||[''])[0]; failCell=`${d?d2iso(d):''} <span class="vb-fn" title="${_esc(tp.c5n)}">脚注 ⓘ</span>`; }
+      else failCell=s.supEif?`<span class="vb-proxy" title="下一系列生效日，非法定失效">${s.supEif}<span class="vb-proxy-t"> 被取代</span></span>`:'<span class="vb-eif">—（现行）</span>';
       trs+=`<tr class="${s.expired?'vb-row-b':''}">`;
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
@@ -897,19 +948,19 @@ function openVersionBoard(){
         trs+=`<td rowspan="${span}"><div class="vb-euver">引用系列：${euver}</div>${euim}</td>`;
         trs+=`<td rowspan="${span}">${t.latest!=null?`<b>${s2(t.latest)} series</b>`:'—'}</td>`;
       }
-      trs+=`<td>${s2(s.n)} series${euBadge}</td><td>${s.eif}</td><td>${s.supEif?s.supEif:'<span class="vb-eif">—（现行）</span>'}</td><td>${stat}</td></tr>`;
+      trs+=`<td>${s2(s.n)} series${euBadge}</td><td>${eifCell}</td><td>${failCell}</td><td>${stat}</td></tr>`;
     });
   });
   const body=`<div style="padding:12px 15px">
-    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · 共 <b>${expiredCnt}</b> 个已被取代系列（<span class="vb-k behind">红行</span>）· UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
-    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日</th><th>失效/被取代日</th><th>状态</th></tr></thead>
+    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${expiredCnt}</b> 个已被取代系列（<span class="vb-k behind">红行</span>）· <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
+    <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日 /<br>新型式强制日</th><th>失效日<br>(法定 / 被取代)</th><th>状态</th></tr></thead>
     <tbody>${trs}</tbody></table></div>
   </div>`;
   emkModal('版本时效自查表 · 各系列生效 / 失效时间',body,
     '<b>官方依据（可据此回复质疑）：</b><br>'+
-    '① <b>UN 系列时效</b> — 各系列生效日源自 UNECE 状态表（ECE/TRANS/WP.29/343）；表中「失效/被取代日」= 下一系列生效日（新型式自该日须转下一系列），红行=已被更新系列取代。<b>被取代≠法定作废</b>：据 <b>ECE/TRANS/WP.29/1044/Rev.3 §25 及图1注</b>，既有 UN 型批 remain valid，缔约方"不再有义务接受"的截止以该法规过渡条款 <b>Date (b)/(c)</b> 为准（点「过渡条款速查」）；Date (b)/(c) 精确值尚未逐条入库。<br>'+
+    '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 均据 <b>UNECE 官方「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」，<b>权威但稀疏</b>——59 部里仅少数系列有(如 R11/R17/R26)。其余系列该文件 Col5 为空，表中「失效日」退回「<span class="vb-proxy">被取代</span>」代理(=下一系列生效日)。<b>被取代≠法定作废</b>：据 <b>WP.29/1044/Rev.3 §25 及图1注</b>，既有 UN 型批 remain valid，缔约方"不再有义务接受"的真正截止以该法规过渡条款 <b>Date (b)/(c)</b> 为准(多数写在各法规脚注散文，未结构化入本表)；「新型式强制日」按类别/脚注限定的以「ⓘ」悬停查原文。<br>'+
     '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 以升级系列，故常低于 UNECE 最新系列（属正常，非"落后"）。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
-    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源 data/unece_status.json（UNECE）+ (EU) 2019/2144 Annex I/II（EU_REF_SERIES / EU_ITEMS）。');
+    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){
