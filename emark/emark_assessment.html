@@ -55,6 +55,11 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .arow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:8px}
 .arow .al{font-size:13.5px}
 .arow .al b{font-weight:700}.arow .al small{color:var(--grey);font-size:12px}
+/* 拆分组：分组标题 + 缩进子行 */
+.arow-gh{font-size:13px;color:var(--ink);background:var(--cream);border-radius:9px;padding:9px 14px;margin:12px 0 6px}
+.arow-gh b{font-weight:800}.arow-gh small{color:var(--od);font-size:11.5px;margin-left:2px}
+.ghico{color:var(--o);font-weight:800;margin-right:6px}
+.arow-sub{margin-left:20px;border-left:3px solid var(--ol)}
 .seg{display:flex;gap:0;border:1.5px solid var(--line);border-radius:8px;overflow:hidden}
 .seg button{font-family:inherit;font-size:12px;font-weight:600;border:none;background:#fff;padding:8px 12px;cursor:pointer;color:var(--grey);border-right:1px solid var(--line)}
 .seg button:last-child{border-right:none}
@@ -1314,22 +1319,49 @@ function go(n){cur=n;render();window.scrollTo({top:0,behavior:'smooth'});}
 // 侧边栏跳步不设关卡（业主要求，便于随时检查任意步）；「下一步」按钮仍保留必填校验作引导
 function goStep(n){ if(n!==cur) go(n); }
 
+// ===== 捆绑多法规盘点项 → 逐条子项展开（业主指示：拆开，保留分组标题+子行）=====
+// 一个盘点项若对应多条不同 UN 法规（灯具/信号/防盗/轮胎/噪声簇），展开为每条法规一行，各自独立版本/国互认/自评。
+const SPLIT_REGS={
+  C10:['30','117'],
+  D3:['97','116','161','162','163'],
+  D11:['4','6','7','19','23','38','77','87','91','148'],
+  D12:['31','98','112','119','123','149'],
+  D13:['3','104','150'],
+  D14:['37','99','128'],
+  G1:['51','59']
+};
+const SUB_CN={'51':'噪声排放（M/N 类车辆）','59':'替换消声系统'};   // 不在 REG_META 内的补名
+function _srNN(sr){ if(!sr) return ''; if(/原始版/.test(sr)) return '00'; const m=/(\d{2})\s*series/i.exec(sr); return m?m[1]:''; }
+// 生成某捆绑项的子项数组（合成 item，复用既有徽标/版本渲染）；名称与引用系列取自 REG_META
+function subItemsOf(p){
+  const nos=SPLIT_REGS[p.item]; if(!nos) return null;
+  return nos.map(no=>{
+    const rm=REG_META[no]||{}; const nn=_srNN(rm.sr);
+    return {item:p.item+'#'+no, cn:(rm.s||SUB_CN[no]||('UN R'+no)), reg:'UN R'+no+(nn?'.'+nn:''),
+            mark:'E', tc:p.tc, g:p.g, eif:'', _parent:p.item, _pcn:p.cn, _no:no};
+  });
+}
 function applicable(){
+  let base;
   // 产品/系统精选优先：用户点选后精确锁定对应法规项。id 命中 PARTS→展开其 items；否则视为原始 item 编码（系统集成商按系统选）
   if(sel.parts&&sel.parts.length){
     const set=new Set(sel.parts.flatMap(id=>{const p=PARTS.find(x=>x.id===id);return p?p.items:[id];}));
-    return ITEMS.filter(i=>set.has(i.item));
+    base=ITEMS.filter(i=>set.has(i.item));
+  } else {
+    // 分类组筛选（不选=全部）+ 角色聚焦：STU=可独立认证条目；售后件=显式独立认证条目
+    let gs=sel.groups.length?sel.groups:Object.keys(GROUPS);
+    base=ITEMS.filter(i=>gs.includes(i.g));
+    if(sel.role==='STU') base=base.filter(i=>i.tc!=='VEHICLE');
+    else if(sel.role==='AFTER') base=base.filter(i=>i.tc==='EXPLICIT');
+    else if(sel.role==='OEM' && sel.cats && sel.cats.length){
+      // 按车型硬收敛：项适用车型与所选车型有交集才保留；车型为空(通用/rollup)始终保留
+      base=base.filter(i=>{const cs=ITEM_CATS[i.item]||[]; return !cs.length || cs.some(c=>sel.cats.includes(c));});
+    }
   }
-  // 分类组筛选（不选=全部）+ 角色聚焦：STU=可独立认证条目；售后件=显式独立认证条目
-  let gs=sel.groups.length?sel.groups:Object.keys(GROUPS);
-  let base=ITEMS.filter(i=>gs.includes(i.g));
-  if(sel.role==='STU') base=base.filter(i=>i.tc!=='VEHICLE');
-  else if(sel.role==='AFTER') base=base.filter(i=>i.tc==='EXPLICIT');
-  else if(sel.role==='OEM' && sel.cats && sel.cats.length){
-    // 按车型硬收敛：项适用车型与所选车型有交集才保留；车型为空(通用/rollup)始终保留
-    base=base.filter(i=>{const cs=ITEM_CATS[i.item]||[]; return !cs.length || cs.some(c=>sel.cats.includes(c));});
-  }
-  return base;
+  // 捆绑项逐条展开为叶子法规（每条 UN 法规独立成行）
+  const out=[];
+  base.forEach(i=>{ const subs=subItemsOf(i); if(subs) out.push(...subs); else out.push(i); });
+  return out;
 }
 function focusNote(){
   if(sel.parts&&sel.parts.length) return '';
@@ -1681,14 +1713,25 @@ function certConclusionCard(){
 function step3(){
   const items=applicable();
   items.forEach(i=>{if(!regStatus[i.item])regStatus[i.item]='unk';});
-  const rows=items.map(i=>`<div class="arow${powNA(i)?' pt-na':''}" id="row-${i.item}">
-     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${VEH[i.item]?`<span class="vehb">${VEH[i.item]}</span>`:''}${iwvtaChip(i)}${srcChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}${powTag(i)}</div>
+  let lastP=null;
+  const rows=items.map(i=>{
+    // 拆分组的分组标题（首个子行前插入一次）
+    let gh='';
+    if(i._parent && i._parent!==lastP){
+      const n=(SPLIT_REGS[i._parent]||[]).length;
+      gh=`<div class="arow-gh"><span class="ghico">▾</span><b>${i._pcn}</b> <small>${i._parent} · ${n} 项 UN 法规，逐条自评</small>${VEH[i._parent]?`<span class="vehb">${VEH[i._parent]}</span>`:''}</div>`;
+    }
+    lastP=i._parent||null;
+    const cls='arow'+(powNA(i)?' pt-na':'')+(i._parent?' arow-sub':'');
+    return gh+`<div class="${cls}" id="row-${i.item}">
+     <div class="al"><b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${(!i._parent&&VEH[i.item])?`<span class="vehb">${VEH[i.item]}</span>`:''}${iwvtaChip(i)}${srcChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}${powTag(i)}</div>
      <div class="seg" data-item="${i.item}">
        <button class="${regStatus[i.item]==='done'?'on done-b':''}" data-v="done">已认证</button>
        <button class="${regStatus[i.item]==='prog'?'on prog-b':''}" data-v="prog">进行中</button>
        <button class="${regStatus[i.item]==='no'?'on no-b':''}" data-v="no">未开始</button>
        <button class="${regStatus[i.item]==='unk'?'on unk-b':''}" data-v="unk">不清楚</button>
-     </div></div>`).join('');
+     </div></div>`;
+  }).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 3 / 6 · 法规盘点（X 轴）</div>
     <h2 class="st">逐条自评法规认证状态</h2>
