@@ -1554,7 +1554,7 @@ function reachData(){
     EMARK_ACCEPT.accepts.forEach(([cn,note])=>rows.push({cn,tag:'ok',tagT:'采信',note}));
     EMARK_ACCEPT.refs.forEach(([cn,note])=>rows.push({cn,tag:'ref',tagT:'参照',note}));
   }
-  EMARK_ACCEPT.own.forEach(([cn,note])=>rows.push({cn,tag:'own',tagT:'自有·不直接采信',note}));
+  // 自有·不直接采信（中国/巴西等）不进可通行名单（业主指示）
   return {oem,rows};
 }
 function reachFilter(v){ v=(v||'').trim().toLowerCase(); document.querySelectorAll('#rc-list .rc-row').forEach(r=>{ r.style.display=(!v||(r.dataset.n||'').toLowerCase().includes(v))?'':'none'; }); }
