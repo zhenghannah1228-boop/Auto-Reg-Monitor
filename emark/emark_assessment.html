@@ -328,6 +328,22 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .pchip.on{border-color:var(--o);background:var(--cream);color:var(--od);font-weight:700}
 .pchip.on small{color:var(--od)}
 .sys-basis{font-size:11.5px;color:var(--grey);background:#F4F6F9;border-left:3px solid var(--blue);border-radius:6px;padding:8px 11px;line-height:1.6;margin-bottom:6px}
+/* 认证与通行结论卡 */
+.cc{background:var(--cream);border:1px solid var(--ol);border-radius:12px;padding:15px 17px;margin:6px 0 18px}
+.cc-h{font-size:14px;font-weight:800;color:var(--od);margin-bottom:11px}.cc-h small{font-weight:400;color:var(--grey);font-size:11.5px}
+.cc-sec{font-size:12.8px;line-height:1.7;color:var(--ink2);margin-bottom:9px}
+.cc-k{display:inline-block;font-weight:800;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:6px;padding:1px 8px;margin-right:7px}
+.cc-E{color:var(--od);font-weight:700}.cc-e{color:var(--blue);font-weight:700}
+.cc-tier{font-size:12.5px;line-height:1.65;color:var(--ink2);margin:7px 0;padding-left:2px}
+.cc-badge{display:inline-block;font-size:11px;font-weight:700;color:#fff;border-radius:5px;padding:2px 8px;margin-right:7px;vertical-align:1px}
+.cc-badge.a{background:var(--green)}.cc-badge.b{background:var(--blue)}.cc-badge.e{background:var(--o)}
+.cc-bnote{font-size:11px;color:var(--grey)}
+.cc-grp{margin:6px 0 4px;padding:7px 10px;border-radius:7px;background:#fff;border:1px solid var(--line)}
+.cc-grp.ok{border-left:3px solid var(--green)}.cc-grp.ref{border-left:3px solid var(--blue)}.cc-grp.own{border-left:3px solid var(--grey)}
+.cc-gt{font-size:11.5px;font-weight:700;color:var(--od);margin-bottom:3px}
+.cc-row{font-size:11.5px;line-height:1.55;display:flex;gap:8px;padding:1px 0}
+.cc-n{font-weight:700;color:var(--ink);white-space:nowrap;min-width:88px}.cc-d{color:var(--grey)}
+.cc-src{font-size:10.5px;color:var(--greyl);line-height:1.5;border-top:1px dashed var(--ol);padding-top:8px;margin-top:6px}
 .sysdom{font-size:11.5px;font-weight:800;color:var(--od);margin:14px 0 8px;letter-spacing:.02em}
 .sysdom:first-of-type{margin-top:4px}
 .layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
@@ -1436,6 +1452,13 @@ const REG_APPTYPE={
  "3":"component","4":"component","6":"component","7":"component","19":"component","23":"component","31":"component","37":"component","38":"component","77":"component",
  "87":"component","91":"component","98":"component","99":"component","104":"component","112":"component","117":"component","119":"component","123":"component","128":"component","148":"component","149":"component","150":"component"
 };
+// E-mark 在非 1958 缔约国的采信情况（研究整理，带来源；采信程度逐国不同·个案核实）
+const EMARK_ACCEPT={
+ accepts:[['以色列','IMR 2025 对齐欧盟 2018/858 整车型批，接受欧盟 COC（基于 UN 法规）'],['墨西哥','NOM-194-SE-2021 允许按 UNECE 择一符合（限轻型车安全部件，经 NOM 评定）']],
+ refs:[['海湾 GCC 六国','沙特/阿联酋/卡塔尔/科威特/巴林/阿曼——GSO 技术法规引用 ECE，最终仍需 GCC 符合性证书'],['印度','AIS-037 可凭 E 标证书与报告在流程/限值一致处免测（部件层·逐案，仍发印度 TAC）'],['印度尼西亚','2022 起实施首批 19 项 UN 法规，部件型批基于 UN-R；SNI 并行'],['新加坡','LTA VITAS 接受 UN ECE 型批/测试报告作注册依据（如 EV 的 UN R100）'],['阿根廷 / 智利','国家法规借用 ECE 条文，但欧洲证本身不放行，需本地认证（INTI 等）']],
+ own:[['中国','CCC / GB 强制，E 标不直接采信（GB 技术上参照 ECE）'],['巴西','INMETRO / CONTRAN 本地认证，ECE 一般不自动采信']]
+};
+const EMARK_SRC='来源：GSO/SASO、以色列 IMR 2025、印度 AIS-037、墨西哥 NOM-194-SE-2021、新加坡 LTA VITAS、印尼 GAIKINDO 等公开资料（2026-07 检索）。约旦/阿尔及利亚/肯尼亚/哥伦比亚/越南等未获确切依据，归「个案核实」。采信非强制互认，以各国主管机关最新要求为准。';
 // 某项是否「纯独立部件」（其全部 UN R 均为 component）→ 归售后件，不进系统集成商
 function itemComponentOnly(i){
   const nos=(regTokens(i.reg)||[]).map(k=>k.replace(/^UN R/,''));
@@ -1456,37 +1479,27 @@ function stuPicker(){
 }
 function step2(){
   const roles=[['OEM','OEM 整车厂','整车 WVTA，需盘点全系统'],['STU','系统集成商','系统作为技术单元认证'],['AFTER','售后件供应商','独立部件/替换件认证']];
-  // 口径说明：欧盟本身是 1958 协定缔约方（子集关系，非并列）；大E/小e 由「该项有无 UN 法规」决定，不由市场选择决定
-  const markets=[
-   ['EU','仅欧盟市场','有 UN 法规的项打大 E（欧盟必须接受，Art 57/58）；仅 EU 条例项打小 e'],
-   ['BOTH','欧盟 + 其他 1958 缔约方','大 E 一证多国互认（英/日/韩/澳等）；小 e 项出欧盟无效']];
-  const MARKET_FB={
-   EU:'欧盟也是 1958 缔约方：大 E 证书在欧盟有效且必须被接受（2018/858 Art 57/58）——不存在「为了欧盟单独改打小 e」的问题；小 e 只用于无 UN 法规的项。',
-   BOTH:`注意：盘点中「小 e」项（仅 EU 条例覆盖）只解决欧盟部分，出欧盟需按各缔约方当地要求另行处理。`};
   const pchips=PARTS.map(p=>`<button class="pchip ${sel.parts.includes(p.id)?'on':''}" data-part="${p.id}">${p.n}<small>${p.r}</small></button>`).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 2 / 6 · 范围界定</div>
     <h2 class="st">你的企业与产品范围</h2>
-    <p class="lead">选定角色、目标市场与产品/车型范围，系统据此圈定「适用法规集」。</p>
+    <p class="lead">选定角色与产品/车型范围，系统据此圈定「适用法规集」，并<b>自动判断需做的认证与可通行国家</b>（不必再选目标市场）。</p>
     <div class="secttl">① 你的角色</div>
     <div class="opts g3">${roles.map(r=>`<button class="opt ${sel.role===r[0]?'sel':''}" data-role="${r[0]}"><div class="ot">${r[1]}</div><div class="od">${r[2]}</div></button>`).join('')}</div>
     ${sel.role&&ROLE_FB[sel.role]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${ROLE_FB[sel.role]}</div>`:''}
     ${focusNote()}
-    <div class="secttl">② 目标市场</div>
-    <div class="opts g3">${markets.map(m=>`<button class="opt ${sel.market===m[0]?'sel':''}" data-mkt="${m[0]}"><div class="ot">${m[1]}</div></button>`).join('')}</div>
-    ${sel.market&&MARKET_FB[sel.market]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${MARKET_FB[sel.market]}</div>`:''}
     ${sel.role==='OEM'? oemScopeHTML() : sel.role==='STU'? `
-    <div class="secttl">③ 按系统选（可多选，只出你要认证的技术单元对应法规；不选=全部可独立认证系统）</div>
+    <div class="secttl">② 按系统选（可多选，只出你要认证的技术单元对应法规；不选=全部可独立认证系统）</div>
     ${stuPicker()}
     ${sel.parts.length?`<div class="probe">已按系统精选，适用法规锁定为 <b>${applicable().length}</b> 条。</div>`:''}` : `
-    <div class="secttl">③ 按产品精选（推荐 · 可多选，只出你产品对应的法规）</div>
+    <div class="secttl">② 按产品精选（推荐 · 可多选，只出你产品对应的法规）</div>
     <div class="pchips">${pchips}</div>
     ${sel.parts.length?`<div class="probe">已按产品精选，适用法规锁定为 <b>${applicable().length}</b> 条。</div>`:''}`}
     <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="toStep3()">下一步：法规盘点 →</button></div>
   </div>`;
 }
 function toStep3(){
-  if(!sel.role||!sel.market){alert('请先选择角色和目标市场');return;}
+  if(!sel.role){alert('请先选择角色');return;}
   go(3);
 }
 
@@ -1577,6 +1590,29 @@ function structHTML(items){
     <div class="slegend">${Object.keys(STAT_LAB).map(k=>`<span><i style="background:${STAT_COL[k].bg}"></i>${STAT_LAB[k]}</span>`).join('')}</div>
   </div>`;
 }
+// 认证与通行结论卡（据角色+产品自动生成，替代原「目标市场」选择）——回答：做什么认证 / 按什么版本 / 哪些国家可通行
+function certConclusionCard(){
+  const items=applicable();
+  const big=items.filter(i=>/UN\s*R\s?\d/i.test(i.reg||''));
+  const small=items.filter(i=>!/UN\s*R\s?\d/i.test(i.reg||''));
+  const roleTxt={OEM:'整车 WVTA（需盘点全系统）',STU:'系统 / 技术单元(STU) 认证',AFTER:'售后件 / 独立部件认证'}[sel.role]||'—';
+  const grp=(title,arr,cls)=>`<div class="cc-grp ${cls}"><div class="cc-gt">${title}</div>${arr.map(([n,d])=>`<div class="cc-row"><span class="cc-n">${n}</span><span class="cc-d">${d}</span></div>`).join('')}</div>`;
+  return `<div class="cc">
+    <div class="cc-h">认证与通行结论　<small>据角色 + 产品自动生成</small></div>
+    <div class="cc-sec"><span class="cc-k">① 需做的认证</span>适用 <b>${items.length}</b> 项 —— <span class="cc-E">大 E ${big.length} 项</span>（有 UN 法规·一证多国互认）／ <span class="cc-e">小 e ${small.length} 项</span>（仅 EU 法规）。角色：<b>${roleTxt}</b>。</div>
+    <div class="cc-sec"><span class="cc-k">② 认证版本口径</span>做证按 <b>(EU) 2019/2144 Annex I</b> 钉定的 UN 系列；<b>WVTA / 采信方接受</b> = 该系列 <b>+</b> 更高/等效 UN 系列 <b>+</b> 过渡期内老证。（逐条见「版本时效自查表」。）</div>
+    <div class="cc-sec"><span class="cc-k">③ 可通行国家</span>
+      <div class="cc-tier"><span class="cc-badge a">A · 强制互认</span><b>1958 缔约方 约 63 国</b>（欧盟 27 + 英/日/韩/俄/土/澳/新/马/泰/南非/埃及等非欧盟缔约方）——按 2018/858 Art 57/58，对其<b>已采用</b>的 UN 法规<b>强制接受</b>你的大 E 证（核心法规约 44 国广泛采用；R155/R171 等新法规采用国较少，逐项以缔约方数据为准）。</div>
+      <div class="cc-tier"><span class="cc-badge b">B · 采信 / 参照</span><span class="cc-bnote">非缔约国，采信程度逐国不同·个案核实</span>
+        ${grp('采信（经欧盟 / UNECE 路径）',EMARK_ACCEPT.accepts,'ok')}
+        ${grp('参照（仍需本国认证）',EMARK_ACCEPT.refs,'ref')}
+        ${grp('自有体系 · E 标不直接采信',EMARK_ACCEPT.own,'own')}
+      </div>
+      ${small.length?`<div class="cc-tier"><span class="cc-badge e">小 e · ${small.length} 项</span>仅欧盟有效；出欧盟到其他缔约方 / 市场需当地另办。</div>`:''}
+    </div>
+    <div class="cc-src">${EMARK_SRC}</div>
+  </div>`;
+}
 function step3(){
   const items=applicable();
   items.forEach(i=>{if(!regStatus[i.item])regStatus[i.item]='unk';});
@@ -1592,6 +1628,7 @@ function step3(){
     <div class="eyebrow">STEP 3 / 6 · 法规盘点（X 轴）</div>
     <h2 class="st">逐条自评法规认证状态</h2>
     ${focusNote()}
+    ${certConclusionCard()}
     <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
     ${verBanner()}
     <div class="s3-view"><button class="s3-toggle" onclick="_structOn=!_structOn;render()">${_structOn?'◱ 收起结构总览':'◲ 展开结构总览'}</button></div>
@@ -2122,7 +2159,6 @@ function bind(){
     render();
   });
   document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{if(sel.role!==b.dataset.role){sel.parts=[];sel.cats=[];sel.powers=[];}sel.role=b.dataset.role;render();});
-  document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{sel.market=b.dataset.mkt;render();});
   document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const g=b.dataset.part;const i=sel.parts.indexOf(g);if(i>=0)sel.parts.splice(i,1);else sel.parts.push(g);render();});
   document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{const cs=b.dataset.cat.split(',');const all=cs.every(c=>sel.cats.includes(c));if(all)sel.cats=sel.cats.filter(c=>!cs.includes(c));else cs.forEach(c=>{if(!sel.cats.includes(c))sel.cats.push(c);});render();});
   document.querySelectorAll('[data-pow]').forEach(b=>b.onclick=()=>{const k=b.dataset.pow;const i=sel.powers.indexOf(k);if(i>=0)sel.powers.splice(i,1);else sel.powers.push(k);render();});
