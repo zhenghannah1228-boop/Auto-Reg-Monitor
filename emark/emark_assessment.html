@@ -94,6 +94,7 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .vb-tbl td{vertical-align:top}
 .vb-tbl .vb-eif{color:var(--grey)}
 .vb-tpnote{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--od);background:#FBF3E8;border-radius:5px;padding:4px 6px}
+.vb-fnnote{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--blue);background:#EEF3FA;border-radius:5px;padding:4px 6px}
 .vb-eu-na{color:var(--greyl);font-size:11px}
 .vb-euver{font-size:11.5px;color:var(--ink2)}
 .vb-euim{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--blue);background:#EEF3FA;border-radius:5px;padding:4px 6px}
@@ -899,6 +900,11 @@ const UNECE_TP={
  "129":{"01":{"c4":"01-09-2018"},"02":{"c4":"01-09-2022"}},
  "13-H":{"01":{"c4":"01-09-2018"}}
 };
+// 过渡条款脚注(源=UNECE「Entry dates – ECE Regulations」脚注,已按脚注标记正确对应到法规、非按编号)
+const UNECE_FN={
+ "12":"过渡脚注：1997-12-25 起，缔约方停止签发含气囊的转向机构新型式批准（FN16）；2015-06-23 起，对装高压电动力总成的车辆不再给前序系列批准延伸（FN17）。",
+ "110":"过渡脚注（FN126）：2024-09-01 起，缔约方接受在 2022-09-01 前首次签发的前序系列批准；2022-09-01 之后签发的前序系列批准「可」接受（非强制）。"
+};
 function d2iso(s){const m=/^(\d{2})-(\d{2})-(\d{4})$/.exec(s||'');return m?m[3]+'-'+m[2]+'-'+m[1]:(s||'');}
 function _esc(s){return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 // 工具涉及的 UN R 编号 → 覆盖主题 + EU 强制适用日（据 (EU) 2019/2144 Art 16 + Annex II，存于 EU_ITEMS.im）
@@ -942,7 +948,8 @@ function openVersionBoard(){
       trs+=`<tr class="${s.expired?'vb-row-b':''}">`;
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
-        trs+=`<td rowspan="${span}"><b>UN R${rg.no}</b><br><small>${rg.subjects.slice(0,3).join('、')}${rg.subjects.length>3?'…':''}</small>${note}</td>`;
+        const fn=UNECE_FN[rg.no]?`<div class="vb-fnnote">⏳ ${UNECE_FN[rg.no]}</div>`:'';
+        trs+=`<td rowspan="${span}"><b>UN R${rg.no}</b><br><small>${rg.subjects.slice(0,3).join('、')}${rg.subjects.length>3?'…':''}</small>${note}${fn}</td>`;
         const euver=euRef!=null?`<b>${euRef==='00'?'Original':s2(euRef)+' series'}</b>`:'<span class="vb-eu-na" title="Annex I 未列此 UN 法规">未列入 Annex I</span>';
         const euim=rg.ims.length?`<div class="vb-euim"><span class="vb-euim-h">强制适用日</span>${rg.ims.map(x=>`<div>${x}</div>`).join('')}</div>`:'<div class="vb-euim vb-euim-na">强制适用日：见 EU 型批全表</div>';
         trs+=`<td rowspan="${span}"><div class="vb-euver">引用系列：${euver}</div>${euim}</td>`;
