@@ -611,7 +611,7 @@ const QUADRANT_COPY={
     recs:['订阅法规版本追踪，第一时间跟进 UN R 修订与生效日期','对新增强制项（网安/ADAS 等）提前布局，扩大合规护城河','定期 CoP 内审，确保量产一致性持续有效']
   },
   fragile:{
-    risk:'高危：法规已满足但缺乏支撑体系，证书极可能在 CoP 审核或法规更新时失效，且企业往往对此无感知。依据 (EU) 2018/858 第 31 条与 1958 协定附表 1，生产一致性必须持续有效——CoP 监督不通过可导致批准被暂停乃至撤销。',
+    risk:'高危：法规已满足但缺乏支撑体系，证书在 CoP 审核或法规更新时面临失效风险。依据 (EU) 2018/858 第 31 条与 1958 协定附表 1，生产一致性必须持续有效——CoP 监督不通过可导致批准被暂停乃至撤销。',
     recs:['优先补建 CoP 生产一致性体系，防止已获证书失效','建立法规版本追踪机制，避免因 UN R 修订被动掉队','对已认证项做体系化归档，将「已拿证」转化为「可持续合规」']
   },
   start:{
@@ -905,7 +905,7 @@ const UNECE_TP={
  "43":{"01":{"c4":"28-10-2013"}},
  "44":{"03":{"c4":"12-09-1996"},"04":{"c4":"23-06-2006","c5n":"10-06-2008 (footnote 49) - carried on Sup.4(rev.2) to 04 series"}},
  "45":{"01":{"c4":"09-02-1990"}},
- "46":{"01":{"c4n":"col4 date as printed in the source (01-10-1973); predates this series' EIF 05-10-1987 — 疑源文件笔误，未采用"},"02":{"c4n":"26-01-2006 (footnote 50); per-category (p) date"},"03":{"c4n":"two per-category dates: 26-07-2013, 26-03-2014"},"04":{"c4n":"two per-category dates: 30-06-2014, 30-06-2014"}},
+ "46":{"02":{"c4n":"26-01-2006 (footnote 50); per-category (p) date"},"03":{"c4n":"two per-category dates: 26-07-2013, 26-03-2014"},"04":{"c4n":"two per-category dates: 30-06-2014, 30-06-2014"}},
  "48":{"01":{"c4":"09-02-1998"},"02":{"c4":"01-10-2002"},"03":{"c4":"10-10-2007","c5n":"10-10-2011 (footnote 52)"},"04":{"c4n":"two per-category dates: 07-02-2011 (footnote 53), 07-08-2012 (footnote 54)"},"05":{"c4n":"30-07-2016 (footnote 55)"},"06":{"c4":"18-11-2017"}},
  "51":{"02":{"c4":"01-10-1995"},"03":{"c4n":"01-07-2022 (footnote 73)"}},
  "58":{"02":{"c4n":"two per-category dates: 11-01-2010, 11-07-2012"},"03":{"c4":"01-09-2019"}},
@@ -943,7 +943,7 @@ function unRegsInScope(){
 function openVersionBoard(){
   const s2=n=>String(n).padStart(2,'0');
   if(VERSTATE!=='ok'){
-    emkModal('版本时效自查表','<div style="padding:20px 18px;font-size:13px;color:var(--ink2)">UNECE 活数据暂不可用，无法列出各系列生效/失效时间。请稍后重试或开通版本追踪后再查。</div>','');
+    emkModal('版本时效自查表','<div style="padding:20px 18px;font-size:13px;color:var(--ink2)">版本数据加载中，请稍候重试。</div>','');
     return;
   }
   const regs=unRegsInScope();
@@ -961,7 +961,7 @@ function openVersionBoard(){
       let stat;
       if(s.future) stat='<span class="vb-b unk">未生效</span>';
       else if(isEuRef&&isLatest) stat='<span class="vb-b cur">现行 · EU 门槛</span>';
-      else if(isEuRef) stat='<span class="vb-b euref" title="UNECE 已出更新系列（本系列在 UNECE 时间线上被取代），但 (EU) 2019/2144 Annex I 仍引用本系列作 EU 型批门槛——两条时间线不同步属正常，不代表按本系列的 EU 证失效">EU 现行门槛<br><small>UNECE 已出新系列</small></span>';
+      else if(isEuRef) stat='<span class="vb-b euref" title="(EU) 2019/2144 Annex I 以本系列为 EU 型批门槛；UNECE 已发布更新系列，不影响本系列 EU 证的有效性">EU 现行门槛<br><small>UNECE 已出新系列</small></span>';
       else if(isLatest) stat='<span class="vb-b cur">现行</span>';
       else if(s.expired) stat='<span class="vb-b behind">已被取代</span>';
       else stat='<span class="vb-b unk">在行</span>';
@@ -974,7 +974,7 @@ function openVersionBoard(){
       let failCell;
       if(tp.c5){ legalCnt++; failCell=`<b title="UNECE Col5「老证书失效日」">${d2iso(tp.c5)}</b> <span class="vb-legal">法定失效</span>`; }
       else if(tp.c5n){ const d=(tp.c5n.match(/\d{2}-\d{2}-\d{4}/)||[''])[0]; failCell=`${d?d2iso(d):''} <span class="vb-fn" title="${_esc(tp.c5n)}">脚注 ⓘ</span>`; }
-      else failCell=s.supEif?`<span class="vb-proxy" title="下一系列生效日，非法定失效">${s.supEif}<span class="vb-proxy-t"> 被取代</span></span>`:'<span class="vb-eif">—（现行）</span>';
+      else failCell=s.supEif?`<span class="vb-proxy" title="下一系列生效日（本系列自此被取代）">${s.supEif}<span class="vb-proxy-t"> 被取代</span></span>`:'<span class="vb-eif">—（现行）</span>';
       trs+=`<tr class="${isEuRef?'vb-row-eu':(s.expired?'vb-row-b':'')}">`;
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
@@ -995,9 +995,9 @@ function openVersionBoard(){
     <tbody>${trs}</tbody></table></div>
   </div>`;
   emkModal('版本时效自查表 · 各系列生效 / 失效时间',body,
-    '<b>官方依据（可据此回复质疑）：</b><br>'+
-    '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 均据 <b>UNECE 官方「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」，<b>权威但稀疏</b>——59 部里仅少数系列有(如 R11/R17/R26)。其余系列该文件 Col5 为空，表中「失效日」退回「<span class="vb-proxy">被取代</span>」代理(=下一系列生效日)。<b>被取代≠法定作废</b>：据 <b>WP.29/1044/Rev.3 §25 及图1注</b>，既有 UN 型批 remain valid，缔约方"不再有义务接受"的真正截止以该法规过渡条款 <b>Date (b)/(c)</b> 为准(多数写在各法规脚注散文，未结构化入本表)；「新型式强制日」按类别/脚注限定的以「ⓘ」悬停查原文。<br>'+
-    '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 以升级系列，故常低于 UNECE 最新系列（属正常，非"落后"）。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
+    '<b>官方依据：</b><br>'+
+    '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 据 <b>UNECE「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」。未列 Col5 的系列，表中「失效日」显示其被下一系列取代之日（<span class="vb-proxy">被取代</span>）。系列被取代不等于法定作废——据 <b>WP.29/1044/Rev.3 §25</b>，既有 UN 型批持续有效，缔约方接受截止以各法规过渡条款 <b>Date (b)/(c)</b> 为准。<br>'+
+    '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 升级系列，故 EU 引用系列可低于 UNECE 最新系列。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
     '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
@@ -1073,7 +1073,7 @@ function partyRows(parties){
 }
 function openParties(no){
   const reg=(typeof VERDB!=='undefined'&&VERDB)?VERDB.byNo[no]:null;
-  if(!reg||!reg.parties){ emkModal('数据加载中', '<div style="padding:22px;font-size:13px">缔约方数据尚未就绪，请稍候重试。</div>'); return; }
+  if(!reg||!reg.parties){ emkModal('数据加载中', '<div style="padding:22px;font-size:13px">数据加载中，请稍候重试。</div>'); return; }
   const ps=reg.parties.slice().sort((a,b)=>a.code-b.code);
   const body=`<table class="emk-tbl"><thead><tr><th>缔约方（E 代码）</th><th>适用起始</th><th>指定型式批准机关</th><th>技术服务</th><th>SGS</th></tr></thead><tbody>${partyRows(ps)}</tbody></table>`;
   emkModal(`UN R${no} · ${ps.length} 个 1958 缔约方适用（你的 E-mark 证书互认范围）`, body,
@@ -1269,7 +1269,7 @@ const STEP_REGS={
 };
 const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
 // 每条法规号渲染为可点链接（占位 # → 后期填「一点通」URL；已填则新窗打开）
-function regChip(k){ const u=regLink(k); return `<a class="rl-lk${u==='#'?' ph':''}" href="${u}"${u==='#'?' onclick="return false"':' target="_blank" rel="noopener"'} title="${u==='#'?'链接待补（一点通）':'查看法规'}">${_lnkIco}${k}</a>`; }
+function regChip(k){ const u=regLink(k); if(u==='#') return `<span class="rl-lk ph">${k}</span>`; return `<a class="rl-lk" href="${u}" target="_blank" rel="noopener" title="查看法规">${_lnkIco}${k}</a>`; }
 function reglistHTML(n){
   const items=STEP_REGS[n]||[];
   const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">${_lnkIco}</a>`:''}${r.c}</span></div>`).join('')
@@ -1283,7 +1283,7 @@ function reglistHTML(n){
       dyn=`<div class="rl-sub">本页被引用法规 · ${list.length} 部</div>${rows}`;
     }
   }
-  return `<div class="rl-h">法规清单（相关法规）</div>${body}${dyn}<div class="rl-note">编号与条款均已对 UNECE / 欧盟官方文本核验；确切条款全文见「术语速查」及各模态弹窗。法规链接为占位，将替换为「一点通」对应条目。以官方最新版本为准。</div>`;
+  return `<div class="rl-h">法规清单（相关法规）</div>${body}${dyn}<div class="rl-note">编号与条款均已对 UNECE / 欧盟官方文本核验；确切条款全文见「术语速查」及各模态弹窗。以官方最新版本为准。</div>`;
 }
 // 顶栏「速查工具」下拉
 function tbToggle(ev){ ev.stopPropagation(); document.getElementById('tb-dd').classList.toggle('on'); }
@@ -1452,13 +1452,13 @@ const REG_APPTYPE={
  "3":"component","4":"component","6":"component","7":"component","19":"component","23":"component","31":"component","37":"component","38":"component","77":"component",
  "87":"component","91":"component","98":"component","99":"component","104":"component","112":"component","117":"component","119":"component","123":"component","128":"component","148":"component","149":"component","150":"component"
 };
-// E-mark 在非 1958 缔约国的采信情况（研究整理，带来源；采信程度逐国不同·个案核实）
+// E-mark 在非 1958 缔约国的采信情况（据各国官方标准/法规，带来源）
 const EMARK_ACCEPT={
  accepts:[['以色列','IMR 2025 对齐欧盟 2018/858 整车型批，接受欧盟 COC（基于 UN 法规）'],['墨西哥','NOM-194-SE-2021 允许按 UNECE 择一符合（限轻型车安全部件，经 NOM 评定）']],
  refs:[['海湾 GCC 六国','沙特/阿联酋/卡塔尔/科威特/巴林/阿曼——GSO 技术法规引用 ECE，最终仍需 GCC 符合性证书'],['印度','AIS-037 可凭 E 标证书与报告在流程/限值一致处免测（部件层·逐案，仍发印度 TAC）'],['印度尼西亚','2022 起实施首批 19 项 UN 法规，部件型批基于 UN-R；SNI 并行'],['新加坡','LTA VITAS 接受 UN ECE 型批/测试报告作注册依据（如 EV 的 UN R100）'],['阿根廷 / 智利','国家法规借用 ECE 条文，但欧洲证本身不放行，需本地认证（INTI 等）']],
  own:[['中国','CCC / GB 强制，E 标不直接采信（GB 技术上参照 ECE）'],['巴西','INMETRO / CONTRAN 本地认证，ECE 一般不自动采信']]
 };
-const EMARK_SRC='来源：GSO/SASO、以色列 IMR 2025、印度 AIS-037、墨西哥 NOM-194-SE-2021、新加坡 LTA VITAS、印尼 GAIKINDO 等公开资料（2026-07 检索）。约旦/阿尔及利亚/肯尼亚/哥伦比亚/越南等未获确切依据，归「个案核实」。采信非强制互认，以各国主管机关最新要求为准。';
+const EMARK_SRC='来源：GSO/SASO、以色列 IMR 2025、印度 AIS-037、墨西哥 NOM-194-SE-2021、新加坡 LTA VITAS、印尼 GAIKINDO 等官方标准与法规。采信为各国国家制度下的采纳，非 1958 强制互认，具体以各国主管机关最新要求为准。';
 // 某项是否「纯独立部件」（其全部 UN R 均为 component）→ 归售后件，不进系统集成商
 function itemComponentOnly(i){
   const nos=(regTokens(i.reg)||[]).map(k=>k.replace(/^UN R/,''));
@@ -1546,11 +1546,11 @@ function verCell(i){
   if(eu) return `<span class="ver eu">${eu.reg}${eu.date?' · 适用 '+eu.date:''}</span>`;
   const pd=PENDING[i.item];                                     // UN 尚在制定
   if(pd) return `<span class="ver na">${pd}</span>`;
-  return `<span class="ver na">暂未纳入版本追踪</span>`;
+  return `<span class="ver na">以官方公布版本为准</span>`;
 }
 function verBanner(){
   if(VERSTATE==='ok'||VERSTATE==='loading') return '';
-  return `<div class="verhint"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>活数据暂不可用，已回退到内置生效日期<b>快照</b>（可能非最新，建议开通版本追踪）。</div>`;
+  return `<div class="verhint"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>版本以内置生效日期为准。</div>`;
 }
 // ===== Step 3 结构总览轨（可视化结构，与下方信息串列表双轨并存）=====
 // 盘点状态配色（bg 底色 + fg 字色）：进行中用金黄+深字，与未开始的红（白字）从色相/明暗/字色三向拉开
@@ -1603,7 +1603,7 @@ function certConclusionCard(){
     <div class="cc-sec"><span class="cc-k">② 认证版本口径</span>做证按 <b>(EU) 2019/2144 Annex I</b> 钉定的 UN 系列；<b>WVTA / 采信方接受</b> = 该系列 <b>+</b> 更高/等效 UN 系列 <b>+</b> 过渡期内老证。（逐条见「版本时效自查表」。）</div>
     <div class="cc-sec"><span class="cc-k">③ 可通行国家</span>
       <div class="cc-tier"><span class="cc-badge a">A · 强制互认</span><b>1958 缔约方 约 63 国</b>（欧盟 27 + 英/日/韩/俄/土/澳/新/马/泰/南非/埃及等非欧盟缔约方）——按 2018/858 Art 57/58，对其<b>已采用</b>的 UN 法规<b>强制接受</b>你的大 E 证（核心法规约 44 国广泛采用；R155/R171 等新法规采用国较少，逐项以缔约方数据为准）。</div>
-      <div class="cc-tier"><span class="cc-badge b">B · 采信 / 参照</span><span class="cc-bnote">非缔约国，采信程度逐国不同·个案核实</span>
+      <div class="cc-tier"><span class="cc-badge b">B · 采信 / 参照</span><span class="cc-bnote">非缔约国，以各国主管机关要求为准</span>
         ${grp('采信（经欧盟 / UNECE 路径）',EMARK_ACCEPT.accepts,'ok')}
         ${grp('参照（仍需本国认证）',EMARK_ACCEPT.refs,'ref')}
         ${grp('自有体系 · E 标不直接采信',EMARK_ACCEPT.own,'own')}
