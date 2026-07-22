@@ -344,6 +344,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .cc-row{font-size:11.5px;line-height:1.55;display:flex;gap:8px;padding:1px 0}
 .cc-n{font-weight:700;color:var(--ink);white-space:nowrap;min-width:88px}.cc-d{color:var(--grey)}
 .cc-src{font-size:10.5px;color:var(--greyl);line-height:1.5;border-top:1px dashed var(--ol);padding-top:8px;margin-top:6px}
+.secttl-na{font-size:12px;color:var(--grey);font-weight:600}
 .sysdom{font-size:11.5px;font-weight:800;color:var(--od);margin:14px 0 8px;letter-spacing:.02em}
 .sysdom:first-of-type{margin-top:4px}
 .layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
@@ -1434,7 +1435,7 @@ function oemScopeHTML(){
   return `
     <div class="secttl">③ 按车型选（可多选，据车型收敛适用法规；不选=全部车型）</div>
     <div class="opts g3">${catBtns}</div>
-    ${sel.cats.length?`<div class="probe">已按车型收敛，适用法规 <b>${applicable().length}</b> 条。</div>`:''}
+    ${sel.cats.length?`<div class="probe">已按车型（${sel.cats.join('/')}）收敛：本车型适用 <b>${applicable().length}</b> 条（全部 ${ITEMS.length} 条中）。</div>`:''}
     <div class="secttl">④ 按动力类型选（可多选，仅标注与你动力相关/不适用的法规族，不删项）</div>
     <div class="opts g3">${powBtns}</div>
     ${sel.powers.length?`<div class="probe">已选动力类型：盘点中约 <b>${na}</b> 条法规按此动力通常不适用（下一步以灰标提示，仍保留可核对；GA 欧7 与噪声等跨全部动力不受影响）。</div>`:''}`;
@@ -1599,7 +1600,7 @@ function certConclusionCard(){
   const grp=(title,arr,cls)=>`<div class="cc-grp ${cls}"><div class="cc-gt">${title}</div>${arr.map(([n,d])=>`<div class="cc-row"><span class="cc-n">${n}</span><span class="cc-d">${d}</span></div>`).join('')}</div>`;
   return `<div class="cc">
     <div class="cc-h">认证与通行结论　<small>据角色 + 产品自动生成</small></div>
-    <div class="cc-sec"><span class="cc-k">① 需做的认证</span>适用 <b>${items.length}</b> 项 —— <span class="cc-E">大 E ${big.length} 项</span>（有 UN 法规·一证多国互认）／ <span class="cc-e">小 e ${small.length} 项</span>（仅 EU 法规）。角色：<b>${roleTxt}</b>。</div>
+    <div class="cc-sec"><span class="cc-k">① 需做的认证</span>适用 <b>${items.length}</b> 项 —— <span class="cc-E">大 E ${big.length} 项</span>（有 UN 法规·一证多国互认）／ <span class="cc-e">小 e ${small.length} 项</span>（仅 EU 法规）。角色：<b>${roleTxt}</b>${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`；其中 <b>${na}</b> 项按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用（已在盘点标注）`:'';})():''}。</div>
     <div class="cc-sec"><span class="cc-k">② 认证版本口径</span>做证按 <b>(EU) 2019/2144 Annex I</b> 钉定的 UN 系列；<b>WVTA / 采信方接受</b> = 该系列 <b>+</b> 更高/等效 UN 系列 <b>+</b> 过渡期内老证。（逐条见「版本时效自查表」。）</div>
     <div class="cc-sec"><span class="cc-k">③ 可通行国家</span>
       <div class="cc-tier"><span class="cc-badge a">A · 强制互认</span><b>1958 缔约方 约 63 国</b>（欧盟 27 + 英/日/韩/俄/土/澳/新/马/泰/南非/埃及等非欧盟缔约方）——按 2018/858 Art 57/58，对其<b>已采用</b>的 UN 法规<b>强制接受</b>你的大 E 证（核心法规约 44 国广泛采用；R155/R171 等新法规采用国较少，逐项以缔约方数据为准）。</div>
@@ -1629,7 +1630,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     ${focusNote()}
     ${certConclusionCard()}
-    <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规）</div>
+    <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`　·　其中 <span class="secttl-na">${na} 条按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用</span>`:'';})():''}）</div>
     ${verBanner()}
     <div class="s3-view"><button class="s3-toggle" onclick="_structOn=!_structOn;render()">${_structOn?'◱ 收起结构总览':'◲ 展开结构总览'}</button></div>
     ${structHTML(items)}
