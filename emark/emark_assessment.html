@@ -100,9 +100,12 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 /* 版本时效自查表 */
 .vb-sum{font-size:12.5px;color:var(--ink2);margin-bottom:11px}
 .vb-k{font-weight:700}.vb-k.behind{color:var(--red)}.vb-k.cur{color:var(--green)}.vb-k.unk{color:var(--grey)}
-.vb-scroll{max-height:62vh;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.vb-scroll{max-height:66vh;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.vb-tbl{min-width:1040px}
 .vb-tbl td small{color:var(--grey);font-size:11.5px}
-.vb-tbl td{vertical-align:top}
+.vb-tbl td{vertical-align:top;white-space:nowrap}
+.vb-tbl td:first-child,.vb-tbl td:first-child small{white-space:normal;min-width:150px}
+.vb-tbl .vb-euim,.vb-tbl .vb-tpnote,.vb-tbl .vb-fnnote,.vb-tbl .vb-c4,.vb-tbl .vb-fn{white-space:normal}
 .vb-tbl .vb-eif{color:var(--grey)}
 .vb-tpnote{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--od);background:#FBF3E8;border-radius:5px;padding:4px 6px}
 .vb-fnnote{margin-top:5px;font-size:10.5px;line-height:1.5;color:var(--blue);background:#EEF3FA;border-radius:5px;padding:4px 6px}
@@ -217,6 +220,7 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .emk-ov{position:fixed;inset:0;background:rgba(20,24,28,.55);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:36px 14px;overflow-y:auto}
 .emk-ov.on{display:flex}
 .emk-modal{background:#fff;border-radius:14px;max-width:780px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.emk-modal.emk-wide{max-width:min(1220px,96vw)}
 .emk-hd{background:linear-gradient(120deg,var(--ink),#2A2F36);color:#fff;padding:15px 20px;display:flex;align-items:center;gap:12px;border-radius:14px 14px 0 0}
 .emk-hd h3{font-size:15px;color:#fff;flex:1;font-weight:700;line-height:1.4}
 .emk-x{background:rgba(255,255,255,.15);border:none;color:#fff;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px;flex:none}
@@ -999,7 +1003,7 @@ function openVersionBoard(){
     '<b>官方依据：</b><br>'+
     '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 据 <b>UNECE「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」。未列 Col5 的系列不显示失效日——系列更替不影响既有证书效力：据 <b>WP.29/1044/Rev.3 §25</b>，既有 UN 型批持续有效。<br>'+
     '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 升级系列，故 EU 引用系列可低于 UNECE 最新系列。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
-    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。');
+    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。','emk-wide');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){
@@ -1051,7 +1055,7 @@ function reachBadge(i){
   return `<button class="reachb" onclick="openParties('${no}')" title="点击查看适用该法规的全部缔约方名单"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>${n} 国互认</button>`;
 }
 // ===== 缔约方 / 机关名录弹窗 =====
-function emkModal(title, bodyHTML, note){
+function emkModal(title, bodyHTML, note, cls){
   let ov=document.getElementById('emk-ov');
   if(!ov){
     ov=document.createElement('div'); ov.id='emk-ov'; ov.className='emk-ov';
@@ -1059,7 +1063,7 @@ function emkModal(title, bodyHTML, note){
     document.addEventListener('keydown',e=>{if(e.key==='Escape')emkClose();});
     document.body.appendChild(ov);
   }
-  ov.innerHTML=`<div class="emk-modal" role="dialog" aria-modal="true">
+  ov.innerHTML=`<div class="emk-modal${cls?' '+cls:''}" role="dialog" aria-modal="true">
     <div class="emk-hd"><h3>${title}</h3><button class="emk-x" onclick="emkClose()" aria-label="关闭">✕</button></div>
     <div class="emk-bd">${bodyHTML}</div>
     ${note?`<div class="emk-note">${note}</div>`:''}</div>`;
