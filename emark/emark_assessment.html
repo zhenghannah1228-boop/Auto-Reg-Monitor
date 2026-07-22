@@ -1879,7 +1879,7 @@ const DELIV={
   {t:'申请语言要求确认', b:'各机关接受语言不同（EN/DE/NL…），译文成本计入预算'}],
  ts:[
   {t:'技术服务机构委托合同 / 报价单', b:'（精确报价以技服按产品评估为准）'},
-  {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖你的全部法规项——WP.29/343 Add.1 Annex 1 名录'},
+  {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖你的全部法规项'},
   {t:'测试排期确认单', b:'排期是全周期最大变量，尽早锁定'}],
  doc:[
   {t:'信息文档 Information Document', b:'按对应 UN 法规附件的信息文档模板逐项填写'},
@@ -1896,7 +1896,7 @@ const DELIV={
  apply:[
   {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款'},
   {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）'},
-  {t:'机关往来问题答复记录', b:'跨语言往返是周期黑洞，指定专人跟进'}],
+  {t:'机关往来问题答复记录', b:'指定专人跟进'}],
  grant:[
   {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）'},
   {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息'},
@@ -2076,11 +2076,6 @@ function stationExtra(st){
     if(a) return `<div class="stn-extra">你选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
     return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、卢森堡 SNCH(E13)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
   }
-  if(st.id==='ts'){
-    const cs=sgsTScountries();
-    return `<div class="stn-extra">依 WP.29/343 Add.1 官方名录（Annex 1），SGS 是 ${cs.join('、')} 等 ${cs.length} 个 1958 缔约国政府指定的技术服务机构之一。</div>
-    <div class="probe">防坑提醒：中介出示的「机关授权书 / 合作协议」是商业信函，<b>不等于</b>政府指定技术服务机构的法定地位——以 Add.1 官方名录为准核验，并核对指定范围与文件有效期（此类合作函常见一年一签）。详见「常见问题」。</div>`;
-  }
   if(st.id==='life'){
     return `<div class="stn-extra">法规系列更新后，既有证书持续有效；仅少数系列有 UNECE 公布的法定失效日，新申请须按新系列。<button class="tp-link" onclick="openVersionBoard()">📋 版本时效自查表</button><br><span style="font-size:11.5px;color:var(--grey)">依据 WP.29/1044/Rev.3 §25</span></div>`;
   }
@@ -2103,8 +2098,6 @@ function step5(){
   const detail=`<div class="sb-mh">${st.name} <small style="font-family:Georgia,serif;color:var(--greyl);font-weight:400">${st.en}</small> <span class="stn-st" style="color:${sc.c};margin-left:6px">${sc.t}</span></div>
       <div class="stn-note" style="border-color:${sc.c};margin-top:8px">你的现状：${st.note}</div>
       <p class="stn-what">${st.what}</p>
-      ${(st.actor||st.dur||st.cost)?`<div class="stn-meta">${st.actor?`<span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8.5" r="3"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6.2A3 3 0 0 1 16 12M17 14.2c2.3.4 4 2.3 4 4.8"/></svg>${st.actor}</span>`:''}${st.dur?`<span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="7.5"/><path d="M12 13V9M12 13l2.5 2M9.5 3.5h5"/></svg>${st.dur}</span>`:''}${st.cost?`<span><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v10M14.5 9.3c-.6-.7-1.5-1-2.5-1-1.4 0-2.5.8-2.5 2s1.1 1.8 2.5 1.8 2.5.6 2.5 1.9-1.1 2-2.5 2c-1 0-1.9-.4-2.5-1"/></svg>${st.cost}</span>`:''}</div>`:''}
-      ${st.pitfall?`<div class="stn-pit"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>常见坑：${st.pitfall}</div>`:''}
       ${delivHTML(st)}
       ${stationExtra(st)}`;
   return `<div class="step on">
