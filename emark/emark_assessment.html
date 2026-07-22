@@ -359,6 +359,12 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .rc-tag.party{background:var(--green)}.rc-tag.eu{background:#2E6FB8}.rc-tag.ok{background:var(--green)}.rc-tag.ref{background:var(--blue)}.rc-tag.own{background:var(--grey)}
 .rc-note{font-size:11.5px;color:var(--grey);line-height:1.45}
 .rc-cnt{font-size:11.5px;color:var(--greyl);text-align:right;margin-top:7px}
+/* ③ 内嵌名单 */
+.cc-reach-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:9px;flex-wrap:wrap}
+.cc-reach-in{flex:0 1 260px;min-width:150px;box-sizing:border-box;font-family:inherit;font-size:13px;border:1.5px solid var(--line);border-radius:8px;padding:7px 12px;background:#fff}
+.cc-reach-in:focus{outline:none;border-color:var(--o)}
+.cc-reach .rc-list{max-height:320px;background:#fff}
+.cc-reach .rc-note2{margin-bottom:9px}
 .sysdom{font-size:11.5px;font-weight:800;color:var(--od);margin:14px 0 8px;letter-spacing:.02em}
 .sysdom:first-of-type{margin-top:4px}
 .layout{max-width:1200px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:214px minmax(0,1fr) 256px;gap:24px;align-items:start}
@@ -1658,15 +1664,17 @@ function certConclusionCard(){
     <div class="cc-h">认证与通行结论　<small>据角色 + 产品自动生成</small></div>
     <div class="cc-sec"><span class="cc-k">① 需做的认证</span>适用 <b>${items.length}</b> 项 —— <span class="cc-E">大 E ${big.length} 项</span>（有 UN 法规·一证多国互认）／ <span class="cc-e">小 e ${small.length} 项</span>（仅 EU 法规）。角色：<b>${roleTxt}</b>${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`；其中 <b>${na}</b> 项按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用（已在盘点标注）`:'';})():''}。</div>
     <div class="cc-sec"><span class="cc-k">② 认证版本口径</span>做证按 <b>(EU) 2019/2144 Annex I</b> 钉定的 UN 系列；<b>WVTA / 采信方接受</b> = 该系列 <b>+</b> 更高/等效 UN 系列 <b>+</b> 过渡期内老证。（逐条见「版本时效自查表」。）</div>
-    <div class="cc-sec"><span class="cc-k">③ 可通行国家</span><button class="cc-listbtn" onclick="openReachList()">📋 查看${sel.role==='OEM'?'整车':'零部件/系统'}可通行国家名单（可搜索）</button>
-      <div class="cc-tier"><span class="cc-badge a">A · 强制互认</span><b>1958 缔约方 约 63 国</b>（欧盟 27 + 英/日/韩/俄/土/澳/新/马/泰/南非/埃及等非欧盟缔约方）——按 2018/858 Art 57/58，对其<b>已采用</b>的 UN 法规<b>强制接受</b>你的大 E 证（核心法规约 44 国广泛采用；R155/R171 等新法规采用国较少，逐项以缔约方数据为准）。</div>
-      <div class="cc-tier"><span class="cc-badge b">B · 采信 / 参照</span><span class="cc-bnote">非缔约国，以各国主管机关要求为准</span>
-        ${grp('采信（经欧盟 / UNECE 路径）',EMARK_ACCEPT.accepts,'ok')}
-        ${grp('参照（仍需本国认证）',EMARK_ACCEPT.refs,'ref')}
-        ${grp('自有体系 · E 标不直接采信',EMARK_ACCEPT.own,'own')}
-      </div>
-      ${small.length?`<div class="cc-tier"><span class="cc-badge e">小 e · ${small.length} 项</span>仅欧盟有效；出欧盟到其他缔约方 / 市场需当地另办。</div>`:''}
-    </div>
+    ${(()=>{const d=reachData();
+      const note=d.oem
+        ? '<b>整车 WVTA 口径</b>：欧盟 / EEA 直接接受欧盟整车型批；其他为国家制度下对 e-mark 型批的采信（非 1958 强制互认）。部件级采信（如印度 AIS-037）不等于整车采信。'
+        : '<b>零部件 / 系统口径</b>：1958 缔约方对其<b>已采用</b>的 UN 法规，按 (EU) 2018/858 Art 57/58 <b>强制接受</b>你的大 E 证；采信 / 参照为非缔约国的国家制度采纳，以各国主管机关要求为准。';
+      const rowsHtml=d.rows.map(r=>`<div class="rc-row" data-n="${r.cn}"><span class="rc-c">${r.cn}</span><span class="rc-tag ${r.tag}">${r.tagT}</span><span class="rc-note">${r.note}</span></div>`).join('');
+      return `<div class="cc-sec cc-reach">
+      <div class="cc-reach-hd"><span class="cc-k">③ 可通行国家</span><input class="cc-reach-in" placeholder="🔍 搜索国家名称…" oninput="reachFilter(this.value)" autocomplete="off"></div>
+      <div class="rc-note2">${note}</div>
+      <div class="rc-list" id="rc-list">${rowsHtml}</div>
+      <div class="rc-cnt">共 ${d.rows.length} 个国家 / 地区${small.length?`　·　另有小 e ${small.length} 项仅欧盟有效，出欧盟需当地另办`:''}</div>
+    </div>`;})()}
     <div class="cc-src">${EMARK_SRC}</div>
   </div>`;
 }
