@@ -546,7 +546,7 @@ const VEH={"A1":"M1","A2":"M1-N3","A4":"M1-N3","A5":"M1-N3","A6":"M1-N3","A7":"M
 /* 角色选择后的内行反馈（步骤2；STU/AFTER 会实际过滤适用法规集） */
 const ROLE_FB={
   OEM:'整车 WVTA 需覆盖全部适用系统条目，可先按车型与动力类型收敛，再逐条盘点；部件级证书可由供应商提供，但 CoP 责任仍在整车厂。法规盘点页可查「IWVTA 整车必备法规清单」（43 项 UN 法规及要求系列，来源 WP.29/2025/159），每条法规旁会标出整车所需系列级别。',
-  STU:'已为你聚焦到<b>可独立认证（部件/技术单元）</b>的条目——整车级条目不适用于你的角色，不再计入评分，评估更准也更快。',
+  STU:'已为您聚焦到<b>可独立认证（部件/技术单元）</b>的条目——整车级条目不适用于您的角色，不再计入评分，评估更准也更快。',
   AFTER:'已聚焦到<b>典型售后件法规</b>（R90 制动部件 / R124 车轮 / 灯具光源 / 回复反射器等）。提示：欧盟 Safety Gate 每周通报不合规产品，售后件是市场监管抽查重点——未认证上市的直接后果是全渠道下架。'
 };
 /* 矩阵「行业典型」参照点：按角色切换（示意性参照，供对比感知，可配置） */
@@ -559,7 +559,7 @@ const REF_POINT={
 /* Y 轴体系自评题库（Task 3 · 可配置：每维度可增删题目，维度分 = 题目均分） */
 const SYS=[
  {id:'cop',name:'CoP 生产一致性体系',desc:'量产件与批准样品一致性的维持机制',svc:'CoP 年度托管',qs:[
-   {id:'cop4',q:'已取得 EN ISO 9001:2015 或 IATF 16949 质量体系认证',hint:'审核看点：现行有效的 QMS 证书（覆盖范围含本产品）。附件 IV §2.3.1.1——机关做 CoP 初始评估时可采信；缺证不阻却，但机关将自行审你的生产一致性安排'},
+   {id:'cop4',q:'已取得 EN ISO 9001:2015 或 IATF 16949 质量体系认证',hint:'审核看点：现行有效的 QMS 证书（覆盖范围含本产品）。附件 IV §2.3.1.1——机关做 CoP 初始评估时可采信；缺证不阻却，但机关将自行审您的生产一致性安排'},
    {id:'cop1',q:'已制定文件化的 CoP 控制计划',hint:'审核看点：控制计划文件编号、覆盖的法规项清单、抽样频次的依据条款'},
    {id:'cop2',q:'定期执行 CoP 试验/抽检并留存记录',hint:'审核看点：最近一次 CoP 试验报告、不合格品处置与纠正措施记录'},
    {id:'cop3',q:'通过过批准机关的 CoP 审核 / 工厂检查',hint:'审核看点：机关或技术服务出具的初始评估 / 周期性监督结论文件'}
@@ -610,7 +610,7 @@ const PROFILE=[
       kba:'KBA 权威度高、文档审核细致，适合有品牌背书诉求的企业；首次申请建议预留更长的文档往返时间。',
       snch:'SNCH 体量小、沟通路径短，适合标准化程度高的部件产品线走量。',
       vca:'关键提示：英国脱欧后 VCA 只能签发 UNECE E 标（大 E），不能签发 EU e 标（小 e）——若产品必须满足 EU 条例（如 2021/535 附件项目），需另选欧盟成员国机关。这是被误解最多的一点。',
-      undecided:'机关选择直接影响周期、语言、费用与后续 CoP 监督安排——预约解读时可按你的具体产品线给出机关建议。'}},
+      undecided:'机关选择直接影响周期、语言、费用与后续 CoP 监督安排——预约解读时可按您的具体产品线给出机关建议。'}},
  {id:'certs',ttl:'已持有认证（可多选）',multi:true,req:false,opts:[
    ['cccgb','国内 CCC / GB 认证','有国内合规基础'],['emark','已有部分 E-mark 证书','有 UNECE 认证经验'],['other','其他市场认证','FMVSS / ADR / KMVSS 等'],['no','暂无','从零开始']]},
  {id:'pains',ttl:'当前最大痛点（可多选）',multi:true,req:false,opts:[
@@ -717,7 +717,7 @@ const GLOSSARY={
  smalle:{t:'小 e（e-mark）',d:'按<b>EU 框架</b>取得的型式批准标志——<b>长方形外框</b> e + 国别号（区别于大 E 的圆形外框），仅在欧盟内有效。分两个层级：<b>① 部件/STU 层面</b>（本工具赛道）：仅用于<b>无对应 UN 法规、只有 EU 条例覆盖</b>的项——有 UN 法规的项 EU 直接采用该 UN 法规（Art 57/58 等效），部件拿的是大 E；<b>② 整车层面</b>：EU 整车型式批准（EU-WVTA，2018/858）本身就是 EU 框架批准，证书号以 e+国别 开头（如 e1*2018/858*…）——但其 Annex II 要求大量为 UN 法规，以部件的大 E 批准作为组成部分。所以「整车 e 证 + 部件大 E 标」并存是常态。<br>标志与铭牌依据：(EU) 2018/858 <b>Art 38</b>。标志外观见「标志速查」示意图。'},
  ce:{t:'CE 标志',d:'欧盟对<b>非车用型式批准范畴</b>产品的合规标志（如无线走 RED 2014/53/EU、机械走机械指令）。与 E/e 是不同体系；含无线/机械的车用电子件可能需<b>多标并存</b>（E-mark + CE）。'},
  cop:{t:'生产一致性 CoP',d:'Conformity of Production——确保<b>量产件持续与批准样品一致</b>的质量控制机制。需制定 CoP 控制计划并纳入质量管理体系；批准机关<b>发证前核查、发证后周期性监督/工厂审计</b>。拿证只是起点，CoP 不达标证书会被暂停乃至撤销。<br>依据：(EU) 2018/858 <b>Art 31</b>（Conformity of production arrangements，机关可据此<b>撤销型式批准</b>）。'},
- party:{t:'缔约方（Contracting Party）',d:'加入 1958 协定、承诺<b>相互承认型式批准</b>的国家/地区（欧盟、日本、韩国、俄罗斯、土耳其等 60+ 方，各有 E 号）。你的 E-mark 证书在共同适用该法规的缔约方之间互认。'},
+ party:{t:'缔约方（Contracting Party）',d:'加入 1958 协定、承诺<b>相互承认型式批准</b>的国家/地区（欧盟、日本、韩国、俄罗斯、土耳其等 60+ 方，各有 E 号）。您的 E-mark 证书在共同适用该法规的缔约方之间互认。'},
  ta:{t:'型式批准（Type Approval）',d:'由官方机关确认某<b>"型号"</b>产品符合法规、准许量产上市的制度。区别于逐台检验：批准一个型号，量产件靠 CoP 保持一致即可。'},
  authority:{t:'型式批准机关（Approval Authority）',d:'缔约方政府指定、有权<b>签发型式批准证书</b>的机构（如荷兰 RDW、德国 KBA、英国 VCA、卢森堡 SNCH）。'},
  ts:{t:'技术服务机构（Technical Service）',d:'获批准机关<b>认可、执行法规规定测试</b>的实验室（SGS 即为其一）。出具测试报告供机关审批。与"批准机关"是两个角色。'},
@@ -1026,7 +1026,7 @@ function upcomingAmendment(no){
 const AUTH_ECODE={rdw:4,kba:1,snch:13,vca:11};   // 画像机关选项 → E 代码
 function authInfo(e){ return AUTHDIR.find(a=>a.e===e); }
 function sgsTScountries(){ return AUTHDIR.filter(a=>a.sgs).map(a=>a.cn); }
-// 某 UN R 被多少个 1958 缔约方适用（=你的 E-mark 证书互认范围）
+// 某 UN R 被多少个 1958 缔约方适用（=您的 E-mark 证书互认范围）
 function partiesCount(regStr){
   if(!VERDB) return null;
   const m=/(?:UN\s*)?R\s*(\d{1,3})/i.exec(regStr||''); if(!m) return null;
@@ -1077,7 +1077,7 @@ function openParties(no){
   if(!reg||!reg.parties){ emkModal('数据加载中', '<div style="padding:22px;font-size:13px">数据加载中，请稍候重试。</div>'); return; }
   const ps=reg.parties.slice().sort((a,b)=>a.code-b.code);
   const body=`<table class="emk-tbl"><thead><tr><th>缔约方（E 代码）</th><th>适用起始</th><th>指定型式批准机关</th><th>技术服务</th><th>SGS</th></tr></thead><tbody>${partyRows(ps)}</tbody></table>`;
-  emkModal(`UN R${no} · ${ps.length} 个 1958 缔约方适用（你的 E-mark 证书互认范围）`, body,
+  emkModal(`UN R${no} · ${ps.length} 个 1958 缔约方适用（您的 E-mark 证书互认范围）`, body,
     '数据源：WP.29/343 Add.1（缔约方适用日期与指定机关）。橙色 SGS = 该国有 SGS 实体为政府指定技术服务机构。');
 }
 // 官方名录中「Waiting for data」= 该缔约方尚未通报指定机构，剔除占位、不当作真实机构
@@ -1122,7 +1122,7 @@ function iwvtaChip(i){
 function openIWVTA(){
   const rows=IWVTA_REQ.map(x=>`<tr><td><b>R${x.r}</b></td><td>${x.s} series${x.c?' <span style="color:var(--grey)">*条件性</span>':''}</td><td>${x.t}</td></tr>`).join('');
   emkModal(`IWVTA 整车型式批准 · 必备 UN 法规清单（${IWVTA_REQ.length} 项 · 08 series）`,
-    `<div class="emk-note" style="border-top:none;border-bottom:1px solid var(--line)">整车（Universal IWVTA）须同时满足下列 UN 法规并达到所列<b>系列级别</b>；标 * 为条件性（视车型/动力适用）。零部件供应商可据此核对：你的证书系列是否达到整车所需级别。</div>
+    `<div class="emk-note" style="border-top:none;border-bottom:1px solid var(--line)">整车（Universal IWVTA）须同时满足下列 UN 法规并达到所列<b>系列级别</b>；标 * 为条件性（视车型/动力适用）。零部件供应商可据此核对：您的证书系列是否达到整车所需级别。</div>
     <table class="emk-tbl"><thead><tr><th>UN 法规</th><th>要求系列</th><th>主题</th></tr></thead><tbody>${rows}</tbody></table>`,
     '权威来源：UNECE ECE/TRANS/WP.29/2025/159（UN R0 IWVTA 08 series 提案）Annex 4 Part A。');
 }
@@ -1356,7 +1356,7 @@ function focusNote(){
   if(sel.role!=='STU'&&sel.role!=='AFTER') return '';
   const n=applicable().length;
   const what=sel.role==='STU'?'可独立认证（部件/技术单元）':'典型售后件（显式独立认证）';
-  return `<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>已按你的角色聚焦到${what}条目：<b>${n} / ${ITEMS.length} 项</b>参与评估${n===0?'——当前范围内没有此类条目，可更换角色或调整产品精选':''}。</div>`;
+  return `<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>已按您的角色聚焦到${what}条目：<b>${n} / ${ITEMS.length} 项</b>参与评估${n===0?'——当前范围内没有此类条目，可更换角色或调整产品精选':''}。</div>`;
 }
 // R155/R156 网安体系为整车级要求：整车厂强制；部件/售后件仅当申报范围含网安/
 // 软件更新法规项、或系统集成商涉及电子/智能网联(D/E 组)时才相关，否则不该出现
@@ -1392,7 +1392,7 @@ function intro(){
      <div class="opt" style="cursor:default"><div class="ot">② 范围界定</div><div class="od">选目标市场、角色、产品，圈定适用法规集</div></div>
      <div class="opt" style="cursor:default"><div class="ot">③ 法规盘点</div><div class="od">逐条自评认证状态，附现行版本/生效日期</div></div>
      <div class="opt" style="cursor:default"><div class="ot">④ 体系自评</div><div class="od">CoP / 版本 / 网安 / 文档，4 维 12 题</div></div>
-     <div class="opt" style="cursor:default"><div class="ot">⑤ 认证旅程</div><div class="od">生成专属 9 站认证路线，逐站标出你的现状</div></div>
+     <div class="opt" style="cursor:default"><div class="ot">⑤ 认证旅程</div><div class="od">生成专属 9 站认证路线，逐站标出您的现状</div></div>
      <div class="opt" style="cursor:default"><div class="ot">⑥ 行动清单</div><div class="od">缺口→服务映射 + 可下载免费报告</div></div>
    </div>
    <div style="margin-top:26px"><button class="btn btn-p" onclick="go(1)">开始免费评估 →</button></div>
@@ -1408,7 +1408,7 @@ const SYS_LAW={
   <b>① 初始评估（§2）</b>——批准前，机关核查制造商已建立"确保量产件与批准型式一致"的安排与程序；审核指引参 <b>EN ISO 19011:2011</b>；机关可采信制造商已有的 <b>EN ISO 9001:2015 或 ISO/TS 16949:2009</b>（后者现行版即 IATF 16949）质量体系认证作为证据（§2.3.1.1）。<br>
   <b>② 产品一致性安排（§3）</b>——须有<b>与机关约定的书面控制计划</b>，按规定间隔做验证型式一致性的试验/检查（§3.2）。持证方义务（§3.3）：3.3.1 有效控制一致性的程序；3.3.2 具备检验设备；3.3.3 试验数据记录并留存<b>最长 10 年</b>；3.3.4 分析结果确保产品特性稳定；3.3.5 至少执行 Annex II 法规规定的检查/试验；3.3.6 出现不合格即追加抽样并采取纠正措施恢复生产。<br>
   <b>监督周期</b>（第 31(4) 条）：按 Annex II 各法规规定频次；未规定的<b>至少每三年一次</b>。<br>
-  <span style="color:var(--grey)">要点：ISO 9001 / IATF 16949 是机关做 CoP 初始评估时<b>采信</b>的质量体系证据，非法规强制的"CoP 证书"；缺了也可由机关直接审你的生产一致性安排。</span>`}
+  <span style="color:var(--grey)">要点：ISO 9001 / IATF 16949 是机关做 CoP 初始评估时<b>采信</b>的质量体系证据，非法规强制的"CoP 证书"；缺了也可由机关直接审您的生产一致性安排。</span>`}
 };
 function sysLaw(id){const s=SYS_LAW[id];if(!s)return '';
   return `<details class="syslaw"><summary><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6a1 1 0 0 1 1 1V6a1 1 0 0 1-1 1H9A1 1 0 0 1 8 6v-.5a1 1 0 0 1 1-1Z"/><path d="M8 5.5H6a1.5 1.5 0 0 0-1.5 1.5V19A1.5 1.5 0 0 0 6 20.5h12A1.5 1.5 0 0 0 19.5 19V7A1.5 1.5 0 0 0 18 5.5h-2M8.5 11h7M8.5 14.5h5"/></svg>${s.ttl}</summary><div class="syslaw-b">${s.html}</div></details>`;}
@@ -1421,7 +1421,7 @@ function step1(){
   }).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 1 / 6 · 企业画像</div>
-    <h2 class="st">先认识一下你的企业</h2>
+    <h2 class="st">先认识一下您的企业</h2>
     ${secs}
     <div class="nav"><button class="ghost" onclick="go(0)">← 返回</button><button class="btn btn-p" onclick="toStep2()">下一步：范围界定 →</button></div>
   </div>`;
@@ -1475,7 +1475,7 @@ function oemScopeHTML(){
     <div class="secttl">③ 按车型选（可多选，据车型收敛适用法规；不选=全部车型）</div>
     <div class="opts g3">${catBtns}</div>
     ${sel.cats.length?`<div class="probe">已按车型（${sel.cats.join('/')}）收敛：本车型适用 <b>${applicable().length}</b> 条（全部 ${ITEMS.length} 条中）。</div>`:''}
-    <div class="secttl">④ 按动力类型选（可多选，仅标注与你动力相关/不适用的法规族，不删项）</div>
+    <div class="secttl">④ 按动力类型选（可多选，仅标注与您动力相关/不适用的法规族，不删项）</div>
     <div class="opts g3">${powBtns}</div>
     ${sel.powers.length?`<div class="probe">已选动力类型：盘点中约 <b>${na}</b> 条法规按此动力通常不适用（下一步以灰标提示，仍保留可核对；GA 欧7 与噪声等跨全部动力不受影响）。</div>`:''}`;
 }
@@ -1531,7 +1531,7 @@ function reachData(){
   const cty={};
   arr.forEach(no=>{const reg=(typeof VERDB!=='undefined'&&VERDB)?(VERDB.byNo[no]||VERDB.byNo[no.replace(/-/g,'')]):null; if(!reg||!reg.parties)return;
     reg.parties.forEach(pp=>{const cn=_cnName(pp.country); if(!cn)return; (cty[cn]||(cty[cn]=new Set())).add(no);});});
-  Object.keys(cty).sort((a,b)=>cty[b].size-cty[a].size).forEach(cn=>rows.push({cn,tag:'party',tagT:'强制互认',note:`适用你 ${cty[cn].size}/${arr.length} 项大 E 法规`}));
+  Object.keys(cty).sort((a,b)=>cty[b].size-cty[a].size).forEach(cn=>rows.push({cn,tag:'party',tagT:'强制互认',note:`适用您 ${cty[cn].size}/${arr.length} 项大 E 法规`}));
   EMARK_ACCEPT.accepts.forEach(([cn,note])=>rows.push({cn,tag:'ok',tagT:'采信',note}));
   EMARK_ACCEPT.refs.forEach(([cn,note])=>rows.push({cn,tag:'ref',tagT:'参照',note}));
   // 自有·不直接采信（中国/巴西等）不进可通行名单（业主指示）
@@ -1561,17 +1561,17 @@ function step2(){
   const pchips=PARTS.map(p=>`<button class="pchip ${sel.parts.includes(p.id)?'on':''}" data-part="${p.id}">${p.n}<small>${p.r}</small></button>`).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 2 / 6 · 范围界定</div>
-    <h2 class="st">你的产品范围</h2>
+    <h2 class="st">您的产品范围</h2>
     <p class="lead">选定角色与产品/车型范围，系统据此圈定「适用法规集」，并<b>自动判断需做的认证与可通行国家</b>（不必再选目标市场）。</p>
-    <div class="secttl">① 你的角色</div>
+    <div class="secttl">① 您的角色</div>
     <div class="opts g3">${roles.map(r=>`<button class="opt ${sel.role===r[0]?'sel':''}" data-role="${r[0]}"><div class="ot">${r[1]}</div><div class="od">${r[2]}</div></button>`).join('')}</div>
     ${sel.role&&ROLE_FB[sel.role]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${ROLE_FB[sel.role]}</div>`:''}
     ${focusNote()}
     ${sel.role==='OEM'? oemScopeHTML() : sel.role==='STU'? `
-    <div class="secttl">② 按系统选（可多选，只出你要认证的技术单元对应法规；不选=全部可独立认证系统）</div>
+    <div class="secttl">② 按系统选（可多选，只出您要认证的技术单元对应法规；不选=全部可独立认证系统）</div>
     ${stuPicker()}
     ${sel.parts.length?`<div class="probe">已按系统精选，适用法规锁定为 <b>${applicable().length}</b> 条。</div>`:''}` : `
-    <div class="secttl">② 按产品精选（推荐 · 可多选，只出你产品对应的法规）</div>
+    <div class="secttl">② 按产品精选（推荐 · 可多选，只出您产品对应的法规）</div>
     <div class="pchips">${pchips}</div>
     ${sel.parts.length?`<div class="probe">已按产品精选，适用法规锁定为 <b>${applicable().length}</b> 条。</div>`:''}`}
     <div class="nav"><button class="ghost" onclick="go(1)">← 上一步</button><button class="btn btn-p" onclick="toStep3()">下一步：法规盘点 →</button></div>
@@ -1685,7 +1685,7 @@ function certConclusionCard(){
         ? '<b>小 e 口径</b>：当前范围全部为仅 EU 法规项（无对应 UN 法规），批准在欧盟 / EEA 内互认有效；1958 缔约方互认与 ECE 采信 / 参照路径均不适用。'
         : d.oem
         ? '<b>整车 WVTA 口径</b>：欧盟 / EEA 直接接受欧盟整车型批；其他为国家制度下对 e-mark 型批的采信（非 1958 强制互认）。部件级采信（如印度 AIS-037）不等于整车采信。'
-        : '<b>零部件 / 系统口径</b>：1958 缔约方对其<b>已采用</b>的 UN 法规，按 (EU) 2018/858 Art 57/58 <b>强制接受</b>你的大 E 证；采信 / 参照为非缔约国的国家制度采纳，以各国主管机关要求为准。';
+        : '<b>零部件 / 系统口径</b>：1958 缔约方对其<b>已采用</b>的 UN 法规，按 (EU) 2018/858 Art 57/58 <b>强制接受</b>您的大 E 证；采信 / 参照为非缔约国的国家制度采纳，以各国主管机关要求为准。';
       const rowsHtml=d.rows.map(r=>`<div class="rc-row" data-n="${r.cn}"><span class="rc-c">${r.cn}</span><span class="rc-tag ${r.tag}">${r.tagT}</span><span class="rc-note">${r.note}</span></div>`).join('');
       return `<div class="cc-sec cc-reach">
       <div class="cc-reach-hd"><span class="cc-k">③ 可通行国家</span><input class="cc-reach-in" placeholder="🔍 搜索国家名称…" oninput="reachFilter(this.value)" autocomplete="off"></div>
@@ -1773,11 +1773,10 @@ function step4(){
          <button class="${sysStatus[q.id]==='part'?'on prog-b':''}" data-v="part">部分</button>
          <button class="${sysStatus[q.id]==='none'?'on no-b':''}" data-v="none">无</button>
        </div></div>`).join('');
-  const cyberNote=cyberRelevant()?'':`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>网安体系（CSMS/SUMS · R155/R156）是<b>整车级</b>型式批准要求，与你当前申报范围（部件/售后件）无关，已从自评略去——不会因缺它而扣分。</div>`;
+  const cyberNote=cyberRelevant()?'':`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>网安体系（CSMS/SUMS · R155/R156）是<b>整车级</b>型式批准要求，与您当前申报范围（部件/售后件）无关，已从自评略去——不会因缺它而扣分。</div>`;
   return `<div class="step on">
     <div class="eyebrow">STEP 4 / 6 · 体系自评（Y 轴）</div>
     <h2 class="st">支撑体系成熟度自评</h2>
-    <p class="lead">证书只是起点，体系决定证书能不能「活着」——共 ${act.length} 个维度 ${qcount} 题。左侧选维度，右侧逐题自评。</p>
     ${cyberNote}
     <div class="sb">
       <div class="sb-nav">${nav}</div>
@@ -1832,15 +1831,15 @@ const STAGES=[
   what:'确定产品属哪类部件、适用哪条 UN R、覆盖哪些车型类别，以及按「部件」还是「独立技术单元（STU）」申请。',
   pitfall:'',
   sgs:'法规适用性界定、E/e 路线建议'},
- {no:2,id:'authority',name:'选型式批准机关',en:'Choose Type Approval Authority',actor:'你',dur:'约 1 周',cost:'机关申请费（各国不同）',
-  what:'选定一个 1958 协定缔约方的批准机关，它决定你证书上的 E 号（如荷兰 RDW = E4、德国 KBA = E1）。',
+ {no:2,id:'authority',name:'选型式批准机关',en:'Choose Type Approval Authority',actor:'您',dur:'约 1 周',cost:'机关申请费（各国不同）',
+  what:'选定一个 1958 协定缔约方的批准机关，它决定您证书上的 E 号（如荷兰 RDW = E4、德国 KBA = E1）。',
   pitfall:'脱欧后英国 VCA 只能签发 UNECE E 标、不能签 EU e 标；各机关语言、排队、费用差异明显。',
   sgs:'机关选择建议与对接'},
- {no:3,id:'ts',name:'委托技术服务机构',en:'Appoint Technical Service',actor:'你 + 技术服务',dur:'1–2 周确定 + 排期',cost:'（测试费在下一站）',
+ {no:3,id:'ts',name:'委托技术服务机构',en:'Appoint Technical Service',actor:'您 + 技术服务',dur:'1–2 周确定 + 排期',cost:'（测试费在下一站）',
   what:'委托一家获认可的技术服务机构（实验室）执行法规规定的测试。',
-  pitfall:'实验室排期是整个周期最大的变量；技术服务的资质范围必须覆盖你的全部法规项。',
+  pitfall:'实验室排期是整个周期最大的变量；技术服务的资质范围必须覆盖您的全部法规项。',
   sgs:'SGS 作为认可技术服务机构直接承接测试（核心环节）'},
- {no:4,id:'doc',name:'编制技术文档',en:'Technical Documentation',actor:'你 / 内部团队',dur:'2–4 周',cost:'中 · 编制工时',
+ {no:4,id:'doc',name:'编制技术文档',en:'Technical Documentation',actor:'您 / 内部团队',dur:'2–4 周',cost:'中 · 编制工时',
   what:'编制型式批准信息文件夹：图纸、技术参数、材料清单、试验方案等。',
   pitfall:'文档与实物不一致是机关审核最高频的退回点。',
   sgs:'技术文档编制',dim:'doc'},
@@ -1848,19 +1847,19 @@ const STAGES=[
   what:'向技术服务机构送样，实验室按法规执行测试并出具测试报告。',
   pitfall:'一次不通过要整改重测，直接翻倍周期；送样状态必须代表量产件。',
   sgs:'SGS 测试与预测试',reg:true},
- {no:6,id:'apply',name:'递交批准申请',en:'Submit Application',actor:'你 + 批准机关',dur:'4–8 周（机关审）',cost:'机关费',
+ {no:6,id:'apply',name:'递交批准申请',en:'Submit Application',actor:'您 + 批准机关',dur:'4–8 周（机关审）',cost:'机关费',
   what:'向批准机关递交申请，连同测试报告与技术文档。',
   pitfall:'文件不齐被退；跨语言往返拖长周期。',
   sgs:'认证代办',reg:true},
- {no:7,id:'grant',name:'获证与打标',en:'Approval & Marking',actor:'批准机关 → 你',dur:'随申请签发',cost:'—',
-  what:'机关签发型式批准证书 + E 标授权（圈 E + 国别号 + 批准号），你按规在产品上打标。',
+ {no:7,id:'grant',name:'获证与打标',en:'Approval & Marking',actor:'批准机关 → 您',dur:'随申请签发',cost:'—',
+  what:'机关签发型式批准证书 + E 标授权（圈 E + 国别号 + 批准号），您按规在产品上打标。',
   pitfall:'打标位置、尺寸、信息不符规定，本身也构成不合规。',
   sgs:'打标合规核查',reg:true},
- {no:8,id:'cop',name:'生产一致性 CoP',en:'Conformity of Production',actor:'你 + 机关/技术服务',dur:'持续',cost:'中 · 年度',
+ {no:8,id:'cop',name:'生产一致性 CoP',en:'Conformity of Production',actor:'您 + 机关/技术服务',dur:'持续',cost:'中 · 年度',
   what:'建立并维持生产一致性体系，初次评估 + 周期性监督，保证量产件与批准样一致。',
   pitfall:'拿证后忽视 CoP，监督不通过可导致批准被暂停乃至撤销——这正是「有证无体系」待加固象限的根因。',
   sgs:'CoP 年度托管',dim:'cop'},
- {no:9,id:'life',name:'持证运营',en:'Lifecycle Management',actor:'你 / 内部团队',dur:'持续',cost:'低–中 · 订阅',
+ {no:9,id:'life',name:'持证运营',en:'Lifecycle Management',actor:'您 / 内部团队',dur:'持续',cost:'低–中 · 订阅',
   what:'设计变更走扩展申请、法规修订换版、维护证书台账与到期提醒。',
   pitfall:'UN R 系列更新后，新车型申请必须按新系列——旧证不会自动失效但会限制新申请。',
   sgs:'版本追踪订阅',dim:'version'}
@@ -1879,7 +1878,7 @@ const DELIV={
   {t:'申请语言要求确认', b:'各机关接受语言不同（EN/DE/NL…），译文成本计入预算'}],
  ts:[
   {t:'技术服务机构委托合同 / 报价单', b:'（精确报价以技服按产品评估为准）'},
-  {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖你的全部法规项'},
+  {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖您的全部法规项'},
   {t:'测试排期确认单', b:'排期是全周期最大变量，尽早锁定'}],
  doc:[
   {t:'信息文档 Information Document', b:'按对应 UN 法规附件的信息文档模板逐项填写'},
@@ -1930,11 +1929,11 @@ const FAQ=[
  {q:'小批量 / 售后件也要做 CoP 吗？',a:'要。生产一致性是型式批准的组成部分（(EU) 2018/858 <b>Art 31</b> 及各 UN 法规 CoP 条款），监督不通过可导致批准被暂停乃至撤销，与批量大小无关。'},
  {q:'部件带蓝牙 / Wi-Fi，拿了 E-mark 就够了吗？',a:'不够。无线模块另按 <b>RED 2014/53/EU</b> 打 CE，与 E-mark 并行、互不替代——两条独立的评定路径（型式批准机关 vs RED 公告机构）。'},
  {q:'气囊、安全带预紧器为什么还要 CE？',a:'内含气体发生器 / 点火药属<b>车用烟火制品</b>：按 (EU) 2013/29 <b>第 6 条</b>归 P1 类、<b>第 8 条</b>须加贴 CE，与 UN 型批（替换气囊 R114、安全带 R16）并行，两证不互相替代。'},
- {q:'网络安全 R155 跟我做机械件有关系吗？',a:'R155/R156 是<b>整车级</b>型式批准要求。除非你的申报范围本身含这两条、或你是涉及电子/智能网联的系统集成商，否则不适用——本工具也不会因此扣你的体系分。'},
- {q:'证书上的 E4、E1 数字是什么意思？标志外框有讲究吗？',a:'数字是签发批准的缔约方<b>国别代号</b>（E1=德国、E4=荷兰、E8=捷克、E11=英国、E13=卢森堡、E50=马耳他…），由你选择的批准机关决定，与产品销往哪国无关。外框有讲究：<b>圆形外框＝UNECE 大 E</b>，<b>长方形外框＝EU 小 e</b>——看外框即知认证路线（示意图见「标志速查」）。证书在共同适用该法规的缔约方间互认。'},
+ {q:'网络安全 R155 跟我做机械件有关系吗？',a:'R155/R156 是<b>整车级</b>型式批准要求。除非您的申报范围本身含这两条、或您是涉及电子/智能网联的系统集成商，否则不适用——本工具也不会因此扣您的体系分。'},
+ {q:'证书上的 E4、E1 数字是什么意思？标志外框有讲究吗？',a:'数字是签发批准的缔约方<b>国别代号</b>（E1=德国、E4=荷兰、E8=捷克、E11=英国、E13=卢森堡、E50=马耳他…），由您选择的批准机关决定，与产品销往哪国无关。外框有讲究：<b>圆形外框＝UNECE 大 E</b>，<b>长方形外框＝EU 小 e</b>——看外框即知认证路线（示意图见「标志速查」）。证书在共同适用该法规的缔约方间互认。'},
  {q:'英国脱欧后 VCA 的证书还能用吗？',a:'VCA 仍是 1958 协定缔约方机关，可正常签发 <b>UNECE E 标（大 E）</b>；但不能再签发 EU e 标（小 e）——若产品必须满足仅 EU 条例覆盖的项，需另选欧盟成员国机关。'},
  {q:'整车层面能拿大 E（UN 整车批准）吗？',a:'能——<b>UN R0 IWVTA</b>（1958 协定的国际整车型式批准）就是整车的「大 E 体系」批准，但有三个限制：① 仅限 <b>M1 乘用车</b>量产完成车（R0 ¶1.1），卡车/客车/挂车/多阶段不覆盖；② 分 <b>U-IWVTA</b>（43 项 UN 法规全满足，适用 R0 的缔约方须接受）与 <b>L-IWVTA</b>（部分满足，认可有限）；③ IWVTA 只覆盖安全类 UN 法规，<b>不含排放、CO₂、质量尺寸</b>等——进欧盟市场整车证仍是 EU-WVTA（e 证），U-IWVTA 在其中作为 UN 法规部分的证据被接受。整车 IWVTA 也要贴标——注意<b>不是单独的「U 圈」</b>：外框仍是圆形 E+国别号，字母 U/L 出现在批准号里（如 <b>0R00U-1234/01</b>：0＝R0/00＝系列/U＝universal/1234＝class/01＝type，字高 ≥8mm，R0 ¶4.5-4.9 + Annex 2）；IWVTA 引用的车辆系统免贴标，部件仍按各自 UN 法规打标（¶4.7）。所以整车层面实为三者并存：<b>R0 IWVTA（U）/ EU-WVTA（e）/ 部件大 E</b>。43 项必备清单见法规盘点页「IWVTA」按钮，标志样式见「标志速查」示意。'},
- {q:'代理机构给我看「机关授权书 / 合作协议」，怎么核验真伪与效力？',a:'三步：① 分清性质——机关签的<b>商业合作函/代理协议</b>不等于「政府指定技术服务机构」的法定地位，前者只是业务安排，后者才是 1958 协定下由缔约国政府正式指定、对外公示的资质；② 查官方名录——各国指定的批准机关与技术服务机构以 <b>WP.29/343 Add.1</b>（Annex 1）为准，本工具「缔约方名录」即此数据，机构不在名录就只是中介；③ 核对<b>指定范围是否覆盖你的法规项</b>、文件是否在<b>有效期内</b>（此类合作函常见一年一签，过期即失效）。'},
+ {q:'代理机构给我看「机关授权书 / 合作协议」，怎么核验真伪与效力？',a:'三步：① 分清性质——机关签的<b>商业合作函/代理协议</b>不等于「政府指定技术服务机构」的法定地位，前者只是业务安排，后者才是 1958 协定下由缔约国政府正式指定、对外公示的资质；② 查官方名录——各国指定的批准机关与技术服务机构以 <b>WP.29/343 Add.1</b>（Annex 1）为准，本工具「缔约方名录」即此数据，机构不在名录就只是中介；③ 核对<b>指定范围是否覆盖您的法规项</b>、文件是否在<b>有效期内</b>（此类合作函常见一年一签，过期即失效）。'},
  {q:'认证到底要多久、多少钱？',a:'差异极大：取决于法规项数量、实验室排期与整改轮次。本工具在「认证旅程」各站给出<b>档位</b>（工时 / 机关费 / 测试费主体 / 年度费用），精确周期与报价以技术服务机构按具体产品评估为准——工具不臆造数字。'}
 ];
 function openFAQ(){
@@ -1998,7 +1997,7 @@ function maturityBlock(){
   const ref=REF_POINT[sel.role]||REF_POINT._default;
   const cx=(60+X*3.4).toFixed(1), cy=(20+(100-Y)*3.4).toFixed(1);
   const labY=(+cy-14).toFixed(1);
-  const svg=`<svg viewBox="0 0 420 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="合规成熟度矩阵，你的定位 X ${X} Y ${Y}，${q.name}象限">
+  const svg=`<svg viewBox="0 0 420 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="合规成熟度矩阵，您的定位 X ${X} Y ${Y}，${q.name}象限">
       <defs><pattern id="mxg" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0 L0 0 0 34" fill="none" stroke="#2A2F38" stroke-width="0.5"/></pattern></defs>
       <rect x="60" y="20" width="340" height="340" fill="url(#mxg)"/>
       <rect x="60" y="20" width="170" height="170" fill="#2563EB" opacity="0.05"/>
@@ -2030,7 +2029,7 @@ function maturityBlock(){
       <line x1="${cx}" y1="${cy}" x2="${cx}" y2="360" stroke="#E8622C" stroke-width="0.7" stroke-dasharray="2 2" opacity="0.6"/>
       <line x1="${cx}" y1="${cy}" x2="60" y2="${cy}" stroke="#E8622C" stroke-width="0.7" stroke-dasharray="2 2" opacity="0.6"/>
       <circle cx="${cx}" cy="${cy}" r="8" fill="${q.color}" stroke="#fff" stroke-width="2.5"/>
-      <text x="${cx}" y="${labY}" fill="#E6E9ED" font-size="10.5" text-anchor="middle" font-weight="bold">你 (${X}, ${Y})</text>
+      <text x="${cx}" y="${labY}" fill="#E6E9ED" font-size="10.5" text-anchor="middle" font-weight="bold">您 (${X}, ${Y})</text>
     </svg>`;
   const recsHTML=copy.recs.map(r=>`<li>${r}</li>`).join('');
   return `<div class="mx-block">
@@ -2069,11 +2068,11 @@ function maturityBlock(){
 function stationExtra(st){
   if(st.id==='scope'){
     let max=0; applicable().forEach(i=>{const n=partiesCount(i.reg)||0;if(n>max)max=n;});
-    return max? `<div class="stn-extra"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>一证多国：你范围内的法规最广被 <b>${max}</b> 个 1958 协定缔约方共同采纳（数据：WP.29/343 Add.1）。</div>`:'';
+    return max? `<div class="stn-extra"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.3 2.5 14.7 0 17M12 3.5c-2.5 2.3-2.5 14.7 0 17"/></svg>一证多国：您范围内的法规最广被 <b>${max}</b> 个 1958 协定缔约方共同采纳（数据：WP.29/343 Add.1）。</div>`:'';
   }
   if(st.id==='authority'){
     const e=AUTH_ECODE[profile.authority], a=e&&authInfo(e);
-    if(a) return `<div class="stn-extra">你选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
+    if(a) return `<div class="stn-extra">您选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
     return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、卢森堡 SNCH(E13)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
   }
   if(st.id==='life'){
@@ -2096,14 +2095,13 @@ function step5(){
     return `<button class="sb-item ${idx===_stnActive?'on':''}" onclick="stnPick(${idx})"><span class="sb-num" style="background:${c.c}">${s.no}</span><span>${s.name}<br><small style="color:${c.c}">${c.t}</small></span></button>`;}).join('');
   // 右侧内容：当前站详情（去掉逐站 SGS 推销，仅保留说明性附加信息）
   const detail=`<div class="sb-mh">${st.name} <small style="font-family:Georgia,serif;color:var(--greyl);font-weight:400">${st.en}</small> <span class="stn-st" style="color:${sc.c};margin-left:6px">${sc.t}</span></div>
-      <div class="stn-note" style="border-color:${sc.c};margin-top:8px">你的现状：${st.note}</div>
+      <div class="stn-note" style="border-color:${sc.c};margin-top:8px">您的现状：${st.note}</div>
       <p class="stn-what">${st.what}</p>
       ${delivHTML(st)}
       ${stationExtra(st)}`;
   return `<div class="step on">
     <div class="eyebrow">STEP 5 / 6 · 认证旅程</div>
-    <h2 class="st">你的 E-mark 认证路线</h2>
-    <p class="lead">基于前面的自评，走完 E-mark 部件型式批准要经过 9 站——左侧选站，右侧看细节与你的现状。</p>
+    <h2 class="st">您的 E-mark 认证路线</h2>
     <div class="jbar">
       <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curIdx<0?' · 全部完成 <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg>':` · 当前重点：第 <b>${js[curIdx].no}</b> 站「${js[curIdx].name}」`}</div>
       <div class="jprog"><div class="jprog-f" style="width:${pct}%"></div></div>
@@ -2216,13 +2214,13 @@ function step6(){
   const painHTML=profile.pains.map(k=>{const o=painDef.opts.find(x=>x[0]===k);return o?`<div class="gap"><span class="gdot amber"></span><span>${o[1]} <small style="color:var(--grey)">${o[2]}</small></span><span class="gsvc">${o[3]||'专家解读'}</span></div>`:'';}).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 6 / 6 · 行动清单与报告</div>
-    <h2 class="st">你的合规待办清单</h2>
+    <h2 class="st">您的合规待办清单</h2>
     <p class="lead">下列每一项缺口都对应一项可落地的服务。共识别 ${gapRows.length} 项，展示前 ${shown.length} 项。</p>
     <div class="gaplist">
       <div class="gaphd"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4.5h6a1 1 0 0 1 1 1V6a1 1 0 0 1-1 1H9A1 1 0 0 1 8 6v-.5a1 1 0 0 1 1-1Z"/><path d="M8 5.5H6a1.5 1.5 0 0 0-1.5 1.5V19A1.5 1.5 0 0 0 6 20.5h12A1.5 1.5 0 0 0 19.5 19V7A1.5 1.5 0 0 0 18 5.5h-2M8.5 11h7M8.5 14.5h5"/></svg>缺口 → 服务映射</div>
       ${gapHTML}
     </div>
-    ${painHTML?`<div class="gaplist"><div class="gaphd"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>你标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
+    ${painHTML?`<div class="gaplist"><div class="gaphd"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>您标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
     <div class="rcard-g">
       <div class="rcard"><div class="rk">企业画像</div><div class="rv">规模：${plabel('size')} · 出口经验：${plabel('exp')}<br>时间要求：${plabel('timeline')}<br>已持认证：${plabel('certs')}</div></div>
       <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}<br><small style="color:var(--grey)">X ${X} / Y ${Y} · ${gapRows.length} 项缺口</small></div></div>
@@ -2230,8 +2228,8 @@ function step6(){
     </div>
     <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</p>
     <div class="cta-box">
-      <h3>你的免费评估报告已生成</h3>
-      <p>报告编号 <b>${reportNo()}</b> · 共 ${gapRows.length} 项缺口（按法规生效日历排序）。<br>想知道「每一项具体怎么补、优先做哪个」？预约我们的专家，一对一为你解读。</p>
+      <h3>您的免费评估报告已生成</h3>
+      <p>报告编号 <b>${reportNo()}</b> · 共 ${gapRows.length} 项缺口（按法规生效日历排序）。<br>想知道「每一项具体怎么补、优先做哪个」？预约我们的专家，一对一为您解读。</p>
       <button class="btn" onclick="alert('（示意）已记录：报告 ${reportNo()} · ${q.name}象限 · ${gapRows.length}项缺口 · 将转销售预约专家解读')">预约专家解读我的缺口 →</button>
       <button class="btn" style="margin-left:10px" onclick="downloadReport()">⬇ 导出 PDF 报告</button>
     </div>
