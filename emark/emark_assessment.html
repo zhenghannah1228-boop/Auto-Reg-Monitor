@@ -1492,13 +1492,29 @@ const REG_APPTYPE={
  "3":"component","4":"component","6":"component","7":"component","19":"component","23":"component","31":"component","37":"component","38":"component","77":"component",
  "87":"component","91":"component","98":"component","99":"component","104":"component","112":"component","117":"component","119":"component","123":"component","128":"component","148":"component","149":"component","150":"component"
 };
-// E-mark 在非 1958 缔约国的采信情况（据各国官方标准/法规，带来源）
+// E-mark / EU WVTA 在缔约方互认之外的采信情况（2026-07 逐国联网复核，官方来源见维护文档第 24 条）。
+// 瑞士/土耳其/越南/新西兰同时是 1958 缔约方——零部件口径下由缔约方行覆盖，reachData 会自动去重。
 const EMARK_ACCEPT={
- accepts:[['以色列','IMR 2025 对齐欧盟 2018/858 整车型批，接受欧盟 COC（基于 UN 法规）'],['墨西哥','NOM-194-SE-2021 允许按 UNECE 择一符合（限轻型车安全部件，经 NOM 评定）']],
- refs:[['海湾 GCC 六国','沙特/阿联酋/卡塔尔/科威特/巴林/阿曼——GSO 技术法规引用 ECE，最终仍需 GCC 符合性证书'],['印度','AIS-037 可凭 E 标证书与报告在流程/限值一致处免测（部件层·逐案，仍发印度 TAC）'],['印度尼西亚','2022 起实施首批 19 项 UN 法规，部件型批基于 UN-R；SNI 并行'],['新加坡','LTA VITAS 接受 UN ECE 型批/测试报告作注册依据（如 EV 的 UN R100）'],['阿根廷 / 智利','国家法规借用 ECE 条文，但欧洲证本身不放行，需本地认证（INTI 等）']],
+ accepts:[
+  ['以色列','IMR 2025 采纳欧盟 2018/858 整车型批，接受 EU COC（美/加认证亦可；2025 起需 ISA 声明）'],
+  ['瑞士','EU–瑞士 MRA 互认整车型批，EU WVTA 车辆可直接登记'],
+  ['土耳其','关税同盟下 MARTOY 法规全文采纳 (EU) 2018/858，型批体系与欧盟一体化'],
+  ['越南','Decree 60/2023：按 EVFTA/UKVFTA 对欧盟/英国原产车采信 EC 整车型批证书、简化查验（限欧盟/英国原产）']],
+ refs:[
+  ['海湾 GCC 六国','沙特/阿联酋/卡塔尔/科威特/巴林/阿曼——GSO 法规大量引用 ECE（R13-H/R83/R49 等），整车仍需 GCC 符合性证书；沙特另经 SABER 出证'],
+  ['印度','AIS-037 明文允许凭 E/e 证书与报告免做程序限值一致的项目，仍需印度试验机构发 TAC'],
+  ['印度尼西亚','2022 起经东盟 AP-MRA 互认首批 19 项 UN 法规测试报告，国内型批仍按本国法规、SNI 并行'],
+  ['新加坡','LTA 经 VITAS 采认海外指定技服的 ECE 型批/测试报告作注册依据（EV 要求 UN R100）'],
+  ['墨西哥','NOM-194-SE-2021 限轻型车安全装置逐项择一采信 UNECE/FMVSS，经墨西哥合格评定（非整车采信）'],
+  ['阿根廷','整车仍需本地 LCM，2019 起 EC 整车型批可作发证依据免重复测试（经 INTI 程序）'],
+  ['智利','3CV 本国同型认证强制，技术条文大量借用 ECE/欧标（排放可按欧标或美标）'],
+  ['乌拉圭','车辆安全 homologación（法 19.061）采信按 UN 法规出具的型批证书（含 R94/R95 碰撞）'],
+  ['厄瓜多尔','RTE INEN 034：无本国标准处接受 ECE/FMVSS 等效标准作合规证明'],
+  ['新西兰','认可标准清单将 UN(ECE) 法规与澳/日/美标准并列为整车合规依据'],
+  ['伊拉克','进口预检需 COC 并提交 GSO 42 海湾标准合格证，经海湾标准体系间接对接 ECE']],
  own:[['中国','CCC / GB 强制，E 标不直接采信（GB 技术上参照 ECE）'],['巴西','INMETRO / CONTRAN 本地认证，ECE 一般不自动采信']]
 };
-const EMARK_SRC='来源：GSO/SASO、以色列 IMR 2025、印度 AIS-037、墨西哥 NOM-194-SE-2021、新加坡 LTA VITAS、印尼 GAIKINDO 等官方标准与法规。采信为各国国家制度下的采纳，非 1958 强制互认，具体以各国主管机关最新要求为准。';
+const EMARK_SRC='来源：以色列 IMR 2025、EU–瑞士 MRA、土耳其 MARTOY、越南 Decree 60/2023、GSO 2025MY 技术法规清单、印度 AIS-037、印尼东盟 AP-MRA、新加坡 LTA VITAS、墨西哥 NOM-194-SE-2021（DOF）、阿根廷 Res.15/2019、智利 3CV、乌拉圭法 19.061、厄瓜多尔 RTE INEN 034、新西兰 NZTA 认可标准清单、伊拉克 GSO 42 等官方文件。采信为各国国家制度下的采纳，非 1958 强制互认，以各国主管机关最新要求为准。';
 // 接受欧盟整车型式批准(WVTA)的地区：欧盟 27 + EEA(挪威/冰岛/列支敦士登)；英国脱欧后为 GB 体系，单列「需转换」
 const EU_EEA=['德国','法国','意大利','荷兰','比利时','卢森堡','爱尔兰','丹麦','希腊','西班牙','葡萄牙','奥地利','瑞典','芬兰','波兰','匈牙利','捷克','斯洛伐克','斯洛文尼亚','克罗地亚','罗马尼亚','保加利亚','立陶宛','拉脱维亚','爱沙尼亚','塞浦路斯','马耳他','挪威','冰岛','列支敦士登','英国'];
 // 提取「Germany 德国」中的中文国名
@@ -1532,8 +1548,10 @@ function reachData(){
   arr.forEach(no=>{const reg=(typeof VERDB!=='undefined'&&VERDB)?(VERDB.byNo[no]||VERDB.byNo[no.replace(/-/g,'')]):null; if(!reg||!reg.parties)return;
     reg.parties.forEach(pp=>{const cn=_cnName(pp.country); if(!cn)return; (cty[cn]||(cty[cn]=new Set())).add(no);});});
   Object.keys(cty).sort((a,b)=>cty[b].size-cty[a].size).forEach(cn=>rows.push({cn,tag:'party',tagT:'强制互认',note:`适用您 ${cty[cn].size}/${arr.length} 项大 E 法规`}));
-  EMARK_ACCEPT.accepts.forEach(([cn,note])=>rows.push({cn,tag:'ok',tagT:'采信',note}));
-  EMARK_ACCEPT.refs.forEach(([cn,note])=>rows.push({cn,tag:'ref',tagT:'参照',note}));
+  // 零部件口径只列 refs（部件层面参照/采信）；accepts 均为整车级采信、只进整车名单。
+  // 已以缔约方身份在列的国家（新西兰等）不再重复列入。
+  const partySet=new Set(Object.keys(cty));
+  EMARK_ACCEPT.refs.forEach(([cn,note])=>{ if(!partySet.has(cn)) rows.push({cn,tag:'ref',tagT:'参照',note}); });
   // 自有·不直接采信（中国/巴西等）不进可通行名单（业主指示）
   return {oem,rows};
 }
