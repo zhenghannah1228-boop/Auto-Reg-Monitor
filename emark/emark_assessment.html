@@ -481,7 +481,6 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
        <button onclick="tbGo(openMarkSelector)">标志速查（大E / 小e / CE）</button>
        <div class="tb-sep"></div>
        <button onclick="tbGo(openAuthDir)">1958 缔约方 · 机关与技服名录</button>
-       <button onclick="tbGo(openTransitional)">过渡条款速查</button>
       <button onclick="tbGo(openVersionBoard)">版本时效自查表（各系列生效/失效）</button>
        <button onclick="tbGo(openIWVTA)">IWVTA 整车必备法规</button>
        <button onclick="tbGo(openEuTable)">EU 型批法规全表（含强制实施日期）</button>
@@ -856,35 +855,6 @@ function openRegSrc(csv){const nos=String(csv).split(',').filter(n=>REG_SRC[n]||
   const title=nos.length>1?`适用范围与测试内容（${nos.length} 条法规）`:`UN R${nos[0]} · 适用范围`;
   emkModal(title, body);
 }
-// 过渡条款速查（权威依据 WP.29/1044/Rev.3 · UN 法规程序与过渡条款通用指南）
-function openTransitional(){
-  const src='WP.29/1044/Rev.3';   // 每条括号内为该文件确切段号
-  const body=`<div style="padding:14px 16px;font-size:12.5px;line-height:1.7;color:var(--ink2)">
-    <div style="font-weight:700;color:var(--od);margin-bottom:6px">一、新系列生效后的关键日期（${src} §25）</div>
-    <table class="emk-tbl" style="margin-bottom:12px"><thead><tr><th>日期</th><th>含义（原文表述）</th><th>依据</th></tr></thead><tbody>
-      <tr><td><b>Date (a)</b></td><td>起，缔约方<b>有权签发、且有义务接受</b>按修订后法规的型式批准（一般＝生效日）。</td><td class="g">§25(a)</td></tr>
-      <tr><td><b>Date (b)</b></td><td>起，对<b>此日之后首次签发</b>的旧版本批准，缔约方<b>不再有义务接受</b>。</td><td class="g">§25(b)</td></tr>
-      <tr><td><b>Date (c)</b></td><td>起，<b>无论签发日期</b>，缔约方对旧版本批准<b>不再有义务接受</b>；未规定 (c) 时视同 (b)。</td><td class="g">§25(c)+图1注</td></tr>
-    </tbody></table>
-    <div class="stn-sgs" style="margin-bottom:12px">要点（均引原文）：<b>已有批准仍然有效</b>（§25 图1注）；<b>Date (b) 前签发</b>的旧版本批准及其扩展，各方<b>须接受至少到 Date (c)</b>（§26）；对 <b>Date (b) 之后新签发</b>的旧版本批准，缔约方不再有义务接受（§25b）；<b>Date (c)</b> 起对旧版本批准一律不再有义务接受（§25c）。Date (b)/(c) 在可行时<b>定于 9 月 1 日</b>（§27）。</div>
-    <div class="stn-extra" style="margin-bottom:12px"><b>真实案例 · UN R0（IWVTA）08 series（ECE/TRANS/WP.29/2025/159）：</b>Date (a)＝该系列正式生效日（提案 §12.13）；<b>Date (b)＝2026-09-01</b>——此日后首次签发的旧系列 IWVTA，缔约方不再有义务接受（提案 §12.14）。</div>
-    <div style="font-weight:700;color:var(--od);margin-bottom:6px">二、过渡条款按产品类别分（${src} 附件1 §3）</div>
-    <table class="emk-tbl" style="margin-bottom:12px"><thead><tr><th>类别</th><th>范围（原文表述）</th><th>Date (a)/(b)/(c) 适用</th></tr></thead><tbody>
-      <tr><td><b>V</b></td><td>车辆、车辆系统，及在<b>新车</b>上装配装备/部件。</td><td>完整 (a)/(b)/(c) 阶梯（V.1–V.9bis）。</td></tr>
-      <tr><td><b>C</b></td><td>作为独立供货的<b>装备与部件</b>。</td><td>同 V 的 (a)/(b)/(c)，但含<b>替换件豁免</b>：仅供在用车替换、且技术上无法满足新要求时可续用旧系列（C.5）。</td></tr>
-      <tr><td><b>R</b></td><td><b>在用车</b>的替换件。</td><td><b>无 (b)/(c) 阶梯</b>：以生效日 + 可选「…个月」窗口为准（R.1–R.5）。</td></tr>
-    </tbody></table>
-    <div style="font-weight:700;color:var(--od);margin-bottom:6px">三、四类变更的法律区别（${src}）</div>
-    <table class="emk-tbl"><thead><tr><th>类型</th><th>作用与影响（原文表述）</th><th>依据</th></tr></thead><tbody>
-      <tr><td><b>系列 Series</b></td><td>需<b>修改认证标志</b>以区分新旧批准（§22）；带 Date (a)/(b)/(c) 过渡条款（§25）。</td><td class="g">§22,§25</td></tr>
-      <tr><td><b>增补 Supplement</b></td><td>澄清试验方法或纳入新发展、<b>不改变严格度</b>（§28）；<b>不修改认证标志</b>（§29）；自生效日起适用（§30）。</td><td class="g">§28–30</td></tr>
-      <tr><td><b>勘误 Corrigendum</b></td><td>对已通过文本的编辑性更正；更正<b>视为自始生效（ab initio）</b>（§33）。</td><td class="g">§33</td></tr>
-      <tr><td><b>修订 Revision</b></td><td>UNECE 秘书处的行政程序，将原文与各增补(Amend.+Corr.)<b>整合为合并文本</b>（§39）——即本工具/看板标注的「合并版」。</td><td class="g">§39</td></tr>
-    </tbody></table>
-  </div>`;
-  emkModal('E-mark 过渡条款速查 · 老证书还能用多久？', body,
-    '权威依据：UNECE ECE/TRANS/WP.29/1044/Rev.3《UN 法规程序与过渡条款通用指南》(段号见各行「依据」列)；R0.08 案例据 ECE/TRANS/WP.29/2025/159 §12.13–12.14。具体某法规的 Date (a)/(b)/(c) 以该法规该系列过渡条款原文为准。');
-}
 // ===== 版本时效自查表：逐法规逐系列列出生效日与 UNECE 法定失效日，附 EU 引用系列(最低门槛)。
 // 注意口径（业主指示）：不展示「被取代/已被取代」类标注——系列更替不影响既有证书效力，仅法定失效才标红。 =====
 // EU 引用系列(最低门槛)：据 (EU) 2019/2144 Annex II 原文固定的最低系列；空=Annex 未固定具体系列(以现行为准)
@@ -1005,7 +975,7 @@ function openVersionBoard(){
       let failCell;
       if(tp.c5){ legalCnt++; failCell=`<b title="UNECE Col5「老证书失效日」">${d2iso(tp.c5)}</b> <span class="vb-legal">法定失效</span>`; }
       else if(tp.c5n){ const d=(tp.c5n.match(/\d{2}-\d{2}-\d{4}/)||[''])[0]; failCell=`${d?d2iso(d):''} <span class="vb-fn" title="${_esc(tp.c5n)}">脚注 ⓘ</span>`; }
-      else failCell='<span class="vb-eif" title="UNECE 未公布法定失效日；老证书接受截止以该法规过渡条款 Date (b)/(c) 为准">—</span>';
+      else failCell='<span class="vb-eif" title="UNECE 未公布法定失效日——既有证书持续有效（WP.29/1044/Rev.3 §25）">—</span>';
       trs+=`<tr class="${isEuRef?'vb-row-eu':''}">`;
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
@@ -1021,13 +991,13 @@ function openVersionBoard(){
   });
   const body=`<div style="padding:12px 15px">
     <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
-    <div class="vb-legend2"><span class="lg lg-eu">蓝行=EU 现行门槛</span>（EU 型批仍引用；即便 UNECE 已出更新系列）　<span class="lg lg-cur">现行=UNECE 最新已生效</span>　失效日仅在 UNECE 公布<span class="vb-legal">法定失效</span>时显示；其余系列老证书持续有效，接受截止以各法规过渡条款 Date (b)/(c) 为准</div>
+    <div class="vb-legend2"><span class="lg lg-eu">蓝行=EU 现行门槛</span>（EU 型批仍引用；即便 UNECE 已出更新系列）　<span class="lg lg-cur">现行=UNECE 最新已生效</span>　失效日仅在 UNECE 公布<span class="vb-legal">法定失效</span>时显示；其余系列既有证书持续有效</div>
     <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日 /<br>新型式强制日</th><th>法定失效日</th><th>状态</th></tr></thead>
     <tbody>${trs}</tbody></table></div>
   </div>`;
   emkModal('版本时效自查表 · 各系列生效 / 失效时间',body,
     '<b>官方依据：</b><br>'+
-    '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 据 <b>UNECE「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」。未列 Col5 的系列不显示失效日——系列更替不影响既有证书效力：据 <b>WP.29/1044/Rev.3 §25</b>，既有 UN 型批持续有效，缔约方接受截止以各法规过渡条款 <b>Date (b)/(c)</b> 为准。<br>'+
+    '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 据 <b>UNECE「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」。未列 Col5 的系列不显示失效日——系列更替不影响既有证书效力：据 <b>WP.29/1044/Rev.3 §25</b>，既有 UN 型批持续有效。<br>'+
     '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 升级系列，故 EU 引用系列可低于 UNECE 最新系列。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
     '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。');
 }
@@ -1037,7 +1007,7 @@ function seriesAlert(i){
   const m=/(?:UN\s*)?R\s*(\d{1,3})\.(\d{2})/i.exec(i.reg||''); if(!m) return '';
   const latest=latestInForceSeries(m[1]);
   if(latest!=null && latest>+m[2])
-    return `<span class="ver warn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>R${m[1]} 已有 ${String(latest).padStart(2,'0')} series 生效——按 ${m[2]} 系列取得的证书请核对过渡期条款与新申请适用性 <button class="tp-link" onclick="openTransitional()">过渡期怎么算?</button></span>`;
+    return `<span class="ver warn"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 2.7 20h18.6L12 4Z"/><path d="M12 10v4.5M12 17.4v.1"/></svg>R${m[1]} 已有 ${String(latest).padStart(2,'0')} series 生效——${m[2]} 系列既有证书仍有效，新申请以新系列为准（详见「版本时效自查表」）</span>`;
   return '';
 }
 // 该 UN R 编号即将生效的修订（eif > 今天，取最近一条），用于路线图倒计时
@@ -1286,7 +1256,7 @@ const STEP_REGS={
     {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。'}],
  3:[{t:'WP.29/343 Add.1',c:'各缔约国指定型式批准机关与技术服务名录（63 国）＋缔约方适用（互认国数）。'},
     {t:'WP.29/343 Add.2',c:'各 UN 法规系列/增补生效日期（工具版本标注数据源）。'},
-    {t:'WP.29/1044/Rev.3',c:'UN 法规程序与过渡条款通用指南（Date (a)/(b)/(c)、增补/勘误/修订区别）。'},
+    {t:'WP.29/1044/Rev.3',c:'UN 法规程序通用指南——法规出新系列后既有批准持续有效；增补/勘误/修订的法律区别。'},
     {t:'WP.29/2025/159',c:'UN R0 IWVTA 08 series 提案（整车必备 43 项法规系列）。'},
     {t:'(EU) 2019/2144 · Art 16',c:'EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。',l:D2144}],
  4:[{t:'(EU) 2018/858 · Art 31',c:'生产一致性（CoP）安排——量产件须持续与批准样品一致。',l:D858},
@@ -1294,7 +1264,7 @@ const STEP_REGS={
     {t:'(EU) 2018/858 · Art 24/Annex I',c:'信息文件夹（技术文档）与型式批准申请材料。',l:D858}],
  5:[{t:'(EU) 2018/858 · Art 31',c:'CoP 生产一致性——「有证无体系」时证书面临失效风险。',l:D858},
     {t:'WP.29/343 Add.1',c:'各国指定型式批准机关与技术服务机构（选机关/委托技服站）。'},
-    {t:'WP.29/1044/Rev.3',c:'过渡期关键日期 Date (a)/(b)/(c)——老证书能用多久（详见顶栏「速查工具 → 过渡条款速查」）。'}],
+    {t:'WP.29/1044/Rev.3',c:'既有证书在系列更新后持续有效；法定失效日（如有）见顶栏「速查工具 → 版本时效自查表」。'}],
  6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144},
     {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858}]
 };
@@ -1943,7 +1913,7 @@ const DELIV={
   {t:'证书台账与换版提醒机制', b:'编号 / 系列 / 各缔约方适用状态'},
   {t:'法规版本追踪机制（订阅/负责人）', b:'跟踪 UN R 新系列/增补生效（数据源 WP.29/343）'},
   {t:'设计变更 → 扩展申请流程', b:'变更未申报可致证书失效'},
-  {t:'过渡期日历（Date (a)/(b)/(c)）', b:'WP.29/1044/Rev.3 §25/26——点「过渡条款速查」'}]
+  {t:'版本时效台账（各系列生效日 / 法定失效日）', b:'数据见顶栏「速查工具 → 版本时效自查表」'}]
 };
 let stnChk={}; // 交付物勾选状态：`${站id}_${序号}` -> true
 function toggleChk(k){stnChk[k]=!stnChk[k];render();}
@@ -1959,7 +1929,7 @@ const FAQ=[
  {q:'国内有哪些实验室可以做 E-mark 测试？',a:'（网络检索整理·非官方·非最全名单）<br><b>① 检测实验室</b>（在华设汽车检测实验室、公开提供 E-mark/ECE 测试）：<b>TÜV 莱茵</b>、<b>TÜV 南德</b>、<b>SGS 通标</b>、<b>DEKRA 德凯</b>、<b>Bureau Veritas 必维</b>、<b>Applus IDIADA</b>、<b>CATARC 中汽研（中汽中心）</b>。这些大实验室基本全品类通做。<br><b>② 认证代理/咨询机构</b>（协调办证、多结合欧洲实验室，<b>不一定自有检测资质</b>）：荣仪达、江苏中正检测、中联检、ATIC 泰测、赛特…等（数量众多，此处仅举例）。<br>要点：<b>具体某条法规的测试资质/范围以各机构现行认可为准</b>；<b>E-mark 型式批准证书仍由 1958 缔约方机关（KBA/RDW/VCA…）签发</b>，实验室出具的是测试报告。选代理时务必甄别——<b>代理 ≠ 官方指定技术服务</b>（核验方法见上一条：以 WP.29/343 Add.1 官方名录为准、核指定范围与文件有效期）。'},
  {q:'我的部件到底打大 E 还是小 e？',a:'<b>部件/STU 层面</b>：有对应 UN 法规的项打<b>大 E</b>——依 (EU) 2018/858 <b>Art 57/58</b>，Annex II 所列 UN 法规与 EU 法规等效、成员国须接受 E 标替代 EU 标，且大 E 在 1958 协定缔约方间互认。仅 EU 条例覆盖、无对应 UN 法规的项（eCall、前防护系统、氢系统材料、酒精锁安装）才打<b>小 e</b>，只在欧盟内有效。不确定就查「标志速查」对照表。<br>注意别与<b>整车层面</b>混淆：EU 整车型批（EU-WVTA）证书号以 e 开头、属 EU 框架，但它的技术要求大量引用 UN 法规、以部件大 E 批准为组成部分——「整车 e 证 + 部件大 E 标」并存是常态。'},
  {q:'一张 E-mark 证书能在多少个国家用？',a:'按<b>法规逐条</b>看：盘点页每条法规的「N 国互认」徽标给出适用该法规的缔约方数量与完整国家名单（数据：WP.29/343 Add.1）。互认不是一揽子的——不同法规的适用缔约方集合不同。'},
- {q:'法规出了新系列，我的老证书作废吗？',a:'不会自动作废。按 WP.29/1044/Rev.3 过渡框架：<b>Date (b)</b> 后首次签发的旧系列批准，缔约方不再有义务接受（§25(b)）；<b>Date (c)</b> 起一律不再有义务接受（§25(c)）。完整规则点「过渡条款速查」。'},
+ {q:'法规出了新系列，我的老证书作废吗？',a:'不会自动作废。据 <b>WP.29/1044/Rev.3 §25</b>，法规出新系列后<b>既有批准持续有效</b>；仅当 UNECE 对该系列公布「法定失效日」时才有接受截止（见「版本时效自查表」红标，属少数个例）。新申请须按新系列。'},
  {q:'小批量 / 售后件也要做 CoP 吗？',a:'要。生产一致性是型式批准的组成部分（(EU) 2018/858 <b>Art 31</b> 及各 UN 法规 CoP 条款），监督不通过可导致批准被暂停乃至撤销，与批量大小无关。'},
  {q:'部件带蓝牙 / Wi-Fi，拿了 E-mark 就够了吗？',a:'不够。无线模块另按 <b>RED 2014/53/EU</b> 打 CE，与 E-mark 并行、互不替代——两条独立的评定路径（型式批准机关 vs RED 公告机构）。'},
  {q:'气囊、安全带预紧器为什么还要 CE？',a:'内含气体发生器 / 点火药属<b>车用烟火制品</b>：按 (EU) 2013/29 <b>第 6 条</b>归 P1 类、<b>第 8 条</b>须加贴 CE，与 UN 型批（替换气囊 R114、安全带 R16）并行，两证不互相替代。'},
@@ -2115,7 +2085,7 @@ function stationExtra(st){
     <div class="probe">防坑提醒：中介出示的「机关授权书 / 合作协议」是商业信函，<b>不等于</b>政府指定技术服务机构的法定地位——以 Add.1 官方名录为准核验，并核对指定范围与文件有效期（此类合作函常见一年一签）。详见「常见问题」。</div>`;
   }
   if(st.id==='life'){
-    return `<div class="stn-extra">法规系列更新后，老证书不会自动失效，但从过渡期 Date (c) 起缔约方可拒收、新申请须按新系列。<button class="tp-link" onclick="openTransitional()">⏳ 过渡条款速查</button><br><span style="font-size:11.5px;color:var(--grey)">依据 WP.29/1044/Rev.3</span></div>`;
+    return `<div class="stn-extra">法规系列更新后，既有证书持续有效；仅少数系列有 UNECE 公布的法定失效日，新申请须按新系列。<button class="tp-link" onclick="openVersionBoard()">📋 版本时效自查表</button><br><span style="font-size:11.5px;color:var(--grey)">依据 WP.29/1044/Rev.3 §25</span></div>`;
   }
   return '';
 }
