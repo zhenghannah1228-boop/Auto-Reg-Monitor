@@ -292,12 +292,21 @@ function quizDone(){ return QUIZ.filter(q=>quiz[q.id]).length; }
 function judgeLevel(){
   const a=quiz, done=quizDone();
   if(done<QUIZ.length) return {code:'未判定',disp:'未判定',done};
-  if(a.q7==='yes') return {code:'AVP',disp:'AVP · 自动代客泊车(ADS)',done};
+  if(a.q7==='yes') return {code:'AVP',disp:'L4(限定场景)· 自动代客泊车 AVP/ADS',done};
   if(a.q3==='nomon'||a.q4==='eyesoff') return {code:'L3 · ALKS',disp:'L3 · 有条件自动(ALKS)',done};
   if(a.q1==='sys'&&a.q2==='sys') return {code:'L2 · DCAS',disp:'L2 · 组合驾驶辅助(DCAS)',done};
   if(a.q1==='sys'||a.q2==='sys') return {code:'L1',disp:'L1 · 单项辅助',done};
   return {code:'L1',disp:'L0–L1 · 提示 / 瞬时干预',done};
 }
+/* SAE J3016 L0–L5 完整分级阶梯(公认分级;各级法规路径现状,不臆造) */
+const SAE_LADDER=[
+ ['L0','应急辅助/无持续自动化(AEB、LDW 预警等)','单项功能法规:R152/R130 等(模块1)'],
+ ['L1','单项持续辅助(纵或横其一,如 ACC 或车道居中)','单项功能法规:R79 ACSF B1 等(模块1)'],
+ ['L2','组合驾驶辅助(纵+横同时,驾驶员始终监控并负责)','UN R171 DCAS(2024-09-30 生效,可选法规)'],
+ ['L3','有条件自动(系统监控环境,接管请求后驾驶员接管)','UN R157 ALKS(01 系列:高速 130 km/h + 自动换道)'],
+ ['L4','高度自动(限定 ODD 内无需驾驶员兜底)','(EU) 2022/1426 ADS 实施细则(预定义区域:AVP/摆渡/Robotaxi)+ 成员国运营许可;UN 层面法规制定中(FRAV/VMAD)'],
+ ['L5','完全自动(无 ODD 限制)','目前全球无型式批准路径']
+];
 const PATHS={
   'L1':{regs:['UN R152 AEBS','UN R130 LDWS','(EU) 2021/646 ELKS','(EU) 2021/1958 ISA','UN R79(纠偏/CSF)'],
     obl:['逐单项功能取得对应法规批准(走模块1 清单)','UN R121 操纵件与状态标识','用户手册如实描述功能边界,避免"自动驾驶"误导宣传'],
@@ -390,7 +399,7 @@ const FAQS=[
 /* 模块差异矩阵 */
 const MODULES=[
   {m:'① ADAS 法规就绪度',std:'GSR (EU) 2019/2144 附件II + UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160 + 欧盟细则',obj:'单项 ADAS 强制项是否齐备',out:'就绪度 % · 无/部分/已建立',legal:'型批强制(逐项)',tone:'red',how:'逐条条款自查 + 证据/责任人/差距追踪',use:'上市前逐项核对强制清单'},
-  {m:'② 自动化级别判定',std:'UN R157 / UN R171 / (EU) 2022/1426(参考 SAE J3016 分级)',obj:'系统落在哪一级、走哪条批准路径',out:'L0–L3 / AVP + 法规路径卡',legal:'路径判定(参考)',tone:'amber',how:'7 题问卷 → 规则判级 → 路径卡',use:'立项/功能定义阶段定路线'},
+  {m:'② 自动化级别判定',std:'UN R157 / UN R171 / (EU) 2022/1426(参考 SAE J3016 分级)',obj:'系统落在哪一级、走哪条批准路径',out:'L0–L4(限定场景)+ 法规路径卡(SAE J3016 全阶梯 L0–L5 对照)',legal:'路径判定(参考)',tone:'amber',how:'7 题问卷 → 规则判级 → 路径卡',use:'立项/功能定义阶段定路线'},
   {m:'③ 测试与证据清单',std:'R157 附件4/5 · WP.29 NATM · ISO 26262 / 21448 · R155/R156',obj:'批准所需测试与证据是否齐备',out:'完成 % · 勾选',legal:'审核前置',tone:'red',how:'勾选式自查(带依据)',use:'送审前的交付物盘点'}];
 const STANDARDS=[
   {name:'(EU) 2019/2144 通用安全法规(GSR)',id:'GSR',region:'欧盟',scope:'按附件 II 给各车类分派强制安全/ADAS 项目与适用日期,并授权委员会出实施/授权细则(ELKS 2021/646、ISA 2021/1958、DDAW 2021/1341、ADDW 2023/2590 等)。',points:['第一阶段:新车型 2022-07-06 / 全部新车 2024-07-07(ISA、DDAW、ELKS、EDR、倒车探测等)','第二阶段项(如 ADDW):新车型 2024-07-07 / 全部新车 2026-07-07','大量引用 UN 法规(R152/R130/R151/R159/R160 等)作为技术要求','Art.11 授权对全自动车辆 ADS 定型批细则 → (EU) 2022/1426'],timeline:'2019 发布,2022-07 起分阶段强制。'},
@@ -603,6 +612,9 @@ function renderMain(){
     const lv=judgeLevel();
     let s='<div class="sb-mh">② 自动化级别判定</div>'+
       '<div class="sb-msub">按<b>功能实际表现</b>回答 '+QUIZ.length+' 道单选题,自动判定级别并给出法规路径卡。判定口径:纵横向控制归属、监控责任(L2/L3 分水岭)、脱手脱眼、ODD 与泊车场景。</div>';
+    s+='<div class="lvbox"><div style="font-weight:800;color:var(--od);margin-bottom:4px">SAE J3016 完整分级 L0–L5 与法规路径现状</div>'+
+      SAE_LADDER.map(r=>'<div class="lr"><b>'+r[0]+'</b><span><b>'+esc(r[1])+'</b> — '+esc(r[2])+'</span></div>').join('')+
+      '<div style="color:var(--grey);margin-top:4px">本判定输出 L0–L4(限定场景):只有这些级别当前存在型式批准路径;L4 一般场景与 L5 尚无 UN 整车法规,故不作为判定结果。</div></div>';
     QUIZ.forEach(q=>{
       s+='<div class="qcard"><div class="qt">'+esc(q.q)+'</div>';
       q.opts.forEach(o=>{
@@ -612,7 +624,7 @@ function renderMain(){
       s+='</div>';
     });
     s+=pathCardHTML(lv);
-    s+='<div class="ckleg">判定规则:车内无人代客泊车 → AVP((EU) 2022/1426);系统监控环境/允许脱眼 → L3(UN R157 ALKS);纵+横向均系统持续执行且驾驶员始终监控 → L2(UN R171 DCAS);单项 → L0–L1 走各单项法规。级别参考 SAE J3016 语义,法规路径以 UN/EU 文本为准,随当前档案本地保存。</div>';
+    s+='<div class="ckleg">判定规则:车内无人代客泊车 → L4 限定场景 AVP((EU) 2022/1426);系统监控环境/允许脱眼 → L3(UN R157 ALKS);纵+横向均系统持续执行且驾驶员始终监控 → L2(UN R171 DCAS);单项 → L0–L1 走各单项法规。SAE J3016 全阶梯为 L0–L5(见上表);L4 一般场景与 L5 因尚无型式批准路径不作为判定结果。级别语义参考 SAE J3016,法规路径以 UN/EU 文本为准,随当前档案本地保存。</div>';
     m.innerHTML=s; return;
   }
   if(active==='evid'){
