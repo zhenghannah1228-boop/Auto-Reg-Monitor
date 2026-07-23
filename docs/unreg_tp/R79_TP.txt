@@ -1,0 +1,903 @@
+transitional provisions of UN Regulation No. 10 by applying: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  The 03 series of amendments for vehicles without a coupling system for charging the Rechargeable Electric Energy Storage System (traction batteries); 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  The 04 series of amendments for vehicles with a coupling system for charging the Rechargeable Electric Energy Storage System (traction batteries). 
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6. 
+                   
+                   
+                      Advanced driver assistance steering systems shall only be approved in accordance with this Regulation where the function does not cause any deterioration in the performance of the basic steering system. In addition they shall be designed such that the driver may, at any time and by deliberate action, override the function. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1. 
+                   
+                   
+                      A CSF system shall be subject to the requirements of Annex 6. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1.1. 
+                   
+                   
+                      Every CSF intervention shall immediately be indicated to the driver by an optical warning signal which is displayed for at least 1 s or as long as the intervention exists, whichever is longer. 
+                      When a flashing mode is used, a lighting phase shall be visible at the end of the intervention or later. 
+                      In the case of a CSF intervention which is controlled by an Electronic Stability Control (ESC) or a Vehicle Stability Function as specified in the relevant UN Regulation (i.e. UN Regulations Nos. 13, 13-H or 140), the ESC flashing tell-tale indicating the interventions of ESC may be used, as long as the intervention exists, as an alternative to the optical warning signal specified above. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1.2. 
+                   
+                   
+                      In the case of a CSF intervention which is based on the evaluation of the presence and location of lane markings or boundaries of the lane the following shall apply additionally: 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1.2.1. 
+                   
+                   
+                      In the case of an intervention longer than: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  10 s for vehicles of category M 1  and N 1 , or 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  30 s for vehicles of category M 2 , M 3  and N 2 , N 3 , 
+                               
+                            
+                         
+                      
+                      an acoustic warning signal shall be provided until the end of the intervention. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1.2.2. 
+                   
+                   
+                      In the case of two or more consecutive interventions within a rolling interval of 180 seconds and in the absence of a steering input by the driver during the intervention, an acoustic warning signal shall be provided by the system during the second and any further intervention within a rolling interval of 180 seconds. Starting with the third intervention (and subsequent interventions) the acoustic warning signal shall continue for at least 10 seconds longer than the previous warning signal. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1.2.3. 
+                   
+                   
+                      For vehicles of categories M 2  and M 3  equipped with a Lane Departure Warning System (LDWS) fulfilling the technical requirements of Regulation No. 130, the acoustic warning signal specified in paragraphs 5.1.6.1.2.1. and 5.1.6.1.2.2. may be replaced by a haptic warning, provided it is not solely given via the steering wheel. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1.3. 
+                   
+                   
+                      The steering control effort necessary to override the directional control provided by the system shall not exceed 50 N in the whole range of CSF operations. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.1.4. 
+                   
+                   
+                      The requirements in paragraphs 5.1.6.1.1., 5.1.6.1.2. and 5.1.6.1.3. for CSF, which are reliant on the evaluation of the presence and location of lane markings or boundaries of the lane, shall be tested in accordance with the relevant vehicle test(s) specified in Annex 8 to this Regulation. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2. 
+                   
+                   
+                      Vehicles equipped with an ESF shall fulfil the following requirements. 
+                      An ESF system shall be subject to the requirements of Annex 6. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.1. 
+                   
+                   
+                      Any ESF shall only start an intervention in the case where a risk of a collision is detected. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.2 
+                   
+                   
+                      Any vehicle fitted with ESF shall be equipped with means to monitor the driving environment (e.g. lane markings, road edge, other road users) in line with the specified use case. These means shall monitor the driving environment at any time the ESF is active. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.3. 
+                   
+                   
+                      An automatic avoidance manoeuvre initiated by an ESF shall not lead the vehicle to leave the road, if applicable for the specified use case according to para. 5.1.6.2.10. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.3.1. 
+                   
+                   
+                      In the case of an ESF intervention on a road or a lane delimited with lane markings on one or both side(s), an automatic avoidance manoeuver initiated by an ESF shall not lead the vehicle to cross a lane marking. However, if the intervention starts during a lane change performed by the driver or during an unintentional drift into the adjacent lane, the system may steer the vehicle back into its original lane of travel. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.3.2. 
+                   
+                   
+                      In the absence of a lane marking on one or on both side(s) of the vehicle, a single ESF intervention is permitted, provided that it does not produce a lateral offset of the vehicle greater than 0.75 m in a direction where the lane marking is absent. The lateral offset during the automatic avoidance manoeuvre shall be determined using a fixed point on the front of the vehicle at the start and at the conclusion of the ESF intervention. 
+                      The lateral offset of 0.75 m may be exceeded by a system intervention if the vehicle speed during the whole intervention is below 20 km/h and the lateral offset rate generated by the system is limited to 2 m/s, calculated as an average for a time period of 1 s. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.4. 
+                   
+                   
+                      The ESF intervention shall not lead the vehicle to collide with another road user.  ( 4 ) 
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.5. 
+                   
+                   
+                      The manufacturer shall demonstrate during type approval, to the satisfaction of the Technical Service, which means to monitor the driving environment are fitted to the vehicle to satisfy the provisions in the subparagraphs of paragraph 5.1.6.2. above. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.6. 
+                   
+                   
+                      Any intervention of an ESF shall be indicated to the driver with an optical and with an acoustic or haptic warning signal to be provided at the latest with the start of the ESF intervention and maintained as long as the intervention exists. 
+                      For this purpose appropriate signals used by other warning systems (e.g. blind spot detection, lane departure warning, forward collision warning) are deemed to be sufficient to fulfil the requirements for the respective optical, acoustic or haptic signals above. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.7. 
+                   
+                   
+                      A system failure shall be indicated to the driver with an optical warning signal. However, when the system is manually deactivated, the indication of failure mode may be suppressed. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.8. 
+                   
+                   
+                      The steering control effort necessary to override the directional control provided by the system shall not exceed 50 N. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.9. 
+                   
+                   
+                      The vehicle shall be tested in accordance with the relevant vehicle tests specified in Annex 8 to this Regulation. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.2.10. 
+                   
+                   
+                      System information data 
+                      The following data shall be provided, together with the documentation package required in Annex 6 to this Regulation, to the Technical Service at the time of type approval: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  Use case(s) where ESF is designed to operate (among the use cases a i, a ii, a iii and b. specified in the ESF definition in paragraph 2.3.4.3.), 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  The conditions under which the system is active, e.g. the vehicle speed range V smax  , V smin , 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (c) 
+                               
+                               
+                                  How ESF detects a risk of a collision, 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (d) 
+                               
+                               
+                                  Description of the means to detect the driving environment, 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (e) 
+                               
+                               
+                                  How to deactivate/reactivate the function, 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (f) 
+                               
+                               
+                                  How it is ensured that the overriding force does not exceed the limit of 50 N. 
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3. 
+                   
+                   
+                      Vehicles equipped with an RMF shall fulfil the following requirements. 
+                      An RMF system shall be subject to the requirements of Annex 6. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.1. 
+                   
+                   
+                      Any RMF shall start an intervention only: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  If the driver is either directly (e.g. through a driver monitoring system) or indirectly (e.g. prolonged failed response to a warning, failure to control the vehicle) assessed to be unresponsive; or 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  If it is manually activated. 
+                               
+                            
+                         
+                      
+                      If the system provides a means for manual activation, this means shall be protected against unintentional operation and accessible to the driver and to passengers adjacent to the driver. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.2. 
+                   
+                   
+                      Unless a request for action (e.g. hands-on warning) was already given or the system was manually activated, there shall be an optical and additionally an acoustic and/or haptic (e.g. brake jerks) warning signal before every RMF intervention in order to stimulate the driver to take back control. 
+                      This warning phase shall start at least 5 seconds before the RMF starts an intervention, unless vehicle control by the system is required sooner to prevent the vehicle from crossing the lane markings or to keep an appropriate distance to other vehicles. 
+                      Every RMF intervention shall be indicated to the driver by an optical and additionally an acoustic and/or haptic (e.g. brake jerks) warning signal for as long as the intervention exists. 
+                      These warning signals shall be distinct and of a great urgency. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.3. 
+                   
+                   
+                      An RMF intervention shall not unreasonably deactivate or suppress the functionality of activated assistance systems (e.g. AEBS). 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.4. 
+                   
+                   
+                      The signal to activate the hazard warning lights shall be generated with the start of the intervention. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.5. 
+                   
+                   
+                      It shall be possible to override the RMF intervention of the function at any time by a distinct action of the driver. 
+                      The RMF shall implement strategies to provide protection against unintentional override by inputs to the driving controls (e.g. by requiring a significant change in a single input to the accelerator or brake pedal or multiple inputs to override the RMF). 
+                      These strategies shall be demonstrated to the Technical Service at the time of type approval. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.6. 
+                   
+                   
+                      During the RMF intervention the vehicle shall slow down with a deceleration demand not greater than 4m/s 2 , unless required by the surrounding traffic (e.g. a decelerating lead vehicle). 
+                      Higher deceleration demand values are also permissible for very short durations, e.g. as haptic warning to stimulate the driver to take back control. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.7. 
+                   
+                   
+                      Once the RMF has brought the vehicle to a safe stop in the target stop area, the vehicle shall not move away without manual input. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.8. 
+                   
+                   
+                      If the RMF system detects any failures preventing it from performing an intervention, this shall be signalled to the driver. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9. 
+                   
+                   
+                      Additional provisions for systems with the purpose of bringing the vehicle to a safe stop outside its own lane of travel. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.1. 
+                   
+                   
+                      The RMF shall only be permitted to change lanes, if the vehicle is equipped with detection capabilities to the front, side and rear. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.2. 
+                   
+                   
+                      Lane change procedures shall only be performed in an uncritical way as described in paragraphs 5.1.6.3.9.7. and 5.1.6.3.9.8. In case the target stop area cannot be reached in an uncritical way the RMF shall aim to keep the vehicle within its current lane of travel while the vehicle is stopping. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.3. 
+                   
+                   
+                      Before initiating a lane change procedure, RMF shall, if deemed appropriate, reduce the vehicle speed to minimize the risk related to that lane change (e.g. by adapting the speed of the vehicle to that of other vehicles in the target lane). 
+                      A lane change procedure shall not start within the first 5s following the start of the RMF intervention. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.4. 
+                   
+                   
+                      During the intervention the system may perform a single or multiple lane change(s) across regular lanes of traffic and/or to the hard shoulder. Lane changes shall be made only if under the traffic situation these lane changes can be considered to minimize the risk to safety of the vehicle occupants and other road users. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.5. 
+                   
+                   
+                      A lane change during the intervention shall only be performed if the system has sufficient information about its surrounding to the front, side and rear (as defined in paragraph 5.1.6.3.9.17.) in order to assess the criticality of that lane change. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.6. 
+                   
+                   
+                      A lane change during the intervention shall not be performed towards a lane intended for traffic moving in the opposite direction. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.7. 
+                   
+                   
+                      The intervention shall not cause a collision with another vehicle or road user in the predicted path of the vehicle during a lane change. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.8. 
+                   
+                   
+                      A lane change procedure shall be predictable and manageable for other road users. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.8.1. 
+                   
+                   
+                      During the lane change manoeuvre, the RMF shall aim to avoid a lateral acceleration of more than 1 m/s 2  in addition to the lateral acceleration generated by the lane curvature. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.8.2. 
+                   
+                   
+                      A lane change manoeuvre shall only be started if a vehicle in the target lane is not forced to unmanageably decelerate due to the lane change of the vehicle. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.8.2.1. 
+                   
+                   
+                      During the lane change manoeuvre, RMF shall aim to avoid inducing a longitudinal deceleration of more than 3.7 m/s 2  for a vehicle approaching from the rear. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.8.2.2. 
+                   
+                   
+                      A lane change manoeuvre shall only be started if there is sufficient space to a vehicle following behind or approaching from the rear in the adjacent lane. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.1.6.3.9.8.

@@ -1,0 +1,922 @@
+Transitional provisions 
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      12.1. 
+                   
+                   
+                      As from the official date of entry into force of the 05 series of amendments, no Contracting Party applying this Regulation shall refuse to grant or refuse to accept type-approvals under this Regulation as amended by the 05 series of amendments. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      12.2. 
+                   
+                   
+                      As from 1 September 2027, Contracting Parties applying this Regulation shall not be obliged to accept type-approvals of vehicles according to the preceding series of amendments, first issued after 1 September 2027. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      12.3. 
+                   
+                   
+                      Contracting Parties applying this Regulation shall continue to accept type-approvals of vehicles according to the preceding series of amendments, first issued before 1 September 2027 provided the transitional provisions in these respective previous series of amendments foresee this possibility. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      12.4. 
+                   
+                   
+                      Contracting Parties applying this Regulation may grant type approvals according to any preceding series of amendments to this Regulation" 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      12.5. 
+                   
+                   
+                      Contracting Parties applying this Regulation shall continue to grant extensions of existing approvals to any preceding series of amendments to this Regulation. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      12.6. 
+                   
+                   
+                      Notwithstanding the transitional provisions above, Contracting Parties who start to apply this Regulation after the date of entry into force of the most recent series of amendments are not obliged to accept type-approvals which were granted in accordance with any of the preceding series of amendments to this Regulation. 
+                   
+                
+             
+          
+          
+          
+             ( 1 )   As defined in the Consolidated Resolution on the Construction of Vehicles (R.E.3.), document ECE/TRANS/WP.29/78/Rev.7 –  https://unece.org/transport/vehicle-regulations/wp29/resolutions . 
+          
+             ( 2 )   See paragraph 2.14. 
+          
+             ( 3 )   The distinguishing numbers of the Contracting Parties to the 1958 Agreement are reproduced in Annex 3 to Consolidated Resolution on the Construction of Vehicles (R.E.3.), document ECE/TRANS/WP.29/78/Rev.7 –  https://unece.org/transport/vehicle-regulations/wp29/resolutions . 
+          
+             ( 4 )   Until 1 October 1998, the values obtained for the neck shall not be pass/fail criteria for the purposes of granting approval. The results obtained shall be recorded in the test report and be collected by the Type Approval Authority. After this date, the values specified in this paragraph shall apply as pass/fail criteria unless or until alternative values are adopted. 
+       
+       
+       
+          
+             ANNEX 1 
+             Communication 
+             (Maximum format: A4 (210 × 297 mm)) 
+             
+                
+                
+                
+                
+                   
+                      
+                         
+                            
+                               
+                            
+                         
+                          ( 1 ) 
+                      
+                      
+                         issued by : 
+                      
+                      
+                         Name of administration: 
+                         … 
+                         … 
+                         … 
+                      
+                   
+                   
+                      
+                         
+                            ( 1 )   Distinguishing number of the country which has granted/extended/refused/withdrawn approval (see approval provisions in the Regulation). 
+                      
+                   
+                
+             
+             
+                
+             
+             
+                
+                
+                
+                   
+                      
+                         Concerning  ( 2 ) : 
+                      
+                      
+                         Approval granted 
+                         Approval extended 
+                         Approval refused 
+                         Approval withdrawn 
+                         Production definitively discontinued 
+                      
+                   
+                   
+                      
+                         
+                            ( 2 )   Strike out what does not apply. 
+                      
+                   
+                
+             
+             of a vehicle type with regard to the protection of the occupants in the event of a frontal collision, pursuant to Regulation No 94 
+             
+                
+                
+                
+                
+                   
+                      
+                         Approval No.: … 
+                      
+                      
+                           
+                      
+                      
+                         Extension No.: … 
+                      
+                   
+                
+             
+             
+                1.    
+                
+                   Trade name or mark of the power-driven vehicle… 
+                
+             
+             
+                2.    
+                
+                   Vehicle type… 
+                
+             
+             
+                3.    
+                Manufacturer’s name and address… 
+                … 
+             
+             
+                4.    
+                If applicable, name and address of manufacturer’s representative 
+                … 
+                … 
+             
+             
+                5.    
+                Brief description of the vehicle type as regards its structure, dimensions, lines and constituent materials… 
+                … 
+             
+             
+                5.1.    
+                Description of the protective system installed in the vehicle… 
+                … 
+             
+             
+                5.2.    
+                Description of interior arrangements or fittings that might affect the tests … 
+                … 
+             
+             
+                5.3.    
+                
+                   Location of the electrical power source… 
+                
+             
+             
+                6.    
+                
+                   Site of engine: forward/rear/central  ( 2 ) 
+                   
+                
+             
+             
+                7.    
+                
+                   Drive: front-wheel/rear-wheel  ( 2 ) 
+                   
+                
+             
+             
+                8.    
+                
+                   Mass of the Vehicle 
+                
+             
+             
+                8.1.    
+                Mass of vehicle submitted for testing: 
+                Front axle: … 
+                Rear axle: … 
+                Total: … 
+             
+             
+                8.2.    
+                Where paragraph 5.3.1. or 5.3.2. applies: 
+                Total permissible mass… 
+                Proof of compliance with UN Regulation 137 (i.e. type approval number or test report): 
+             
+             
+                9.    
+                
+                   Vehicle submitted for approval on… 
+                
+             
+             
+                10.    
+                
+                   Technical Service responsible for conducting approval tests… 
+                
+             
+             
+                11.    
+                
+                   Date of report issued by that Service… 
+                
+             
+             
+                12.    
+                
+                   Number of report issued by that Service… 
+                
+             
+             
+                13.    
+                
+                   Approval granted/refused/extended/withdrawn  ( 2 ) 
+                   
+                
+             
+             
+                14.    
+                
+                   Position of approval mark on vehicle… 
+                
+             
+             
+                15.    
+                
+                   Place… 
+                
+             
+             
+                16.    
+                
+                   Date… 
+                
+             
+             
+                17.    
+                
+                   Signature… 
+                
+             
+             
+                18.    
+                The following documents, bearing the approval number shown above, are annexed to this communication: … 
+                (Photographs and/or diagrams and drawings permitting the basic identification of the type(s) of vehicle and its possible variants which are covered by the approval) 
+             
+             
+             
+                ( 1 )   Distinguishing number of the country which has granted/extended/refused/withdrawn approval (see approval provisions in the Regulation). 
+             
+                ( 2 )   Strike out what does not apply. 
+          
+       
+       
+       
+          
+             ANNEX 2 
+             Arrangements of Approval Marks 
+             MODEL A 
+             (See paragraph 4.4. of this Regulation) 
+             
+                
+                   
+                
+             
+             a = 8 mm min. 
+             The above approval mark affixed to a vehicle shows that the vehicle type concerned has, with regard to the protection of the occupants in the event of a frontal collision, been approved in the Netherlands (E 4) pursuant to UN Regulation No 94 under approval number 051424. The approval number indicates that the approval was granted in accordance with the requirements of UN Regulation No 94 as amended by the 04 series of amendments. 
+             MODEL B 
+             (See paragraph 4.5. of this Regulation) 
+             
+                
+                   
+                
+             
+             a = 8 mm min. 
+             The first two digits of the approval numbers indicate that, at the dates when the respective approvals were granted, UN Regulation No 94 incorporated the 05 series of amendments and UN Regulation No 11 incorporated the 04 series of amendments. 
+          
+       
+       
+       
+          
+             ANNEX 3 
+             Test procedure 
+             1.   Installation and preparation of the vehicle 
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.1. 
+                      
+                      
+                         Testing ground 
+                         The test area shall be large enough to accommodate the run-up track, barrier and technical installations necessary for the test. The last part of the track, for at least 5 m before the barrier, shall be horizontal, flat and smooth. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.2. 
+                      
+                      
+                         Barrier 
+                         The front face of the barrier consists of a deformable structure as defined in Annex 9 of this Regulation. The front face of the deformable structure is perpendicular within ± 1° to the direction of travel of the test vehicle. The barrier is secured to a mass of not less than 7 × 10 4  kg, the front face of which is vertical within ± 1°. The mass is anchored in the ground or placed on the ground with, if necessary, additional arresting devices to restrict its movement. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.3. 
+                      
+                      
+                         Orientation of the barrier 
+                         The orientation of the barrier is such that the first contact of the vehicle with the barrier is on the steering-column side. Where there is a choice between carrying out the test with a right-hand or left-hand drive vehicle, the test shall be carried out with the less favourable hand of drive as determined by the Technical Service responsible for the tests. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.3.1. 
+                      
+                      
+                         Alignment of the vehicle to the barrier 
+                         The vehicle shall overlap the barrier face by 40 per cent ± 20 mm. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4. 
+                      
+                      
+                         State of vehicle 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.1. 
+                      
+                      
+                         General specification 
+                         The test vehicle shall be representative of the series production, shall include all the equipment normally fitted and shall be in normal running order. Some components may be replaced by equivalent masses where this substitution clearly has no noticeable effect on the results measured under paragraph 6. 
+                         It shall be allowed by agreement between manufacturer and Technical Service to modify the fuel system so that an appropriate amount of fuel can be used to run the engine or the electrical energy conversion system. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.2. 
+                      
+                      
+                         Mass of vehicle 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.2.1. 
+                      
+                      
+                         For the test, the mass of the vehicle submitted shall be the unladen kerb mass. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.2.2. 
+                      
+                      
+                         The fuel tank shall be filled with water to mass equal to 90 per cent of the mass of a full load of fuel as specified by the manufacturer with a tolerance of ± 1 per cent. 
+                         This requirement does not apply to hydrogen fuel tanks. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.2.3. 
+                      
+                      
+                         All the other systems (brake, cooling, ...) may be empty in this case, the mass of the liquids shall be carefully compensated. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.2.4. 
+                      
+                      
+                         If the mass of the measuring apparatus on board the vehicle exceeds the 25 kg allowed, it may be compensated by reductions which have no noticeable effect on the results measured under paragraph 6. below. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.2.5. 
+                      
+                      
+                         The mass of the measuring apparatus shall not change each axle reference load by more than 5 per cent, each variation not exceeding 20 kg. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.2.6. 
+                      
+                      
+                         The mass of the vehicle resulting from the provisions of paragraph 1.4.2.1. above shall be indicated in the report. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3. 
+                      
+                      
+                         Passenger compartment adjustments 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.1. 
+                      
+                      
+                         Position of steering wheel 
+                         The steering wheel, if adjustable, shall be placed in the normal position indicated by the manufacturer or, in the absence of any particular recommendation by the manufacturer, midway between the limits of its range(s) of adjustment. At the end of propelled travel, the steering wheel shall be left free, with its spokes in the position which according to the manufacturer corresponds to straight-ahead travel of the vehicle. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.2. 
+                      
+                      
+                         Glazing 
+                         The movable glazing of the vehicle shall be in the closed position. For test measurement purposes and in agreement with the manufacturer, it may be lowered, provided that the position of the operating handle corresponds to the closed position. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.3. 
+                      
+                      
+                         Gear-change lever 
+                         The gear-change lever shall be in the neutral position. If the vehicle is propelled by its own engine, then the gear-change level shall be defined by the manufacturer. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.4. 
+                      
+                      
+                         Pedals 
+                         The pedals shall be in their normal position of rest. If adjustable, they shall be set in their mid-position unless another position is specified by the manufacturer. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.5. 
+                      
+                      
+                         Doors 
+                         The doors shall be closed but not locked. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.5.1. 
+                      
+                      
+                         In the case of vehicles equipped with an automatically activated door locking system, the system shall be activated at the start of propulsion of the vehicle in order to lock the doors automatically before the moment of impact. At the choice of the manufacturer, the doors shall be locked manually before the start of propulsion of the vehicle. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.5.2. 
+                      
+                      
+                         In the case of vehicles equipped with an automatically activated door locking system that is installed optionally and/or which can be de-activated by the driver, one of the following two procedures shall be used at the choice of the manufacturer: 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.5.2.1. 
+                      
+                      
+                         The system shall be activated at the start of propulsion of the vehicle in order to lock the doors automatically before the moment of impact. At the choice of the manufacturer, the doors shall be locked manually before the start of propulsion of the vehicle. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.5.2.2. 
+                      
+                      
+                         The side doors on the impacted side shall be unlocked and the system overridden for these doors; for the side doors on the non-impacted side, the system may be activated in order to lock these doors automatically before the moment of impact. At the choice of the manufacturer, these doors shall be locked manually before the start of propulsion of the vehicle. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.6. 
+                      
+                      
+                         Opening roof 
+                         If an opening or removable roof is fitted, it shall be in place and in the closed position. For test measurement purposes and in agreement with the manufacturer, it may be open. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.7. 
+                      
+                      
+                         Sun-visor 
+                         The sun-visors shall be in the stowed position. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.8. 
+                      
+                      
+                         Rear-view mirror 
+                         The interior rear-view mirror shall be in the normal position of use. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.9. 
+                      
+                      
+                         Arm-rests 
+                         Arm-rests at the front and rear, if movable, shall be in the lowered position, unless this is prevented by the position of the dummies in the vehicles. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.10. 
+                      
+                      
+                         Head restraints 
+                         Head restraints adjustable for height shall be in their appropriate position as defined by the manufacturer. In the absence of any particular recommendation from the manufacturer, then the head restraints shall be in their uppermost position. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.11. 
+                      
+                      
+                         Seats 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.11.1. 
+                      
+                      
+                         Position of front seats 
+                         Seats adjustable longitudinally shall be placed so that their "H" point, determined in accordance with the procedure set out in Annex 6 is in the middle position of travel or in the nearest locking position thereto, and at the height position defined by the manufacturer (if independently adjustable for height). In the case of a bench seat, the reference shall be to the "H" point of the driver’s place. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.11.2. 
+                      
+                      
+                         Position of the front seat-backs 
+                         If adjustable, the seat-backs shall be adjusted so that the resulting inclination of the torso of the dummy is as close as possible to that recommended by the manufacturer for normal use or, in the absence of any particular recommendation by the manufacturer, to 25° towards the rear from the vertical. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.3.11.3. 
+                      
+                      
+                         Rear seats 
+                         If adjustable, the rear seats or rear bench seats shall be placed in the rearmost position. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+                      
+                         1.4.4. 
+                      
+                      
+                         Electrical power train adjustment 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                
+                   
+                      
+       

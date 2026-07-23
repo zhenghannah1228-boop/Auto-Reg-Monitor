@@ -1,0 +1,971 @@
+transitional provisions of UN Regulations Nos. 131, 152, 79 (Corrective Steering Function) and 130, as appropriate for the DCAS-equipped vehicle category. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.2. 
+                   
+                   
+                      DCAS interaction with other vehicle assistance systems 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.2.1. 
+                   
+                   
+                      While the system is in ‘active’ mode, its operation shall not deactivate or suppress the longitudinal functionality of activated emergency assistance systems (i.e., AEBS). In the case of lateral functionality, the system may deactivate or suppress emergency assistance systems in accordance with the respective regulations covering this functionality. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.2.2. 
+                   
+                   
+                      Transitions between DCAS and other assistance or automation systems, prioritization of one over the other, and any suppression or deactivation of other assistance systems which are intended to ensure the safe and nominal operation of the vehicle shall be described in detail in the documentation presented to the Type Approval Authority. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3. 
+                   
+                   
+                      Functional requirements 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.1. 
+                   
+                   
+                      The manufacturer shall describe in detail in the documentation the detection capabilities of the system relevant to the individual features, especially for those system boundaries listed in Annex 3, Appendix 3. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.2. 
+                   
+                   
+                      The system shall be able to detect, assess and respond to its surroundings as required to implement the system’s intended functionality, within the system boundaries and to the extent possible if operating beyond system boundaries. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.2.1. 
+                   
+                   
+                      The system shall aim to avoid disruption to the flow of traffic by adapting its behaviour to the surrounding traffic in an appropriate safety-oriented way. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.2.2. 
+                   
+                   
+                      If the system detects a risk of collision, it shall aim to avoid or mitigate the severity of a collision. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.2.3. 
+                   
+                   
+                      Without prejudice to other requirements in this UN Regulation, the system shall control the longitudinal and lateral motion of the vehicle aiming to maintain appropriate distances from other road users. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.3. 
+                   
+                   
+                      The system may activate relevant vehicle systems when necessary and applicable as appropriate for the system’s operational design (e.g. direction indicators, activate wipers in case of rain, heating systems, etc.). 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.4. 
+                   
+                   
+                      The system’s control strategy shall be designed to reduce the risk of collisions whilst remaining controllable, accounting for the reaction time of the driver, as per paragraph 5.3.6. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5. 
+                   
+                   
+                      Response to System boundaries 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.1. 
+                   
+                   
+                      The system shall aim to detect the applicable system boundaries when DCAS or a feature of DCAS is in ‘on’ mode. If the system identifies that the system or feature boundary is exceeded, it shall transition into ‘stand-by’ mode and immediately notify the driver in accordance to the strategies described by the manufacturer as outlined in paragraph 5.3.5.2. and according to the HMI requirements defined in paragraph 5.5.4.1. 
+                      The system shall terminate assistance to the driver provided by the affected feature or the system in a controllable way. The assistance termination strategy shall be described by the vehicle manufacturer and assessed according to Annex 3. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.1.1. 
+                   
+                   
+                      The system shall aim to avoid rapid system fluctuations between ‘stand-by’ and ‘active’ modes. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.2. 
+                   
+                   
+                      The manufacturer shall describe in detail, as part of the documentation required for Section 9, the system boundary conditions for the system and its features, and the strategies to notify the driver in the event a boundary condition is detected to be exceeded, being met or being approached (as per paragraph 5.3.5.5.). 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.2.1. 
+                   
+                   
+                      The description shall at least take into account potentially relevant boundary conditions as listed in Annex 3, Appendix 3. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.2.2. 
+                   
+                   
+                      The manufacturer shall describe and where reasonable demonstrate the behaviour of the system, the impact on system performance and how safety is ensured in case the system or its features remain in ‘active’ mode beyond these boundaries. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.3. 
+                   
+                   
+                      The manufacturer shall identify those system boundaries that the system is able to detect and shall describe the means by which the system is capable of identifying system boundaries. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.4. 
+                   
+                   
+                      Any declared system boundary that the system is unable to detect shall be documented and it shall be justified, to the satisfaction of the Type Approval Authority, how the inability to detect does not affect the safe operation of the system or its features. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.5.5. 
+                   
+                   
+                      When the system identifies that the vehicle is approaching a system boundary of a feature in ‘active mode’, it shall inform the driver of this with sufficient lead time for the driver to respond appropriately. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.6. 
+                   
+                   
+                      Controllability 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.6.1. 
+                   
+                   
+                      The system shall be designed to ensure that control actions by the system including, but not limited to, those resulting from system failures, reaching system boundaries, cancelling manoeuvres or when the system is being switched to ‘off’ mode remain controllable for the driver. This shall take into account the driver’s potential reaction time, as relevant to the situation, including manual reengagement where applicable, so that the driver intervention can be safely performed at any time (e.g., during a given manoeuvre). 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.6.1.1. 
+                   
+                   
+                      Whilst withholding HORs, the manufacturer shall consider this potential reaction time required for the driver to respond to a DCA and to hold the steering control. This shall never be assumed to be less than 1 second, unless the manufacturer is able to demonstrate that controllability is ensured through specific strategies. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.6.2. 
+                   
+                   
+                      The system shall be designed to ensure controllability in accordance with the system’s capabilities and within the defined system boundaries. In the case that HORs are being withheld, the system shall take into account that the driver may be motorically disengaged. 
+                      The manufacturer’s controllability design shall be described in detail to the Type Approval Authority and shall be assessed according to Annex 3. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.6.3. 
+                   
+                   
+                      Deceleration and Acceleration 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.6.3.1. 
+                   
+                   
+                      When controlled by the system, the vehicle deceleration and acceleration shall remain manageable for the driver and surrounding traffic, unless increased levels of deceleration are required to ensure the safety of the vehicle or surrounding road users. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.6.3.2. 
+                   
+                   
+                      While the system is trying to maintain a constant speed without external disturbances, it shall aim to minimise unreasonable fluctuations in the vehicle’s speed. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7. 
+                   
+                   
+                      System Dynamic Control 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.1. 
+                   
+                   
+                      Positioning of the vehicle in the lane of travel 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.1.1. 
+                   
+                   
+                      The system while being in ‘active’ mode shall assist in keeping the vehicle in a stable position within its lane of travel. 
+                      While being in ‘active’ mode, the system shall ensure that the vehicle does not leave its lane of travel for lateral acceleration values specified by the manufacturer. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.1.1.1. 
+                   
+                   
+                      The system shall have the capability to adapt the vehicle speed in response to road curvature in order to achieve this. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.1.2. 
+                   
+                   
+                      The activated feature shall at any time, within the boundary conditions, ensure that the vehicle does not unintentionally cross a lane marking for lateral accelerations values to be specified by the manufacturer which shall not exceed 3 m/s 2  for M 1  and N 1  category vehicles and 2.5 m/s 2  for M 2 , M 3 , N 2  and N 3  category vehicles. 
+                      It is recognised that the maximum lateral acceleration values specified by the vehicle manufacturer may not be achievable under all conditions (e.g., inclement weather, different tyres fitted to the vehicle, laterally sloped roads). The feature shall not deactivate or unreasonably switch the control strategy in these other conditions. 
+                      The system may exceed the specified value of maximum lateral acceleration by not more than 0.3 m/s 2 , while not exceeding 3 m/s 2  for M 1  and N 1  category vehicles and 2.5 m/s 2  for M 2 , M 3 , N 2  and N 3  category vehicles. 
+                      Notwithstanding the sentence above, for time periods of not more than 2 seconds the lateral acceleration of the system may exceed the specified value of maximum lateral acceleration by not more than 40 per cent, while not exceeding 3 m/s 2  for M 1  and N 1  category vehicles and 2.5 m/s 2  for M 2 , M 3 , N 2  and N 3  category vehicles by more than 0.3 m/s 2 . 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.1.2.1. 
+                   
+                   
+                      The moving average over half a second of the lateral jerk generated by the system shall not exceed 5 m/s 3 . 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.1.3. 
+                   
+                   
+                      The strategy by which the system determines the appropriate speed and resulting lateral acceleration shall be documented and assessed by the Type Approval Authority. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.1.4. 
+                   
+                   
+                      When the system reaches its boundary conditions set out in paragraph 9.1.3., and both in the absence of any driver input to the steering control and when any the front tyre of the vehicle starts to unintentionally cross a lane marking, the system shall avoid sudden loss of steering support by providing continued assistance to the extent possible as outlined in the safety concept of the vehicle manufacturer. The system shall clearly inform the driver about this system status by means of an optical warning signal and additionally by an acoustic or haptic warning signal. 
+                      For vehicles of categories M 2  M 3  N 2  and N 3 , the warning requirement above is deemed to be fulfilled if the vehicle is equipped with a Lane Departure Warning System (LDWS) fulfilling the technical requirements of UN Regulation No. 130. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2. 
+                   
+                   
+                      Manoeuvre 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1. 
+                   
+                   
+                      General Requirements 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.1. 
+                   
+                   
+                      A manoeuvre shall only be initiated if the driver is not detected to be disengaged, and 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  has commanded the system to perform the manoeuvre for a driver-initiated manoeuvre; or 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  has acknowledged the system’s intention as needed for a driver-confirmed manoeuvre; or 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (c) 
+                               
+                               
+                                  is given sufficient notice to react for a system-initiated manoeuvre. 
+                               
+                            
+                         
+                      
+                      Motoric disengagement may not be considered when HORs are being withheld by the system. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.2. 
+                   
+                   
+                      The system shall only be permitted to perform a manoeuvre if the vehicle is equipped with detection capabilities with sufficient range to the front, side and rear with respect to the manoeuvre. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.3. 
+                   
+                   
+                      A manoeuvre shall not be initiated if a driver disengagement warning is being given to the driver. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.4. 
+                   
+                   
+                      A manoeuvre shall not be initiated if a risk of collision with another vehicle or road user is detected in the predicted path of the DCAS vehicle during the manoeuvre. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.5. 
+                   
+                   
+                      A manoeuvre shall be predictable and manageable for other road users. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.6. 
+                   
+                   
+                      A manoeuvre shall aim to be one continuous movement. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.7. 
+                   
+                   
+                      A manoeuvre shall be completed without undue delay. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.8. 
+                   
+                   
+                      Once a manoeuvre has been completed, the system shall resume assisting in maintaining a stable position in the lane of travel. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.9. 
+                   
+                   
+                      In case the vehicle is unexpectedly forced to become stationary during a planned manoeuvre, the system shall provide at least a visual warning signal to the driver, and may request the driver to resume control. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.10. 
+                   
+                   
+                      The system shall indicate driving manoeuvres assisted by the system (e.g., a lane change or turn) to other road users as per the required convention or as specifically defined in this Regulation. This shall include the use of the direction indicator to notify road users of an upcoming lateral manoeuvre. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.11. 
+                   
+                   
+                      The system shall ensure the manoeuvre remains controllable for the driver, as per paragraph 5.3.6., by adapting its longitudinal speed before and during the manoeuvre when necessary. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.1.12. 
+                   
+                   
+                      The manoeuvre shall aim to not cause a collision with another detected vehicle or road user in the predicted path of the vehicle during the manoeuvre. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.2. 
+                   
+                   
+                      General requirements for driver-initiated manoeuvres 
+                      The requirements of this paragraph and its subparagraphs apply to feature(s) capable of performing driver-initiated manoeuvres. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.2.1. 
+                   
+                   
+                      The system shall only initiate the manoeuvre when explicitly commanded by the driver without prior request by the system, and when it is safe to do so. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.3. 
+                   
+                   
+                      General requirements for driver-confirmed manoeuvres 
+                      The requirements of this paragraph and its subparagraphs apply to feature(s) capable of performing driver-confirmed manoeuvres. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.3.1. 
+                   
+                   
+                      The requirements outlined in paragraph 5.5.4.1.8. and subparagraphs shall apply. In addition, the system shall be designed to ensure that the driver has sufficient time to confirm that the system may proceed with the manoeuvre, as appropriate. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.3.2. 
+                   
+                   
+                      A request by the system for the driver to confirm a manoeuvre shall at least be indicated through a specific signal (or combination of signals) in accordance with paragraph 5.5.4.1. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.3.3. 
+                   
+                   
+                      In the event that the driver does not confirm a request by the system, the system shall not initiate that manoeuvre. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.3.4. 
+                   
+                   
+                      A manoeuvre shall only be proposed if there is a justifiable reason for said manoeuvre. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.3.7.2.3.5. 
+                   
+                   
+                      The system shall aim not to initiate the proposed manoeuvre, even if already confirmed by the driver, unless the following conditions are met: 
+                      
+                         
+                         
+                         
+                            
+                     

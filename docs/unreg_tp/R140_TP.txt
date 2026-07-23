@@ -1,0 +1,439 @@
+transitional provisions of Regulation No 13, Annex 21. These vehicles do not need to meet the functional requirements specified in paragraph 6 and the performance requirements specified in paragraph 7 under the test procedures specified in paragraph 9 and under the test conditions specified in paragraph 8 of this Regulation. 
+          5.2.   The ESC shall be so designed, constructed and fitted as to enable the vehicle in normal use, despite the vibration to which it may be subjected, to comply with the provisions of this Regulation. 
+          5.3.   In particular, the ESC shall be so designed, constructed and fitted as to be able to resist the corroding and ageing phenomena to which it is exposed. 
+          5.4.   The effectiveness of the ESC shall not be adversely affected by magnetic or electrical fields. This shall be demonstrated by fulfilling the technical requirements and respecting the transitional provisions of Regulation No 10 by applying: 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      The 03 series of amendments for vehicles without a coupling system for charging the Rechargeable Electric Energy Storage System (traction batteries); 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      The 04 series of amendments for vehicles with a coupling system for charging the Rechargeable Electric Energy Storage System (traction batteries). 
+                   
+                
+             
+          
+          5.5.   The assessment of the safety aspects of ESC, with respect to its direct effect on the braking system, shall be included in the overall safety assessment of the braking system as specified in Regulation No 13-H requirements associated with complex electronic control systems. This is deemed to be fulfilled on the presentation of a Regulation No 13-H certificate which includes the ESC system to be approved. 
+          5.6.   Provisions for the periodic technical inspection of ESC systems 
+          5.6.1.   It shall be possible at a periodic technical inspection to confirm the correct operational status by visual observation of the warning signals following a power-on. 
+          5.6.2.   At the time of type approval, the means implemented to protect against simple unauthorised modification of the operation of the warning signals shall be confidentially outlined. Alternatively, this protection requirement is fulfilled when a secondary means of checking the correct operational status is available. 
+          6.   FUNCTIONAL REQUIREMENTS 
+          Each vehicle submitted for approval pursuant to this Regulation shall be equipped with an Electronic Stability Control (ESC) system that: 
+          6.1.   Is capable of applying braking torques individually to all four wheels  ( 4 )  and has a control algorithm that utilises this capability; 
+          6.2.   Is operational over the full speed range of the vehicle, during all phases of driving including acceleration, coasting, and deceleration (including braking), except: 
+          
+             
+             
+             
+                
+                   
+                      6.2.1. 
+                   
+                   
+                      When the driver has disabled ESC; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      6.2.2. 
+                   
+                   
+                      When the vehicle speed is below 20 km/h; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      6.2.3. 
+                   
+                   
+                      While the initial start-up self-test and plausibility checks are completed, not to exceed two minutes when driven under the conditions of paragraph 9.10.2; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      6.2.4. 
+                   
+                   
+                      When the vehicle is being driven in reverse. 
+                   
+                
+             
+          
+          6.3.   Remains capable of activation even if the antilock braking system or traction control system is also activated. 
+          7.   PERFORMANCE REQUIREMENTS 
+          During each test performed under the test conditions of paragraph 8. and the test procedure of paragraph 9.9, the vehicle with the ESC system engaged shall satisfy the directional stability criteria of paragraphs 7.1 and 7.2, and it shall satisfy the responsiveness criterion of paragraph 7.3 during each of those tests conducted with a commanded steering wheel  ( 5 )  angle of 5A or greater but limited as per paragraph 9.9.4, where A is the steering wheel angle computed in paragraph 9.6.1. 
+          Where a vehicle has been physically tested in accordance with paragraph 8, the compliance of versions or variants of that same vehicle type may be demonstrated by a computer simulation, which respects the test conditions of paragraph 8 and the test procedure of paragraph 9.9. The use of the simulator is defined in Annex 4 to this Regulation. 
+          7.1.   The yaw rate measured 1 second after completion of the Sine with Dwell steering input (time T 0  + 1 in Figure 1) shall not exceed 35 per cent of the first peak value of yaw rate recorded after the steering wheel angle changes sign (between first and second peaks) ( 
+                
+              in Figure 1) during the same test run. 
+          
+             Figure 1 
+          
+          
+             Steering wheel position and yaw velocity information used to assess lateral stability 
+          
+          
+             
+          
+          Text of image 
+          
+             T0 + 1 
+             T0 + 1,75 
+             T0 
+             Peak 
+             Yaw rate 
+             Steering wheel angle 
+             Time 
+             Time 
+          
+          7.2.   The yaw rate measured 1,75 seconds after completion of the Sine with Dwell steering input shall not exceed twenty per cent of the first peak value of yaw rate recorded after the steering wheel angle changes sign (between first and second peaks) during the same test run. 
+          7.3.   The lateral displacement of the vehicle centre of gravity with respect to its initial straight path shall be at least 1,83 m for vehicles with a GVM of 3 500 kg or less, and 1,52 m for vehicles with a maximum mass greater than 3 500 kg when computed 1,07 seconds after the Beginning of Steer (BOS). BOS is defined in paragraph 9.11.6. 
+          7.3.1.   The computation of lateral displacement is performed using double integration with respect to time of the measurement of lateral acceleration at the vehicle centre of gravity, as expressed by the formula: 
+          
+             
+                
+             
+          
+          An alternative measuring method may be allowed for type approval testing, provided it demonstrates at least an equivalent level of precision as the double integration method. 
+          7.3.2.   Time t = 0 for the integration operation is the instant of steering initiation, known as the Beginning of Steer (BOS). BOS is defined in paragraph 9.11.6. 
+          7.4.   ESC malfunction detection 
+          The vehicle shall be equipped with a tell-tale that provides a warning to the driver of the occurrence of any malfunction that affects the generation or transmission of control or response signals in the vehicle's electronic stability control system. 
+          7.4.1.   The ESC malfunction tell-tale: 
+          
+             
+             
+             
+                
+                   
+                      7.4.1.1. 
+                   
+                   
+                      Shall fulfil the relevant technical requirements of Regulation No 121; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.4.1.2. 
+                   
+                   
+                      Except as provided in paragraph 7.4.1.3, the ESC malfunction tell-tale shall illuminate when a malfunction exists and shall remain continuously illuminated under the conditions specified in paragraph 7.4 for as long as the malfunction exists, whenever the ignition locking system is in the ‘On’ (‘Run’) position; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.4.1.3. 
+                   
+                   
+                      Except as provided in paragraph 7.4.2, each ESC malfunction tell-tale shall be activated as a check of lamp function either when the ignition locking system is turned to the ‘On’ (‘Run’) position when the engine is not running, or when the ignition locking system is in a position between ‘On’ (‘Run’) and ‘Start’ that is designated by the manufacturer as a check position; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.4.1.4. 
+                   
+                   
+                      Shall extinguish at the next ignition cycle after the malfunction has been corrected in accordance with paragraph 9.10.4; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.4.1.5. 
+                   
+                   
+                      May also be used to indicate the malfunction of related systems/functions, including traction control, trailer stability assist, corner brake control, and other similar functions that use throttle and/or individual torque control to operate and share common components with ESC. 
+                   
+                
+             
+          
+          7.4.2.   The ESC malfunction tell-tale need not be activated when a starter interlock is in operation. 
+          7.4.3.   The requirement of paragraph 7.4.1.3 does not apply to tell-tales shown in a common space. 
+          7.4.4.   The manufacturer may use the ESC malfunction tell-tale in a flashing mode to indicate the interventions of ESC and/or ESC-related systems (as listed in paragraph 7.4.1.5), the ESC intervention on the steering angle of one or more wheels for the purpose of vehicle stability. 
+          7.5.   ESC Off and other system controls 
+          The manufacturer may include an ‘ESC Off’ control, which shall be illuminated when the vehicle's headlamps are activated, and which has a purpose to place the ESC system in a mode in which it will no longer satisfy the performance requirements of paragraphs 7, 7.1, 7.2 and 7.3. Manufacturers may also provide controls for other systems that have an ancillary effect upon ESC operation. Controls of either kind that place the ESC system in a mode in which it may no longer satisfy the performance requirements of paragraphs 7, 7.1, 7.2 and 7.3 are permitted, provided that the system also meets the requirements of paragraphs 7.5.1, 7.5.2 and 7.5.3. 
+          7.5.1.   The vehicle's ESC system shall always return to the manufacturer's original default mode that satisfies the requirements of paragraphs 6 and 7 at the initiation of each new ignition cycle, regardless of what mode the driver had previously selected. However, the vehicle's ESC system need not return to a mode that satisfies the requirements of paragraphs 7 through 7.3 at the initiation of each new ignition cycle if: 
+          
+             
+             
+             
+                
+                   
+                      7.5.1.1. 
+                   
+                   
+                      The vehicle is in a four-wheel drive configuration which has the effect of locking the drive gears at the front and rear axles together and providing an additional gear reduction between the engine speed and vehicle speed of at least 1,6, selected by the driver for low-speed, off-road driving; or 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.5.1.2. 
+                   
+                   
+                      The vehicle is in a four-wheel drive configuration selected by the driver that is designed for operation at higher speeds on snow-, sand-, or dirt-packed roads and that has the effect of locking the drive gears at the front and rear axles together, provided that in this mode the vehicle meets the stability performance requirements of paragraphs 7.1 and 7.2 under the test conditions specified in paragraph 8. However, if the system has more than one ESC mode that satisfies the requirements of paragraphs 7.1 and 7.2 within the drive configuration selected for the previous ignition cycle, the ESC shall return to the manufacturer's original default ESC mode for that drive configuration at the initiation of each new ignition cycle. 
+                   
+                
+             
+          
+          7.5.2.   A control, whose only purpose is to place the ESC system in a mode in which it will no longer satisfy the performance requirements of paragraphs 7, 7.1, 7.2 and 7.3, shall fulfil the relevant technical requirements of Regulation No 121. 
+          7.5.3.   A control for an ESC system whose purpose is to place the ESC system in different modes, at least one of which may no longer satisfy the performance requirements of paragraphs 7, 7.1, 7.2, and 7.3, shall fulfil the relevant technical requirements of Regulation No 121. 
+          Alternatively, in the case where the ESC system mode is controlled by a multi-functional control, the driver display shall identify clearly to the driver the control position for this mode using the ‘off’ symbol for electronic stability control system as defined in Regulation No 121. 
+          7.5.4.   A control for another system that has the ancillary effect of placing the ESC system in a mode in which it no longer satisfies the performance requirements of paragraphs 7, 7.1, 7.2 and 7.3 need not be identified by the ‘ESC Off’ symbol of paragraph 7.5.2. 
+          7.6.   ESC Off tell-tale 
+          If the manufacturer elects to install a control to turn off or reduce the performance of the ESC system under paragraph 7.5, the tell-tale requirements of paragraphs 7.6.1 to 7.6.4 shall be met in order to alert the driver to the inhibited or reduced state of ESC system functionality. This requirement does not apply for the driver-selected mode referred to in paragraph 7.5.1.2. 
+          7.6.1.   The vehicle manufacturer shall provide a tell-tale indicating that the vehicle has been put into a mode that renders it unable to satisfy the requirements of paragraphs 7, 7.1, 7.2 and 7.3, if such a mode is provided. 
+          7.6.2.   The ‘ESC Off’ tell-tale: 
+          
+             
+             
+             
+                
+                   
+                      7.6.2.1. 
+                   
+                   
+                      Shall fulfil the relevant technical requirements of Regulation No 121. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.6.2.2. 
+                   
+                   
+                      Shall remain continuously illuminated for as long as the ESC is in a mode that renders it unable to satisfy the requirements of paragraphs 7, 7.1, 7.2 and 7.3; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.6.2.3. 
+                   
+                   
+                      Except as provided in paragraphs 7.6.3 and 7.6.4 each ‘ESC Off’ tell-tale shall be activated as a check of lamp function either when the ignition locking system is turned to the ‘On’ (‘Run’) position when the engine is not running, or when the ignition locking system is in a position between ‘On’ (‘Run’) and ‘Start’ that is designated by the manufacturer as a check position. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.6.2.4. 
+                   
+                   
+                      Shall extinguish after the ESC system has been returned to the manufacturer's original default mode. 
+                   
+                
+             
+          
+          7.6.3.   The ‘ESC Off’ tell-tale need not be activated when a starter interlock is in operation. 
+          7.6.4.   The requirement of paragraph 7.6.2.3 of this section does not apply to tell-tales shown in a common space. 
+          7.6.5.   The manufacturer may use the ‘ESC Off’ tell-tale to indicate an ESC level of function other than the manufacturer's original default mode even if the vehicle would meet paragraphs 7, 7.1, 7.2 and 7.3 of this section at that level of ESC function. 
+          7.7.   ESC system technical documentation 
+          The documentation package shall, as confirmation that the vehicle is equipped with an ESC system that meets the definition of an ‘ESC System’ as in paragraph 2.7 to this Regulation, include the vehicle manufacturer's documentation as specified in paragraphs 7.7.1 to 7.7.4 below. 
+          7.7.1.   System diagram identifying all ESC system hardware. The diagram shall identify those components that are used to generate brake torques at each wheel, determine vehicle yaw rate, estimated side-slip or the side-slip derivative and driver steering inputs. 
+          7.7.2.   A brief written explanation sufficient to describe the ESC system's basic operational characteristics. This explanation shall include the outline description of the system's capability to apply braking torques at each wheel and how the system modifies propulsion torque during ESC system activation, and show that the vehicle yaw rate is directly determined even under the conditions where no wheel speed information is available. The explanation shall also specify the vehicle speed range and the driving phases (acceleration, deceleration, coasting, during activation of the ABS or traction control) under which the ESC system can activate. 
+          7.7.3.   Logic diagram. This diagram supports the explanation provided under paragraph 7.7.2. 
+          7.7.4.   Understeer information. An outline description of the pertinent inputs to the computer that control ESC system hardware and how they are used to limit vehicle understeer. 
+          8.   TEST CONDITIONS 
+          8.1.   Ambient conditions 
+          8.1.1.   The ambient temperature is between 0 °C and 45 °C. 
+          8.1.2.   The maximum wind speed is no greater than 10 m/s for vehicles with SSF > 1,25, and 5 m/s for vehicles with SSF ≤ 1,25. 
+          8.2.   Road test surface 
+          8.2.1.   Tests are conducted on a dry, uniform, solid-paved surface. Surfaces with irregularities and undulations, such as dips and large cracks, are unsuitable. 
+          8.2.2.   The road test surface has a nominal  ( 6 )  peak braking coefficient (PBC) of 0,9, unless otherwise specified, when measured using either: 
+          
+             
+             
+             
+                
+                   
+                      8.2.2.1. 
+                   
+                   
+                      The American Society for Testing and Materials (ASTM) E1136 standard reference test tyre, in accordance with ASTM Method E1337-90, at a speed of 40 mph; or 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      8.2.2.2. 
+                   
+                   
+                      The k-test method specified in Appendix 2 to Annex 6 of Regulation No 13-H. 
+                   
+                
+             
+          
+          8.2.3.   The test surface has a consistent slope between level and 1 per cent. 
+          8.3.   Vehicle conditions 
+          8.3.1.   The ESC system is enabled for all testing. 
+          8.3.2.   Vehicle mass. The vehicle is loaded with the fuel tank filled to at least 90 per cent of capacity, and a total interior load of 168 kg comprised of the test driver, approximately 59 kg of test equipment (automated steering machine, data acquisition system and the power supply for the steering machine), and ballast as required to make up for any shortfall in the weight of test drivers and test equipment. Where required, ballast shall be placed on the floor behind the passenger front seat or if necessary in the front passenger foot well area. All ballast shall be secured in a way that prevents it from becoming dislodged during testing. 
+          8.3.3.   Tyres. The tyres are inflated to the vehicle manufacturer's recommended cold inflation pressure(s) e.g. as specified on the vehicle's placard or the tyre inflation pressure label. Tubes may be installed to prevent tyre de-beading. 
+          8.3.4.   Outriggers. Outriggers may be used for testing if deemed necessary for test drivers' safety. In this case, the following applies for vehicles with a Static Stability Factor (SSF) ≤ 1,25: 
+          
+             
+             
+             
+                
+                   
+                      8.3.4.1. 
+                   
+                   
+                      Vehicles with a mass in running order under 1 588 kg shall be equipped with ‘lightweight’ outriggers. Lightweight outriggers shall be designed with a maximum mass of 27 kg and a maximum roll moment of inertia of 27 kg · m 2 . 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      8.3.4.2. 
+                   
+                   
+                      Vehicles with a mass in running order between 1 588 kg and 2 722 kg shall be equipped with ‘standard’ outriggers. Standard outriggers shall be designed with a maximum mass of 32 kg and a maximum roll moment of inertia of 35,9 kg · m 2 . 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      8.3.4.3. 
+                   
+                   
+                      Vehicles with a mass in running order equal to or greater than 2 722 kg shall be equipped with ‘heavy’ outriggers. Heavy outriggers shall be designed with a maximum mass of 39 kg and a maximum roll moment of inertia of 40,7 kg · m 2 . 
+                   
+                
+             
+          
+          8.3.5.   Automated steering machine. A steering robot programmed to execute the required steering pattern shall be used in paragraphs 9.5.2, 9.5.3, 9.6 and 9.9. The steering machine shall be capable of supplying steering torques between 40 to 60 Nm. The steering machine shall be able to apply these torques when operating with steering wheel velocities up to 1 200 degrees per second. 
+          9.   TEST PROCEDURES 
+          9.1.   Inflate the vehicles' tyres to the manufacturer's recommended cold inflation pressure(s) e.g. as provided on the vehicle's placard or the tyre inflation pressure label. 
+          9.2.   Tell-tale bulb check. With the vehicle stationary and the ignition locking system in the ‘Lock’ or ‘Off’ position, switch the ignition to the ‘On’ (‘Run’) position or, where applicable, the appropriate position for the lamp check. The ESC malfunction tell-tale shall be illuminated as a check of lamp function, as specified in paragraph 7.4.1.3, and if equipped, the ‘ESC Off’ tell-tale shall also be illuminated as a check of lamp function, as specified in paragraph 7.6.2.3. The tell-tale bulb check is not required for a tell-tale shown in a common space as specified in paragraphs 7.4.3 and 7.6.4. 
+          9.3.   
+               ‘ESC Off’ control check. For vehicles equipped with an ‘ESC Off’ control, with the vehicle stationary and the ignition locking system in the ‘Lock’ or ‘Off’ position, switch the ignition locking system to the ‘On’ (‘Run’) position. Activate the ‘ESC Off’ control and verify that the ‘ESC Off’ tell-tale is illuminated, as specified in paragraph 7.6.2. Turn the ignition locking system to the ‘Lock’ or ‘Off’ position. Again, switch the ignition locking system to the ‘On’ (‘Run’) position and verify that the ‘ESC Off’ tell-tale has extinguished indicating that the ESC system has been restored as specified in paragraph 7.5.1. 
+          9.4.   Brake conditioning 
+          Condition the vehicle brakes in the manner described in paragraphs 9.4.1 to 9.4.4. 
+          9.4.1.   Ten stops are performed from a speed of 56 km/h, with an average deceleration of approximately 0,5 g. 
+          9.4.2.   Immediately following the series of ten 56 km/h stops, three additional stops are performed from 72 km/h at higher deceleration. 
+          9.4.3.   When executing the stops in paragraph 9.4.2, sufficient force is applied to the brake pedal to bring the vehicle's antilock braking system (ABS) into operation for a majority of each braking event. 
+          9.4.4.   Following completion of the final stop in 9.4.2, the vehicle is driven at a speed of 72 km/h for five minutes to cool the brakes. 
+          9.5.   Tyre Conditioning 
+          Condition the tyres using the procedure of paragraphs 9.5.1 to 9.5.3 to wear away mould sheen and achieve operating temperature immediately before beginning the test runs of paragraphs 9.6 and 9.9. 
+          9.5.1.   The test vehicle is driven around a circle 30 meters in diameter at a speed that produces a lateral acceleration of approximately 0,5 to 0,6 g for three clockwise laps followed by three anticlockwise laps. 
+          9.5.2.   Using a sinusoidal steering pattern at a frequency of 1 Hz, a peak steering wheel angle amplitude corresponding to a peak lateral acceleration of 0,5 to 0,6 g, and a vehicle speed of 56 km/h, the vehicle is driven through four passes performing 10 cycles of sinusoidal steering during each pass. 
+          9.5.3.   The steering wheel angle amplitude of the final cycle of the final pass shall be twice that of the other cycles. The maximum time permitted between each of the laps and passes is five minutes. 
+          9.6.   Slowly increasing steer procedure 
+          The vehicle is subjected to two series of runs of the slowly increasing steer test using a constant vehicle speed of 80 ± 2 km/h and a steering pattern that increases by 13,5 degrees per second until a lateral acceleration of approximately 0,5 g is obtained. Three repetitions are performed for each test series. One series uses anticlockwise steering, and the other series uses clockwise steering. The maximum time permitted between each test run is five minutes. 
+          9.6.1.   From the slowly increasing steer tests, the quantity ‘A’ is determined. ‘A’ is the steering wheel angle in degrees that produces a steady state lateral acceleration (corrected using the methods specified in paragraph 9.11.3) of 0,3 g for the test vehicle. Utilising linear regression, A is calculated, to the nearest 0,1 degrees, from each of the six slowly increasing steer tests. The absolute value of the six A values calculated is averaged and rounded to the nearest 0,1 degrees to produce the final quantity, A, used below. 
+          9.7.   After the quantity A has been determined, without replacing the tyres, the tyre conditioning procedure described in paragraph 9.5 is performed again immediately prior to conducting the Sine with Dwell test of paragraph 9.9. Initiation of the first Sine with Dwell test series shall begin within two hours after completion of the slowly increasing steer tests of paragraph 9.6. 
+          9.8.   Check that the ESC system is enabled by ensuring that the ESC malfunction and ‘ESC Off’ (if provided) tell-tales are not illuminated. 
+          9.9.   Sine with Dwell test of oversteer intervention and responsiveness 
+          The vehicle is subjected to two series of test runs using a steering pattern of a sine wave at 0,7 Hz frequency with a 500 ms delay beginning at the second peak amplitude as shown in Figure 2 (the Sine with Dwell tests). One series uses anticlockwise steering for the first half cycle, and the other series uses clockwise steering for the first half cycle. The vehicle is allowed to cool-down between each test runs for a period of 1,5 to 5 minutes, with the vehicle stationary. 
+          
+             Figure 2 
+          
+          
+             Sine with Dwell 
+          
+          
+             
+          
+          Text of image 
+          
+             Time 
+             500 ms 
+             Steering wheel angle 
+          
+          9.9.1.   The steering motion is initiated with the vehicle coasting in high gear at 80 ± 2 km/h. 
+          9.9.2.   The steering amplitude for the initial run of each series is 1,5 A, where A is the steering wheel angle determined in paragraph 9.6.1. 
+          9.9.3.   In each series of test runs, the steering amplitude is increased from run to run, by 0,5 A, provided that no such run will result in a steering amplitude greater than that of the final run specified in paragraph 9.9.4. 
+          9.9.4.   The steer
