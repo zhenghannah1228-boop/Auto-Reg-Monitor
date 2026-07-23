@@ -1,0 +1,220 @@
+Transitional provisions
+ANNEXES
+Annex 1 — Retro-reflecting devices, symbols, units
+Annex 2 — Communication concerning the approval (or refusal or withdrawal of approval or production
+definitely discontinued) of a type of retro-reflecting device pursuant to Regulation No 3
+Annex 3 — Arrangements of approval marks
+Annex 4 — Test procedure — Class IA and Class IIIA
+Annex 5 — Specifications of shape and dimensions
+Appendix — Retro-reflectors for trailers — Classes IIIA and IIIB
+31.1.2009 L 31/1Official Journal of the European UnionEN
+Annex 6 — Colorimetric specifications
+Annex 7 — Photometric specifications
+Annex 8 — Resistance to external agents
+Annex 9 — Stability in time of optical properties of retro-reflecting devices
+Annex 10 — Resistance to heat
+Annex 11 — Colour-fastness
+Annex 12 — Chronological order of tests
+Annex 13 — Resistance to impact — Class IVA
+Annex 14 — Test procedure — Class IVA
+Annex 15 — Chronological order of tests for Class IVA
+Annex 16 — Test procedure for Classes IB and IIIB devices
+Annex 17 — Minimum requirements for conformity of production control procedures
+Annex 18 — Minimum requirements for sampling by an inspector
+1. SCOPE
+This Regulation applies to retro-reflecting devices ( 1) for vehicles of categories L, M, N, O, and T ( 2).
+2. DEFINITIONS ( 3)
+For the purpose of this Regulation,
+2.1. The definitions given in Regulation No 48 and its series of amendments in force at the time of
+application for type approval shall apply to this Regulation.
+2.2. ‘Retro-reflection’ means the reflection in which light is reflected in directions close to the direction
+from which it came. This property is maintained over wide variations of the illumination angle.
+2.3. ‘Retro-reflecting optical unit’ means a combination of optical components producing
+retro-reflection.
+2.4. ‘Retro-reflecting device’ (1) means an assembly ready for use and comprising one or more
+retro-reflecting optical units.
+2.5. ‘Angle of divergence’ means the angle between the straight lines connecting the centre of reference
+to the centre of the receiver and to the centre of the source of illumination.
+2.6. ‘Illumination angle’ means the angle between the axis of reference and the straight line connecting
+the centre of reference to the centre of the source of illumination.
+2.7. ‘Angle of rotation’ means the angle through which the retro-reflecting device is rotated about its
+axis of reference starting from one given position.
+2.8. ‘Angular diameter of the retro-reflecting device’ means the angle subtended by the greatest dimen-
+sion of the visible area of the illuminating surface, either at the centre of the source of illumination
+or at the centre of the receiver.
+2.9. ‘Illumination of the retro-reflecting device’ is the abbreviated expression used conventionally to
+designate the illumination measured in a plane perpendicular to the incident rays and passing
+through the centre of reference.
+2.10. ‘Coefficient of luminous intensity (CIL)’ means the quotient of the luminous intensity reflected in
+the direction considered, divided by the illumination of the retro-reflecting device for given angles
+of illumination, divergence and rotation.
+31.1.2009L 31/2 Official Journal of the European UnionEN
+(1) Also called ‘retro-reflectors’.
+(2) As defined in Annex 7 to the Consolidated Resolution on the Construction of Vehicles (R.E.3) (document TRANS/WP.29/
+78/Rev.1/Amend.2 as last amended by Amend. 4).
+(3) The definitions of the technical terms (excluding the ones in Regulation No 48) are those adopted by the International
+Commission on Illumination (CIE).
+2.11. The symbols and units used in this Regulation are given in Annex 1 to this Regulation.
+2.12. A type of ‘retro-reflecting device’ is defined by the models and descriptive literature submitted with
+the application for approval. Retro-reflecting devices can be considered as belonging to the same
+type if they have one or more ‘retro-reflecting optical units’ which are identical with those of the
+standard model, or if not identical are symmetrical and suitable for mounting one on the left and
+one on the right side of the vehicle, and if their other parts differ from those of the standard model
+only in ways not affecting the properties to which this Regulation applies.
+2.13. Retro-reflecting devices are divided into three classes according to their photometric characteristics:
+Class IA or IB, Class IIIA or IIIB, and Class IVA.
+2.14. Retro-reflecting devices of Class IB and IIIB are devices combined with other signal lamps which
+are not watertight according to Annex 7, paragraph 1.1, and which are integrated into the body of
+a vehicle.
+3. APPLICATION FOR APPROVAL
+3.1. The application for approval shall be submitted by the holder of the trade name or mark, or if
+necessary by his duly accredited representative.
+At the choice of the applicant, it will specify that the device may be installed on a vehicle with
+different inclinations of the reference axis in respect to the vehicle reference planes and to the
+ground or, in the case of Class IA, IB and IVA retro-reflectors, rotate around its reference axis; these
+different conditions of installation shall be indicated in the communication form. It shall be accom-
+panied by:
+3.1.1. drawings, in triplicate, in sufficient detail to permit identification of the type, showing geometrically
+the position(s) in which the retro-reflecting device may be fitted to the vehicle, and in case of class
+IB or IIIB-retro-reflectors details of installation. The drawings must show the position intended for
+the approval number and class indicator in relation to the circle of the approval mark;
+3.1.2. a brief description giving the technical specifications of the materials of which the retro-reflecting
+optical unit is made;
+3.1.3. samples of the retro-reflecting device of a colour specified by the manufacturer and, if necessary,
+the means of fixation; the number of samples to be submitted is specified in Annex 4 to this
+Regulation;
+3.1.4. if necessary, two samples in other colour(s) for simultaneous or subsequent extension of the
+approval to devices in other colour(s);
+3.1.5. in the case of devices of Class IVA: samples of the retro-reflecting device and, if necessary, the
+means of fixation; the number of samples to be submitted is specified in Annex 14 to this
+Regulation.
+4. MARKINGS
+4.1. Every retro-reflecting device submitted for approval must bear:
+4.1.1. the trade name or mark of the applicant;
+4.1.2. the word ‘TOP’ inscribed horizontally on the highest part of the illuminating surface, if such an
+indication is necessary to determine without ambiguity the angle or angles of rotation prescribed
+by the manufacturer.
+4.2. A space of sufficient size to accommodate the approval mark shall be provided on every device.
+This space shall be shown on the drawings referred to in paragraph 3.1.1 above.
+31.1.2009 L 31/3Official Journal of the European UnionEN
+4.3. The markings must be applied on the illuminating surface, or on one of the illuminating surfaces,
+of the retro-reflecting device and must be visible from the outside when the retro-reflecting device
+is fitted on the vehicle.
+4.4. The markings must be clearly legible and be indelible.
+5. APPROVAL
+5.1. If all the samples submitted meet the requirements of this Regulation, approval shall be granted.
+5.2. If the approval granted in respect of a retro-reflecting device is extended to other such devices
+differing only in colour, the two samples in any other colour submitted in conformity with para-
+graph 3.1.4 of this Regulation shall be required to meet only the colorimetric specifications
+(Annex 6), the other tests no longer being required. Paragraph 5.2 is not applicable to devices of
+Class IVA.
+5.3. An approval number shall be assigned to each type approved. Its first two digits (at present 02,
+corresponding to the 02 series of amendments which entered into force on 1 July 1985) shall indi-
+cate the series of amendments incorporating the most recent major technical amendments made to
+the Regulation at the time of issue of the approval. The same Contracting Party shall not assign the
+same number to another type of retro-reflecting device covered by this Regulation except in the
+case of an extension of the approval to a device differing only in colour.
+5.4. Notice of approval or of extension or refusal of approval of a type of retro-reflecting device
+pursuant to this Regulation shall be communicated to the Parties to the Agreement which apply
+this Regulation, by means of a form conforming to the model in Annex 2 to this Regulation.
+5.5. There shall be affixed to every retro-reflecting device conforming to a type approved under this
+Regulation, in the space referred to in paragraph 4.2 and in addition to the markings prescribed in
+paragraph 4.1.
+5.5.1. an international approval mark consisting of:
+5.5.1.1. a circle surrounding the letter ‘E’ followed by the distinguishing number of the country which has
+granted approval (
+1);
+5.5.1.2. an approval number;
+5.5.1.3. a group of symbols IA, IB, IIIA, IIIB or IVA showing the class of the approved retro-reflecting
+device.
+5.6. When two or more lamps are part of the same unit of grouped, combined or reciprocally incorpo-
+rated lamps (including a retro-reflector), approval is granted only if each of these lamps satisfies the
+requirements of this Regulation or of another Regulation. Lamps not satisfying any one of those
+Regulations shall not be part of such a unit of grouped, combined or reciprocally incorporated
+lamps.
+31.1.2009L 31/4 Official Journal of the European UnionEN
+(1) 1 for Germany, 2 for France, 3 for Italy, 4 for the Netherlands, 5 for Sweden, 6 for Belgium, 7 for Hungary, 8 for the Czech
+Republic, 9 for Spain, 10 for Serbia, 11 for the United Kingdom, 12 for Austria, 13 for Luxembourg, 14 for Switzerland,
+15 (vacant), 16 for Norway, 17 for Finland, 18 for Denmark, 19 for Romania, 20 for Poland, 21 for Portugal, 22 for the
+Russian Federation, 23 for Greece, 24 for Ireland, 25 for Croatia, 26 for Slovenia, 27 for Slovakia, 28 for Belarus, 29 for
+Estonia, 30 (vacant), 31 for Bosnia and Herzegovina, 32 for Latvia, 33 (vacant), 34 for Bulgaria, 35 (vacant), 36 for
+Lithuania, 37 for Turkey, 38 (vacant), 39 for Azerbaijan, 40 for The former Yugoslav Republic of Macedonia, 41 (vacant),
+42 for the European Community (Approvals are granted by its Member States using their respective ECE symbol), 43 for
+Japan, 44 (vacant), 45 for Australia, 46 for Ukraine, 47 for South Africa, 48 for New Zealand, 49 for Cyprus, 50 for Malta,
+51 for the Republic of Korea, 52 for Malaysia, 53 for Thailand, 54 and 55 (vacant) and 56 for Montenegro. Subsequent
+numbers shall be assigned to other countries in the chronological order in which they ratify or accede to the Agreement
+Concerning the Adoption of Uniform Technical Prescriptions for Wheeled Vehicles, Equipment and Parts which can be
+Fitted and/or be Used on Wheeled Vehicles and the Conditions for Reciprocal Recognition of Approvals Granted on the
+Basis of these Prescriptions, and the numbers thus assigned shall be communicated by the Secretary-General of the United
+Nations to the contracting parties to the Agreement.
+5.6.1. Where grouped, combined or reciprocally incorporated lamps comply with the requirements of
+several Regulations, a single international approval mark may be applied, consisting of a circle
+surrounding the letter ‘E’ followed by the distinguishing number of the country which has granted
+the approval, an approval number and, if necessary, the required arrow. This approval mark may be
+placed anywhere on the grouped, combined or reciprocally incorporated lamps provided that:
+5.6.1.1. It is visible after their installation;
+5.6.1.2. No part of the grouped, combined or reciprocally incorporated lamps that transmits light can be
+removed without at the same time removing the approval mark.
+5.6.2. The identification symbol for each lamp appropriate to each Regulation under which approval has
+been granted, together with the corresponding series of amendments incorporating the most recent
+major technical amendments to the Regulation at the time of issue of the approval, shall be
+marked;
+5.6.2.1. Either on the appropriate light-emitting surface,
+5.6.2.2. Or in a group, in such a way that each lamp of the grouped, combined or reciprocally incorporated
+lamps may be clearly identified (see the possible examples shown in Annex 3).
+5.6.3. The size of the components of a single approval mark shall not be less than the minimum size
+required for the smallest of the individual marks by a Regulation under which approval has been
+granted.
+5.6.4. An approval number shall be assigned to each type approved. The same Contracting Party may not
+assign the same number to another type of grouped, combined or reciprocally incorporated lamps
+covered by this Regulation.
+5.7. The approval mark must be clearly legible and indelible.
+5.8. Annex 3 to this Regulation gives examples of arrangements of approval marks for a single lamp
+(figure 1) and for grouped, combined or reciprocally incorporated lamps (figure 2) with all the addi-
+tional symbols referred to above.
+6. GENERAL SPECIFICATIONS
+6.1. Retro-reflecting devices must be so constructed that they function satisfactorily and will continue
+to do so in normal use. In addition, they must not have any defect in design or manufacture that is
+detrimental to their efficient operation or to their maintenance in good condition.
+6.2. The components of retro-reflecting devices must not be capable of being easily dismantled.
+6.3. Retro-reflecting optical units may not be replaceable.
+6.4. The outer surface of retro-reflecting devices must be easy to clean. Hence it must not be a rough
+surface; any protuberances it may exhibit must not prevent easy cleaning.
+6.5. For devices of Class IVA their means of fixation shall be such that they allow a stable and durable
+connection between the device and the vehicle.
+6.6. There shall be no access to the inner surface of the retro-reflectors when in normal use.
+31.1.2009 L 31/5Official Journal of the European UnionEN
+7. SPECIAL SPECIFICATIONS (TESTS)
+7.1. Retro-reflecting devices must also satisfy the conditions as to dimensions and shape, and the colori-
+metric, photometric, physical and mechanical requirements set forth in Annexes 5 to 11 and 13 to
+this Regulation. The test procedures are described in Annex 4 (Class IA, IIIA), Annex 14 (Class IVA)
+and Annex 16 (Class IB, IIIB).
+7.2. Depending on the nature of the materials of which the retro-reflecting devices and, in particular,
+their optical units, are made, the competent authorities may authorise laboratories to omit certain
+unnecessary tests, subject to the express reservation that such omission must be mentioned under
+‘Remarks’ on the form notifying approval.
+8. CONFORMITY OF PRODUCTION
+The conformity of production procedures shall comply with those set out in the Agreement,
+Appendix 2 (E/ECE/324-E/ECE/TRANS/505/Rev.2), with the following requirements:
+8.1. Retro-reflectors approved under this Regulation shall be so manufactured as to conform to the type
+approved by meeting the requirements set forth in paragraphs 6 and 7.
+8.2. The minimum requirements for conformity of production control procedures set forth in Annex 17
+to this Regulation shall be complied with.
+8.3. The minimum requirements for sampling by an inspector set forth in Annex 18 to this Regulation
+shall be complied with.
+8.4. The authority which has granted type approval may at any time verify the conformity control
+methods applied in each production facility. The normal frequency of these verifications shall be
+once every two years.
+9. PENALTIES FOR NON-CONFORMITY OF PRODUCTION
+9.1. The approval granted for a type of retro-reflecting device may be withdrawn if the requirements are
+not complied with or if a retro-reflecting device bearing the approval mark does not conform to
+the type approved.
+9.2. If a Contracting Party to the Agreement applying this Regulation withdraws an approval it has
+previously granted, it shall forthwith so notify the other Contracting Parties applying this Regu-
+lation by means of a communication form conforming to the model in Annex 2 to this Regulation.
+10. PRODUCTION DEFINITELY DISCONTINUED
+If the holder of the approval completely ceases to manufacture a type of retro-reflecting device
+approved in accordance with this Regulation, he shall so inform the authority which granted the
+approval. Upon receiving the relevant communication, that authority shall inform thereof the other
+Parties to the 1958 Agreement applying this Regulation by means of a communication form
+conforming to the model in Annex 2 to this Regulation.

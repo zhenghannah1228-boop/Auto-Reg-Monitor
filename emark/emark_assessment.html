@@ -118,6 +118,8 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .vb-c4{font-size:10.5px;color:var(--od);margin-top:2px}
 .vb-fn{border-bottom:1px dotted var(--grey);cursor:help}
 .vb-legal{display:inline-block;font-size:9.5px;font-weight:700;color:#fff;background:#8A1C1C;border-radius:4px;padding:1px 5px;margin-left:3px;vertical-align:1px}
+.vb-txtcut{display:inline-block;font-size:9.5px;font-weight:700;color:#8A1C1C;background:#F7E3E0;border:1px solid #C98A80;border-radius:4px;padding:1px 5px;margin-left:3px;vertical-align:1px;cursor:help}
+.vb-txtlate{font-size:10.5px;color:var(--od);border-bottom:1px dotted var(--od);cursor:help}
 .vb-proxy{color:var(--grey)}.vb-proxy-t{font-size:10px;color:var(--greyl)}
 .vb-row-b{background:#FCEFEC}
 .vb-row-eu{background:#EAF1FB}
@@ -936,6 +938,56 @@ const UNECE_FN={
  "12":"过渡脚注：1997-12-25 起，缔约方停止签发含气囊的转向机构新型式批准（FN16）；2015-06-23 起，对装高压电动力总成的车辆不再给前序系列批准延伸（FN17）。",
  "110":"过渡脚注（FN126）：2024-09-01 起，缔约方接受在 2022-09-01 前首次签发的前序系列批准；2022-09-01 之后签发的前序系列批准「可」接受（非强制）。"
 };
+// ===== 法规原文过渡条款数据层（2026-07 新增）=====
+// 源=EU 官方公报各法规「合并文本」的 Transitional provisions 章节，逐部下载(Cellar/CELEX)逐条摘录原文核对；
+// src=CELEX 编号+文本版本级别。63 部在册法规中 62 部已核对（R133 无 EU 公报文本）；其中 18 部的文本无过渡条款章节、
+// 27 部有章节但无接受截止条款——两类均不产生条目，板上保持「—」。
+// max=条款所指「preceding series」覆盖的最高系列号（≤max 的系列行均受影响；条款点名单一系列时另设 min 下界）；
+// kind:'cut'=该日起缔约方对这些系列的证书「不再有接受义务」（文本层面的法定失效日）；
+//      'late'=仅该日之后「新签发」的旧系列证书不再保证被接受，此前签发的证书不受影响；
+// q=原文摘录（英文原句，勿改写）；n=限定/例外（中文归纳，均出自同章节原文）。
+const TP_TEXT={
+ "10":{src:"CELEX 42022X2263 · 06系列Suppl1",items:[
+   {max:4,kind:'late',date:'2017-10-09',q:'§13.1.2 As from 9 October 2017, Contracting Parties applying this UN Regulation shall not be obliged to accept UN type-approvals to the preceding series of amendments, first issued after 9 October 2017 or extensions thereof.'},
+   {max:5,kind:'late',date:'2022-09-01',q:'§13.2.2 As from 1 September 2022, Contracting Parties applying this UN Regulation shall not be obliged to accept UN type-approvals to the preceding series of amendments, first issued after 1 September 2022 or extensions thereof.'}]},
+ "12":{src:"CELEX 42026X0300 · 05系列",items:[
+   {max:4,kind:'late',date:'2023-09-01',q:'§13.4.9 As from 1 September 2023, Contracting Parties applying this Regulation shall not be obliged to accept type-approvals of vehicles according to the preceding series of amendments, first issued after 1 September 2023.',n:'§13.4.10 此前签发的旧系列证书继续被接受（以其各自过渡条款允许为限）；§13.5.1 转向操纵装置旧证书作替换件用途仍有效'}]},
+ "16":{src:"CELEX 42018X0629 · 07系列Suppl2",items:[
+   {max:6,kind:'late',date:'2019-09-01',q:'§15.4.1 As from 1 September 2019, Contracting Parties applying this Regulation shall not be obliged to accept type approvals to the preceding series of amendments that were first issued on or after 1 September 2019.'},
+   {max:6,kind:'cut',date:'2021-09-01',q:'§15.4.4 As from 1 September 2021, Contracting Parties applying this Regulation shall not be obliged to accept type approvals issued to the preceding series of amendments to this Regulation.',n:'例外：§15.4.5 安全带/约束系统（部件）旧系列证书继续被接受；§15.4.6 未受 07 系列变更影响的车辆证书继续被接受'}]},
+ "34":{src:"CELEX 42025X1454 · 04系列",items:[
+   {max:3,kind:'late',date:'2026-09-01',q:'§17.2 As from 1 September 2026, Contracting Parties applying this UN Regulation shall not be obliged to accept type approvals to the preceding series of amendments, first issued after 1 September 2026.',n:'§17.3 明确继续接受 2026-09-01 前首发的 02/03 系列证书'}]},
+ "39":{src:"CELEX 42025X1902 · 02系列",items:[
+   {max:1,kind:'late',date:'2028-09-01',q:'§10.6 As from 1 September 2028, Contracting Parties applying this UN Regulation shall not be obliged to accept type approvals to any of the preceding series of amendments, first issued after 1 September 2028.'},
+   {max:1,kind:'cut',date:'2030-09-01',q:'§10.8 As from 1 September 2030, Contracting Parties applying this UN Regulation shall not be obliged to accept type approvals issued to any of the preceding series of amendments to this UN Regulation.'}]},
+ "46":{src:"CELEX 42014X0808(02) · 03系列Suppl3+04系列Suppl1",items:[
+   {max:3,kind:'cut',date:'2015-06-30',q:'§21.14 As from 30 June 2015, Contracting Parties applying this Regulation shall not be obliged to accept approvals of a type of vehicle or type of device for indirect vision which have not been granted in accordance with the 04 series of amendments to this Regulation.',n:'例外：§21.15 未受 04 系列变更影响的既有批准仍有效并继续被接受'}]},
+ "51":{src:"CELEX 42018X0798 · 03系列Suppl2",items:[
+   {max:2,kind:'cut',date:'2022-07-01',q:'As from 1 July 2022, Contracting Parties applying this Regulation shall not be obliged to accept for the purpose of national or regional type approval, a vehicle type approved to the preceding series of amendments to this Regulation.',n:'限国家/区域型批用途；N2 类车辆为 2023-07-01；03 系列内部 phase 2 另有 2026-07-01（N2/N3/M3 为 2027-07-01）截止档'}]},
+ "55":{src:"CELEX 42026X0275 · 03系列",items:[
+   {max:1,kind:'cut',date:'2021-09-01',q:'§13.2 As from 1 September 2021, Contracting Parties applying this Regulation shall not be obliged to accept type approvals issued to the preceding series of amendments to this Regulation.',n:'例外：§13.3 Class D50-X 牵引环按前序系列且 2021-09-01 前首发的证书接受至 2023-09-01'},
+   {max:2,kind:'cut',date:'2025-09-01',q:'§13.7 As from 1 September 2025, Contracting Parties applying this Regulation shall not be obliged to accept type approvals issued to the preceding series of amendments to this Regulation.'}]},
+ "58":{src:"CELEX 42019X0272 · 03系列",items:[
+   {max:2,kind:'cut',date:'2021-09-01',q:'§31.4 As from 1 September 2021, Contracting Parties applying this Regulation shall not be obliged to accept, for the purpose of national or regional type approval, a vehicle, component or separate technical unit which is not type approved under Part I, II or III of the 03 series of amendments to this Regulation.',n:'限国家/区域型批用途；§31.5 仍在接受 02 系列证书的缔约方不得拒绝签发其延伸'}]},
+ "94":{src:"CELEX 42026X1075 · 05系列Suppl1",items:[
+   {max:4,kind:'late',date:'2027-09-01',q:'As from 1 September 2027, Contracting Parties applying this Regulation shall not be obliged to accept type-approvals of vehicles according to the preceding series of amendments, first issued after 1 September 2027.',n:'此前签发的旧系列证书继续被接受（以其各自过渡条款允许为限）'}]},
+ "95":{src:"CELEX 42026X1095 · 06系列Suppl1",items:[
+   {max:5,kind:'late',date:'2027-09-01',q:'As from 1 September 2027, Contracting Parties applying this Regulation shall not be obliged to accept type-approvals of vehicles according to the preceding series of amendments, first issued after 1 September 2027.',n:'此前签发的旧系列证书继续被接受（以其各自过渡条款允许为限）'}]},
+ "100":{src:"CELEX 42024X1955 · 03系列Suppl3",items:[
+   {max:2,kind:'late',date:'2023-09-01',q:'§12.2 As from 1 September 2023, Contracting Parties applying this Regulation shall not be obliged to accept type approvals to the preceding series of amendments, first issued after 1 September 2023.'},
+   {max:2,kind:'cut',date:'2025-09-01',q:'§12.4 As from 1 September 2025, Contracting Parties applying this Regulation shall not be obliged to accept type approvals issued to the preceding series of amendments to this Regulation.'}]},
+ "108":{src:"CELEX 42026X0302 · 01系列Suppl1",items:[
+   {max:0,kind:'late',date:'2025-09-01',q:'§13.3 As from 1 September 2025, Contracting Parties applying this Regulation shall not be obliged to accept type approvals issued according to the preceding series of amendments, first issued after 1 September 2025.'},
+   {max:0,kind:'cut',date:'2028-09-01',q:'§13.4 Until 1 September 2028, Contracting Parties applying this Regulation shall accept type approvals and shall grant extensions to type approvals issued according to the preceding series of amendments, first issued before 1 September 2025.'}]},
+ "129":{src:"CELEX 42021X1806 · 03系列Suppl4",items:[
+   {max:2,kind:'late',date:'2020-09-01',q:'§16.9 As from 1 September 2020, Contracting Parties applying this Regulation shall not be obliged to accept UN type-approvals to the preceding series of amendments, first issued after 1 September 2020.'},
+   {max:2,kind:'cut',date:'2022-09-01',q:'§16.10 As from 1 September 2022, Contracting Parties applying this Regulation shall not be obliged to accept type-approvals issued to the preceding series of amendments to this Regulation.',n:'§16.12 至 2024-09-01 前继续签发 02 系列证书的延伸'}]},
+ "137":{src:"CELEX 42021X1862 · 02系列",items:[
+   {max:1,min:1,kind:'late',date:'2023-09-01',q:'§12.2 As from 1 September 2023, Contracting Parties applying this Regulation shall not be obliged to accept type-approvals of vehicles having an electric power train operating on high voltage according to the 01 series of amendments, first issued after 1 September 2023.',n:'仅限高压电动力总成车辆；§12.3 非高压车辆的 01 系列证书继续被接受'}]},
+ "145":{src:"CELEX 42026X0906 · 01系列Suppl1",items:[
+   {max:0,kind:'late',date:'2026-09-01',q:'§12.2 As from 1 September 2026, Contracting Parties applying this Regulation shall not be obliged to accept UN type-approvals to the preceding series of amendments, first issued after 1 September 2026.'},
+   {max:0,kind:'cut',date:'2027-09-01',q:'§12.3 As from 1 September 2027, Contracting Parties applying this Regulation shall not be obliged to accept type-approvals issued to the preceding series of amendments to this Regulation.'}]}
+};
 function d2iso(s){const m=/^(\d{2})-(\d{2})-(\d{4})$/.exec(s||'');return m?m[3]+'-'+m[2]+'-'+m[1]:(s||'');}
 function _esc(s){return String(s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 // 工具涉及的 UN R 编号 → 覆盖主题 + EU 强制适用日（据 (EU) 2019/2144 Art 16 + Annex II，存于 EU_ITEMS.im）
@@ -955,7 +1007,7 @@ function openVersionBoard(){
     return;
   }
   const regs=unRegsInScope();
-  let legalCnt=0, trs='';
+  let legalCnt=0, txtCnt=0, trs='';
   regs.forEach(rg=>{
     const t=regSeriesTimeline(rg.no); if(!t||!t.series.length) return;
     const euRef=EU_REF_SERIES[rg.no];
@@ -976,11 +1028,26 @@ function openVersionBoard(){
       let eifCell=`${s.eif}`;
       if(tp.c4) eifCell+=`<div class="vb-c4">新型式须合规 ${d2iso(tp.c4)}</div>`;
       else if(tp.c4n) eifCell+=`<div class="vb-c4"><span class="vb-fn" title="${_esc(tp.c4n)}">新型式须合规：按类别/脚注 ⓘ</span></div>`;
-      // 失效日：仅 UNECE Col5 法定失效日 / 脚注；无则「—」（系列更替不产生失效日）
+      // 失效日：① UNECE Col5 法定失效日 / 脚注 → ② 法规原文过渡条款(TP_TEXT) → 均无则「—」
       let failCell;
       if(tp.c5){ legalCnt++; failCell=`<b title="UNECE Col5「老证书失效日」">${d2iso(tp.c5)}</b> <span class="vb-legal">法定失效</span>`; }
       else if(tp.c5n){ const d=(tp.c5n.match(/\d{2}-\d{2}-\d{4}/)||[''])[0]; failCell=`${d?d2iso(d):''} <span class="vb-fn" title="${_esc(tp.c5n)}">脚注 ⓘ</span>`; }
-      else failCell='<span class="vb-eif" title="UNECE 未公布法定失效日——既有证书持续有效（WP.29/1044/Rev.3 §25）">—</span>';
+      else{
+        failCell=null;
+        const tx=TP_TEXT[rg.no];
+        if(tx&&!s.future&&!isLatest){
+          const pick=k=>tx.items.filter(x=>x.kind===k&&s.n<=x.max&&s.n>=(x.min||0)).sort((a,b)=>a.date<b.date?-1:1)[0];
+          const hc=pick('cut'), hl=pick('late');
+          const tip=h=>_esc(`过渡条款原文：${h.q}${h.n?'　｜限定/例外：'+h.n:''}　｜数据源：${tx.src}（EU 官方公报合并文本）`);
+          if(hc){
+            txtCnt++;
+            failCell=`<b>${hc.date}</b> <span class="vb-txtcut" title="${tip(hc)}">过渡条款截止 ⓘ</span>`;
+            if(hl&&hl.date<hc.date) failCell+=`<div class="vb-c4"><span class="vb-txtlate" title="${tip(hl)}">${hl.date} 后新发的本系列证书已不保证被接受 ⓘ</span></div>`;
+          }
+          else if(hl) failCell=`<span class="vb-txtlate" title="${tip(hl)}">${hl.date} 后新发证不保证接受 ⓘ</span>`;
+        }
+        if(!failCell) failCell='<span class="vb-eif" title="UNECE 未公布法定失效日，且法规原文过渡条款中亦无接受截止——既有证书持续有效（WP.29/1044/Rev.3 §25）">—</span>';
+      }
       trs+=`<tr class="${isEuRef?'vb-row-eu':''}">`;
       if(idx===0){
         const note=EU_TP_NOTE[rg.no]?`<div class="vb-tpnote">⚠ ${EU_TP_NOTE[rg.no]}</div>`:'';
@@ -995,8 +1062,8 @@ function openVersionBoard(){
     });
   });
   const body=`<div style="padding:12px 15px">
-    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
-    <div class="vb-legend2"><span class="lg lg-eu">蓝行=EU 现行门槛</span>（EU 型批仍引用；即便 UNECE 已出更新系列）　<span class="lg lg-cur">现行=UNECE 最新已生效</span>　失效日仅在 UNECE 公布<span class="vb-legal">法定失效</span>时显示；其余系列既有证书持续有效</div>
+    <div class="vb-sum"><b>${regs.length}</b> 部 UN 法规 · <b>${legalCnt}</b> 条带 UNECE <span class="vb-legal">法定失效</span>日 · <b>${txtCnt}</b> 处法规原文<span class="vb-txtcut">过渡条款截止</span> · UNECE 数据 as_of <b>${VERDB.as_of||'—'}</b></div>
+    <div class="vb-legend2"><span class="lg lg-eu">蓝行=EU 现行门槛</span>（EU 型批仍引用；即便 UNECE 已出更新系列）　<span class="lg lg-cur">现行=UNECE 最新已生效</span>　<span class="vb-legal">法定失效</span>=UNECE Col5　<span class="vb-txtcut">过渡条款截止</span>=法规原文规定的接受义务终止日（悬停看原文）　其余系列既有证书持续有效</div>
     <div class="vb-scroll"><table class="emk-tbl vb-tbl"><thead><tr><th>法规</th><th>EU 型批<br>(引用系列·最低门槛 / 强制适用日)</th><th>UN 现行<br>最新</th><th>系列</th><th>生效日 /<br>新型式强制日</th><th>法定失效日</th><th>状态</th></tr></thead>
     <tbody>${trs}</tbody></table></div>
   </div>`;
@@ -1004,7 +1071,8 @@ function openVersionBoard(){
     '<b>官方依据：</b><br>'+
     '① <b>UN 系列时效</b> — 生效日、「新型式强制日」(Col4)、「法定失效日」(Col5) 据 <b>UNECE「Entry dates – ECE Regulations」(2026-06-30 版)</b>：<span class="vb-legal">法定失效</span>=该文件 Col5「老证书失效日」。未列 Col5 的系列不显示失效日——系列更替不影响既有证书效力：据 <b>WP.29/1044/Rev.3 §25</b>，既有 UN 型批持续有效。<br>'+
     '② <b>EU 引用系列（最低门槛）</b> — 据 <b>(EU) 2019/2144 【Annex I】</b>「Art 4(2) 所列 UN 法规清单」逐条钉定的适用系列（"00"=Original version）；EU 型批须<b>至少满足</b>此系列（本工具清单系列即取自此）。数据反映合并版至 <b>M7 · 2025-09-01</b>；EU 定期修订 Annex I 升级系列，故 EU 引用系列可低于 UNECE 最新系列。另附<b>强制适用日</b>（本列第二行，据 <b>Art 16 + Annex II 日期码</b>）。<br>'+
-    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。','emk-wide');
+    '③ 个别附注级 dated 截止（R44/R117/R127）已在对应法规行标注。数据源：UNECE「Entry dates – ECE Regulations」+ unece_status.json + (EU) 2019/2144 Annex I/II。<br>'+
+    '④ <b>法规原文过渡条款（新增数据层）</b> — 本表 63 部在册 UN 法规中 <b>62 部</b>的 EU 官方公报「合并文本」已逐部核对其 Transitional provisions 章节（R133 无 EU 公报文本，未核对）。<span class="vb-txtcut">过渡条款截止</span>=原文规定该日起缔约方「不再有义务接受」该系列证书（shall not be obliged to accept）；琥珀虚线=仅该日之后<b>新签发</b>的旧系列证书不保证被接受，此前签发的不受影响。悬停即见英文原句、限定/例外与 CELEX 编号。<b>注意</b>：合并文本反映 EU 引用的版本级别——若 UNECE 其后另发布了更新系列，该新系列的过渡条款不在本数据源内；部分条款设有部件/车型例外（如 R16 安全带部件、R137 仅限高压车），以悬停原文为准。','emk-wide');
 }
 // 已认证项的系列预警：清单系列落后于已生效的最新系列时提示核对过渡期
 function seriesAlert(i){

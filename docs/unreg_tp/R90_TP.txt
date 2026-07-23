@@ -1,0 +1,647 @@
+TRANSITIONAL PROVISIONS 
+          12.1.   As from the official date of entry into force of the 02 series of amendments, no Contracting Party applying this Regulation shall refuse to grant approval under this Regulation as amended by the 02 series of amendments. 
+          12.2.   Even after the date of entry into force of the 02 series of amendments, brake lining assembly and drum brake lining approvals to the 01 series of amendments to the Regulation shall remain valid and Contracting Parties applying the Regulation shall continue to accept them and shall not refuse to grant extensions of approval to the 01 series of amendments to this Regulation. 
+          12.3.   Contracting Parties applying this Regulation shall continue to allow fitting or use on a vehicle in use of a replacement brake lining assembly approved to this Regulation in its original, unamended form. 
+          
+          
+             ( 1 )   In this Regulation, references to Regulation No 13, 13-H or 78 shall be deemed also to refer to any other international rule such as 71/320/EEC, that applies the same technical requirements as Regulation No 13, 13-H or 78. References to specific sections of the Regulations shall be interpreted accordingly. 
+          
+             ( 2 )   It does not apply to possible additional functions of replacement parts as for example speed sensing in the case of integrated speed sensing devices or guidance of the wheels in the case of integrated hubs. 
+          
+             ( 3 )   If such brake linings are not available on the market, alternatively, brake linings listed under paragraph 8.2 may be used. 
+          
+             ( 4 )   The distinguishing numbers of the Contracting Parties to the 1958 Agreement are reproduced in Annex 3 to Consolidated Resolution on the Construction of Vehicles (R.E.3), document ECE/TRANS/WP.29/78/Rev.2/Amend.1. 
+          
+             ( 5 )   At the request of (an) applicant(s) for Regulation No 90 approval, the information shall be provided by the Type Approval Authority as contained in Appendix 1 to Annex 2 to Regulation No 13 approval or the appendix to Annex 1 to Regulation No 13-H approval. However, this information shall not be provided for purposes other than Regulation No 90 approvals. 
+          
+             ( 6 )   Worst case analysis must include the following technical characteristics (as a minimum) of each vehicle type in the application range: 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      Rotor diameter; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      Rotor thickness; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (c) 
+                   
+                   
+                      Ventilated or solid rotor; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (d) 
+                   
+                   
+                      Piston diameter; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (e) 
+                   
+                   
+                      Tyre dynamic radius; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (f) 
+                   
+                   
+                      Vehicle mass; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (g) 
+                   
+                   
+                      Axle mass and percentage of braking effort of the axle; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (h) 
+                   
+                   
+                      Maximum speed of the vehicle. 
+                   
+                
+             
+          
+          The testing conditions shall be specified in the test report. 
+          
+             ( 7 )   See footnote 6. 
+          
+             ( 8 )   See footnote 6. 
+          
+             ( 9 )   This test is included for conformity of production purposes. Minimum values and the tolerances to be agreed with the Technical Service. 
+          
+             ( 10 )   N/A in the case of a floating disc 
+          
+             ( 11 )   Ra-value according to ISO 1302:2002 
+          
+             ( 12 )   Ra-value according to ISO 1302:2002 
+       
+       
+       
+          
+             ANNEX 1A 
+             
+                
+             
+             Text of image 
+             
+                COMMUNICATION 
+                (Maximum format: A4 (210 × 297 mm)) 
+                (1) 
+                issued by: Name of administration 
+                concerning (2): Approval granted 
+                Approval extended 
+                Approval refused 
+                Approval withdrawn 
+                Production definitively discontinued 
+                of a replacement brake lining assembly or replacement drum brake lining pursuant to Regulation No 90 
+                Approval No Extension No 
+                1. Applicant’s name and address 
+                2. Manufacturer’s name and address 
+                3. Make and type of brake lining assembly/drum brake lining (2) 
+                4. Make and type of brake lining 
+                5. Vehicles/axles/brakes for which the brake lining assembly type/drum brake lining type qualifies as original brake lining assembly/original drum brake lining: 
+                6. Vehicles/axles/brakes for which the brake lining assembly type/drum brake lining type qualifies as replacement brake lining assembly/replacement drum brake lining: 
+                6.1. Additionally in the case of combined braking systems in the meaning of paragraph 2.9 of Regulation No 78, approved brake lining assembly combination(s): 
+                7. Submitted for approval on 
+                8. Technical service responsible for approval tests 
+                8.1. Date of test report 
+                8.2. Number of test report 
+                9. Approval granted/extended/refused/withdrawn (2) 
+                10. Place 
+                11. Date 
+                12. Signature 
+                13. Annexed to this communication is a list of documents in the approval file deposited at the Type Approval Authorities having delivered the approval and which can be obtained upon request. 
+                (1) Distinguishing number of the country which has granted/extended/refused/withdrawn approval (see approval provisions in the Regulation). 
+                (2) Strike out what does not apply. 
+             
+          
+       
+       
+       
+          
+             ANNEX 1B 
+             
+                
+             
+             Text of image 
+             
+                COMMUNICATION 
+                (maximum format: A4 (210 × 297 mm)) 
+                (1) 
+                issued by: Name of administration 
+                concerning (2): Approval granted 
+                Approval extended 
+                Approval refused 
+                Approval withdrawn 
+                Production definitively discontinued 
+                of a replacement brake disc or a replacement brake drum pursuant to Regulation No 90 
+                Approval No Extension No 
+                1. Applicant name and address 
+                2. Manufacturer name and address 
+                3. Make and type of brake disc/drum 
+                4. Vehicles/axles for which the replacement brake disc or a replacement brake drum is approved: 
+                5. Submitted for approval on 
+                6. Technical service responsible for approval tests 
+                6.1. Date of test report 
+                6.2. Number of test report 
+                7. Approval granted/extended/refused/withdrawn (2) 
+                8. Place 
+                9. Date 
+                10. Signature 
+                11. Annexed to this communication is a list of documents in the approval file deposited at the Type Approval Authorities having delivered the approval and which can be obtained upon request. 
+                (1) Distinguishing number of the country which has granted/extended/refused/withdrawn approval (see approval provisions in the Regulation). 
+                (2) Strike out what does not apply. 
+             
+          
+       
+       
+       
+          
+             ANNEX 2 
+             
+                ARRANGEMENTS OF THE APPROVAL MARK AND APPROVAL DATA 
+             
+             (See paragraph 4.2 of this Regulation) 
+             
+                
+                   
+                   
+                
+             
+             The above approval mark shows that the item concerned has been approved in France (E2) pursuant to Regulation No 90 under approval number C0359/7248. The first two digits of the approval number indicate that the approval was granted in accordance with the requirements of Regulation No 90 as amended by the 02 series of amendments. 
+             Example of pad assembly marking 
+             
+                
+             
+             Approval mark 
+             Date of assembly manufacture and manufacturer’s name or trade mark 
+             Make and type of brake lining 
+             Example of shoe assembly marking 
+             
+                
+             
+             Approval mark 
+             Date of assembly manufacture and manufacturer’s name or trade mark 
+             Make and type of brake lining 
+             Example of drum brake lining marking 
+             
+                
+             
+             Make and type of brake lining 
+             Date of manufacture 
+             Approval mark 
+             
+                Note:  Positions of markings and mutual positions of markings shown in the examples are not mandatory. 
+          
+       
+       
+       
+          
+             ANNEX 3 
+             
+                REQUIREMENTS FOR REPLACEMENT BRAKE LINING ASSEMBLIES FOR VEHICLES OF CATEGORIES M 1 , M 2  AND N 1 
+                
+             
+             1.   CONFORMANCE WITH REGULATION No 13 OR 13-H 
+             Compliance with the requirements of Regulation No 13 or 13-H shall be demonstrated in a vehicle test. 
+             1.1.   Vehicle preparation 
+             1.1.1.   Test Vehicle 
+             A vehicle which is representative of the type(s) for which the replacement brake lining assembly approval is required shall be equipped with the replacement brake lining assemblies of the type for which approval is requested and instrumented for brake testing as required by Regulations Nos 13 and 13-H. 
+             Brake linings submitted for test shall be fitted to the relevant brakes and, until a fixed burnishing procedure is established, shall be burnished to the manufacturer's instructions in agreement with the technical service. 
+             1.1.2.   Bedding (burnishing) procedure 
+             1.1.2.1.   General conditions 
+             Brake lining assemblies submitted for test shall be fitted to the relevant brakes. In the case of replacement brake lining assemblies, new brake linings must be used. Drum brake linings may be machined to achieve the best possible initial contact between the linings and drum(s). The test vehicle shall be fully laden. 
+             Original brake lining assemblies used for comparison test and already fitted to the test vehicle may be used provided they are in a good condition and have not been worn out by more than 20 per cent of the initial thickness. They must not show damages, cracks, excessive corrosion or signs of overheating. They shall be bedded to the procedure described below. 
+             1.1.2.2.   Procedure 
+             Perform a minimum 50 km driving distance and at least 100 brake applications at varying decelerations (at least between 1 m/s 2  and 5 m/s 2 ) with initial speeds between 50 km/h and 120 km/h. A temperature range between 250 °C and 500 °C for pad assemblies or between 150 °C and 250 °C for drum brake lining assemblies (measured at the rubbing surface of the disc or drum) must be achieved at least 3 times during the bedding procedure. Temperatures must not exceed 500 °C for pad assemblies and 250 °C for drum brake lining assemblies. 
+             1.1.2.3.   Performance check 
+             By braking only one axle at a time perform 5 brake applications from 70 km/h to 0 km/h (front axle) and 45 km/h to 0 km/h (rear axle) at a line pressure of 4 Mpa  ( 1 )  and with an initial temperature of 100 °C for each stop. The 5 consecutive non-monotonic results must remain within the tolerance of 0,6 m/s 2  (front axle) or 0,4 m/s 2  (rear axle) of their mean fully developed deceleration. 
+             If this requirement is not fulfilled the bedding procedure according to paragraph 1.1.2.2 must be extended and the performance check according to paragraph 1.1.2.3 must be repeated. 
+             1.2.   The braking system of the vehicle shall be tested according to the requirements for the vehicle category in question (M 1 , M 2  or N 1 ) in Regulation No 13, Annex 4, paragraphs 1 and 2 or Regulation No 13-H, Annex 3, paragraphs 1 and 2 whichever is appropriate taking into consideration the original approval of the system. The applicable requirements or tests are: 
+             1.2.1.   Service braking system 
+             1.2.1.1.   Type-0 test with engine disconnected, vehicle laden, according to Regulation No 13, Annex 4, paragraph 1.4.2 or Regulation No 13-H, Annex 3, paragraph 1.4.2. 
+             1.2.1.2.   Type-0 test with engine connected, vehicle unladen and laden, according to Regulation No 13, Annex 4, paragraphs 1.4.3.1 (stability test) and 1.4.3.2 (only the test with initial speed v = 0,8 v max ) or Regulation No 13-H, Annex 3, paragraphs 1.4.3.1 and 1.4.3.2. 
+             1.2.1.3.   Type-I test, according to Regulation No 13, Annex 4, paragraph 1.5 or Regulation No 13-H, Annex 3, paragraph 1.5. 
+             1.2.2.   Secondary braking system 
+             1.2.2.1.   Type-0 test with engine disconnected, vehicle laden, according to Regulation No 13, Annex 4, paragraph 2.2 or Regulation No 13-H, Annex 3, paragraph 2.2 (this test may be omitted in cases where it is obvious that the requirements are met, e.g. diagonal split braking system). 
+             1.2.3.   Parking braking system 
+             (Only applicable if the brakes for which lining approval is sought are used for parking). 
+             1.2.3.1.   Parking brake test at 18 per cent gradient, vehicle laden, according to Regulation No 13, Annex 4, paragraph 2.3.1 or parking brake test at 20 per cent gradient, vehicle laden, Regulation No 13-H, Annex 3, paragraph 2.3.1. 
+             1.3.   The vehicle must satisfy all the relevant requirements stated in Regulation No 13, Annex 4, paragraph 2 or Regulation No 13-H, Annex 3, paragraph 2 for that category of vehicle. 
+             2.   ADDITIONAL REQUIREMENTS 
+             Compliance with the additional requirements shall be demonstrated by using one of the two following methods: 
+             2.1.   Vehicle test (split axle test) 
+             For this test the vehicle shall be fully laden and all brake applications made with engine disconnected, on a level road. 
+             The vehicle service brake control system shall be equipped with a means of isolating front and rear axle brakes so that either may be used independently of the other. 
+             Where brake lining assembly approval is required for front axle brakes the rear axle brakes shall remain inoperative throughout the test. 
+             Where brake lining assembly approval is required for rear axle brakes the front axle brakes shall remain inoperative throughout the test. 
+             2.1.1.   Cold performance equivalence test 
+             A comparison of the cold performance of the replacement brake lining assembly and the original brake lining assembly shall be made by comparing the results of testing to the following method: 
+             
+                
+                
+                
+                   
+                      
+                         2.1.1.1. 
+                      
+                      
+                         Make a minimum of six brake applications at spaced increments of pedal effort or line pressure up to wheel lock or, alternatively, up to a mean fully developed deceleration of 6 m/s 2  or up to the allowed maximum pedal force for the category of vehicle in question from an initial speed as given in the table below: 
+                         
+                            
+                            
+                            
+                            
+                               
+                                  
+                                     Vehicle category 
+                                  
+                                  
+                                     Test speed in km/h 
+                                  
+                               
+                               
+                                  
+                                     Front axle 
+                                  
+                                  
+                                     Rear axle 
+                                  
+                               
+                               
+                                  
+                                     M 1 
+                                     
+                                  
+                                  
+                                     70 
+                                  
+                                  
+                                     45 
+                                  
+                               
+                               
+                                  
+                                     M 2 
+                                     
+                                  
+                                  
+                                     50 
+                                  
+                                  
+                                     40 
+                                  
+                               
+                               
+                                  
+                                     N 1 
+                                     
+                                  
+                                  
+                                     65 
+                                  
+                                  
+                                     50 
+                                  
+                               
+                            
+                         
+                         The initial brake temperature at the start of each application shall be ≤ 100 °C. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                   
+                      
+                         2.1.1.2. 
+                      
+                      
+                         Note and plot pedal force or line pressure and mean fully developed deceleration for each application, and determine the pedal force or line pressure required to achieve (if possible) a mean fully developed deceleration of 5 m/s 2  for front axle brakes and 3 m/s 2  for rear axle brakes. If these values cannot be achieved with the maximum allowed pedal force determine alternatively the pedal force or line pressure required to achieve maximum deceleration. 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                   
+                      
+                         2.1.1.3. 
+                      
+                      
+                         The replacement brake lining assembly shall be considered to show similar performance characteristics to the original brake lining assembly if the achieved mean fully developed decelerations at the same control force or line pressure in the upper two thirds of the generated curve are within 15 per cent of those obtained with the original brake lining assembly. 
+                      
+                   
+                
+             
+             2.1.2.   Speed sensitivity test 
+             2.1.2.1.   Using the pedal force derived from paragraph 2.1.1.2 of this annex and with initial brake temperature ≤ 100 °C, make three brake applications from each of the following speeds: 
+             
+                
+                
+                
+                   
+                      
+                         (a) 
+                      
+                      
+                         Front axle 65, 100 km/h and additionally 135 km/h where v max  exceeds 150 km/h; 
+                      
+                   
+                
+             
+             
+                
+                
+                
+                   
+                      
+                         (b) 
+                      
+                      
+                         Rear axle 45, 65 km/h and additionally 90 km/h where v max  exceeds 150 km/h. 
+                      
+                   
+                
+             
+             2.1.2.2.   Average the results for each group of three applications and plot speed against corresponding mean fully developed deceleration. 
+             2.1.2.3.   Mean fully developed decelerations recorded for the higher speeds shall lie within 15 per cent of that recorded for the lowest speed. 
+             2.2.   Inertia dynamometer test 
+             2.2.1.   Test equipment 
+             For the tests an inertia dynamometer shall be equipped with the vehicle brake in question. The dynamometer shall be instrumented for continuous recording of rotational speed, brake torque, pressure in the brake line, number of rotations after brake application, braking time and brake rotor temperature. 
+             2.2.2.   Test conditions 
+             2.2.2.1.   The rotational mass of the dynamometer shall correspond to half the axle portion of the maximum vehicle mass as listed in the table below and to the rolling radius of the largest tyre that is authorized for that vehicle type(s). 
+             
+                
+                
+                
+                
+                   
+                      
+                         Vehicle category 
+                      
+                      
+                         Axle portion of maximum vehicle mass 
+                      
+                   
+                   
+                      
+                         Front 
+                      
+                      
+                         Rear 
+                      
+                   
+                   
+                      
+                         M 1 
+                         
+                      
+                      
+                         0,77 
+                      
+                      
+                         0,32 
+                      
+                   
+                   
+                      
+                         M 2 
+                         
+                      
+                      
+                         0,69 
+                      
+                      
+                         0,44 
+                      
+                   
+                   
+                      
+                         N 1 
+                         
+                      
+                      
+                         0,66 
+                      
+                      
+                         0,39 
+                      
+                   
+                
+             
+             2.2.2.2.   The initial dynamometer rotational speed shall correspond to the linear vehicle speed as stated in paragraphs 2.2.3 and 2.2.4 of this annex and shall be based on the dynamic rolling radius of the tyre. 
+             2.2.2.3.   Brake linings submitted for test shall be fitted to the relevant brakes and bedded (burnished) according to the following procedure: 
+             
+                
+                
+                
+                   
+                      
+                           
+                      
+                      
+                         Burnishing phase 1, 64 snubs from 80 km/h to 30 km/h at varying line pressures: 
+                         
+                            
+                            
+                            
+                            
+                            
+                               
+                                  
+                                       
+                                  
+                                  
+                                     Rear axle 
+                                  
+                                  
+                                     Rear axle 
+                                  
+                               
+                               
+                                  
+                                     Parameter 
+                                  
+                                  
+                                     Front axle 
+                                  
+                                  
+                                     Disc brake 
+                                  
+                                  
+                                     Drum brake 
+                                  
+                               
+                               
+                                  
+                                     Number of snubs per cycle 
+                                  
+                                  
+                                     32 
+                                  
+                                  
+                                     32 
+                                  
+                                  
+                                     32 
+                                  
+                               
+                               
+                                  
+                                     Brake speed (km/h) 
+                                  
+                                  
+                                     80 
+                                  
+                                  
+                                     80 
+                                  
+                                  
+                                     80 
+                                  
+                               
+                               
+                                  
+                                     Release speed (km/h) 
+                                  
+                                  
+                                     30 
+                                  
+                                  
+                                     30 
+                                  
+                                  
+                                     30 
+                                  
+                               
+                               
+                                  
+                                     Initial brake temperature (°C) 
+                                  
+                                  
+                                     < 100 
+                                  
+                                  
+                                     < 100 
+                                  
+                                  
+                                     < 80 
+                                  
+                               
+                               
+                                  
+                                     Final brake temperature (°C) 
+                                  
+                                  
+                                     Open 
+                                  
+                                  
+                                     Open 
+                                  
+                                  
+                                     Open 
+                                  
+                               
+                               
+                                  
+                                     Pressure snub 1 (kPa) 
+                                  
+                                  
+                                     1 500  
+                                  
+                                  
+                                     1 500  
+                                  
+                                  
+                                     1 500  
+                                  
+                               
+                               
+                                  
+                                     Pressure snub 2 (kPa) 
+                                  
+                                  
+                                     3 000  
+                                  
+                                  
+                                     3 000  
+                                  
+                                  
+                                     3 000  
+                                  
+                               
+                               
+                                  
+                       

@@ -1,0 +1,363 @@
+transitional provisions of UN 
+Regulation No 10 05 series of amendments. 
+5.1.3. Conformity with the safety aspects of electronic control systems shall be shown by meeting the requirements of 
+Annex 3. 
+5.1.4. Warnings 
+In addition to the collision warnings described in paragraphs 5.2.1.1 and 5.2.2.1, the system shall provide the 
+driver with appropriate warning(s) as below: 
+5.1.4.1. A failure warning when there is a failure in the AEBS that prevents the requirements of this Regulation of being 
+met. The warning shall be as specified in paragraph 5.5.4. 
+5.1.4.1.1. There shall not be an appreciable time interval between each AEBS self-check, and subsequently there shall not 
+be a delay in illuminating the warning signal, in the case of an electrically detectable failure. 
+5.1.4.1.2. If the system has not been calibrated after a cumulative driving time of 15 seconds above a speed of 10km/h, 
+information of this status shall be indicated to the driver. This information shall exist until the system has been 
+successfully calibrated. 
+5.1.4.2. A deactivation warning, if the vehicle is equipped with a means to manually deactivate the AEBS, shall be given 
+when the system is deactivated. This shall be as specified in paragraph 5.4.2. 
+5.1.4.3. Upon detection of any non-electrical failure condition (e.g. sensor blindness or sensor misalignment), the 
+warning signal as defined in paragraph 5.1.4.1 shall be illuminated. 
+5.1.5. Emergency braking 
+Subject to the provisions of paragraphs 5.3.1 and 5.3.2, the system shall provide emergency braking 
+interventions described in paragraphs 5.2.1.2 and 5.2.2.2 having the purpose of significantly decreasing the 
+speed of the subject vehicle. 
+5.1.6. False reaction avoidance 
+The system shall be designed to minimise the generation of collision warning signals and to avoid autonomous 
+braking in situations where the driver would not recognise an impending collision. This shall be demonstrated 
+in the assessment carried out under Annex 3 of this Regulation for the scenarios listed in its Appendix 2. 
+5.2. Specific Requirements 
+5.2.1. Car to car scenario 
+EN Official Journal of the European Union 30.10.2020                                                                                                                                       L 360/69   
+5.2.1.1. Collision warning 
+When a collision with a preceding vehicle of Category M 1, in the same lane with a relative speed above that 
+speed up to which the subject vehicle is able to avoid the collision, can be anticipated 0,8 seconds ahead of an 
+emergency braking, the collision warning shall be as specified in paragraph 5.5.1, and shall be provided at the 
+latest 0,8 seconds before the start of emergency braking. 
+However, in case the collision cannot be anticipated 0,8 seconds ahead of an emergency braking, the collision 
+warning shall be issued immediately after the detection. 
+The collision warning may be aborted if the conditions prevailing a collision are no longer present. 
+5.2.1.2. Emergency braking 
+When the system has detected the possibility of an imminent collision, there shall be a braking demand of at 
+least 5,0 m/s2 to the service braking system of the vehicle. 
+The emergency braking may be aborted if the conditions prevailing a collision are no longer present. 
+This shall be tested in accordance with paragraphs 6.4 and 6.5 of this Regulation. 
+5.2.1.3. Speed 
+The system shall be active at least within the vehicle speed range between 10 km/h and 60 km/h and at all 
+vehicle load conditions, unless manually deactivated as per paragraph 5.4. 
+5.2.1.4. Speed reduction by braking demand 
+When the system is activated, the AEBS shall be able to achieve the maximum relative impact speed as shown in 
+the following table: 
+(a) for collisions with constantly travelling or stationary targets; 
+(b) on dry roads; 
+(c) in laden and unladen conditions; 
+(d) in situations where the vehicle longitudinal centre planes are displaced by not more than 0,2 m; and/or 
+(e) in ambient illumination conditions of at least 1 000 lux. 
+It is recognised that the performances required in this table may not be fully achieved in other conditions than 
+those listed above. However, the system shall not deactivate or drastically change the control strategy in these 
+other conditions. This shall be demonstrated in accordance with Annex 3 of this Regulation. 
+Maximum relative Impact Speed (km/h) for M 1 vehicles                                                              
+Relative Speed 
+(km/h) 
+Stationary Moving 
+Laden Unladen Laden Unladen 
+10 0,00 0,00 0,00 0,00 
+15 0,00 0,00 0,00 0,00 
+20 0,00 0,00 0,00 0,00 
+25 0,00 0,00 0,00 0,00 
+30 0,00 0,00 0,00 0,00 
+35 0,00 0,00 0,00 0,00 
+40 0,00 0,00 0,00 0,00 
+42 10,00 0,00 - 0,00 
+EN Official Journal of the European Union L 360/70                                                                                                                                       30.10.2020   
+Relative Speed 
+(km/h) 
+Stationary Moving 
+Laden Unladen Laden Unladen 
+45 15,00 15,00 - - 
+50 25,00 25,00 - - 
+55 30,00 30,00 - - 
+60 35,00 35,00 - -   
+Maximum relative Impact Speed (km/h) for N 1 vehicles (*)                                                              
+Relative Speed 
+(km/h) 
+Stationary/Moving 
+Maximum mass Mass in running order 
+10 0,00 0,00 
+15 0,00 0,00 
+20 0,00 0,00 
+25 0,00 0,00 
+30 0,00 0,00 
+32 0,00 0,00 
+35 0,00 0,00 
+38 0,00 0,00 
+40 10,00 0,00 
+42 15,00 0,00 
+45 20,00 15,00 
+50 30,00 25,00 
+55 35,00 30,00 
+60 40,00 35,00 
+(*) For relative speeds between the listed values (e.g. 53 km/h), the maximum relative impact speed (i.e. 35/30 km/h) assigned to the next 
+higher relative speed (i.e. 55 km/h) shall apply. 
+For masses above the mass in running order, the maximum relative impact speed assigned to the maximum mass shall apply.   
+5.2.2. Car to pedestrian scenario 
+5.2.2.1. Collision warning 
+When the AEBS has detected the possibility of a collision with a pedestrian crossing the road at a constant speed 
+of 5 km/h. a collision warning shall be provided as specified in paragraph 5.5.1 and shall be provided no later 
+than the start of emergency braking intervention. 
+The collision warning may be aborted if the conditions prevailing a collision are no longer present. 
+5.2.2.2. Emergency braking 
+When the system has detected the possibility of an imminent collision. there shall be a braking demand of at 
+least 5,0 m/s2 to the service braking system of the vehicle. 
+EN Official Journal of the European Union 30.10.2020                                                                                                                                       L 360/71   
+The emergency braking may be aborted if the conditions prevailing a collision are no longer present 
+This shall be tested in accordance with paragraph 6.6 of this Regulation. 
+5.2.2.3. Speed 
+The system shall be active at least within the vehicle speed range between 20 km/h and 60 km/h and at all 
+vehicle load conditions. unless manually deactivated as per paragraph 5.4. 
+5.2.2.4. Speed reduction by braking demand 
+When the system is activated. the AEBS shall be able to achieve the maximum relative impact speed as shown in 
+the following table: 
+(a) with crossing pedestrians with a lateral speed component of not more than 5 km/h; 
+(b) on dry roads; 
+(c) in laden and unladen conditions; 
+(d) in situations where the vehicle longitudinal centre planes are displaced by not more than 0,2 m; and/or 
+(e) in ambient illumination conditions of at least 2 000 Lux. 
+It is recognised that the performances required in this table may not be fully achieved in other conditions than 
+those listed above. However the system shall not deactivate or drastically change the control strategy in these 
+other conditions. This shall be demonstrated in accordance with Annex 3 of this Regulation. 
+Maximum Impact Speed (km/h) for M
+1 vehicles (*)                                                              
+Subject vehicle speed (km/h) Maximum mass Mass in running order 
+20 0,00 0,00 
+25 0,00 0,00 
+30 0,00 0,00 
+35 0,00 0,00 
+40 0,00 0,00 
+42 10,00 0,00 
+45 15,00 15,00 
+50 25,00 25,00 
+55 30,00 30,00 
+60 35,00 35,00 
+(*) For relative speeds between the listed values (e.g. 53 km/h), the maximum relative impact speed (i.e. 30/30 km/h) assigned to the next 
+higher relative speed (i.e. 55 km/h) shall apply. 
+For masses above the mass in running order, the maximum relative impact speed assigned to the maximum mass shall apply.   
+EN Official Journal of the European Union L 360/72                                                                                                                                       30.10.2020   
+Maximum Impact Speed (km/h) for N 1 vehicles (*)                                                              
+Subject vehicle speed (km/h) Maximum mass Mass in running order 
+20 0,00 0,00 
+25 0,00 0,00 
+30 0,00 0,00 
+35 0,00 0,00 
+40 10,00 0,00 
+42 15,00 0,00 
+45 20,00 15,00 
+50 30,00 25,00 
+55 35,00 30,00 
+60 40,00 35,00 
+(*) For subject vehicle speeds between the listed values (e.g. 53 km/h), the maximum impact speed (i.e. 35/30 km/h) assigned to the next 
+higher subject vehicle speed (i.e. 55 km/h) shall apply. 
+For masses above the mass in running order, the maximum relative impact speed assigned to the maximum mass shall apply.   
+5.3. Interruption by the Driver 
+5.3.1. The AEBS shall provide the means for the driver to interrupt the collision warning and the emergency braking. 
+5.3.2. In both cases above. this interruption may be initiated by any positive action (e.g. kick-down. operating the 
+direction indicator control) that indicates that the driver is aware of the emergency situation. The vehicle 
+manufacturer shall provide a list of these positive actions to the technical service at the time of type approval 
+and it shall be annexed to the test report. 
+5.4. Manual deactivation 
+5.4.1. When a vehicle is equipped with a means to manually deactivate the AEBS function. the following conditions 
+shall apply as appropriate: 
+5.4.1.1 The AEBS function shall be automatically reinstated at the initiation of each new ignition cycle. 
+5.4.1.2. The AEBS control shall be designed a in such a way that manual deactivation shall not be possible with less than 
+two deliberate actions. 
+5.4.1.3. The AEBS control shall be installed so as to comply with the relevant requirements and transitional provisions of 
+UN Regulation No 121 in its 01 series of amendments or any later series of amendments. 
+5.4.1.4. It shall not be possible to deactivate the AEBS at a speed above 10 km/h. 
+5.4.2. When the vehicle is equipped with a means to automatically deactivate the AEBS function, for instance in 
+situations such as off-road use, being towed, being operated on a dynamometer, being operated in a washing 
+plant, in case of a non-detectable misalignment of sensors, the following conditions shall apply as appropriate: 
+EN Official Journal of the European Union 30.10.2020                                                                                                                                       L 360/73   
+5.4.2.1. The vehicle manufacturer shall provide a list of situations and corresponding criteria where the AEBS function is 
+automatically deactivated to the technical service at the time of type approval and it shall be annexed to the test 
+report. 
+5.4.2.2. The AEBS function shall be automatically reactivated as soon as the conditions that led to the automatic 
+deactivation are not present anymore. 
+5.4.3. A constant optical warning signal shall inform the driver that the AEBS function has been deactivated. The 
+yellow warning signal specified in paragraph 5.5.4 below may be used for this purpose. 
+5.5. Warning Indication 
+5.5.1. The collision warning referred to in paragraphs 5.2.1.1 and 5.2.2.1 shall be provided by at least two modes 
+selected from acoustic, haptic or optical. 
+5.5.2. A description of the warning indication and the sequence in which the collision warning signals are presented to 
+the driver shall be provided by the vehicle manufacturer at the time of type-approval and recorded in the test 
+report. 
+5.5.3. Where an optical means is used as part of the collision warning. the optical signal may be the flashing of the 
+failure warning signal specified in paragraph 5.5.4. 
+5.5.4. The failure warning referred to in paragraph 5.1.4.1 shall be a constant yellow optical warning signal. 
+5.5.5. Each AEBS optical warning signal shall be activated either when the ignition (start) switch is turned to the ‘on’ 
+(run) position or when the ignition (start) switch is in a position between the ‘on’ (run) and ‘start’ that is 
+designated by the manufacturer as a check position (initial system (power-on)). This requirement does not apply 
+to warning signals shown in a common space. 
+5.5.6. The optical warning signals shall be visible even by daylight; the satisfactory condition of the signals must be 
+easily verifiable by the driver from the driver's seat. 
+5.5.7. When the driver is provided with an optical warning signal to indicate that the AEBS is temporarily not 
+available, for example due to inclement weather conditions, the signal shall be constant and yellow in colour. 
+The failure warning signal specified in paragraph 5.5.4 above may be used for this purpose. 
+5.6. Provisions for the Periodic Technical Inspection 
+5.6.1. At a Periodic Technical Inspection, it shall be possible to confirm the correct operational status of the AEBS by a 
+visible observation of the failure warning signal status. following a ‘power-ON’ and any bulb check. 
+In the case of the failure warning signal being in a common space. the common space must be observed to be 
+functional prior to the failure warning signal status check. 
+5.6.2. At the time of type approval, the means to protect against simple unauthorised modification of the operation of 
+the failure warning signal chosen by the manufacturer shall be confidentially outlined. 
+Alternatively, this protection requirement is fulfilled when a secondary means of checking the correct 
+operational status of the AEBS is available. 
+6. TEST PROCEDURE 
+6.1. Test conditions 
+6.1.1. The test shall be performed on a flat. dry concrete or asphalt surface affording good adhesion. 
+EN Official Journal of the European Union L 360/74                                                                                                                                       30.10.2020   
+6.1.1.1. The road test surface shall have a nominal ( 3) peak braking coefficient (PBC) of 0,9. unless otherwise specified. 
+when measured using either: 
+6.1.1.2. The American Society for Testing and Materials (ASTM) E1136 standard reference test tyre. in accordance with 
+ASTM Method E1337‐90. at a speed of 40 mph; or 
+6.1.1.3. The k-test method specified in Appendix 2 to Annex 6 of UN Regulation No 13-H. 
+6.1.1.4. The test surface has a consistent slope between level and 1 per cent. 
+6.1.2. The ambient temperature shall be between 0 °C and 45 °C. 
+6.1.3. The horizontal visibility range shall allow the target to be observed throughout the test. 
+6.1.4 The tests shall be performed when there is no wind liable to affect the results. 
+6.1.5. Natural ambient illumination must be homogeneous in the test area and in excess of 1 000 lux in the case of car 
+to car scenario as stipulated in paragraph 5.2.1 and of 2 000 lux in the case of car to pedestrian scenario as 
+stipulated in paragraph 5.2.2. It should be ensured that testing is not performed whilst driving towards, or away 
+from the sun at a low angle. 
+6.2. Vehicle Conditions 
+6.2.1. Test Weight 
+The vehicle shall be tested in at least the unladen and laden conditions. 
+The load distribution shall be according to the manufacturer’s recommendation. No alteration shall be made 
+once the test procedure has begun. 
+6.2.2. Pre-Test Conditioning 
+6.2.2.1. If requested by the vehicle manufacturer. 
+The vehicle can be driven a maximum of 100 km on a mixture of urban and rural roads with other traffic and 
+roadside furniture to calibrate the sensor system. 
+The vehicle can undergo a sequence of brake activations in order to ensure the service brake system is bedded in 
+prior to the test. 
+6.2.2.2. Details of the pre-test condition strategy requested by the vehicle manufacturer shall be identified and recorded 
+in the vehicle type approval documentation. 
+6.3. Test Targets 
+6.3.1. The target used for the vehicle detection tests shall be a regular high volume series production passenger car of 
+Category M
+1 AA saloon. or alternatively a ‘soft target’ representative of such a vehicle in terms of its 
+identification characteristics applicable to the sensor system of the AEBS under test according to ISO 19206- 
+1:2018. The reference point for the location of the vehicle shall be the most rearward point on the centreline of 
+the vehicle. 
+6.3.2. The targets used for the pedestrian detection tests shall be a ‘soft target’ and be representative of the human 
+attributes applicable to the sensor system of the AEBS under test according to ISO 19206-2:2018. 
+6.3.3. Details that enable the target(s) to be specifically identified and reproduced shall be recorded in the vehicle type 
+approval documentation. 
+(3) The ‘nominal’ value is understood as being the theoretical target value. 
+EN Official Journal of the European Union 30.10.2020                                                                                                                                       L 360/75   
+6.4. Warning and Activation Test with a Stationary Vehicle Target 
+6.4.1. The subject vehicle shall approach the stationary target in a straight line for at least two seconds prior to the 
+functional part of the test with a subject vehicle to target centreline offset of not more than 0,2 m. 
+Tests shall be conducted with a vehicle travelling at 20, 42 and 60 km/h (with a tolerance of +0/-2 km/h). If this 
+is deemed justified. the technical service may test any other speeds within the speed range as defined in 
+paragraph 5.2.1.3. 
+The functional part of the test shall start when the subject vehicle is travelling at a constant speed and is at a 
+distance corresponding to a Time To Collision (TTC) of at least 4 seconds from the target. 
+From the start of the functional part until the point of collision there shall be no adjustment to any control of 
+the subject vehicle by the driver other than slight adjustments to the steering control to counteract any drifting. 
+6.4.2. The timing for the collision warning modes referred to in paragraph 5.5.1 shall comply with the provisions of 
+paragraph 5.2.1.1. 
+6.5. Warning and Activation Test with a Moving Vehicle Target 
+6.5.1. The subject vehicle and the moving target shall travel in a straight line, in the same direction, for at least two 
+seconds prior to the functional part of the test. with a subject vehicle to target centreline offset of not more 
+than 0,2 m. 
+Tests shall be conducted with a vehicle travelling at 30 and 60 km/h and target travelling at 20 km/h (with a 
+tolerance of +0/-2 km/h for both the subject and the target vehicles). If this is deemed justified, the Technical 
+Service may test any other speeds for subject vehicle and target vehicle within the speed range as defined in 
+paragraph 5.2.1.3. 
+The functional part of the test shall start when the subject vehicle is travelling at a constant speed and is at a 
+distance corresponding to a TTC of at least 4 seconds from the target. 
+From the start of the functional part of the test until the subject vehicle comes to a speed equal to that of the 
+target there shall be no adjustment to any subject vehicle control by the driver other than slight steering 
+adjustments to counteract any drifting. 
+6.5.2. The timing for the collision warning modes referred to in paragraph 5.5.1 above shall comply with the 
+provisions of paragraph 5.2.1.1. 
+6.6. Warning and Activation Test with a Pedestrian Target 
+6.6.1. The subject vehicle shall approach the impact point with the pedestrian target in a straight line for at least two 
+seconds prior to the functional part of the test with a subject vehicle to impact point centreline offset of not 
+more than 0,1 m. 
+The functional part of the test shall start when the subject vehicle is travelling at a constant speed and is at a 
+distance corresponding to a TTC of at least 4 seconds from the collision point. 
+The pedestrian target shall travel in a straight line perpendicular to the subject vehicle’s direction of travel at a 
+constant speed of 5 km/h ± 0,2 km/h, starting not before the functional part of the test has started. The 
+pedestrian target’s positioning shall be coordinated with the subject vehicle in such a way that the impact point 
+of the pedestrian target on the front of the subject vehicle is on the longitudinal centreline of the subject vehicle. 
+with a tolerance of not more than 0,1 m if the subject vehicle would remain at the prescribed test speed 
+throughout the functional part of the test and does not brake. 
+Tests shall be conducted with a vehicle travelling at 20, 30 and 60 km/h (with a tolerance of +0/-2 km/h). The 
+technical service may test any other speeds within the speed range as defined in paragraphs 5.2.2.3 and 5.2.2.4. 
+EN Official Journal of the European Union L 360/76                                                                                                                                       30.10.2020   
+From the start of the functional part until the subject vehicle has avoided the collision or the subject vehicle has 
+passed the impact point with the pedestrian target there shall be no adjustment to any control of the subject 
+vehicle by the driver other than slight adjustments to the steering control to counteract any drifting. 
+The test prescribed above shall be carried out with a 6-year old child pedestrian ‘soft target’ defined in 6.3.2. 
+6.6.2. The timing for the collision warning modes referred to in paragraph 5.5.1 above shall comply with the 
+provisions of paragraph 5.2.2.1. 
+6.7. (reserved) 
+6.8. Failure Detection Test 
+6.8.1 Simulate an electrical failure, for example, by disconnecting the power source to any AEBS component or 
+disconnecting any electrical connection between AEBS components. When simulating an AEBS failure. neither 
+the electrical connections for the driver warning signal of paragraph 5.5.4 above nor the optional manual 
+AEBS deactivation control of paragraph 5.4 shall be disconnected. 
+6.8.2. The failure warning signal mentioned in paragraph 5.5.4 above shall be activated and remain activated not later 
+than 10 s after the vehicle has been driven at a speed greater than 10 km/h and be reactivated immediately after 
+a subsequent ignition ‘off’ ignition ‘on’ cycle with the vehicle stationary as long as the simulated failure exists. 
+6.9. Deactivation Test 
+6.9.1. For vehicles equipped with means to deactivate the AEBS, turn the ignition (start) switch to the ‘on’ (run) 
+position and deactivate the AEBS. The warning signal mentioned in paragraph 5.4.2 above shall be activated. 
+Turn the ignition (start) switch to the ‘off’ position. Again, turn the ignition (start) switch to the ‘on’ (run) 
+position and verify that the previously activated warning signal is not reactivated, thereby indicating that the 
+AEBS has been reinstated as specified in paragraph 5.4.1 above. If the ignition system is activated by means of a 
+‘key’, the above requirement shall be fulfilled without removing the key. 
+6.10. Robustness of the system 
+6.10.1. Any of the above test scenarios, where a scenario describes one test setup at one subject vehicle speed at one 
+load condition of one category (Car to Car, Car to Pedestrian), shall be performed two times. If one of the two 
+test runs fails to meet the required performance, the test may be repeated once. A test scenario shall be 
+accounted as passed if the required performance is met in two test runs. The number of failed tests runs within 
+one category shall not exceed: 
+(a) 10 per cent of the performed test runs for the Car to Car tests; and 
+(b) 10 per cent of the performed test runs for the Car to Pedestrian tests. 
+6.10.2. The root cause of any failed test run shall be analysed together with the Technical Service and annexed to the test 
+report. If the root cause cannot be linked to a deviation in the test setup, the technical service may test any other 
+speeds within the speed range as defined in paragraphs 5.2.1.3, 5.2.1.4, 5.2.2.3 or 5.2.2.4 as relevant. 
+6.10.3. During the assessment as per Annex 3, the manufacturer shall demonstrate, via appropriate documentation, that 
+the system is capable of reliably delivering the required performances. 
+7. MODIFICATION OF VEHICLE TYPE AND EXTENSION OF APPROVAL 
+7.1. Every modification of the vehicle type as defined in paragraph 2.4 above shall be notified to the Type Approval 
+Authority which approved the vehicle type. The Type Approval Authority may then either: 
+EN Official Journal of the European Union 30.10.2020                                                                                                                                       L 360/77   
+7.1.1. Consider that the modifications made do not have an adverse effect on the conditions of the granting of the 
+approval and grant an extension of approval; 
+7.1.2. Consider that the modifications made affect the conditions of the granting of the approval and require further 
+tests or additional checks before granting an extension of approval. 
+7.2. Confirmation or refusal of approval. specifying the alterations. shall be communicated by the procedure 
+specified in paragraph 4.3 above to the Contracting Parties to the Agreement which apply this Regulation. 
+7.3. The Type Approval Authority shall inform the other Contracting Parties of the extension by means of the 
+communication form which appears in Annex 1 to this Regulation. It shall assign a serial number to each 
+extension to be known as the extension number. 
+8. CONFORMITY OF PRODUCTION 
+8.1. Procedures concerning conformity of production shall comply with those set out in the 1958 Agreement, 
+Schedule 1 (E/ECE/TRANS/505/Rev.3) and meet the following requirements: 
+8.2. A vehicle approved pursuant to this Regulation shall be so manufactured as to conform to the type approved by 
+meeting the requirements of paragraph 5 above; 
+8.3. The Type Approval Authority which has granted approval may at any time verify the conformity of control 
+methods applicable to each production unit. The normal frequency of such inspections shall be once every two 
+years. 
+9. PENALTIES FOR NON‐CONFORMITY OF PRODUCTION 
+9.1. The approval granted in respect of a vehicle type pursuant to this Regulation may be withdrawn if the 
+requirements laid down in paragraph 8, above are not complied with. 
+9.2. If a Contracting Party withdraws an approval it had previously granted, it shall forthwith so notify the other 
+Contracting Parties applying this Regulation by sending them a communication form conforming to the model 
+in Annex 1 to this Regulation. 
+10. PRODUCTION DEFINITIVELY DISCONTINUED 
+If the holder of the approval completely ceases to manufacture a type of vehicle approved in accordance with 
+this Regulation, he shall so inform the Type Approval Authority which granted the approval, which in turn 
+shall forthwith inform the other Contracting Parties to the Agreement applying this Regulation by means of a 
+communication form conforming to the model in Annex 1 to this Regulation. 

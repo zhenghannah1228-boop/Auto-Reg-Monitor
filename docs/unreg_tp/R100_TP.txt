@@ -1,0 +1,259 @@
+Transitional provisions
+12.1. As from the official date of entry into force of the 03 series of amendments, no Contracting Party applying this 
+Regulation shall refuse to grant or refuse to accept type approvals under this Regulation as amended by the 03 
+series of amendments.
+12.2. As from 1 September 2023, Contracting Parties applying this Regulation shall not be obliged to accept type 
+approvals to the preceding series of amendments, first issued after 1 September 2023.
+12.3. Until 1 September 2025, Contracting Parties applying this Regulation shall accept type approvals to the 
+preceding series of amendments, first issued before 1 September 2023.
+12.4. As from 1 September 2025, Contracting Parties applying this Regulation shall not be obliged to accept type 
+approvals issued to the preceding series of amendments to this Regulation.
+12.5. Contracting Parties applying this Regulation shall not refuse to grant type approvals according to any preceding 
+series of amendments to this Regulation or extensions thereof.
+12.6. Notwithstanding the transitional provisions above, Contracting Parties who start to apply this Regulation after 
+the date of entry into force of the most recent series of amendments are not obliged to accept type approvals 
+which were granted in accordance with any of the preceding series of amendments to this Regulation.
+OJ L, 26.7.2024 EN 
+ELI: http://data.europa.eu/eli/reg/2024/1955/oj 23/88
+ANNEX 1 
+PART 1
+Communication
+(Maximum format: A4 (210 × 297 mm))
+()
+Issued by: Name of administration:
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Concerning (2): Approval granted,
+Approval extended,
+Approval refused,
+Approval withdrawn,
+Production definitively discontinued,
+of a vehicle type with regard to its electrical safety pursuant to Regulation No. 100
+Approval No. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .Extension No. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1. Trade name or mark of the vehicle: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2. Vehicle type: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3. Vehicle category: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4. Manufacturer's name and address: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5. If applicable, name and address of manufacturer's representative: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6. Description of the vehicle: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6.1. REESS type: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6.1.1. The approval number of the REESS or descriptions of the REESS 2
+6.2. Working voltage: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6.3. Propulsion system (e.g. hybrid, electric): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7. Vehicle submitted for approval on: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8. Technical Service responsible for conducting approval tests: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+9. Date of report issued by that Service: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+10. Number of report issued by that Service: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+EN OJ L, 26.7.2024 
+24/88 ELI: http://data.europa.eu/eli/reg/2024/1955/oj
+(1) Distinguishing number of the country which has granted/extended/refused/withdrawn approval (see approval provisions in the 
+Regulation).
+(2) Strike out what does not apply.
+11. Location of the approval mark: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+12. Reason(s) for extension of approval (if applicable) 2: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+13. Approval granted/extended/refused/withdrawn2: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14. Place: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+15. Date: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+16. Signature: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+17. The documents filed with the request for approval or extension may be obtained on request.
+OJ L, 26.7.2024 EN 
+ELI: http://data.europa.eu/eli/reg/2024/1955/oj 25/88
+PART 2
+Communication
+(Maximum format: A4 (210 × 297 mm))
+()
+issued by: Name of administration:
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+Concerning: (4) Approval granted
+Approval extended
+Approval refused
+Approval withdrawn
+Production definitively discontinued
+of a REESS type as component/separate technical unit 2 pursuant to Regulation No. 100
+Approval No. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .Extension No. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1. Trade name or mark of the REESS: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2. Type of REESS: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3. Manufacturer's name and address: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4. If applicable, name and address of manufacturer's representative: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5. Description of the REESS: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6. Installation restrictions applicable to the REESS as described in paragraphs 6.4 and 6.5: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7. REESS submitted for approval on: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8. Technical Service responsible for conducting approval tests: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+9. Date of report issued by that Service: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+10. Number of report issued by that Service: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+11. Location of the approval mark: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+12. Reason(s) for extension of approval (if applicable) 2: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+13. Approval granted/extended/refused/withdrawn2: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14. Place: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+EN OJ L, 26.7.2024 
+26/88 ELI: http://data.europa.eu/eli/reg/2024/1955/oj
+(3) Distinguishing number of the country which has granted/extended/refused/withdrawn approval (see approval provisions in the 
+Regulation).
+(4) Strike out what does not apply.
+15. Date: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+16. Signature: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+17. The documents filed with the request for approval or extension may be obtained on request.
+OJ L, 26.7.2024 EN 
+ELI: http://data.europa.eu/eli/reg/2024/1955/oj 27/88
+ANNEX 1 – Appendix 1 
+Essential characteristics of road vehicles or systems 
+1. General
+1.1. Make (trade name of manufacturer): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.2. Type: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.3. Vehicle category: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4. Commercial name(s) if available: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.5. Manufacturer's name and address: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.6. If applicable, name and address of manufacturer's representative: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.7. Drawing and/or photograph of the vehicle: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.8. Approval number of the REESS: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2. Electric motor (traction motor)
+2.1. Type (winding, excitation): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2.2. Maximum net power and / or maximum 30 minutes power (kW): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3. REESS
+3.1. Trade name and mark of the REESS: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2. Indication of all types of cells: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2.1. The cell chemistry: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2.2. Physical dimensions: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.2.3. Capacity of the cell (Ah): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.3. Description or drawing(s) or picture(s) of the REESS explaining:
+3.3.1. Structure: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.3.2. Configuration (number of cells, mode of connection, etc.): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.3.3. Dimensions: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.3.4. Casing (construction, materials and physical dimensions): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.4. Electrical specification: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.4.1. Nominal voltage (V): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.4.2. Working voltage (V): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+EN OJ L, 26.7.2024 
+28/88 ELI: http://data.europa.eu/eli/reg/2024/1955/oj
+3.4.3. Capacity (Ah): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.4.4. Maximum current (A): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.5. Gas combination rate (in per cent): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.6. Description or drawing(s) or picture(s) of the installation of the REESS in the vehicle: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.6.1. Physical support: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.7. Type of thermal management . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+3.8. Electronic control: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4. Fuel Cell (if any)
+4.1. Trade name and mark of the fuel cell: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.2. Types of fuel cell: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.3. Nominal voltage (V): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.4. Number of cells: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.5. Type of cooling system (if any): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4.6. Max Power(kW): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5. Fuse and/or circuit breaker
+5.1. Type: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5.2. Diagram showing the functional range: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+6. Power wiring harness
+6.1. Type: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+7. Protection against Electric Shock
+7.1. Description of the protection concept: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8. Additional data
+8.1. Brief description of the power circuit components installation or drawings/pictures showing the location of the 
+power circuit components installation: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8.2 Schematic diagram of all electrical functions included in power circuit: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+8.3. Working voltage (V): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+OJ L, 26.7.2024 EN 
+ELI: http://data.europa.eu/eli/reg/2024/1955/oj 29/88
+ANNEX 1 - Appendix 2 
+Essential characteristics of REESS 
+1. REESS
+1.1. Trade name and mark of the REESS: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.1.1. Type of REESS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.2. Indication of all types of cells: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.2.1. The cell chemistry:. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.2.2. Physical dimensions:. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.2.3. Capacity of the cell (Ah):. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.3. Description or drawing(s) or picture(s) of the REESS explaining
+1.3.1. Structure: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.3.2. Configuration (number of cells, mode of connection, etc.): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.3.3. Dimensions: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.3.4. Casing (construction, materials and physical dimensions): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4. Electrical specification
+1.4.1. Nominal voltage (V): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4.2. Working voltage (V): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4.3. Capacity (Ah): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.4.4. Maximum current (A): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.5. Gas combination rate (in percentage): . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.6. Description or drawing(s) or picture(s) of the installation of the REESS in the vehicle: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.6.1. Physical support: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.7. Type of thermal management: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.8. Electronic control: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+1.9. Category of vehicles on which the REESS can be installed: . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+EN OJ L, 26.7.2024 
+30/88 ELI: http://data.europa.eu/eli/reg/2024/1955/oj
+ANNEX 2 
+Arrangements of the approval marks 
+MODEL A
+(See paragraph 4.4. of this Regulation)
+Figure 1
+a = 8 mm min.
+The approval mark in Figure 1 affixed to a vehicle shows that the road vehicle type concerned has been approved in the 
+Netherlands (E 4), pursuant to Regulation No. 100, and under the approval number 032492. The first two digits of the 
+approval number indicate that the approval was granted in accordance with the requirements of Regulation No. 100 as 
+amended by 03 series of amendments.
+Figure 2
+a = 8 mm min.
+The approval mark in Figure 2 affixed to a REESS shows that the REESS type ("ES") concerned has been approved in the 
+Netherlands (E 4), pursuant to Regulation No. 100, and under the approval number 032492. The first two digits of the 
+approval number indicate that the approval was granted in accordance with the requirements of Regulation No. 100 as 
+amended by 03 series of amendments.
+MODEL B
+(See paragraph 4.5. of this Regulation)
+a = 8 mm min.
+The above approval mark affixed to a vehicle shows that the road vehicle concerned has been approved in the Netherlands 
+(E4) pursuant to Regulations Nos. 100 and 42 (*). The approval number indicates that, at the dates when the respective 
+approvals were granted, Regulation No. 100 was amended by the 03 series of amendments and Regulation No. 42 was still 
+in its original form.
+OJ L, 26.7.2024 EN 
+ELI: http://data.europa.eu/eli/reg/2024/1955/oj 31/88
+(*) The latter number is given only as an example.
+ANNEX 3 
+Protection against direct contacts of parts under voltage 
+1. Access probes
+Access probes to verify the protection of persons against access to live parts are given in Table 1.
+2. Test conditions
+The access probe is pushed against any openings of the enclosure with the force specified in Table 1. If it partly or 
+fully penetrates, it is placed in every possible position, but in no case shall the stop face fully penetrate through the 
+opening.
+Internal barriers are considered part of the enclosure
+A low-voltage supply (of not less than 40 V and not more than 50 V) in series with a suitable lamp should be 
+connected, if necessary, between the probe and live parts inside the bar rier or enclosure.
+The signal-circuit method should also be applied to the moving live parts of high voltage equipment.
+Internal moving parts may be operated slowly, where this is possible.
+3. Acceptance conditions
+The access probe shall not touch live parts.
+If this requirement is verified by a signal circuit between the probe and live parts, the lamp shall not light.
+In the case of the test for IPXXB, the jointed test finger may penetrate to its 80 mm length, but the stop face (diameter 
+50 mm x 20 mm) shall not pass through the opening. Starting from the straight position, both joints of the test 
+finger shall be successively bent through an angle of up to 90 degrees with respect to the axis of the adjoining 
+section of the finger and shall be placed in every possible position.
+In case of the tests for IPXXD, the access probe may penetrate to its full length, but the stop face shall not fully 
+penetrate through the opening.
+EN OJ L, 26.7.2024 
+32/88 ELI: http://data.europa.eu/eli/reg/2024/1955/oj
+Table 1
+Access probes for the tests for protection of persons against access to hazardous parts
+OJ L, 26.7.2024 EN 
+ELI: http://data.europa.eu/eli/reg/2024/1955/oj 33/88
+Figure 1
+Jointed Test Finger
+Material: metal, except where otherwise specified
+Linear dimensions in millimeters
+Tolerances on dimensions without specific tolerance:
+(a) On angles: 0/-10 seconds;
+(b) On linear dimensions:
+(i) up to 25 mm: 0/– 0,05 mm:
+(ii) over 25 mm: ± 0,2 mm.
+Both joints shall permit movement in the same plane and the same direction through an angle of 90° with a 0 to + 10° 
+tolerance.
+EN OJ L, 26.7.2024 
+34/88 ELI: http://data.europa.eu/eli/reg/2024/1955/oj
+ANNEX 4 
+Verification of potential equalization 
+1. Test met

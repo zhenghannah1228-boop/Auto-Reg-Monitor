@@ -1,0 +1,883 @@
+transitional provisions of UN Regulation No. 121 in its 01 series of amendments or any later series of amendments. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.1.4. 
+                   
+                   
+                      For every manual deactivation requested by the driver as referenced in paragraph 5.4.1.2., AEBS shall be automatically reinstated latest after 15 minutes. Additionally, it shall be possible for the driver to reactivate AEBS at any time, including whilst driving. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.1.5. 
+                   
+                   
+                      Notwithstanding the requirements of paragraph 5.4.1.4., AEBS may provide a technical means for the driver to deactivate the system, following a unique procedure, in case of any situation impairing the operation of the system (e.g. sensor mounting damage by an accident). The manufacturer shall provide information about these situations in the vehicle owner's handbook or by any other communication means in the vehicle. 
+                      Additionally, the unique procedure shall be possible only while the vehicle is at standstill for a minimum time duration of 2 minutes with the master control switch active and shall require a more complex procedure than the one specified in paragraph 5.4.1.2 for manual deactivation (e.g. require at least three different deliberate actions). 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.2. 
+                   
+                   
+                      When the vehicle is equipped with a means to automatically deactivate the AEBS function, for instance in situations such as off-road use, being towed, being operated on a dynamometer, being operated in a washing plant, the following conditions shall apply as appropriate: 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.2.1. 
+                   
+                   
+                      The vehicle manufacturer shall provide a list of situations and corresponding criteria where the AEBS function is automatically deactivated to the technical service at the time of type approval and it shall be annexed to the test report. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.2.2. 
+                   
+                   
+                      The AEBS function shall be automatically reactivated as soon as the conditions that led to the automatic deactivation are not present anymore. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.2.3. 
+                   
+                   
+                      Where automatic deactivation of the AEBS function is a consequence of the driver manually switching off the vehicle stability function of the vehicle, this deactivation of the AEBS shall require at least two deliberate actions by the driver. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.3. 
+                   
+                   
+                      Notwithstanding the requirements of paragraphs 5.4.1.1. and 5.4.1.4., AEBS may provide a technical means to deactivate the system for specific applications (e.g. front mounted equipment like snow plough) where the operation of the system may be impaired. 
+                      This technical means shall not be made available to the driver (e.g. be only possible with a unique operation by an authorized workshop). 
+                      Additionally, the deactivation warning specified in 5.1.4.3. may be suppressed, at the earliest 15 seconds after the initiation of each new ignition cycle. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.4. 
+                   
+                   
+                      A constant optical warning signal shall inform the driver that the AEBS function has been deactivated. The yellow warning signal specified in paragraph 5.5.4. below may be used for this purpose. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.4.5. 
+                   
+                   
+                      While automated driving functions are in longitudinal control of the vehicle (e.g. ALKS is active) the AEBS function may be suspended or its control strategies (i.e. braking demand, warning timing) adapted without indication to the driver, as long as it remains ensured that the vehicle provides at least the same collision avoidance capabilities as the AEBS function during manual operation. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5. 
+                   
+                   
+                      Warning Indication 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5.1. 
+                   
+                   
+                      The collision warning referred to in paragraphs 5.2.1.1. and 5.2.2.1. shall be provided by at least two modes selected from acoustic, haptic or optical. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5.2. 
+                   
+                   
+                      A description of the warning indication and the sequence in which the collision warning signals are presented to the driver shall be provided by the vehicle manufacturer at the time of type-approval and recorded in the test report. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5.3. 
+                   
+                   
+                      Where an optical means is used as part of the collision warning. the optical signal may be the flashing of the failure warning signal specified in paragraph 5.5.4. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5.4. 
+                   
+                   
+                      The failure warning referred to in paragraph 5.1.4.1. shall be a constant yellow optical warning signal. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5.5. 
+                   
+                   
+                      Each AEBS optical warning signal shall be activated either when the ignition (start) switch is turned to the "on" (run) position or when the ignition (start) switch is in a position between the "on" (run) and "start" position that is designated by the manufacturer as a check position (initial system (power-on)). This requirement does not apply to warning signals shown in a common space. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5.6. 
+                   
+                   
+                      The optical warning signals shall be visible even by daylight; the satisfactory condition of the signals must be easily verifiable by the driver from the driver's seat. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.5.7. 
+                   
+                   
+                      When the driver is provided with an optical warning signal to indicate that the AEBS is temporarily not available, for example due to inclement weather conditions, the signal shall be constant. The failure warning signal specified in paragraph 5.5.4. above may be used for this purpose. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.6. 
+                   
+                   
+                      Provisions for the Periodic Technical Inspection 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.6.1. 
+                   
+                   
+                      At a Periodic Technical Inspection, it shall be possible to confirm the correct operational status of the AEBS by a visible observation of the failure warning signal status, following a "power-ON" and any bulb check. 
+                   
+                
+             
+          
+          In the case of the failure warning signal being in a common space. the common space must be observed to be functional prior to the failure warning signal status check. 
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      5.6.2. 
+                   
+                   
+                      At the time of type approval, the means to protect against simple unauthorised modification of the operation of the failure warning signal chosen by the manufacturer shall be confidentially outlined. 
+                      Alternatively, this protection requirement is fulfilled when a secondary means of checking the correct operational status of the AEBS is available. 
+                   
+                
+             
+          
+          6.   Test procedure 
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1. 
+                   
+                   
+                      Test Conditions 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.1. 
+                   
+                   
+                      Test surface 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.1.1. 
+                   
+                   
+                      The test shall be performed on a flat, dry, concrete or asphalt road affording good adhesion. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.1.2. 
+                   
+                   
+                      The test surface has a consistent slope between level and 1 per cent. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.2. 
+                   
+                   
+                      The ambient temperature shall be between 0 °C and 45 °C. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.3. 
+                   
+                   
+                      The horizontal visibility range shall allow the target to be observed throughout the test. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.4 
+                   
+                   
+                      The tests shall be performed when there is no wind liable to affect the results. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.5. 
+                   
+                   
+                      Natural ambient illumination must be homogeneous in the test area and in excess of 1 000 lux in the case of vehicle to vehicle scenario as stipulated in paragraph 5.2.1. and of 2 000 lux in the case of vehicle to pedestrian scenario as stipulated in paragraph 5.2.2. It should be ensured that testing is not performed whilst driving towards, or away from the sun at a low angle. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.1.6. 
+                   
+                   
+                      At the request of the manufacturer and with the agreement of the Technical Service tests may be conducted under deviating test conditions (suboptimal conditions, e.g. on a not dry surface; below the specified minimum ambient temperature; against a non-articulated pedestrian target), whilst the performance requirements are still to be met. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.2. 
+                   
+                   
+                      Vehicle Conditions 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.2.1. 
+                   
+                   
+                      Test mass 
+                      The vehicle shall be tested: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  At the maximum mass; 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  If this is deemed justified (e.g. if lower performance is expected when the sensors may miss the target due to low mass conditions), the technical service may test at the mass in running order with an additional mass of maximum 125 kg where this additional mass includes the measuring equipment and a possible second person who is responsible for noting the results in order to demonstrate compliance with the requirements referring to the mass in running order. 
+                                  The load distribution shall be according to the manufacturer’s recommendation and be annexed to the test report. No alteration shall be made once the test procedure has begun. 
+                                  During the series of test runs, the fuel level may decrease but shall never fall below 50 per cent. 
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.2.2. 
+                   
+                   
+                      Pre-Test Conditioning 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.2.2.1. 
+                   
+                   
+                      If requested by the vehicle manufacturer: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  The vehicle can be driven a maximum of 100 km on a mixture of urban and rural roads with other traffic and roadside furniture to initialise the sensor system. 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  The vehicle can undergo a sequence of brake activations in order to ensure the service brake system is bedded in prior to the test. 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (c) 
+                               
+                               
+                                  The average temperature of the service brakes on the hottest axle of the vehicle, measured inside the brake linings or on the braking path of the disc or drum, is below 100 °C prior to each test run. 
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.2.2.2. 
+                   
+                   
+                      Details of the pre-test condition strategy requested by the vehicle manufacturer shall be identified and recorded in the vehicle type approval documentation. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.2.3. 
+                   
+                   
+                      The mounted tyres shall be identified and recorded in the vehicle type approval documentation. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.2.4. 
+                   
+                   
+                      The vehicle may be fitted with protective equipment that does not affect the results of the tests. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.3. 
+                   
+                   
+                      Test Targets 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.3.1. 
+                   
+                   
+                      The target used for the vehicle detection tests shall be a regular high-volume series production passenger car of Category M 1  or alternatively a "soft target" representative of a passenger vehicle in terms of its identification characteristics applicable to the sensor system of the AEBS under test according to ISO 19206-3:2021. The reference point for the location of the vehicle shall be the most rearward point on the centreline of the vehicle. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.3.2. 
+                   
+                   
+                      The target used for the pedestrian detection tests shall be a child "articulated soft target" and be representative of the human attributes applicable to the sensor system of the AEBS under test according to ISO 19206-2:2018. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.4. 
+                   
+                   
+                      Warning and Activation Test with a Stationary Vehicle Target 
+                      The subject vehicle shall approach the stationary target in a straight line for at least two seconds prior to the functional part of the test with a subject vehicle to target centreline offset of not more than 0,2 m. 
+                      Tests shall be conducted with a vehicle travelling at the following speeds, with a tolerance of +/- 2 km/h, but not beyond the range specified in paragraph 5.2.1.3., for all tests: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  20 km/h; 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  Maximum required impact avoidance speed as shown in paragraph 5.2.1.4, and 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (c) 
+                               
+                               
+                                  Either: 
+                                  
+                                     
+                                     
+                                     
+                                        
+                                           
+                                              (i) 
+                                           
+                                           
+                                              Maximum required impact avoidance speed, as shown in paragraph 5.2.1.4., + 8 km/h (e.g. for a vehicle derived from M 1 /N 1 , the test shall be conducted at 58 km/h); or 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                     
+                                     
+                                        
+                                           
+                                              (ii) 
+                                           
+                                           
+                                              Maximum design speed, 
+                                              whichever is lower. 
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                      
+                      If this is deemed justified, the technical service may test in any test condition within those specified in paragraph 5.2.1.4., with any other speeds listed in the table in paragraph 5.2.1.4. and within the prescribed speed range as defined in paragraph 5.2.1.3. The Technical Service may verify that the control strategy is not unreasonably changed or AEBS switched off in other conditions than those specified in paragraph 5.2.1.4. The report of this verification shall be appended to the test report. 
+                      The functional part of the test shall start with; 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  The subject vehicle travelling at the required test speed within the tolerances and within the lateral offset prescribed in this paragraph, and 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  A distance corresponding to a Time To Collision (TTC) of at least 4 seconds from the target. 
+                               
+                            
+                         
+                      
+                      The tolerances shall be respected between the start of the functional part of the test and the system intervention. 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                   
+                      6.5. 
+                   
+                   
+                      Warning and Activation Test with a Moving Vehicle Target 
+                      The subject vehicle and the moving target shall travel in a straight line, in the same direction, for at least two seconds prior to the functional part of the test. with a subject vehicle to target centreline offset of not more than 0.2m. 
+                      Tests shall be conducted with a vehicle travelling at the following relative speeds to the target, with a tolerance of +/- 2 km/h for all tests, and a target travelling at 20 km/h, with a tolerance of +/- 2 km/h for both the target and the subject vehicles, but at speeds not beyond the range specified in paragraph 5.2.1.3.: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (a) 
+                               
+                               
+                                  20 km/h (e.g. target travelling at 20 km/h, vehicle travelling at 40 km/h, relative speed is 20 km/h); 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (b) 
+                               
+                               
+                                  Maximum required impact avoidance speed as shown in paragraph 5.2.1.4  (e.g. maximum required impact avoidance speed for a N 3  vehicle is 70 km/h, target is travelling at 20 km/h, vehicle speed is 90 km/h) , and 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (c) 
+                               
+                               
+                                  Either: 
+                                  
+                                     
+                        

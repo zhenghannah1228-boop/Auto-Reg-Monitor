@@ -1,0 +1,415 @@
+transitional provisions of Regulation No 10 by applying: 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      The 03 series of amendments for vehicles without a coupling system for charging the Rechargeable Electric Energy Storage System (traction batteries); 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      The 04 series of amendments for vehicles with a coupling system for charging the Rechargeable Electric Energy Storage System (traction batteries). 
+                   
+                
+             
+          
+          5.5.   The assessment of the safety aspects of BAS shall be included in the overall safety assessment of the braking system as specified in Regulation No 13-H requirements associated with complex electronic control systems. This is deemed to be fulfilled on the presentation of a Regulation No 13-H certificate which includes the BAS to be approved. 
+          5.6.   Provisions for the periodic technical inspection of electronic brake assist systems 
+          5.6.1.   It shall be possible at a periodic technical inspection to confirm the correct operational status by visual observation of the warning signals following a power-on. 
+          5.6.2.   At the time of type approval, the means implemented to protect against simple unauthorized modification of the operation of the warning signals shall be confidentially outlined. Alternatively, this protection requirement is fulfilled when a secondary means of checking the correct operational status is available. 
+          6.   FUNCTIONAL REQUIREMENTS 
+          6.1.   General performance characteristics for category ‘A’ BAS systems 
+          When an emergency condition has been sensed by a relative high pedal force, the additional pedal force to cause full cycling of the ABS shall be reduced compared to the pedal force required without the BAS system in operation. 
+          Compliance with this requirement is demonstrated if the provisions of paragraphs 8.1 to 8.3 of this Regulation are met. 
+          6.2.   General performance characteristics for category ‘B’ BAS systems 
+          When an emergency condition has been sensed, at least by a very fast application of the pedal, the BAS system shall raise the pressure to deliver the maximum achievable braking rate or cause full cycling of the ABS. 
+          Compliance with this requirement is demonstrated if the provisions of paragraphs 9.1 to 9.3 of this Regulation are met. 
+          7.   GENERAL TEST REQUIREMENTS 
+          7.1.   Variables 
+          While performing the tests described in this Regulation, the following variables shall be measured: 
+          
+             
+             
+             
+                
+                   
+                      7.1.1. 
+                   
+                   
+                      Brake pedal force, F p ; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.1.2. 
+                   
+                   
+                      Vehicle velocity, v x ; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.1.3. 
+                   
+                   
+                      Vehicle deceleration, a x ; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.1.4. 
+                   
+                   
+                      Brake temperature, T d ; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.1.5. 
+                   
+                   
+                      Brake pressure, P, where applicable; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      7.1.6. 
+                   
+                   
+                      Brake pedal speed, v p , measured at the centre of the pedal plate or at a position on the pedal mechanism where the displacement is proportional to the displacement at the centre of the pedal plate allowing simple calibration of the measurement. 
+                   
+                
+             
+          
+          7.2.   Measuring equipment 
+          7.2.1.   The variables listed in paragraph 7.1 above shall be measured by means of appropriate transducers. Accuracy, operating ranges, filtering techniques, data processing and other requirements are described in ISO Standard 15037-1: 2006. 
+          7.2.2.   Accuracy of pedal force and disc temperature measurements shall be as follows: 
+          
+             
+             
+             
+             
+                
+                   
+                      Variable range system 
+                   
+                   
+                      Typical operating range of the transducers 
+                   
+                   
+                      Recommended maximum recording errors 
+                   
+                
+                
+                   
+                      Pedal force 
+                   
+                   
+                      0 to 2 000  N 
+                   
+                   
+                      ± 10 N 
+                   
+                
+                
+                   
+                      Brake temperature 
+                   
+                   
+                      0 – 1 000  °C 
+                   
+                   
+                      ± 5 °C 
+                   
+                
+                
+                   
+                      Brake pressure  ( *1 ) 
+                      
+                   
+                   
+                      0 – 20 MPa  ( *1 ) 
+                      
+                   
+                   
+                      ± 100 kPa  ( *1 ) 
+                      
+                   
+                
+             
+          
+          7.2.3.   Details on analogue and digital data processing of the BAS test procedures are described in Annex 4 to this Regulation. A sampling rate for data acquisition of at least 500 Hz is required. 
+          7.2.4.   Alternative measuring methods to those referred to in paragraph 7.2.3 may be allowed, provided they demonstrate at least an equivalent level of precision. 
+          7.3.   Test conditions 
+          7.3.1.   Test vehicle loading condition: The vehicle shall be unladen. There may be, in addition to the driver, a second person on the front seat who is responsible for noting the results of the tests. 
+          7.3.2.   Braking tests shall be carried out on a dry surface affording good adhesion. 
+          7.4.   Test method 
+          7.4.1.   The tests as described in paragraphs 8 and 9 of this section shall be carried out from a test speed of 100 ± 2 km/h. The vehicle shall be driven at the test speed in a straight line. 
+          7.4.2.   The average temperature of the service brakes on the hottest axle of the vehicle, measured inside the brake linings or on the braking path of the disc or drum, shall be between 65 and 100 °C prior to any brake application. 
+          7.4.3.   For the tests the reference time, t 0 , is defined as the moment when the brake pedal force reaches 20 N. 
+          
+             Note:  For vehicles equipped with a brake system assisted by an energy source, the applied pedal force necessary depends on the energy level that exists in the energy storage device. Therefore, sufficient energy level shall be ensured at the beginning of the test. 
+          8.   ASSESSMENT OF THE PRESENCE OF A CATEGORY ‘A’ BAS 
+          A category ‘A’ BAS shall meet the test requirements contained in paragraphs 8.1 and 8.2. 
+          8.1.   Test 1: Reference test to determine F ABS  and a ABS . 
+          8.1.1.   The reference values F ABS  and a ABS  shall be determined in accordance with the procedure described in Annex 3 to this Regulation. 
+          8.2.   Test 2: For activation of BAS 
+          8.2.1.   Once an emergency braking condition has been detected, systems sensitive to pedal force shall show a significant increase in the ratio of: 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      Brake line pressure to brake pedal force, where permitted by paragraph 8.2.5; or 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      Vehicle deceleration to brake pedal force. 
+                   
+                
+             
+          
+          8.2.2.   The performance requirements for a category ‘A’ BAS are met if a specific brake application characteristic can be defined that exhibits a decrease of between 40 per cent and 80 per cent in required brake pedal force for (F ABS  – FT) compared to (F ABS  extrapolated – FT). 
+          8.2.3.   F T  and a T  are threshold force and threshold deceleration as shown in Figure 1. The values of F T  and a T  shall be supplied to the Technical Service at the time of submission of the type-approval application. The value of a T  shall be between 3,5 m/s 2  and 5,0 m/s 2 . 
+          
+             Figure 1a 
+          
+          
+             Pedal force characteristic needed in order to achieve maximum deceleration with category ‘A’ BAS 
+          
+          
+             
+          
+          Deceleration, a 
+          FABS, extrapolated 
+          FABS, max 
+          FABS 
+          FABS, min 
+          Brake pedal force, F 
+          FT 
+          aT 
+          aABS 
+          Between 3,5 and 5,0 m/s2 
+          8.2.4.   A straight line is drawn from the origin through the point F T , a T  (as shown in Figure 1a). The value of brake pedal force ‘F’, at the point of intersection between this line and a horizontal line defined by a = a ABS , is defined as F ABS, extrapolated : 
+          
+             
+                
+             
+          
+          8.2.5.   As an alternative, which can be selected by the manufacturer, in the case of vehicles of category N 1 , or M 1  derived from those N 1  vehicles, with a gross vehicle mass GVM > 2 500 kg, the pedal force figures for F T , F ABS,min , F ABS,max  and F ABS,extrapolated  may be derived from the brake line pressure response characteristic instead of the vehicle deceleration characteristic. This shall be measured as the brake pedal force is increasing. 
+          8.2.5.1.   The pressure, at which ABS cycling commences, shall be determined by making five tests from 100 ± 2 km/h in which the brake pedal is applied up to the level which produces ABS operation and the five pressures at which this occurs as determined from front wheel pressure records, shall be recorded and the mean value obtained as P ABS . 
+          8.2.5.2.   The threshold pressure P T  shall be stated by the manufacturer and correspond to a deceleration in the range of 2,5 – 4,5 m/s 2 . 
+          8.2.5.3.   Figure 1b shall be constructed in the manner set out in paragraph 8.2.4, but using line pressure measurements to define the parameters set out in paragraph 8.2.5 of this Regulation where: 
+          
+             
+                
+             
+          
+          
+             Figure 1b 
+          
+          
+             Pedal force characteristic needed in order to achieve maximum deceleration with category ‘A’ BAS 
+          
+          
+             
+          
+          Line pressure, P 
+          FABS, extrapolated 
+          FABS, max 
+          FABS 
+          FABS, min 
+          Brake pedal force, F 
+          FT 
+          PT 
+          PABS 
+          Force change threshold 
+          8.3.   Data evaluation 
+          The presence of a category ‘A’ BAS is proven if 
+          F ABS,min  ≤ F ABS  ≤ F ABS,max 
+          
+          where: 
+          F ABS,max  – F T  ≤ (F ABS,extrapolated  – F T ) · 0,6 
+          And 
+          F ABS,min  – F T  ≥ (F ABS,extrapolated  – F T ) · 0,2 
+          9.   ASSESSMENT OF THE PRESENCE OF A CATEGORY ‘B’ BAS 
+          A category ‘B’ BAS shall meet the test requirements contained within paragraphs 9.1 and 9.2 of this section. 
+          9.1.   Test 1: Reference test to determine F ABS  and a ABS . 
+          9.1.1.   The reference values F ABS  and a ABS  shall be determined in accordance with the procedure described in Annex 3 to this Regulation. 
+          9.2.   Test 2: For activation of BAS 
+          The vehicle shall be driven in a straight line at the test speed specified in paragraph 7.4 of this Regulation. The driver shall apply the brake pedal quickly according to Figure 2, simulating emergency braking so that BAS is activated and ABS is fully cycling. 
+          In order to activate BAS the brake pedal shall be applied as specified by the car manufacturer. The manufacturer shall notify the Technical Service of the required brake pedal input at the time of submission of the application for type-approval. It shall be demonstrated to the satisfaction of the Technical Service that the BAS activates under the conditions specified by the manufacturer in accordance with paragraph 16.1.1 or 16.1.2 of Annex 1. 
+          After t = t 0  + 0,8 s and until the vehicle has slowed down to a speed of 15 km/h, the brake pedal force shall be maintained in a corridor between F ABS, upper  and F ABS, lower,  where F ABS, upper  is 0,7 F ABS  and F ABS, lower  is 0,5 F ABS . 
+          The requirements are also considered to be met if, after t = t 0  + 0,8 s, the pedal force falls below F ABS, lower  provided the requirement of paragraph 9.3 is fulfilled. 
+          9.3.   Data evaluation 
+          The presence of BAS ‘B’ is demonstrated if a mean deceleration (a BAS ) of at least 0,85 · a ABS  is maintained from the time when t = t 0  + 0,8 s to the time when the vehicle speed has been reduced to 15 km/h. 
+          
+             Figure 2 
+          
+          
+             Example of test 2 of a category ‘B’ BAS system 
+          
+          
+             
+          
+          Initial pedal force 
+          FABS, lower 
+          FABS, upper 
+          Break pedal force F 
+          t0 
+          Phase of panic pedal application 
+          Phrase of BAS-evaluation (ending at speed of 15 km/h) 
+          t0 + 0,8 seconds 
+          time 
+          Deceleration 
+          aBAS 
+          aABS 
+          Deceleration, ax 
+          Brake pedal force 
+          10.   MODIFICATION OF VEHICLE TYPE OR BAS AND EXTENSION OF APPROVAL 
+          10.1.   Every modification to an existing vehicle type shall be notified to the Type Approval Authority which approved the vehicle type. 
+          The Authority shall then either: 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      Decide, in consultation with the manufacturer, that a new type-approval is to be granted; or 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      Apply the procedure contained in paragraph 10.1.1 (Revision) and, if applicable, the procedure contained in paragraph 10.1.2 (Extension). 
+                   
+                
+             
+          
+          10.1.1.   Revision 
+          When particulars recorded in the information documents have changed and the Type Approval Authority considers that the modifications made are unlikely to have appreciable adverse effects and that in any case the foot controls still meet the requirements, the modification shall be designated a ‘revision’. 
+          In such a case, the Type Approval Authority shall issue the revised pages of the information documents as necessary, marking each revised page to show clearly the nature of the modification and the date of re-issue. A consolidated, updated version of the information documents, accompanied by a detailed description of the modification, shall be deemed to meet this requirement. 
+          10.1.2.   Extension 
+          The modification shall be designated an ‘extension’ if, in addition to the change of the particulars recorded in the information documents, 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      Further inspections or tests are required; or 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      Any information on the communication document (with the exception of its attachments) has changed; or 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (c) 
+                   
+                   
+                      Approval to a later series of amendments is requested after its entry into force. 
+                   
+                
+             
+          
+          10.2.   Confirmation or refusal of approval, specifying the alteration, shall be communicated by the procedure specified in paragraph 4.3 above to the Contracting Parties to the Agreement applying this Regulation. In addition, the index to the information documents and to the test reports, attached to the communication document of Annex 1, shall be amended accordingly to show the date of the most recent revision or extension. 
+          10.3.   The competent authority issuing the extension of approval shall assign a serial number to each communication form drawn up for such an extension. 
+          11.   CONFORMITY OF PRODUCTION 
+          The conformity of production procedures shall comply with those set out in the Agreement, Appendix 2 (E/ECE/324-E/ECE/TRANS/505/Rev.2) with the following requirements: 
+          11.1.   A vehicle approved to this Regulation shall be so manufactured as to conform to the type approved by meeting the requirements set forth in paragraphs 5 and 6 above. 
+          11.2.   The authority which has granted type approval may at any time verify the conformity control methods applied in each production facility. The normal frequency of these verifications shall be once every two years. 
+          12.   PENALTIES FOR NON-CONFORMITY OF PRODUCTION 
+          12.1.   The approval granted in respect of a vehicle type pursuant to this Regulation may be withdrawn if the requirements laid down in paragraph 11.1 above are not complied with. 
+          12.2.   If a Contracting Party to the Agreement which applies this Regulation withdraws an approval it has previously granted, it shall forthwith so notify the other Contracting Parties applying this Regulation by means of a copy of the communication form conforming to the model in Annex 1 to this Regulation. 
+          13.   PRODUCTION DEFINITIVELY DISCONTINUED 
+          If the holder of the approval completely ceases to manufacture a type of vehicle approved in accordance with this Regulation, they shall so inform the authority which granted the approval. Upon receiving the relevant communication, that authority shall inform thereof the other Contracting Parties to the Agreement applying this Regulation by means of copies of a communication form conforming to the model in Annex 1 to this Regulation. 

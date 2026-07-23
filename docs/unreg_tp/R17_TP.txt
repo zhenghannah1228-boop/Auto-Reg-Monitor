@@ -1,0 +1,415 @@
+Transitional provisions
+ANNEXES
+1. Communication
+2. Arrangements of the approval mark
+3. Procedure for determining the ‘
+H’ point and the actual torso angle for seating positions in motor vehicles
+4. Determination of the height and width of head restraints
+5. Details of lines and measurements taken during tests
+6. Test procedure for checking energy dissipation
+7. Method for testing the strength of seat anchorages and their adjustment, locking and displacement systems
+8. Determination of dimension ‘a’ of head restraint gaps
+9. Test procedure for devices intended to protect the occupants against displacement of luggage
+18.10.2019 EN Official Journal of the European Union L 266/1
+1. SCOPE
+This Regulation applies to:
+(a) Vehicles of cat egor ies M 1 and N  (1) with regard to the strength of seats and their anchorages and with 
+r
+egard to their head restraints;
+(b) Vehicles of cat egor ies M 2 and M 3 (1) with regard to seats not covered by Regulation N o 80,  in respect of 
+t
+he strength of seats and their anchorages, and in respect of their head restraints;
+(c) Vehicles of category M 1 with regard to the design of the rear parts of seat backs and the design of devices 
+intended
+ to protect the occupants from the danger resulting from the displacement of luggage in a frontal 
+impact.
+It does not apply to vehicles with regard to side-facing or rearward-facing seats, or to any head restraint fitted 
+to
+ these seats.
+2. DEFINITIONS
+For the purposes of this Regulation,
+2.1. ‘Approval of a  vehicle’ means the approval of a vehicle type with regard to the strength of the seats and their 
+anc
+horages, the design of the rear parts of the seat-backs and the characteristics of their head restraints;
+2.2. ‘Vehicle type’ means a category of motor vehicles which do not differ in such essential respects as:
+2.2.1. The
+ structure, shape, dimensions, materials and the mass of the seats, although the seats may differ in cover­
+ing and colour ;
+ differences not exceeding 5 per cent in the mass of the approved seat type shall not be con­
+sidered significant;
+2.2.2. The type and dimensions of the adjustment, displacement and locking systems of the seat-back and seats and 
+their
+ parts;
+2.2.3. The type and dimensions of the seat anchorages;
+2.2.4. The dimensions, fr ame,  materials and padding of head restraints, although they may differ in colour and 
+covering;
+2.2.5. The type and dimensions of t he  attachments of the head restraint and the characteristics of the part of the 
+vehicle to which the head restraint is attached, in the case of a separate head restr aint;
+2.3. ‘Seat’ means a s tructure which  may or may not be integral with the vehicle structure complete with trim, 
+intended to seat one person. Depending on its orientation, a s eat is defined as follows:
+2.3.1. ‘Forward-facing seat’  means a seat which can be used whilst the vehicle is in motion and which faces towards 
+t
+he front of the vehicle in such a manner that the vertical plane of symmetry of the seat forms an angle of 
+less
+ than + 10 ° or – 10  ° with the vertical plane of symmetry of the v ehicle;
+2.3.2. ‘Rearward-facing seat ’ means a seat whic h can be used whilst the vehicle is in motion and which faces 
+t
+owards the rear of the vehicle in such a manner that the vertical plane of symmetry of the seat forms an 
+ang
+le of less than + 10  ° or – 10  ° with the vertical plane of symmetry of the v ehicle;
+2.3.3. ‘Side-facing seat ’ means a seat which can be used whilst the vehicle is in motion and which faces towards the 
+side
+ of the vehicle in such a m anner that the vertical plane of symmetry of the seat forms an angle of 90 ° 
+(
+± 10  °) with the vertical plane of symmetry of the vehicle;
+(1) As defined in the Consolidated Resolution on the Construction of Vehicles (R.E.3.), document ECE/TRANS/WP.29/78/Rev.6, para. 2 — 
+http://www
+.unece.org/trans/main/wp29/wp29wgs/wp29gen/wp29resolutions.html
+L 266/2 EN Official Journal of the European Union 18.10.2019
+2.4. ‘Bench seat’ means a structure complete with trim, intended to seat more than one adult person;
+2.5. ‘Anchorage’ means t he system by which the seat assembly is secured to the vehicle structure, including the 
+affected parts of the vehicle structure;
+2.6. ‘Adjustment system ’ means t he device by which the seat or its parts can be adjusted to a position suit ed to 
+the morphology of the seated occupant. This device may, in particular, permit:
+2.6.1. Longitudinal displacement;
+2.6.2. Vertical displacement;
+2.6.3. Angular displacement;
+2.7. ‘Displacement system ’ means a device b y which the seat or one of its parts can be displaced and/or rotated, 
+without a fixed int ermediate position, to permit easy access of occupants to the space behind the seat 
+concerned;
+2.8. ‘Locking system’ means a d evice ensuring that the seat and its parts are maintained in the position of use;
+2.9. ‘Folding seat’  means a s eat, whic h is normally folded, can be easily operated and is designed for occasional 
+use by an occupant;
+2.10. ‘Transverse plane’  means a vertical plane perpendicular to the median longitudinal plane of the vehicle;
+2.11. ‘Longitudinal plane’  means a plane parallel to the median longitudinal plane of the vehicle;
+2.12. ‘Head restraint ’ means a device whose pur pose is to limit the rearward displacement of an adult occupant’s 
+head in relation to his torso in order to reduce the danger of injury to the cervical vertebrae in the event of 
+an accident;
+2.12.1. ‘Integrated head restraint ’ means a head restr aint formed by the upper part of the seat-back. Head restraints 
+meeting the definitions of paragraphs 2.12.2 or 2.12.3 belo w but which can only be detached from the seat 
+or the vehicle structure by the use of tools or by partial or complete removal of the seat covering, meet the 
+present definition;
+2.12.2. ‘Detachable head restraint ’ means a h ead restraint consisting of a component separ able from the seat 
+designed for insertion and positive retention in the seat-back structure;
+2.12.3. ‘Separate head restraint ’ means a head restr aint consisting of a component separ ate from the seat, designed 
+for insertion and/or positive retention in the structure of the vehicle;
+2.13. ‘R point ’ means the seating reference point as defined in Annex 3,  Appendix 3  to this Regulation;
+2.14. ‘Reference line ’ means t he line on the manikin reproduced in Annex 3,  Appendix 1,  Figure 1,  t o this 
+Regulation.
+2.15. ‘Partitioning system ’ means par ts or devices which, in addition to the seat-backs, are intended to protect the 
+occupants from displaced luggage; in particular, a p artitioning syst em may be constituted by netting or wire 
+mesh located above the level of the seat-backs in their upright or folded down position. Head restraints fitted 
+as standard equipment for vehicles equipped with such parts or devices shall be considered as part of the 
+partitioning system. However, a seat eq uipped with a head restr aint shall not be considered as being on its 
+own a p artitioning system.
+3. APPLICATION FOR APPROVAL
+3.1. The application f or approval of a v ehicle type shall be submitt ed by the vehicle manufacturer or by his duly 
+accredited representative.
+3.2. It shall be accompanied by the following documents in triplicate and the following particulars:
+18.10.2019 EN Official Journal of the European Union L 266/3
+3.2.1. A detailed descr iption of the vehicle type with regard to the design of the seats, their anchorages, and their 
+adjus
+tment, displacement and locking systems;
+3.2.1.1. A detailed description and/or drawings of the partitioning system, if applicable.
+3.2.2. Drawings, on an appr opr iate scale and in sufficient detail, of the seats, their anchorages on the vehicle, and 
+their adjustment, displacement and locking systems.
+3.2.3. In the case of a s eat with a d etachable head restr aint:
+3.2.3.1. A detailed descr iption of the head restraint, specifying in particular the nature of the padding material or 
+mat
+erials;
+3.2.3.2. A d etailed descr ip tion of the location, the type of support and the attachments for mounting the head 
+restraint on the seat.
+3.2.4. In the case of a s eparate head restr aint:
+3.2.4.1. A detailed descr ip tion of the head restraint, specifying in particular the nature of the padding material or 
+materials;
+3.2.4.2. A detailed descr iption of the location, and the attachments for fitting the head restraint to the structure of 
+t
+he vehicle.
+3.3. The following shall be submitted to the Technical Service responsible for the approval tests:
+3.3.1. A vehicle r epresentative of the vehicle type to be approved or the parts of the vehicle which the Technical 
+Ser
+vice deems necessary for approval tests;
+3.3.2. An additional set of the seats with which the vehicle is equipped, with their anchorages.
+3.3.3. For v ehicles with seats fitted or capable of being fitted with head restraints, in addition to the requirements 
+se
+t out in paragraphs 3.3.1 and 3.3.2 above:
+3.3.3.1. In the case of detachable head restraints: an additional set of seats, fitted with head restraints, with which the 
+vehicle
+ is equipped, together with their anchorages.
+3.3.3.2. In the case of separate head restraints: an additional set of the seats with which the vehicle is equipped, with 
+their
+ anchorages, an additional set of the corresponding head restraints and the part of the vehicle structure 
+to which the head restraint in fitted, or a complete s tructure.
+4. APPROVAL
+4.1. If the vehicle submitted for approval pursuant to this Regulation meets the relevant requirements (seats fitted 
+with
+ head restraints or capable of being fitted with head restraints), approval of the vehicle type shall be 
+granted.
+4.2. An appr oval number shall be assigned to each type approved. Its first two digits (at present 09, correspond­
+ing
+ to the 09 series of amendments) shall indicate the series of amendments incorporating the most recent 
+major technical amendments made to the Regulation at the time of issue of the approval. The same Contract­
+ing Party may not assign the same number either to the same vehicle type equipped with other types of seats 
+or head restraints or with seats anchored differently on the vehicle (this applies both to seats with and to 
+those without head restraints) or to another vehicle type.
+4.3. Notice of appr o
+ val or extension or refusal of approval of a vehicle type pursuant to this Regulation shall be 
+communicat
+ed to the Parties to the Agreement applying this Regulation by means of a form conforming to 
+t
+he model in Annex 1  to this Regulation.
+4.4. There shall be affixed, conspicuously and in a r eadily accessible place specified on the approval form, to every 
+vehicle
+ conforming to a vehicle type approved under this Regulation, an international approval mark consist­
+ing of:
+4.4.1. A
+ c ircle sur rounding the letter ‘ E’ followed by the distinguishing number of the country which has granted 
+appr
+oval (2);
+(2) The distinguishing numbers of the Contracting Parties to the 1958 Agreement are reproduced in Annex 3 to the Consolidated Resolu­
+tion 
+on the Construction of Vehicles (R.E.3), document ECE/TRANS/WP.29/78/Rev. 6, Annex 3  — http://www.unece.org/trans/main/
+wp29/wp29wgs/wp29gen/wp29resolutions.html
+L 266/4 EN Official Journal of the European Union 18.10.2019
+4.4.2. The number of this Regulation, followed by the letter ‘R’, a dash and the approval number, to the right of the 
+circle
+ prescribed in paragraph 4.4.1 above.
+4.4.3. However, if t he  vehicle is equipped with one or more seats fitted or capable of being fitted with head 
+restraints, approved as meeting the requirements under paragraphs 5.1 and 5.2 below, the number of this 
+R
+egulation shall be followed by the letters ‘RA’. The form conforming to the model in Annex 1  to this Regu­
+lation shall indicate
+ which seat(s) of the vehicle is (are) fitted or capable of being fitted with head restraints. 
+The marking shall also indicate that any remaining seats in the vehicle, not fitted or capable of being fitted 
+with head restraints, are approved and meet the requirements of paragraph 5.1 below of this Regulation.
+4.5. If t he vehicle conforms to a  vehicle type appro ved under one or more other Regulations annexed to the 
+Agreement in the country which has granted approval under this Regulation, the symbol prescribed in para­
+graph 4.4.1 above need not be repeated; in such a  c ase the Regulation and approval numbers and the addi­
+tional
+ symbols of all the Regulations under which approval has been granted in the country which has 
+granted approval under this Regulation shall be placed in vertical columns to the right of the symbol pre­
+scribed in paragraph 4.4.1 above.
+4.6. The approval mark shall be clearly legible and be indelible.
+4.7. The approval mark shall be placed close to or on the vehicle data plate affixed by the manufacturer.
+4.8. Examples of arrangements of approval marks are given in Annex 2  to this Regulation.
+5. REQUIREMENTS
+5.1. General requirements
+5.1.1. The installation of side-facing seats shall be prohibited in vehicles of categories M 1, N 1, M 2 (of class II, III and 
+B) and M 3 of a technically permissible laden mass not exceeding 10 tonnes (of class II, III and B).
+5.1.2. It does no t apply to ambulances or to vehicles intended for use by the armed services, civil defence, fire 
+ser
+vices and forces responsible for maintaining public order.
+5.2. General requirements applicable to all seats of vehicles of category M 1 (3)
+5.2.1. Every adjus tment and displacement system provided shall incorporate a  locking system, which shall operate 
+aut
+omatically.
+Locking systems for armrests or other comfort devices are not necessary unless the presence of such devices 
+will
+ cause additional risk of injury to the occupants of a vehicle in the event of a collision.
+Folding seats shall lock automatically in the position of use by occupants.
+5.2.2. The unloc king control for a  device as referred to in paragraph 2.7 of this Regulation shall be placed on the 
+outside
+ of the seat close to the door. It shall be easily accessible, even to the occupant of the seat immediately 
+behind the seat concerned.
+5.2.3. The rear parts of seats situated in area 1, defined in paragraph 6.8.1.1 below shall pass the energy dissipation 
+test
+ in accordance with the requirements of Annex 6  to this Regulation.
+5.2.3.1. This requirement is deemed to be met if in the tests carried out by the procedure specified in Annex 6  to this 
+Regulation
+ the deceleration of the headform does not exceed 80 g  continuously for more than 3 ms. More­
+o
+ver, no dangerous edge shall occur during or remain after the test.
+5.2.3.2. The r equirements of paragraph 5.2.3 shall not apply to rearmost seats, to back-to-back seats or to seats that 
+com
+ply with the provisions of Regulation No 21  ‘Uniform Provisions concerning the Approval of Vehicles 
+wit
+h regard to their Interior Fittings ’ (E/ECE/324-E/ECE/TRANS/505/Rev.1/Add.20/Rev.2, as last amended).
+(3) Vehicles of category M 2, which are approved to this Regulation as an alternative to Regulation No 80  (in line with paragraph 1.2 to 
+that
+ Regulation) shall also meet the requirements of this paragraph.
+18.10.2019 EN Official Journal of the European Union L 266/5
+5.2.4. The sur face of the rear parts of seats shall exhibit no dangerous roughness or sharp edges likely to increase 
+the risk of severity of injury to the occupants. This requirement is considered as satisfied if the surface of the 
+rear parts of seats tested in the conditions specified in paragraph 6.1 below exhibit radii of curvature not less 
+than:
+2,5 mm in area 1,
+5,0 mm in area 2,
+3,2 mm in area 3.
+These areas are defined in paragraph 6.8.1 below.
+5.2.4.1. This requirement does not apply to:
+5.2.4.1.1. the par ts of the different areas exhibiting a p rojection of less t han 3,2 m m fr om the surrounding surface, 
+which shall exhibit blunted edges, provided that the height of the projection is not more than half its width;
+5.2.4.1.2. Rearmost seats, t o back-to-back seats or to seats that comply with the provisions of Regulation No 21  ‘Uni­
+f
+orm Provisions concerning the Approval of Vehicles with regard to their Interior Fittings ’ 
+(E/ECE/324-E/ECE/TRANS/505/Rev.1/Add.20/Rev.2, as last amended);
+5.2.4.1.3. Rear parts of seats situated below a h orizontal plane passing through the lowest R p oint in each row of seats. 
+(Wher
+e rows of seats have different heights, starting from the rear, the plane shall be turned up or down 
+forming a vertical step passing through the R p oint of the row of seats immediately in front);
+5.2.4.1.4. Parts such as ‘flexible wire mesh’.
+5.2.4.2. In area 2, def ined in paragraph 6.8.1.2 belo w, surfaces may exhibit radii less than 5 mm, but no t less than 
+2,5 mm pr ovided that they pass the energy-dissipation test prescribed in Annex 6  t o this Regulation. More­
+over, these surfaces shall be padded to avoid direct contact of the head with the seat frame structure.
+5.2.4.3. If t he areas defined above contain parts covered with material softer than 50 Shore A h ardness, t he above 
+requirements, with the exception of those relating to the energy-dissipation test in accordance with the 
+requirements of Annex 6,  shall apply only to the rigid parts.
+5.2.5. No f ailure shall be shown in the seat frame or in the seat anchorage, the adjustment and displacement sys­
+tems or their locking devices during or after the tests prescribed in paragraphs 6.2 and 6.3 below. Permanent 
+def
+ormations, including ruptures, may be accepted, provided that these do not increase the risk of injury in 
+the event of a c ollision and the prescribed loads were sustained.
+5.2.6. No r elease of the locking systems shall occur during the tests described in paragraph 6.3 belo w and in 
+Annex 9,  paragraph 2.1 to this Regulation.
+5.2.7. After t he tests, the displacement systems intended for permitting or facilitating the access of occupants shall 
+be in working order; they shall be capable, at least once, of being unlocked and shall permit the displacement 
+of the seat or the part of the seat for which they are intended.
+Any other displacement systems, as well as adjustment systems and their locking systems are not required to 
+be
+ in working order.
+In t he case of seats provided with head restraints, the strength of the seat-back and of its locking devices is 
+deemed to meet the requirements set out in paragraph 6.2 when, af ter testing in accordance with paragraph 
+6.4.3.6 below, no breakage of the seat or seat-back has occurred: otherwise, it shall be shown that the seat is 
+capable
+ of meeting the test requirements set out in paragraph 6.2 below.
+In t he case of seats (benches) with more places to sit than head restraints and in case the manufacturer 
+chooses not to apply 53 daNm during the test of paragraph 6.4, the seat back strength test of paragraph 6.2 
+has to be performed in addition to the test of paragraph 6.4.
+L 266/6 EN Official Journal of the European Union 18.10.2019
+5.3. General specif ications applicable to seats of vehicles of categories N 1, N 2 and N 3 and t o seats of vehicles of 
+categories M 2 and M 3 not covered by Regulation No 80.
+With t he exception of the provisions of paragraph 5.1, t he requirements also apply to side-facing seats of all 
+categories of vehicles.
+5.3.1. Seats and bench seats shall be firmly attached to the vehicle.
+5.3.2. Sliding seats and bench seats shall be automatically lockable in all the positions provided.
+5.3.3. Adjustable seat-backs shall be lockable in all the positions provided.
+5.3.4. All seats which can be tipped forward or have fold-on backs and folding seats shall lock automatically in the 
+position
+ of use by occupants.
+These req uirements do not apply to folding seats fitted in wheelchair spaces or areas for standing passengers 
+of vehicles of category M 2 or M 3 of Class I, II or A a nd folding seat(s) fitted in the access passages of vehicles 
+of category M 2 or M3.
+5.4. Mounting of head restraints
+5.4.1. A h ead restraint shall be mounted on every outboard front seat in every vehicle of category M 1. Seats f itted 
+with head restraints, intended for fitment in other seating positions and in other categories of vehicles may 
+also be approved to this Regulation.
+5.4.2. A head r estraint shall be mounted on every outboard front seat in every vehicle of category M 2 wit h 
+a maximum mass not exceeding 3 500 kg and of category N 1; head restraints mounted in such vehicles shall 
+com
+ply with the requirements of Regulation No 25,  as amended by 04 series of amendments.
+5.5. Special requirements for seats fitted or capable of being fitted with head restraints
+5.5.1. The pr esence of the head restraint shall not be an additional cause of danger to occupants of the vehicle. In 
+particular, it shall not in any position of use exhibit any dangerous roughness or sharp edge liable to increase 
+the risk or seriousness of injury to the occupants.
+5.5.1.1. Parts of the front and rear faces of head restraints situated in area 1 as defined in paragraph 6.8.1.1.3 below, 
+shall be so padded as t
+o prevent any direct contact of the head with the components of the structure and 
+shall meet the requirements of paragraph 5.2.4 above.
+5.5.1.2. Parts of t he front and rear faces of head restraints situated in area 2, as defined in paragraph 6.8.1.2 belo w, 
+shall be so padded as to prevent any direct contact of the head with the components of the structure and 
+shall meet the requirements of paragraph 5.2.4 abo ve applicable to the rear parts of seats situated in area 
+2. In  t he case of head restraints integrated with the seat back, the front face of the head restraint is consid­
+ered as the area located above a plane per pendicular to the reference line at 540 m m fr om the R p oint and 
+be
+tween two vertical longitudinal planes at 85 m m on either side of the reference line.
+5.5.2. Parts of t he front and rear faces of the head restraints situated in area 1, as defined in paragraph 6.8.1.1.3 
+below shall pass the energy absorption test.
+5.5.2.1. This req uirement is deemed to be met if in the tests carried out by the procedure specified in Annex 6  t he 
+deceleration of the headform does not exceed 80 g  continuousl y for more than 3 ms. Moreover, no danger­
+ous edge shall occur during or remain after the test.
+5.5.3. The req uirements of paragraphs 5.5.1 and 5.5.2 abo ve, shall not apply to rear parts of head restraints 
+designed to be fitted to seats behind which no seat is provided.
+5.5.4. The head restr aints shall be secured to the seat or to the vehicle structure in such a w ay t hat no rigid and 
+dangerous parts project from the padding of the head restraint or from its attachments to the seat-back as 
+a result of the pressure exerted by the headform during the test.
+18.10.2019 EN Official Journal of the European Union L 266/7
+5.5.5. In the case of a s eat fitted with head restraints, the provisions of paragraph 5.2.3 may, after agreement of the 
+T
+echnical Service, be considered to be met if the seat fitted with its head restraint complies with the provi­
+sions of paragraph 5.5.2 above.
+5.6. Height of head restraints
+5.6.1. The height of head restraints shall be measured as described in paragraph 6.5 below.
+5.6.2. For head r estraints not adjustable for height, the height shall be not less than 800 mm in t he case of front 
+seats and 750 m m in the case of other seats.
+5.6.3. For head restraints adjustable for height:
+5.6.3.1. The height shall be no t less than 800 m m in t he case of front seats and 750 m m in t he case of other seats; 
+this value shall be obtained in a position be tween the highest and lowest positions to which adjustment is 
+possible;
+5.6.3.2. There shall be no ‘use position’  resulting in a height of less than 750 mm;
+5.6.3.3. In t he case of seats other than the front seats the head restraints may be such that they can be displaced to 
+a position r esulting in a height of less t han 750 m m, pr ovided that such position is clearly recognisable to 
+the occupant as not being included for the use of the head restraint;
+5.6.3.4. In the case of front seats head restraints may be such that they can be automatically displaced when the seat 
+is no
+t occupied, to a position r esulting in a height of less t han 750 mm, pr ovided that they automatically 
+return to the position of use when the seat is occupied.
+5.6.4. The dimensions mentioned in par agraphs 5.6.2 and 5.6.3.1 abo ve may be less than 800 m m in t he case of 
+front seats and 750 m m in the case of other seats to leave adequate clearance between the head restraint and 
+t
+he interior surface of the roof, the windows or any part of the vehicle structure; however, the clearance shall 
+not exceed 25 mm. In t he case of seats fitted with displacement and/or adjustment systems, this shall apply 
+to all seat positions. Furthermore, by derogation to paragraph 5.6.3.2 above, there shall not be any ‘use posi­
+tion’ resulting in a h eight lower than 700 mm.
+5.6.5. By derogation to the height requirements mentioned in paragraphs 5.6.2 and 5.6.3.1 above, the height of any 
+head restr
+aint designed to be provided in rear centre seats or seating positions shall be not less than 
+700 mm.
+5.7. In t he case of a s eat capable of being f itted with a head restr aint, the provisions of paragraphs 5.2.3 and 
+5.5.2 above shall be verified.
+5.7.1. The height of the part of the device on which the head rests, measured as described in paragraph 6.5 below, 
+shall
+ in the case of a head restraint adjustable for height be not less than 100 mm.
+5.8. There shall be no g ap of more than 60 mm be tween the seat-back and the head restraint in the case of 
+a device no t adjustable for height. If the head restraint is adjustable for height it shall, in its lowest position, 
+be not more than 25 mm fr om the top of the seat-back. In the case of seats or bench seats adjustable in 
+height provided with separate head restraints, this requirement shall be verified for all the positions of the 
+seat or bench seat.
+5.9. In the case of head restraints integral with the seat-back, the area to be considered is:
+Above a plane perpendicular to the reference line at 540 mm from the R point.
+Between tw o vertical longitudinal planes passing at 85 mm on eit her side of the reference line. In this area, 
+one or more gaps which regardless of their shape can show a distance ‘a’ of more t han 60 m m when mea­
+sured as descr
+ibed in paragraph 6.7 belo w, are permitted provided that, after the additional test under para­
+graph 6.4.3.3.2 below, the requirements of paragraph 5.12 below are still met.
+5.10. In t he case of head restraints adjustable for height one or more gaps, which regardless of their shape can 
+show a distance ‘a’ of more than 60 mm when measured as described in paragraph 6.7 below, are permitted 
+on t
+he part of the device serving as a h ead r estraint provided that, after the additional test under paragraph 
+6.4.3.3.2 below, the requirements of paragraph 5.12 below are still met.
+L 266/8 EN Official Journal of the European Union 18.10.2019
+5.11. The widt h of the head restraint shall be such as to provide appropriate support for the head of a p erson 
+nor
+mally seated. As determined according to the procedure described in paragraph 6.6 belo w, the head 
+restraint shall cover an area extending not less than 85 mm t o each side of the vertical median plane of the 
+seat for which the head restraint is intended.
+5.12. The head restr aint and its anchorage shall be such that the maximum backward displacement X of t he head 
+permitted by the head restraint and measured in conformity with the static procedure laid down in paragraph 
+6.4.3 below, is less than 102 mm.
+5.13. The head r estraint and its anchorage shall be strong enough to bear without breakage the load specified in 
+paragraph 6.4.3.6 belo w. In the case of head restraints integral with the seat-back, the requirements of this 
+paragraph shall apply to the part of the seat-back structure situated above a p lane perpendicular to the refer­
+ence
+ line at 540 m m from the R point.
+5.14. If t he head restraint is adjustable, it shall not be possible to raise it beyond the maximum operational height 
+except by deliberate action on the part of the user distinct from any act necessary for its adjustment.
+5.15. The s trength of the seat-back and of its locking devices is deemed to meet the requirements set out in para­
+graph 6.2 belo w when, after testing in accordance with paragraph 6.4.3.6 belo w, no breakage of the seat or 
+seat-back has occurred; otherwise, it shall be shown that the seat is capable of meeting the test requirements 
+set out in paragraph 6.2 below.
+5.16. Special requirements regarding the protection of occupants from displaced luggage
+5.16.1. Seat-backs
+Seat-backs and/or head restraints located such that they constitute the forward boundary of the luggage com­
+par
+tment, all seats being in place and in the normal position of use as indicated by the manufacturer, shall 
+have sufficient strength to protect the occupants from displaced luggage in a f rontal impact. This requirement 
+is deemed to be met if, during and after the test described in Annex 9,  the seat-backs remain in position, and 
+t
+he locking mechanisms remain in place. However, the deformation of the seat-backs and their fastenings 
+during the test is permitted, provided that the forward contour of the parts of the tested seat-back and/or 
+head restraints, that are harder than 50 Shore A, does not move forward of a transverse vertical plane which 
+passes
+ through:
+(a) A point of 150 mm forward of the R point of the seat in question, for the parts of the head restraint;
+(b) A p oint of 100 mm forward of the R p oint of the seat in question, for parts of the seat-back;
+excluding the rebound phases of the test blocks.
+For int egrated head restraints, the limit between the head restraint and the seat-back is defined by the pla

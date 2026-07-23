@@ -1,0 +1,718 @@
+Transitional provisions 
+                   
+                
+             
+          
+          ANNEXES 
+          
+             
+             
+             
+             
+                
+                   
+                      1. 
+                   
+                   Communication 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                      2. 
+                   
+                   Arrangements of approval marks 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                      3. 
+                   
+                   Procedure for determining the ‘H’ point and the actual torso angle for seating positions in motor vehicles 
+                   
+                
+             
+          
+          
+             
+             
+             
+             
+                
+                   
+                      4. 
+                   
+                   Method for determining the dimensional relationships between the vehicle's primary reference marks and the three-dimensional reference grid 
+                   
+                
+             
+          
+          1.   SCOPE 
+          1.1.   This Regulation applies to the 180° forward field of vision of drivers of category M 1  vehicles  ( 1 ) . 
+          1.2.   Its purpose is to ensure an adequate field of vision when the windscreen and other glazed surfaces are dry and clean. 
+          1.3.   The requirements of this Regulation are so worded as to apply to category M 1  vehicles in which the driver is on the left. In category M 1  vehicles in which the driver is on the right these requirements shall be applied by inverting the criteria, when appropriate. 
+          2.   DEFINITIONS FOR THE PURPOSE OF THIS REGULATION 
+          
+             
+             
+             
+                
+                   
+                      2.1. 
+                   
+                   
+                      ‘Approval of a vehicle type’ means the full procedure whereby a Contracting Party to the Agreement certifies that a vehicle type meets the technical requirements of this Regulation. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.2. 
+                   
+                   
+                      ‘Vehicle type with regard to the field of vision’ means vehicles which do not differ in such essential aspects as: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  2.2.1. 
+                               
+                               
+                                  The external and internal forms and arrangements within the area specified in paragraph 1 above which may affect visibility; and 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  2.2.2. 
+                               
+                               
+                                  The shape and dimensions of the windscreen and its mounting. 
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.3. 
+                   
+                   
+                      ‘Three-dimensional reference grid’ means a reference system which consists of a vertical longitudinal plane X-Z, a horizontal plane X-Y and a vertical transverse plane Y-Z (see Annex 4, Appendix, Figure 6); the grid is used to determine the dimensional relationships between the position of design points on drawings and their positions on the actual vehicle. The procedure for situating the vehicle relative to the grid is specified in Annex 4; all coordinates referred to ground zero shall be based on a vehicle in running order  ( 2 )  plus one front-seat passenger, the mass of the passenger being 75 kg ± 1 per cent. 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  2.3.1. 
+                               
+                               
+                                  Vehicles fitted with suspension enabling their ground clearance to be adjusted shall be tested under the normal conditions of use specified by the vehicle manufacturer. 
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.4. 
+                   
+                   
+                      ‘Primary reference marks’ means holes, surfaces, marks and identification signs on the vehicle body. The type of reference mark used and the position of each mark relative to the X, Y and Z coordinates of the three-dimensional reference grid and to a design ground plane shall be specified by the vehicle manufacturer. These marks may be the control points used for body-assembly purposes. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.5. 
+                   
+                   
+                      ‘Seat-back angle’ means the angle defined in the revised Consolidated Resolution on the Construction of Vehicles (R.E.3)  ( 3 ) , Annex 1, paragraph 2.6 or 2.7. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.6. 
+                   
+                   
+                      ‘Actual seat-back angle’ means the angle defined in the revised R.E.3, Annex 1, paragraph 2.6. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.7. 
+                   
+                   
+                      ‘Design seat-back angle’ means the angle defined in the revised R.E.3, Annex 1, paragraph 2.7. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.8. 
+                   
+                   
+                      ‘V points’ means points whose position in the passenger compartment is determined as a function of vertical longitudinal planes passing through the centres of the outermost designated seating positions on the front seat and in relation to the ‘R’ point and the design angle of the seat-back, which points are used for verifying compliance with the field of vision requirements. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.9. 
+                   
+                   
+                      ‘R point or seating reference point’ means the point defined in the revised R.E.3, Annex 1, paragraph 2.4. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.10. 
+                   
+                   
+                      ‘H point’ means the point defined in the revised R.E.3, Annex 1, paragraph 2.3. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.11. 
+                   
+                   
+                      ‘Windscreen datum points’ means points situated at the intersection with the windscreen of lines radiating forward from the V points to the outer surface of the windscreen. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.12. 
+                   
+                   
+                      ‘Armoured vehicle’ means a vehicle intended for the protection of conveyed passengers and/or goods and complying with armour plating anti-bullet requirements. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.13. 
+                   
+                   
+                      ‘Transparent area’ means that area of a vehicle windscreen or other glazed surface whose light transmittance measured at right angles to the surface is not less than 70 per cent. In the case of armoured vehicles the light transmittance factor is not less than 60 per cent. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.14. 
+                   
+                   
+                      ‘P points’ means the points about which the driver's head rotates when he views objects on a horizontal plane at eye level. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.15. 
+                   
+                   
+                      ‘E points’ means points representing the centres of the driver's eyes and used to assess the extent to which ‘A’ pillars obscure the field of vision. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.16. 
+                   
+                   
+                      ‘A pillar’ means any roof support forward of the vertical transverse plane located 68 mm in front of the V points and includes non-transparent items such as windscreen mouldings and door frames, attached or contiguous to such a support. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.17. 
+                   
+                   
+                      ‘Horizontal seat-adjustment range’ means the range of normal driving positions designated by the vehicle manufacturer for the adjustment of the driver's seat in the direction of the X axis (see paragraph 2.3 above). 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      2.18. 
+                   
+                   
+                      ‘Extended seat-adjustment range’ means the range designated by the vehicle manufacturer for the adjustment of the seat in the direction of the X axis (see paragraph 2.3 above) beyond the range of normal driving positions specified in paragraph 2.17 above and used for converting seats into beds or facilitating entry to the vehicle. 
+                   
+                
+             
+          
+          3.   APPLICATION FOR APPROVAL 
+          3.1.   The application for approval of a vehicle type with regard to the driver's field of vision shall be submitted by the vehicle manufacturer or by his authorised representative. 
+          3.2.   It shall be accompanied by the documents mentioned below in triplicate and include the following particulars: 
+          
+             
+             
+             
+                
+                   
+                      3.2.1. 
+                   
+                   
+                      A description of the vehicle type with regard to the items mentioned in paragraph 2.2 above, together with dimensional drawings and either a photograph or an exploded view of the passenger compartment. The numbers and/or symbols identifying the vehicle type shall be specified; and 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      3.2.2. 
+                   
+                   
+                      Particulars of the primary reference marks in sufficient detail to enable them to be readily identified and the position of each in relation to the others and to the ‘R’ point verified. 
+                   
+                
+             
+          
+          3.3.   A vehicle representative of the vehicle type to be approved shall be submitted to the Technical Service conducting the approval tests. 
+          4.   APPROVAL 
+          4.1.   If the vehicle type submitted for approval pursuant to this Regulation meets the requirements of paragraph 5 below, approval of that vehicle shall be granted. 
+          4.2.   An approval number shall be assigned to each type approved. Its first two digits (at present 01 for the Regulation in its current form) shall indicate the series of amendments incorporating the most recent major technical amendments made to the Regulation at the time of issue of the approval. The same Contracting Party shall not assign the same number to the same vehicle type equipped with another type of field of vision, or to another vehicle type. 
+          4.3.   Notice of approval or of refusal or withdrawal of approval pursuant to this Regulation shall be communicated to the Parties to the Agreement which apply this Regulation by means of a form conforming to the model in Annex 1 and photographs and/or plans supplied by the applicant being in a format not exceeding A4 (210 × 297 mm), or folded to that format, and on an appropriate scale. 
+          4.4.   There shall be affixed, conspicuously and in a readily accessible place specified on the approval form, to every vehicle conforming to a vehicle type approved under this Regulation, an international approval mark conforming to the model described in Annex 2 to this Regulation, consisting of: 
+          
+             
+             
+             
+                
+                   
+                      4.4.1. 
+                   
+                   
+                      A circle surrounding the letter ‘E’ followed by the distinguishing number of the country which has granted approval  ( 4 ) ; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      4.4.2. 
+                   
+                   
+                      The number of this Regulation, followed by the letter ‘R’, a dash and the approval number to the right of the circle prescribed in paragraph 4.4.1 above. 
+                   
+                
+             
+          
+          4.5.   If the vehicle conforms to a vehicle type approved under one or more other Regulations, annexed to the Agreement, in the country which has granted approval under this Regulation, the symbol prescribed in paragraph 4.4.1 above need not be repeated; in such a case, the Regulation and approval numbers and the additional symbols shall be placed in vertical columns to the right of the symbol prescribed in paragraph 4.4.1 above. 
+          4.6.   The approval mark shall be clearly legible and be indelible. 
+          4.7.   The approval mark shall be placed close to or on the vehicle data plate. 
+          5.   SPECIFICATIONS 
+          5.1.   Driver's field of vision. 
+          5.1.1.   The transparent area of the windscreen shall include at least the windscreen datum points (see Annex 4, Appendix, Figure 1): 
+          
+             
+             
+             
+                
+                   
+                      5.1.1.1. 
+                   
+                   
+                      A horizontal datum point forward of V 1  and 17° to the left (see Annex 4, Appendix, Figure 1); 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      5.1.1.2. 
+                   
+                   
+                      An upper vertical datum point forward of V 1  and 7° above the horizontal; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      5.1.1.3. 
+                   
+                   
+                      A lower vertical datum point forward of V 2  and 5° below the horizontal; 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      5.1.1.4. 
+                   
+                   
+                      To verify compliance with the forward-vision requirement on the opposite half of the windscreen, three additional datum points, symmetrical to the points defined in paragraphs 5.1.1.1 to 5.1.1.3 above in relation to the median longitudinal plane of the vehicle, are obtained. 
+                   
+                
+             
+          
+          5.1.2.   The angle of obstruction for each ‘A’ pillar, as described in paragraph 5.1.2.1 below, shall not exceed 6° (see Annex 4, Appendix, Figure 3). In the case of armoured vehicles that angle shall not exceed 10°. 
+          The angle of obstruction of the ‘A’ pillar on the passenger side, as defined in paragraph 5.1.2.1.2 below, need not be determined if the two pillars are located symmetrically in relation to the median longitudinal vertical plane of the vehicle. 
+          5.1.2.1.   The angle of obstruction of each ‘A’ pillar shall be measured by superimposing in a plane the following two horizontal sections: 
+          
+             
+             
+             
+                
+                   
+                      Section 1: 
+                   
+                   
+                      Starting from the Pm point situated at the location defined in paragraph 5.3.1.1 below, draw a plane forming an angle of 2° upwards in relation to the horizontal plane passing forward through Pm. Determine the horizontal section of the ‘A’ pillar starting from the foremost point of the intersection of the ‘A’ pillar and the inclined plane (see Annex 4, Appendix, Figure 2). 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      Section 2: 
+                   
+                   
+                      Repeat the same procedure, taking a plane declining at an angle of 5° downwards in relation to the horizontal plane passing forward through Pm (see Annex 4, Appendix, Figure 2). 
+                   
+                
+             
+          
+          5.1.2.1.1.   The angle of obstruction of the ‘A’ pillar on the driver's side is the angle formed on the plane view by a parallel, starting from E 2 , to the tangent joining E 1  with the outer edge of section S 2  and the tangent joining E 2  to the inner edge of section S 1  (see Annex 4, Appendix, Figure 3). 
+          5.1.2.1.2.   The angle of obstruction of the ‘A’ pillar on the passenger side is the angle formed on the plane view by the tangent joining E 3  to the inner edge of section S 1  and a parallel, starting from E 3 , to the tangent joining E 4  to the outer edge of section S 2  (see Annex 4, Appendix, Figure 3). 
+          5.1.2.2.   No vehicle shall have more than two ‘A’ pillars. 
+          5.1.3.   Except as provided in paragraph 5.1.3.3 or 5.1.3.4 below, other than the obstructions created by the ‘A’ pillars, the fixed or movable vent or side window division bars, outside radio aerials, devices for indirect vision, covering the mandatory field of indirect vision, and windscreen wipers, there shall be no obstruction in the driver's 180° forward direct field of vision below a horizontal plane passing through V1, and above three planes through V 2 , one being perpendicular to the plane X-Z and declining forward 4° below the horizontal, and the other two being perpendicular to the plane Y-Z and declining 4° below the horizontal (see Annex 4, Appendix, Figure 4). 
+          The following are not considered to be obstructions to the field of vision: 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      Embedded or printed ‘radio aerial’ conductors, no wider than the following: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (i) 
+                               
+                               
+                                  Embedded conductors: 0,5 mm, 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (ii) 
+                               
+                               
+                                  Printed conductors: 1,0 mm. These ‘radio aerial’ conductors shall not cross zone A  ( 5 ) . However, three ‘radio aerial’ conductors may cross zone A if their width does not exceed 0,5 mm. 
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      Within zone A located ‘defrosting/demisting’ normally in ‘zigzag’ or sinusoidal form having the following dimensions: 
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (i) 
+                               
+                               
+                                  Maximum visible width: 0,030 mm, 
+                               
+                            
+                         
+                      
+                      
+                         
+                         
+                         
+                            
+                               
+                                  (ii) 
+                               
+                               
+                                  Maximum conductor density: 
+                                  
+                                     
+                                     
+                                     
+                                        
+                                           
+                                              (a) 
+                                           
+                                           
+                                              If the conductors are vertical: 8/cm, 
+                                           
+                                        
+                                     
+                                  
+                                  
+                                     
+                                     
+                                     
+                                        
+                                           
+                                              (b) 
+                                           
+                                           
+                                              If the conductors are horizontal: 5/cm. 
+                                           
+                                        
+                                     
+                                  
+                               
+                            
+                         
+                      
+                   
+                
+             
+          
+          5.1.3.1.   In case of camera-monitor devices, the exemptions of paragraph 5.1.3 apply to cameras including their holders and housings which are mounted to the vehicle exterior. The camera-monitor system replacing a rear-view Class I mirror shall have the same exemption. 
+          5.1.3.2.   For vehicles, which are equipped as standard with approved rear-view mirrors that are optionally replaced by camera-monitor devices, the exemptions of paragraph 5.1.3 apply also to monitors, provided  ( 6 ) : 
+          
+             
+             
+             
+                
+                   
+                      (a) 
+                   
+                   
+                      Their obstruction of the direct view does not exceed the level of obstruction of the corresponding exterior rear-view mirror including its housing and holder; and 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                      (b) 
+                   
+                   
+                      The position of the monitor is as close as practicable to the position of the rear-view mirror it replaces. 
+                   
+                
+             
+          
+          5.1.3.3.   An obstruction created by the steering-wheel rim and the instrument panel inside the steering wheel will be tolerated if a plane through V 2 , perpendicular to the plane x-z and tangential to the highest part of the steering-wheel rim, is declined at least 1° below the horizontal. 
+          The steering wheel, if adjustable, shall be placed in the normal position indicated by the manufacturer or, failing that, midway between the limits of its range(s) of adjustment. 
+          5.1.3.4.   An obstruction between a plane through V 2 , and declined at least 1° below the horizontal and a plane through V 2  and declined 4° below the horizontal will be tolerated if the conical projection of this obstruction, starting from V 2 , on an area ‘S’ as defined in paragraph 5.1.3.2.1 below does not exceed 20 per cent of this area. The steering wheel, if adjustable, shall be placed in the normal position indicated by the manufacturer or, failing that, midway between the limits of its range(s) of adjustment. 
+          5.1.3.4.1.   The area ‘S’ (see Annex 4, Appendix, Figure 7) is a rectangular vertical area located in a plane perpendicular to the X coordinate 1 500 mm forward of the point V 2 . The upper edge of the area ‘S’ is defined by a plane passing through V 2  declined forward 1° below the horizontal. The lower edge of the area ‘S’ is defined by a plane passing through V 2  declined forward 4° below the horizontal. The left and right edges of the area ‘S’ are vertical and generated from the intersection lines of the three planes declined 4° as defined in paragraph 5.1.2.2 above. 
+          5.1.3.4.2.   In the case of a windscreen extending beyond 1 500 mm forward of the point V 2 , the distance between the area ‘S’ and the point V 2  may be extended accordingly. 
+          5.1.4.   In the case where the height of V 2  above the ground exceeds 1 650 mm, the following requirement shall be met: 
+          
+             
+             
+             
+                
+                   
+                        
+                   
+                   
+                      A 1 200 mm tall cylindrical object with a diameter of 300 mm that is situated inside the space bounded by a vertical plane located 2 000 mm in front of the vehicle, a vertical plane located 2 300 mm in front of the vehicle, a vertical plane located 400 mm from the driver's side of the vehicle, and a vertical plane located 600 mm from the opposite side of the vehicle shall be at least partially visible when viewed directly from V 2  (see Figure 1), regardless of where the object is within that space, unless it is invisible due to a blind spot(s) created by the A pillars, windscreen wipers, or steering wheel. 
+                   
+                
+             
+          
+          
+             
+             
+             
+                
+                   
+                        
+                   
+                   
+                      If the driver's seat is located in the central driving position of the vehicle, the 1 200 mm tall cylindrical object shall be situated inside the space bounded by a vertical plane located 2 000 mm in front of the vehicle, a vertical plane located 2 300 mm in front of the vehicle, a vertical plane located 500 mm from the side of the vehicle (see Figure 2). 
+                   
+                
+             
+          
+          
+             
+          
+          Text of image 
+          
+             2 000 mm 
+             300 mm 
+             500 mm 
+             500 mm 
+             2 000 mm 
+             300 mm 
+             600 mm 
+             400 mm 
+             Figure 1 
+             Figure 2 
+          
+          5.2.   Position of the V points 
+          5.2.1.   The position of the V points in relation to the ‘R’ point, as indicated by XYZ coordinates from the three-dimensional reference grid, are as shown in Tables I an
