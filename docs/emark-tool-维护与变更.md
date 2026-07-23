@@ -283,6 +283,11 @@
       结果回显,storage 事件实时刷新,契约 `emark_ad_summary_v1`/`emark_ev_summary_v1`)。
     - 验证:两页 node --check + Playwright(模块切换/答题联动/判级/报告导出/回显契约)全通过 0 报错。
 
+30. **(2026-07)三张评估台桥接卡改纯入口 + 网安卡下移**(业主指示):①取消全部「结果自动回显」——
+    删 `cyberSummary`/`adSummary`/`evSummary` 读取、回显态渲染与 storage 监听,三卡只保留引导文案 +
+    入口按钮(各评估台页内的 `writeSummary` 保留,主工具不消费);②网安卡从 CSMS/SUMS 维度面板内
+    移出,与智驾/电气卡并列于 Step 4 底部「专项合规评估台」区(副题去掉「结果自动回显」字样)。
+
 ---
 
 ## 四、待办 / 待确认

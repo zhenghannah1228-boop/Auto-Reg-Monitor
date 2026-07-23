@@ -1766,59 +1766,25 @@ function step3(){
 }
 
 function sysPick(id){_sysActive=id;render();}
-/* ===== 网安合规评估桥接：跳转独立页 cyber_assessment.html（R155/R156 就绪度 + CAL/ASIL），结果经同源 localStorage 回显 ===== */
-function cyberSummary(){ try{ return JSON.parse(localStorage.getItem('emark_cyber_summary_v1'))||null; }catch(e){ return null; } }
+/* ===== 网安合规评估桥接：跳转独立页 cyber_assessment.html（纯入口，不回显——业主指示）===== */
 function cyberBridgeCard(){
-  const E=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const ic='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.4-3 7.6-7 9-4-1.4-7-4.6-7-9V6l7-3z"/></svg>';
-  const s=cyberSummary();
-  if(!s||!s.r155||!s.started){
-    return `<div class="cybr"><div class="ct">${ic}网安 &amp; 功能安全合规评估（R155/R156 · CAL/ASIL）</div>
-      <div class="cm">若产品涉及网络安全 / 软件更新,可打开<b>独立的网安合规评估台</b>:逐条自查 <b>R155 CSMS / R156 SUMS 认证就绪度</b>,并用 <b>ISO 21434 CAL</b> 与 <b>ISO 26262 ASIL</b> 为威胁 / 危害定级,一键生成审计就绪包与可打印报告。</div>
-      <a class="cybtn" href="cyber_assessment.html" target="_blank" rel="noopener">打开网安合规评估台 ↗</a></div>`;
-  }
-  const bar=(name,pct)=>`<div class="cybar"><span title="${E(name)}">${E(name)}</span><div class="bt"><div class="bf" style="width:${Math.max(0,Math.min(100,+pct||0))}%"></div></div><span style="text-align:right;color:var(--grey)">${E(pct)}%</span></div>`;
-  const cal=(s.maxCal>0)?('CAL '+E(s.maxCal)):'—';
-  const asil=(!s.maxA||s.maxA==='—')?'—':('ASIL '+E(s.maxA));
-  let when=''; try{when=new Date(s.ts).toLocaleDateString('zh-CN');}catch(e){}
-  return `<div class="cybr"><div class="ct">${ic}网安 &amp; 功能安全合规评估结果 <span style="flex:1"></span><span class="clv">R155 ${E(s.r155.pct)}% · R156 ${E(s.r156.pct)}%</span></div>
-    <div class="cm">最高 <b>${cal}</b>(已评 ${E(s.calRated)}/${E(s.calTotal)} 威胁) · 最高 <b>${asil}</b>(已评 ${E(s.asilRated)}/${E(s.asilTotal)} 危害)${when?' · 更新于 '+when:''}</div>
-    ${bar('R155 CSMS 就绪度',s.r155.pct)}${bar('R156 SUMS 就绪度',s.r156.pct)}
-    <a class="cybtn ghost" href="cyber_assessment.html" target="_blank" rel="noopener">打开评估台（查看 / 更新）↗</a></div>`;
+  return `<div class="cybr"><div class="ct">${ic}网安 &amp; 功能安全合规评估（R155/R156 · CAL/ASIL）</div>
+    <div class="cm">若产品涉及网络安全 / 软件更新,可打开<b>独立的网安合规评估台</b>:逐条自查 <b>R155 CSMS / R156 SUMS 认证就绪度</b>,并用 <b>ISO 21434 CAL</b> 与 <b>ISO 26262 ASIL</b> 为威胁 / 危害定级,一键生成审计就绪包与可打印报告。</div>
+    <a class="cybtn" href="cyber_assessment.html" target="_blank" rel="noopener">打开网安合规评估台 ↗</a></div>`;
 }
-/* ===== 智能驾驶 / 电气合规评估台桥接（独立页 ad_assessment.html / ev_assessment.html，同源 localStorage 回显）===== */
-function adSummary(){ try{ return JSON.parse(localStorage.getItem('emark_ad_summary_v1'))||null; }catch(e){ return null; } }
-function evSummary(){ try{ return JSON.parse(localStorage.getItem('emark_ev_summary_v1'))||null; }catch(e){ return null; } }
+/* ===== 智能驾驶 / 电气合规评估台桥接：纯入口，不回显（业主指示）===== */
 function adBridgeCard(){
-  const E=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const ic='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16l2-6h10l2 6M5 16h14M5 16v3M19 16v3M8.5 13h.01M15.5 13h.01"/><path d="M12 4v3M9 5l3 2 3-2"/></svg>';
-  const s=adSummary();
-  const bar=(name,pct)=>`<div class="cybar"><span title="${E(name)}">${E(name)}</span><div class="bt"><div class="bf" style="width:${Math.max(0,Math.min(100,+pct||0))}%"></div></div><span style="text-align:right;color:var(--grey)">${E(pct)}%</span></div>`;
-  if(!s||!s.started){
-    return `<div class="cybr"><div class="ct">${ic}智能驾驶合规评估（ADAS 就绪度 · 级别判定 · 测试证据）</div>
-      <div class="cm">若产品涉及 ADAS / 自动驾驶,可打开<b>独立的智能驾驶合规评估台</b>:逐条自查 <b>ADAS 法规就绪度</b>（R152/R79/ELKS/ISA 等）,按功能问卷<b>判定自动化级别与法规路径</b>（L2 DCAS R171 / L3 ALKS R157 / AVP）,并核对<b>测试与证据清单</b>。</div>
-      <a class="cybtn" href="ad_assessment.html" target="_blank" rel="noopener">打开智能驾驶评估台 ↗</a></div>`;
-  }
-  let when=''; try{when=new Date(s.ts).toLocaleDateString('zh-CN');}catch(e){}
-  return `<div class="cybr"><div class="ct">${ic}智能驾驶合规评估结果 <span style="flex:1"></span><span class="clv">${E(s.level||'未判定')}</span></div>
-    <div class="cm">级别判定：<b>${E(s.level||'未判定')}</b>${when?' · 更新于 '+when:''}</div>
-    ${s.ready?bar('ADAS 法规就绪度',s.ready.pct):''}${s.evid?bar('测试与证据清单',s.evid.pct):''}
-    <a class="cybtn ghost" href="ad_assessment.html" target="_blank" rel="noopener">打开评估台（查看 / 更新）↗</a></div>`;
+  return `<div class="cybr"><div class="ct">${ic}智能驾驶合规评估（ADAS 就绪度 · 级别判定 · 测试证据）</div>
+    <div class="cm">若产品涉及 ADAS / 自动驾驶,可打开<b>独立的智能驾驶合规评估台</b>:逐条自查 <b>ADAS 法规就绪度</b>（R152/R79/ELKS/ISA 等）,按功能问卷<b>判定自动化级别与法规路径</b>（L2 DCAS R171 / L3 ALKS R157 / AVP）,并核对<b>测试与证据清单</b>。</div>
+    <a class="cybtn" href="ad_assessment.html" target="_blank" rel="noopener">打开智能驾驶评估台 ↗</a></div>`;
 }
 function evBridgeCard(){
-  const E=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const ic='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 13h5l-1 8 8-10h-5l1-8z"/></svg>';
-  const s=evSummary();
-  const bar=(name,pct)=>`<div class="cybar"><span title="${E(name)}">${E(name)}</span><div class="bt"><div class="bf" style="width:${Math.max(0,Math.min(100,+pct||0))}%"></div></div><span style="text-align:right;color:var(--grey)">${E(pct)}%</span></div>`;
-  if(!s||!s.started){
-    return `<div class="cybr"><div class="ct">${ic}电气与电动化合规评估（R100 · R10 EMC · 充电 · 电池法规）</div>
-      <div class="cm">若产品涉及高压电 / 电动化,可打开<b>独立的电气合规评估台</b>:逐条自查 <b>UN R100 高压电安全</b>（含 REESS/热扩散）、<b>R10 EMC</b>（含充电模式）、<b>充电与接口</b>,以及与 E-mark 并行的 <b>(EU) 2023/1542 电池法规</b>义务（碳足迹/电池护照）。</div>
-      <a class="cybtn" href="ev_assessment.html" target="_blank" rel="noopener">打开电气合规评估台 ↗</a></div>`;
-  }
-  let when=''; try{when=new Date(s.ts).toLocaleDateString('zh-CN');}catch(e){}
-  return `<div class="cybr"><div class="ct">${ic}电气与电动化合规评估结果${when?` <span style="flex:1"></span><span class="clv">更新于 ${when}</span>`:''}</div>
-    ${s.r100?bar('R100 高压电安全',s.r100.pct):''}${s.r10?bar('R10 EMC',s.r10.pct):''}${s.chg?bar('充电与接口',s.chg.pct):''}${s.batt?bar('电池法规 (EU) 2023/1542',s.batt.pct):''}
-    <a class="cybtn ghost" href="ev_assessment.html" target="_blank" rel="noopener">打开评估台（查看 / 更新）↗</a></div>`;
+  return `<div class="cybr"><div class="ct">${ic}电气与电动化合规评估（R100 · R10 EMC · 充电 · 电池法规）</div>
+    <div class="cm">若产品涉及高压电 / 电动化,可打开<b>独立的电气合规评估台</b>:逐条自查 <b>UN R100 高压电安全</b>（含 REESS/热扩散）、<b>R10 EMC</b>（含充电模式）、<b>充电与接口</b>,以及与 E-mark 并行的 <b>(EU) 2023/1542 电池法规</b>义务（碳足迹/电池护照）。</div>
+    <a class="cybtn" href="ev_assessment.html" target="_blank" rel="noopener">打开电气合规评估台 ↗</a></div>`;
 }
 function step4(){
   const act=activeSys();
@@ -1847,13 +1813,12 @@ function step4(){
       <div class="sb-main">
         <div class="sb-mh">${cur.name}</div>
         <div class="sb-msub">${cur.desc}</div>
-        ${cur.id==='cyber'?`<div id="cycard">${cyberBridgeCard()}</div>`:''}
         ${sysLaw(cur.id)}
         ${rows}
       </div>
     </div>
-    <div class="secttl" style="margin-top:18px">专项合规评估台 <small style="font-weight:400;color:var(--greyl)">（独立自评页，结果自动回显）</small></div>
-    <div class="xgrid"><div id="adcard">${adBridgeCard()}</div><div id="evcard">${evBridgeCard()}</div></div>
+    <div class="secttl" style="margin-top:18px">专项合规评估台 <small style="font-weight:400;color:var(--greyl)">（独立自评页）</small></div>
+    <div class="xgrid">${cyberBridgeCard()}${adBridgeCard()}${evBridgeCard()}</div>
     <div class="nav"><button class="ghost" onclick="go(3)">← 上一步</button><button class="btn btn-p" onclick="go(5)">生成认证路线 →</button></div>
   </div>`;
 }
@@ -2375,8 +2340,6 @@ function openProfiles(){
   try{ const raw=localStorage.getItem(SAVE_KEY); if(raw){ const s=JSON.parse(raw); if(s&&typeof s.cur==='number') applyState(s); } }catch(e){}
 })();
 render();
-// 网安自评页(cyber_assessment.html)写入 emark_cyber_summary_v1 时(跨文档 storage 事件),若正处 Step4 则实时刷新卡片
-window.addEventListener('storage',function(e){ if(['emark_cyber_summary_v1','emark_ad_summary_v1','emark_ev_summary_v1'].includes(e.key) && cur===4) render(); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden && cur===4) render(); });
 loadVerDB();   // Task 2 · 后台拉取活数据（现行版本/生效日期），完成后若在 Step2 自动重渲染
 </script>
