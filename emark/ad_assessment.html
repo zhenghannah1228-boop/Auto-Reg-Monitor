@@ -1,0 +1,716 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>智能驾驶合规 · 评估台 · ADAS 就绪度 / R157·R171 判级 / 测试与证据</title>
+<style>
+:root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--green:#1F7A4D;--red:#C0392B;--amber:#B45309}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:var(--od)}
+/* ===== 布局:对齐 E-mark 母工具(浅色顶栏 + 左侧栏 + 内容)===== */
+.topbar{background:linear-gradient(120deg,#fff,var(--cream));border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.tb-in{max-width:1160px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tb-title h1{font-size:21px;font-weight:800;letter-spacing:-.3px;margin:0;color:var(--ink)}
+.tb-title h1 .em{color:var(--o)}
+.tb-title .tb-sub{font-size:12px;color:var(--grey);margin-top:2px}
+.tb-act{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
+.badge-g:hover{background:var(--o);color:#fff}
+.badge-g .ico{stroke:currentColor;margin-right:4px}
+.tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
+.tb-home:hover{background:var(--o);color:#fff}
+.tb-menu{position:relative}
+.tb-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:200px;padding:6px;z-index:60}
+.tb-dd.on{display:block}
+.tb-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;cursor:pointer}
+.tb-dd button:hover{background:var(--cream);color:var(--od)}
+.layout{max-width:1160px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:216px minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr;gap:14px}}
+.sidebar{position:sticky;top:74px;display:flex;flex-direction:column;gap:8px}
+@media(max-width:860px){.sidebar{position:static}}
+.sb-h{font-size:12px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:2px}
+.snav{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.sstep{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grey);cursor:pointer;padding:8px 10px;border-radius:9px;transition:.12s;line-height:1.3;font-family:inherit;background:none;border:none;text-align:left;width:100%}
+.sstep:hover{background:#fff;color:var(--ink)}
+.sstep .n{flex:none;width:24px;height:24px;border-radius:50%;border:1.6px solid var(--line);display:grid;place-items:center;font-size:11.5px;font-weight:700;background:#fff;color:var(--grey)}
+.sstep.active{background:var(--cream);color:var(--ink);font-weight:700}
+.sstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
+.sstep .stx{display:flex;flex-direction:column;min-width:0}
+.sstep .stx small{color:var(--greyl);font-size:10.5px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sgrp{font-size:10px;font-weight:700;color:var(--greyl);letter-spacing:.5px;margin:8px 2px 1px}
+.saveBtn{font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;box-shadow:0 2px 8px rgba(232,98,44,.25)}
+.saveBtn:hover{background:var(--od)}
+.newBtn{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:9px;padding:9px;cursor:pointer}
+.newBtn:hover{background:var(--cream)}
+.center{min-width:0}
+.namebar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.namebar label{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.namebar label::after{content:" *";color:var(--o)}
+.namebar input{flex:1;font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:9px;padding:10px 13px;color:var(--ink);background:#fff}
+.namebar input:focus{outline:none;border-color:var(--o)}
+#main{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.ico{width:15px;height:15px;display:inline-block;vertical-align:-2px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:5px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px;align-items:center}
+.btn{font-family:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.p{background:var(--o);border-color:var(--o);color:#fff}
+.btn:hover{border-color:var(--o);color:var(--od)}
+.btn.p:hover{background:var(--od);color:#fff}
+/* 顶部概览 */
+.sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05);display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.sum .rad{flex:none;width:210px}
+.sum .info{flex:1;min-width:200px}
+.sum .lv{font-size:18px;font-weight:900}
+.sum .lv b{color:var(--od)}
+.sum .meta{font-size:12.5px;color:var(--ink2);margin:5px 0 10px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--line);color:var(--grey)}
+.pill.on{border-color:var(--o);color:var(--od);font-weight:700;background:var(--cream)}
+.sb-mh{font-size:16px;font-weight:800;color:var(--od);margin-bottom:4px}
+.sb-msub{font-size:12px;color:var(--grey);margin-bottom:12px}
+.arow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;border-top:1px solid var(--line);padding:11px 0}
+.arow:first-of-type{border-top:none}
+.al b{font-weight:600;font-size:13px}
+.al small{display:block;color:var(--grey);font-size:11px;margin-top:2px;font-family:ui-monospace,Menlo,Consolas,monospace}
+.seg{display:flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.seg button{font-family:inherit;font-size:12px;font-weight:600;border:none;background:#fff;padding:8px 13px;cursor:pointer;color:var(--grey);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button.on{color:#fff}
+.seg button.on.done-b{background:var(--green)}
+.seg button.on.prog-b{background:var(--amber)}
+.seg button.on.no-b{background:var(--red)}
+.std details{border-top:1px solid var(--line);padding:9px 0}
+.std details:first-of-type{border-top:none}
+.std summary{cursor:pointer;font-size:13px;font-weight:600}
+.std .sc{font-size:12px;color:var(--ink2);margin:6px 0 4px}
+.std ul{margin:4px 0;padding-left:18px;font-size:12px}
+.std .tl{font-size:11px;color:var(--od);font-family:ui-monospace,Menlo,Consolas,monospace}
+/* 术语速查 */
+.glosgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.glos{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fff}
+.glost{font-weight:800;font-size:13px;color:var(--ink)}
+.glost .glosf{font-weight:400;font-size:10.5px;color:var(--greyl)}
+.glosd{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.6}
+/* 模块差异矩阵 */
+.modtab{border-collapse:collapse;font-size:12px;min-width:820px}
+.modtab th{padding:7px 10px;border-bottom:2px solid var(--line);text-align:left;font-weight:700;color:var(--ink2);white-space:nowrap;background:var(--bg)}
+.modtab td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top;line-height:1.5}
+.modtab td.lft,.modtab th.lft{position:sticky;left:0;background:#fff;min-width:130px}
+.modtab th.lft{background:var(--bg)}
+.mlegal{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11px;font-weight:700;white-space:nowrap}
+.lnk{font-family:inherit;font-size:12px;text-align:left;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;font-weight:600;line-height:1.4}
+.lnk:hover{color:var(--od);text-decoration:underline}
+.note{font-size:11.5px;color:var(--grey);background:#FBF7F2;border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.7}
+/* 卡片 / 输入 */
+.kc{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.ckleg{font-size:11px;color:var(--grey);font-family:ui-monospace,Menlo,Consolas,monospace;margin-top:10px;line-height:1.9}
+.ckhint{font-size:11.5px;color:var(--ink2);background:var(--cream);border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:8px 12px;margin:8px 0 12px;line-height:1.6}
+.cin{font-family:inherit;font-size:12px;width:100%;border:1px solid var(--line);border-radius:6px;padding:5px 7px;color:var(--ink);background:#fff}
+.cin:focus{outline:none;border-color:var(--o)}
+/* 档案栏 */
+.pstate{font-size:11px;color:var(--grey);line-height:1.4;margin-top:2px}
+.btn.sm{font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px}
+/* 我的档案 模态 */
+.pmodal{position:fixed;inset:0;background:rgba(20,24,28,.5);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto}
+.pmodal.on{display:flex}
+.pmbox{background:#fff;border-radius:14px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
+.pmh{background:linear-gradient(120deg,var(--ink),#2A2F36);color:#fff;padding:14px 18px;font-size:15px;font-weight:700;display:flex;align-items:center}
+.pmx{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px}
+.pmx:hover{background:rgba(255,255,255,.3)}
+.pmlist{padding:12px 16px 18px;max-height:64vh;overflow-y:auto}
+.pmrow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.pmrow.cur{border-color:var(--o);background:var(--cream)}
+.pmn{flex:1;font-size:13.5px;font-weight:700;min-width:0}
+.pmcur{font-size:10.5px;font-weight:700;color:var(--od);background:#fff;border:1px solid var(--ol);border-radius:20px;padding:1px 8px}
+.pmd{font-size:11px;color:var(--grey);font-weight:400;margin-top:2px}
+.pmbtns{display:flex;gap:6px;flex:none}
+.pmempty{font-size:13px;color:var(--grey);text-align:center;padding:24px 8px}
+/* 就绪度分组 */
+.r156g{margin-bottom:14px}
+.r156gh{font-size:13.5px;font-weight:800;color:var(--od);border-bottom:2px solid var(--ol);padding-bottom:4px;margin-bottom:6px}
+.r156gd{font-size:11.5px;color:var(--grey);margin:-2px 0 6px}
+.qitem{margin-bottom:2px}
+.metatog{font-family:inherit;font-size:11px;color:var(--grey);background:none;border:none;cursor:pointer;padding:2px 4px;white-space:nowrap}
+.metatog:hover{color:var(--od)}
+.metatog.has{color:var(--od);font-weight:700}
+.idet{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 12px;background:var(--cream);border:1px solid var(--ol);border-radius:9px;padding:10px 12px;margin:2px 0 8px}
+.idet label{display:flex;flex-direction:column;font-size:11px;color:var(--grey);gap:3px;font-weight:600}
+.idet label .cin{font-weight:400;color:var(--ink)}
+/* 模块2 · 问卷 */
+.qcard{border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.qt{font-size:13.5px;font-weight:700;margin-bottom:8px}
+.qopt{display:flex;align-items:center;gap:9px;width:100%;text-align:left;font-family:inherit;font-size:12.5px;border:1.5px solid var(--line);background:#fff;border-radius:9px;padding:8px 12px;cursor:pointer;color:var(--ink2);margin-bottom:6px}
+.qopt:hover{border-color:var(--o)}
+.qopt.on{border-color:var(--o);background:var(--cream);color:var(--od);font-weight:700}
+.qopt .rdo{flex:none;width:14px;height:14px;border-radius:50%;border:2px solid var(--line);background:#fff}
+.qopt.on .rdo{border-color:var(--o);background:var(--o);box-shadow:inset 0 0 0 3px #fff}
+/* 路径卡 */
+.pathcard{border:1.5px solid var(--o);border-radius:12px;background:var(--cream);padding:14px 18px;margin-top:14px}
+.pc-lv{font-size:19px;font-weight:900;color:var(--od)}
+.pc-lv small{font-size:12px;color:var(--grey);font-weight:400;margin-left:8px}
+.pc-sec{font-size:12px;font-weight:800;color:var(--ink2);margin:10px 0 4px}
+.pc-ul{margin:0;padding-left:18px;font-size:12.5px;line-height:1.85}
+.pc-reg{display:inline-block;font-size:11px;font-weight:700;background:#fff;border:1px solid var(--ol);color:var(--od);border-radius:20px;padding:2px 10px;margin:2px 5px 2px 0}
+.pc-warn{font-size:11.5px;color:var(--amber);margin-top:8px;line-height:1.6}
+/* 模块3 · 勾选清单 */
+.ckrow{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;font-family:inherit;background:none;border:none;border-top:1px solid var(--line);padding:9px 2px;cursor:pointer}
+.ckrow:first-of-type{border-top:none}
+.ckbox{flex:none;width:18px;height:18px;border-radius:5px;border:1.6px solid var(--line);display:grid;place-items:center;font-size:12px;color:#fff;margin-top:2px;background:#fff}
+.ckrow.on .ckbox{background:var(--green);border-color:var(--green)}
+.ckrow .ct{font-size:13px;font-weight:600;color:var(--ink)}
+.ckrow.on .ct{color:var(--green)}
+.ckrow .ct small{display:block;color:var(--grey);font-size:11px;font-weight:400;font-family:ui-monospace,Menlo,Consolas,monospace}
+.gprog{font-size:11px;color:var(--grey);font-weight:400;margin-left:8px}
+/* 总览 Dashboard */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:4px 0 8px}
+.dcard{text-align:left;font-family:inherit;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;cursor:pointer;transition:.12s;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.dcard:hover{border-color:var(--o);box-shadow:0 4px 14px rgba(16,24,40,.09)}
+.dcard .dct{font-size:12.5px;color:var(--grey);font-weight:600}
+.dcard .dcbig{font-size:30px;font-weight:900;line-height:1.15;margin:5px 0}
+.dcard .dcsub{font-size:11.5px;color:var(--grey)}
+/* 导出报告 */
+.report{display:none}
+.report .rhead{border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:12px}
+.report .rtitle{font-size:20px;font-weight:800}
+.report .rmeta{font-size:11px;color:#555;margin-top:4px}
+.report .rsum{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;margin-bottom:14px}
+.report h2{font-size:15px;margin:16px 0 6px;border-left:4px solid #E8622C;padding-left:8px}
+.report h3{font-size:12.5px;margin:10px 0 4px;color:#333}
+.report .rt{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:8px}
+.report .rt th{background:#f0f0f0;border:1px solid #ccc;padding:4px 6px;text-align:left}
+.report .rt td{border:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.report .rref{color:#666;font-size:10px;white-space:nowrap}
+.report .rst{text-align:center;font-weight:700;white-space:nowrap}
+.report .rst.s2{color:#1F7A4D}.report .rst.s1{color:#B45309}.report .rst.s0{color:#C0392B}
+.report .rfoot{font-size:10px;color:#666;margin-top:14px;border-top:1px solid #ccc;padding-top:6px;line-height:1.6}
+@media print{
+  body.printing>*{display:none !important}
+  body.printing>#report{display:block !important}
+  .report h2{page-break-after:avoid}
+  .report .rt tr{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="tb-in">
+  <div class="tb-title">
+    <h1>智能驾驶合规 <span class="em">·</span> 评估台</h1>
+    <div class="tb-sub">ADAS 法规就绪度 · 自动化级别判定 · 测试与证据清单</div>
+  </div>
+  <div class="tb-act">
+    <div class="tb-menu">
+      <button class="badge-g" onclick="event.stopPropagation();toggleTools()">☰ 速查工具 ▾</button>
+      <div class="tb-dd" id="tb-dd">
+        <button onclick="openTool('mods')">🧭 模块差异矩阵</button>
+        <button onclick="openTool('glos')">📖 术语速查</button>
+        <button onclick="openTool('faq')">❔ 常见问答 FAQ</button>
+        <button onclick="openTool('std')">📑 相关法规速览</button>
+      </div>
+    </div>
+    <button class="badge-g" onclick="openProfiles()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h4l2 2h7A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5Z"/></svg>我的档案</button>
+    <button class="badge-g" onclick="exportReport()">🖨 导出报告</button>
+    <a class="tb-home" href="emark_assessment.html" id="backbtn">← 返回评估工具</a>
+  </div>
+</div></div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-h">评估模块</div>
+    <div class="snav" id="nav"></div>
+    <button class="saveBtn" id="savebtn" onclick="saveProgress()">保存进度</button>
+    <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
+    <div class="pstate" id="pstate"></div>
+  </div>
+  <div class="center">
+    <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off"></div>
+    <div id="summary"></div>
+    <div id="main"></div>
+    <div class="note">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)与 ISO 26262 / ISO 21448,用于团队自查参照,<b>非型式批准结论</b>;级别判定为按功能描述的路径指引,正式分级与批准以技术服务 / 批准机关为准。自评与判定按<b>档案</b>保存在本浏览器。</div>
+  </div>
+</div>
+<div id="report" class="report"></div>
+<div id="pmodal" class="pmodal" onclick="if(event.target===this)closeProfiles()">
+  <div class="pmbox">
+    <div class="pmh">我的档案 <button class="pmx" onclick="closeProfiles()" aria-label="关闭">✕</button></div>
+    <div id="pmlist" class="pmlist"></div>
+  </div>
+</div>
+<div id="gmodal" class="pmodal" onclick="if(event.target===this)gmClose()">
+  <div class="pmbox" style="max-width:760px">
+    <div class="pmh"><span id="gmtitle"></span><button class="pmx" onclick="gmClose()" aria-label="关闭">✕</button></div>
+    <div id="gmbody" class="pmlist"></div>
+  </div>
+</div>
+<script>
+/* ===== 模块1 · ADAS 法规就绪度(逐条 无/部分/已建立 三档自评)=====
+   条款以 (EU) 2019/2144 GSR 附件II 分派 + 对应 UN 法规/欧盟细则现行版为准。*/
+const READY={groups:[
+  {name:'M1/N1 GSR 强制组 · 主动安全',desc:'轻型车按 (EU) 2019/2144 附件 II 分派的主动安全强制项(新车型 2022-07-06 起分阶段)。',items:[
+    {k:'ad.a1',t:'已对照 GSR 附件 II 识别本车型(M1/N1)全部强制 ADAS 项目与适用日期(新车型/全部新车两档)',r:'(EU) 2019/2144 Annex II'},
+    {k:'ad.a2',t:'AEBS 自动紧急制动已按 UN R152 获批或在测(车对车,及行人/自行车探测阶段)',r:'UN R152 / GSR Art.7'},
+    {k:'ad.a3',t:'紧急车道保持 ELKS 已按 (EU) 2021/646 获批(R130 车道偏离预警 LDWS + 纠偏控制功能 CDCF)',r:'(EU) 2021/646'},
+    {k:'ad.a4',t:'智能限速辅助 ISA 已按 (EU) 2021/1958 获批(限速信息获取、提示方式与准确率要求)',r:'(EU) 2021/1958'},
+    {k:'ad.a5',t:'上述各单项的批准证书/试验报告已归档,与整车型批文档一致(证据归档)',r:'GSR 型批文档 / COC'}
+  ]},
+  {name:'M1/N1 GSR 强制组 · 驾驶员监测与记录',desc:'疲劳/分心监测与事件记录类强制项(含 2024-07 起的第二阶段项)。',items:[
+    {k:'ad.b1',t:'DDAW 驾驶员疲劳/困倦预警已按 (EU) 2021/1341 获批(基于驾驶行为的困倦监测)',r:'(EU) 2021/1341'},
+    {k:'ad.b2',t:'ADDW 高级驾驶员分心预警已评估适用日期(新车型 2024-07-07 / 全部新车 2026-07-07)并获批或在测',r:'(EU) 2023/2590'},
+    {k:'ad.b3',t:'倒车探测(影像/传感)已按 UN R158 获批',r:'UN R158'},
+    {k:'ad.b4',t:'EDR 事件数据记录器已按 UN R160 获批,记录要素/留存/防篡改合规',r:'UN R160'},
+    {k:'ad.b5',t:'DMS 摄像头等监测数据的隐私合规已评估(闭环处理、默认不外传)',r:'(EU) 2023/2590 / GDPR'}
+  ]},
+  {name:'重型组(M2/M3/N2/N3)',desc:'客车与货车按 GSR 附件 II 分派的重型专属强制项。',items:[
+    {k:'ad.c1',t:'重型 AEBS 已按 UN R131 获批',r:'UN R131'},
+    {k:'ad.c2',t:'车道偏离预警 LDWS 已按 UN R130 获批',r:'UN R130'},
+    {k:'ad.c3',t:'盲区信息系统 BSIS 已按 UN R151 获批(近侧自行车/行人探测)',r:'UN R151'},
+    {k:'ad.c4',t:'起步信息系统 MOIS 已按 UN R159 获批(车前近距行人/骑行者探测)',r:'UN R159'},
+    {k:'ad.c5',t:'直接视野 DVS 已按 UN R167 评估驾驶室视野(欧盟新车型 2026-01 起适用)',r:'UN R167 / GSR Art.9'},
+    {k:'ad.c6',t:'重型 EDR 已按 UN R169 评估适用性与数据要素(M2/M3/N2/N3)',r:'UN R169'}
+  ]},
+  {name:'转向与基础组',desc:'横向控制边界、操纵件标识与视野装置——所有 ADAS 组合的地基。',items:[
+    {k:'ad.d1',t:'车道保持辅助(持续横向控制)按 UN R79 ACSF B1 边界设计(手离检测、最大横向加速度、系统边界提示)',r:'UN R79 §5.6.2 (ACSF B1)'},
+    {k:'ad.d2',t:'自动换道功能按 UN R79 ACSF C 类要求获批(驾驶员触发确认、后方接近车辆探测)',r:'UN R79 §5.6.4 (ACSF C)'},
+    {k:'ad.d3',t:'ADAS 开关、指示器与信号符号按 UN R121 标识,状态显示无歧义',r:'UN R121'},
+    {k:'ad.d4',t:'间接视野装置/摄像监控系统 CMS 已按 UN R46 获批(替代外后视镜时)',r:'UN R46'},
+    {k:'ad.d5',t:'各 ADAS 功能的用户手册/HMI 描述与批准范围一致,不夸大能力(证据归档)',r:'R79/R121 附随文档'}
+  ]}
+]};
+function readyItems(){ return READY.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function readyStats(){ const its=readyItems(); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;}); return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
+function groupScore(g){ if(!g.items.length)return 0; let s=0; g.items.forEach(it=>s+=(ans[it.k]||0)); return s/(2*g.items.length); }
+/* ===== 模块2 · 自动化级别判定(问卷 → 判级 → 法规路径卡)===== */
+const QUIZ=[
+  {id:'q1',q:'1. 纵向控制(加减速)在功能激活时由谁执行?',opts:[['drv','驾驶员执行(系统仅预警或瞬时干预,如 AEB)'],['sys','系统持续执行(如 ACC 自适应巡航)']]},
+  {id:'q2',q:'2. 横向控制(转向)由谁执行?',opts:[['drv','驾驶员执行(系统仅预警或瞬时纠偏,如 LDW/ELKS)'],['sys','系统持续执行(车道居中保持等)']]},
+  {id:'q3',q:'3. 激活期间,驾驶员是否必须持续监控道路环境与系统表现?',opts:[['mon','是,驾驶员始终监控、随时纠正'],['nomon','否,系统监控环境,发出接管请求后驾驶员再接管']]},
+  {id:'q4',q:'4. 脱手 / 脱眼策略?',opts:[['none','不允许脱手(hands-on)'],['handsoff','允许脱手,但必须眼在环(注视道路)'],['eyesoff','允许脱眼,驾驶员可从事其他活动']]},
+  {id:'q5',q:'5. 设计运行范围(ODD)限制?',opts:[['open','一般道路,不特别限定'],['hwy','限定高速公路/机动车专用道'],['park','限定停车场/泊车场景']]},
+  {id:'q6',q:'6. 自动换道能力?',opts:[['no','无'],['confirm','驾驶员确认后执行换道'],['auto','系统自主决策并执行换道']]},
+  {id:'q7',q:'7. 是否支持车内无人的自动代客泊车(AVP)?',opts:[['no','否'],['yes','是,车内无人完成泊入/泊出与低速移动']]}
+];
+function quizDone(){ return QUIZ.filter(q=>quiz[q.id]).length; }
+function judgeLevel(){
+  const a=quiz, done=quizDone();
+  if(done<QUIZ.length) return {code:'未判定',disp:'未判定',done};
+  if(a.q7==='yes') return {code:'AVP',disp:'AVP · 自动代客泊车(ADS)',done};
+  if(a.q3==='nomon'||a.q4==='eyesoff') return {code:'L3 · ALKS',disp:'L3 · 有条件自动(ALKS)',done};
+  if(a.q1==='sys'&&a.q2==='sys') return {code:'L2 · DCAS',disp:'L2 · 组合驾驶辅助(DCAS)',done};
+  if(a.q1==='sys'||a.q2==='sys') return {code:'L1',disp:'L1 · 单项辅助',done};
+  return {code:'L1',disp:'L0–L1 · 提示 / 瞬时干预',done};
+}
+const PATHS={
+  'L1':{regs:['UN R152 AEBS','UN R130 LDWS','(EU) 2021/646 ELKS','(EU) 2021/1958 ISA','UN R79(纠偏/CSF)'],
+    obl:['逐单项功能取得对应法规批准(走模块1 清单)','UN R121 操纵件与状态标识','用户手册如实描述功能边界,避免"自动驾驶"误导宣传'],
+    mkt:'单项辅助无组合系统专门法规义务;GSR 强制项按附件 II 时间表逐项核对即可。'},
+  'L2 · DCAS':{regs:['UN R171 DCAS(2024-09-30 生效)','UN R79 ACSF B1(单项车道保持边界)','UN R155/R156(批准前置)'],
+    obl:['驾驶员始终监控:参与度监测 + 警告升级策略(检测到脱离参与须警告/降级)','系统边界与 HMI:明示激活/待命/退出状态,防模式混淆','R79 ACSF B1 仍是车道保持单项路径;超出 B1 边界的持续组合辅助(如领航辅助、系统建议换道)走 R171','CSMS/SUMS(R155/R156)为批准前置,安全论证按 CEL 审核口径'],
+    mkt:'R171 是可选新技术法规、不强制;缔约方采用仍在推进(以 WP.29 缔约方适用状态为准),欧盟/日本等已可受理。驾驶员责任不转移。'},
+  'L3 · ALKS':{regs:['UN R157 ALKS(01 系列:130 km/h + 自动换道)','UN R155/R156(批准前置)','ISO 26262 / ISO 21448'],
+    obl:['接管请求(Transition Demand):升级式提示,驾驶员不响应则执行 MRM 最小风险策略','MRM:自动减速停车并开启危险警告灯,达到最小风险状态','DSSAD 数据存储:记录激活/接管请求/MRM 等状态切换,可供读取','驾驶员可用性识别(在位、系安全带、可接管)','高速公路等限定 ODD:M1、物理隔离对向车流、禁行人自行车场景'],
+    mkt:'仅在已采纳 R157 的缔约方有效(欧盟成员国、日本、韩国、英国等),且需该国道路交通法允许 L3 上路——德国、日本已有量产批准先例;缔约方数量仍有限,以 UN 缔约方适用数据为准。中国非 1958 协定缔约方,走 GB 标准与试点路径。'},
+  'AVP':{regs:['(EU) 2022/1426(ADS 实施细则,依 2019/2144 Art.11)','UN R155/R156(批准前置)','各国国内法(如德国 AFGBV)'],
+    obl:['全自动车辆 ADS 型批:预定义区域使用场景(含代客泊车/摆渡)','ODD 内系统执行全部动态驾驶任务(DDT),无驾驶员兜底 → MRM 与远程监督/运营者机制','Annex III 合规评估:审核 + 仿真 + 场地/实路测试组合','事件数据记录与运营监控义务'],
+    mkt:'UN 层面 R157 不覆盖泊车场景;欧盟按 (EU) 2022/1426 小批量/预定义区域批准,并行需成员国运营许可。落地市场极少,项目前期务必与批准机关预沟通。'}
+};
+/* ===== 模块3 · 测试与证据清单(勾选式)===== */
+const EVID={groups:[
+  {name:'① 安全论证 Safety Case',items:[
+    {k:'ev.a1',t:'已编制安全论证:系统安全概念、危害分析与「无不合理风险」论证链',r:'UN R157 附件4(CEL 审核口径)'},
+    {k:'ev.a2',t:'安全需求可追溯(需求 → 设计 → 验证),追溯矩阵受版本控制',r:'ISO 26262-3/-4'},
+    {k:'ev.a3',t:'安全管理体系与开发流程文档齐备,可支撑机构审核(三支柱之审核/评估)',r:'UN R157 附件4 / WP.29 NATM'}
+  ]},
+  {name:'② 仿真与场景库',items:[
+    {k:'ev.b1',t:'已建立 ODD 场景目录(切入/切出、前车急停、弱势道路使用者、隧道/施工等)',r:'UN R157 附录(交通干扰场景) / NATM 场景目录'},
+    {k:'ev.b2',t:'仿真工具链可信度说明:模型验证、与实车测试对标(correlation)',r:'WP.29 NATM / (EU) 2022/1426 Annex III'},
+    {k:'ev.b3',t:'仿真覆盖率与通过判据文档化,结果可复现、可审计',r:'WP.29 NATM'}
+  ]},
+  {name:'③ DSSAD / EDR 数据存储',items:[
+    {k:'ev.c1',t:'DSSAD 按 R157 记录规定事件(激活、接管请求、MRM、严重干预等)并可读取',r:'UN R157 §8 DSSAD'},
+    {k:'ev.c2',t:'EDR 按 R160(重型按 R169)记录要素、留存时长与防篡改合规',r:'UN R160 / R169'},
+    {k:'ev.c3',t:'数据读取接口与个人数据保护流程明确(事故调查/执法用途)',r:'UN R157 / GDPR'}
+  ]},
+  {name:'④ 试验场与实路测试',items:[
+    {k:'ev.d1',t:'试验场测试:接管请求、MRM、切入切出、故障注入等按法规试验矩阵完成并留报告',r:'UN R157 附件5(试验规范) / (EU) 2022/1426 Annex II'},
+    {k:'ev.d2',t:'目标市场实路验证与在役监控/报告计划(ISMR)已建立',r:'WP.29 NATM 三支柱 / GRVA ISMR'},
+    {k:'ev.d3',t:'测试报告与批准文档包完整、版本受控,与申报配置一致',r:'型批文档 / IF 文件'}
+  ]},
+  {name:'⑤ 功能安全 / SOTIF 证据',items:[
+    {k:'ev.e1',t:'ISO 26262 功能安全:HARA、ASIL 分配与安全机制验证证据齐备',r:'ISO 26262'},
+    {k:'ev.e2',t:'SOTIF 预期功能安全:已知/未知不安全场景分析、触发条件库与残余风险论证',r:'ISO 21448'},
+    {k:'ev.e3',t:'传感器性能限制(天气/光照/退化)分析与降级策略验证证据',r:'ISO 21448 / UN R157'}
+  ]},
+  {name:'⑥ 网安前置(R155/R156)',items:[
+    {k:'ev.f1',t:'CSMS 证书与车型网络安全批准(R155)已取得——R157/R171 批准的前置条件',r:'UN R155'},
+    {k:'ev.f2',t:'SUMS 证书与软件更新批准(R156)已取得,RXSWIN 覆盖自动驾驶相关软件',r:'UN R156'},
+    {k:'ev.f3',t:'OTA 更新对 ADAS/ADS 功能的影响评估流程(更新后与批准状态一致性)',r:'UN R156 / R157'}
+  ]}
+]};
+function evidItems(){ return EVID.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function evidStats(){ const its=evidItems(); let done=0; its.forEach(it=>{ if(evid[it.k])done++; }); return {total:its.length,done,pct:its.length?Math.round(done/its.length*100):0}; }
+const PROFILES_KEY='emark_ad_profiles_v1', ACTIVE_KEY='emark_ad_active_v1', SUM_KEY='emark_ad_summary_v1';
+/* ===== 术语速查 & FAQ ===== */
+const GLOSSARY=[
+  {t:'DCAS',full:'Driver Control Assistance Systems',d:'驾驶员控制辅助系统。UN R171(2024-03 通过,2024-09-30 生效):持续同时辅助纵向+横向控制但不接管全部驾驶任务(SAE L2),驾驶员始终监控并负责;适用 M/N 类。可选法规,不强制。'},
+  {t:'ALKS',full:'Automated Lane Keeping Systems',d:'自动车道保持系统。UN R157:L3 有条件自动驾驶,限高速公路等 ODD;00 系列限 60 km/h,01 系列扩展至 130 km/h 并允许系统发起换道。激活期间系统执行驾驶任务,驾驶员响应接管请求即可。'},
+  {t:'ODD',full:'Operational Design Domain',d:'设计运行范围。系统被设计为可安全运行的条件集合:道路类型、速度区间、天气、地理围栏等。超出 ODD 系统须请求接管或进入最小风险状态。'},
+  {t:'DSSAD',full:'Data Storage System for Automated Driving',d:'自动驾驶数据存储系统(R157 §8)。记录系统状态切换:激活/退出、接管请求、MRM、严重干预等,用于事后厘清"谁在开车"。与 EDR(碰撞数据)互补。'},
+  {t:'MRM',full:'Minimum Risk Manoeuvre',d:'最小风险策略/操纵。驾驶员不响应接管请求或系统严重故障时,系统自动减速停车、开启危险警告灯,把车辆置于最小风险状态(MRC)。'},
+  {t:'接管请求',full:'Transition Demand (TD)',d:'系统向驾驶员发出的接管驾驶任务的升级式请求(视觉+听觉+触觉逐级增强)。R157 要求给驾驶员足够反应时间,不响应则执行 MRM。'},
+  {t:'SOTIF',full:'Safety of the Intended Functionality (ISO 21448)',d:'预期功能安全。处理"没有故障也可能不安全"的问题:传感器性能限制、算法误判、可预见误用;方法是把未知不安全场景持续压缩为已知并验证。与 ISO 26262(电子电气故障)互补。'},
+  {t:'CEL',full:'Complex Electronic control systems 审核',d:'复杂电子控制系统安全审核口径,源自 UN R79 附件6,R157 附件4 沿用扩展:审核厂商的安全设计流程、故障安全概念与验证证据,是 ALKS/DCAS 批准的核心评估方式。'},
+  {t:'AVP',full:'Automated Valet Parking',d:'自动代客泊车:车内无人,在停车场等预定义区域自动泊入/泊出。属全自动 ADS 场景,欧盟按 (EU) 2022/1426(依 2019/2144 Art.11)做 ADS 型批;R157 不覆盖泊车场景。'},
+  {t:'ACSF',full:'Automatically Commanded Steering Function',d:'自动指令转向功能(UN R79):A 类=低速泊车转向;B1 类=车道内持续辅助(限横向加速度、手离检测);C 类=驾驶员确认后自动换道。是横向控制的传统单项批准路径。'},
+  {t:'BSIS',full:'Blind Spot Information System',d:'盲区信息系统(UN R151)。重型车近侧(副驾侧)自行车/行人探测与信息提示,GSR 对 M2/M3/N2/N3 强制。'},
+  {t:'MOIS',full:'Moving Off Information System',d:'起步信息系统(UN R159)。重型车起步时探测车前近距行人/骑行者并提示,GSR 对重型车强制。'},
+  {t:'DDAW',full:'Driver Drowsiness and Attention Warning',d:'驾驶员困倦与注意力预警,(EU) 2021/1341 细则:基于驾驶行为(如转向模式)监测困倦并预警。GSR 第一阶段强制项。'},
+  {t:'ADDW',full:'Advanced Driver Distraction Warning',d:'高级驾驶员分心预警,(EU) 2023/2590 细则:监测视线方向,注视非驾驶区域超时(>50 km/h 为 3.5 s)即预警。新车型 2024-07-07、全部新车 2026-07-07 起强制。'},
+  {t:'ISA',full:'Intelligent Speed Assistance',d:'智能限速辅助,(EU) 2021/1958 细则:识别限速(摄像头/地图)并提示或柔性抑制超速。GSR 第一阶段强制,可被驾驶员关闭。'},
+  {t:'ELKS',full:'Emergency Lane Keeping System',d:'紧急车道保持系统,(EU) 2021/646 细则:车道偏离预警(基于 R130)+ 纠偏控制功能 CDCF,M1/N1 强制。'},
+  {t:'EDR',full:'Event Data Recorder',d:'事件数据记录器。轻型车按 UN R160、重型车按 UN R169(M2/M3/N2/N3):记录碰撞前后速度、制动等要素,防篡改、可读取。'},
+  {t:'GSR',full:'General Safety Regulation (EU) 2019/2144',d:'欧盟通用安全法规:按附件 II 给各车类分派强制 ADAS/安全项与适用日期(新车型 2022-07-06 起分阶段),并授权委员会制定实施/授权细则。'},
+  {t:'DVS',full:'Direct Vision Standard',d:'直接视野(UN R167):量化重型车驾驶室直接可视范围,减少盲区依赖;欧盟对新车型 2026-01 起适用(伦敦 DVS 许可制早于 UN 法规)。'},
+  {t:'NATM',full:'New Assessment/Test Method',d:'WP.29 GRVA 的自动驾驶多支柱评估方法:审核/评估 + 仿真/虚拟测试 + 试验场 + 实路 + 在役监控(ISMR),R157 与 (EU) 2022/1426 的评估框架同源。'},
+  {t:'DDT',full:'Dynamic Driving Task',d:'动态驾驶任务:感知、决策、纵横向控制的全部实时任务。L3 起激活期间由系统执行 DDT,这是与 L2(驾驶员始终执行/监督 DDT)的法律分水岭。'},
+  {t:'ADS',full:'Automated Driving System',d:'自动驾驶系统(L3+ 的系统总称)。欧盟对全自动车辆(无驾驶员兜底)的 ADS 按 (EU) 2022/1426 型批;UN 层面由 R157(ALKS)与后续法规覆盖。'}
+];
+const FAQS=[
+  {q:'L2 和 L3 在法规上差在哪?',a:'责任主体不同。L2(R171 DCAS):驾驶员始终监控环境并负责,系统只是"辅助",法规重点是参与度监测与防滥用;L3(R157 ALKS):激活期间系统执行动态驾驶任务,驾驶员只需响应接管请求,因此法规额外要求接管请求机制、MRM、DSSAD 数据存储与驾驶员可用性识别。宣传与 HMI 也须与级别一致,防止"L2 当 L3 用"。'},
+  {q:'R157 证书哪些国家认?',a:'R157 是 1958 协定法规,仅在已采纳它的缔约方之间互认(欧盟及成员国、日本、韩国、英国、澳大利亚等,以 UN 缔约方适用状态为准)。还需该国道路交通法允许 L3 上路:德国(2021 年起)与日本已有量产批准先例。中国非 1958 协定缔约方,走 GB 标准与准入试点。'},
+  {q:'DCAS(R171)何时强制?',a:'不强制。R171 是"可选的新技术法规":GSR 等市场准入法从未要求车辆必须装组合驾驶辅助;R171 只是给想装此类系统(如领航辅助)的厂商提供统一的批准路径。强制的是 AEBS、ELKS、ISA 等单项(见模块1)。'},
+  {q:'R79 和 R171 是什么关系?',a:'R79 ACSF B1 是车道保持辅助的传统单项路径,带硬边界(横向加速度限值、手离检测等);R171 为超出 B1 边界的持续组合辅助(纵+横向同时、系统建议/发起换道等)提供整套框架,并以驾驶员参与度监测为核心。两条路径并存,按功能范围选用。'},
+  {q:'自动代客泊车(AVP)走哪条路?',a:'车内无人的 AVP 属全自动 ADS 场景:UN R157 不覆盖泊车;欧盟按 (EU) 2022/1426(依 2019/2144 Art.11)对全自动车辆的 ADS 做型批(预定义区域使用场景),另需成员国运营许可(如德国 AFGBV)。'},
+  {q:'DSSAD 和 EDR 有什么区别?',a:'EDR(R160/R169)围绕碰撞事件记录物理量(速度、制动、加速度等);DSSAD(R157)记录自动驾驶系统的状态切换(激活、接管请求、MRM 等),回答"事发时谁在开车"。L3 车辆两者都要。'},
+  {q:'GSR 的 ADAS 强制项只在欧盟适用吗?',a:'GSR 是欧盟法,但其引用的 UN 法规(R152/R130/R151/R159/R160 等)被日本、韩国、澳大利亚、英国等缔约方按各自时间表采纳;做多市场车型时应以 UN 法规批准为底座,再核对各市场的强制时间表差异。'},
+  {q:'为什么模块1 分轻型组/重型组?',a:'GSR 附件 II 按车辆类别分派义务:M1/N1 与 M2/M3/N2/N3 的强制项和日期不同——BSIS(R151)、MOIS(R159)、DVS(R167)、重型 EDR(R169)仅重型车;AEBS 轻型走 R152、重型走 R131。'},
+  {q:'R157 现在允许开多快?能换道吗?',a:'00 系列限 60 km/h、不许自动换道;01 系列修订(2023-01 生效)把上限提高到 130 km/h,并允许系统发起的自动换道,仍限高速公路等物理隔离、禁行人自行车的 ODD。'},
+  {q:'R155/R156 跟这里有什么关系?',a:'CSMS(R155)与 SUMS(R156)是 R157/R171 批准的前置条件:没有网络安全与软件更新管理体系认证,ALKS/DCAS 无法获批。所以模块3 把它们列为"网安前置"证据组;详评请用网安评估台。'},
+  {q:'判级结果能直接当申报级别用吗?',a:'不能。本工具按功能描述做路径指引,正式分级与批准以技术服务/批准机关的评估为准;同一功能在不同 ODD/HMI 设计下可能落入不同法规路径。'},
+  {q:'中国市场的 L3 怎么办?',a:'中国非 1958 协定缔约方,R157/R171 证书不直接适用;走 GB 强制标准(如智能网联相关 GB 44495/44496 及在研的自动驾驶标准)与准入/上路试点(工信部等四部委试点)。出口欧盟/日本等则按本工具路径。'}
+];
+/* 模块差异矩阵 */
+const MODULES=[
+  {m:'① ADAS 法规就绪度',std:'GSR (EU) 2019/2144 附件II + UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160 + 欧盟细则',obj:'单项 ADAS 强制项是否齐备',out:'就绪度 % · 无/部分/已建立',legal:'型批强制(逐项)',tone:'red',how:'逐条条款自查 + 证据/责任人/差距追踪',use:'上市前逐项核对强制清单'},
+  {m:'② 自动化级别判定',std:'UN R157 / UN R171 / (EU) 2022/1426(参考 SAE J3016 分级)',obj:'系统落在哪一级、走哪条批准路径',out:'L0–L3 / AVP + 法规路径卡',legal:'路径判定(参考)',tone:'amber',how:'7 题问卷 → 规则判级 → 路径卡',use:'立项/功能定义阶段定路线'},
+  {m:'③ 测试与证据清单',std:'R157 附件4/5 · WP.29 NATM · ISO 26262 / 21448 · R155/R156',obj:'批准所需测试与证据是否齐备',out:'完成 % · 勾选',legal:'审核前置',tone:'red',how:'勾选式自查(带依据)',use:'送审前的交付物盘点'}];
+const STANDARDS=[
+  {name:'(EU) 2019/2144 通用安全法规(GSR)',id:'GSR',region:'欧盟',scope:'按附件 II 给各车类分派强制安全/ADAS 项目与适用日期,并授权委员会出实施/授权细则(ELKS 2021/646、ISA 2021/1958、DDAW 2021/1341、ADDW 2023/2590 等)。',points:['第一阶段:新车型 2022-07-06 / 全部新车 2024-07-07(ISA、DDAW、ELKS、EDR、倒车探测等)','第二阶段项(如 ADDW):新车型 2024-07-07 / 全部新车 2026-07-07','大量引用 UN 法规(R152/R130/R151/R159/R160 等)作为技术要求','Art.11 授权对全自动车辆 ADS 定型批细则 → (EU) 2022/1426'],timeline:'2019 发布,2022-07 起分阶段强制。'},
+  {name:'UN R152 — 轻型车 AEBS',id:'UN R152',region:'UNECE 1958 协定',scope:'M1/N1 自动紧急制动系统:车对车、行人、自行车探测场景与性能要求;GSR 引用其为轻型 AEBS 技术基准。',points:['分阶段场景:车对车 → 行人 → 自行车','速度区间内避撞/减轻碰撞性能要求','误触发抑制与驾驶员超控','重型车 AEBS 走 UN R131'],timeline:'2020 生效;欧盟按 GSR 时间表强制。'},
+  {name:'UN R157 — ALKS(L3 有条件自动)',id:'UN R157',region:'UNECE 1958 协定',scope:'自动车道保持系统:激活期间系统执行动态驾驶任务;限高速公路等物理隔离 ODD;含接管请求、MRM、DSSAD、驾驶员可用性识别要求。',points:['00 系列限 60 km/h;01 系列(2023-01 生效)扩至 130 km/h + 系统发起换道','附件4:CEL 口径安全审核;附件5:试验规范;附录:交通干扰场景','R155/R156 为批准前置','需国内道路交通法允许 L3 上路(德国、日本已落地)'],timeline:'2021-01 生效;01 系列 2023-01 生效。'},
+  {name:'UN R171 — DCAS(L2 组合辅助)',id:'UN R171',region:'UNECE 1958 协定',scope:'驾驶员控制辅助系统:持续同时辅助纵向+横向控制、不接管全部驾驶任务;驾驶员始终监控并负责;适用 M/N 类。',points:['2024-03 WP.29 通过,2024-09-30 生效','核心:驾驶员参与度监测与警告升级、防滥用','为超出 R79 ACSF B1 边界的组合辅助提供批准路径','可选新技术法规:不强制安装'],timeline:'2024-09-30 生效;后续系列修订演进中。'},
+  {name:'(EU) 2022/1426 — ADS 实施细则(全自动车辆)',id:'(EU) 2022/1426',region:'欧盟',scope:'依 2019/2144 Art.11,对全自动车辆(无驾驶员兜底)的自动驾驶系统 ADS 做型式批准:预定义区域载人/载货(含 AVP、摆渡)等使用场景。',points:['Annex II 性能要求;Annex III 合规评估(审核+仿真+测试)','MRM 与远程监督/运营者机制','事件数据记录与在役监控义务','小批量/预定义区域,另需成员国运营许可'],timeline:'2022-09-15 生效;条文随修订更新(以最新整合版为准)。'},
+  {name:'UN R79 — 转向设备(ACSF)',id:'UN R79',region:'UNECE 1958 协定',scope:'转向系统法规:定义自动指令转向功能 ACSF 类别与边界——A 类低速泊车、B1 类车道内持续辅助、C 类确认式自动换道;附件6 为 CEL 安全审核。',points:['B1:横向加速度限值、手离检测、边界提示','C:驾驶员触发确认、后方接近车辆探测','附件6 CEL 审核是 R157/R171 安全评估的源头','超出边界的组合辅助走 R171'],timeline:'现行版持续修订;ACSF 条款 2017 年起引入。'},
+  {name:'重型车专属包 — R131/R151/R159/R167/R169',id:'HDV 包',region:'UNECE 1958 协定 / 欧盟 GSR',scope:'M2/M3/N2/N3 专属:R131 AEBS、R151 盲区 BSIS、R159 起步 MOIS、R167 直接视野 DVS、R169 重型 EDR。',points:['BSIS/MOIS 针对城市弱势道路使用者事故','R167 DVS:驾驶室直接视野量化分级(欧盟新车型 2026-01 起)','R169:重型 EDR 数据要素与防篡改','伦敦 DVS 许可制早于 UN 法规,出口英国需另核'],timeline:'R151/R159 欧盟 2022/2024 强制;R167/R169 按 GSR 后续时间表。'},
+  {name:'ISO 21448 — SOTIF 预期功能安全',id:'ISO 21448',region:'国际标准',scope:'处理"无故障也不安全":传感器性能限制、算法不足、可预见误用;通过场景分析把未知不安全区持续压缩为已知并验证。',points:['与 ISO 26262(E/E 故障)互补,ADAS/AD 双证据线','触发条件(triggering conditions)库与场景覆盖论证','残余风险接受准则','是 R157/2022/1426 安全论证的支撑方法学'],timeline:'2022 正式版发布。'}
+];
+let _glosQ='';
+let ans={}, quiz={}, evid={}, itemMeta={}, active='home'; // active: 'home'/'ready'/'level'/'evid'
+let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escA(s){return esc(s).replace(/"/g,'&quot;');}
+/* ===== 多档案:保存进度 / 新建档案 / 我的档案(存 localStorage)===== */
+function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
+function setProfiles(o){ try{localStorage.setItem(PROFILES_KEY,JSON.stringify(o));}catch(e){alert('保存失败：浏览器存储不可用');} }
+function activeId(){ try{return localStorage.getItem(ACTIVE_KEY)||'';}catch(e){return '';} }
+function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), quiz:JSON.parse(JSON.stringify(quiz)), evid:JSON.parse(JSON.stringify(evid)), itemMeta:JSON.parse(JSON.stringify(itemMeta))}; }
+function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; quiz=(s&&s.quiz)?JSON.parse(JSON.stringify(s.quiz)):{}; evid=(s&&s.evid)?JSON.parse(JSON.stringify(s.evid)):{}; itemMeta=(s&&s.itemMeta)?JSON.parse(JSON.stringify(s.itemMeta)):{}; }
+function writeSummary(){
+  // 供 E-mark 母工具跨页回显(同源 localStorage)。
+  // 契约:{v:1, ready:{pct,done,total}, level, evid:{pct,done,total}, ts, started}
+  // level ∈ '未判定'|'L1'|'L2 · DCAS'|'L3 · ALKS'|'AVP'
+  try{
+    const rd=readyStats(), ev=evidStats(), lv=judgeLevel();
+    const started = rd.done>0||Object.keys(ans).some(k=>ans[k]>0)||quizDone()>0||ev.done>0;
+    localStorage.setItem(SUM_KEY,JSON.stringify({
+      v:1,
+      ready:{pct:rd.pct,done:rd.done,total:rd.total},
+      level:lv.code,
+      evid:{pct:ev.pct,done:ev.done,total:ev.total},
+      ts:Date.now(), started
+    }));
+  }catch(e){}
+}
+function autosave(){ const id=activeId(); if(id){ const ps=getProfiles(); if(ps[id]){ ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); } } writeSummary(); }
+function curName(){ const el=document.getElementById('pname'); return el?el.value.trim():''; }
+function saveProgress(){
+  const ps=getProfiles(); let id=activeId();
+  if(!id||!ps[id]) id='a'+Date.now().toString(36)+Math.floor(Math.random()*1000);
+  const name=curName()||('未命名档案 '+(Object.keys(ps).length+1));
+  ps[id]={name, state:curState(), ts:Date.now()}; setProfiles(ps);
+  try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){}
+  writeSummary(); updatePBar();
+  const b=document.getElementById('savebtn'); if(b){const o=b.textContent;b.textContent='✓ 已存入「'+name.slice(0,8)+'」';setTimeout(()=>b.textContent=o,1500);}
+}
+function newProfile(){
+  if(!confirm('新建档案将清空当前页面(自评 + 判级 + 勾选)、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
+  try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}
+  ans={}; quiz={}; evid={}; itemMeta={}; _openItems={}; active='home';
+  const el=document.getElementById('pname'); if(el) el.value='';
+  writeSummary(); updatePBar(); render();
+}
+function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
+function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;} openProfiles(); updatePBar(); }
+function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; delete ps[id]; setProfiles(ps); if(activeId()===id){try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}} openProfiles(); updatePBar(); }
+function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 未保存(填写后点「保存进度」建立档案)'; }
+function openProfiles(){
+  const ps=getProfiles(), id0=activeId();
+  const ids=Object.keys(ps).sort((a,b)=>(ps[b].ts||0)-(ps[a].ts||0));
+  let h= ids.length? ids.map(id=>{ const p=ps[id]; const cur=id===id0; const st=p.state||{}; const n=Object.keys(st.ans||{}).length+Object.keys(st.quiz||{}).length+Object.keys(st.evid||{}).length;
+      return '<div class="pmrow'+(cur?' cur':'')+'"><div class="pmn">'+esc(p.name||'未命名')+(cur?' <span class="pmcur">当前</span>':'')+'<div class="pmd">'+n+' 项记录</div></div>'+
+        '<div class="pmbtns"><button class="btn sm" onclick="loadProfile(\''+id+'\')">载入</button><button class="btn sm" onclick="renameProfile(\''+id+'\')">重命名</button><button class="btn sm" onclick="delProfile(\''+id+'\')">删除</button></div></div>';
+    }).join('') : '<div class="pmempty">还没有档案。填写后点「保存进度」建立第一份。</div>';
+  document.getElementById('pmlist').innerHTML=h; document.getElementById('pmodal').classList.add('on');
+}
+function closeProfiles(){ const m=document.getElementById('pmodal'); if(m) m.classList.remove('on'); }
+/* ===== 就绪度雷达图(四组)===== */
+function radarSVG(size){
+  const axes=READY.groups.map(g=>({n:g.name.replace(/[（(].*$/,'').replace(/ GSR 强制组 · /,'·').slice(0,7),v:Math.round(groupScore(g)*100)}));
+  const N=axes.length,R=(size||210)/2-38,cx=(size||210)/2,cy=(size||210)/2+2;
+  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  const ring=f=>axes.map((_,i)=>pt(i,R*f).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const poly=axes.map((ax,i)=>pt(i,R*ax.v/100).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const labels=axes.map((ax,i)=>{const p=pt(i,R+15);const x=p[0],y=p[1];const anch=Math.abs(x-cx)<8?'middle':(x>cx?'start':'end');
+    return '<text x="'+x.toFixed(1)+'" y="'+(y+4).toFixed(1)+'" font-size="9" fill="#6B7280" text-anchor="'+anch+'">'+esc(ax.n)+'</text>';}).join('');
+  const spokes=axes.map((_,i)=>{const p=pt(i,R);return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#ECEEF1"/>';}).join('');
+  return '<svg viewBox="0 0 '+(size||210)+' '+(size||210)+'" width="100%" style="max-width:'+(size||210)+'px" aria-label="ADAS 就绪度雷达图">'+
+    [0.25,0.5,0.75,1].map(f=>'<polygon points="'+ring(f)+'" fill="none" stroke="#ECEEF1"/>').join('')+spokes+
+    '<polygon points="'+poly+'" fill="rgba(232,98,44,.18)" stroke="#E8622C" stroke-width="1.8" stroke-linejoin="round"/>'+
+    axes.map((ax,i)=>{const p=pt(i,R*ax.v/100);return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.6" fill="#E8622C"/>';}).join('')+labels+'</svg>';
+}
+function persist(){ autosave(); }
+function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); renderMain(); }
+function setQ(id,v){ quiz[id]=v; persist(); renderSummary(); renderNav(); renderMain(); }
+function setEv(k){ if(evid[k])delete evid[k]; else evid[k]=1; persist(); renderSummary(); renderNav(); renderMain(); }
+function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function renderSummary(){
+  if(active==='home'){ document.getElementById('summary').innerHTML=''; return; }
+  if(active==='ready'){ renderReadySummary(); return; }
+  if(active==='level'){ renderLevelSummary(); return; }
+  renderEvidSummary();
+}
+function renderReadySummary(){
+  const st=readyStats();
+  const col=st.pct>=80?'var(--green)':(st.pct>=40?'var(--amber)':'var(--red)');
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="rad">'+radarSVG(210)+'</div><div class="info">'+
+    '<div class="lv">ADAS 法规就绪度 <b style="color:'+col+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已建立 <b>'+st.done+'</b>/'+st.total+' 项 · 逐条对照 GSR 附件II + UN 法规/欧盟细则(无 / 部分 / 已建立)</div>'+
+    '<div class="pills"><span class="pill">M1/N1 主动安全</span><span class="pill">监测与记录</span><span class="pill">重型组</span><span class="pill">转向与基础</span></div>'+
+    '</div></div>';
+}
+function renderLevelSummary(){
+  const lv=judgeLevel();
+  const col=lv.code==='未判定'?'var(--greyl)':'var(--od)';
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">自动化级别判定 · <b style="color:'+col+'">'+esc(lv.disp)+'</b></div>'+
+    '<div class="meta">已答 <b>'+lv.done+'</b>/'+QUIZ.length+' 题 · 按纵横向控制、监控责任、脱手脱眼、ODD 等判定法规路径</div>'+
+    '<div class="pills">'+['L1','L2 · DCAS','L3 · ALKS','AVP'].map(c=>'<span class="pill'+(c===lv.code?' on':'')+'">'+esc(c)+'</span>').join('')+'</div>'+
+    '</div></div>';
+}
+function renderEvidSummary(){
+  const st=evidStats();
+  const col=st.pct>=80?'var(--green)':(st.pct>=40?'var(--amber)':'var(--red)');
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">测试与证据清单 <b style="color:'+col+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已备 <b>'+st.done+'</b>/'+st.total+' 项 · 安全论证 / 仿真 / DSSAD / 试验 / SOTIF / 网安前置 六组交付物</div>'+
+    '<div class="pills">'+EVID.groups.map(g=>{const d=g.items.filter(it=>evid[it.k]).length;return '<span class="pill'+(d===g.items.length?' on':'')+'">'+esc(g.name.replace(/^[①-⑥] /,''))+' '+d+'/'+g.items.length+'</span>';}).join('')+'</div>'+
+    '</div></div>';
+}
+function renderNav(){
+  const rd=readyStats(), lv=judgeLevel(), ev=evidStats();
+  const step=(id,n,title,sub)=>'<button class="sstep'+(active===id?' active':'')+'" onclick="pick(\''+id+'\')"><span class="n">'+n+'</span><span class="stx"><span>'+title+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</span></button>';
+  let h=step('home','◎','总览 Dashboard','三项一览 · 导出报告');
+  h+='<div class="sgrp">评估模块</div>';
+  h+=step('ready','1','ADAS 法规就绪度','就绪度 '+rd.pct+'% · '+rd.done+'/'+rd.total);
+  h+=step('level','2','自动化级别判定',(lv.code==='未判定'?('已答 '+lv.done+'/'+QUIZ.length):lv.code));
+  h+=step('evid','3','测试与证据清单','已备 '+ev.pct+'% · '+ev.done+'/'+ev.total);
+  document.getElementById('nav').innerHTML=h;
+}
+function dashCard(title,big,sub,col,onclick){
+  return '<button class="dcard" onclick="'+onclick+'"><div class="dct">'+esc(title)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+sub+'</div></button>';
+}
+function renderHome(m){
+  const rd=readyStats(), lv=judgeLevel(), ev=evidStats();
+  const pc=p=>p>=80?'var(--green)':(p>=40?'var(--amber)':'var(--red)');
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'(未保存草稿)';
+  let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px">'+
+    '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">智能驾驶合规评估台</div>'+
+    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 三步走:先核对 GSR/UN 强制 ADAS 清单,再按功能描述判定自动化级别与法规路径,最后盘点送审测试与证据。</div></div>'+
+    '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
+  s+='<div class="dgrid">'+
+    dashCard('① ADAS 法规就绪度', rd.pct+'%', '已建立 '+rd.done+'/'+rd.total+' 项', pc(rd.pct), "pick('ready')")+
+    dashCard('② 自动化级别', (lv.code==='未判定'?'—':esc(lv.code)), (lv.code==='未判定'?('已答 '+lv.done+'/'+QUIZ.length+' 题'):esc(lv.disp)), (lv.code==='未判定'?'var(--greyl)':'var(--od)'), "pick('level')")+
+    dashCard('③ 测试与证据', ev.pct+'%', '已备 '+ev.done+'/'+ev.total+' 项', pc(ev.pct), "pick('evid')")+
+    '</div>';
+  s+='<div class="ckleg">三项均按当前档案本地保存。点卡片进入对应模块;「导出评估报告」把三项现状生成一份可打印/存 PDF 的报告。就绪度 % 与级别判定均为自查参照,非型式批准结论。</div>';
+  m.innerHTML=s;
+}
+/* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
+function metaSet(k,f,v){ itemMeta[k]=itemMeta[k]||{}; itemMeta[k][f]=v; autosave(); }
+function metaFilled(k){ const m=itemMeta[k]; return !!(m&&(m.ev||m.owner||m.gap||m.due)); }
+function toggleItem(k){ _openItems[k]=!_openItems[k]; renderMain(); }
+function chkItemHTML(it){
+  const labs=['无','部分','已建立'];
+  const v=ans[it.k]||0;
+  const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+labs[kk]+'</button>').join('');
+  const open=!!_openItems[it.k], filled=metaFilled(it.k), m=itemMeta[it.k]||{};
+  let h='<div class="qitem"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+
+    ' <button class="metatog'+(filled?' has':'')+'" onclick="toggleItem(\''+it.k+'\')">'+(filled?'📎 证据/责任人':'＋ 证据/责任人')+' '+(open?'▴':'▾')+'</button></div>'+
+    '<div class="seg">'+seg+'</div></div>';
+  if(open){
+    h+='<div class="idet">'+
+      '<label>证据 / 记录<input class="cin" value="'+escA(m.ev||'')+'" placeholder="证书编号 / 试验报告 / 链接" oninput="metaSet(\''+it.k+'\',\'ev\',this.value)"></label>'+
+      '<label>责任人<input class="cin" value="'+escA(m.owner||'')+'" placeholder="姓名 / 团队" oninput="metaSet(\''+it.k+'\',\'owner\',this.value)"></label>'+
+      '<label>差距 / 整改<input class="cin" value="'+escA(m.gap||'')+'" placeholder="缺口与整改计划" oninput="metaSet(\''+it.k+'\',\'gap\',this.value)"></label>'+
+      '<label>目标日期<input class="cin" type="date" value="'+escA(m.due||'')+'" onchange="metaSet(\''+it.k+'\',\'due\',this.value)"></label>'+
+      '</div>';
+  }
+  h+='</div>';
+  return h;
+}
+function pathCardHTML(lv){
+  if(lv.code==='未判定') return '<div class="ckhint">答完全部 '+QUIZ.length+' 题后,这里会给出判定级别与对应的法规路径卡(适用法规、关键义务、市场落地提示)。</div>';
+  const p=PATHS[lv.code]; if(!p)return '';
+  let warns=[];
+  if(lv.code==='L3 · ALKS'&&quiz.q5==='open') warns.push('R157 的 ODD 限高速公路等物理隔离道路——你选择了"一般道路,不限定",超出现行 ALKS 法规范围,一般道路 L3 目前无国际批准路径。');
+  if(lv.code==='L3 · ALKS'&&quiz.q5==='park') warns.push('泊车场景不在 R157 范围内;车内无人的泊车请在第 7 题选择 AVP。');
+  if(lv.code==='L2 · DCAS'&&quiz.q6==='auto') warns.push('系统自主换道超出 R79 ACSF C(需驾驶员确认)——该能力属 R171 DCAS 的系统发起型操作,注意其对驾驶员参与度监测的附加要求。');
+  if(lv.code==='L2 · DCAS'&&quiz.q4==='handsoff') warns.push('脱手(hands-off)L2 在 R171 下须配更强的驾驶员参与度监测(眼在环);部分市场(如美国州法)另有规定。');
+  let h='<div class="pathcard"><div class="pc-lv">'+esc(lv.disp)+'<small>法规路径卡 · 判定随档案保存</small></div>';
+  h+='<div class="pc-sec">适用法规</div><div>'+p.regs.map(r=>'<span class="pc-reg">'+esc(r)+'</span>').join('')+'</div>';
+  h+='<div class="pc-sec">关键义务</div><ul class="pc-ul">'+p.obl.map(o=>'<li>'+esc(o)+'</li>').join('')+'</ul>';
+  h+='<div class="pc-sec">市场落地提示</div><div style="font-size:12.5px;line-height:1.8">'+esc(p.mkt)+'</div>';
+  if(warns.length) h+='<div class="pc-warn">⚠ '+warns.map(esc).join('<br>⚠ ')+'</div>';
+  h+='</div>';
+  return h;
+}
+function renderMain(){
+  const m=document.getElementById('main');
+  if(active==='home'){ renderHome(m); return; }
+  if(active==='ready'){
+    let s='<div class="sb-mh">① ADAS 法规就绪度自查</div>'+
+      '<div class="sb-msub">逐条对照 <b>GSR (EU) 2019/2144 附件 II</b> 分派的强制项与对应 UN 法规/欧盟细则自查(无 / 部分 / 已建立)。按本车型类别关注对应分组:轻型看前两组,重型看第三组,第四组通用。</div>';
+    READY.groups.forEach((g,gi)=>{
+      s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>'+(g.desc?'<div class="r156gd">'+esc(g.desc)+'</div>':'');
+      g.items.forEach(it=>{ s+=chkItemHTML(it); });
+      s+='</div>';
+    });
+    s+='<div class="ckleg">条款以 (EU) 2019/2144 及各实施/授权细则、UN 法规现行版为准;新车型/全部新车两档适用日期不同(第一阶段 2022-07-06 / 2024-07-07,ADDW 等第二阶段 2024-07-07 / 2026-07-07,DVS 2026-01 起)。非欧盟市场以该缔约方采纳的 UN 法规版本与本国时间表为准。就绪度随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='level'){
+    const lv=judgeLevel();
+    let s='<div class="sb-mh">② 自动化级别判定</div>'+
+      '<div class="sb-msub">按<b>功能实际表现</b>回答 '+QUIZ.length+' 道单选题,自动判定级别并给出法规路径卡。判定口径:纵横向控制归属、监控责任(L2/L3 分水岭)、脱手脱眼、ODD 与泊车场景。</div>';
+    QUIZ.forEach(q=>{
+      s+='<div class="qcard"><div class="qt">'+esc(q.q)+'</div>';
+      q.opts.forEach(o=>{
+        const on=quiz[q.id]===o[0];
+        s+='<button class="qopt'+(on?' on':'')+'" onclick="setQ(\''+q.id+'\',\''+o[0]+'\')"><span class="rdo"></span>'+esc(o[1])+'</button>';
+      });
+      s+='</div>';
+    });
+    s+=pathCardHTML(lv);
+    s+='<div class="ckleg">判定规则:车内无人代客泊车 → AVP((EU) 2022/1426);系统监控环境/允许脱眼 → L3(UN R157 ALKS);纵+横向均系统持续执行且驾驶员始终监控 → L2(UN R171 DCAS);单项 → L0–L1 走各单项法规。级别参考 SAE J3016 语义,法规路径以 UN/EU 文本为准,随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='evid'){
+    let s='<div class="sb-mh">③ 测试与证据清单</div>'+
+      '<div class="sb-msub">送审前逐项勾选交付物是否齐备。覆盖 <b>R157 附件4(CEL 审核)/附件5(试验)</b>、WP.29 NATM 多支柱、ISO 26262/21448 与 R155/R156 网安前置。</div>';
+    EVID.groups.forEach(g=>{
+      const d=g.items.filter(it=>evid[it.k]).length;
+      s+='<div class="r156g"><div class="r156gh">'+esc(g.name)+'<span class="gprog">'+d+'/'+g.items.length+'</span></div>';
+      g.items.forEach(it=>{
+        const on=!!evid[it.k];
+        s+='<button class="ckrow'+(on?' on':'')+'" onclick="setEv(\''+it.k+'\')"><span class="ckbox">'+(on?'✓':'')+'</span><span class="ct">'+esc(it.t)+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+'</span></button>';
+      });
+      s+='</div>';
+    });
+    s+='<div class="ckleg">R155(CSMS)/R156(SUMS)是 R157/R171 批准的前置条件——第⑥组未齐备时,前五组再完整也无法送审。详评网安项请用「网安 & 功能安全评估台」。勾选随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  renderHome(m);
+}
+/* ===== 导出评估报告(浏览器打印 → PDF)===== */
+function exportReport(){
+  const rd=readyStats(), lv=judgeLevel(), ev=evidStats();
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'未命名档案';
+  let d=''; try{ d=new Date().toLocaleDateString('zh-CN'); }catch(e){}
+  const labs=['无','部分','已建立'];
+  const chk=groups=>groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:42%">条目</th><th>依据</th><th>状态</th><th>证据 / 责任人 / 差距 / 目标</th></tr>'+
+    g.items.map(it=>{const v=ans[it.k]||0;const m=itemMeta[it.k]||{};
+      const md=[m.ev?('证据:'+m.ev):'',m.owner?('责任人:'+m.owner):'',m.gap?('差距:'+m.gap):'',m.due?('目标:'+m.due):''].filter(Boolean).join(' ｜ ');
+      return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+labs[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
+  let html='<div class="rhead"><div class="rtitle">智能驾驶合规 · 评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准结论</div></div>';
+  html+='<div class="rsum"><div>① ADAS 法规就绪度 <b>'+rd.pct+'%</b>（'+rd.done+'/'+rd.total+'）</div><div>② 自动化级别 <b>'+esc(lv.code)+'</b>（已答 '+lv.done+'/'+QUIZ.length+' 题）</div><div>③ 测试与证据 <b>'+ev.pct+'%</b>（'+ev.done+'/'+ev.total+'）</div></div>';
+  html+='<h2>① ADAS 法规就绪度</h2>'+chk(READY.groups);
+  html+='<h2>② 自动化级别判定</h2><table class="rt"><tr><th style="width:46%">问题</th><th>回答</th></tr>'+
+    QUIZ.map(q=>{const a=quiz[q.id];const o=a?q.opts.find(x=>x[0]===a):null;return '<tr><td>'+esc(q.q)+'</td><td>'+(o?esc(o[1]):'—')+'</td></tr>';}).join('')+'</table>';
+  if(lv.code!=='未判定'&&PATHS[lv.code]){ const p=PATHS[lv.code];
+    html+='<h3>判定:'+esc(lv.disp)+'</h3><table class="rt"><tr><th style="width:20%">适用法规</th><td>'+p.regs.map(esc).join(' · ')+'</td></tr>'+
+      '<tr><th>关键义务</th><td>'+p.obl.map(esc).join('；')+'</td></tr>'+
+      '<tr><th>市场落地提示</th><td>'+esc(p.mkt)+'</td></tr></table>';
+  } else { html+='<h3>判定:未判定(问卷未答完)</h3>'; }
+  html+='<h2>③ 测试与证据清单</h2>'+EVID.groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:56%">交付物</th><th>依据</th><th>状态</th></tr>'+
+    g.items.map(it=>{const on=!!evid[it.k];return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst '+(on?'s2':'s0')+'">'+(on?'已备':'缺')+'</td></tr>';}).join('')+'</table>').join('');
+  html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。</div>';
+  const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
+  document.body.classList.add('printing');
+  const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
+  window.addEventListener('afterprint',cleanup);
+  setTimeout(()=>{ try{window.print();}catch(e){cleanup();} }, 80);
+}
+/* ===== 速查工具:术语 / FAQ / 模块差异矩阵 / 法规速览 ===== */
+function glosListHTML(){
+  const q=(_glosQ||'').trim().toLowerCase();
+  const list=GLOSSARY.filter(g=>!q||(g.t+' '+g.full+' '+g.d).toLowerCase().indexOf(q)>=0);
+  if(!list.length) return '<div class="pmempty">没有匹配「'+esc(_glosQ)+'」的术语。</div>';
+  return '<div class="glosgrid">'+list.map(g=>'<div class="glos"><div class="glost">'+esc(g.t)+' <span class="glosf">'+esc(g.full)+'</span></div><div class="glosd">'+esc(g.d)+'</div></div>').join('')+'</div>';
+}
+function glosSearch(v){ _glosQ=v; const el=document.getElementById('glosList'); if(el) el.innerHTML=glosListHTML(); }
+function faqHTML(){ return '<div class="std">'+FAQS.map((f,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(f.q)+'</summary><div class="sc">'+esc(f.a)+'</div></details>').join('')+'</div>'; }
+function modsHTML(){
+  const legalCol={red:['#f3d0d0','#b02222'],amber:['#f4e6bd','#7a5a10'],grey:['#eef0f2','#6b7280']};
+  const cols=[['obj','测量对象'],['out','输出 / 刻度'],['legal','法定性'],['how','判定方式'],['std','依据法规/标准'],['use','何时用']];
+  let h='<div class="sb-msub" style="margin-bottom:10px">三个模块**测的东西不同**——强制清单核对(逐项通过/不通过)、路径判定(参考指引)、证据盘点(审核前置)互不替代。</div>';
+  h+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">模块</th>'+cols.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'</tr>';
+  MODULES.forEach(x=>{
+    const lc=legalCol[x.tone]||legalCol.grey;
+    h+='<tr><td class="lft"><b>'+esc(x.m)+'</b></td>'+cols.map(c=>{
+      if(c[0]==='legal') return '<td><span class="mlegal" style="background:'+lc[0]+';color:'+lc[1]+'">'+esc(x.legal)+'</span></td>';
+      return '<td>'+esc(x[c[0]])+'</td>';
+    }).join('')+'</tr>';
+  });
+  h+='</table></div>';
+  h+='<div class="ckleg">要点:模块1 回答"强制项齐不齐"(GSR/UN 逐项);模块2 回答"走哪条批准路径"(R157/R171/2022/1426);模块3 回答"送审证据全不全"(附件4/5 + NATM + 网安前置)。</div>';
+  return h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+}
+function stdHTML(){ return '<div class="std">'+STANDARDS.map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
+function toggleTools(){ const d=document.getElementById('tb-dd'); if(d) d.classList.toggle('on'); }
+function openTool(which){
+  const d=document.getElementById('tb-dd'); if(d) d.classList.remove('on');
+  const t=document.getElementById('gmtitle'), bd=document.getElementById('gmbody');
+  if(which==='glos'){ t.textContent='术语速查（'+GLOSSARY.length+' 条）'; bd.innerHTML='<input class="cin" id="glosq" style="max-width:340px;margin-bottom:12px" placeholder="搜索术语,如 DCAS / ODD / 接管请求" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)"><div id="glosList">'+glosListHTML()+'</div>'; }
+  else if(which==='faq'){ t.textContent='常见问答 FAQ'; bd.innerHTML=faqHTML(); }
+  else if(which==='mods'){ t.textContent='模块差异矩阵'; bd.innerHTML=modsHTML(); }
+  else { t.textContent='相关法规 / 标准速览'; bd.innerHTML=stdHTML(); }
+  document.getElementById('gmodal').classList.add('on');
+}
+function gmClose(){ const m=document.getElementById('gmodal'); if(m) m.classList.remove('on'); }
+document.addEventListener('click',function(e){ const dd=document.getElementById('tb-dd'); if(dd&&dd.classList.contains('on')&&!e.target.closest('.tb-menu')) dd.classList.remove('on'); });
+function render(){ renderSummary(); renderNav(); renderMain(); }
+(function(){
+  const bb=document.getElementById('backbtn');
+  if(bb) bb.addEventListener('click',function(e){
+    if(window.opener && !window.opener.closed){ e.preventDefault(); window.close(); }
+  });
+})();
+(function init(){
+  const ps=getProfiles(), id=activeId();
+  if(id&&ps[id]){ applyState(ps[id].state); const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; }
+  updatePBar(); writeSummary(); render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,765 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>电气与电动化合规 · 评估台 · UN R100 / R10 / 充电接口 / (EU) 2023/1542</title>
+<style>
+:root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--green:#1F7A4D;--red:#C0392B;--amber:#B45309}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:var(--od)}
+/* ===== 布局:对齐 E-mark 母工具(浅色顶栏 + 左侧栏 + 内容)===== */
+.topbar{background:linear-gradient(120deg,#fff,var(--cream));border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.tb-in{max-width:1160px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tb-title h1{font-size:21px;font-weight:800;letter-spacing:-.3px;margin:0;color:var(--ink)}
+.tb-title h1 .em{color:var(--o)}
+.tb-title .tb-sub{font-size:12px;color:var(--grey);margin-top:2px}
+.tb-act{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
+.badge-g:hover{background:var(--o);color:#fff}
+.badge-g .ico{stroke:currentColor;margin-right:4px}
+.tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
+.tb-home:hover{background:var(--o);color:#fff}
+.tb-menu{position:relative}
+.tb-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:200px;padding:6px;z-index:60}
+.tb-dd.on{display:block}
+.tb-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;cursor:pointer}
+.tb-dd button:hover{background:var(--cream);color:var(--od)}
+.layout{max-width:1160px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:216px minmax(0,1fr);gap:24px;align-items:start}
+@media(max-width:860px){.layout{grid-template-columns:1fr;gap:14px}}
+.sidebar{position:sticky;top:74px;display:flex;flex-direction:column;gap:8px}
+@media(max-width:860px){.sidebar{position:static}}
+.sb-h{font-size:12px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:2px}
+.snav{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.sstep{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grey);cursor:pointer;padding:8px 10px;border-radius:9px;transition:.12s;line-height:1.3;font-family:inherit;background:none;border:none;text-align:left;width:100%}
+.sstep:hover{background:#fff;color:var(--ink)}
+.sstep .n{flex:none;width:24px;height:24px;border-radius:50%;border:1.6px solid var(--line);display:grid;place-items:center;font-size:11.5px;font-weight:700;background:#fff;color:var(--grey)}
+.sstep.active{background:var(--cream);color:var(--ink);font-weight:700}
+.sstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
+.sstep .stx{display:flex;flex-direction:column;min-width:0}
+.sstep .stx small{color:var(--greyl);font-size:10.5px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sgrp{font-size:10px;font-weight:700;color:var(--greyl);letter-spacing:.5px;margin:8px 2px 1px}
+.saveBtn{font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;box-shadow:0 2px 8px rgba(232,98,44,.25)}
+.saveBtn:hover{background:var(--od)}
+.newBtn{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:9px;padding:9px;cursor:pointer}
+.newBtn:hover{background:var(--cream)}
+.center{min-width:0}
+.namebar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.namebar label{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.namebar label::after{content:" *";color:var(--o)}
+.namebar input{flex:1;font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:9px;padding:10px 13px;color:var(--ink);background:#fff}
+.namebar input:focus{outline:none;border-color:var(--o)}
+#main{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.ico{width:15px;height:15px;display:inline-block;vertical-align:-2px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:5px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px;align-items:center}
+.btn{font-family:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.p{background:var(--o);border-color:var(--o);color:#fff}
+.btn:hover{border-color:var(--o);color:var(--od)}
+.btn.p:hover{background:var(--od);color:#fff}
+/* 顶部就绪度概览 */
+.sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05);display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.sum .info{flex:1;min-width:200px}
+.sum .lv{font-size:18px;font-weight:900}
+.sum .lv b{color:var(--od)}
+.sum .meta{font-size:12.5px;color:var(--ink2);margin:5px 0 10px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--line);color:var(--grey)}
+.pill.on{border-color:var(--o);color:var(--od);font-weight:700;background:var(--cream)}
+.sb-mh{font-size:16px;font-weight:800;color:var(--od);margin-bottom:4px}
+.sb-msub{font-size:12px;color:var(--grey);margin-bottom:12px}
+.arow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;border-top:1px solid var(--line);padding:11px 0}
+.arow:first-of-type{border-top:none}
+.al b{font-weight:600;font-size:13px}
+.al small{display:block;color:var(--grey);font-size:11px;margin-top:2px;font-family:ui-monospace,Menlo,Consolas,monospace}
+.seg{display:flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.seg button{font-family:inherit;font-size:12px;font-weight:600;border:none;background:#fff;padding:8px 13px;cursor:pointer;color:var(--grey);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button.on{color:#fff}
+.seg button.on.done-b{background:var(--green)}
+.seg button.on.prog-b{background:var(--amber)}
+.seg button.on.no-b{background:var(--red)}
+.std details{border-top:1px solid var(--line);padding:9px 0}
+.std details:first-of-type{border-top:none}
+.std summary{cursor:pointer;font-size:13px;font-weight:600}
+.std .sc{font-size:12px;color:var(--ink2);margin:6px 0 4px}
+.std ul{margin:4px 0;padding-left:18px;font-size:12px}
+.std .tl{font-size:11px;color:var(--od);font-family:ui-monospace,Menlo,Consolas,monospace}
+/* 术语速查 */
+.glosgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.glos{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fff}
+.glost{font-weight:800;font-size:13px;color:var(--ink)}
+.glost .glosf{font-weight:400;font-size:10.5px;color:var(--greyl)}
+.glosd{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.6}
+/* 模块差异矩阵 */
+.modtab{border-collapse:collapse;font-size:12px;min-width:820px}
+.modtab th{padding:7px 10px;border-bottom:2px solid var(--line);text-align:left;font-weight:700;color:var(--ink2);white-space:nowrap;background:var(--bg)}
+.modtab td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top;line-height:1.5}
+.modtab td.lft,.modtab th.lft{position:sticky;left:0;background:#fff;min-width:130px}
+.modtab th.lft{background:var(--bg)}
+.mlegal{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11px;font-weight:700;white-space:nowrap}
+/* 审计就绪包:优先处理栏 + 台账链接 */
+.actwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.actcol{border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:#fff}
+.acth{font-size:12px;font-weight:800;color:var(--ink2);margin-bottom:6px}
+.actrow{display:flex;align-items:baseline;gap:7px;width:100%;text-align:left;font-family:inherit;background:none;border:none;border-top:1px solid var(--line);padding:7px 2px;cursor:pointer;color:var(--ink);font-size:12px;line-height:1.4}
+.actrow:first-of-type{border-top:none}
+.actrow:hover{color:var(--od)}
+.actrow>span{flex:1;min-width:0}
+.actrow small{flex:none;color:var(--greyl);font-size:10.5px;max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.actmore{font-size:11px;color:var(--grey);padding:6px 2px 0}
+.lnk{font-family:inherit;font-size:12px;text-align:left;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;font-weight:600;line-height:1.4}
+.lnk:hover{color:var(--od);text-decoration:underline}
+.note{font-size:11.5px;color:var(--grey);background:#FBF7F2;border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.7}
+/* 卡片 / 自定义下拉 / 输入 */
+.ckleg{font-size:11px;color:var(--grey);font-family:ui-monospace,Menlo,Consolas,monospace;margin-top:10px;line-height:1.9}
+.ckhint{font-size:11.5px;color:var(--ink2);background:var(--cream);border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:8px 12px;margin:8px 0 12px;line-height:1.6}
+.cin{font-family:inherit;font-size:12px;width:100%;border:1px solid var(--line);border-radius:6px;padding:5px 7px;color:var(--ink);background:#fff}
+.cin:focus{outline:none;border-color:var(--o)}
+/* 自定义下拉:按钮 + 弹层(字号完全可控) */
+.lvlbtn{font-family:inherit;font-size:13.5px;text-align:left;border:1px solid var(--line);border-radius:6px;padding:6px 9px;background:#fff;cursor:pointer;color:var(--ink);display:inline-flex;align-items:center;justify-content:space-between;gap:6px}
+.lvlbtn:hover{border-color:var(--o)}
+.lvlbtn .cae{color:var(--greyl);font-size:11px;flex:none}
+.lvlmenu{position:absolute;z-index:200;background:#fff;border:1px solid var(--line);border-radius:9px;box-shadow:0 10px 28px rgba(16,24,40,.2);padding:5px;display:none}
+.lvlmenu.on{display:block}
+.lvlmenu button{display:block;width:100%;text-align:left;font-family:inherit;font-size:14px;border:none;background:#fff;padding:9px 13px;border-radius:6px;cursor:pointer;color:var(--ink);white-space:nowrap}
+.lvlmenu button:hover{background:var(--cream)}
+.lvlmenu button.sel{color:var(--od);font-weight:700;background:var(--cream)}
+/* 我的档案 模态 */
+.pmodal{position:fixed;inset:0;background:rgba(20,24,28,.5);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto}
+.pmodal.on{display:flex}
+.pmbox{background:#fff;border-radius:14px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
+.pmh{background:linear-gradient(120deg,var(--ink),#2A2F36);color:#fff;padding:14px 18px;font-size:15px;font-weight:700;display:flex;align-items:center}
+.pmx{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px}
+.pmx:hover{background:rgba(255,255,255,.3)}
+.pmlist{padding:12px 16px 18px;max-height:64vh;overflow-y:auto}
+.pmrow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.pmrow.cur{border-color:var(--o);background:var(--cream)}
+.pmn{flex:1;font-size:13.5px;font-weight:700;min-width:0}
+.pmcur{font-size:10.5px;font-weight:700;color:var(--od);background:#fff;border:1px solid var(--ol);border-radius:20px;padding:1px 8px}
+.pmd{font-size:11px;color:var(--grey);font-weight:400;margin-top:2px}
+.pmbtns{display:flex;gap:6px;flex:none}
+.pmempty{font-size:13px;color:var(--grey);text-align:center;padding:24px 8px}
+.pstate{font-size:11px;color:var(--grey);line-height:1.4;margin-top:2px}
+.btn.sm{font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px}
+/* 就绪度分组 */
+.r156g{margin-bottom:14px}
+.r156gh{font-size:13.5px;font-weight:800;color:var(--od);border-bottom:2px solid var(--ol);padding-bottom:4px;margin-bottom:6px}
+.qitem{margin-bottom:2px}
+.metatog{font-family:inherit;font-size:11px;color:var(--grey);background:none;border:none;cursor:pointer;padding:2px 4px;white-space:nowrap}
+.metatog:hover{color:var(--od)}
+.metatog.has{color:var(--od);font-weight:700}
+.idet{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 12px;background:var(--cream);border:1px solid var(--ol);border-radius:9px;padding:10px 12px;margin:2px 0 8px}
+.idet label{display:flex;flex-direction:column;font-size:11px;color:var(--grey);gap:3px;font-weight:600}
+.idet label .cin{font-weight:400;color:var(--ink)}
+.muted{color:var(--greyl)}
+/* 总览 Dashboard */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:4px 0 8px}
+.dcard{text-align:left;font-family:inherit;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;cursor:pointer;transition:.12s;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.dcard:hover{border-color:var(--o);box-shadow:0 4px 14px rgba(16,24,40,.09)}
+.dcard .dct{font-size:12.5px;color:var(--grey);font-weight:600}
+.dcard .dcbig{font-size:30px;font-weight:900;line-height:1.15;margin:5px 0}
+.dcard .dcsub{font-size:11.5px;color:var(--grey)}
+/* 导出报告 */
+.report{display:none}
+.report .rhead{border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:12px}
+.report .rtitle{font-size:20px;font-weight:800}
+.report .rmeta{font-size:11px;color:#555;margin-top:4px}
+.report .rsum{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;margin-bottom:14px}
+.report h2{font-size:15px;margin:16px 0 6px;border-left:4px solid #E8622C;padding-left:8px}
+.report h3{font-size:12.5px;margin:10px 0 4px;color:#333}
+.report .rt{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:8px}
+.report .rt th{background:#f0f0f0;border:1px solid #ccc;padding:4px 6px;text-align:left}
+.report .rt td{border:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.report .rref{color:#666;font-size:10px;white-space:nowrap}
+.report .rst{text-align:center;font-weight:700;white-space:nowrap}
+.report .rst.s2{color:#1F7A4D}.report .rst.s1{color:#B45309}.report .rst.s0{color:#C0392B}
+.report .rfoot{font-size:10px;color:#666;margin-top:14px;border-top:1px solid #ccc;padding-top:6px;line-height:1.6}
+@media print{
+  body.printing>*{display:none !important}
+  body.printing>#report{display:block !important}
+  .report h2{page-break-after:avoid}
+  .report .rt tr{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="tb-in">
+  <div class="tb-title">
+    <h1>电气与电动化合规 <span class="em">·</span> 评估台</h1>
+    <div class="tb-sub">UN R100 高压电安全 · R10 EMC · 充电与接口 · (EU) 2023/1542 电池法规</div>
+  </div>
+  <div class="tb-act">
+    <div class="tb-menu">
+      <button class="badge-g" onclick="event.stopPropagation();toggleTools()">☰ 速查工具 ▾</button>
+      <div class="tb-dd" id="tb-dd">
+        <button onclick="openTool('mods')">🧭 模块差异矩阵</button>
+        <button onclick="openTool('glos')">📖 术语速查</button>
+        <button onclick="openTool('faq')">❔ 常见问答 FAQ</button>
+        <button onclick="openTool('std')">📑 相关标准速览</button>
+      </div>
+    </div>
+    <button class="badge-g" onclick="openProfiles()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h4l2 2h7A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5Z"/></svg>我的档案</button>
+    <button class="badge-g" onclick="exportReport()">🖨 导出报告</button>
+    <a class="tb-home" href="emark_assessment.html" id="backbtn">← 返回评估工具</a>
+  </div>
+</div></div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-h">评估模块</div>
+    <div class="snav" id="nav"></div>
+    <button class="saveBtn" id="savebtn" onclick="saveProgress()">保存进度</button>
+    <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
+    <div class="pstate" id="pstate"></div>
+  </div>
+  <div class="center">
+    <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off"></div>
+    <div id="summary"></div>
+    <div id="main"></div>
+    <div class="note">条款依据 UN R100.03(高压电安全与 REESS)、UN R10.06(EMC 含充电模式)、充电接口与通信标准(EN 62196 / IEC 61851 / ISO 15118)及 (EU) 2023/1542 电池法规整理,用于团队自查参照,<b>非型式批准或 CE 符合性结论</b>。注意:充电与接口多为 <b>CE/标准侧</b>义务、电池法规为 <b>CE 体系</b>,与 E-mark 型式批准<b>并行</b>、互不替代。自评与证据按<b>档案</b>保存在本浏览器。</div>
+  </div>
+</div>
+<div id="report" class="report"></div>
+<div id="lvlmenu" class="lvlmenu"></div>
+<div id="pmodal" class="pmodal" onclick="if(event.target===this)closeProfiles()">
+  <div class="pmbox">
+    <div class="pmh">我的档案 <button class="pmx" onclick="closeProfiles()" aria-label="关闭">✕</button></div>
+    <div id="pmlist" class="pmlist"></div>
+  </div>
+</div>
+<div id="gmodal" class="pmodal" onclick="if(event.target===this)gmClose()">
+  <div class="pmbox" style="max-width:760px">
+    <div class="pmh"><span id="gmtitle"></span><button class="pmx" onclick="gmClose()" aria-label="关闭">✕</button></div>
+    <div id="gmbody" class="pmlist"></div>
+  </div>
+</div>
+<script>
+/* ===== 四大评估模块(逐条对照条款自查:无 / 部分 / 已建立)=====
+   条款号经核实:R100.03 Part II 试验为 §6.2–6.10(附件 9A–9J,Rev.3 新增过流 9J),
+   热扩散为 §6.15;R10.06 充电模式为附件 11–16(整车)/ 17–22(ESA);
+   (EU) 2023/1542 尽职调查已被 (EU) 2025/1561 推迟至 2027-08-18。*/
+const LABELS=['无','部分','已建立'];
+const MODS=[
+{id:'r100',n:'1',short:'R100',name:'R100 高压电安全',
+ title:'UN R100.03 · 高压电安全就绪度自查',
+ sub:'逐条对照 R100(03 系列)<b>Part I 整车电安全(§5)+ Part II REESS(§6,附件 9A–9J)</b>自查(无 / 部分 / 已建立)。03 系列 2021 年生效,EU 自 2023-09-01 起新型式批准强制、2025-09-01 起全部车型强制。',
+ pills:['防触电 IPXXB/IPXXD','绝缘电阻','REESS 十项试验','热扩散预警','功能安全','碰后电安全'],
+ leg:'条款号以 UN R100 Rev.3(03 系列)为准;Rev.3 新增:过流保护试验(9J)、防水要求、LPG 燃烧器法、SOC≥95% 与「无排气」判据、低温保护/气体管理/热事件与热扩散(§6.15,乘员舱危险前 ≥5 min 预警)等文档化要求。R100.05 草案拟新增热扩散物理试验(附件 9K,预计 2028/2030 实施)。',
+ groups:[
+  {name:'防触电与绝缘(Part I §5.1)',items:[
+    {k:'r100.a1',t:'直接接触防护:高压带电部件全部由遮栏/外壳防护,乘员舱与行李舱内达 IPXXD(试验线),其余区域达 IPXXB(试验指)',r:'R100.03 §5.1.1 / 附件 3'},
+    {k:'r100.a2',t:'高压连接器与维修断开装置(service disconnect)满足防护要求(拔开后 IPXXB / 联锁断电等)',r:'R100.03 §5.1.1'},
+    {k:'r100.a3',t:'高压警告标识加贴于 REESS 与高压遮栏/外壳,高压线缆采用橙色外皮标识',r:'R100.03 §5.1.1'},
+    {k:'r100.a4',t:'间接接触防护:外露可导电部件与电平台电位均衡连通,连接电阻 ≤0.1 Ω(试验电流 ≥0.2 A)',r:'R100.03 §5.1.2'},
+    {k:'r100.a5',t:'绝缘电阻达标:DC 母线 ≥100 Ω/V、AC 母线 ≥500 Ω/V(AC/DC 母线电气连通时整体按 500 Ω/V)',r:'R100.03 §5.1.3'},
+    {k:'r100.a6',t:'车载绝缘电阻监测与告警(燃料电池车强制);涉水/防水后维持绝缘性能(Rev.3 新增防水要求)',r:'R100.03 §5.1.3 / Rev.3 新增'}
+  ]},
+  {name:'REESS 安全试验(Part II §6 · 附件 9A–9J)',items:[
+    {k:'r100.b1',t:'振动:7–50 Hz 对数扫频共 3 h(试验 SOC ≥95%);判据无泄漏/无排气/无起火/无爆炸,绝缘 ≥100 Ω/V',r:'R100.03 §6.2 / 附件 9A'},
+    {k:'r100.b2',t:'热冲击与循环:-40 ↔ +60 °C 各 ≥6 h,共 5 循环',r:'R100.03 §6.3 / 附件 9B'},
+    {k:'r100.b3',t:'机械冲击:按车辆类别施加碰撞惯性载荷(最高约 28g)',r:'R100.03 §6.4 / 附件 9C'},
+    {k:'r100.b4',t:'机械完整性(挤压):挤压板载荷 ≥100 kN',r:'R100.03 §6.4 / 附件 9D'},
+    {k:'r100.b5',t:'防火:汽油池火或 LPG 燃烧器灼烧(Rev.3 新增 LPG 法,直接暴露 2 min)',r:'R100.03 §6.5 / 附件 9E'},
+    {k:'r100.b6',t:'外短路保护:≤5 mΩ 外短路直至保护功能动作',r:'R100.03 §6.6 / 附件 9F'},
+    {k:'r100.b7',t:'过充保护:以制造商规定的最大充电电流过充直至保护终止充电',r:'R100.03 §6.7 / 附件 9G'},
+    {k:'r100.b8',t:'过放保护:持续放电直至保护功能动作',r:'R100.03 §6.8 / 附件 9H'},
+    {k:'r100.b9',t:'过温保护:抑制散热条件下持续充放电验证过温保护',r:'R100.03 §6.9 / 附件 9I'},
+    {k:'r100.b10',t:'过流保护:直流充电过流场景(Rev.3 新增的第 10 项强制试验)',r:'R100.03 §6.10 / 附件 9J'},
+    {k:'r100.b11',t:'Rev.3 新增文档化要求:低温保护、REESS 排放气体管理、REESS 安全运行控制失效告警',r:'R100.03 Part II(Rev.3 新增)'},
+    {k:'r100.b12',t:'热扩散/热事件:单电芯热失控引发的热扩散不得使乘员暴露于危险环境;乘员舱出现危险情形前 ≥5 min 预警',r:'R100.03 §6.15(热扩散)'}
+  ]},
+  {name:'功能安全(Part I §5.3)',items:[
+    {k:'r100.c1',t:'上电流程:驾驶员须经至少两个有意且不同的动作方可进入「可行驶模式」(active driving possible mode)',r:'R100.03 §5.3.1.1'},
+    {k:'r100.c2',t:'状态指示:进入可行驶模式时至少给出瞬时指示;驾驶员离车时若仍处于可行驶模式须有提示',r:'R100.03 §5.3'},
+    {k:'r100.c3',t:'充电禁行:车辆经导电连接与电网/外部电源相连时,不得由自身驱动系统使车辆移动',r:'R100.03 §5.3'},
+    {k:'r100.c4',t:'REESS 状态告警:低电量警告、REESS 故障警告、热事件警告(Rev.3 新增)',r:'R100.03 §5.2 / Rev.3 新增'}
+  ]},
+  {name:'碰撞后要求与文档(与 R94/R95/R137 衔接)',items:[
+    {k:'r100.d1',t:'碰撞后电安全:碰撞法规中的碰后电压/电能/绝缘电阻/电解液泄漏与 REESS 固定判据满足(正碰 R94·R137,侧碰 R95)',r:'UN R94 / R95 / R137(碰后电安全)'},
+    {k:'r100.d2',t:'开放式牵引电池的氢排放试验(如适用)',r:'R100(开放式电池氢排放条款)'},
+    {k:'r100.d3',t:'用户手册与标识:高压安全注意事项、充电操作说明、应急/救援信息(Rescue Sheet)齐备',r:'R100 型批文档 / ISO 17840(参考)'},
+    {k:'r100.d4',t:'型批技术文档:REESS 参数、SOC 窗口、BMS 保护策略说明、试验报告与扩展记录受控',r:'R100 型批资料要求'}
+  ]}
+ ]},
+{id:'r10',n:'2',short:'R10',name:'R10 EMC 电磁兼容',
+ title:'UN R10.06 · EMC 就绪度自查',
+ sub:'逐条对照 R10(06 系列)<b>整车(附件 4–6)、ESA 部件(附件 7–10)与「REESS 充电模式并网」(附件 11–22)</b>自查。电动车型充电模式 EMC 是 06 系列重点,谐波/闪变按 IEC 61000-3 系列。',
+ pills:['整车发射/抗扰','ESA · CISPR 25','充电模式 11–22','谐波/闪变','EFT/浪涌','CoP'],
+ leg:'附件号以 UN R10 Rev.6(06 系列,2019 起现行)为准:附件 4/5 整车宽带/窄带发射(CISPR 12 方法),附件 6 整车抗扰(ISO 11451-2,30 V/m),附件 7/8 ESA 发射(CISPR 25),附件 9 ESA 抗扰(ISO 11452),附件 10 瞬态(ISO 7637-2);充电模式:附件 11 谐波、12 电压波动/闪变、13/14 传导骚扰、15/16 EFT/浪涌抗扰(整车),附件 17–22 为 ESA 对应项。',
+ groups:[
+  {name:'整车级(附件 4–6)',items:[
+    {k:'r10.a1',t:'整车宽带辐射发射(CISPR 12 方法)',r:'R10.06 附件 4'},
+    {k:'r10.a2',t:'整车窄带辐射发射',r:'R10.06 附件 5'},
+    {k:'r10.a3',t:'整车抗扰度:30 V/m(80% AM 调制),「抗扰相关功能」在骚扰下无性能降级(ISO 11451-2 方法)',r:'R10.06 附件 6'},
+    {k:'r10.a4',t:'「抗扰相关功能」清单已识别(直接控制、驾驶员/道路使用者感知与防护相关功能)并覆盖试验计划',r:'R10.06 §2 定义 / 附件 6'}
+  ]},
+  {name:'ESA 部件级(附件 7–10)',items:[
+    {k:'r10.b1',t:'ESA 宽带/窄带辐射发射(CISPR 25 方法,ALSE 屏蔽室)',r:'R10.06 附件 7 / 附件 8'},
+    {k:'r10.b2',t:'ESA 抗扰度:ISO 11452 系列(ALSE、BCI 大电流注入等)',r:'R10.06 附件 9'},
+    {k:'r10.b3',t:'电源线瞬态:传导瞬态发射与抗扰(ISO 7637-2 脉冲)',r:'R10.06 附件 10'},
+    {k:'r10.b4',t:'高压电气部件(OBC / DC-DC / 电驱 / 压缩机等)按 ESA 单独取证或随整车测试的策略明确',r:'R10.06(ESA 型批路径)'}
+  ]},
+  {name:'充电模式(REESS 充电并网,附件 11–22)',items:[
+    {k:'r10.c1',t:'交流充电谐波电流发射(IEC 61000-3-2;>16 A 按 IEC 61000-3-12)',r:'R10.06 附件 11'},
+    {k:'r10.c2',t:'电压变化/波动与闪变(IEC 61000-3-3;>16 A 按 IEC 61000-3-11)',r:'R10.06 附件 12'},
+    {k:'r10.c3',t:'AC/DC 电力线射频传导骚扰 + 网络/电信端口骚扰',r:'R10.06 附件 13 / 附件 14'},
+    {k:'r10.c4',t:'充电模式抗扰:电快速瞬变脉冲群 EFT(IEC 61000-4-4)与浪涌(IEC 61000-4-5)',r:'R10.06 附件 15 / 附件 16'},
+    {k:'r10.c5',t:'充电相关 ESA(OBC 等)的充电模式对应试验(谐波/闪变/传导骚扰/抗扰)',r:'R10.06 附件 17–22'}
+  ]},
+  {name:'文档与 CoP',items:[
+    {k:'r10.d1',t:'EMC 试验计划:代表性最不利配置选择、频段与工况覆盖有据可查',r:'R10.06 型批资料'},
+    {k:'r10.d2',t:'变更管理:电子电气架构/软件变更触发 EMC 影响评估与型批扩展判断',r:'R10.06(型批扩展条款)'},
+    {k:'r10.d3',t:'生产一致性 CoP:量产抽样与一致性控制满足 1958 协定 CoP 程序',r:'R10.06(CoP 条款)/ 1958 协定'},
+    {k:'r10.d4',t:'引用标准版次核对:按 06 系列现行引用执行(CISPR 12/25、ISO 11451/11452、IEC 61000 系列)',r:'R10.06 引用标准'}
+  ]}
+ ]},
+{id:'chg',n:'3',short:'充电',name:'充电与接口',
+ title:'充电与接口 · 就绪度自查(CE/标准侧,与 E-mark 并行)',
+ sub:'<b>注意:本模块多为 CE/标准侧义务,与 E-mark 型式批准并行</b>——车端充电口与 OBC 属车辆(走 R10/R100 型批),桩与非车载充电器属 CE(LVD/EMCD/RED);两侧靠 IEC 61851 / EN 62196 / ISO 15118 标准衔接互操作。',
+ pills:['Type 2 · EN 62196-2','CCS2 · EN 62196-3','IEC 61851','ISO 15118 / PnC','OBC','AFIR'],
+ leg:'欧盟公共充电基础设施按 AFIR (EU) 2023/1804(2024-04-13 起适用)统一为 AC Type 2 / DC CCS2;充电通信基础层 IEC 61851-1/-23,高层 ISO 15118(存量桩兼容 DIN SPEC 70121)。桩/家充为 CE 侧(LVD 2014/35/EU、EMC 2014/30/EU、无线含 RED 2014/53/EU),不做 E-mark。',
+ groups:[
+  {name:'接口硬件(EU 公共桩兼容)',items:[
+    {k:'chg.a1',t:'AC 充电接口采用 Type 2(EN 62196-2),额定电流、温升与锁止机构满足标准',r:'EN 62196-2(AFIR 指定 AC 接口)'},
+    {k:'chg.a2',t:'DC 快充接口采用 CCS Combo 2(EN 62196-3 配置 FF)',r:'EN 62196-3(AFIR 指定 DC 接口)'},
+    {k:'chg.a3',t:'车辆插座通用要求:防触指、互换性、机械寿命与温升(IEC/EN 62196-1)',r:'IEC/EN 62196-1'}
+  ]},
+  {name:'充电通信',items:[
+    {k:'chg.b1',t:'基础充电控制:控制导引 CP/PP、Mode 2/3 交流充电(IEC 61851-1)',r:'IEC 61851-1'},
+    {k:'chg.b2',t:'直流充电系统与数字通信(IEC 61851-23 / -24);存量桩兼容 DIN SPEC 70121',r:'IEC 61851-23/-24 / DIN SPEC 70121'},
+    {k:'chg.b3',t:'高层通信:ISO 15118-2(TLS/证书)与新一代 ISO 15118-20(含双向能量传输 BPT)',r:'ISO 15118-2 / -20'},
+    {k:'chg.b4',t:'Plug &amp; Charge:PKI 证书链、合约证书安装/更新与失效处理流程建立',r:'ISO 15118(PnC)'}
+  ]},
+  {name:'车载充电机 OBC',items:[
+    {k:'chg.c1',t:'OBC 的 EMC 纳入 R10 充电模式测试(附件 11–16 / ESA 17–22),并与 IEC 61851-21-1(车载充电 EMC)协调',r:'UN R10.06 / IEC 61851-21-1'},
+    {k:'chg.c2',t:'电气安全配合:接地连续性、绝缘配合、与桩侧 RCD/绝缘监测协调(Mode 3 / DC 充电)',r:'IEC 61851-1 / -23'},
+    {k:'chg.c3',t:'非车载充电设备(随车便携充电器/家用壁挂)按 CE:LVD 2014/35/EU + EMC 2014/30/EU(带无线另加 RED 2014/53/EU)',r:'CE 指令(非 E-mark)'}
+  ]},
+  {name:'互操作与 AFIR 背景',items:[
+    {k:'chg.d1',t:'跟踪 AFIR (EU) 2023/1804:公共桩接口(Type 2/CCS2)、临时支付、价格透明等运营商义务(2024-04-13 起适用)对整车互操作的间接影响',r:'(EU) 2023/1804(AFIR)'},
+    {k:'chg.d2',t:'与主流公共桩/运营商开展互操作测试(含 CharIN 测试活动)并闭环问题',r:'互操作实践 / CharIN'},
+    {k:'chg.d3',t:'智能充电/V2G 路线图:ISO 15118-20 双向能量传输与各国并网要求(grid code)跟踪',r:'ISO 15118-20 / 并网要求'}
+  ]}
+ ]},
+{id:'batt',n:'4',short:'电池法',name:'(EU) 2023/1542 电池法规',
+ title:'(EU) 2023/1542 电池法规 · 就绪度自查(CE 义务,与 E-mark 并行)',
+ sub:'<b>注意:电池法规是 CE 体系(欧盟横向法),与 E-mark 型式批准并行的另一套义务</b>。按时间线逐项自查:CE 合规评定(2024-08-18 起)→ 碳足迹 → 尽职调查(已推迟至 2027-08-18)→ 标签/QR → 电池护照(2027-02-18 起)→ 再生材料。',
+ pills:['CE 2024-08','碳足迹','尽职调查 2027-08','标签/QR','电池护照 2027-02','再生材料 2028+'],
+ leg:'时间线要点:法规 2023-08-17 生效、2024-02-18 起适用;CE 合规评定与 SoH/BMS 数据 2024-08-18 起;EV 电池碳足迹声明原定 2025-02-18、因方法学授权法案延迟而顺延(法案生效 +12 个月);尽职调查经 (EU) 2025/1561(Omnibus IV)由 2025-08-18 推迟至 2027-08-18;标签 2026-08-18 起、QR 2027-02-18 起;电池护照 2027-02-18 起(EV/LMT/工业 >2 kWh);再生材料含量申报 2028-08-18 起(LMT 2033-08-18),最低比例 2031/2036 起。',
+ groups:[
+  {name:'CE 合规评定与技术文档(2024-08-18 起)',items:[
+    {k:'batt.a1',t:'电池类别界定:EV 电池 / LMT / 工业(>2 kWh)/ SLI 等类别与对应义务映射清晰',r:'(EU) 2023/1542 Art. 3(定义)'},
+    {k:'batt.a2',t:'符合性评定按附件 VIII 程序完成,出具欧盟符合性声明(EU DoC)',r:'Art. 17–18 / 附件 VIII · 2024-08-18 起'},
+    {k:'batt.a3',t:'CE 标志加贴规范,技术文档建立并随变更维护',r:'Art. 19–20 · 2024-08-18 起'}
+  ]},
+  {name:'碳足迹声明(Art. 7)',items:[
+    {k:'batt.b1',t:'EV 电池碳足迹声明:法规原定 2025-02-18 起,因方法学授权法案延迟实际顺延(法案生效 +12 个月,持续跟踪立法进度)',r:'Art. 7(1) / 附件 II'},
+    {k:'batt.b2',t:'碳足迹性能等级标注与最大阈值合规提前布局(分阶段,约 2026–2028;数据收集与第三方核验准备)',r:'Art. 7(2)/(3)'}
+  ]},
+  {name:'尽职调查(Art. 48–53 · 推迟至 2027-08-18)',items:[
+    {k:'batt.c1',t:'电池尽职调查政策:原定 2025-08-18,经 (EU) 2025/1561 推迟至 2027-08-18;年净营业额 ≥4000 万欧元的经济运营者适用',r:'Art. 48(经 (EU) 2025/1561 修订)'},
+    {k:'batt.c2',t:'钴/天然石墨/锂/镍供应链风险管理体系、公告机构第三方核验与年度报告机制',r:'Art. 49–52 / 附件 X'}
+  ]},
+  {name:'标签 / QR 与信息义务',items:[
+    {k:'batt.d1',t:'通用标签:容量、化学体系、有害物质、分类收集符号等(2026-08-18 起,或实施法案生效 +18 个月取较晚)',r:'Art. 13 / 附件 VI'},
+    {k:'batt.d2',t:'QR 码:2027-02-18 起加贴,链接标签信息与电池护照',r:'Art. 13(6) · 2027-02-18 起'},
+    {k:'batt.d3',t:'SoH 与预期寿命数据存于 BMS 并可供读取(2024-08-18 起)',r:'Art. 14 · 2024-08-18 起'}
+  ]},
+  {name:'电池护照(2027-02-18 起 EV/LMT/工业 >2 kWh)',items:[
+    {k:'batt.e1',t:'2027-02-18 起投放市场的 EV / LMT / >2 kWh 工业电池逐一建立电池护照(唯一标识符 + QR 访问)',r:'Art. 77–78'},
+    {k:'batt.e2',t:'护照数据集(附件 XIII):公开/授权分级访问、供应链数据采集与更新责任落实',r:'Art. 77 / 附件 XIII'}
+  ]},
+  {name:'再生材料含量与设计要求',items:[
+    {k:'batt.f1',t:'再生钴/锂/镍/铅含量文档申报:2028-08-18 起(LMT 2033-08-18 起);最低比例要求 2031-08-18 / 2036-08-18 起',r:'Art. 8'},
+    {k:'batt.f2',t:'电化学性能与耐久性要求(EV/工业电池,配套授权法案分阶段)',r:'Art. 10 / 附件 IV'},
+    {k:'batt.f3',t:'可移除/可更换与拆解信息:便携与 LMT 电池 2027-02-18 起可移除可更换;向维修/回收方提供拆解与安全信息',r:'Art. 11 / 附件 XIII'}
+  ]}
+ ]}
+];
+function modById(id){ return MODS.find(m=>m.id===id)||null; }
+function modItems(m){ return m.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function modStats(id){ const m=modById(id); if(!m)return {total:0,done:0,pct:0};
+  const its=modItems(m); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;});
+  return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
+const PROFILES_KEY='emark_ev_profiles_v1', ACTIVE_KEY='emark_ev_active_v1', SUM_KEY='emark_ev_summary_v1';
+/* ===== 术语速查 & FAQ ===== */
+const GLOSSARY=[
+  {t:'REESS',full:'Rechargeable Electrical Energy Storage System',d:'可再充电电能存储系统(动力电池系统)。UN R100 的核心对象:Part II 规定其 10 项强制安全试验(附件 9A–9J)与热扩散要求。'},
+  {t:'IPXXB',full:'Protection degree — test finger',d:'防护等级:铰接试验指(直径 12 mm)不得触及带电部件。R100 要求乘员舱/行李舱以外区域的高压带电部件至少达 IPXXB。'},
+  {t:'IPXXD',full:'Protection degree — test wire',d:'防护等级:试验线(直径 1 mm,更严)不得触及带电部件。R100 要求乘员舱与行李舱内的高压带电部件达 IPXXD。'},
+  {t:'热失控',full:'Thermal Runaway',d:'电芯内短路等引发的不可控放热连锁反应。R100.03 热扩散条款的触发假设即「单电芯热失控」。'},
+  {t:'热扩散',full:'Thermal Propagation',d:'单电芯热失控在 REESS 内的连锁蔓延。R100.03 §6.15 要求不得使乘员暴露于危险环境,并在乘员舱出现危险情形前 ≥5 分钟预警;R100.05 草案将增加物理试验(附件 9K)。'},
+  {t:'绝缘电阻',full:'Isolation Resistance',d:'高压母线对电平台的绝缘指标:DC ≥100 Ω/V、AC ≥500 Ω/V(R100 §5.1.3)。燃料电池车须车载绝缘监测并告警。'},
+  {t:'电位均衡',full:'Potential Equalization',d:'间接接触防护:外露可导电部件与电平台低阻连通(≤0.1 Ω,试验电流 ≥0.2 A),防止绝缘失效时壳体带电(R100 §5.1.2)。'},
+  {t:'SOC',full:'State of Charge',d:'荷电状态。R100 Rev.3 将多数 REESS 试验的初始 SOC 从 50% 提高到 ≥95%(最大正常工作 SOC 的 95%),更贴近最不利工况。'},
+  {t:'ESA',full:'Electrical/Electronic Sub-Assembly',d:'电气/电子部件总成。UN R10 的部件级取证对象(附件 7–10);OBC、DC-DC 等高压部件按 ESA 单独取 E 标或随整车测试。'},
+  {t:'CISPR 25',full:'CISPR 25 — Radio disturbance characteristics',d:'车辆与部件无线电骚扰限值与测量方法(ALSE 屏蔽室法)。R10 附件 7/8 的 ESA 发射测量方法基础。'},
+  {t:'OBC',full:'On-Board Charger 车载充电机',d:'车载 AC→DC 充电机。EMC 上按 R10 充电模式(附件 11–16/17–22)与 IEC 61851-21-1 协调;是「车端走型批、桩端走 CE」分界上的车端部件。'},
+  {t:'Type 2',full:'EN 62196-2 AC 接口',d:'欧盟公共交流充电统一接口(Mennekes)。AFIR 规定公共 AC 桩必须配 Type 2。'},
+  {t:'CCS2',full:'Combined Charging System Combo 2(EN 62196-3 配置 FF)',d:'欧盟公共直流快充统一接口:Type 2 加两个直流触头。AFIR 规定公共 DC 桩必须配 CCS2。'},
+  {t:'IEC 61851',full:'Electric vehicle conductive charging system',d:'传导充电系统标准族:-1 通用与 Mode 1–4/控制导引,-23 直流充电站,-24 直流通信,-21-1 车载充电 EMC。'},
+  {t:'ISO 15118',full:'Road vehicles — V2G communication interface',d:'车桩高层通信协议族:-2 应用层(TLS/证书),-3 PLC 物理层,-20 新一代(双向能量传输 BPT、ACDP 等)。'},
+  {t:'PnC',full:'Plug & Charge',d:'ISO 15118 定义的即插即充:基于 PKI 证书自动鉴权计费,免刷卡扫码。需合约证书安装/更新与证书失效处理流程。'},
+  {t:'DIN SPEC 70121',full:'DC 充电通信(过渡规范)',d:'ISO 15118-2 定稿前的直流充电通信规范,存量公共桩大量使用;新车通常需同时兼容 DIN 70121 与 ISO 15118。'},
+  {t:'V2G / BPT',full:'Vehicle-to-Grid / Bidirectional Power Transfer',d:'车辆向电网/负载反向放电。ISO 15118-20 定义双向能量传输;落地还受各国并网要求(grid code)约束。'},
+  {t:'AFIR',full:'(EU) 2023/1804 替代燃料基础设施法规',d:'欧盟公共充电/加氢基础设施法规,2024-04-13 起适用:统一 Type 2/CCS2、临时支付、价格透明、TEN-T 网络覆盖目标。义务主体是桩运营商,对车企是互操作背景。'},
+  {t:'电池护照',full:'Battery Passport',d:'(EU) 2023/1542 Art. 77:2027-02-18 起 EV/LMT/>2 kWh 工业电池逐一建立数字护照(唯一标识 + QR),数据集见附件 XIII,访问权限分级。'},
+  {t:'碳足迹',full:'Carbon Footprint of Battery',d:'(EU) 2023/1542 Art. 7:电池全生命周期碳足迹声明→性能等级→最大阈值三步走。EV 电池声明原定 2025-02-18,因方法学授权法案延迟而顺延。'},
+  {t:'SoH',full:'State of Health',d:'电池健康状态。电池法规 Art. 14 要求 2024-08-18 起 BMS 中存储 SoH 与预期寿命数据并可供合法读取。'},
+  {t:'LMT',full:'Light Means of Transport battery',d:'轻型交通工具电池(电动自行车/滑板车等,≤25 kg)。电池法规单列类别,护照/碳足迹/再生材料时点与 EV 电池略有不同。'},
+  {t:'CE vs E-mark',full:'两套并行体系',d:'E-mark = 1958 协定型式批准(整车/系统/部件,批准机关签发);CE = 欧盟产品合规自我声明/公告机构评定(横向法)。电池法规、充电桩、LVD/EMCD/RED 属 CE;R100/R10 属 E-mark。同一产品可能两套都要满足。'}
+];
+const FAQS=[
+  {q:'R100 与 (EU) 2023/1542 电池法规是什么关系?',a:'两套并行、互不替代:R100 是 1958 协定的型式批准法规(E-mark),管车辆与 REESS 的安全(防触电/试验/热扩散);电池法规是欧盟横向 CE 法规,管电池全生命周期可持续性(碳足迹/护照/尽职调查/再生材料)。同一块动力电池装车出口欧盟,两套义务都要满足。'},
+  {q:'充电桩标准(IEC 61851 / EN 62196)要不要做 E-mark?',a:'不要。充电桩、家用壁挂与非车载充电器属 CE 侧(LVD 2014/35/EU、EMC 2014/30/EU,带无线功能另加 RED 2014/53/EU);车上的充电口与 OBC 属车辆部件,走 R10/R100 型批。两侧靠 IEC 61851 / EN 62196 / ISO 15118 标准衔接互操作。'},
+  {q:'热扩散要求从哪版开始强制?',a:'R100 的 03 系列(2021 年生效)首次强制:要求单电芯热失控引发的热扩散不得使乘员暴露于危险环境,乘员舱出现危险情形前 ≥5 分钟预警(§6.15,以文档/分析证明)。EU 自 2023-09-01 起新型式批准、2025-09-01 起所有车型按 03 系列执行。R100.05 草案将新增热扩散物理试验(附件 9K,预计 2028 新车型/2030 全部)。'},
+  {q:'R10 的充电模式 EMC 谁要测?',a:'凡具备「REESS 由电网充电」功能的车辆及相关 ESA:整车按附件 11(谐波)/12(闪变)/13–14(传导骚扰)/15–16(EFT/浪涌抗扰),ESA 按附件 17–22。谐波/闪变引用 IEC 61000-3-2/-12 与 -3-3/-11,即把充电中的车当作并网用电设备考核。'},
+  {q:'OBC 的 EMC 走 CE 还是 E-mark?',a:'装车的 OBC 按 R10 作为 ESA/随整车在充电模式下测试(方法与 IEC 61851-21-1 协调),属 E-mark 侧;只有非车载充电设备(便携充电器、壁挂桩)才走 CE(LVD/EMCD/RED)。'},
+  {q:'EV 电池碳足迹声明什么时候开始?',a:'法规原定 2025-02-18 起,但计算方法学的授权法案延迟,义务实际顺延(授权法案生效 +12 个月,取较晚者)。建议先按 PEF 方法学草案建立数据收集,持续跟踪法案发布。'},
+  {q:'电池尽职调查 2025 年 8 月开始吗?',a:'不。原定 2025-08-18,已经 (EU) 2025/1561(Omnibus IV「stop-the-clock」,2025-07-30 公报)推迟至 2027-08-18,并将指南发布期限延至 2026-07-26。适用对象为年净营业额 ≥4000 万欧元的经济运营者。'},
+  {q:'电池护照谁来做、什么时候?',a:'2027-02-18 起投放欧盟市场的 EV / LMT / >2 kWh 工业电池,每块须有唯一标识 + QR 访问的数字护照(Art. 77,数据集见附件 XIII)。责任在将电池投放市场的经济运营者;整车厂外购电芯自制包或进口电池装车,都需打通供应链数据链路。'},
+  {q:'IPXXB 和 IPXXD 有什么差别?',a:'B = 铰接试验指(12 mm)不可触及;D = 试验线(1 mm)不可触及,更严。R100 要求乘员舱与行李舱内达 IPXXD、其余区域达 IPXXB(§5.1.1,探具定义见附件 3)。'},
+  {q:'绝缘电阻要求是多少?',a:'DC 母线 ≥100 Ω/V、AC 母线 ≥500 Ω/V;AC/DC 母线电气连通时整体按 500 Ω/V(R100 §5.1.3)。燃料电池车必须配车载绝缘电阻监测并在失效时告警;Rev.3 还新增了涉水后绝缘性能(防水)要求。'},
+  {q:'这个自查结果能当合规证明吗?',a:'不能。本工具是团队自查参照,帮助梳理条款覆盖与证据缺口;型式批准以认可技术服务/批准机关为准,CE 合规以符合性评定程序(必要时公告机构)为准。'}
+];
+/* 模块差异矩阵 */
+const MODULES=[
+  {m:'① R100 高压电安全',std:'UN R100.03(Part I/II + 附件 9A–9J)',obj:'整车高压电安全 + REESS 安全试验',out:'就绪度 % · 无/部分/已建立',legal:'型批强制(E-mark)',tone:'red',how:'逐条条款自查 + 证据/责任人/差距追踪',use:'整车/REESS 部件型式批准'},
+  {m:'② R10 EMC',std:'UN R10.06(附件 4–22)',obj:'整车与 ESA 电磁兼容(含充电模式并网)',out:'就绪度 %',legal:'型批强制(E-mark)',tone:'red',how:'逐附件自查 + 证据追踪',use:'整车/ESA EMC 型式批准'},
+  {m:'③ 充电与接口',std:'EN 62196 / IEC 61851 / ISO 15118 / AFIR',obj:'充电接口硬件、通信协议与互操作',out:'就绪度 %',legal:'标准/CE 侧(与型批并行)',tone:'amber',how:'按标准逐项自查',use:'欧盟市场充电兼容与 CE 衔接'},
+  {m:'④ 电池法规',std:'(EU) 2023/1542 + 授权/实施法案',obj:'电池全生命周期可持续性合规',out:'就绪度 %',legal:'CE 强制(与 E-mark 并行)',tone:'red',how:'按时间线逐项自查',use:'电池投放欧盟市场(装车电池同样适用)'}];
+/* 相关标准速览 */
+const STD=[
+  {name:'UNECE R100 — 电动车高压电安全与 REESS',id:'UN R100.03',region:'联合国 WP.29(1958 协定)',scope:'Part I 整车电安全(防触电 §5.1、REESS 相关警告 §5.2、功能安全 §5.3),Part II REESS 部件安全(§6,试验见附件 9A–9J)。',points:['防触电:乘员舱/行李舱内 IPXXD、舱外 IPXXB;电位均衡 ≤0.1 Ω;绝缘 DC 100 / AC 500 Ω/V','REESS 十项试验:振动/热冲击/机械冲击/挤压/防火/外短路/过充/过放/过温/过流(9J 为 Rev.3 新增)','热扩散(§6.15):单电芯热失控不得危及乘员,危险情形前 ≥5 min 预警','Rev.3 新增:防水要求、SOC≥95%、「无排气」判据、LPG 燃烧法、低温保护与气体管理文档'],timeline:'03 系列 2021 生效;EU 2023-09-01 起新型批 / 2025-09-01 起全部强制。R100.04 加标识要求(2026/2027);R100.05 草案拟加热扩散物理试验 9K(预计 2028/2030)。'},
+  {name:'UNECE R10 — 电磁兼容(EMC)',id:'UN R10.06',region:'联合国 WP.29',scope:'整车与 ESA 的发射/抗扰型式批准;06 系列覆盖「REESS 充电模式并网」——把充电中的车按并网用电设备考核。',points:['整车:宽带/窄带发射(附件 4/5,CISPR 12)、抗扰 30 V/m(附件 6,ISO 11451-2)','ESA:发射(附件 7/8,CISPR 25)、抗扰(附件 9,ISO 11452)、瞬态(附件 10,ISO 7637-2)','充电模式(整车 11–16 / ESA 17–22):谐波(IEC 61000-3-2/-12)、闪变(-3-3/-11)、传导骚扰、EFT/浪涌抗扰','「抗扰相关功能」不得因骚扰降级;CoP 生产一致性'],timeline:'06 系列(Rev.6)2019 起现行。'},
+  {name:'IEC 61851 / EN 62196 — 传导充电系统与接口',id:'IEC 61851 / EN 62196',region:'IEC / CENELEC(CE 侧标准)',scope:'-1 充电系统通用要求(Mode 1–4、控制导引 CP/PP);-23/-24 直流充电站与通信;62196-1/-2/-3 接口通用/Type 2/DC(CCS2 = 配置 FF)。',points:['欧盟公共桩接口:AC Type 2(EN 62196-2)、DC CCS2(EN 62196-3)','Mode 3 交流专用桩 / Mode 4 直流,RCD 与绝缘监测配合','IEC 61851-21-1:车载充电机 EMC(与 R10 充电模式协调)','桩与非车载充电器走 CE(LVD/EMCD/RED),不做 E-mark'],timeline:'IEC 61851-1:2017 现行;61851-23 2023 年新版。'},
+  {name:'ISO 15118 — 车桩高层通信与 Plug & Charge',id:'ISO 15118',region:'国际标准',scope:'车辆-电网通信接口:-2 应用层(TLS/PKI 证书,PnC)、-3 PLC 物理层、-20 新一代(双向 BPT、无线 ACDP)。',points:['Plug & Charge:证书自动鉴权计费,需合约证书全生命周期管理','存量直流桩大量使用 DIN SPEC 70121,新车需双栈兼容','-20 支持双向能量传输(V2G),配合各国并网要求','互操作以 CharIN 等测试活动验证'],timeline:'-2:2014 现行;-20:2022 发布,产业导入中。'},
+  {name:'欧盟电池法规(Batteries Regulation)',id:'(EU) 2023/1542',region:'欧盟(CE 体系,横向法)',scope:'电池全生命周期:CE 合规评定、碳足迹、尽职调查、标签/QR、SoH 数据、电池护照、再生材料含量与回收目标;取代 2006/66/EC 电池指令。',points:['CE 合规评定 + EU DoC + 技术文档:2024-08-18 起','EV 电池碳足迹声明:原定 2025-02-18,随授权法案顺延;性能等级/阈值分阶段','尽职调查:经 (EU) 2025/1561 推迟至 2027-08-18','标签 2026-08-18 / QR 2027-02-18;电池护照 2027-02-18 起;再生材料申报 2028-08-18 起'],timeline:'2023-08-17 生效,2024-02-18 起适用,义务分阶段至 2036。'},
+  {name:'AFIR — 替代燃料基础设施法规',id:'(EU) 2023/1804',region:'欧盟',scope:'公共充电/加氢基础设施建设与运营义务:接口统一、临时支付、价格透明、TEN-T 走廊覆盖目标。义务主体是成员国与桩运营商,对车企是互操作与市场背景。',points:['公共 AC 桩必须配 Type 2,DC 桩必须配 CCS2','≥50 kW 公共桩须支持银行卡等临时支付','TEN-T 核心网每 60 km 布充电站等覆盖目标(2025 起分阶段)','数据开放:位置/价格/可用性'],timeline:'2024-04-13 起适用。'},
+  {name:'碰撞后电安全(与 R100 衔接)',id:'UN R94 / R95 / R137',region:'联合国 WP.29',scope:'正碰(R94/R137)与侧碰(R95)法规内含电动车碰撞后电安全判据,与 R100 的车内电安全要求衔接。',points:['碰后判据:低电压、低电能、绝缘电阻达标或物理防护完好(四选一路径)','电解液不得进入乘员舱、限量泄漏','REESS 保持固定(不得侵入乘员舱)','试验时 REESS 处于规定 SOC'],timeline:'现行系列;电安全条款自各法规相应系列引入。'}
+];
+let _glosQ='';
+let ans={}, itemMeta={}, active='home'; // active: 'home'/'r100'/'r10'/'chg'/'batt'/'pack'
+let _openItems={};        // 清单条目「证据/责任人」展开态(不持久化)
+let _packGapOnly=false;   // 审计就绪包:只看缺口(不持久化)
+let _packScope='';        // 审计就绪包:模块范围筛选(''=全部,不持久化)
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escA(s){return esc(s).replace(/"/g,'&quot;');}
+/* ===== 多档案:保存进度 / 新建档案 / 我的档案(存 localStorage)===== */
+function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
+function setProfiles(o){ try{localStorage.setItem(PROFILES_KEY,JSON.stringify(o));}catch(e){alert('保存失败：浏览器存储不可用');} }
+function activeId(){ try{return localStorage.getItem(ACTIVE_KEY)||'';}catch(e){return '';} }
+function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), itemMeta:JSON.parse(JSON.stringify(itemMeta))}; }
+function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; itemMeta=(s&&s.itemMeta)?JSON.parse(JSON.stringify(s.itemMeta)):{}; }
+function writeSummary(){
+  // 供 E-mark 母工具跨页回显(同源 localStorage)。契约:
+  // {v:1, r100:{pct,done,total}, r10:{...}, chg:{...}, batt:{...}, ts, started}
+  try{
+    const a=modStats('r100'), b=modStats('r10'), c=modStats('chg'), d=modStats('batt');
+    const started = Object.keys(ans).some(k=>(ans[k]||0)>0);
+    localStorage.setItem(SUM_KEY,JSON.stringify({
+      v:1,
+      r100:{pct:a.pct,done:a.done,total:a.total},
+      r10:{pct:b.pct,done:b.done,total:b.total},
+      chg:{pct:c.pct,done:c.done,total:c.total},
+      batt:{pct:d.pct,done:d.done,total:d.total},
+      ts:Date.now(), started
+    }));
+  }catch(e){}
+}
+function autosave(){ const id=activeId(); if(id){ const ps=getProfiles(); if(ps[id]){ ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); } } writeSummary(); }
+function curName(){ const el=document.getElementById('pname'); return el?el.value.trim():''; }
+function saveProgress(){
+  const ps=getProfiles(); let id=activeId();
+  if(!id||!ps[id]) id='e'+Date.now().toString(36)+Math.floor(Math.random()*1000);
+  const name=curName()||('未命名档案 '+(Object.keys(ps).length+1));
+  ps[id]={name, state:curState(), ts:Date.now()}; setProfiles(ps);
+  try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){}
+  writeSummary(); updatePBar();
+  const b=document.getElementById('savebtn'); if(b){const o=b.textContent;b.textContent='✓ 已存入「'+name.slice(0,8)+'」';setTimeout(()=>b.textContent=o,1500);}
+}
+function newProfile(){
+  if(!confirm('新建档案将清空当前页面自评、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
+  try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}
+  ans={}; itemMeta={}; _openItems={}; active='home';
+  const el=document.getElementById('pname'); if(el) el.value='';
+  writeSummary(); updatePBar(); render();
+}
+function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
+function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;} openProfiles(); updatePBar(); }
+function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; delete ps[id]; setProfiles(ps); if(activeId()===id){try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}} openProfiles(); updatePBar(); }
+function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 未保存(填写后点「保存进度」建立档案)'; }
+function openProfiles(){
+  const ps=getProfiles(), id0=activeId();
+  const ids=Object.keys(ps).sort((a,b)=>(ps[b].ts||0)-(ps[a].ts||0));
+  let h= ids.length? ids.map(id=>{ const p=ps[id]; const cur=id===id0; const n=Object.keys((p.state&&p.state.ans)||{}).length;
+      return '<div class="pmrow'+(cur?' cur':'')+'"><div class="pmn">'+esc(p.name||'未命名')+(cur?' <span class="pmcur">当前</span>':'')+'<div class="pmd">'+n+' 项自评记录</div></div>'+
+        '<div class="pmbtns"><button class="btn sm" onclick="loadProfile(\''+id+'\')">载入</button><button class="btn sm" onclick="renameProfile(\''+id+'\')">重命名</button><button class="btn sm" onclick="delProfile(\''+id+'\')">删除</button></div></div>';
+    }).join('') : '<div class="pmempty">还没有档案。填写后点「保存进度」建立第一份。</div>';
+  document.getElementById('pmlist').innerHTML=h; document.getElementById('pmodal').classList.add('on');
+}
+function closeProfiles(){ const m=document.getElementById('pmodal'); if(m) m.classList.remove('on'); }
+/* ===== 自定义下拉(按钮 + 弹层,字号可控)===== */
+let _menuCb=null;
+function showMenu(btn,opts,cur,cb){
+  _menuCb=cb;
+  const menu=document.getElementById('lvlmenu');
+  menu.innerHTML=opts.map(o=>'<button class="'+(o[0]===cur?'sel':'')+'" onclick="pickMenu(\''+String(o[0]).replace(/'/g,"\\'")+'\')">'+esc(o[1])+'</button>').join('');
+  const r=btn.getBoundingClientRect();
+  menu.style.left=(window.scrollX+r.left)+'px';
+  menu.style.top=(window.scrollY+r.bottom+3)+'px';
+  menu.style.minWidth=Math.max(r.width,150)+'px';
+  menu.classList.add('on');
+}
+function pickMenu(v){ const cb=_menuCb; const m=document.getElementById('lvlmenu'); if(m)m.classList.remove('on'); _menuCb=null; if(cb)cb(v); }
+document.addEventListener('click',function(){ const m=document.getElementById('lvlmenu'); if(m)m.classList.remove('on'); });
+function packScopeOpen(btn,ev){ ev.stopPropagation();
+  const opts=[['','全部模块']].concat(MODS.map(m=>[m.id,m.name]));
+  showMenu(btn,opts,_packScope,function(v){ _packScope=v; renderMain(); });
+}
+/* ===== 就绪度渲染 ===== */
+function persist(){ autosave(); }
+function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); renderMain(); }
+function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function pctCol(p){ return p>=80?'var(--green)':(p>=40?'var(--amber)':'var(--red)'); }
+function renderSummary(){
+  const box=document.getElementById('summary');
+  if(active==='home'||active==='pack'){ box.innerHTML=''; return; }
+  const m=modById(active); if(!m){ box.innerHTML=''; return; }
+  const st=modStats(m.id);
+  box.innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">'+esc(m.name)+' · 就绪度 <b style="color:'+pctCol(st.pct)+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已建立 <b>'+st.done+'</b>/'+st.total+' 项 · 逐条对照条款自查(无 / 部分 / 已建立)· 团队自查参照,非型批/CE 结论</div>'+
+    '<div class="pills">'+m.pills.map(p=>'<span class="pill">'+esc(p)+'</span>').join('')+'</div>'+
+    '</div></div>';
+}
+function renderNav(){
+  const step=(id,n,title,sub)=>'<button class="sstep'+(active===id?' active':'')+'" onclick="pick(\''+id+'\')"><span class="n">'+n+'</span><span class="stx"><span>'+title+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</span></button>';
+  let h=step('home','◎','总览 Dashboard','四模块一览 · 导出报告');
+  h+='<div class="sgrp">型批强制(E-mark)</div>';
+  MODS.slice(0,2).forEach(m=>{ const st=modStats(m.id); h+=step(m.id,m.n,m.name,'就绪度 '+st.pct+'% · '+st.done+'/'+st.total); });
+  h+='<div class="sgrp">CE / 标准侧(并行)</div>';
+  MODS.slice(2).forEach(m=>{ const st=modStats(m.id); h+=step(m.id,m.n,m.name,'就绪度 '+st.pct+'% · '+st.done+'/'+st.total); });
+  h+='<div class="sgrp">审计与导出</div>';
+  const pk=packStats();
+  h+=step('pack','⑤','审计就绪包',(pk.noEv||pk.unmet)?('缺口 '+(pk.noEv+pk.unmet)+' · 可导出'):'证据台账 · 可导出');
+  document.getElementById('nav').innerHTML=h;
+}
+function dashCard(title,big,sub,col,onclick){
+  return '<button class="dcard" onclick="'+onclick+'"><div class="dct">'+esc(title)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+sub+'</div></button>';
+}
+function renderHome(m){
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'(未保存草稿)';
+  let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px">'+
+    '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">电气与电动化合规评估台</div>'+
+    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 四模块就绪度一览。R100/R10 为 E-mark 型批强制;充电接口与电池法规为 CE/标准侧,与型批<b>并行</b>。</div></div>'+
+    '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
+  s+='<div class="dgrid">'+MODS.map(mm=>{
+    const st=modStats(mm.id);
+    return dashCard(('①②③④'[MODS.indexOf(mm)])+' '+mm.name, st.pct+'%', '已建立 '+st.done+'/'+st.total+' 项', pctCol(st.pct), "pick('"+mm.id+"')");
+  }).join('')+'</div>';
+  s+='<div class="ckleg">四模块均按当前档案本地保存。点卡片进入对应模块评估;「导出评估报告」把四模块现状生成一份可打印/存 PDF 的报告。就绪度 % 为自查参照,非型式批准或 CE 符合性结论。</div>';
+  m.innerHTML=s;
+}
+/* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
+function metaSet(k,f,v){ itemMeta[k]=itemMeta[k]||{}; itemMeta[k][f]=v; autosave(); }
+function metaFilled(k){ const m=itemMeta[k]; return !!(m&&(m.ev||m.owner||m.gap||m.due)); }
+function toggleItem(k){ _openItems[k]=!_openItems[k]; renderMain(); }
+function chkItemHTML(it){
+  const v=ans[it.k]||0;
+  const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+LABELS[kk]+'</button>').join('');
+  const open=!!_openItems[it.k], filled=metaFilled(it.k), m=itemMeta[it.k]||{};
+  let h='<div class="qitem"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+
+    ' <button class="metatog'+(filled?' has':'')+'" onclick="toggleItem(\''+it.k+'\')">'+(filled?'📎 证据/责任人':'＋ 证据/责任人')+' '+(open?'▴':'▾')+'</button></div>'+
+    '<div class="seg">'+seg+'</div></div>';
+  if(open){
+    h+='<div class="idet">'+
+      '<label>证据 / 记录<input class="cin" value="'+escA(m.ev||'')+'" placeholder="报告编号 / 链接 / 文档名" oninput="metaSet(\''+it.k+'\',\'ev\',this.value)"></label>'+
+      '<label>责任人<input class="cin" value="'+escA(m.owner||'')+'" placeholder="姓名 / 团队" oninput="metaSet(\''+it.k+'\',\'owner\',this.value)"></label>'+
+      '<label>差距 / 整改<input class="cin" value="'+escA(m.gap||'')+'" placeholder="缺口与整改计划" oninput="metaSet(\''+it.k+'\',\'gap\',this.value)"></label>'+
+      '<label>目标日期<input class="cin" type="date" value="'+escA(m.due||'')+'" onchange="metaSet(\''+it.k+'\',\'due\',this.value)"></label>'+
+      '</div>';
+  }
+  h+='</div>';
+  return h;
+}
+function renderMain(){
+  const m=document.getElementById('main');
+  if(active==='home'){ renderHome(m); return; }
+  if(active==='pack'){ renderPack(m); return; }
+  const mod=modById(active); if(!mod){ renderHome(m); return; }
+  let s='<div class="sb-mh">'+esc(mod.title)+'</div>'+
+    '<div class="sb-msub">'+mod.sub+'</div>';
+  mod.groups.forEach((g,gi)=>{
+    s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>';
+    g.items.forEach(it=>{ s+=chkItemHTML(it); });
+    s+='</div>';
+  });
+  s+='<div class="ckleg">'+esc(mod.leg)+' 就绪度随当前档案本地保存。</div>';
+  m.innerHTML=s;
+}
+/* ===== 导出评估报告(浏览器打印 → PDF)===== */
+function exportReport(){
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'未命名档案';
+  let d=''; try{ d=new Date().toLocaleDateString('zh-CN'); }catch(e){}
+  const chk=groups=>groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:42%">条目</th><th>依据</th><th>状态</th><th>证据 / 责任人 / 差距 / 目标</th></tr>'+
+    g.items.map(it=>{const v=ans[it.k]||0;const mm=itemMeta[it.k]||{};
+      const md=[mm.ev?('证据:'+mm.ev):'',mm.owner?('责任人:'+mm.owner):'',mm.gap?('差距:'+mm.gap):'',mm.due?('目标:'+mm.due):''].filter(Boolean).join(' ｜ ');
+      return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+LABELS[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
+  let html='<div class="rhead"><div class="rtitle">电气与电动化合规 · 评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准/CE 符合性结论</div></div>';
+  html+='<div class="rsum">'+MODS.map((mm,i)=>{const st=modStats(mm.id);return '<div>'+('①②③④'[i])+' '+esc(mm.name)+' <b>'+st.pct+'%</b>（'+st.done+'/'+st.total+'）</div>';}).join('')+'</div>';
+  MODS.forEach((mm,i)=>{ html+='<h2>'+('①②③④'[i])+' '+esc(mm.title)+'</h2>'+chk(mm.groups); });
+  html+='<div class="rfoot">条款依据 UN R100.03(Part I/II,附件 9A–9J,热扩散 §6.15)、UN R10.06(附件 4–22,充电模式 11–22)、EN 62196 / IEC 61851 / ISO 15118 / AFIR (EU) 2023/1804 及 (EU) 2023/1542 电池法规(尽职调查经 (EU) 2025/1561 推迟至 2027-08-18)。R100/R10 为 E-mark 型批强制;充电接口与电池法规属 CE/标准侧,与型批并行。本报告由团队自查生成,供内部参照,<b>不构成型式批准或 CE 符合性结论</b>;正式判定以认可技术服务 / 批准机关 / 公告机构为准。</div>';
+  const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
+  document.body.classList.add('printing');
+  const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
+  window.addEventListener('afterprint',cleanup);
+  setTimeout(()=>{ try{window.print();}catch(e){cleanup();} }, 80);
+}
+/* ===== ⑤ 审计就绪包:证据台账 + 优先整改 + CSV 导出 ===== */
+function csvCell(v){ v=String(v==null?'':v); return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function downloadCSV(name,rows){
+  const csv=rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'}); // BOM 保证 Excel 正确识别中文
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },120);
+}
+function todayStr(){ try{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }catch(e){ return ''; } }
+// 全部自查条款扁平化,带模块/分组
+function allClauses(){ const out=[];
+  MODS.forEach(mm=>mm.groups.forEach(g=>g.items.forEach(it=>out.push({sys:mm.short,mod:mm.id,grp:g.name,it}))));
+  return out; }
+// 条款审计风险判定:已建立但无证据=补证据即可闭环;未达标=尚未建立;逾期=有目标日期已过且未达标
+function clauseFlag(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}; const today=todayStr();
+  const overdue=!!(m.due&&today&&m.due<today&&v<2);
+  if(v<2) return {type:'unmet', label:(v===0?'未开始':'部分'), overdue};
+  if(!m.ev) return {type:'noev', label:'缺证据', overdue:false};
+  return {type:'ok', label:'已闭环', overdue:false}; }
+function packStats(){ const cs=allClauses(); let done=0,noEv=0,unmet=0,overdue=0;
+  cs.forEach(c=>{ const f=clauseFlag(c), v=ans[c.it.k]||0; if(v===2)done++; if(f.type==='noev')noEv++; if(f.type==='unmet')unmet++; if(f.overdue)overdue++; });
+  return {total:cs.length,done,noEv,unmet,overdue}; }
+function gotoItem(k){ _openItems[k]=true; const pre=String(k).split('.')[0]; active=modById(pre)?pre:'home'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function exportLedgerCSV(){ const rows=[['模块','分组','条款','依据','状态','证据/记录','责任人','差距/整改','目标日期','审计风险']];
+  allClauses().forEach(function(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}, f=clauseFlag(c);
+    const flag=f.type==='ok'?'':(f.type==='noev'?'已建立但缺证据':(f.label))+(f.overdue?'·逾期':'');
+    rows.push([c.sys, c.grp, c.it.t, c.it.r||'', LABELS[v], m.ev||'', m.owner||'', m.gap||'', m.due||'', flag]); });
+  downloadCSV('电气电动化合规证据台账_'+todayStr()+'.csv', rows); }
+function togglePackGap(){ _packGapOnly=!_packGapOnly; renderMain(); }
+function packKpi(t,big,sub,col){ return '<div class="dcard" style="cursor:default"><div class="dct">'+esc(t)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+esc(sub)+'</div></div>'; }
+function renderPack(m){
+  const ps=packStats();
+  let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
+    '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">审计就绪包 · 证据台账</div>'+
+    '<div class="sb-msub" style="margin-bottom:0">把 R100 / R10 / 充电接口 / 电池法规逐条证据汇成可交付、可导出的一页,直接对接型批审核、CE 评定与项目整改。均取自当前档案,本地生成。</div></div>'+
+    '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
+  s+='<div class="dgrid">'+
+    packKpi('自查条款总数', ps.total, 'R100 + R10 + 充电 + 电池法', 'var(--ink)')+
+    packKpi('已建立', ps.done+'/'+ps.total, '状态 = 已建立', ps.done?'var(--green)':'var(--greyl)')+
+    packKpi('⚠ 缺证据', ps.noEv, '已建立但无证据/记录', ps.noEv?'var(--red)':'var(--green)')+
+    packKpi('未达标', ps.unmet+(ps.overdue?' · 逾期'+ps.overdue:''), '状态 = 无 / 部分', ps.unmet?'var(--amber)':'var(--green)')+
+    '</div>';
+  // —— 建议优先处理 ——
+  const unmetList=allClauses().filter(c=>clauseFlag(c).type==='unmet').sort((a,b)=>(ans[a.it.k]||0)-(ans[b.it.k]||0));
+  const noEvList=allClauses().filter(c=>clauseFlag(c).type==='noev');
+  const chip=(txt,col)=>'<span class="mlegal" style="background:'+col[0]+';color:'+col[1]+'">'+esc(txt)+'</span>';
+  s+='<div style="font-size:13px;font-weight:800;margin:14px 0 6px">建议优先处理 <span style="font-weight:400;color:var(--grey);font-size:11.5px">按「合规阻塞 → 补证据即可闭环」排序</span></div>';
+  if(!unmetList.length&&!noEvList.length){
+    s+='<div class="ckleg" style="margin-top:0">暂无待办:条款均已建立且有证据。继续维护证据、跟踪电池法规授权/实施法案时点即可。</div>';
+  } else {
+    s+='<div class="actwrap">';
+    if(unmetList.length){ s+='<div class="actcol"><div class="acth">① 合规阻塞 · 未达标条款('+unmetList.length+')</div>'+
+      unmetList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f3d0d0','#b02222'])+' <span>'+esc(c.it.t)+'</span><small>'+esc(c.it.r||'')+'</small></button>').join('')+
+      (unmetList.length>8?'<div class="actmore">…另 '+(unmetList.length-8)+' 条,见下方台账</div>':'')+'</div>'; }
+    if(noEvList.length){ s+='<div class="actcol"><div class="acth">② 补证据即可闭环('+noEvList.length+')</div>'+
+      noEvList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f4e6bd','#7a5a10'])+' <span>'+esc(c.it.t)+'</span><small>状态已建立 · 缺证据/记录</small></button>').join('')+
+      (noEvList.length>8?'<div class="actmore">…另 '+(noEvList.length-8)+' 条</div>':'')+'</div>'; }
+    s+='</div>';
+  }
+  // —— 条款证据台账 ——
+  const stCol=['#f3d0d0','#f4e6bd','#d9e8d1'], stFg=['#b02222','#7a5a10','#3d6b2c'];
+  const scopeName=_packScope?(modById(_packScope)||{}).name:'全部模块';
+  s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
+    '<div style="font-size:13px;font-weight:800">条款证据台账 <span style="font-weight:400;color:var(--grey);font-size:11.5px">证据/责任人/差距在各模块清单里填,这里汇总</span></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'+
+    '<button class="lvlbtn" style="font-size:12px" onclick="packScopeOpen(this,event)">'+esc(scopeName)+' <span class="cae">▾</span></button>'+
+    '<button class="pill'+(_packGapOnly?' on':'')+'" style="cursor:pointer" onclick="togglePackGap()">'+(_packGapOnly?'✓ 只看缺口':'只看缺口')+'</button>'+
+    '<button class="btn sm" onclick="exportLedgerCSV()">⬇ 导出台账 CSV</button></div></div>';
+  let rows=allClauses();
+  if(_packScope) rows=rows.filter(c=>c.mod===_packScope);
+  if(_packGapOnly) rows=rows.filter(c=>clauseFlag(c).type!=='ok');
+  s+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">条款</th><th>模块</th><th>状态</th><th>证据/记录</th><th>责任人</th><th>差距/整改</th><th>目标</th><th>审计风险</th></tr>';
+  if(!rows.length){ s+='<tr><td colspan="8" style="color:var(--grey)">'+(_packGapOnly?'无缺口:该范围条款均已建立且有证据。':'该范围暂无条款。')+'</td></tr>'; }
+  rows.forEach(function(c){ const v=ans[c.it.k]||0, mm=itemMeta[c.it.k]||{}, f=clauseFlag(c);
+    const flagBadge=f.type==='ok'?'<span style="color:var(--green)">✓ 闭环</span>':
+      (f.type==='noev'?'<span class="mlegal" style="background:#f3d0d0;color:#b02222">⚠ 缺证据</span>':
+       '<span class="mlegal" style="background:#f4e6bd;color:#7a5a10">未达标</span>')+(f.overdue?' <span class="mlegal" style="background:#f3d0d0;color:#b02222">逾期</span>':'');
+    s+='<tr'+(f.type!=='ok'?' style="background:#fdf6f0"':'')+'><td class="lft"><button class="lnk" onclick="gotoItem(\''+c.it.k+'\')">'+esc(c.it.t)+'</button><div style="font-size:10.5px;color:var(--grey)">'+esc(c.it.r||'')+'</div></td>'+
+      '<td>'+esc(c.sys)+'</td>'+
+      '<td><span class="mlegal" style="background:'+stCol[v]+';color:'+stFg[v]+'">'+LABELS[v]+'</span></td>'+
+      '<td>'+(mm.ev?esc(mm.ev):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td>'+(mm.owner?esc(mm.owner):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td>'+(mm.gap?esc(mm.gap):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td style="white-space:nowrap">'+(mm.due?esc(mm.due):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td style="white-space:nowrap">'+flagBadge+'</td></tr>';
+  });
+  s+='</table></div>';
+  s+='<div class="ckleg">「审计风险」口径:<b>未达标</b>=状态为无/部分(合规阻塞);<b>⚠ 缺证据</b>=已勾选已建立但未填证据/记录——审核现场无法举证,补上即可闭环;<b>逾期</b>=有目标日期且已过而仍未达标。CSV 为 UTF-8(含 BOM),Excel 可直接打开。全部为团队自查参照,非型批/CE 结论。</div>';
+  m.innerHTML=s;
+}
+/* ===== 速查工具:术语 / FAQ / 差异矩阵 / 标准速览 ===== */
+function glosListHTML(){
+  const q=(_glosQ||'').trim().toLowerCase();
+  const list=GLOSSARY.filter(g=>!q||(g.t+' '+g.full+' '+g.d).toLowerCase().indexOf(q)>=0);
+  if(!list.length) return '<div class="pmempty">没有匹配「'+esc(_glosQ)+'」的术语。</div>';
+  return '<div class="glosgrid">'+list.map(g=>'<div class="glos"><div class="glost">'+esc(g.t)+' <span class="glosf">'+esc(g.full)+'</span></div><div class="glosd">'+esc(g.d)+'</div></div>').join('')+'</div>';
+}
+function glosSearch(v){ _glosQ=v; const el=document.getElementById('glosList'); if(el) el.innerHTML=glosListHTML(); }
+function faqHTML(){ return '<div class="std">'+FAQS.map((f,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(f.q)+'</summary><div class="sc">'+esc(f.a)+'</div></details>').join('')+'</div>'; }
+function modsHTML(){
+  const legalCol={red:['#f3d0d0','#b02222'],amber:['#f4e6bd','#7a5a10'],grey:['#eef0f2','#6b7280']};
+  const cols=[['obj','测量对象'],['out','输出 / 刻度'],['legal','法定性'],['how','判定方式'],['std','依据标准'],['use','何时用']];
+  let h='<div class="sb-msub" style="margin-bottom:10px">四个模块**管的东西不同**——R100/R10 是 E-mark 型批强制;充电接口是标准/CE 侧衔接;电池法规是与型批并行的 CE 强制体系。互不替代。</div>';
+  h+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">模块</th>'+cols.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'</tr>';
+  MODULES.forEach(x=>{
+    const lc=legalCol[x.tone]||legalCol.grey;
+    h+='<tr><td class="lft"><b>'+esc(x.m)+'</b></td>'+cols.map(c=>{
+      if(c[0]==='legal') return '<td><span class="mlegal" style="background:'+lc[0]+';color:'+lc[1]+'">'+esc(x.legal)+'</span></td>';
+      return '<td>'+esc(x[c[0]])+'</td>';
+    }).join('')+'</tr>';
+  });
+  h+='</table></div>';
+  h+='<div class="ckleg">要点:同一辆电动车出口欧盟,高压安全与 EMC 走 <b>E-mark 型批</b>(缺一不可),动力电池另须满足 <b>CE 电池法规</b>(碳足迹/护照/尽职调查),充电互操作按 <b>标准侧</b>验证——三条线并行推进。</div>';
+  return h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+}
+function stdHTML(){ return '<div class="std">'+STD.map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
+/* 速查工具下拉 + 弹窗 */
+function toggleTools(){ const d=document.getElementById('tb-dd'); if(d) d.classList.toggle('on'); }
+function openTool(which){
+  const d=document.getElementById('tb-dd'); if(d) d.classList.remove('on');
+  const t=document.getElementById('gmtitle'), bd=document.getElementById('gmbody');
+  if(which==='glos'){ t.textContent='术语速查（'+GLOSSARY.length+' 条）'; bd.innerHTML='<input class="cin" id="glosq" style="max-width:340px;margin-bottom:12px" placeholder="搜索术语,如 REESS / CCS2 / 电池护照" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)"><div id="glosList">'+glosListHTML()+'</div>'; }
+  else if(which==='faq'){ t.textContent='常见问答 FAQ'; bd.innerHTML=faqHTML(); }
+  else if(which==='mods'){ t.textContent='模块差异矩阵'; bd.innerHTML=modsHTML(); }
+  else { t.textContent='相关标准 / 法规速览'; bd.innerHTML=stdHTML(); }
+  document.getElementById('gmodal').classList.add('on');
+}
+function gmClose(){ const m=document.getElementById('gmodal'); if(m) m.classList.remove('on'); }
+document.addEventListener('click',function(e){ const dd=document.getElementById('tb-dd'); if(dd&&dd.classList.contains('on')&&!e.target.closest('.tb-menu')) dd.classList.remove('on'); });
+function render(){ renderSummary(); renderNav(); renderMain(); }
+(function(){
+  const bb=document.getElementById('backbtn');
+  if(bb) bb.addEventListener('click',function(e){
+    if(window.opener && !window.opener.closed){ e.preventDefault(); window.close(); }
+  });
+})();
+(function init(){
+  const ps=getProfiles(), id=activeId();
+  if(id&&ps[id]){ applyState(ps[id].state); const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; }
+  else { ans={}; itemMeta={}; }
+  updatePBar(); writeSummary(); render();
+})();
+</script>
+</body>
+</html>
