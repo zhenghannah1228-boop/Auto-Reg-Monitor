@@ -649,7 +649,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-wlog"><span class="tn">22</span>工作日志</div>
     <div class="tab" data-p="p-emark"><span class="tn">23</span>E-mark评估</div>
     <div class="tab" data-p="p-eulaw"><span class="tn">24</span>欧盟法规关系网</div>
-    <div class="tab" data-p="p-ops" id="tab-ops" style="display:none"><span class="tn">＊</span>数据状态·内部</div>
+    <div class="tab" data-p="p-ops" id="tab-ops"><span class="tn">25</span>数据状态·内部</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -1183,7 +1183,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   <div class="pane" id="p-ops">
     <div class="netctrl">
       <span style="font-family:var(--serif);font-weight:900;color:var(--accent);font-size:14px">数据状态台账 · 仅内部</span>
-      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">全部内嵌监管性数据集的来源 / as-of / 置信度 / 更新触发 / 修改位。此页 URL 参数 <code>?ops=1</code> 显示,不对外暴露。</span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">全部内嵌监管性数据集的来源 / as-of / 置信度 / 更新触发 / 修改位。团队内部维护台账;客户端评估工具(E-mark 等)不含此页。</span>
     </div>
     <div class="ops-legend" id="ops-legend"></div>
     <div id="ops-body"><div class="bigmsg">正在载入数据状态台账…</div></div>
@@ -6243,9 +6243,6 @@ function renderOps(){
   if(_opsCatalog){done(_opsCatalog);return;}
   fetch("./data/data_catalog.json").then(r=>r.json()).then(done).catch(e=>{body.innerHTML='<div class="bigmsg">数据状态台账载入失败:'+esc(String(e))+'</div>';});
 }
-// 内部 tab 门控:仅 URL 含 ?ops=1 或 #ops 时显示
-(function(){try{if(/[?&]ops=1/.test(location.search)||/ops/.test(location.hash)){const t=document.getElementById("tab-ops");if(t)t.style.display="";}}catch(e){}})();
-
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
   if(t.dataset.p==="p-net")buildNet();
