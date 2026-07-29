@@ -1334,6 +1334,7 @@
    "external_recognition": {
     "recognizes": [
      "CCC/EU型式认证(作支持文件)",
+     "GCC/GSO标准",
      "ECE技术法规"
     ],
     "basis": "GSO技术法规参照ECE;接受CCC/EU等既有型式认证证书作为申请支持文件。",

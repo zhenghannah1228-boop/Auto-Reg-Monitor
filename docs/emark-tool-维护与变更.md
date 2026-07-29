@@ -417,6 +417,24 @@
     - **R10 07 系列各条款附件号**：ev 台已在标题/说明标注 07 系列，但各条 `r:` 字段附件号仍按
       06 系列结构，待取得 UNECE 07 系列正式文本后逐条核对更新。
 
+41. **(2026-07-29)三项挂账处理结论**：
+    - **沙特 `recognizes` 缺 `GCC/GSO标准`** → ✅ **已修**。核对发现 6 个 GCC 成员中唯独沙特
+      缺此关键词（阿联酋/科威特/卡塔尔/阿曼/巴林均有），导致以 GSO 为锚点（`ORG_FAMILY.GSO=GCC`）
+      时沙特 `hit=false` 落入「需本地认证」、与 5 个同类国不一致。已补 `"GCC/GSO标准"`，Playwright
+      验证：GSO 锚点下 6 国现统一落「部分采信减量(partial)」。
+    - **伊拉克 `system_type`=`recognition`** → **经分析无需改动**。`renderPath` 的 `hit` 取决于
+      目标国 `recognizes` 是否含锚点标准族 token；伊拉克 recognizes（COSQC采信的国际标准/认可机构
+      测试报告/出口国合规证据）**不含任何标准族 token**，故 `hit` 恒为 false → 伊拉克在 13 路径中
+      **恒落「需本地认证」，与 system_type 取值无关**（已 Playwright 逐锚点验证：欧盟/美国/日本/
+      GSO/沙特 五锚点下均 local）。system_type 唯一影响 05 地图着色，而 `recognition`（采信外部型/
+      外部符合性核验）恰当描述 COSQC 的 ICIGI/VoC 模型；另两个合法值更差（`hybrid` 混合型隐含存在
+      本土型批，与「无本土型式批准」矛盾；`own_full` 明显错）。故 `recognition` 为三选一中最贴切者，
+      维持不变。
+    - **R10 07 系列附件号** → **暂无法核实，维持现状**。07 系列 2025-06-12 生效，EU 官方公报尚未
+      转载其合并文本（Cellar SPARQL 检索无 2024–2026 年 R10 EMC 条目），unece.org 仍遭 Cloudflare
+      拦截。ev 台现状已如实标注「07 系列附件是否重排待以 UNECE 正式文本核对」，不臆造附件号；
+      待 OJ 转载或取得 UNECE 正式文本后再逐条更新。
+
 ---
 
 ## 四、待办 / 待确认
