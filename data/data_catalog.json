@@ -1,0 +1,147 @@
+{
+  "_meta": {
+    "title": "数据集主清单（内部数据状态 + 开发数据字典 共用底座）",
+    "asof": "2026-07-29",
+    "tiers": {
+      "green": "🟢 原文核实 —— 已对照 EU/UN 官方原文或权威文件逐条核对（含本轮系统性审计）",
+      "amber": "🟡 调研待核 —— 网络调研/二级来源得出，未经官方原文逐条背书，交付前建议专家复核",
+      "gray": "⚪ 待补充/占位 —— 结构就位、内容未填或为占位"
+    },
+    "note": "本清单只收监管性/事实性数据集；纯 UI 配置（配色/正则/CSS/文案模板）不计。tier 反映交付时点置信度；trigger=何种事件发生时该数据集需更新；edit=改哪个文件/常量、格式与验证方式。"
+  },
+  "datasets": [
+    {
+      "id": "EU_ITEMS", "name": "EU 型批法规全表（唯一权威源）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EU_ITEMS（130 项）",
+      "what": "整个工具的法规单一权威源：主题/法规号/适用车型(c)/强制适用日(im)/UN编号(rno)。Step3 的 ITEMS、ITEM_CATS、版本板范围均由此派生。",
+      "source": "(EU) 2018/858 Annex II + (EU) 2019/2144 Annex I（原文见 docs/）。本轮系统性审计逐条对照 GSR Annex II 车型范围。",
+      "asof": "2026-07-29", "tier": "green",
+      "trigger": "GSR/2018-858 Annex 修订、UN 法规新增/系列升级、强制适用日变化",
+      "edit": "改 EU_ITEMS 对应项的 r/c/im/rno；ITEMS/ITEM_CATS/VEH 若涉车型需同步（见各自条目）。验证：node --check + tools/verify_reg_data.mjs + Playwright 逐车型跑 applicable()。",
+      "notes": "本轮修正 4 处车型编码错误：R94(A20) 过宽→M1,N1；R13/R13-H 拆分(C4/C4H)；R140(C7) 过宽→M1,N1；R58(A12) 过宽→N2,N3,O3,O4。"
+    },
+    {
+      "id": "ITEMS", "name": "Step3 法规盘点清单（EU_ITEMS 子集）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const ITEMS（94 项）",
+      "what": "Step3 逐条自评用的子集，法规号由 EU_ITEMS 经 toCompactReg() 派生；只保留 Step3 专有字段 mark/tc/eif/cn。",
+      "source": "派生自 EU_ITEMS", "asof": "2026-07-29", "tier": "green",
+      "trigger": "随 EU_ITEMS 变化；新增/拆分法规项时需同步加行",
+      "edit": "法规号不在此改（改 EU_ITEMS）；tc(批准类型)/eif(生效日快照)/cn(短名)在此维护。本轮加了 C4H 重型制动行。"
+    },
+    {
+      "id": "VEH", "name": "车型适用徽标映射", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const VEH",
+      "what": "每项在清单里显示的蓝色「适用车型」徽标（如 M1-N3 / M1,N1 / N2,N3,O3,O4）。",
+      "source": "同 EU_ITEMS.c，据 GSR Annex II。本轮审计同步修正 A20/A12/C7/C4/C4H。",
+      "asof": "2026-07-29", "tier": "green",
+      "trigger": "随 EU_ITEMS.c 车型范围变化",
+      "edit": "改 VEH[item] 字符串；须与 EU_ITEMS.c 一致（两处别漏）。"
+    },
+    {
+      "id": "ITEM_CATS", "name": "项→车型码集（applicable 硬收敛用）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "派生：ITEM_CATS（由 EU_ITEMS.c 生成）",
+      "what": "applicable() 按所选车型硬收敛的依据；运行时由 EU_ITEMS.c 拆分生成，非手工维护。",
+      "source": "派生自 EU_ITEMS.c", "asof": "2026-07-29", "tier": "green",
+      "trigger": "随 EU_ITEMS.c 自动变化", "edit": "不直接改；改 EU_ITEMS.c。"
+    },
+    {
+      "id": "REG_META", "name": "UN 法规系列/OJ/适用车型元数据", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const REG_META",
+      "what": "EU 型批全表(openEuTable)显示的要求系列(sr)、OJ 出处、适用车型；也作 verCell 兜底。键=UN 编号。",
+      "source": "(EU) 2019/2144 Annex I + 各法规 OJ。本轮修正 R13/R13-H 误挂（原'13'实为 R13-H 数据，经 EUR-Lex 核实 OJ L335/2015=CELEX 42015X1222(01)=R13-H，已移至'13-H'，'13'改 R13 重型 11 series）。",
+      "asof": "2026-07-29", "tier": "green",
+      "trigger": "UN 法规系列升级、EU Annex I 修订", "edit": "改 REG_META[编号] 的 s/sr/oj/c/n。R13 heavy 的 OJ 暂空（未取得 R13 重型合并文本 OJ），待补。"
+    },
+    {
+      "id": "EU_REF_SERIES", "name": "EU 引用系列（最低门槛）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EU_REF_SERIES",
+      "what": "版本时效自查表里各 UN 法规的「EU 引用系列」（EU 型批须至少满足的系列）。",
+      "source": "(EU) 2019/2144 Annex I 逐条钉定，合并版反映至 M7 · 2025-09-01。", "asof": "2025-09-01", "tier": "green",
+      "trigger": "EU 修订 Annex I 升级引用系列", "edit": "改 EU_REF_SERIES[编号]（两位系列号，00=Original）。R127 清单(02/03)与 Annex I(04) 待与业主对齐。"
+    },
+    {
+      "id": "UNECE_TP", "name": "UNECE 系列 Col4/Col5（新型式强制日/法定失效日）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const UNECE_TP + UNECE_FN",
+      "what": "版本板各系列的 c4(新型式须合规日)/c5(老证法定失效日)+过渡脚注。",
+      "source": "UNECE 官方「Entry dates – ECE Regulations」2026-06-30 版。", "asof": "2026-06-30", "tier": "green",
+      "trigger": "UNECE 更新 Entry-dates 表", "edit": "改 UNECE_TP[编号][系列].c4/c5/c4n/c5n。稀疏字段（多数法规无 c5）。"
+    },
+    {
+      "id": "TP_TEXT", "name": "法规原文过渡条款数据层", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const TP_TEXT（17 部）",
+      "what": "版本板「过渡条款截止/新发证不保证接受」的原文依据，含英文原句+限定+CELEX。",
+      "source": "EU 官方公报各法规合并文本 Transitional provisions 章节，逐部下载(Cellar)逐条核对。审计存档 docs/unreg_tp/。",
+      "asof": "2026-07-23", "tier": "green",
+      "trigger": "UNECE 发布新系列/补充件（其过渡条款不在现数据源，需另取）；R133 无 EU 公报文本未核对",
+      "edit": "改 TP_TEXT[编号].items[]（max/min/kind/date/q/n/src）。数据源仅反映 OJ 公布时点版本级别，见工具说明④。"
+    },
+    {
+      "id": "POWER_SPEC", "name": "动力类型→法规族映射", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const POWER_SPEC",
+      "what": "按所选动力(ICE/HEV/BEV/FCEV/GAS)把不匹配的项标「本动力通常不适用」（只标不删）。",
+      "source": "业主定的业务规则；本轮扩展压测验证 FCEV/HEV/GAS 标注均准确。", "asof": "2026-07-29", "tier": "green",
+      "trigger": "新增动力相关法规、业主调整口径", "edit": "改 POWER_SPEC[item]=动力码数组。"
+    },
+    {
+      "id": "IWVTA_REQ", "name": "IWVTA 整车必备 UN 法规清单", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const IWVTA_REQ",
+      "what": "速查工具「IWVTA 整车必备法规」清单及要求系列。",
+      "source": "UNECE ECE/TRANS/WP.29/2025/159（UN R0 IWVTA 08 series 提案）Annex 4 Part A。", "asof": "2026-07", "tier": "green",
+      "trigger": "R0 IWVTA 提案定稿/修订", "edit": "改 IWVTA_REQ[]（r/s/c/t）。注：R0 尚为提案。"
+    },
+    {
+      "id": "EMARK_ACCEPT", "name": "采信/参照 E-mark 的国家清单", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EMARK_ACCEPT + EMARK_SRC",
+      "what": "结论卡「可通行国家」的采信(4国)/参照(16国)/own(4国)分档与逐国注释。",
+      "source": "各国国内法/区域协定的网络调研 + 部分官方文件(EMARK_SRC 列出)。经独立核实修正一轮(埃及降参照、印尼/伊拉克入own、越南限欧英原产、GCC 移出一证通行等)。",
+      "asof": "2026-07", "tier": "amber",
+      "trigger": "各国准入政策变动、采信协定更新",
+      "edit": "改 EMARK_ACCEPT.accepts/refs/own 的 [国名,注释]。**交付前建议专家复核**：属二级来源，采信程度逐国不同、执行力度可变；已在 EMARK_SRC 注明。"
+    },
+    {
+      "id": "EU_APPLY_PENDING", "name": "EU 委托法规适用日 + 待定项", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EU_APPLY + PENDING + SPLIT_REGS + ALT_REGS + REG_APPTYPE",
+      "what": "EU 委托法规适用日、自动驾驶待定细则、捆绑法规拆分、二选一等效(A8)、批准类型(system/component/STU)。",
+      "source": "(EU) 各实施/委托法规原文 + 2018/858 Art 3 定义。", "asof": "2026-07", "tier": "green",
+      "trigger": "EU 实施细则发布(如 ADS)、法规拆分口径调整", "edit": "各常量按原文改；ADS 系列细则待定项在 PENDING。"
+    },
+    {
+      "id": "unece_status", "name": "UNECE 版本活数据", "tool": "index+emark", "file": "data/unece_status.json", "loc": "JSON（regs[].amendments）",
+      "what": "各 UN 法规现行系列/生效日；verCell/版本板的第一来源(liveVersion)。",
+      "source": "UNECE WP.29/343 状态表。", "asof": "2026-03-10", "tier": "green",
+      "trigger": "每次 WP.29 会议(年 3 次)后有新系列/补充件", "edit": "更新 data/unece_status.json 的 as_of 与 regs[]。**时效提醒**：距 as_of 已超期时应复核。"
+    },
+    {
+      "id": "cert_pyramid", "name": "认证金字塔 / 关税 / 采信体系", "tool": "index", "file": "data/cert_pyramid.json", "loc": "JSON（cert_systems，103 国）",
+      "what": "09 金字塔、05 世界地图、13 合规路径的底数据：各国认证体系(system_type)、金字塔层级、关税(tariff)、对外采信(external_recognition)。",
+      "source": "各国官方/权威资料混合。本轮修正伊拉克(非GSO)、沙特 recognizes 补 GCC/GSO、5国关税更新。",
+      "asof": "2026-07", "tier": "amber",
+      "trigger": "各国认证制度/关税税则变动",
+      "edit": "改 data/cert_pyramid.json 各国条目。**关税为参考值**(标注'以海关最新税则为准')；system_type 驱动地图着色+路径分档，改动属业务口径。confidence 字段(A/B/C)已逐国标注。"
+    },
+    {
+      "id": "PATH_BLOCS", "name": "合规路径认证区块", "tool": "index", "file": "index.html", "loc": "const PATH_BLOCS + PATH_TOKENS + ORG_FAMILY + STD_FAMILY",
+      "what": "13 合规路径「一证通行」区块(EU-WVTA/EAEU)及标准体系归类、对外采信关键词。",
+      "source": "本轮核实：GCC 已移出(GSO 不签发区域整车型批)；EU-WVTA=欧盟27+EEA3；EAEU 5 国。", "asof": "2026-07", "tier": "green",
+      "trigger": "区域认证协定成员/机制变动", "edit": "改 PATH_BLOCS 区块国家；新增 CERT 国家时同步补入。"
+    },
+    {
+      "id": "EULAW", "name": "欧盟法规关系网（横向×纵向）", "tool": "index", "file": "index.html", "loc": "const EULAW_NODES + EULAW_EDGES",
+      "what": "tab24 关系图：16 节点(纵向5+横向11)+16 边(6型关系)。",
+      "source": "关系口径逐条据法规原文核对(CRA Art2/RED DA/AI法案Art107/EMC指令排除等，含 web 核实)。", "asof": "2026-07", "tier": "green",
+      "trigger": "相关法规适用边界变动(如 CRA/RED 过渡)", "edit": "改 EULAW_NODES/EULAW_EDGES；边 type 见 EULAW_ET。"
+    },
+    {
+      "id": "cyber_data", "name": "网安工具评估数据", "tool": "cyber", "file": "emark/cyber_assessment.html", "loc": "R155/R156/CYBER.standards + seedTara/seedHara",
+      "what": "R155 CSMS(16项)/R156 SUMS(17项)就绪度清单、21434 TARA 威胁目录、26262 HARA、相关标准卡。",
+      "source": "对照上传的 R155/R156/ISO21434/ISO26262 原文校准(docs/)。CRA 卡本轮同步为准确口径。", "asof": "2026-07", "tier": "green",
+      "trigger": "R155/R156 新系列、CRA/相关标准更新", "edit": "改各常量的 items[].t/r；标准卡在 CYBER.standards。"
+    },
+    {
+      "id": "ad_data", "name": "智驾工具评估数据", "tool": "ad", "file": "emark/ad_assessment.html", "loc": "READY/QUIZ/PATHS/STANDARDS/SAE_LADDER/EVID",
+      "what": "ADAS 就绪度(21项)、级别判定问卷(judgeLevel)、L1-AVP 路径、标准速览、SAE 阶梯、证据清单。",
+      "source": "对照 J3016/R157/R171/(EU)2022-1426 原文校准。本轮含 R157 M/N 扩展、2022/1426 Annex V AVP 更新。", "asof": "2026-07", "tier": "green",
+      "trigger": "R157/R171/2022-1426 修订、AVP 细则", "edit": "改各常量；级别判定逻辑在 judgeLevel()。"
+    },
+    {
+      "id": "ev_data", "name": "电气工具评估数据", "tool": "ev", "file": "emark/ev_assessment.html", "loc": "MODS/STD",
+      "what": "R100.03/R10/充电/电池法规四模块清单 + 标准速览。",
+      "source": "对照 R100.03/R10.06/1542/充电标准原文校准。R10 标注现行 07 系列(附件号待 UNECE 正式文本)。", "asof": "2026-07", "tier": "green",
+      "trigger": "R100/R10 新系列、电池法阶段义务、充电标准更新",
+      "edit": "改 MODS[].groups[].items[].r。**待办**：R10 07 系列各条款附件号待取得 UNECE 正式文本后逐条核对(现按 06 系列结构)。"
+    },
+    {
+      "id": "REG_LINKS", "name": "法规链接占位表", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const REG_LINKS",
+      "what": "各法规「查看原文」链接，右栏与盘点用。", "source": "占位", "asof": "-", "tier": "gray",
+      "trigger": "接入「一点通」法规库 URL 时填", "edit": "填 REG_LINKS[编号]=URL；空则显示占位。"
+    }
+  ]
+}

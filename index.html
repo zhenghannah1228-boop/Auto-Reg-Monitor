@@ -274,6 +274,24 @@ input.csel{font-family:var(--sans);font-size:14px;background:var(--panel);border
 .eulaw-legend .elg-line{width:22px;display:inline-block;height:0}
 .eulaw-legend .elg-sep{width:1px;height:16px;background:var(--line);margin:0 2px}
 .eulaw-note{margin-top:10px;font-size:11px;line-height:1.7;color:var(--muted,#6b7280);padding:8px 12px;background:var(--panel,#fcfbf6);border-left:3px solid var(--accent,#c6502a);border-radius:0 6px 6px 0}
+.ops-legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin-bottom:12px;padding:9px 12px;background:var(--panel,#fcfbf6);border:1px solid var(--line);border-radius:8px;font-size:11.5px}
+.ops-legend b{font-size:15px}
+.ops-tbl{width:100%;border-collapse:collapse;font-size:12px}
+.ops-tbl th{text-align:left;font-size:11px;color:var(--muted);font-weight:700;padding:7px 9px;border-bottom:2px solid var(--line);position:sticky;top:0;background:var(--card,#fff)}
+.ops-tbl td{padding:9px 9px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.5}
+.ops-tbl tr:hover td{background:var(--panel,#fcfbf6)}
+.ops-nm{font-weight:700;color:var(--ink)}
+.ops-loc{font-family:monospace;font-size:10.5px;color:var(--muted);display:block;margin-top:2px}
+.ops-tier{display:inline-block;font-size:10.5px;font-weight:700;border-radius:5px;padding:1px 7px;white-space:nowrap}
+.ops-tier.green{background:#e2efda;color:#3d6630}.ops-tier.amber{background:#fbf0d8;color:#8a6510}.ops-tier.gray{background:#eceef1;color:#6b7280}
+.ops-asof{font-family:monospace;font-size:11px;white-space:nowrap}
+.ops-stale{display:block;font-size:10px;margin-top:2px}
+.ops-stale.warn{color:#b45309;font-weight:700}.ops-stale.ok{color:#9aa1ab}
+.ops-src{font-size:11px;color:var(--ink2,#3a3f46)}
+.ops-edit{font-size:10.5px;color:var(--muted);margin-top:4px;padding-top:4px;border-top:1px dashed var(--line)}
+.ops-edit b{color:var(--od,#c44e1e)}
+.ops-note{margin-top:12px;font-size:11px;line-height:1.7;color:var(--muted);padding:8px 12px;background:var(--panel,#fcfbf6);border-left:3px solid #8a6510;border-radius:0 6px 6px 0}
+.ops-sum{font-size:12.5px;color:var(--ink2);margin-bottom:10px}
 .dimbars .dr{display:grid;grid-template-columns:100px 1fr 44px;gap:10px;align-items:center;margin-bottom:9px;font-size:12px}
 .dimbars .bar{height:13px;background:var(--linesoft);border-radius:7px;overflow:hidden}
 .dimbars .bar i{display:block;height:100%;border-radius:7px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
@@ -631,6 +649,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-wlog"><span class="tn">22</span>工作日志</div>
     <div class="tab" data-p="p-emark"><span class="tn">23</span>E-mark评估</div>
     <div class="tab" data-p="p-eulaw"><span class="tn">24</span>欧盟法规关系网</div>
+    <div class="tab" data-p="p-ops" id="tab-ops" style="display:none"><span class="tn">＊</span>数据状态·内部</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -1159,6 +1178,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="eulaw-legend" id="eulaw-legend"></div>
     <div id="eulaw-chart" style="width:100%;height:calc(100vh - 250px);min-height:560px;background:var(--panel,#fcfbf6);border:1px solid var(--line);border-radius:8px"></div>
     <div class="eulaw-note">口径均据法规原文核对:CRA (EU) 2024/2847 Art 2 明确受 (EU) 2019/2144 覆盖的车辆不适用 CRA;RED 网安授权法案 (EU) 2022/30 定于 2027-12-11 由 CRA 取代;AI 法案 (EU) 2024/1689 经 Art 107 修订 2018/858、高风险 AI 经型批框架落地;EMC 指令 2014/30 排除型批车辆(整车 EMC 走 UN R10)。信息时点 2026-07,以各法规最新整合版为准。</div>
+  </div>
+
+  <div class="pane" id="p-ops">
+    <div class="netctrl">
+      <span style="font-family:var(--serif);font-weight:900;color:var(--accent);font-size:14px">数据状态台账 · 仅内部</span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">全部内嵌监管性数据集的来源 / as-of / 置信度 / 更新触发 / 修改位。此页 URL 参数 <code>?ops=1</code> 显示,不对外暴露。</span>
+    </div>
+    <div class="ops-legend" id="ops-legend"></div>
+    <div id="ops-body"><div class="bigmsg">正在载入数据状态台账…</div></div>
+    <div class="ops-note">本台账 = <code>data/data_catalog.json</code>(内部 tab 与开发数据字典共用)。🟢原文核实 / 🟡调研待核(交付前建议专家复核)/ ⚪待补充。「距 as-of」超过约 180 天(半个 WP.29 周期)标黄提醒。更新数据后请同步改此清单的 asof/tier。</div>
   </div>
 
   <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
@@ -6178,10 +6207,50 @@ function buildEuLaw(){
 }
 window.addEventListener("resize",()=>{if(eulawChart&&document.getElementById("p-eulaw").classList.contains("on"))eulawChart.resize();});
 
+/* ================= 数据状态台账(内部,URL ?ops=1 显示)================= */
+let _opsCatalog=null;
+function opsStale(asof){
+  if(!asof||asof==='-')return null;
+  const m=/^(\d{4})-(\d{2})(?:-(\d{2}))?$/.exec(asof); if(!m)return null;
+  const d=new Date(+m[1],+m[2]-1,+(m[3]||1));
+  const days=Math.floor((new Date()-d)/86400000);
+  return {days, warn:days>180};
+}
+function renderOps(){
+  const body=document.getElementById("ops-body"); if(!body)return;
+  const done=(cat)=>{
+    _opsCatalog=cat;
+    const ds=cat.datasets||[];
+    const leg=document.getElementById("ops-legend");
+    if(leg){const c={green:0,amber:0,gray:0};ds.forEach(x=>c[x.tier]=(c[x.tier]||0)+1);
+      leg.innerHTML=`<span>台账 as-of <b style="font-size:12px">${esc(cat._meta&&cat._meta.asof||'—')}</b></span>`
+        +`<span class="ops-tier green">🟢 原文核实 ${c.green}</span><span class="ops-tier amber">🟡 调研待核 ${c.amber}</span><span class="ops-tier gray">⚪ 待补充 ${c.gray}</span>`
+        +`<span style="color:var(--muted)">共 ${ds.length} 个数据集</span>`;}
+    const warnN=ds.filter(x=>{const s=opsStale(x.asof);return s&&s.warn;}).length;
+    const rows=ds.map(x=>{
+      const s=opsStale(x.asof);
+      const staleH=s?`<span class="ops-stale ${s.warn?'warn':'ok'}">距 as-of ${s.days} 天${s.warn?' ⚠建议复核':''}</span>`:'';
+      const tierL={green:'原文核实',amber:'调研待核',gray:'待补充'}[x.tier]||x.tier;
+      return `<tr>
+        <td><span class="ops-nm">${esc(x.name)}</span><span class="ops-loc">${esc(x.tool)} · ${esc(x.loc||x.file)}</span></td>
+        <td><span class="ops-tier ${x.tier}">${x.tier==='green'?'🟢':x.tier==='amber'?'🟡':'⚪'} ${tierL}</span></td>
+        <td><span class="ops-asof">${esc(x.asof||'—')}</span>${staleH}</td>
+        <td><div class="ops-src">${esc(x.what||'')}</div><div class="ops-src" style="margin-top:3px;color:var(--muted)"><b>源:</b>${esc(x.source||'')}</div>${x.notes?`<div class="ops-src" style="margin-top:3px;color:#8a6510"><b>注:</b>${esc(x.notes)}</div>`:''}<div class="ops-edit"><b>更新触发:</b>${esc(x.trigger||'—')}<br><b>改这里:</b>${esc(x.edit||'—')}</div></td>
+      </tr>`;}).join("");
+    body.innerHTML=`<div class="ops-sum">${warnN?`⚠ <b style="color:#b45309">${warnN}</b> 个数据集距 as-of 已超 180 天,建议优先复核。`:'✓ 各数据集时效均在 180 天内。'} 🟡 档(${ds.filter(x=>x.tier==='amber').length} 个)交付前建议专家复核。</div>
+      <div style="overflow-x:auto"><table class="ops-tbl"><thead><tr><th>数据集 / 位置</th><th>置信度</th><th>as-of</th><th>说明 · 来源 · 更新触发 · 修改位</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  };
+  if(_opsCatalog){done(_opsCatalog);return;}
+  fetch("./data/data_catalog.json").then(r=>r.json()).then(done).catch(e=>{body.innerHTML='<div class="bigmsg">数据状态台账载入失败:'+esc(String(e))+'</div>';});
+}
+// 内部 tab 门控:仅 URL 含 ?ops=1 或 #ops 时显示
+(function(){try{if(/[?&]ops=1/.test(location.search)||/ops/.test(location.hash)){const t=document.getElementById("tab-ops");if(t)t.style.display="";}}catch(e){}})();
+
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
   if(t.dataset.p==="p-net")buildNet();
   if(t.dataset.p==="p-eulaw")buildEuLaw();
+  if(t.dataset.p==="p-ops")renderOps();
   if(t.dataset.p==="p-tree")renderTree();
   if(t.dataset.p==="p-pyr")loadCert();
   if(t.dataset.p==="p-chain")openChainTab();
