@@ -43,6 +43,21 @@ console.log('\n=== emark_assessment.html ===');
   ok(/中国产车/.test(d.vn) && /<b>/.test(d.vn),'越南行含中国产车警示且带 <b> 标记');
   ok(!/GSO 42/.test(d.src) && !/IMR 2025/.test(d.src),'EMARK_SRC 已清除 GSO 42 / IMR 2025');
   ok(/截至 2026-07/.test(d.src),'EMARK_SRC 含时点声明');
+  // v2 断言：措辞更新（档位不变）
+  const v2=await page.evaluate(()=>{
+    const get=(list,cn)=>((EMARK_ACCEPT[list].find(x=>x[0]===cn)||[])[1]||'');
+    return {iraq:get('own','伊拉克'), kg:get('refs','吉尔吉斯斯坦'), ar:get('refs','阿根廷'),
+            il:get('accepts','以色列'), inn:get('refs','印度'), gh:get('refs','加纳'),
+            allText:JSON.stringify(EMARK_ACCEPT)+EMARK_SRC};
+  });
+  ok(/2026-01-01/.test(v2.iraq) && !/拟实施/.test(v2.iraq),'伊拉克整车条款已更新为已实施');
+  ok(!/勿假定/.test(v2.kg) && /无权威依据表明影响/.test(v2.kg),'吉尔吉斯 OTTS 警示已改为中性表述');
+  ok(/Gestión de Política Industrial/.test(v2.ar),'阿根廷主管机关已更新为 Res.18/2026 后机构');
+  ok(/אישור דגם/.test(v2.il) && /非批准制度/.test(v2.il),'以色列 IMR 已改述为声明表、型批正名 אישור דגם');
+  ok(/Safety Critical Components/.test(v2.inn) && !/pretest inspection 且国内生产/.test(v2.inn),'印度标题补全且错误括注已移除');
+  ok(/Act 1078/.test(v2.gh) && /版本自相矛盾/.test(v2.gh),'加纳母法更正为 Act 1078 且已记版本冲突');
+  ok(!/OTTC/.test(v2.allText) && /OTTS/.test(v2.allText),'OTTC 已全库统一为 OTTS');
+  ok(!/Dirección Nacional de Industria/.test(v2.allText),'已废止的阿根廷机关名不再出现');
   // 渲染：越南 <b> 是否真的加粗（note 未转义）
   const bold=await page.evaluate(()=>{
     if(typeof reachData!=='function') return null;
