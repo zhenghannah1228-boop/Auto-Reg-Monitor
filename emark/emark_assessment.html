@@ -95,6 +95,16 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .stiles{display:flex;flex-wrap:wrap;gap:5px}
 .stile{font-family:inherit;font-size:10.5px;font-weight:700;color:#fff;background:var(--c);border:none;border-radius:5px;padding:4px 8px;cursor:pointer;opacity:.9;transition:.12s}
 .stile:hover{opacity:1;transform:translateY(-1px);box-shadow:0 2px 6px rgba(16,24,40,.18)}
+.s3-secttl{display:flex;align-items:center;justify-content:space-between;gap:12px 16px;flex-wrap:wrap}
+.s3-ttl-t{flex:1 1 auto;min-width:0}
+.regsearch-wrap{display:inline-flex;align-items:center;gap:8px;flex:0 0 auto}
+.regsearch{font-family:inherit;font-size:12.5px;font-weight:400;color:var(--ink);background:#fff;border:1px solid #D9DCE1;border-radius:18px;padding:7px 14px;width:260px;max-width:52vw;transition:.12s}
+.regsearch:focus{outline:none;border-color:var(--o);box-shadow:0 0 0 3px rgba(198,80,42,.12)}
+.regsearch-cnt{font-size:11.5px;font-weight:600;color:var(--grey);white-space:nowrap;min-width:44px}
+.stile.dim{opacity:.16}
+.stile.hit{opacity:1;outline:2px solid var(--od);outline-offset:1px;box-shadow:0 2px 6px rgba(16,24,40,.2)}
+.arow.dim,.arow-gh.dim{opacity:.28}
+.arow.hit{background:var(--cream);border-radius:8px}
 .slegend{display:flex;gap:15px;margin-top:13px;padding-top:11px;border-top:1px dashed var(--ol);font-size:11px;color:var(--grey)}
 .slegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
 /* 版本时效自查表 */
@@ -1786,6 +1796,30 @@ function structAxes(items){
   ].filter(b=>b.rows.length);
 }
 function jumpItem(it){const el=document.getElementById('row-'+it);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>{el.classList.remove('flash');},1400);}
+// Step 3 法规速查：按 编号/名称/项号 过滤结构色块 + 明细行（纯 DOM 操作，不重渲染，保留输入焦点）
+function regSearch(v){
+  const q=(v||'').trim().toLowerCase().replace(/\s+/g,'');
+  const cnt=document.getElementById('regsearch-cnt');
+  const tiles=document.querySelectorAll('.stile[data-search]');
+  const rows=document.querySelectorAll('.arow[data-search]');
+  if(!q){
+    tiles.forEach(t=>t.classList.remove('dim','hit'));
+    rows.forEach(r=>r.classList.remove('dim','hit'));
+    document.querySelectorAll('.arow-gh').forEach(g=>g.classList.remove('dim'));
+    if(cnt) cnt.textContent='';
+    return;
+  }
+  const test=el=>(el.dataset.search||'').replace(/\s+/g,'').includes(q);
+  let n=0;
+  tiles.forEach(t=>{const m=test(t); t.classList.toggle('hit',m); t.classList.toggle('dim',!m);});
+  rows.forEach(r=>{const m=test(r); if(m)n++; r.classList.toggle('hit',m); r.classList.toggle('dim',!m);});
+  document.querySelectorAll('.arow-gh').forEach(g=>g.classList.add('dim'));
+  if(cnt) cnt.textContent=n?`${n} 条匹配`:'无匹配';
+}
+function regSearchJump(){
+  const first=document.querySelector('.arow.hit');
+  if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+}
 function structHTML(items){
   if(!_structOn||!items.length) return '';
   const blocks=structAxes(items);
@@ -1797,7 +1831,7 @@ function structHTML(items){
   const blockHTML=blocks.map(b=>{
     const bd=b.rows.filter(i=>regStatus[i.item]==='done').length;
     const tiles=b.rows.map(i=>{const st=regStatus[i.item]||'unk';const c=STAT_COL[st];
-      return `<button class="stile" style="--c:${c.bg};color:${c.fg}" data-jump="${i.item}" title="${i.cn}（${i.reg||'—'}）· ${STAT_LAB[st]}">${i.item}</button>`;}).join('');
+      return `<button class="stile" style="--c:${c.bg};color:${c.fg}" data-jump="${i.item}" data-search="${_esc((i.item+' '+(i.reg||'')+' '+(i.cn||'')).toLowerCase())}" title="${i.cn}（${i.reg||'—'}）· ${STAT_LAB[st]}">${i.item}</button>`;}).join('');
     return `<div class="sblock"><div class="sblock-h"><b>${b.label}</b><span class="sblock-n">${bd}/${b.rows.length}</span>${b.sub?`<small>${b.sub}</small>`:''}</div><div class="stiles">${tiles}</div></div>`;
   }).join('');
   return `<div class="struct">
@@ -1852,7 +1886,7 @@ function step3(){
     const al = ALT_REGS[i.item]
       ? `<b>${i.cn}</b> <small>${i.item}</small>${markBadge(i)}${vehb}${altInfo(i)}${powTag(i)}`
       : `<b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${vehb}${iwvtaChip(i)}${srcChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}${powTag(i)}`;
-    return gh+`<div class="${cls}" id="row-${i.item}">
+    return gh+`<div class="${cls}" id="row-${i.item}" data-search="${_esc((i.item+' '+(i.reg||'')+' '+(i.cn||'')).toLowerCase())}">
      <div class="al">${al}</div>
      <div class="seg" data-item="${i.item}">
        <button class="${regStatus[i.item]==='done'?'on done-b':''}" data-v="done">已认证</button>
@@ -1866,7 +1900,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     ${focusNote()}
     ${certConclusionCard()}
-    <div class="secttl">X 轴 · 法规完成度（${items.length} 条适用法规${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`　·　其中 <span class="secttl-na">${na} 条按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用</span>`:'';})():''}）</div>
+    <div class="secttl s3-secttl"><span class="s3-ttl-t">X 轴 · 法规完成度（${items.length} 条适用法规${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`　·　其中 <span class="secttl-na">${na} 条按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用</span>`:'';})():''}）</span><span class="regsearch-wrap"><input class="regsearch" placeholder="🔍 速查法规（编号 / 名称，如 R155、内饰、D4）" oninput="regSearch(this.value)" onkeydown="if(event.key==='Enter')regSearchJump()" autocomplete="off" aria-label="速查法规"><span class="regsearch-cnt" id="regsearch-cnt"></span></span></div>
     ${verBanner()}
     <div class="s3-view"><button class="s3-toggle" onclick="_structOn=!_structOn;render()">${_structOn?'◱ 收起结构总览':'◲ 展开结构总览'}</button></div>
     ${structHTML(items)}
