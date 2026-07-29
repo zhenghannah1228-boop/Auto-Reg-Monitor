@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>生产一致性（CoP）符合性评价 · 指引台 · UN 1958 Schedule 1 / (EU) 2018/858 Art 31</title>
+<style>
+:root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--green:#1F7A4D;--red:#C0392B;--amber:#B45309;--blue:#3A6B8A}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65}
+a{color:var(--od)}
+.topbar{background:linear-gradient(120deg,#fff,var(--cream));border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.tb-in{max-width:1160px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tb-title h1{font-size:21px;font-weight:800;letter-spacing:-.3px;margin:0;color:var(--ink)}
+.tb-title h1 .em{color:var(--o)}
+.tb-title .tb-sub{font-size:12px;color:var(--grey);margin-top:2px}
+.tb-act{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
+.badge-g:hover{background:var(--o);color:#fff}
+.badge-g .ico{stroke:currentColor;margin-right:4px}
+.tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
+.tb-home:hover{background:var(--o);color:#fff}
+.tb-menu{position:relative}
+.tb-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:210px;padding:6px;z-index:60}
+.tb-dd.on{display:block}
+.tb-dd a{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);text-decoration:none;border-radius:8px;padding:9px 12px}
+.tb-dd a:hover{background:var(--cream);color:var(--od)}
+.layout{max-width:1420px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:220px minmax(0,1fr) 258px;gap:24px;align-items:start}
+.reglist{position:sticky;top:16px;align-self:start;background:#fcfbf6;border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;max-height:calc(100vh - 32px);overflow:auto}
+.reglist .rr-h{font-size:13px;font-weight:800;color:var(--ink);padding-bottom:9px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+.reglist .rr-item{display:block;background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px;margin-bottom:7px}
+.reglist .rr-id{display:inline-block;font-family:monospace;font-size:10.5px;font-weight:700;color:var(--od);background:#fbeee7;border-radius:5px;padding:1px 6px;margin-bottom:4px}
+.reglist .rr-nm{display:block;font-size:12px;font-weight:600;color:var(--ink);line-height:1.4}
+.reglist .rr-rg{display:block;font-size:10.5px;color:#8a8f98;margin-top:3px;line-height:1.5}
+.reglist .rr-note{font-size:10.5px;color:#9aa1ab;line-height:1.55;border-top:1px dashed var(--line);margin-top:9px;padding-top:9px}
+@media(max-width:1120px){.layout{grid-template-columns:220px minmax(0,1fr);max-width:960px}.reglist{grid-column:1/-1;position:static;max-height:none;margin-top:2px}}
+@media(max-width:860px){.layout{grid-template-columns:1fr;gap:14px}}
+.sidebar{position:sticky;top:74px;display:flex;flex-direction:column;gap:8px}
+@media(max-width:860px){.sidebar{position:static}}
+.sb-h{font-size:12px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:2px}
+.snav{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.sstep{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grey);cursor:pointer;padding:9px 10px;border-radius:9px;transition:.12s;line-height:1.3;font-family:inherit;background:none;border:none;text-align:left;width:100%}
+.sstep:hover{background:#fff;color:var(--ink)}
+.sstep .n{flex:none;width:24px;height:24px;border-radius:50%;border:1.6px solid var(--line);display:grid;place-items:center;font-size:11.5px;font-weight:700;background:#fff;color:var(--grey)}
+.sstep.active{background:var(--cream);color:var(--ink);font-weight:700}
+.sstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
+.qmsbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-top:4px}
+.qmsbox .qh{font-size:11.5px;font-weight:800;color:var(--ink);margin-bottom:7px}
+.qmsbox label{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink2);cursor:pointer;padding:4px 0}
+.qmsbox input{margin-top:3px;accent-color:var(--o)}
+.center{min-width:0}
+.discl{background:#fff8f3;border:1px solid var(--ol);border-radius:10px;padding:11px 14px;font-size:12px;color:var(--ink2);margin-bottom:18px;line-height:1.6}
+.discl b{color:var(--od)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 24px;box-shadow:0 1px 3px rgba(16,24,40,.04);margin-bottom:20px}
+.card h2{font-size:19px;font-weight:800;margin:0 0 4px;color:var(--ink);letter-spacing:-.2px}
+.card h2 .k{display:inline-block;font-size:11px;font-weight:700;color:#fff;background:var(--o);border-radius:6px;padding:2px 8px;margin-right:9px;vertical-align:3px}
+.card .lead{font-size:13px;color:var(--grey);margin:0 0 16px}
+.card h3{font-size:14.5px;font-weight:800;color:var(--od);margin:20px 0 8px}
+.card p{margin:9px 0;font-size:13.5px;color:var(--ink2)}
+.card ul{margin:8px 0;padding-left:20px}
+.card li{font-size:13.5px;color:var(--ink2);margin:5px 0}
+.card b{color:var(--ink)}
+.pill{display:inline-block;font-size:11px;font-weight:700;border-radius:6px;padding:2px 8px;margin:0 3px 3px 0}
+.pill.reg{background:#eaf3ee;color:var(--green)}
+.pill.eu{background:#e9f0f6;color:var(--blue)}
+.pill.qms{background:#fef3e6;color:var(--amber)}
+.defbox{background:var(--cream);border-left:4px solid var(--o);border-radius:8px;padding:14px 16px;margin:10px 0}
+.defbox .dt{font-size:13px;font-weight:800;color:var(--od);margin-bottom:5px}
+.defbox p{margin:6px 0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+@media(max-width:680px){.grid2{grid-template-columns:1fr}}
+.mini{background:#fcfbf6;border:1px solid var(--line);border-radius:10px;padding:13px 15px}
+.mini .mh{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.mini .ml{font-family:monospace;font-size:11px;color:var(--od);background:#fbeee7;border-radius:5px;padding:1px 6px}
+.mini p{font-size:12.5px;margin:7px 0 0;color:var(--ink2)}
+/* 流程 */
+.flow{display:flex;flex-direction:column;gap:0;margin:14px 0}
+.fstep{display:flex;gap:14px;position:relative;padding-bottom:20px}
+.fstep:last-child{padding-bottom:0}
+.fstep .fn{flex:none;width:34px;height:34px;border-radius:50%;background:var(--o);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;z-index:2}
+.fstep::before{content:"";position:absolute;left:16.5px;top:34px;bottom:0;width:2px;background:var(--ol)}
+.fstep:last-child::before{display:none}
+.fstep .fc{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 15px;margin-top:-1px}
+.fstep .fc .ft{font-size:14px;font-weight:800;color:var(--ink)}
+.fstep .fc .ft small{display:inline-block;font-weight:700;font-size:10.5px;color:var(--od);background:#fbeee7;border-radius:5px;padding:1px 7px;margin-left:8px;vertical-align:1px}
+.fstep .fc p{font-size:12.8px;margin:6px 0 0;color:var(--ink2)}
+/* 清单 */
+.ckhead{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 14px}
+.ckbar{flex:1;min-width:180px;height:10px;background:#eef0f2;border-radius:6px;overflow:hidden}
+.ckbar > i{display:block;height:100%;background:linear-gradient(90deg,var(--o),var(--od));width:0;transition:.3s}
+.ckpct{font-size:13px;font-weight:800;color:var(--od);white-space:nowrap}
+.ckbtn{font-family:inherit;font-size:12px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer}
+.ckbtn:hover{border-color:var(--o);color:var(--od)}
+.ckgrp{margin:16px 0 6px}
+.ckgrp .gh{font-size:13.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ckitem{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:.12s}
+.ckitem:hover{border-color:var(--ol)}
+.ckitem.on{background:#fbfdfb;border-color:#cfe6d8}
+.ckitem input{margin-top:3px;width:16px;height:16px;accent-color:var(--o);flex:none;cursor:pointer}
+.ckitem .cx{min-width:0}
+.ckitem .cx .ct{font-size:13px;font-weight:600;color:var(--ink);line-height:1.5}
+.ckitem .cx .cs{font-size:11.5px;color:var(--grey);margin-top:3px;line-height:1.5}
+.ckitem.dim{opacity:.55}
+.faq{border:1px solid var(--line);border-radius:10px;margin-bottom:9px;overflow:hidden;background:#fff}
+.faq .q{font-size:13.5px;font-weight:700;color:var(--ink);padding:12px 15px;cursor:pointer;display:flex;justify-content:space-between;gap:10px}
+.faq .q:hover{background:var(--cream)}
+.faq .q .ar{color:var(--od);transition:.2s}
+.faq.open .q .ar{transform:rotate(90deg)}
+.faq .a{display:none;padding:0 15px 13px;font-size:12.8px;color:var(--ink2);line-height:1.65}
+.faq.open .a{display:block}
+.srcs{font-size:12px;color:var(--grey);line-height:1.8}
+.srcs a{word-break:break-all}
+.note{font-size:11.5px;color:var(--greyl);margin-top:10px;line-height:1.6}
+@media print{.topbar,.sidebar,.reglist,.ckbtn,.discl{display:none!important}.layout{display:block;max-width:none;padding:0}.card,.faq{break-inside:avoid;box-shadow:none}.faq .a{display:block!important}}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="tb-in">
+  <div class="tb-title">
+    <h1>生产一致性 <span class="em">CoP</span> 符合性评价 · 指引台</h1>
+    <div class="tb-sub">什么是 CoP · 如何申请 · 认证流程 · 材料清单　|　UN 1958 协定 Schedule 1 · (EU) 2018/858 第 31 条 + 附件 IV</div>
+  </div>
+  <div class="tb-act">
+    <div class="tb-menu">
+      <button class="badge-g" onclick="event.stopPropagation();toggleTools()">☰ 其他评估台 ▾</button>
+      <div class="tb-dd" id="tb-dd">
+        <a href="emark_assessment.html">🏷 E-mark 型式认证评估</a>
+        <a href="cyber_assessment.html">🛡 网安 &amp; 功能安全（R155/R156）</a>
+        <a href="ad_assessment.html">🚗 智能驾驶合规评估</a>
+        <a href="ev_assessment.html">⚡ 电气与电动化合规</a>
+      </div>
+    </div>
+    <button class="badge-g" onclick="window.print()">🖨 打印 / 导出</button>
+    <a class="tb-home" href="emark_assessment.html">← 返回评估工具</a>
+  </div>
+</div></div>
+
+<div class="layout">
+  <!-- 左侧步骤导航 -->
+  <div class="sidebar">
+    <div class="sb-h">内容导航</div>
+    <div class="snav" id="nav"></div>
+    <div class="qmsbox">
+      <div class="qh">你的质量体系现状</div>
+      <label><input type="checkbox" id="hasQms" onchange="applyQms()"> 已持覆盖相关产品的 <b>ISO&nbsp;9001 / IATF&nbsp;16949</b> 认证</label>
+      <div class="note" id="qmsHint" style="margin-top:6px">勾选后，材料清单会标出「初评可用认证佐证、可简化」的项目。</div>
+    </div>
+  </div>
+
+  <!-- 中间正文 -->
+  <div class="center">
+    <div class="discl">
+      本指引仅作<b>科普与准备引导</b>，帮助出口车企理解生产一致性（CoP）的含义、申请与材料要求；<b>不产生法律结论</b>。
+      精确的条款号、频次与提交格式，以型式批准机关的现行官方文件与法规原文为准（来源见文末「参考法规与出处」）。
+    </div>
+
+    <!-- 1 什么是 CoP -->
+    <section class="card" id="s1">
+      <h2><span class="k">01</span>什么是生产一致性（CoP）</h2>
+      <p class="lead">Conformity of Production —— 确保「量产的每一辆车 / 每一件系统或部件」都与获批的型式保持一致。</p>
+      <div class="defbox">
+        <div class="dt">一句话定义</div>
+        <p>CoP 是<b>型式批准制度的强制组成部分</b>：型式试验证明「样品达标」，CoP 则保证「后续批量生产持续与已批准型式一致」。它<b>不是一张可以替代型式批准、单独赋予产品上市资格的产品证书</b>，而是<b>授予并持续维持型式批准的前提条件</b>。</p>
+      </div>
+      <h3>为什么必须要有 CoP</h3>
+      <ul>
+        <li>型式批准只对「送检的代表性样品」发证；没有 CoP，无法保证生产线上第 1 万台仍与样品一致。</li>
+        <li>型批机关据此获得<b>持续监督权</b>：可按周期抽检、审厂，发现批量偏离时<b>暂停或撤销型式批准</b>。</li>
+        <li>对车企而言，CoP 安排是拿证的「入场券」之一，也是维持证书有效、避免召回 / 撤证风险的日常基础。</li>
+      </ul>
+      <h3>CoP 与相邻概念的区别（先厘清，后面不再混）</h3>
+      <div class="grid2">
+        <div class="mini"><div class="mh">CoP　≠　型式试验（Type Test）</div><p>型式试验是<b>一次性</b>证明代表性样品满足技术要求；CoP 是<b>授批后持续</b>保证批量与已批准型式一致。两者分属不同环节。</p></div>
+        <div class="mini"><div class="mh">CoP　≠　IATF 16949 认证</div><p>CoP 由<b>型批机关</b>针对<b>某一已批准型式</b>执行、且可撤销型批；IATF 16949 是<b>行业自愿的 QMS 认证</b>，面向组织质量体系。后者可作 CoP 初评证据，但不替代机关审核与抽检。</p></div>
+      </div>
+    </section>
+
+    <!-- 2 法律依据 -->
+    <section class="card" id="s2">
+      <h2><span class="k">02</span>法律依据（两大体系）</h2>
+      <p class="lead">无论走 UN 型式批准还是欧盟整车 / 部件型批，CoP 都有明确法条落点。</p>
+      <div class="grid2">
+        <div class="mini">
+          <div class="mh">联合国 1958 协定体系 <span class="ml">UN</span></div>
+          <p>CoP 程序规定在协定的 <b>Schedule 1「Conformity of production procedures」</b>（文件号 <b>E/ECE/TRANS/505/Rev.3</b>）。</p>
+          <p>每一条 UN Regulation 都设有独立的「Conformity of production」章节<b>回指该 Schedule</b>，并追加本规专属的试验与核查<b>频次</b>。</p>
+        </div>
+        <div class="mini">
+          <div class="mh">欧盟框架法规 <span class="ml">EU</span></div>
+          <p>主条款为 <b>(EU) 2018/858 第 31 条「Conformity of production arrangements」</b>；具体程序见 <b>附件 IV「Conformity of Production Procedures」</b>。</p>
+          <p>2018/858 自 <b>2020-09-01</b> 起对新型式强制适用，取代原 2007/46/EC。</p>
+        </div>
+      </div>
+      <h3>两大体系共同的「两块内容」</h3>
+      <ul>
+        <li><b>① 初始评估（授批前）</b>：机关核查制造商的生产与质控安排 / 质量体系，是否足以保证持续一致。</li>
+        <li><b>② 产品符合性安排（授批后）</b>：按约定间隔做试验与检查，并保存可供机关核查的记录。</li>
+      </ul>
+      <h3>核查频次</h3>
+      <p>通用下限为 <b>至少每 3 年一次</b>（UN Schedule 1 与 EU 附件 IV 一致，欧盟侧采 ISO 31000 风险方法确定强度）；<b>个别 UN Regulation 可更严</b>——例如 UN R118（材料燃烧特性）为每 2 年一次。具体频次以适用法规为准。</p>
+      <p class="note">说明：Schedule 1 内部各小节的确切编号未逐字核对，故本页只引用其文件号与内容框架，不标注具体小节号；以官方原文为准。</p>
+    </section>
+
+    <!-- 3 申请与认证流程 -->
+    <section class="card" id="s3">
+      <h2><span class="k">03</span>申请与认证流程</h2>
+      <p class="lead">CoP 不是单独去「考」一张证，而是嵌在型式批准的申请与维持过程里。下面是标准骨架。</p>
+      <div class="flow">
+        <div class="fstep"><div class="fn">1</div><div class="fc"><div class="ft">初始评估　Initial Assessment<small>授批前</small></div><p>型批机关（或其指定技服）核查制造商的生产设施、过程控制与质量管理体系，判断是否足以保证量产持续符合已批准型式。<b>可采信</b>覆盖相关产品的 ISO 9001 / IATF 16949 认证作为证据。</p></div></div>
+        <div class="fstep"><div class="fn">2</div><div class="fc"><div class="ft">授予型批时确认 CoP 安排<small>发证前提</small></div><p>确认书面的生产一致性<b>控制计划</b>与安排到位——这是机关<b>授予型式批准</b>的前提条件之一。安排不到位，型批不予签发。</p></div></div>
+        <div class="fstep"><div class="fn">3</div><div class="fc"><div class="ft">授批后周期性核查<small>持续监督</small></div><p>机关按约定间隔进行<b>产品符合性试验 + 工厂审核</b>，核对量产是否仍与型式一致。通用下限至少每 3 年一次，个别法规更严。</p></div></div>
+        <div class="fstep"><div class="fn">4</div><div class="fc"><div class="ft">抽样与合格证书核对（欧盟）<small>(EU) 2018/858 §31(2)</small></div><p>欧盟侧机关可抽取整车样本、核对随车<b>合格证书（CoC）</b>与已批准型式的一致性。</p></div></div>
+        <div class="fstep"><div class="fn">5</div><div class="fc"><div class="ft">不符合时的措施<small>可撤证</small></div><p>发现批量偏离时要求整改；必要时<b>暂停或撤销型式批准</b>（欧盟依 §31 / §35）。此外，型式<b>持续停产</b>亦会导致型批失效。</p></div></div>
+      </div>
+      <div class="defbox"><div class="dt">一个常被问到的点</div><p>是否会拿到「CoP 证书」？——CoP 本身<b>不是替代型批、单独授予上市资格的产品证书</b>；但部分机关（如英国 VCA）在行政上会就 CoP 核实<b>出具留痕性的确认 / 清关文件</b>。准确理解是：<b>CoP 是型式批准的组成 / 前提，而不是一张独立的产品证书。</b></p></div>
+    </section>
+
+    <!-- 4 材料清单 -->
+    <section class="card" id="s4">
+      <h2><span class="k">04</span>申请准备材料清单</h2>
+      <p class="lead">按可溯源程度分三组勾选自查。<span class="pill reg">法规明确要求</span><span class="pill eu">欧盟制度性文件</span><span class="pill qms">体系惯例 / 支撑</span></p>
+      <div class="ckhead">
+        <div class="ckbar"><i id="ckfill"></i></div>
+        <div class="ckpct" id="ckpct">0 / 0</div>
+        <button class="ckbtn" onclick="ckAll(true)">全选</button>
+        <button class="ckbtn" onclick="ckAll(false)">清空</button>
+      </div>
+      <div id="cklist"></div>
+      <p class="note">清单勾选状态自动保存在本浏览器（localStorage），换设备不同步；「🖨 打印 / 导出」可连同勾选状态出一份自查表。<b>标注均为准备引导</b>，最终以型批机关要求的清单与格式为准。</p>
+    </section>
+
+    <!-- 5 常见误区 / FAQ -->
+    <section class="card" id="s5">
+      <h2><span class="k">05</span>常见问答 / 误区</h2>
+      <div id="faq"></div>
+    </section>
+
+    <!-- 6 参考来源 -->
+    <section class="card" id="s6">
+      <h2><span class="k">06</span>参考法规与出处</h2>
+      <div class="srcs">
+        <p>· UN 1958 协定 <b>Schedule 1「Conformity of production procedures」E/ECE/TRANS/505/Rev.3</b>（UNECE 官方）</p>
+        <p>· 各 UN Regulation 的「Conformity of production」章节（如 UN R118 §8，回指 Schedule 1 并设本规频次）</p>
+        <p>· <b>(EU) 2018/858 第 31 条</b> ‹https://eur-lex.europa.eu/eli/reg/2018/858/oj/eng› 及 <b>附件 IV</b>（生产一致性程序）</p>
+        <p>· 英国 VCA 官方培训文件《2018/858/EU and CoP》（对初评、QMS 采信、撤证程序的机关口径）</p>
+        <p>· QMS 采信依据：EN ISO 9001:2015 / ISO&nbsp;16949（IATF 16949）—— 附条件采信，见附件 IV</p>
+        <p class="note">存疑未逐字核实项：① Schedule 1 内部小节的确切编号与逐字标题；② 欧盟型批证书模板 (EU) 2020/683 是否设专门「CoP 已核实」字段。以上不作为断言，均以官方原文为准。</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 右侧相关法规 -->
+  <div class="reglist">
+    <div class="rr-h">相关法规 / 标准</div>
+    <div class="rr-item"><span class="rr-id">UN Schedule 1</span><span class="rr-nm">Conformity of production procedures</span><span class="rr-rg">E/ECE/TRANS/505/Rev.3 · 1958 协定 CoP 母程序</span></div>
+    <div class="rr-item"><span class="rr-id">UN Reg §CoP</span><span class="rr-nm">各法规「Conformity of production」节</span><span class="rr-rg">回指 Schedule 1 + 本规频次（如 R118 每 2 年）</span></div>
+    <div class="rr-item"><span class="rr-id">(EU) 2018/858</span><span class="rr-nm">第 31 条 · 附件 IV</span><span class="rr-rg">CoP arrangements / procedures · 2020-09-01 起</span></div>
+    <div class="rr-item"><span class="rr-id">Art 35</span><span class="rr-nm">型批失效 / 撤销</span><span class="rr-rg">CoP 不符合 → 暂停 / 撤销型式批准</span></div>
+    <div class="rr-item"><span class="rr-id">ISO 9001</span><span class="rr-nm">质量管理体系</span><span class="rr-rg">CoP 初评可采信（须覆盖产品 + 涵盖 CoP）</span></div>
+    <div class="rr-item"><span class="rr-id">IATF 16949</span><span class="rr-nm">汽车行业 QMS</span><span class="rr-rg">行业自愿认证 · 可支撑初评 · 不替代机关审核</span></div>
+    <div class="rr-note">CoP 是型式批准的前提与持续条件，非独立产品证书；本栏为准备引导，精确条款以官方原文为准。</div>
+  </div>
+</div>
+
+<script>
+/* ============ 内容导航 ============ */
+const SECTIONS=[
+  {id:'s1',t:'什么是 CoP',s:'定义 · 为什么 · 与型式试验/IATF 的区别'},
+  {id:'s2',t:'法律依据',s:'UN Schedule 1 · (EU) 2018/858 §31 + 附件 IV'},
+  {id:'s3',t:'申请与认证流程',s:'初评 → 授批确认 → 周期核查 → 撤证'},
+  {id:'s4',t:'申请准备材料清单',s:'可交互勾选 · 进度 · 打印'},
+  {id:'s5',t:'常见问答 / 误区',s:'CoP≠IATF · CoP≠型式试验'},
+  {id:'s6',t:'参考法规与出处',s:'一手 / 准一手来源'}
+];
+function buildNav(){
+  document.getElementById('nav').innerHTML=SECTIONS.map((x,i)=>
+    `<button class="sstep" id="nav-${x.id}" onclick="jump('${x.id}')"><span class="n">${i+1}</span><span class="stx"><span>${x.t}</span><small>${x.s}</small></span></button>`).join('');
+}
+function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+function toggleTools(){document.getElementById('tb-dd').classList.toggle('on');}
+document.addEventListener('click',()=>document.getElementById('tb-dd').classList.remove('on'));
+// 滚动高亮
+const spy=()=>{
+  let cur=SECTIONS[0].id;
+  for(const x of SECTIONS){const el=document.getElementById(x.id);if(el&&el.getBoundingClientRect().top<=120)cur=x.id;}
+  SECTIONS.forEach(x=>{const b=document.getElementById('nav-'+x.id);if(b)b.classList.toggle('active',x.id===cur);});
+};
+window.addEventListener('scroll',spy,{passive:true});
+
+/* ============ 材料清单 ============ */
+// grp: reg=法规明确要求 / eu=欧盟制度性文件 / qms=体系惯例支撑
+// qmsCover=true → 已有 ISO/IATF 认证时可用认证佐证、初评可简化
+const CK=[
+ {g:'reg',h:'A · 法规明确要求（UN Schedule 1 / EU 附件 IV 可直接溯源）',items:[
+   {id:'a1',qmsCover:true,t:'合格的质量管理体系，且范围覆盖待批产品、并涵盖生产一致性',s:'可用 ISO 9001:2015 / IATF 16949 认证佐证；认证须涵盖 CoP，且不替代机关审核'},
+   {id:'a2',t:'书面的生产一致性控制计划（documented control plan）',s:'列明按约定间隔执行的试验 / 检查项目、方法、频次与判定准则'},
+   {id:'a3',t:'产品符合性安排：确保量产持续符合已批准型式的技术要求',s:'逐条对应各适用 UN Regulation / EU 法案的技术项'},
+   {id:'a4',t:'CoP 试验与检查记录的建立、保存与随时可获取',s:'供型批机关周期核查时调阅'},
+   {id:'a5',t:'每条适用法规的专属 CoP 频次已落实',s:'通用下限至少每 3 年一次；个别法规更严（如 UN R118 每 2 年）'}
+ ]},
+ {g:'eu',h:'B · 欧盟制度性文件（(EU) 2018/858 追加，VCA 列为 CoP 评估项）',items:[
+   {id:'b1',t:'经济运营者可追溯性与记录留存',s:'Art.21：整车产后留存 10 年、部件 5 年'},
+   {id:'b2',t:'投诉与不符合处理程序',s:'Art.13(7)'},
+   {id:'b3',t:'（欧盟境外制造商）授权代表 / 市场监督代表的书面授权',s:'Art.13(4) / Art.15'},
+   {id:'b4',t:'制造商 / 进口商标识信息',s:'Art.13(8) / Art.16(5)'},
+   {id:'b5',t:'型批撤销 / 停产的通知程序',s:'Art.35'}
+ ]},
+ {g:'qms',h:'C · 支撑材料 / 体系惯例（经合格 QMS 间接要求，审核常抽查）',items:[
+   {id:'c1',qmsCover:true,t:'质量手册、组织架构与质量职责',s:''},
+   {id:'c2',qmsCover:true,t:'进货 / 过程 / 最终检验与试验计划',s:''},
+   {id:'c3',qmsCover:true,t:'量具与试验设备校准记录（量值可溯源）',s:''},
+   {id:'c4',qmsCover:true,t:'供应商 / 外协件管控',s:''},
+   {id:'c5',qmsCover:true,t:'不合格品管控与纠正措施',s:''},
+   {id:'c6',qmsCover:true,t:'工程 / 设计变更管理（确保变更不偏离已批准型式）',s:''},
+   {id:'c7',qmsCover:true,t:'定期产品审核 / 拆检记录',s:''}
+ ]}
+];
+const CKKEY='emark_cop_checklist_v1';
+let ckState={};
+try{ckState=JSON.parse(localStorage.getItem(CKKEY)||'{}');}catch(e){ckState={};}
+const pillOf=g=>g==='reg'?'<span class="pill reg">法规明确要求</span>':g==='eu'?'<span class="pill eu">欧盟制度性文件</span>':'<span class="pill qms">体系惯例 / 支撑</span>';
+function buildCk(){
+  const hasQms=!!ckState.__hasQms;
+  document.getElementById('cklist').innerHTML=CK.map(grp=>`
+    <div class="ckgrp"><div class="gh">${pillOf(grp.g)} ${grp.h}</div>
+      ${grp.items.map(it=>{
+        const on=!!ckState[it.id];
+        const simp=hasQms&&it.qmsCover?'<span class="cs" style="color:var(--amber)">↳ 已有 ISO/IATF 认证：此项初评可用认证佐证、可简化（须满足范围覆盖 + 涵盖 CoP + 提供认证细节并在变动时通知机关）</span>':'';
+        return `<label class="ckitem ${on?'on':''}"><input type="checkbox" ${on?'checked':''} onchange="ckToggle('${it.id}',this.checked)">
+          <span class="cx"><span class="ct">${it.t}</span>${it.s?`<span class="cs">${it.s}</span>`:''}${simp}</span></label>`;
+      }).join('')}
+    </div>`).join('');
+  ckProgress();
+}
+function ckToggle(id,v){ckState[id]=v;saveCk();ckProgress();document.querySelectorAll('.ckitem').forEach(()=>{});buildCk();}
+function ckAll(v){CK.forEach(g=>g.items.forEach(it=>ckState[it.id]=v));saveCk();buildCk();}
+function ckProgress(){
+  const all=CK.reduce((n,g)=>n+g.items.length,0);
+  const done=CK.reduce((n,g)=>n+g.items.filter(it=>ckState[it.id]).length,0);
+  document.getElementById('ckpct').textContent=`${done} / ${all}`;
+  document.getElementById('ckfill').style.width=all?(done/all*100)+'%':'0';
+}
+function saveCk(){try{localStorage.setItem(CKKEY,JSON.stringify(ckState));}catch(e){}}
+function applyQms(){ckState.__hasQms=document.getElementById('hasQms').checked;saveCk();buildCk();}
+
+/* ============ FAQ ============ */
+const FAQ=[
+  {q:'CoP 和 IATF 16949 认证是一回事吗？',a:'不是。CoP 是<b>型批机关</b>针对<b>某一已批准型式</b>执行的、法定的持续符合性监管（不符合可撤销型批）；IATF 16949 是<b>行业自愿 / 客户驱动的 QMS 认证</b>，由 IATF 认可的认证机构颁发，面向组织的质量体系而非某个型式。IATF / ISO 9001 证书可作为 CoP 初评证据，但<b>不替代</b>机关的 CoP 审核与抽检。'},
+  {q:'CoP 和型式试验（type test）有什么区别？',a:'型式试验是<b>一次性</b>证明代表性样品满足技术要求（拿证时做）；CoP 是<b>授批后持续</b>保证批量生产与已批准型式一致。前者管「样品达标」，后者管「批量不跑偏」。'},
+  {q:'做完 CoP 会拿到一张「CoP 证书」吗？',a:'CoP 本身<b>不是</b>替代型式批准、单独赋予上市资格的产品证书；它是型批的<b>组成 / 前提</b>。不过部分机关（如英国 VCA）在行政上会就 CoP 核实出具留痕性的确认 / 清关文件。所以「完全没有任何 CoP 文件」的说法不准确，准确理解是「CoP 不是独立产品证书」。'},
+  {q:'已经有 ISO 9001 / IATF 16949，初评能免吗？',a:'不能自动免，但可<b>大幅简化</b>。欧盟附件 IV 允许机关采信 EN ISO 9001:2015 或 ISO 16949 认证，条件是：①认证范围覆盖待批产品；②生产一致性被该体系涵盖；③制造商提供认证细节，并在有效性 / 范围变动时通知机关。认证是「支撑初评」，不等于 CoP 自动通过。'},
+  {q:'E-mark 标志上会显示 CoP 状态吗？',a:'不会。E-mark（认证标志）编码的是「型式已获批准」，本身<b>不单独显示</b> CoP 状态或核查频次；CoP 是签发该型批的前提，型批体系预设 CoP 已核实。'},
+  {q:'CoP 核查多久一次？',a:'通用下限为<b>至少每 3 年一次</b>（UN Schedule 1 与 EU 附件 IV 一致）；<b>个别 UN Regulation 更严</b>，例如 UN R118 为每 2 年。具体以适用法规规定为准。'},
+  {q:'CoP 不达标会怎样？',a:'机关先要求整改；批量持续偏离已批准型式的，可<b>暂停或撤销型式批准</b>（欧盟依 (EU) 2018/858 §31 / §35）。此外型式持续停产也会导致型批失效。'}
+];
+function buildFaq(){
+  document.getElementById('faq').innerHTML=FAQ.map((f,i)=>
+    `<div class="faq" id="faq-${i}"><div class="q" onclick="document.getElementById('faq-${i}').classList.toggle('open')"><span>${f.q}</span><span class="ar">›</span></div><div class="a">${f.a}</div></div>`).join('');
+}
+
+/* ============ init ============ */
+buildNav();buildFaq();
+document.getElementById('hasQms').checked=!!ckState.__hasQms;
+buildCk();spy();
+</script>
+</body>
+</html>

@@ -1940,6 +1940,12 @@ function evBridgeCard(){
     <div class="cm">若产品涉及高压电 / 电动化,可打开<b>独立的电气合规评估台</b>:逐条自查 <b>UN R100 高压电安全</b>（含 REESS/热扩散）、<b>R10 EMC</b>（含充电模式）、<b>充电与接口</b>,以及与 E-mark 并行的 <b>(EU) 2023/1542 电池法规</b>义务（碳足迹/电池护照）。</div>
     <a class="cybtn" href="ev_assessment.html" target="_blank" rel="noopener">打开电气合规评估台 ↗</a></div>`;
 }
+function copBridgeCard(){
+  const ic='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5h6M9 5a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9.5 11l1.5 1.5 3.5-3.5"/></svg>';
+  return `<div class="cybr"><div class="ct">${ic}生产一致性（CoP）符合性评价（申请指引 · 材料清单）</div>
+    <div class="cm">拿到型式批准只是开始——量产必须持续与已批准型式一致。打开<b>独立的 CoP 指引台</b>:讲清 <b>CoP 是什么、如何申请、认证流程</b>（初评 → 授批确认 → 周期核查 → 撤证），并按 <b>UN 1958 Schedule 1 / (EU) 2018/858 §31+附件Ⅳ</b> 给出<b>可勾选的申请材料清单</b>（含 ISO/IATF 采信简化分支）与可打印自查表。</div>
+    <a class="cybtn" href="cop_assessment.html" target="_blank" rel="noopener">打开 CoP 符合性评价台 ↗</a></div>`;
+}
 function step4(){
   const act=activeSys();
   act.forEach(s=>s.qs.forEach(q=>{if(!sysStatus[q.id])sysStatus[q.id]='none';}));
@@ -1972,7 +1978,7 @@ function step4(){
       </div>
     </div>
     <div class="secttl" style="margin-top:18px">专项合规评估台 <small style="font-weight:400;color:var(--greyl)">（独立自评页）</small></div>
-    <div class="xgrid">${cyberBridgeCard()}${adBridgeCard()}${evBridgeCard()}</div>
+    <div class="xgrid">${cyberBridgeCard()}${adBridgeCard()}${evBridgeCard()}${copBridgeCard()}</div>
     <div class="nav"><button class="ghost" onclick="go(3)">← 上一步</button><button class="btn btn-p" onclick="go(5)">生成认证路线 →</button></div>
   </div>`;
 }
