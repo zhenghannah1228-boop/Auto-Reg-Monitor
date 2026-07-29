@@ -268,6 +268,12 @@ input.csel{font-family:var(--sans);font-size:14px;background:var(--panel);border
 .selfilter+select.csel,.selfilter+select{border-radius:0 6px 6px 0;min-width:120px}
 .selfilter.act{border-color:var(--accent);background:#eaf3e4}
 .netctrl{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.eulaw-legend{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-bottom:10px;padding:9px 12px;background:var(--panel,#fcfbf6);border:1px solid var(--line);border-radius:8px;font-size:11.5px;color:var(--ink,#1a2420)}
+.eulaw-legend .elg{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.eulaw-legend .elg-dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.eulaw-legend .elg-line{width:22px;display:inline-block;height:0}
+.eulaw-legend .elg-sep{width:1px;height:16px;background:var(--line);margin:0 2px}
+.eulaw-note{margin-top:10px;font-size:11px;line-height:1.7;color:var(--muted,#6b7280);padding:8px 12px;background:var(--panel,#fcfbf6);border-left:3px solid var(--accent,#c6502a);border-radius:0 6px 6px 0}
 .dimbars .dr{display:grid;grid-template-columns:100px 1fr 44px;gap:10px;align-items:center;margin-bottom:9px;font-size:12px}
 .dimbars .bar{height:13px;background:var(--linesoft);border-radius:7px;overflow:hidden}
 .dimbars .bar i{display:block;height:100%;border-radius:7px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
@@ -624,6 +630,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-tbar"><span class="tn">21</span>贸易壁垒源</div>
     <div class="tab" data-p="p-wlog"><span class="tn">22</span>工作日志</div>
     <div class="tab" data-p="p-emark"><span class="tn">23</span>E-mark评估</div>
+    <div class="tab" data-p="p-eulaw"><span class="tn">24</span>欧盟法规关系网</div>
   </div>
 
   <div class="pane on" id="p-ov">
@@ -1142,6 +1149,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       </div>
     </div>
     <div id="wlog-body"></div>
+  </div>
+
+  <div class="pane" id="p-eulaw">
+    <div class="netctrl">
+      <span style="font-family:var(--serif);font-weight:900;color:var(--accent);font-size:14px">欧盟法规关系网 · 横向法 × 纵向法</span>
+      <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">汽车专门法(纵向)与跨行业横向法如何交织:框架纳入 / 专门法优先 / 取代 / 排除不适用 / 并行适用。点节点看该法要点与对汽车的适用边界。</span>
+    </div>
+    <div class="eulaw-legend" id="eulaw-legend"></div>
+    <div id="eulaw-chart" style="width:100%;height:calc(100vh - 250px);min-height:560px;background:var(--panel,#fcfbf6);border:1px solid var(--line);border-radius:8px"></div>
+    <div class="eulaw-note">口径均据法规原文核对:CRA (EU) 2024/2847 Art 2 明确受 (EU) 2019/2144 覆盖的车辆不适用 CRA;RED 网安授权法案 (EU) 2022/30 定于 2027-12-11 由 CRA 取代;AI 法案 (EU) 2024/1689 经 Art 107 修订 2018/858、高风险 AI 经型批框架落地;EMC 指令 2014/30 排除型批车辆(整车 EMC 走 UN R10)。信息时点 2026-07,以各法规最新整合版为准。</div>
   </div>
 
   <div id="rcmodal" class="insmodal" style="display:none" onclick="if(event.target===this)closeRecallForm()">
@@ -6065,9 +6082,106 @@ async function restoreCockpit(){
   try{await sbReq("DELETE","cockpit_overrides?id=eq.team",undefined,"return=minimal");_cockpitOv=null;renderCyCockpit($("#cyber-body"));toast("已恢复默认");}
   catch(err){toast("恢复失败:"+err.message);console.error(err);}
 }
+/* ================= 24 欧盟法规关系网(横向法 × 纵向法) =================
+   数据口径均据法规原文核对(见 pane 底注)。cat:'v'=纵向(汽车专门法) / 'h'=横向(跨行业)。 */
+const EULAW_NODES=[
+ // —— 纵向:汽车专门法(型批框架内)——
+ {id:"fw858",n:"整车型式批准框架法",num:"(EU) 2018/858",cat:"v",d:"整车 EU 型批(WVTA)的框架法:定义型批程序、CoC、市场监督;所有汽车专门要求在此框架内适用。"},
+ {id:"gsr2144",n:"一般安全法规 GSR",num:"(EU) 2019/2144",cat:"v",d:"在型批框架内钉定整车/部件安全要求,并经 Art 4 + Annex II 把一批 UN 法规设为强制(本工具 63 部即源于此)。"},
+ {id:"r155",n:"网络安全 · CSMS",num:"UN R155",cat:"v",d:"整车级网络安全型批 + CSMS 体系证书;经 GSR 强制(2022-07 新车型 / 2024-07 所有新车)。适用 L/M/N/O 类(含 ECU)。"},
+ {id:"r156",n:"软件更新 · SUMS",num:"UN R156",cat:"v",d:"软件更新管理体系 SUMS + RXSWIN 软件标识;与 R155 同步强制。适用 M/N/O/R/S/T 类(允许软件更新的车辆)。"},
+ {id:"euro7",n:"欧7 排放",num:"(EU) 2024/1257",cat:"v",d:"排放/耐久/电池耐久/制动颗粒等要求,经型批框架适用(新型式 2026-11 起分车型分阶段)。"},
+ // —— 横向:跨行业法 ——
+ {id:"cra",n:"网络韧性法案 CRA",num:"(EU) 2024/2847",cat:"h",d:"含数字要素产品的横向网安法。Art 2 明确:受 (EU) 2019/2144 型批网安规则覆盖的车辆【不适用 CRA】(lex specialis 专门法优先);真正归 CRA 的是不在整车型批内的车载数字件、售后件、后端/App。重要漏洞 24h 早期预警 / 72h 通知;主要义务 2026–2027 分阶段。"},
+ {id:"aiact",n:"人工智能法案",num:"(EU) 2024/1689",cat:"h",d:"高风险 AI 横向法。车辆内作为安全部件的高风险 AI 经型批框架落地——Art 107 修订 (EU) 2018/858,要求由汽车专门授权法案纳入,不直接双重适用。"},
+ {id:"red",n:"无线电设备指令 RED",num:"2014/53/EU",cat:"h",d:"车载无线模块(蜂窝/Wi-Fi/蓝牙/UWB)另打 CE·RED,与 E-mark 并行。其网安授权法案 (EU) 2022/30 已定于 2027-12-11 由 CRA 取代(避免双重监管)。"},
+ {id:"emc",n:"电磁兼容指令 EMC",num:"2014/30/EU",cat:"h",d:"型批车辆【不适用】EMC 指令:整车与车载电子的 EMC 由 UN R10 专门覆盖(EMC 指令 Art 2 排除机动车)。"},
+ {id:"battery",n:"电池法规",num:"(EU) 2023/1542",cat:"h",d:"EV/工业电池 CE 体系:碳足迹、再生材料含量、供应链尽职调查、电池护照;与型批并行,针对电池产品本身。"},
+ {id:"espr",n:"生态设计 ESPR",num:"(EU) 2024/1781",cat:"h",d:"可持续产品横向框架 + 数字产品护照 DPP 通用制度;电池护照与其 DPP 框架衔接。"},
+ {id:"cbam",n:"碳边境调节 CBAM",num:"(EU) 2023/956",cat:"h",d:"管钢铝等材料/零部件进口的嵌入碳,【不管整车型批】;2026 正式期起年进口 50 吨以上须买 CBAM 证书。约束以零部件形态进口的钢铝制品贸易商。"},
+ {id:"gpsr",n:"通用产品安全 GPSR",num:"(EU) 2023/988",cat:"h",d:"消费品安全兜底法:已受型批(2018/858)覆盖的整车基本不适用,主要针对无专门法覆盖的产品。"},
+ {id:"nis2",n:"网络与信息安全指令2",num:"(EU) 2022/2555",cat:"h",d:"【组织层面】网安义务(车企作为重要/关键实体的风险管理与事件上报),与产品层 R155 不同层面、并行适用。"},
+ {id:"gdpr",n:"通用数据保护 GDPR",num:"(EU) 2016/679",cat:"h",d:"车联网个人数据处理全面适用,无型批豁免;与安全型批并行。"},
+ {id:"dataact",n:"数据法案",num:"(EU) 2023/2854",cat:"h",d:"车辆产生数据的访问/共享/可携义务;2025-09 起适用。"}
+];
+const EULAW_EDGES=[
+ ["euro7","fw858","frame","排放要求纳入型批"],
+ ["fw858","gsr2144","frame","框架内钉定安全要求"],
+ ["gsr2144","r155","frame","Art4/AnnexII 设为强制"],
+ ["gsr2144","r156","frame","Art4/AnnexII 设为强制"],
+ ["cra","gsr2144","carveout","Art2 排除:整车网安走 R155"],
+ ["aiact","fw858","carveout","高风险AI经型批框架(Art107)"],
+ ["cra","red","supersede","取代 RED 网安DA(2027-12-11)"],
+ ["emc","fw858","exclude","整车EMC走R10,指令不适用"],
+ ["gpsr","fw858","exclude","型批车辆基本不适用(兜底)"],
+ ["red","fw858","parallel","无线模块另打CE·RED"],
+ ["battery","fw858","parallel","EV电池CE体系,并行"],
+ ["espr","battery","link","DPP框架衔接(电池护照)"],
+ ["cbam","fw858","parallel","管零部件材料碳(非型批)"],
+ ["nis2","r155","parallel","组织层网安,与产品层并行"],
+ ["gdpr","fw858","parallel","个人数据处理全面适用"],
+ ["dataact","fw858","parallel","车辆数据访问/共享义务"]
+];
+const EULAW_ET={
+ frame:{c:"#1a2420",label:"框架纳入",w:2.4,type:"solid"},
+ carveout:{c:"#2f7a4d",label:"专门法优先(横向法让位)",w:3,type:"solid"},
+ supersede:{c:"#c0392b",label:"取代",w:2.2,type:"dashed"},
+ exclude:{c:"#9aa1ab",label:"排除·不适用",w:2,type:"dashed"},
+ parallel:{c:"#3a6b8a",label:"并行适用",w:1.6,type:"solid"},
+ link:{c:"#7c3aed",label:"关联",w:1.6,type:"dotted"}
+};
+let eulawChart=null;
+function buildEuLaw(){
+  const host=document.getElementById("eulaw-chart");
+  if(!host||typeof echarts==="undefined")return;
+  // 图例
+  const leg=document.getElementById("eulaw-legend");
+  if(leg&&!leg.dataset.done){
+    const catL=`<span class="elg"><i class="elg-dot" style="background:#c6502a"></i>纵向 · 汽车专门法</span><span class="elg"><i class="elg-dot" style="background:#3a6b8a"></i>横向 · 跨行业法</span>`;
+    const edgeL=Object.keys(EULAW_ET).map(k=>{const e=EULAW_ET[k];return `<span class="elg"><i class="elg-line" style="border-top:${e.w+1}px ${e.type==="solid"?"solid":e.type} ${e.c}"></i>${e.label}</span>`;}).join("");
+    leg.innerHTML=catL+'<span class="elg-sep"></span>'+edgeL;
+    leg.dataset.done="1";
+  }
+  if(!eulawChart)eulawChart=echarts.init(host);
+  const CATCOL={v:"#c6502a",h:"#3a6b8a"};
+  const nodes=EULAW_NODES.map(o=>({
+    id:o.id,name:o.num+"\n"+o.n,category:o.cat==="v"?0:1,
+    symbolSize:o.cat==="v"?(o.id==="fw858"||o.id==="gsr2144"?58:46):40,
+    itemStyle:{color:CATCOL[o.cat]},
+    label:{show:true,color:"#1a2420",fontSize:11,fontWeight:o.cat==="v"?700:500,lineHeight:14},
+    _d:o.d,_num:o.num,_n:o.n
+  }));
+  const links=EULAW_EDGES.map(([s,t,ty,lb])=>{const e=EULAW_ET[ty];return {
+    source:s,target:t,
+    lineStyle:{color:e.c,width:e.w,type:e.type,curveness:0.12,opacity:.9},
+    label:{show:true,formatter:lb,fontSize:9.5,color:e.c,opacity:.95},
+    _ty:ty,_tyL:e.label
+  };});
+  eulawChart.setOption({
+    backgroundColor:"transparent",
+    tooltip:{trigger:"item",backgroundColor:"#fff",borderColor:"#e3e6ea",borderWidth:1,textStyle:{color:"#1a2420",fontSize:12.5},
+      formatter:p=>{
+        if(p.dataType==="edge")return `<b style="color:${EULAW_ET[p.data._ty].c}">${p.data._tyL}</b><br>${p.data.label.formatter}`;
+        const o=p.data;return `<div style="max-width:340px;white-space:normal;line-height:1.6"><b style="font-size:13px">${o._n}</b> <span style="font-family:monospace;color:#6b7280">${o._num}</span><br><span style="color:${o.category===0?"#c6502a":"#3a6b8a"};font-weight:700;font-size:11px">${o.category===0?"纵向 · 汽车专门法":"横向 · 跨行业法"}</span><br><span style="font-size:12px">${o._d}</span></div>`;
+      }},
+    legend:[{data:["纵向 · 汽车专门法","横向 · 跨行业法"],show:false}],
+    series:[{
+      type:"graph",layout:"force",roam:true,draggable:true,focusNodeAdjacency:true,
+      categories:[{name:"纵向 · 汽车专门法"},{name:"横向 · 跨行业法"}],
+      force:{repulsion:820,edgeLength:[110,220],gravity:0.08,friction:0.32},
+      edgeSymbol:["none","arrow"],edgeSymbolSize:9,
+      emphasis:{focus:"adjacency",lineStyle:{width:4}},
+      data:nodes,links:links
+    }]
+  });
+  setTimeout(()=>eulawChart&&eulawChart.resize(),60);
+}
+window.addEventListener("resize",()=>{if(eulawChart&&document.getElementById("p-eulaw").classList.contains("on"))eulawChart.resize();});
+
 $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   switchTab(t.dataset.p);
   if(t.dataset.p==="p-net")buildNet();
+  if(t.dataset.p==="p-eulaw")buildEuLaw();
   if(t.dataset.p==="p-tree")renderTree();
   if(t.dataset.p==="p-pyr")loadCert();
   if(t.dataset.p==="p-chain")openChainTab();
