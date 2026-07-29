@@ -5,7 +5,7 @@
 供核对 emark_assessment.html 中 `TP_TEXT` 数据的原文出处。法规全文（共 203MB）未入库，需要时按下表 CELEX 到
 https://publications.europa.eu/resource/celex/{CELEX} 重新获取（Accept: application/pdf 或 application/xhtml+xml）。
 
-- 在册 63 部：62 部已获取文本并核对；**R133（RRR 回收利用率）无 EU 公报文本，未核对**（EU 未在公报刊载该法规，unece.org 遭 Cloudflare 拦截无法直接下载）。
+- 在册 63 部：62 部已获取文本并核对；**R133（RRR 回收利用率）未见 EU 公报转载文本，尚未逐条比对**（EU 未在公报刊载该法规，unece.org 遭 Cloudflare 拦截无法直接下载）。注：欧盟自 2014-06-17 起即为适用 R133 的缔约方（UN 保存书状态表），故属「无 OJ 文本」而非「无法核对」，一手文本在 UNECE 与保存书状态表可查。
 - 「文本无过渡条款章节」多见于原始系列版或早期合并版——不代表 UNECE 后续系列没有过渡条款，只代表 EU 引用级别的文本中没有（见工具内说明④）。
 
 | 法规 | CELEX | 文本版本级别（incorporating…） | 过渡条款 |
