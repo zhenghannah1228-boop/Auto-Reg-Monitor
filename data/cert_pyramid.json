@@ -3281,9 +3281,9 @@
     {
      "level": 3,
      "label": "审查/评估",
-     "title": "提交IMR'批准书'+车辆鉴定",
-     "title_local": "IMR Type Approval Book + Vehicle Appraisal",
-     "desc": "进口商(本地)提交IMR型式批准'书'(含外部homologation为技术前提),经审查后作车辆鉴定;SII执行部件测试。",
+     "title": "提交IMR符合性声明表+车辆鉴定",
+     "title_local": "IMR Declaration Form + Vehicle Appraisal",
+     "desc": "进口商(本地)提交IMR符合性声明表(制造商授权人签署,以外部homologation为技术前提),经审查后作车辆鉴定;批准称אישור דגם;SII执行部件测试。",
      "refs": []
     },
     {
@@ -3544,7 +3544,7 @@
      {
       "name": "经济部工业与贸易秘书处",
       "abbr": "Sec. Industria",
-      "role": "汽车准入主管,核发LCM。"
+      "role": "汽车准入主管,核发LCM;经Res.18/2026(BORA 2026-01-19)后具体办理归Dirección Nacional de Gestión de Política Industrial及其下属Dirección de Política Automotriz y Regímenes Especiales。"
      },
      {
       "name": "国家工业技术研究院",
@@ -3605,7 +3605,7 @@
      "WP.29整车认证(经CVHE验证)",
      "巴西CAT(经Mercosur ARM)"
     ],
-    "basis": "持WP.29(TRANS/WP29/343)认可机构认证者可经CVHE验证免附测试报告;持巴西CAT者经南方共同市场互认(ARM)办LCM。",
+    "basis": "持WP.29(TRANS/WP29/343)认可机构认证者可经CVHE验证免附测试报告;CVHE适用类别经Res.271/2025扩至L1、L3、M1、M2(一阶段)、N1、N2、N3;持巴西CAT者经南方共同市场互认(ARM)办LCM。",
     "scope": "采信WP.29证书+巴西CAT;自有LCM/LCA发证",
     "note": "混合型——自有LCM/LCA双证体系,采信WP.29认证(CVHE)与巴西CAT(Mercosur ARM);部件认证2025年改革中。"
    },
@@ -5303,7 +5303,7 @@
     ],
     "basis": "EAEU统一技术规程,成员国间OTTS/EAC互认;TR CU采纳UN法规。",
     "scope": "EAEU内完全互认;采UN法规",
-    "note": "EAEU体系——与俄罗斯同属TR CU 018/OTTS体系,EAC证书全联盟通行,哈另保留国家合格评定体系。 【推文校丰】整车须取得 EAC 认证 + OTTC 车辆类型批准书方可注册销售;认证申请必须指定 EAEU 境内实体作为连带责任签约方(车企申报的核心卡点)。"
+    "note": "EAEU体系——与俄罗斯同属TR CU 018/OTTS体系,EAC证书全联盟通行,哈另保留国家合格评定体系。 【推文校丰】整车须取得 EAC 认证 + OTTS 车辆类型批准书方可注册销售;认证申请必须指定 EAEU 境内实体作为连带责任签约方(车企申报的核心卡点)。"
    },
    "confidence": "A",
    "sources": [
@@ -5427,7 +5427,7 @@
   "伊拉克": {
    "country": "伊拉克",
    "system_type": "recognition",
-   "summary": "装运前符合性核验:COSQC(隶属计划部)的ICIGI/VoC+CoC方案,第三方机构在出口国预检测试,合规基准为IQS或COSQC采信的国际标准;到岸目的地检验。注(2026-07核实):伊拉克非GSO成员,海湾GSO 42等法规不直接适用;现行受管产品清单(2025-06-17起)中整车不在CoC范围,仅车辆备件与轮胎在列。",
+   "summary": "装运前符合性核验:COSQC(隶属计划部)的ICIGI/VoC+CoC方案,第三方机构在出口国预检测试,合规基准为IQS或COSQC采信的国际标准;到岸目的地检验。注(2026-07核实):伊拉克非GSO成员,海湾GSO 42等法规不直接适用;ICIGI 受管产品清单中整车不在 CoC 范围(仅车辆备件与轮胎在列);但整车已另循独立通道,依2024年第37号迪万令自2026-01-01起对MY2025及以后进口车强制适用伊拉克标准(技术要求第167号),由COSQC出具车辆符合性认可,电动/混动暂缓。",
    "pyramid": [
     {
      "level": 1,
@@ -5489,7 +5489,7 @@
      "vehicle": [
       {
        "group": "安全/环保",
-       "items": "伊拉克标准IQS/COSQC采信的国际标准;整车现不在CoC受管清单(2025-06-17版),2026年起拟实施整车进口标准(仅二手来源,待官方确认)"
+       "items": "伊拉克标准IQS/COSQC采信的国际标准;整车不在ICIGI受管CoC清单,另依2024年第37号迪万令与技术要求第167号自2026-01-01起强制(MY2025+,电动/混动暂缓)"
       }
      ],
      "component": [
@@ -5532,12 +5532,13 @@
     ],
     "basis": "凭IQS或COSQC采信的国际标准由认可机构在出口国预检发CoC;无本土型式批准。",
     "scope": "采信外部符合性证据;无本土型式批准",
-    "note": "认可外部证书/符合性核验型——靠COSQC的ICIGI/VoC装运前核验+目的地检验准入,无本土型式批准。2026-07核实:非GSO成员,GSO 42不适用;整车现不在CoC受管清单(仅备件与轮胎)。"
+    "note": "认可外部证书/符合性核验型——靠COSQC的ICIGI/VoC装运前核验+目的地检验准入,无本土型式批准。2026-07核实:非GSO成员,GSO 42不适用;整车不在ICIGI受管CoC清单(仅备件与轮胎),但自2026-01-01起另受第37号迪万令项下整车标准强制管理。"
    },
    "confidence": "B",
    "sources": [
     "法规清单(伊拉克)",
-    "COSQC ICIGI/VoC 公开资料、TÜV/Intertek 伊拉克方案说明(2026-07 核实)"
+    "COSQC ICIGI/VoC 公开资料、TÜV/Intertek 伊拉克方案说明(2026-07 核实)",
+    "伊拉克计划部公告 mop.gov.iq/archives/32089 (2025-07-14)、36967 (2026-04-06)"
    ]
   },
   "斯里兰卡": {
