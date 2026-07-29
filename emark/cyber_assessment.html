@@ -26,7 +26,18 @@ a{color:var(--od)}
 .tb-dd.on{display:block}
 .tb-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;cursor:pointer}
 .tb-dd button:hover{background:var(--cream);color:var(--od)}
-.layout{max-width:1160px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:216px minmax(0,1fr);gap:24px;align-items:start}
+.layout{max-width:1420px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:216px minmax(0,1fr) 252px;gap:24px;align-items:start}
+.reglist{position:sticky;top:16px;align-self:start;background:#fcfbf6;border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;max-height:calc(100vh - 32px);overflow:auto}
+.reglist .rr-h{font-size:13px;font-weight:800;color:var(--ink);padding-bottom:9px;margin-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:7px}
+.reglist .rr-n{font-size:11px;font-weight:700;color:#fff;background:var(--od);border-radius:10px;padding:1px 7px}
+.reglist .rr-list{display:flex;flex-direction:column;gap:7px}
+.reglist .rr-item{display:block;width:100%;text-align:left;font-family:inherit;background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px;cursor:pointer;transition:.12s}
+.reglist .rr-item:hover{border-color:var(--o);box-shadow:0 2px 6px rgba(16,24,40,.08)}
+.reglist .rr-id{display:inline-block;font-family:monospace;font-size:10.5px;font-weight:700;color:var(--od);background:#fbeee7;border-radius:5px;padding:1px 6px;margin-bottom:4px}
+.reglist .rr-nm{display:block;font-size:12px;font-weight:600;color:var(--ink);line-height:1.4}
+.reglist .rr-rg{display:block;font-size:10.5px;color:#8a8f98;margin-top:2px}
+.reglist .rr-note{font-size:10.5px;color:#9aa1ab;line-height:1.55;border-top:1px dashed var(--line);margin-top:11px;padding-top:9px}
+@media(max-width:1120px){.layout{grid-template-columns:216px minmax(0,1fr);max-width:960px}.reglist{grid-column:1/-1;position:static;max-height:none;margin-top:2px}.reglist .rr-list{flex-direction:row;flex-wrap:wrap}.reglist .rr-item{flex:1 1 240px}}
 @media(max-width:860px){.layout{grid-template-columns:1fr;gap:14px}}
 .sidebar{position:sticky;top:74px;display:flex;flex-direction:column;gap:8px}
 @media(max-width:860px){.sidebar{position:static}}
@@ -303,6 +314,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
     <div id="main"></div>
     <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与映射数据按<b>档案</b>保存在本浏览器。</div>
   </div>
+  <aside class="reglist" id="reglist"></aside>
 </div>
 <div id="report" class="report"></div>
 <div id="lvlmenu" class="lvlmenu"></div>
@@ -1058,6 +1070,22 @@ function modsHTML(){
 function stdHTML(){ return '<div class="std">'+(CYBER.standards||[]).map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
 /* 速查工具下拉 + 弹窗 */
 function toggleTools(){ const d=document.getElementById('tb-dd'); if(d) d.classList.toggle('on'); }
+// 右侧「相关法规 / 标准」栏：源自本工具已有的标准数组，点项打开完整速览
+function relRegs(){
+  const host=document.getElementById('reglist'); if(!host) return;
+  const arr=(CYBER.standards||[]);
+  const card=x=>{
+    const parts=String(x.name||'').split(/\s[—–-]\s/);
+    const short=parts.length>1?parts.slice(1).join(' — '):(x.name||x.id||'');
+    return '<button class="rr-item" onclick="openTool(\'std\')" title="'+escA((x.scope||'')+(x.timeline?' ｜ 时效:'+x.timeline:''))+'">'
+      +'<span class="rr-id">'+esc(x.id||'')+'</span>'
+      +'<span class="rr-nm">'+esc(short)+'</span>'
+      +(x.region?'<span class="rr-rg">'+esc(x.region)+'</span>':'')+'</button>';
+  };
+  host.innerHTML='<div class="rr-h">相关法规 / 标准 <span class="rr-n">'+arr.length+'</span></div>'
+    +'<div class="rr-list">'+arr.map(card).join('')+'</div>'
+    +'<div class="rr-note">点任一项打开「相关标准 / 法规速览」，看适用范围、要点与时间线。</div>';
+}
 function openTool(which){
   const d=document.getElementById('tb-dd'); if(d) d.classList.remove('on');
   const t=document.getElementById('gmtitle'), bd=document.getElementById('gmbody');
@@ -1086,7 +1114,7 @@ function render(){ renderSummary(); renderNav(); renderMain(); }
     tara=seedTara(); hara=seedHara(); itemMeta={};
     try{ localStorage.removeItem(OLD_CK); }catch(e){} // 清掉旧映射种子缓存
   }
-  updatePBar(); writeSummary(); render();
+  updatePBar(); writeSummary(); render(); relRegs();
 })();
 </script>
 </body>
