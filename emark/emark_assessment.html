@@ -120,6 +120,18 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .vb-legal{display:inline-block;font-size:9.5px;font-weight:700;color:#fff;background:#8A1C1C;border-radius:4px;padding:1px 5px;margin-left:3px;vertical-align:1px}
 .vb-txtcut{display:inline-block;font-size:9.5px;font-weight:700;color:#8A1C1C;background:#F7E3E0;border:1px solid #C98A80;border-radius:4px;padding:1px 5px;margin-left:3px;vertical-align:1px;cursor:help}
 .vb-txtlate{font-size:10.5px;color:var(--od);border-bottom:1px dotted var(--od);cursor:help}
+.cv-wrap{display:flex;flex-direction:column;gap:14px;padding:2px 0}
+.cv-sec{border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.cv-h{display:flex;align-items:center;gap:9px;background:var(--panel);padding:8px 12px;font-weight:700;font-size:13.5px;color:var(--ink)}
+.cv-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:6px;background:var(--ink);color:var(--paper);font-size:12px;font-weight:700}
+.cv-h .cv-n{margin-left:auto;font-size:11px;font-weight:600;color:var(--grey)}
+.cv-tbl{margin:0}
+.cv-tbl td.cv-sub{font-weight:600;color:var(--ink);width:34%}
+.cv-tbl td.cv-reg{font-family:var(--mono,monospace);font-size:11.5px;color:var(--od);width:38%}
+.cv-tbl td.cv-cat{font-size:11px;color:var(--grey)}
+.dv-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 18px;padding:8px 12px}
+.dv-sum{font-size:13px;color:var(--ink2);margin:4px 0 10px;padding-left:2px}
+@media(max-width:640px){.dv-grid{grid-template-columns:1fr}}
 .vb-proxy{color:var(--grey)}.vb-proxy-t{font-size:10px;color:var(--greyl)}
 .vb-row-b{background:#FCEFEC}
 .vb-row-eu{background:#EAF1FB}
@@ -490,6 +502,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
        <button onclick="tbGo(openAuthDir)">1958 缔约方 · 机关与技服名录</button>
       <button onclick="tbGo(openVersionBoard)">版本时效自查表（各系列生效/失效）</button>
        <button onclick="tbGo(openIWVTA)">IWVTA 整车必备法规</button>
+       <button onclick="tbGo(openComponentView)">按部件 / 系统查法规</button>
+       <button onclick="tbGo(openDeliverables)">全路径文档交付物一览</button>
        <button onclick="tbGo(openEuTable)">EU 型批法规全表（含强制实施日期）</button>
      </div>
    </div>
@@ -1198,6 +1212,33 @@ function openIWVTA(){
     `<div class="emk-note" style="border-top:none;border-bottom:1px solid var(--line)">整车（Universal IWVTA）须同时满足下列 UN 法规并达到所列<b>系列级别</b>；标 * 为条件性（视车型/动力适用）。零部件供应商可据此核对：您的证书系列是否达到整车所需级别。</div>
     <table class="emk-tbl"><thead><tr><th>UN 法规</th><th>要求系列</th><th>主题</th></tr></thead><tbody>${rows}</tbody></table>`,
     '权威来源：UNECE ECE/TRANS/WP.29/2025/159（UN R0 IWVTA 08 series 提案）Annex 4 Part A。');
+}
+
+// ===== 按部件/系统查法规（③ 部件切片视图）=====
+// 口径：顶层分组直接采用 (EU) 2019/2144 Annex II 的功能分组（A–H，见 GROUPS 常量），
+// 组内条目 = EU_ITEMS 派生（主题 s + 编号 r → toCompactReg + 适用车型 c）。零新增数据、零编造。
+function openComponentView(){
+  const s2c=r=>toCompactReg(r);
+  const grpKey=it=>{ const m=/^([A-Z]+)/.exec(it||''); if(!m) return '?'; return GROUPS[m[1]]?m[1]:m[1][0]; };
+  // 按官方分组归集
+  const buckets={};
+  EU_ITEMS.forEach(x=>{ const g=grpKey(x.it); (buckets[g]||(buckets[g]=[])).push(x); });
+  const order=Object.keys(GROUPS);
+  let secs='';
+  order.forEach(g=>{
+    const list=buckets[g]||[]; if(!list.length) return;
+    const rows=list.map(x=>{
+      const reg=s2c(x.r);
+      const cats=(x.c||'').trim()||'—';
+      return `<tr><td class="cv-sub">${x.s}</td><td class="cv-reg">${reg}</td><td class="cv-cat">${cats}</td></tr>`;
+    }).join('');
+    secs+=`<div class="cv-sec"><div class="cv-h"><span class="cv-badge">${g}</span>${GROUPS[g]}<span class="cv-n">${list.length} 项</span></div>
+      <table class="emk-tbl cv-tbl"><thead><tr><th>系统 / 部件（主题）</th><th>适用 UN 法规 / EU 法规</th><th>适用车型类别</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  });
+  emkModal('按部件 / 系统查法规 · 功能分组一览',
+    `<div class="emk-note" style="border-top:none;border-bottom:1px solid var(--line)">按<b>车辆系统 / 部件</b>切入，快速定位「我这个部件要过哪些法规、适用哪些车型类别」。顶层 A–H 为 <b>(EU) 2019/2144 Annex II</b> 官方功能分组；一个部件涉及多条法规时逐条列出。适用车型码：M=载客车，N=载货车，O=挂车，L=摩托车类（空白＝该项按通用适用，不按车型收敛）。</div>
+     <div class="cv-wrap">${secs}</div>`,
+    '数据源：(EU) 2019/2144 Annex II 功能分组 + 型批全表 EU_ITEMS（本工具「EU 型批法规全表」同源）。法规编号经 toCompactReg 归一显示；适用车型取自 EU_ITEMS 的 c 字段（源 2018/858 Annex II + 2019/2144 Annex I）。','emk-wide');
 }
 
 // ===== 标志外观示意（矢量重绘）：圆形外框=UNECE 大 E；长方形外框=EU 小 e；框内数字=签发国代号 =====
@@ -2012,6 +2053,30 @@ const DELIV={
 };
 let stnChk={}; // 交付物勾选状态：`${站id}_${序号}` -> true
 function toggleChk(k){stnChk[k]=!stnChk[k];render();}
+// ===== 交付物总表（② 全路径文档交付物一览）=====
+// 口径：把认证旅程 9 站的 DELIV 汇成一张总表，勾选状态与旅程各站共用 stnChk（双向同步）。零新增数据。
+const DELIV_STN=[
+ {id:'scope',n:'① 定标的与适用法规'},{id:'authority',n:'② 选型式批准机关'},
+ {id:'ts',n:'③ 委托技术服务机构'},{id:'doc',n:'④ 编制技术文档'},
+ {id:'test',n:'⑤ 送样与测试'},{id:'apply',n:'⑥ 递交批准申请'},
+ {id:'grant',n:'⑦ 获证与打标'},{id:'cop',n:'⑧ 生产一致性 CoP'},
+ {id:'life',n:'⑨ 持证运营'}];
+function toggleChkM(k){stnChk[k]=!stnChk[k];openDeliverables();}
+function openDeliverables(){
+  let total=0, done=0, secs='';
+  DELIV_STN.forEach(st=>{
+    const list=DELIV[st.id]||[]; if(!list.length) return;
+    const sd=list.filter((_,i)=>stnChk[st.id+'_'+i]).length; total+=list.length; done+=sd;
+    const rows=list.map((d,i)=>{const k=st.id+'_'+i,on=!!stnChk[k];
+      return `<label class="chk ${on?'on':''}" style="margin:0"><input type="checkbox" ${on?'checked':''} onchange="toggleChkM('${k}')"><span class="chk-t">${d.t}${d.b?`<small>${d.b}</small>`:''}</span></label>`;}).join('');
+    secs+=`<div class="cv-sec"><div class="cv-h">${st.n}<span class="cv-n">${sd}/${list.length}</span></div><div class="dv-grid">${rows}</div></div>`;
+  });
+  emkModal('全路径文档交付物一览 · 总表',
+    `<div class="emk-note" style="border-top:none;border-bottom:1px solid var(--line)">认证全流程<b>应交付/应留存</b>的文档一站式清单——勾选状态与「认证旅程」各站<b>实时同步</b>。三类关键产出物：<b>证书类</b>（型式批准证书 / CoC）· <b>技术文档类</b>（信息文件夹 / 图纸 / 测试报告 / CoP 记录）· <b>打标与合规声明类</b>（E 标版面 / DoC）。<br><b>⚠ 保存年限</b>：型式批准技术文件与 CoP 试验记录须留存<b>最长 10 年</b>（(EU) 2018/858 Art 31 §3.3.3；技术文档保存要求见各 UN 法规 CoP 条款）。</div>
+     <div class="dv-sum">全表进度 <b>${done}/${total}</b></div>
+     <div class="cv-wrap">${secs}</div>`,
+    '数据源：本工具「认证旅程」9 站交付物清单（DELIV）汇总，非新增数据。保存年限依 (EU) 2018/858 Art 31。具体法规项的送样数量/文件模板以对应 UN 法规附件与批准机关要求为准。','emk-wide');
+}
 function delivHTML(st){
   const list=DELIV[st.id]; if(!list) return '';
   const done=list.filter((_,i)=>stnChk[st.id+'_'+i]).length;
