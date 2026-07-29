@@ -408,7 +408,53 @@ function tplTableHead(){
     <th style="background:#E8622C;color:#fff;width:110px">备注</th>
   </tr>`;
 }
-function exportXls(){
+// 首选:真正的 .xlsx（复用仓库根目录本地化的 SheetJS，点击时按需加载，无格式提示）
+function loadSheetJS(){
+  return new Promise((res,rej)=>{
+    if(window.XLSX)return res(window.XLSX);
+    const s=document.createElement('script');
+    s.src='../xlsx.full.min.js';                 // 部署时 emark/ 与根目录同源，GitHub Pages / nginx 均可
+    s.onload=()=>window.XLSX?res(window.XLSX):rej(new Error('XLSX 未就绪'));
+    s.onerror=()=>rej(new Error('SheetJS 加载失败'));
+    document.head.appendChild(s);
+  });
+}
+function xlsxBuild(XLSX){
+  const NC=8,aoa=[],merges=[];
+  const mrow=t=>{const r=aoa.length;aoa.push([t]);merges.push({s:{r,c:0},e:{r,c:NC-1}});};
+  mrow(TPL_TITLE);
+  mrow('法律依据：UN 1958 协定 Schedule 1（E/ECE/TRANS/505/Rev.3）　|　(EU) 2018/858 第 31 条 + 附件Ⅳ');
+  aoa.push([]);
+  [['项目 / 车型'],['目标市场'],['适用法规范围'],['型批机关 / 技服'],['填表人'],['日期']].forEach(([lab])=>{
+    const r=aoa.length;aoa.push([lab,'']);merges.push({s:{r,c:1},e:{r,c:NC-1}});
+  });
+  aoa.push([]);
+  aoa.push(['序号','材料 / 文件项','类别','法规依据 / 说明','是否具备','对应文件编号·版本','责任部门 / 人','备注']);
+  let n=0;
+  CK.forEach(grp=>{
+    const r=aoa.length;aoa.push([grp.h]);merges.push({s:{r,c:0},e:{r,c:NC-1}});
+    grp.items.forEach(it=>{
+      n++;
+      const basis=it.s||'经合格 QMS 间接要求（ISO 9001 / IATF 16949）';
+      aoa.push([n,it.t,CATSHORT[grp.g].slice(0,1),basis,ckState[it.id]?'✓ 具备':'','','','']);
+    });
+  });
+  aoa.push([]);
+  mrow(TPL_LEGEND);
+  mrow(TPL_DISCL);
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols']=[{wch:5},{wch:42},{wch:5},{wch:48},{wch:9},{wch:20},{wch:15},{wch:22}];
+  ws['!merges']=merges;
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'CoP材料清单');
+  XLSX.writeFile(wb,'CoP材料清单模板.xlsx');
+}
+async function exportXls(){
+  try{ xlsxBuild(await loadSheetJS()); }
+  catch(e){ exportXlsFallback(); }              // 找不到 SheetJS 时降级为零依赖 .xls
+}
+// 兜底:HTML-as-.xls（零依赖，Excel/WPS 可开，首开可能提示格式与扩展名不符）
+function exportXlsFallback(){
   const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
 <head><meta charset="utf-8">
 <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>CoP材料清单</x:Name>
