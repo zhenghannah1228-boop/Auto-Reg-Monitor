@@ -103,7 +103,6 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .regsearch-cnt{font-size:11.5px;font-weight:600;color:var(--grey);white-space:nowrap;min-width:44px}
 .stile.dim{opacity:.16}
 .stile.hit{opacity:1;outline:2px solid var(--od);outline-offset:1px;box-shadow:0 2px 6px rgba(16,24,40,.2)}
-.arow.dim,.arow-gh.dim{opacity:.28}
 .arow.hit{background:var(--cream);border-radius:8px}
 .slegend{display:flex;gap:15px;margin-top:13px;padding-top:11px;border-top:1px dashed var(--ol);font-size:11px;color:var(--grey)}
 .slegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px;vertical-align:-1px}
@@ -1796,24 +1795,35 @@ function structAxes(items){
   ].filter(b=>b.rows.length);
 }
 function jumpItem(it){const el=document.getElementById('row-'+it);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>{el.classList.remove('flash');},1400);}
-// Step 3 法规速查：按 编号/名称/项号 过滤结构色块 + 明细行（纯 DOM 操作，不重渲染，保留输入焦点）
+// Step 3 法规速查：按 编号/名称/项号 过滤（上方色块高亮/变暗作结构定位；下方明细行只留匹配项，空分组标题一并收起）
 function regSearch(v){
   const q=(v||'').trim().toLowerCase().replace(/\s+/g,'');
   const cnt=document.getElementById('regsearch-cnt');
   const tiles=document.querySelectorAll('.stile[data-search]');
   const rows=document.querySelectorAll('.arow[data-search]');
+  const ghs=document.querySelectorAll('.arow-gh');
   if(!q){
     tiles.forEach(t=>t.classList.remove('dim','hit'));
-    rows.forEach(r=>r.classList.remove('dim','hit'));
-    document.querySelectorAll('.arow-gh').forEach(g=>g.classList.remove('dim'));
+    rows.forEach(r=>{r.classList.remove('hit');r.style.display='';});
+    ghs.forEach(g=>{g.style.display='';});
     if(cnt) cnt.textContent='';
     return;
   }
   const test=el=>(el.dataset.search||'').replace(/\s+/g,'').includes(q);
   let n=0;
   tiles.forEach(t=>{const m=test(t); t.classList.toggle('hit',m); t.classList.toggle('dim',!m);});
-  rows.forEach(r=>{const m=test(r); if(m)n++; r.classList.toggle('hit',m); r.classList.toggle('dim',!m);});
-  document.querySelectorAll('.arow-gh').forEach(g=>g.classList.add('dim'));
+  // 明细行：匹配才显示，其余隐藏
+  rows.forEach(r=>{const m=test(r); if(m)n++; r.classList.toggle('hit',m); r.style.display=m?'':'none';});
+  // 分组标题：仅当本组（其后连续的拆分子行 .arow-sub）内有可见匹配行才显示；遇到独立行即本组结束
+  ghs.forEach(g=>{
+    let has=false,el=g.nextElementSibling;
+    while(el&&!el.classList.contains('arow-gh')){
+      if(el.classList.contains('arow-sub')){ if(el.style.display!=='none'){has=true;break;} }
+      else if(el.classList.contains('arow')){ break; }
+      el=el.nextElementSibling;
+    }
+    g.style.display=has?'':'none';
+  });
   if(cnt) cnt.textContent=n?`${n} 条匹配`:'无匹配';
 }
 function regSearchJump(){
