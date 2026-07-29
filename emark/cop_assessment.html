@@ -91,6 +91,8 @@ a{color:var(--od)}
 .ckpct{font-size:13px;font-weight:800;color:var(--od);white-space:nowrap}
 .ckbtn{font-family:inherit;font-size:12px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer}
 .ckbtn:hover{border-color:var(--o);color:var(--od)}
+.ckbtn.p{background:var(--o);border-color:var(--o);color:#fff}
+.ckbtn.p:hover{background:var(--od);color:#fff}
 .ckgrp{margin:16px 0 6px}
 .ckgrp .gh{font-size:13.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .ckitem{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-bottom:7px;cursor:pointer;transition:.12s}
@@ -224,9 +226,11 @@ a{color:var(--od)}
         <div class="ckpct" id="ckpct">0 / 0</div>
         <button class="ckbtn" onclick="ckAll(true)">全选</button>
         <button class="ckbtn" onclick="ckAll(false)">清空</button>
+        <button class="ckbtn p" onclick="exportXls()">⬇ Excel 模板</button>
+        <button class="ckbtn p" onclick="exportDoc()">⬇ Word 模板</button>
       </div>
       <div id="cklist"></div>
-      <p class="note">清单勾选状态自动保存在本浏览器（localStorage），换设备不同步；「🖨 打印 / 导出」可连同勾选状态出一份自查表。<b>标注均为准备引导</b>，最终以型批机关要求的清单与格式为准。</p>
+      <p class="note">勾选状态自动保存在本浏览器（localStorage），换设备不同步。<b>「⬇ Excel / Word 模板」</b>可下载一份<b>可直接填写</b>的材料清单（含「是否具备 / 文件编号·版本 / 责任人 / 备注」列），并会带上你在本页已勾选的项；页头「🖨 打印」则出一份网页版自查表。<b>标注均为准备引导</b>，最终以型批机关要求的清单与格式为准。</p>
     </section>
 
     <!-- 5 常见误区 / FAQ -->
@@ -356,6 +360,98 @@ const FAQ=[
 function buildFaq(){
   document.getElementById('faq').innerHTML=FAQ.map((f,i)=>
     `<div class="faq" id="faq-${i}"><div class="q" onclick="document.getElementById('faq-${i}').classList.toggle('open')"><span>${f.q}</span><span class="ar">›</span></div><div class="a">${f.a}</div></div>`).join('');
+}
+
+/* ============ 导出可填写模板（Excel .xls / Word .doc，纯前端、无外部库） ============ */
+const CATSHORT={reg:'A 法规明确要求',eu:'B 欧盟制度性文件',qms:'C 体系惯例/支撑'};
+function dl(name,mime,html){
+  const blob=new Blob(['﻿'+html],{type:mime+';charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);
+  a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},120);
+}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// 生成清单表体行（8 列：序号/材料项/类别/法规依据·说明/是否具备/文件编号·版本/责任部门·人/备注）
+function tplRows(){
+  let n=0,out='';
+  CK.forEach(grp=>{
+    out+=`<tr><td colspan="8" style="background:#FDF6F0;font-weight:bold;color:#C44E1E">${esc(grp.h)}</td></tr>`;
+    grp.items.forEach(it=>{
+      n++;
+      const basis=it.s?esc(it.s):'经合格 QMS 间接要求（ISO 9001 / IATF 16949）';
+      const have=ckState[it.id]?'✓ 具备':'';
+      out+=`<tr><td style="text-align:center">${n}</td><td>${esc(it.t)}</td><td style="text-align:center">${CATSHORT[grp.g].slice(0,1)}</td><td>${basis}</td><td style="text-align:center">${have}</td><td></td><td></td><td></td></tr>`;
+    });
+  });
+  return out;
+}
+const TPL_TITLE='生产一致性（CoP）申请材料清单';
+const TPL_LEGEND='类别：A=法规明确要求（UN Schedule 1 / (EU) 2018/858 附件Ⅳ 可溯源）　B=欧盟制度性文件（(EU) 2018/858 追加）　C=体系惯例/支撑（经合格 QMS 间接要求）';
+const TPL_DISCL='说明：本模板仅作准备引导，不产生法律结论；精确条款、频次与提交格式以型式批准机关的现行官方文件与法规原文为准。法律依据：UN 1958 协定 Schedule 1（E/ECE/TRANS/505/Rev.3）；(EU) 2018/858 第 31 条 + 附件Ⅳ。';
+function infoTable(){
+  // 可填写的项目信息区
+  return `<table border="1" cellspacing="0" cellpadding="5" style="border-collapse:collapse;font-size:11pt;margin-bottom:10px">
+    <tr><td style="background:#FDF6F0;font-weight:bold;width:110px">项目 / 车型</td><td style="width:280px"></td><td style="background:#FDF6F0;font-weight:bold;width:110px">目标市场</td><td></td></tr>
+    <tr><td style="background:#FDF6F0;font-weight:bold">适用法规范围</td><td></td><td style="background:#FDF6F0;font-weight:bold">型批机关 / 技服</td><td></td></tr>
+    <tr><td style="background:#FDF6F0;font-weight:bold">填表人</td><td></td><td style="background:#FDF6F0;font-weight:bold">日期</td><td></td></tr>
+  </table>`;
+}
+function tplTableHead(){
+  return `<tr>
+    <th style="background:#E8622C;color:#fff;width:38px">序号</th>
+    <th style="background:#E8622C;color:#fff">材料 / 文件项</th>
+    <th style="background:#E8622C;color:#fff;width:42px">类别</th>
+    <th style="background:#E8622C;color:#fff">法规依据 / 说明</th>
+    <th style="background:#E8622C;color:#fff;width:70px">是否具备</th>
+    <th style="background:#E8622C;color:#fff;width:120px">对应文件编号·版本</th>
+    <th style="background:#E8622C;color:#fff;width:90px">责任部门 / 人</th>
+    <th style="background:#E8622C;color:#fff;width:110px">备注</th>
+  </tr>`;
+}
+function exportXls(){
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8">
+<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>CoP材料清单</x:Name>
+<x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
+<style>td,th{border:1px solid #bbb;font-family:"Microsoft YaHei",sans-serif;font-size:10.5pt;vertical-align:top} th{font-weight:bold}</style></head>
+<body>
+<h2 style="font-family:'Microsoft YaHei'">${TPL_TITLE}</h2>
+${infoTable()}
+<table border="1" cellspacing="0" cellpadding="4" style="border-collapse:collapse">
+${tplTableHead()}
+${tplRows()}
+</table>
+<p style="font-family:'Microsoft YaHei';font-size:9.5pt;color:#555;margin-top:8px">${esc(TPL_LEGEND)}</p>
+<p style="font-family:'Microsoft YaHei';font-size:9pt;color:#777">${esc(TPL_DISCL)}</p>
+</body></html>`;
+  dl('CoP材料清单模板.xls','application/vnd.ms-excel',html);
+}
+function exportDoc(){
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="utf-8"><title>${TPL_TITLE}</title>
+<style>
+@page{size:A4 landscape;margin:1.4cm}
+body{font-family:"Microsoft YaHei",sans-serif;font-size:10.5pt;color:#1A1D21}
+h1{font-size:16pt;color:#1A1D21;margin:0 0 4px} .sub{font-size:9.5pt;color:#666;margin:0 0 12px}
+table{border-collapse:collapse;width:100%} td,th{border:1px solid #999;padding:4px 6px;vertical-align:top;font-size:9.5pt}
+.intro{font-size:9.5pt;color:#3A3F46;line-height:1.6;margin:8px 0 12px}
+.foot{font-size:8.5pt;color:#777;margin-top:12px;line-height:1.6}
+.sign{margin-top:18px;font-size:10pt}
+</style></head>
+<body>
+<h1>${TPL_TITLE}</h1>
+<div class="sub">法律依据：UN 1958 协定 Schedule 1（E/ECE/TRANS/505/Rev.3）　|　(EU) 2018/858 第 31 条 + 附件Ⅳ（Conformity of Production）</div>
+<div class="intro">CoP（生产一致性）是型式批准的强制组成/前提——保证量产的每一辆车/系统/部件持续与已批准型式一致，<b>而非一张替代型批、单独授予上市资格的产品证书</b>。请对照本清单准备并填写下列材料，「是否具备」列可填 ✓/×/N.A.。</div>
+${infoTable()}
+<table border="1" cellspacing="0" cellpadding="4">
+${tplTableHead()}
+${tplRows()}
+</table>
+<p style="font-size:8.5pt;color:#555;margin-top:8px">${esc(TPL_LEGEND)}</p>
+<div class="sign">填表人签字：______________　　审核（型批机关/技服）：______________　　日期：____年__月__日</div>
+<div class="foot">${esc(TPL_DISCL)}</div>
+</body></html>`;
+  dl('CoP材料清单模板.doc','application/msword',html);
 }
 
 /* ============ init ============ */
