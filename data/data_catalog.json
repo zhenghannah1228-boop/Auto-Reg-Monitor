@@ -82,10 +82,10 @@
     {
       "id": "EMARK_ACCEPT", "name": "采信/参照 E-mark 的国家清单", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EMARK_ACCEPT + EMARK_SRC",
       "what": "结论卡「可通行国家」的采信(4国)/参照(16国)/own(4国)分档与逐国注释。",
-      "source": "各国国内法/区域协定的网络调研 + 部分官方文件(EMARK_SRC 列出)。经独立核实修正一轮(埃及降参照、印尼/伊拉克入own、越南限欧英原产、GCC 移出一证通行等)。",
-      "asof": "2026-07", "tier": "amber",
+      "source": "各国国内法/区域协定的网络调研 + 部分官方文件(EMARK_SRC 列出)。经独立核实修正一轮(埃及降参照、印尼/伊拉克入own、越南限欧英原产、GCC 移出一证通行等)。2026-07-29 完成专家式逐国复核(全覆盖,无编造项):确认埃及 E62/巴基斯坦 E64 均为真实 1958 缔约方代号,并对以色列(2018/858 引用)、智利(Euro6c/WLTP 生效日)、GCC(车型年滚动)、缅甸(否定论断软化)、吉尔吉斯(4细节降拟核实)、伊朗(85项数目待复核)逐项修正措辞。",
+      "asof": "2026-07-29", "tier": "amber",
       "trigger": "各国准入政策变动、采信协定更新",
-      "edit": "改 EMARK_ACCEPT.accepts/refs/own 的 [国名,注释]。**交付前建议专家复核**：属二级来源，采信程度逐国不同、执行力度可变；已在 EMARK_SRC 注明。"
+      "edit": "改 EMARK_ACCEPT.accepts/refs/own 的 [国名,注释]。已复核一轮;仍属二级来源、交付前建议认证专家最终签署。待人工拍板的 ❓存疑项:以色列 2016 法名确切称谓、印度 AIS-037 §条款号、阿根廷 CVHE 证书性质、加纳 DGS 4013H:2019 是否转正、伊拉克整车 COC 何时纳入清单、吉尔吉斯第37号决定 EEC 法律库原文。"
     },
     {
       "id": "EU_APPLY_PENDING", "name": "EU 委托法规适用日 + 待定项", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EU_APPLY + PENDING + SPLIT_REGS + ALT_REGS + REG_APPTYPE",
@@ -102,8 +102,8 @@
     {
       "id": "cert_pyramid", "name": "认证金字塔 / 关税 / 采信体系", "tool": "index", "file": "data/cert_pyramid.json", "loc": "JSON（cert_systems，103 国）",
       "what": "09 金字塔、05 世界地图、13 合规路径的底数据：各国认证体系(system_type)、金字塔层级、关税(tariff)、对外采信(external_recognition)。",
-      "source": "各国官方/权威资料混合。本轮修正伊拉克(非GSO)、沙特 recognizes 补 GCC/GSO、5国关税更新。",
-      "asof": "2026-07", "tier": "amber",
+      "source": "各国官方/权威资料混合。本轮修正伊拉克(非GSO)、沙特 recognizes 补 GCC/GSO、5国关税更新。2026-07-29 关税复核:泰国 CBU 校正为约 80%(此前误列分段税率)、土耳其附加进口税自 2025-09 起扩及更广来源(不再仅中国产)。",
+      "asof": "2026-07-29", "tier": "amber",
       "trigger": "各国认证制度/关税税则变动",
       "edit": "改 data/cert_pyramid.json 各国条目。**关税为参考值**(标注'以海关最新税则为准')；system_type 驱动地图着色+路径分档，改动属业务口径。confidence 字段(A/B/C)已逐国标注。"
     },
