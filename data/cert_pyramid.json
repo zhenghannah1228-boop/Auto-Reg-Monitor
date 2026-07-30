@@ -4367,7 +4367,7 @@
   "孟加拉国": {
    "country": "孟加拉国",
    "system_type": "recognition",
-   "summary": "符合性+检验模式:BRTA(道路运输法2018;进口批准、注册、适航CoR)+BSTI(标准、CM许可、进口清关);旧车年限限制、仅RHD;无本土型式批准。",
+   "summary": "符合性+检验模式:BRTA(《道路运输法 2018》;进口批准、注册、适航 CoR)+ BSTI(标准、CM 许可、进口清关检验);仅右舵(RHD),二手车须附日本 JAAI 车况证书;再制造乘用车约 ≤5 个制造年(4 vs 5 计法待核);无本土型式批准。",
    "pyramid": [
     {
      "level": 1,
@@ -4482,14 +4482,14 @@
   "科威特": {
    "country": "科威特",
    "system_type": "hybrid",
-   "summary": "GCC区域体系成员:GSO海湾技术法规+G-Mark全海湾通行,国家由KOWSMD/PAI在口岸执法并提附加要求;采信CCC/EU等既有型式认证作支持。",
+   "summary": "GCC 区域体系成员:整车凭 GSO 车辆技术法规 + GCC 海湾符合性证书(经 Mutabiq 平台)进口;科威特由工业公共局(PAI)的 KUCAS 方案作口岸符合性验证(TIR+TER、认可检验机构 CIB 签发),叠加国家附加要求;采信 CCC/EU 等既有型批作证据,无本土完整型批。(G-Mark 仅用于低压电器/玩具等消费品,不适用整车)",
    "pyramid": [
     {
      "level": 1,
      "label": "区域框架/顶端",
      "title": "GSO海湾技术法规",
      "title_local": "GSO Technical Regulations - Motor Vehicles",
-     "desc": "GSO制定海湾机动车技术法规;GCC符合证书与G-Mark全海湾7国通行。",
+     "desc": "GSO 制定海湾机动车技术法规;整车凭 GCC 海湾符合性证书(经 Mutabiq 平台)全海湾通行(G-Mark 仅用于低压电器/玩具等受管消费品,不适用整车)。",
      "refs": [
       {
        "reg_no": "GSO Technical Regulations MV",
@@ -4515,15 +4515,15 @@
      "label": "评定/检验",
      "title": "Gulf Notified Body评定 + 国家口岸执法",
      "title_local": "Gulf Notified Body / Customs",
-     "desc": "由海湾通报机构(Notified Body)评定;KOWSMD/PAI在口岸与市场入口执法,可加附加技术要求。",
+     "desc": "由海湾通报机构(Notified Body)评定;工业公共局(PAI)经 KUCAS 方案在口岸与市场入口执法,可加附加技术要求。",
      "refs": []
     },
     {
      "level": 4,
      "label": "证书/产出",
-     "title": "GCC符合证书 + G-Mark",
-     "title_local": "GCC Conformity Certificate + G-Mark",
-     "desc": "经GSO总部核验签发GCC符合证书并加注G-Mark;凭此在科威特清关上市。",
+     "title": "GCC 海湾符合性证书(Mutabiq)",
+     "title_local": "GCC Conformity Certificate (Mutabiq)",
+     "desc": "经 GSO 平台核验签发 GCC 海湾符合性证书;凭此在科威特清关上市。",
      "refs": []
     }
    ],
@@ -4536,7 +4536,7 @@
      },
      {
       "name": "科威特工业标准与计量部门",
-      "abbr": "KOWSMD/PAI",
+      "abbr": "PAI (KUCAS)",
       "role": "科威特国家标准与计量主管,GCC符合证书国家层执法。"
      }
     ],
@@ -4550,7 +4550,7 @@
      "component": [
       {
        "group": "部件",
-       "items": "轮胎(GSO 2147)、安全玻璃等核心部件强制认证,带G-Mark"
+       "items": "轮胎(GSO 2147)、安全玻璃等核心部件按 GSO/GCC 强制认证"
       }
      ]
     },
@@ -4565,17 +4565,17 @@
      },
      {
       "step": "发GCC符合证书",
-      "desc": "经GSO总部核验签发GCC符合证书+G-Mark。"
+      "desc": "经 GSO 平台(Mutabiq)核验签发 GCC 海湾符合性证书。"
      },
      {
       "step": "清关上市",
-      "desc": "凭证书在KOWSMD/PAI口岸清关上市。"
+      "desc": "凭证书在科威特(PAI/KUCAS)口岸清关上市。"
      }
     ],
     "process_component": [
      {
       "step": "部件认证",
-      "desc": "核心部件经Notified Body认证,带G-Mark。"
+      "desc": "核心部件经海湾通报机构(Notified Body)认证。"
      }
     ]
    },
@@ -4587,7 +4587,7 @@
     ],
     "basis": "GSO标准参照ECE;接受CCC/EU等既有型式认证作支持文件。",
     "scope": "GCC内完全互认;采信外部证书作支持",
-    "note": "混合型——区域GSO认证全海湾通行+KOWSMD/PAI国家口岸执法,与沙特/阿联酋同属海湾GCC体系。"
+    "note": "混合型——区域GSO认证全海湾通行 + 工业公共局(PAI)经 KUCAS 国家口岸执法,与沙特/阿联酋同属海湾GCC体系。"
    },
    "confidence": "B",
    "sources": [
@@ -4603,14 +4603,14 @@
   "卡塔尔": {
    "country": "卡塔尔",
    "system_type": "hybrid",
-   "summary": "GCC区域体系成员:GSO海湾技术法规+G-Mark全海湾通行,国家由QS在口岸执法并提附加要求;采信CCC/EU等既有型式认证作支持。",
+   "summary": "GCC 区域体系成员:整车凭 GSO 车辆技术法规 + GCC 海湾符合性证书(经 Mutabiq 平台)进口,叠加国家要求;标准机构为 QS(Qatar General Organization for Standardization,原 QGOSM);采信 CCC/EU 等既有型批,无本土完整型批。(G-Mark 不适用整车)",
    "pyramid": [
     {
      "level": 1,
      "label": "区域框架/顶端",
      "title": "GSO海湾技术法规",
      "title_local": "GSO Technical Regulations - Motor Vehicles",
-     "desc": "GSO制定海湾机动车技术法规;GCC符合证书与G-Mark全海湾7国通行。",
+     "desc": "GSO 制定海湾机动车技术法规;整车凭 GCC 海湾符合性证书(经 Mutabiq 平台)全海湾通行(G-Mark 仅用于低压电器/玩具等受管消费品,不适用整车)。",
      "refs": [
       {
        "reg_no": "GSO Technical Regulations MV",
@@ -4642,9 +4642,9 @@
     {
      "level": 4,
      "label": "证书/产出",
-     "title": "GCC符合证书 + G-Mark",
-     "title_local": "GCC Conformity Certificate + G-Mark",
-     "desc": "经GSO总部核验签发GCC符合证书并加注G-Mark;凭此在卡塔尔清关上市。",
+     "title": "GCC 海湾符合性证书(Mutabiq)",
+     "title_local": "GCC Conformity Certificate (Mutabiq)",
+     "desc": "经 GSO 平台核验签发 GCC 海湾符合性证书;凭此在卡塔尔清关上市。",
      "refs": []
     }
    ],
@@ -4671,7 +4671,7 @@
      "component": [
       {
        "group": "部件",
-       "items": "轮胎(GSO 2147)、安全玻璃等核心部件强制认证,带G-Mark"
+       "items": "轮胎(GSO 2147)、安全玻璃等核心部件按 GSO/GCC 强制认证"
       }
      ]
     },
@@ -4686,7 +4686,7 @@
      },
      {
       "step": "发GCC符合证书",
-      "desc": "经GSO总部核验签发GCC符合证书+G-Mark。"
+      "desc": "经 GSO 平台(Mutabiq)核验签发 GCC 海湾符合性证书。"
      },
      {
       "step": "清关上市",
@@ -4696,7 +4696,7 @@
     "process_component": [
      {
       "step": "部件认证",
-      "desc": "核心部件经Notified Body认证,带G-Mark。"
+      "desc": "核心部件经海湾通报机构(Notified Body)认证。"
      }
     ]
    },
@@ -4724,14 +4724,14 @@
   "阿曼": {
    "country": "阿曼",
    "system_type": "hybrid",
-   "summary": "GCC区域体系成员:GSO海湾技术法规+G-Mark全海湾通行,国家由DGSM在口岸执法并提附加要求;采信CCC/EU等既有型式认证作支持。",
+   "summary": "GCC 区域体系成员:整车凭 GSO 车辆技术法规 + GCC 海湾符合性证书(经 Mutabiq 平台)进口;主管为工商及投资促进部(MoCIIP)下属标准与计量总局(DGSM),叠加国家要求;采信既有型批,无本土完整型批。(2027 车型将适用新标准;G-Mark 不适用整车)",
    "pyramid": [
     {
      "level": 1,
      "label": "区域框架/顶端",
      "title": "GSO海湾技术法规",
      "title_local": "GSO Technical Regulations - Motor Vehicles",
-     "desc": "GSO制定海湾机动车技术法规;GCC符合证书与G-Mark全海湾7国通行。",
+     "desc": "GSO 制定海湾机动车技术法规;整车凭 GCC 海湾符合性证书(经 Mutabiq 平台)全海湾通行(G-Mark 仅用于低压电器/玩具等受管消费品,不适用整车)。",
      "refs": [
       {
        "reg_no": "GSO Technical Regulations MV",
@@ -4763,9 +4763,9 @@
     {
      "level": 4,
      "label": "证书/产出",
-     "title": "GCC符合证书 + G-Mark",
-     "title_local": "GCC Conformity Certificate + G-Mark",
-     "desc": "经GSO总部核验签发GCC符合证书并加注G-Mark;凭此在阿曼清关上市。",
+     "title": "GCC 海湾符合性证书(Mutabiq)",
+     "title_local": "GCC Conformity Certificate (Mutabiq)",
+     "desc": "经 GSO 平台核验签发 GCC 海湾符合性证书;凭此在阿曼清关上市。",
      "refs": []
     }
    ],
@@ -4792,7 +4792,7 @@
      "component": [
       {
        "group": "部件",
-       "items": "轮胎(GSO 2147)、安全玻璃等核心部件强制认证,带G-Mark"
+       "items": "轮胎(GSO 2147)、安全玻璃等核心部件按 GSO/GCC 强制认证"
       }
      ]
     },
@@ -4807,7 +4807,7 @@
      },
      {
       "step": "发GCC符合证书",
-      "desc": "经GSO总部核验签发GCC符合证书+G-Mark。"
+      "desc": "经 GSO 平台(Mutabiq)核验签发 GCC 海湾符合性证书。"
      },
      {
       "step": "清关上市",
@@ -4817,7 +4817,7 @@
     "process_component": [
      {
       "step": "部件认证",
-      "desc": "核心部件经Notified Body认证,带G-Mark。"
+      "desc": "核心部件经海湾通报机构(Notified Body)认证。"
      }
     ]
    },
@@ -4845,14 +4845,14 @@
   "巴林": {
    "country": "巴林",
    "system_type": "hybrid",
-   "summary": "GCC区域体系成员:GSO海湾技术法规+G-Mark全海湾通行,国家由BSMD在口岸执法并提附加要求;采信CCC/EU等既有型式认证作支持。",
+   "summary": "GCC 区域体系成员:整车凭 GSO 车辆技术法规 + GCC 海湾符合性证书进口;巴林标准与计量局(BSMD,GSO 创始成员)于口岸(Khalifa Bin Salman 港)审批受管制产品并提国家附加要求;采信既有型批,无本土完整型批。(G-Mark 不适用整车)",
    "pyramid": [
     {
      "level": 1,
      "label": "区域框架/顶端",
      "title": "GSO海湾技术法规",
      "title_local": "GSO Technical Regulations - Motor Vehicles",
-     "desc": "GSO制定海湾机动车技术法规;GCC符合证书与G-Mark全海湾7国通行。",
+     "desc": "GSO 制定海湾机动车技术法规;整车凭 GCC 海湾符合性证书(经 Mutabiq 平台)全海湾通行(G-Mark 仅用于低压电器/玩具等受管消费品,不适用整车)。",
      "refs": [
       {
        "reg_no": "GSO Technical Regulations MV",
@@ -4884,9 +4884,9 @@
     {
      "level": 4,
      "label": "证书/产出",
-     "title": "GCC符合证书 + G-Mark",
-     "title_local": "GCC Conformity Certificate + G-Mark",
-     "desc": "经GSO总部核验签发GCC符合证书并加注G-Mark;凭此在巴林清关上市。",
+     "title": "GCC 海湾符合性证书(Mutabiq)",
+     "title_local": "GCC Conformity Certificate (Mutabiq)",
+     "desc": "经 GSO 平台核验签发 GCC 海湾符合性证书;凭此在巴林清关上市。",
      "refs": []
     }
    ],
@@ -4913,7 +4913,7 @@
      "component": [
       {
        "group": "部件",
-       "items": "轮胎(GSO 2147)、安全玻璃等核心部件强制认证,带G-Mark"
+       "items": "轮胎(GSO 2147)、安全玻璃等核心部件按 GSO/GCC 强制认证"
       }
      ]
     },
@@ -4928,7 +4928,7 @@
      },
      {
       "step": "发GCC符合证书",
-      "desc": "经GSO总部核验签发GCC符合证书+G-Mark。"
+      "desc": "经 GSO 平台(Mutabiq)核验签发 GCC 海湾符合性证书。"
      },
      {
       "step": "清关上市",
@@ -4938,7 +4938,7 @@
     "process_component": [
      {
       "step": "部件认证",
-      "desc": "核心部件经Notified Body认证,带G-Mark。"
+      "desc": "核心部件经海湾通报机构(Notified Body)认证。"
      }
     ]
    },
@@ -4966,7 +4966,7 @@
   "约旦": {
    "country": "约旦",
    "system_type": "recognition",
-   "summary": "符合性认证模式:JSMO(标准与计量法2000)发强制技术法规与符合证书/质量标志,本地实验室测试+采信认可机构报告;无完整本土型式批准。",
+   "summary": "符合性认证模式:JSMO(Jordan Standards and Metrology Organization;标准与计量法 No.22/2000〔法号待一手复核〕)发强制技术法规与符合证书/质量标志,本地实验室测试 + 采信认可机构报告;无独立整车型式批准;无线设备另由 TRC 型批。",
    "pyramid": [
     {
      "level": 1,
@@ -5544,7 +5544,7 @@
   "斯里兰卡": {
    "country": "斯里兰卡",
    "system_type": "recognition",
-   "summary": "强制进口检验:SLSI(标准局法1984)对受管品类(122项)强制进口检验;采信出口国认可实验室/国家标准机构/注册厂家证书;随机抽查;无本土型式批准。",
+   "summary": "强制进口检验:SLSI(标准局法 No.6/1984 设立)对受管品类执行强制进口检验(采信出口国认可实验室/国家标准机构/注册厂家证书 + 随机抽查);「122 项强制清单」出自 2018 年第 2064/34 号公报、依据 1969 进出口管制法(非 SLSI 法);仅右舵,车龄按品类分档;整车是否列入该 122 项待核;无本土型式批准。",
    "pyramid": [
     {
      "level": 1,
@@ -8395,14 +8395,14 @@
   "GSO": {
    "country": "GSO",
    "system_type": "hybrid",
-   "summary": "【框架】海湾GCC区域认证:GSO(海湾标准化组织)制定海湾技术法规与统一标准(GSO 2143/2147/2530),经海湾通报机构评定后发GCC符合证书+G-Mark,全海湾7国通行;各成员国另设国家附加要求与口岸执法。",
+   "summary": "【框架】海湾GCC区域认证:GSO(海湾标准化组织)制定海湾技术法规与统一标准(GSO 2143/2147/2530);整车凭 GCC 海湾符合性证书(经 GSO Mutabiq 平台,4 轮车/摩托/轮胎自 2005-01-01 强制)全海湾通行,各成员国另设国家附加要求与口岸执法。G-Mark 仅用于低压电器/玩具等受管消费品,不适用整车。",
    "pyramid": [
     {
      "level": 1,
      "label": "区域框架/顶端",
      "title": "GSO海湾技术法规",
      "title_local": "GSO Technical Regulations - Motor Vehicles",
-     "desc": "GSO制定海湾机动车技术法规;GCC符合证书与G-Mark全海湾7国(沙特/阿联酋/科威特/卡塔尔/阿曼/巴林/也门)通行。",
+     "desc": "GSO 制定海湾机动车技术法规;整车凭 GCC 海湾符合性证书(经 Mutabiq 平台)在海湾 6 国(沙特/阿联酋/科威特/卡塔尔/阿曼/巴林)通行(也门非 GCC 成员;G-Mark 不适用整车)。",
      "refs": [
       {
        "reg_no": "GSO Technical Regulations MV",
@@ -8434,9 +8434,9 @@
     {
      "level": 4,
      "label": "证书/产出",
-     "title": "GCC符合证书 + G-Mark",
-     "title_local": "GCC Conformity Certificate + G-Mark",
-     "desc": "签发GCC符合证书并加注G-Mark;各成员国(SASO/ESMA/KOWSMD/QS/DGSM/BSMD)口岸执法。",
+     "title": "GCC 海湾符合性证书(Mutabiq)",
+     "title_local": "GCC Conformity Certificate (Mutabiq)",
+     "desc": "签发 GCC 海湾符合性证书(经 Mutabiq 平台);各成员国(SASO/ESMA/PAI·KUCAS/QS/DGSM/BSMD)口岸执法。",
      "refs": []
     }
    ],
@@ -8463,7 +8463,7 @@
      "component": [
       {
        "group": "部件",
-       "items": "轮胎(GSO 2147)等核心部件强制认证,带G-Mark"
+       "items": "轮胎(GSO 2147)等核心部件按 GSO/GCC 强制认证"
       }
      ]
     },
@@ -8478,7 +8478,7 @@
      },
      {
       "step": "发GCC证书",
-      "desc": "经GSO核验签发GCC符合证书+G-Mark。"
+      "desc": "经 GSO 平台核验签发 GCC 海湾符合性证书。"
      },
      {
       "step": "成员国执法",
@@ -8488,7 +8488,7 @@
     "process_component": [
      {
       "step": "部件认证",
-      "desc": "核心部件经通报机构认证带G-Mark。"
+      "desc": "核心部件经海湾通报机构认证。"
      }
     ]
    },
@@ -8499,7 +8499,7 @@
     ],
     "basis": "GSO标准参照ECE;接受CCC/EU等既有型式认证作支持文件;GCC内完全互认。",
     "scope": "GCC区域统一+成员国执法(非单一国家)",
-    "note": "【区域框架】海湾GSO/GCC认证——全海湾7国共用GSO标准与G-Mark,沙特/阿联酋/科威特/卡塔尔/阿曼/巴林为成员,是中东市场的上游骨架。"
+    "note": "【区域框架】海湾GSO/GCC认证——海湾 6 国(沙特/阿联酋/科威特/卡塔尔/阿曼/巴林)共用 GSO 标准与 GCC 海湾符合性证书(整车经 Mutabiq 平台),是中东市场的上游骨架。G-Mark 仅用于低压电器/玩具等消费品,不适用整车。"
    },
    "confidence": "A",
    "sources": [
