@@ -11606,32 +11606,32 @@
   },
   "利比亚": {
    "country": "利比亚",
-   "system_type": "own_full",
-   "summary": "自有强制认证 + 装船前检验:依《第 12/2010 号法案》管控车辆及零部件进口,执行 LNCS 强制认证叠加 PVOC 装船前检验;法规以 UNECE 为基础并增加适配北非高温、沙尘环境的专属试验项,要求整车型式批准叠加年度工厂监督审核。",
+   "system_type": "recognition",
+   "summary": "装船前检验(VoC/CoI)型:由 Intertek / Bureau Veritas / TÜV / SGS 等国际检验机构在出口国检验并签发 Certificate of Inspection,凭以在利比亚央行开立信用证(法律基础为央行 2015 年第 96 号决议);LNCSM(国家标准计量中心)为标准机构。无证据显示存在本土整车型式批准或年度工厂监督审核。二手车龄上限待核。",
    "pyramid": [
     {
      "level": 1,
      "label": "框架/顶端",
-     "title": "《第 12/2010 号法案》",
-     "title_local": "Law No.12/2010",
-     "desc": "管控车辆及零部件进口的母法。",
+     "title": "利比亚央行 2015 年第 96 号决议",
+     "title_local": "Central Bank of Libya Decision No.96/2015",
+     "desc": "现行进口管控的可核实法律基础:所有进口须凭装船前检验证书(CoI)开立信用证。(原引《第 12/2010 号法案》经 2026-07 复核无一手来源支撑,已更正)",
      "refs": [
       {
-       "reg_no": "Law 12/2010",
-       "name": "利比亚车辆及零部件进口管控法案"
+       "reg_no": "CBL 96/2015",
+       "name": "利比亚央行进口结汇凭 CoI 决议"
       }
      ]
     },
     {
      "level": 2,
      "label": "技术标准",
-     "title": "UNECE 基础 + 高温沙尘专属试验",
-     "title_local": "UNECE base + desert tests",
-     "desc": "以 UNECE 为基础,额外增加适配北非高温、沙尘环境的专属试验项。",
+     "title": "检验基准:国际 / 出口国标准",
+     "title_local": "International / exporting-country standards",
+     "desc": "装船前检验以相关国际及出口国标准为符合性基准。(原「UNECE 基础 + 高温沙尘专属试验」无一手来源,已改为待核)",
      "refs": [
       {
-       "reg_no": "UN R 系列",
-       "name": "UNECE 法规(基础)"
+       "reg_no": "—",
+       "name": "检验基准标准(具体待核)"
       }
      ]
     },
@@ -11640,31 +11640,31 @@
      "label": "测试/评定",
      "title": "LNCS 强制认证 + PVOC",
      "title_local": "LNCS + PVOC",
-     "desc": "LNCS 强制认证叠加 PVOC 装船前检验;整车型式批准叠加年度工厂监督审核。",
+     "desc": "由 Intertek / Bureau Veritas / TÜV / SGS 等国际检验机构在出口国执行装船前检验(VoC),签发 Certificate of Inspection(CoI)。无证据显示存在本土整车型式批准或年度工厂监督审核。",
      "refs": []
     },
     {
      "level": 4,
      "label": "证书/产出",
-     "title": "LNCS 证书 + PVOC 放行",
-     "title_local": "LNCS Certificate + PVOC",
-     "desc": "取得 LNCS 认证与 PVOC 检验后清关放行。",
+     "title": "Certificate of Inspection(CoI)",
+     "title_local": "CoI + Letter of Credit",
+     "desc": "取得 CoI 后凭以在央行开立信用证并清关放行;LNCSM 为标准 / 合格标志机构。",
      "refs": []
     }
    ],
    "sections": {
     "authorities": [
      {
-      "name": "利比亚国家标准与计量中心(LNCS 体系)",
-      "abbr": "LNCS",
-      "role": "强制认证与标准主管。"
+      "name": "利比亚国家标准与计量中心(LNCSM)",
+      "abbr": "LNCSM",
+      "role": "标准与合格标志主管(非整车型批签发机构);进口结汇凭 CoI 由央行依 96/2015 管控。"
      }
     ],
     "core_regs": {
      "vehicle": [
       {
        "group": "安全",
-       "items": "UNECE 基础 + 高温/沙尘专属试验(LNCS)"
+       "items": "以国际 / 出口国标准为检验基准(具体基准待核)"
       }
      ],
      "component": [
@@ -11676,20 +11676,20 @@
     },
     "process_vehicle": [
      {
-      "step": "型式批准",
-      "desc": "按 LNCS 取得整车型式批准(UNECE 基础 + 专属试验)。"
+      "step": "出口国装船前检验",
+      "desc": "由 Intertek / BV / TÜV / SGS 等在出口国检验车辆。"
      },
      {
-      "step": "PVOC 装船前检验",
-      "desc": "出口前完成 PVOC 装船前检验。"
+      "step": "签发 CoI",
+      "desc": "检验合格后签发 Certificate of Inspection。"
      },
      {
-      "step": "工厂监督",
-      "desc": "叠加年度工厂监督审核。"
+      "step": "央行开证",
+      "desc": "凭 CoI 在利比亚央行开立信用证(依央行 96/2015)。"
      },
      {
       "step": "清关放行",
-      "desc": "凭 LNCS 证书与 PVOC 放行。"
+      "desc": "凭 CoI 清关放行。"
      }
     ],
     "process_component": [
@@ -11701,17 +11701,19 @@
    },
    "external_recognition": {
     "recognizes": [
-     "UNECE 法规(基础)",
-     "出口国原始资料"
+     "国际检验机构装船前检验证书(CoI)",
+     "国际 / 出口国符合性标准(基础)"
     ],
-    "basis": "以 UNECE 为基础,但叠加 LNCS 强制认证、PVOC 检验与高温沙尘专属试验。",
-    "scope": "LNCS 强制认证 + PVOC;UNECE 基础",
-    "note": "自有强制认证体系——《第12/2010号法案》下 LNCS 认证叠加 PVOC,以 UNECE 为基础并增北非高温沙尘专属试验,要求整车型式批准 + 年度工厂监督审核。 【推文来源】战后北非市场回暖,国产皮卡/轻卡需求高,准入门槛居高不下。"
+    "basis": "装船前检验(CoI)放行,凭以央行开证;非本土整车型式批准。",
+    "scope": "承认国际检验机构的装船前检验证书(CoI);检验基准为国际 / 出口国标准",
+    "note": "装船前检验(CoI/VoC)型——国际检验机构(Intertek/BV/TÜV/SGS)出口国检验、签发 CoI,凭以央行开证清关(法律基础央行 96/2015);LNCSM 为标准机构。原「第12/2010号法案 + 整车型批 + 年度工厂审核 + UNECE基础 + 沙尘专属试验」经 2026-07 联网复核无一手来源支撑,已整体更正(见 docs/主控台-审计与修复.md 及数据复核留痕)。"
    },
    "confidence": "C",
    "sources": [
-    "推文原始资料(资料有限)",
-    "推文INS-2026-023(出海冷门强制准入认证清单)"
+    "Intertek / Bureau Veritas / TÜV / SGS 利比亚 VoC·CoI 方案说明(2026-07 核实)",
+    "利比亚央行 2015 年第 96 号决议(进口凭 CoI 开信用证)",
+    "LNCSM(利比亚国家标准计量中心)",
+    "原「第12/2010号法案 + UNECE基础 + 沙尘专属试验 + 整车型批 + 年度工厂审核」经 2026-07 复核无一手来源支撑,已更正"
    ]
   },
   "巴布亚新几内亚": {
@@ -11847,7 +11849,7 @@
   "科特迪瓦": {
    "country": "科特迪瓦",
    "system_type": "recognition",
-   "summary": "装运前符合性检验(CoC)+电子货物跟踪单(ECTN):仅进口左舵车、强制欧4+;新车出口前办 CoC(二手车自愿),并办 ECTN;无本土型式批准。",
+   "summary": "装运前符合性检验(VoC/CoC)+电子货物跟踪单:CODINORM 授权 Cotecna、Bureau Veritas 等机构在装船前签发 CoC;仅进口左舵车、强制 Euro 4(ECOWAS 区域指令);配电子货物跟踪单;无本土型式批准。二手车是否豁免 CoC 待核。",
    "pyramid": [
     {
      "level": 1,
@@ -11954,7 +11956,7 @@
   "加蓬": {
    "country": "加蓬",
    "system_type": "recognition",
-   "summary": "装运前符合性检验(CoC)+货物跟踪单:仅进口左舵车、强制欧4+、车龄≤10年(超龄无法办货物跟踪单);无本土型式批准。",
+   "summary": "装船前符合性检验(PROGEC 方案,AGANOR 授权 Cotecna)+ 强制货物跟踪单 BIETC;仅进口左舵车、二手车龄上限 10 年(2023 年底由 8 年上调);无本土型式批准。排放标准(是否强制 Euro 4)待核——加蓬属 CEMAC、非 ECOWAS。",
    "pyramid": [
     {
      "level": 1,
@@ -12060,7 +12062,7 @@
   "多哥": {
    "country": "多哥",
    "system_type": "recognition",
-   "summary": "装运前符合性检验 + 车龄阶梯关税:仅符合标准的左舵车、排放国Ⅳ+;私人轿车≤5年、商用车≤10年;2026 起纯电/混动新能源整车享100%关税减免。",
+   "summary": "装船前检验(COTECNA)+ 到港技术检验;左舵、ECOWAS Euro Ⅳ;车龄阶梯:私人轿车约≤5 年、商用车约≤10 年;2026 年财政法给新纯电/混动车(≤5 年、需环境部+贸易部事前审批)免关税及海关环节 VAT;无本土型式批准。",
    "pyramid": [
     {
      "level": 1,
@@ -12168,7 +12170,7 @@
   "南苏丹": {
    "country": "南苏丹",
    "system_type": "recognition",
-   "summary": "装运前符合性检验(CoC)+电子货物跟踪单(ECTN):出口前办 CoC + ECTN;以装运前检验与海关为准入闸口,无本土型式批准。",
+   "summary": "装运前符合性检验(PVoC/CoC):SSNBS(国家标准局)授权 SGS、TÜV Austria 在出口国签发 CoC(对 ≥USD 2,000 货物强制);配 SSRA(税务局)电子货物跟踪单 ECTN;无本土型式批准。车龄/排放标准待核。",
    "pyramid": [
     {
      "level": 1,
@@ -12271,7 +12273,7 @@
   "刚果(金)": {
    "country": "刚果(金)",
    "system_type": "recognition",
-   "summary": "VC 检验证书 + FERI 货物跟踪 + 目的地证明(COD/AD):由本地进口商发起 VC 检验、出口商配合;无本土型式批准。",
+   "summary": "装船前核验(VC):OCC(刚果控制局)主导、Bureau Veritas(BIVAC)执行,签发检验证书;配 OGEFREM 管理的 FERI 货物跟踪单(Matadi/Boma 港强制);二手车龄上限 2026 年起 15 年;无本土型式批准。",
    "pyramid": [
     {
      "level": 1,
@@ -12374,7 +12376,7 @@
   "刚果(布)": {
    "country": "刚果(布)",
    "system_type": "recognition",
-   "summary": "装运前符合性检验(CoC)+电子货物跟踪单(URN/ECTN):出口前办 CoC 与 URN(刚果共和国 ECTN 参考编号);无本土型式批准。",
+   "summary": "装船前检验(PSI)+ PCEC 符合性方案(Cotecna 与标准局 ACONOQ);配刚果货主委员会 CCC 签发的电子货物跟踪单 ECTN/URN(NVU,须上提单、船开后 10 天内确认);无本土型式批准。车龄/排放待核。",
    "pyramid": [
     {
      "level": 1,
