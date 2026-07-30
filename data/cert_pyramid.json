@@ -3749,7 +3749,7 @@
   "秘鲁": {
    "country": "秘鲁",
    "system_type": "recognition",
-   "summary": "文件式均质化:依国家车辆条例(DS 058-2003-MTC)由MTC/DGCT作均质化登记+MINAM(排放);不做本地实验室测试,采信厂家证书;SUNAT清关核验。",
+   "summary": "文件式均质化:依《国家车辆条例 DS 058-2003-MTC》由 MTC/DGTT(陆运总局)作均质化登记(采信厂家证书、不做本地实验室测试);排放限值走 DS 047-2001-MTC(经 MINAM 修订);SUNAT 清关核验;无本土型式批准。",
    "pyramid": [
     {
      "level": 1,
@@ -6242,7 +6242,7 @@
   "巴拉圭": {
    "country": "巴拉圭",
    "system_type": "recognition",
-   "summary": "南方共同市场区域框架:采纳MERCOSUR汽车技术法规,以区域协调规则+进口符合为准;本土标准体系较弱,无独立完整型式批准。",
+   "summary": "南方共同市场区域框架:采纳 MERCOSUR 汽车技术法规,区域协调 + 进口符合,无独立完整型式批准;进口依 Ley 2018/02 及 2153/03(车龄上限 10 年),产业政策归工商部(MIC)、技术检验 DINATRAN、上牌登记 DNRA。MERCOSUR 国内落地强制程度待核。",
    "pyramid": [
     {
      "level": 1,
@@ -6348,7 +6348,7 @@
   "缅甸": {
    "country": "缅甸",
    "system_type": "recognition",
-   "summary": "进口政策+海关模式:商业部(MOC)年度车辆进口政策为准(LHD、5年内车龄、Euro等),无专项型式批准检验;以进口许可与海关清关为主。",
+   "summary": "进口政策+海关模式:无本土型式批准;商业部(MOC)按年度进口政策管控,要求左驾、车型年份限当年/前一年内(2025 年度限 2024 款起;工程/重型另设约 15 年上限),以进口许可 + 海关执行。排放 Euro 阶段待核。",
    "pyramid": [
     {
      "level": 1,
@@ -6454,7 +6454,7 @@
   "柬埔寨": {
    "country": "柬埔寨",
    "system_type": "recognition",
-   "summary": "技术检验+注册模式:公共工程与运输部(MPWT)作车辆技术检验(适航)与注册,发车辆检验证书;LHD、Euro II起、旧车年限;无本土型式批准。",
+   "summary": "技术检验+注册模式:公共工程与运输部(MPWT)作技术检验(适航)与注册发证;仅左舵(右舵自 2001 起禁进口);排放执行 Euro IV(2022 起,规划 Euro V/2027、Euro VI/2030);无固定车龄上限,靠定期检验管控;无本土型式批准。",
    "pyramid": [
     {
      "level": 1,
@@ -6993,7 +6993,7 @@
   "玻利维亚": {
    "country": "玻利维亚",
    "system_type": "recognition",
-   "summary": "标准+海关进口模式:IBNORCA为国家标准机构,以本土标准与海关进口符合核验为主;南方共同市场联系国;无成体系汽车型式批准。",
+   "summary": "标准+海关进口模式:IBNORCA(国家标准机构)为清关签发环境证书(NORMA EURO),海关核验进口符合,无成体系汽车型式批准;二手车严限——2016 年(DS 2232)起仅车龄 ≤1 年可进口、重型 >3 年禁入,右舵旧车须在工业自由区改为左舵;玻为 MERCOSUR 加入进程成员。≤1 年车龄现行严格度待核。",
    "pyramid": [
     {
      "level": 1,
@@ -10575,7 +10575,7 @@
   "文莱": {
    "country": "文莱",
    "system_type": "recognition",
-   "summary": "进口许可+技术检验:陆路运输局(JPD)审批进口并作技术检验/适航;RHD;旧车须在原产国预检(PDI);车龄限制(私用车3年/4年);无本土型式批准。",
+   "summary": "进口许可+技术检验:陆路运输局(JPD,Jabatan Pengangkutan Darat)审批进口并作技术检验/适航;右舵;进口二手车须原产国预检(PDI);车龄限私用车 ≤3 年(自登记)/≤4 年(自制造)、商用车 ≤5 年(自登记)/≤6 年(自制造);无本土型式批准。",
    "pyramid": [
     {
      "level": 1,
@@ -11500,14 +11500,14 @@
   "塞尔维亚": {
    "country": "塞尔维亚",
    "system_type": "hybrid",
-   "summary": "非欧盟独立认证体系:采用独立的 AAA 强制性合格评定体系,法规基准高度对标 UNECE 但发证机构完全独立,需单独测试与工厂审核;已纳入 E/e-mark 体系,专属代号 E10。",
+   "summary": "非欧盟独立认证层:基准对标 UNECE/EU,发证机构为道路交通安全局(ABS,Agencija za bezbednost saobraćaja),签发本国整车合格证(homologation)方可年检上牌;已纳入 E/e-mark 体系、专属代号 E10。对持 EU/UN 型批的新车以采信为主,二手进口车逐台检验;塞入盟谈判中,现制仍有效。",
    "pyramid": [
     {
      "level": 1,
      "label": "框架/顶端",
-     "title": "塞尔维亚 AAA 强制合格评定",
-     "title_local": "Serbia AAA Conformity Assessment",
-     "desc": "非欧盟国家,不强制认可欧盟 WVTA,采用自有 AAA 强制合格评定体系。",
+     "title": "塞尔维亚本国合格评定(ABS)",
+     "title_local": "Serbia Homologation (ABS)",
+     "desc": "非欧盟国家,以本国合格评定为准入层:基准对标 UNECE/EU,由道路交通安全局(ABS)签发本国整车合格证(homologation);对持 EU/UN 型批的新车以采信为主。",
      "refs": []
     },
     {
@@ -11528,44 +11528,44 @@
      "label": "测试/评定",
      "title": "独立测试 + 工厂审核",
      "title_local": "Independent Testing / Factory Audit",
-     "desc": "发证机构独立于欧盟,需在塞单独开展测试与工厂审核。",
+     "desc": "发证机构独立于欧盟;工厂审核(生产一致性)主要针对本国生产,二手进口车逐台检验,持 EU/UN 型批的新车以采信为主、不必逐型重做全套测试。",
      "refs": []
     },
     {
      "level": 4,
      "label": "证书/产出",
-     "title": "AAA 合格证书 / E10",
-     "title_local": "AAA Certificate / E10 mark",
-     "desc": "通过评定签发 AAA 合格证书,可发 E10 标志。",
+     "title": "本国合格证(homologation)/ E10",
+     "title_local": "Homologation Certificate / E10 mark",
+     "desc": "通过评定由 ABS 签发本国合格证(homologation),可发 E10 标志。",
      "refs": []
     }
    ],
    "sections": {
     "authorities": [
      {
-      "name": "塞尔维亚合格评定主管机构(AAA 体系)",
-      "abbr": "AAA",
-      "role": "独立合格评定与发证。"
+      "name": "塞尔维亚道路交通安全局(Agencija za bezbednost saobraćaja)",
+      "abbr": "ABS",
+      "role": "整车合格评定与本国 homologation 发证。"
      }
     ],
     "core_regs": {
      "vehicle": [
       {
        "group": "安全",
-       "items": "对标 UNECE 的整车安全要求(AAA 评定)"
+       "items": "对标 UNECE 的整车安全要求(ABS 评定)"
       }
      ],
      "component": [
       {
        "group": "部件",
-       "items": "部件按 E/e-mark(E10)与 AAA 评定"
+       "items": "部件按 E/e-mark(E10)与本国合格评定"
       }
      ]
     },
     "process_vehicle": [
      {
       "step": "提交申请",
-      "desc": "向塞 AAA 体系机构提交。"
+      "desc": "向塞尔维亚道路交通安全局(ABS)提交。"
      },
      {
       "step": "测试与工厂审核",
@@ -11573,7 +11573,7 @@
      },
      {
       "step": "发证",
-      "desc": "签发 AAA 合格证书 / E10 标志。"
+      "desc": "签发本国合格证(homologation)/ E10 标志。"
      }
     ],
     "process_component": [
@@ -11588,9 +11588,9 @@
      "UNECE/UN 法规(对标)",
      "E/e-mark(E10)"
     ],
-    "basis": "基准对标 UNECE,但发证机构完全独立,需单独测试与工厂审核。",
-    "scope": "自有 AAA 强制合格评定;不自动认可欧盟 WVTA",
-    "note": "非欧盟独立认证体系——AAA 强制合格评定,对标 UNECE、纳入 E/e-mark(代号 E10),发证机构独立。 【推文来源】克罗地亚 2013 年入盟执行 WVTA,不属此独立认证范畴。"
+    "basis": "基准对标 UNECE/EU;发证机构为本国道路交通安全局(ABS),持 EU/UN 型批新车以采信为主、二手进口车逐台检验。",
+    "scope": "本国合格评定(ABS)+ 采信 EU/UN 型批;不自动认可欧盟 WVTA",
+    "note": "非欧盟独立认证层——由道路交通安全局(ABS)作本国合格评定(homologation),对标 UNECE/EU、纳入 E/e-mark(代号 E10);对持 EU/UN 型批的新车以采信为主,二手进口车逐台检验。(原「AAA 体系」为发证机构名笔误,2026-07 复核更正为 ABS) 【推文来源】克罗地亚 2013 年入盟执行 WVTA,不属此独立认证范畴。"
    },
    "confidence": "C",
    "sources": [
