@@ -1551,6 +1551,7 @@ async function syncImport(fileStats){
   renderAll();
   if(!batch.size){if(fileStats.length)toast("文件中没有可入库的有效记录");return;}
   toast("正在写入团队数据库…");
+  let imported=false;
   try{
     const rows=[...batch].map(k=>{const r=store[k];return{
       country:r.country,reg_key:norm(r.regId||r.cnName),
@@ -1571,10 +1572,12 @@ async function syncImport(fileStats){
     _famCache={}; // 库变化,法规族缓存失效
     importLogs=await sbFetchAll("import_logs","filename,created_at,added_count","order=created_at.desc");
     toast("已入库 "+rows.length+" 条(新增 "+fileStats.reduce((s,f)=>s+f.added,0)+")· 自动快照已生成");
+    imported=true;
   }catch(err){toast("写入数据库失败:"+err.message);console.error(err);}
   // 按国家替换式导入:本次导入涉及的国家里,库内有、但新清单中已删除的记录 → 识别并(确认后)删除
+  // ⚠ 仅在写库成功后才进入删除分支——否则 upsert 失败(新数据没写成)时仍删旧记录会造成净数据丢失
   try{
-    if(_impCtys&&_impCtys.size&&_impKeys){
+    if(imported&&_impCtys&&_impCtys.size&&_impKeys){
       const orphans=recs().filter(r=>_impCtys.has(r.country)&&!_impKeys.has(keyOf(r))&&r.id);
       if(orphans.length){
         const byc={};orphans.forEach(r=>{(byc[r.country]=byc[r.country]||[]).push(r);});
@@ -1600,7 +1603,7 @@ async function syncIds(){
 
 /* ================= 快照(基准存数据库) ================= */
 async function refreshSnapshots(selectPrev){
-  snapshots=await sbFetchAll("snapshots","id,snap_date,key_count,auto,note,created_at","order=created_at.desc");
+  snapshots=await sbFetchAll("snapshots","id,snap_date,key_count,auto,note,created_at","order=created_at.desc,id.desc");
   if(selectPrev||curSnapId===null){
     // 默认对比"上一次快照":最新一份等于当前库,取第二新的做基准
     if(snapshots[1])await useSnapshot(snapshots[1].id,true);
