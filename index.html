@@ -1230,12 +1230,12 @@ function parseDimText(t){
 }
 const KW=[
   [/UN\s*R(?!1?5[567])\d|FMVSS|CMVSS|ADR\b|KMVSS|TIS\b|type.?approval|整车|安全带|碰撞|制动/i,0],
-  [/排放|emission|ELV|REACH|CBAM|油耗|fuel|噪声|noise|VIAQ|空气质量|回收/i,1],
-  [/RED\b|EMC|电波|radio|TPMS|蓝牙|bluetooth|RFID|无线|射频/i,2],
+  [/排放|emission|\bELV\b|REACH|CBAM|油耗|fuel|噪声|noise|VIAQ|空气质量|回收/i,1],
+  [/RED\b|\bEMC\b|电波|radio|TPMS|蓝牙|bluetooth|RFID|无线|射频/i,2],
   [/充电|charging|R100|R136|电池|battery|REESS|UN\s*38\.3|护照/i,3],
-  [/补贴|subsidy|incentive|IRA\b|ZEV|FAME|iZEV|税收减免|关税豁免/i,4],
-  [/R155|R156|CSMS|SUMS|OTA|TARA|网络安全|cyber|数据保护|GDPR|PDPA|APPI|privacy/i,5],
-  [/R157|ALKS|AEB|ADAS|自动驾驶|autonomous|车道保持|SOTIF|智能网联/i,6],
+  [/补贴|subsidy|incentive|IRA\b|\bZEV\b|FAME|iZEV|税收减免|关税豁免/i,4],
+  [/R155|R156|CSMS|SUMS|\bOTA\b|TARA|网络安全|cyber|数据保护|GDPR|PDPA|APPI|privacy/i,5],
+  [/R157|ALKS|\bAEB\b|ADAS|自动驾驶|autonomous|车道保持|SOTIF|智能网联/i,6],
   [/VIN\b|铭牌|标签|label|能效标|Monroney|EnerGuide|Sticker/i,7],
   [/注册|登记|年检|召回|recall|清关|customs|COC\b|海关/i,8],
   [/三角架|灭火器|急救包|first.?aid|备胎|warning triangle|随车/i,9],
