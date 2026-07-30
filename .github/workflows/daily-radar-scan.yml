@@ -1,0 +1,51 @@
+name: 法规雷达日扫集 (Daily Radar Scan)
+
+# 每日东八区零点 (UTC 16:00) 自动触发,扫前一天发布的汽车准入类法规。
+# 数据源: 美国联邦公报 / 欧盟 EUR-Lex / 英国 legislation.gov.uk / UNECE RSS
+# 写入: reg_radar(新条目) + scan_runs(运行日志) + scan_matrix(扫集状态格)
+# 无需 Secrets: Supabase url + anonKey 从仓库根 config.js 解析(RLS 全放行)。
+
+on:
+  schedule:
+    - cron: "0 16 * * *"   # UTC 16:00 = 东八区次日 00:00
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "目标日期 YYYY-MM-DD (留空=昨天)"
+        required: false
+        default: ""
+      dry_run:
+        description: "dry-run: 只打印不写库 (true/false)"
+        required: false
+        default: "false"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-radar-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: 扫集 ${{ github.event.inputs.date || '昨天' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 法规雷达日扫集
+        run: |
+          ARGS=""
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            ARGS="--date ${{ github.event.inputs.date }}"
+          fi
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          python tools/daily_radar_scan.py $ARGS
