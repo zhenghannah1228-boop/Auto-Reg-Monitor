@@ -86,7 +86,7 @@ a{color:var(--od)}
 .mode.ta{background:#e9f0f6;color:var(--blue)}
 .mode.sc{background:#fef3e6;color:var(--amber)}
 .mode.cs{background:#eaf3ee;color:var(--green)}
-.qm{color:var(--red);font-weight:700}
+.refnote{color:var(--greyl);font-size:11px;font-weight:400}
 /* 流程 */
 .flow{display:flex;flex-direction:column;gap:0;margin:14px 0}
 .fstep{display:flex;gap:14px;position:relative;padding-bottom:20px}
@@ -245,10 +245,10 @@ a{color:var(--od)}
           <tr><td class="sy">欧盟 EU-WVTA</td><td><span class="mode ta">型式批准</span></td><td>授批机关初评 + 持续核查，按 ISO 31000:2018 风险法</td><td><b>有</b>政府 CoP 审核；无专门频次时<b>至少每 3 年</b></td><td>(EU) 2018/858 §31 + 附件Ⅳ</td></tr>
           <tr><td class="sy">联合国 UN 1958</td><td><span class="mode ta">型式批准</span></td><td>授批机关 / 技服核查「生产符合性安排」（QMS + 产品控制）</td><td><b>有</b>；频次按 Schedule 1 及各 UN Reg 自设（如 R118 §8 每 2 年）</td><td>Schedule 1（E/ECE/TRANS/505/Rev.3）</td></tr>
           <tr><td class="sy">美国 FMVSS</td><td><span class="mode sc">自我认证</span></td><td>制造商自证符合并加认证标签；<b>无政府事前审批</b></td><td><b>无</b>政府事前 CoP 审核；NHTSA 事后抽检 / 缺陷召回</td><td>49 CFR Part 567（标签）/ 568（多阶段）；49 U.S.C. Ch.301</td></tr>
-          <tr><td class="sy">加拿大 CMVSS</td><td><span class="mode sc">自我认证</span></td><td>凭<b>国家安全标志 NSM</b> 自证；不要求型批</td><td><b>无</b>事前审批；TC 以<b>随机抽查审计</b>监督</td><td>Motor Vehicle Safety Act + CMVSR<span class="qm"> ❓精确 SOR 号</span></td></tr>
+          <tr><td class="sy">加拿大 CMVSS</td><td><span class="mode sc">自我认证</span></td><td>凭<b>国家安全标志 NSM</b> 自证；不要求型批</td><td><b>无</b>事前审批；TC 以<b>随机抽查审计</b>监督</td><td>Motor Vehicle Safety Act + CMVSR<br><small class="refnote">精确 SOR 号以官方原文为准</small></td></tr>
           <tr><td class="sy">韩国 KMVSS</td><td><span class="mode sc">自我认证</span></td><td>制造商 / 进口商自证符合 KMVSS（2003 起改自认证）</td><td><b>无</b>事前型批；KATRI 事后<b>自认证适合调查</b>（市场抽检）</td><td>자동차관리법 §30 + KMVSS</td></tr>
-          <tr><td class="sy">中国 CCC + GB</td><td><span class="mode cs">认证 + 监督</span></td><td>指定认证机构发证，含<b>获证后监督</b>（工厂监督审核 + 抽检 + 飞行检查）</td><td><b>有</b>（第三方）；<b>年度</b>监督审核</td><td>CNCA / CCC 实施规则体系<span class="qm"> ❓分类文号</span></td></tr>
-          <tr><td class="sy">日本 型式指定</td><td><span class="mode ta">型式指定</span></td><td>MLIT / NALTEC 样车检验 + 均一性核查；发证后指导监督审计</td><td><b>有</b>政府监督审计<span class="qm"> ❓精确周期 / 条文</span></td><td>道路运送车辆法 + 型式指定制度</td></tr>
+          <tr><td class="sy">中国 CCC + GB</td><td><span class="mode cs">认证 + 监督</span></td><td>指定认证机构发证，含<b>获证后监督</b>（工厂监督审核 + 抽检 + 飞行检查）</td><td><b>有</b>（第三方）；<b>年度</b>监督审核</td><td>CNCA / CCC 实施规则体系<br><small class="refnote">分类文号以官方原文为准</small></td></tr>
+          <tr><td class="sy">日本 型式指定</td><td><span class="mode ta">型式指定</span></td><td>MLIT / NALTEC 样车检验 + 均一性核查；发证后指导监督审计</td><td><b>有</b>政府监督审计<br><small class="refnote">精确周期/条文以官方原文为准</small></td><td>道路运送车辆法 + 型式指定制度</td></tr>
         </tbody>
       </table></div>
       <h3>给客户的关键提醒</h3>
@@ -257,7 +257,7 @@ a{color:var(--od)}
         <li><b>自认证 ≠ 宽松</b>：风险后移到<b>事后召回</b>——一旦不符合，制造商承担召回、罚款乃至刑责（韩国自认证不符可处徒刑 / 罚金）。合规重心在「随时能举证」：工厂须能拿出符合性测试记录与设计依据应对 NHTSA / TC / KATRI 的市场抽检。</li>
         <li><b>「每 3 年」是欧盟口径、不是 UN</b>：UN 侧按 Schedule 1 及各 UN Reg 自设（如 R118 每 2 年）；两套频次别混用。</li>
         <li><b>一份批准 ≠ 全球免检</b>：跨到自认证市场需另走自认证 + 事后抽检逻辑，量产监管接口完全不同。</li>
-        <li>标 <span class="qm">❓</span> 的精确编号（CMVSR 的 SOR 号、日本型式指定精确条文与周期、R118 频次、CNCA 分类实施规则文号）以官方原文为准，勿沿用二手概述。</li>
+        <li>本表个别精确法条编号（CMVSR 的 SOR 号、日本型式指定精确条文与周期、R118 频次、CNCA 分类实施规则文号）以官方原文为准，勿沿用二手概述。</li>
       </ul>
     </section>
 
