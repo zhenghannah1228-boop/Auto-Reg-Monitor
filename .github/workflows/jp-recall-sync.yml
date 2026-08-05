@@ -1,0 +1,41 @@
+name: Japan MLIT recalls → recalls (weekly)
+
+# 定期把日本国土交通省(MLIT)「リコール等情報検索」的机动车リコール/改善対策/キャンペーン
+# 同步进 Supabase recalls 表,16 召回案例页会自动显示新记录。
+# 该系统前端本身不含数据,实际由背后的 Estraier 搜索 CGI 官方接口提供完整结构化字段
+# (届出番号/届出日/不具合装置/状況説明/改善措置説明/対象台数/厂商车型),无需下载解析PDF。
+# 按届出番号去重、幂等。每周三跑,默认拉近45天(含重叠去重,兜住上次运行后的新增)。
+# 无需任何 Secret:Supabase url + anonKey 从仓库根 config.js 解析(anonKey 本就公开,RLS 全放行)。
+
+on:
+  schedule:
+    - cron: "12 7 * * 3"   # 每周三 07:12 UTC
+  workflow_dispatch:
+    inputs:
+      days_back:
+        description: "拉取近多少天内届出(留空=45天;首次播种可填400)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: jp-recall-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sync Japan MLIT vehicle recalls
+        run: |
+          if [ -n "${{ github.event.inputs.days_back }}" ]; then
+            python tools/jp_recall_sync.py --days-back "${{ github.event.inputs.days_back }}"
+          else
+            python tools/jp_recall_sync.py
+          fi
