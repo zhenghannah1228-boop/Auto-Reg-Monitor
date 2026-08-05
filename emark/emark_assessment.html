@@ -1271,7 +1271,7 @@ function markMatrix(){
    ['<b>部件/STU · 有对应 UN 法规</b>（灯具/玻璃/R90…）', Y, N, N, 'Art 57/58：EU 直接采用 UN 法规，不走小 e'],
    ['<b>部件/STU · 仅 EU 条例覆盖</b>（eCall/前防护/氢材料/酒精锁）', N+'<small> 无 UN 法规</small>', Y, N, ''],
    ['部件 <b>+ 无线/射频模块</b>', '按上两行', '按上两行', Y+'<small> 追加·RED 2014/53</small>', '多标并存，各走各的评定'],
-   ['部件 <b>+ 机械动力</b>（液压/举升）', '按上两行', '按上两行', Y+'<small> 追加·2006/42→2023/1230</small>', ''],
+   ['部件 <b>+ 机械动力</b>（液压/举升）', '按上两行', '按上两行', Y+'<small> 追加·2006/42→2023/1230（2027-01-20起）</small>', ''],
    ['部件 <b>+ 烟火件</b>（气囊气发/预紧器）', Y+'<small> R114/R16</small>', N, Y+'<small> 追加·2013/29</small>', '两证并行不互替']
   ].map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' style="white-space:normal;min-width:150px"':(i===4?' style="white-space:normal;color:var(--grey);font-size:11px;min-width:130px"':' style="text-align:center"')}>${c}</td>`).join('')}</tr>`).join('');
   return `<details open style="margin-bottom:12px"><summary style="font-size:12.5px;font-weight:700;color:var(--od);cursor:pointer">适用对照表：整车 / 部件 × 大E · 小e · CE</summary>
@@ -1376,7 +1376,7 @@ const STEP_REGS={
  2:[{t:'(EU) 2018/858 · Art 57/58',c:'Annex II 所列 UN 法规是 EU 型批要求组成部分（57）；UN 法规与 EU 法规<b>等效</b>、成员国须接受 E 标替代 EU 标（58）。',l:D858},
     {t:'(EU) 2018/858 · Art 3(20)',c:'独立技术单元（STU）定义。',l:D858},
     {t:'EMC 2014/30/EU · Art 2(2)',c:'车辆及 ESA 排除出通用 EMC 指令，改由 UN R10 覆盖 → 打大 E。'},
-    {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。'}],
+    {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230（<b>2027-01-20 起适用</b>,20 号前不得依新法规签发 EU 符合性声明,无过渡期、只有切换日）；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。'}],
  3:[{t:'WP.29/343 Add.1',c:'各缔约国指定型式批准机关与技术服务名录（63 国）＋缔约方适用（互认国数）。'},
     {t:'WP.29/343 Add.2',c:'各 UN 法规系列/增补生效日期（工具版本标注数据源）。'},
     {t:'WP.29/1044/Rev.3',c:'UN 法规程序通用指南——法规出新系列后既有批准持续有效；增补/勘误/修订的法律区别。'},
