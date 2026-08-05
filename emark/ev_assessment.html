@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>电气与电动化合规 · 评估台 · UN R100 / R10 / 充电接口 / (EU) 2023/1542</title>
+<title>电气与电动化合规 · 评估台 · UN R100 / R10 / 充电接口 / (EU) 2023/1542 / (EU) 2026/1738</title>
 <style>
 :root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--green:#1F7A4D;--red:#C0392B;--amber:#B45309}
 *{box-sizing:border-box}
@@ -198,7 +198,7 @@ a{color:var(--od)}
 <div class="topbar"><div class="tb-in">
   <div class="tb-title">
     <h1>电气与电动化合规 <span class="em">·</span> 评估台</h1>
-    <div class="tb-sub">UN R100 高压电安全 · R10 EMC · 充电与接口 · (EU) 2023/1542 电池法规</div>
+    <div class="tb-sub">UN R100 高压电安全 · R10 EMC · 充电与接口 · (EU) 2023/1542 电池法规 · (EU) 2026/1738 循环设计与报废车管理</div>
   </div>
   <div class="tb-act">
     <div class="tb-menu">
@@ -393,6 +393,35 @@ const MODS=[
     {k:'batt.f2',t:'电化学性能与耐久性要求(EV/工业电池,配套授权法案分阶段)',r:'Art. 10 / 附件 IV'},
     {k:'batt.f3',t:'可移除/可更换与拆解信息:便携与 LMT 电池 2027-02-18 起可移除可更换;向维修/回收方提供拆解与安全信息',r:'Art. 11 / 附件 XIII'}
   ]}
+ ]},
+{id:'elv',n:'5',short:'循环/ELV',name:'(EU) 2026/1738 循环设计与报废车管理',
+ title:'(EU) 2026/1738 循环设计与报废车管理 · 就绪度自查(生产者责任层,与 E-mark 并行)',
+ sub:'<b>混合结构:型批相关的可回收性设计要求已并入 (EU) 2018/858 型式批准框架(见 E-mark 评估台 EU_ITEMS 表 GA13 项),本模块管的是型批之外的生产者责任层</b>——循环设计策略、生产者登记、数字循环护照、报废车管理与二手车贸易限制。废止 Directive 2000/53/EC(报废车指令)与 Directive 2005/64/EC(整车可回收利用率型批指令)。',
+ pills:['2026-08 生效','2028-09 主体适用','循环策略 2029-09','二手车单证 2031-09','数字护照 2032-09'],
+ leg:'时间线要点(联网核实,Noerr 律所解读 / Foresight·imds-professional 行业分析 / cambioslegales 三方独立信源一致):(EU) 2026/1738 于 2026-07-24 公布,2026-08-13 生效(公布 +20 日);主体规定 2028-09-01 起适用(Art.59(2) 第一款),自此日起废止 2000/53/EC 与 2005/64/EC;适用范围为 L/M/N 类车辆。分阶段义务:循环设计策略与成员国生产者登记 2029-09-01 起(生产者登记须于 2029-08-31 前由成员国建立);二手车贸易单证新规 2031-09-01 起;数字循环车辆护照与可重复使用性要求(Art.4(1))均为 2032-09-01 起。再生材料最低占比等具体设计要求的确切比例与阶段性日期未查得一手数据,以官方实施细则/附件为准,本工具暂不断言具体数字。',
+ groups:[
+  {name:'法律基础与适用范围',items:[
+   {k:'elv.a1',t:'确认适用范围:L/M/N 类车辆(轻便摩托车/整车/商用车),核对在产车型是否落入',r:'(EU) 2026/1738 · 适用范围'},
+   {k:'elv.a2',t:'废止关系确认:替代 Directive 2000/53/EC(报废车)与 Directive 2005/64/EC(整车可回收利用率型批),2028-09-01 前旧指令仍现行、不要提前按新规单独执行',r:'2026-08-13 生效 / 2028-09-01 主体适用'},
+   {k:'elv.a3',t:'型批环节的可回收性设计要求已并入 (EU) 2018/858,与本模块是同一法规的两个层面而非重复义务——型批侧内容见 E-mark 评估台 GA13 项,不在此重复自查',r:'跨工具提示 · 见 emark_assessment.html GA13'}
+  ]},
+  {name:'循环设计策略与生产者登记(2029-09-01 起)',items:[
+   {k:'elv.b1',t:'制定并维护「循环设计策略」文件,列明达成再生材料/可回收性/拆解要求的具体措施',r:'2029-09-01 起'},
+   {k:'elv.b2',t:'向拟投放市场的成员国完成生产者登记(成员国须于 2029-08-31 前建立登记系统)',r:'2029-09-01 起'},
+   {k:'elv.b3',t:'报废车回收处理责任落实(收集网络、处理设施资质、达标率),对齐拟被替代的 2000/53/EC 既有回收目标口径',r:'依废止后的新规,具体机制待官方实施细则'}
+  ]},
+  {name:'再生材料含量与设计要求',items:[
+   {k:'elv.c1',t:'⚠ 再生塑料/金属等材料最低占比要求:法规确认存在更严格标准,但具体比例与分阶段生效日期未查得一手数据,建议持续跟踪官方实施细则、暂不按猜测数字投入设计变更',r:'具体条款待官方实施细则明确'},
+   {k:'elv.c2',t:'拆解便利性设计(与型批侧 GA13 可回收利用率要求衔接,避免两头分别设计)',r:'型批侧见 GA13;本法规强化拆解/材料可分离性设计要求'}
+  ]},
+  {name:'数字循环车辆护照(2032-09-01 起)',items:[
+   {k:'elv.d1',t:'2032-09-01 起为适用车辆建立数字循环护照,记录材料构成/可回收性/维修拆解信息等循环经济相关数据',r:'2032-09-01 起'},
+   {k:'elv.d2',t:'与电池护照((EU) 2023/1542 Art.77,见本页④模块)是两套独立护照,数据范围不同,勿混用同一套数据结构',r:'区分:电池护照管电池,循环护照管整车材料/拆解'}
+  ]},
+  {name:'二手车贸易与可重复使用性(2031-09-01 / 2032-09-01 起)',items:[
+   {k:'elv.e1',t:'二手车出口/贸易新增单证要求(具体单证清单待官方实施细则)',r:'2031-09-01 起'},
+   {k:'elv.e2',t:'可重复使用性要求(Art.4(1)):2032-09-01 前不生效,现阶段无需按此条款设计',r:'Art.4(1) · 2032-09-01 起'}
+  ]}
  ]}
 ];
 function modById(id){ return MODS.find(m=>m.id===id)||null; }
@@ -426,7 +455,9 @@ const GLOSSARY=[
   {t:'碳足迹',full:'Carbon Footprint of Battery',d:'(EU) 2023/1542 Art. 7:电池全生命周期碳足迹声明→性能等级→最大阈值三步走。EV 电池声明原定 2025-02-18,因方法学授权法案延迟而顺延。'},
   {t:'SoH',full:'State of Health',d:'电池健康状态。电池法规 Art. 14 要求 2024-08-18 起 BMS 中存储 SoH 与预期寿命数据并可供合法读取。'},
   {t:'LMT',full:'Light Means of Transport battery',d:'轻型交通工具电池(电动自行车/滑板车等,≤25 kg)。电池法规单列类别,护照/碳足迹/再生材料时点与 EV 电池略有不同。'},
-  {t:'CE vs E-mark',full:'两套并行体系',d:'E-mark = 1958 协定型式批准(整车/系统/部件,批准机关签发);CE = 欧盟产品合规自我声明/公告机构评定(横向法)。电池法规、充电桩、LVD/EMCD/RED 属 CE;R100/R10 属 E-mark。同一产品可能两套都要满足。'}
+  {t:'CE vs E-mark',full:'两套并行体系',d:'E-mark = 1958 协定型式批准(整车/系统/部件,批准机关签发);CE = 欧盟产品合规自我声明/公告机构评定(横向法)。电池法规、充电桩、LVD/EMCD/RED 属 CE;R100/R10 属 E-mark。同一产品可能两套都要满足。'},
+  {t:'数字循环护照',full:'Digital Circularity Vehicle Passport',d:'(EU) 2026/1738 规定,2032-09-01 起为适用车辆建立,记录材料构成/可回收性/维修拆解等循环经济数据。与电池护照(Battery Passport,(EU) 2023/1542 Art.77)是两套独立护照,数据范围不同(整车材料/拆解 vs 电池本体),勿混用同一套数据结构。'},
+  {t:'ELV Regulation',full:'(EU) 2026/1738 循环设计与报废车管理规定',d:'2028-09-01 起替代 Directive 2000/53/EC(报废车指令)与 Directive 2005/64/EC(整车可回收利用率型批指令)的混合结构法规:型批相关可回收性设计要求并入 (EU) 2018/858(见 E-mark 评估台 GA13 项),循环设计策略/生产者登记/数字循环护照/报废车与二手车管理等生产者责任层义务见本工具⑤模块。'}
 ];
 const FAQS=[
   {q:'R100 与 (EU) 2023/1542 电池法规是什么关系?',a:'两套并行、互不替代:R100 是 1958 协定的型式批准法规(E-mark),管车辆与 REESS 的安全(防触电/试验/热扩散);电池法规是欧盟横向 CE 法规,管电池全生命周期可持续性(碳足迹/护照/尽职调查/再生材料)。同一块动力电池装车出口欧盟,两套义务都要满足。'},
@@ -439,14 +470,18 @@ const FAQS=[
   {q:'电池护照谁来做、什么时候?',a:'2027-02-18 起投放欧盟市场的 EV / LMT / >2 kWh 工业电池,每块须有唯一标识 + QR 访问的数字护照(Art. 77,数据集见附件 XIII)。责任在将电池投放市场的经济运营者;整车厂外购电芯自制包或进口电池装车,都需打通供应链数据链路。上线时约 50 个数据点绝大多数强制,但碳足迹声明/标签、尽职调查来源信息、交互式使用说明书(待Omnibus IV)等几项明确不必填报,勿提前投入这几项的数据准备;SoH 动态数据点 EV/LMT/工业三类要求不同,建库前务必按电池类别核对(见电池护照自查组 e4/e5/e6)。'},
   {q:'IPXXB 和 IPXXD 有什么差别?',a:'B = 铰接试验指(12 mm)不可触及;D = 试验线(1 mm)不可触及,更严。R100 要求乘员舱与行李舱内达 IPXXD、其余区域达 IPXXB(§5.1.1,探具定义见附件 3)。'},
   {q:'绝缘电阻要求是多少?',a:'DC 母线 ≥100 Ω/V、AC 母线 ≥500 Ω/V;AC/DC 母线电气连通时整体按 500 Ω/V(R100 §5.1.3)。燃料电池车必须配车载绝缘电阻监测并在失效时告警;Rev.3 还新增了涉水后绝缘性能(防水)要求。'},
-  {q:'这个自查结果能当合规证明吗?',a:'不能。本工具是团队自查参照,帮助梳理条款覆盖与证据缺口;型式批准以认可技术服务/批准机关为准,CE 合规以符合性评定程序(必要时公告机构)为准。'}
+  {q:'这个自查结果能当合规证明吗?',a:'不能。本工具是团队自查参照,帮助梳理条款覆盖与证据缺口;型式批准以认可技术服务/批准机关为准,CE 合规以符合性评定程序(必要时公告机构)为准。'},
+  {q:'(EU) 2026/1738 和 E-mark 型批的 GA13 项是什么关系?会不会重复自查?',a:'不会重复,是同一法规的两个层面:型批相关的可回收性设计要求已并入 (EU) 2018/858 型式批准框架,对应 E-mark 评估台 EU_ITEMS 表 GA13 项;本工具⑤模块管的是型批之外的生产者责任层——循环设计策略、生产者登记、数字循环护照、报废车与二手车贸易管理。两处各自查一次即可,互不重复。'},
+  {q:'2000/53/EC 报废车指令现在还有效吗?',a:'截至目前(生效日 2026-08-13)仍现行有效。(EU) 2026/1738 主体规定 2028-09-01 起适用,自该日起才正式废止 2000/53/EC 与 2005/64/EC,在此之前不要提前按新规单独执行、也不要按"已废止"处理旧指令下的既有义务。'},
+  {q:'数字循环护照和电池护照是一回事吗?',a:'不是,两套独立护照。电池护照((EU) 2023/1542 Art.77)管电池本体,2027-02-18 起生效;数字循环护照((EU) 2026/1738)管整车材料构成/可回收性/拆解信息,2032-09-01 起生效。数据范围、生效时间都不同,建库时不要混用同一套数据结构。'}
 ];
 /* 模块差异矩阵 */
 const MODULES=[
   {m:'① R100 高压电安全',std:'UN R100.03(Part I/II + 附件 9A–9J)',obj:'整车高压电安全 + REESS 安全试验',out:'就绪度 % · 无/部分/已建立',legal:'型批强制(E-mark)',tone:'red',how:'逐条条款自查 + 证据/责任人/差距追踪',use:'整车/REESS 部件型式批准'},
   {m:'② R10 EMC',std:'UN R10.06(附件 4–22)',obj:'整车与 ESA 电磁兼容(含充电模式并网)',out:'就绪度 %',legal:'型批强制(E-mark)',tone:'red',how:'逐附件自查 + 证据追踪',use:'整车/ESA EMC 型式批准'},
   {m:'③ 充电与接口',std:'EN 62196 / IEC 61851 / ISO 15118 / AFIR',obj:'充电接口硬件、通信协议与互操作',out:'就绪度 %',legal:'标准/CE 侧(与型批并行)',tone:'amber',how:'按标准逐项自查',use:'欧盟市场充电兼容与 CE 衔接'},
-  {m:'④ 电池法规',std:'(EU) 2023/1542 + 授权/实施法案',obj:'电池全生命周期可持续性合规',out:'就绪度 %',legal:'CE 强制(与 E-mark 并行)',tone:'red',how:'按时间线逐项自查',use:'电池投放欧盟市场(装车电池同样适用)'}];
+  {m:'④ 电池法规',std:'(EU) 2023/1542 + 授权/实施法案',obj:'电池全生命周期可持续性合规',out:'就绪度 %',legal:'CE 强制(与 E-mark 并行)',tone:'red',how:'按时间线逐项自查',use:'电池投放欧盟市场(装车电池同样适用)'},
+  {m:'⑤ 循环/ELV',std:'(EU) 2026/1738(替代 2000/53/EC + 2005/64/EC)',obj:'循环设计策略、生产者登记、数字循环护照、报废车与二手车管理',out:'就绪度 %',legal:'型批侧并入 2018/858(见 GA13);本模块为生产者责任层,CE 侧强制',tone:'amber',how:'按时间线逐项自查',use:'2028-09 起投放欧盟市场的 L/M/N 类车辆'}];
 /* 相关标准速览 */
 const STD=[
   {name:'UNECE R100 — 电动车高压电安全与 REESS',id:'UN R100.03',region:'联合国 WP.29(1958 协定)',scope:'Part I 整车电安全(防触电 §5.1、REESS 相关警告 §5.2、功能安全 §5.3),Part II REESS 部件安全(§6,试验见附件 9A–9J)。',points:['防触电:乘员舱/行李舱内 IPXXD、舱外 IPXXB;电位均衡 ≤0.1 Ω;绝缘 DC 100 / AC 500 Ω/V','REESS 十项试验:振动/热冲击/机械冲击/挤压/防火/外短路/过充/过放/过温/过流(9J 为 Rev.3 新增)','热扩散(§6.15):单电芯热失控不得危及乘员,危险情形前 ≥5 min 预警','Rev.3 新增:防水要求、SOC≥95%、「无排气」判据、LPG 燃烧法、低温保护与气体管理文档'],timeline:'03 系列 2021 生效;EU 2023-09-01 起新型批 / 2025-09-01 起全部强制。R100.04 加标识要求(2026/2027);R100.05 草案拟加热扩散物理试验 9K(预计 2028/2030)。'},
@@ -455,10 +490,11 @@ const STD=[
   {name:'ISO 15118 — 车桩高层通信与 Plug & Charge',id:'ISO 15118',region:'国际标准',scope:'车辆-电网通信接口:-2 应用层(TLS/PKI 证书,PnC)、-3 PLC 物理层、-20 新一代(双向 BPT、无线 ACDP)。',points:['Plug & Charge:证书自动鉴权计费,需合约证书全生命周期管理','存量直流桩大量使用 DIN SPEC 70121,新车需双栈兼容','-20 支持双向能量传输(V2G),配合各国并网要求','互操作以 CharIN 等测试活动验证'],timeline:'-2:2014 现行;-20:2022 发布,产业导入中。'},
   {name:'欧盟电池法规(Batteries Regulation)',id:'(EU) 2023/1542',region:'欧盟(CE 体系,横向法)',scope:'电池全生命周期:CE 合规评定、碳足迹、尽职调查、标签/QR、SoH 数据、电池护照、再生材料含量与回收目标;取代 2006/66/EC 电池指令。',points:['CE 合规评定 + EU DoC + 技术文档:2024-08-18 起','EV 电池碳足迹声明:原定 2025-02-18,随授权法案顺延;性能等级/阈值分阶段','尽职调查:经 (EU) 2025/1561 推迟至 2027-08-18','标签 2026-08-18 / QR 2027-02-18;电池护照 2027-02-18 起;再生材料申报 2028-08-18 起'],timeline:'2023-08-17 生效,2024-02-18 起适用,义务分阶段至 2036。'},
   {name:'AFIR — 替代燃料基础设施法规',id:'(EU) 2023/1804',region:'欧盟',scope:'公共充电/加氢基础设施建设与运营义务:接口统一、临时支付、价格透明、TEN-T 走廊覆盖目标。义务主体是成员国与桩运营商,对车企是互操作与市场背景。',points:['公共 AC 桩必须配 Type 2,DC 桩必须配 CCS2','≥50 kW 公共桩须支持银行卡等临时支付','TEN-T 核心网每 60 km 布充电站等覆盖目标(2025 起分阶段)','数据开放:位置/价格/可用性'],timeline:'2024-04-13 起适用。'},
-  {name:'碰撞后电安全(与 R100 衔接)',id:'UN R94 / R95 / R137',region:'联合国 WP.29',scope:'正碰(R94/R137)与侧碰(R95)法规内含电动车碰撞后电安全判据,与 R100 的车内电安全要求衔接。',points:['碰后判据:低电压、低电能、绝缘电阻达标或物理防护完好(四选一路径)','电解液不得进入乘员舱、限量泄漏','REESS 保持固定(不得侵入乘员舱)','试验时 REESS 处于规定 SOC'],timeline:'现行系列;电安全条款自各法规相应系列引入。'}
+  {name:'碰撞后电安全(与 R100 衔接)',id:'UN R94 / R95 / R137',region:'联合国 WP.29',scope:'正碰(R94/R137)与侧碰(R95)法规内含电动车碰撞后电安全判据,与 R100 的车内电安全要求衔接。',points:['碰后判据:低电压、低电能、绝缘电阻达标或物理防护完好(四选一路径)','电解液不得进入乘员舱、限量泄漏','REESS 保持固定(不得侵入乘员舱)','试验时 REESS 处于规定 SOC'],timeline:'现行系列;电安全条款自各法规相应系列引入。'},
+  {name:'循环设计与报废车管理规定(ELV Regulation)',id:'(EU) 2026/1738',region:'欧盟(混合结构:型批 + CE/生产者责任)',scope:'替代 Directive 2000/53/EC(报废车指令)与 Directive 2005/64/EC(整车可回收利用率型批指令);型批相关可回收性设计要求并入 (EU) 2018/858(见 E-mark 评估台 GA13 项),本法规同时新增循环设计策略、生产者登记、数字循环护照、报废车处理与二手车贸易限制等生产者责任层义务。',points:['适用范围:L/M/N 类车辆','循环设计策略文件 + 成员国生产者登记:2029-09-01 起(登记系统须 2029-08-31 前建立)','二手车贸易新增单证要求:2031-09-01 起','数字循环车辆护照 + 可重复使用性要求(Art.4(1)):2032-09-01 起','再生材料最低占比等具体设计要求的比例与阶段日期未查得官方一手数据,以实施细则/附件为准'],timeline:'2026-07-24 公布,2026-08-13 生效;主体规定 2028-09-01 起适用,自此日起废止 2000/53/EC 与 2005/64/EC。'}
 ];
 let _glosQ='';
-let ans={}, itemMeta={}, active='home'; // active: 'home'/'r100'/'r10'/'chg'/'batt'/'pack'
+let ans={}, itemMeta={}, active='home'; // active: 'home'/'r100'/'r10'/'chg'/'batt'/'elv'/'pack'
 let _openItems={};        // 清单条目「证据/责任人」展开态(不持久化)
 let _packGapOnly=false;   // 审计就绪包:只看缺口(不持久化)
 let _packScope='';        // 审计就绪包:模块范围筛选(''=全部,不持久化)
@@ -472,9 +508,9 @@ function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), itemMeta:JSON.
 function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; itemMeta=(s&&s.itemMeta)?JSON.parse(JSON.stringify(s.itemMeta)):{}; }
 function writeSummary(){
   // 供 E-mark 母工具跨页回显(同源 localStorage)。契约:
-  // {v:1, r100:{pct,done,total}, r10:{...}, chg:{...}, batt:{...}, ts, started}
+  // {v:1, r100:{pct,done,total}, r10:{...}, chg:{...}, batt:{...}, elv:{...}, ts, started}
   try{
-    const a=modStats('r100'), b=modStats('r10'), c=modStats('chg'), d=modStats('batt');
+    const a=modStats('r100'), b=modStats('r10'), c=modStats('chg'), d=modStats('batt'), e=modStats('elv');
     const started = Object.keys(ans).some(k=>(ans[k]||0)>0);
     localStorage.setItem(SUM_KEY,JSON.stringify({
       v:1,
@@ -482,6 +518,7 @@ function writeSummary(){
       r10:{pct:b.pct,done:b.done,total:b.total},
       chg:{pct:c.pct,done:c.done,total:c.total},
       batt:{pct:d.pct,done:d.done,total:d.total},
+      elv:{pct:e.pct,done:e.done,total:e.total},
       ts:Date.now(), started
     }));
   }catch(e){}
@@ -555,14 +592,14 @@ function renderSummary(){
 }
 function renderNav(){
   const step=(id,n,title,sub)=>'<button class="sstep'+(active===id?' active':'')+'" onclick="pick(\''+id+'\')"><span class="n">'+n+'</span><span class="stx"><span>'+title+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</span></button>';
-  let h=step('home','◎','总览 Dashboard','四模块一览 · 导出报告');
+  let h=step('home','◎','总览 Dashboard','五模块一览 · 导出报告');
   h+='<div class="sgrp">型批强制(E-mark)</div>';
   MODS.slice(0,2).forEach(m=>{ const st=modStats(m.id); h+=step(m.id,m.n,m.name,'就绪度 '+st.pct+'% · '+st.done+'/'+st.total); });
   h+='<div class="sgrp">CE / 标准侧(并行)</div>';
   MODS.slice(2).forEach(m=>{ const st=modStats(m.id); h+=step(m.id,m.n,m.name,'就绪度 '+st.pct+'% · '+st.done+'/'+st.total); });
   h+='<div class="sgrp">审计与导出</div>';
   const pk=packStats();
-  h+=step('pack','⑤','审计就绪包',(pk.noEv||pk.unmet)?('缺口 '+(pk.noEv+pk.unmet)+' · 可导出'):'证据台账 · 可导出');
+  h+=step('pack','⑥','审计就绪包',(pk.noEv||pk.unmet)?('缺口 '+(pk.noEv+pk.unmet)+' · 可导出'):'证据台账 · 可导出');
   document.getElementById('nav').innerHTML=h;
 }
 function dashCard(title,big,sub,col,onclick){
@@ -572,13 +609,13 @@ function renderHome(m){
   const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'(未保存草稿)';
   let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px">'+
     '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">电气与电动化合规评估台</div>'+
-    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 四模块就绪度一览。R100/R10 为 E-mark 型批强制;充电接口与电池法规为 CE/标准侧,与型批<b>并行</b>。</div></div>'+
+    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 五模块就绪度一览。R100/R10 为 E-mark 型批强制;充电接口、电池法规与循环/ELV 为 CE/标准侧,与型批<b>并行</b>。</div></div>'+
     '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
   s+='<div class="dgrid">'+MODS.map(mm=>{
     const st=modStats(mm.id);
-    return dashCard(('①②③④'[MODS.indexOf(mm)])+' '+mm.name, st.pct+'%', '已建立 '+st.done+'/'+st.total+' 项', pctCol(st.pct), "pick('"+mm.id+"')");
+    return dashCard(('①②③④⑤'[MODS.indexOf(mm)])+' '+mm.name, st.pct+'%', '已建立 '+st.done+'/'+st.total+' 项', pctCol(st.pct), "pick('"+mm.id+"')");
   }).join('')+'</div>';
-  s+='<div class="ckleg">四模块均按当前档案本地保存。点卡片进入对应模块评估;「导出评估报告」把四模块现状生成一份可打印/存 PDF 的报告。就绪度 % 为自查参照,非型式批准或 CE 符合性结论。</div>';
+  s+='<div class="ckleg">五模块均按当前档案本地保存。点卡片进入对应模块评估;「导出评估报告」把五模块现状生成一份可打印/存 PDF 的报告。就绪度 % 为自查参照,非型式批准或 CE 符合性结论。</div>';
   m.innerHTML=s;
 }
 /* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
@@ -627,16 +664,16 @@ function exportReport(){
       const md=[mm.ev?('证据:'+mm.ev):'',mm.owner?('责任人:'+mm.owner):'',mm.gap?('差距:'+mm.gap):'',mm.due?('目标:'+mm.due):''].filter(Boolean).join(' ｜ ');
       return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+LABELS[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
   let html='<div class="rhead"><div class="rtitle">电气与电动化合规 · 评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准/CE 符合性结论</div></div>';
-  html+='<div class="rsum">'+MODS.map((mm,i)=>{const st=modStats(mm.id);return '<div>'+('①②③④'[i])+' '+esc(mm.name)+' <b>'+st.pct+'%</b>（'+st.done+'/'+st.total+'）</div>';}).join('')+'</div>';
-  MODS.forEach((mm,i)=>{ html+='<h2>'+('①②③④'[i])+' '+esc(mm.title)+'</h2>'+chk(mm.groups); });
-  html+='<div class="rfoot">条款依据 UN R100.03(Part I/II,附件 9A–9J,热扩散 §6.15)、UN R10.06(附件 4–22,充电模式 11–22)、EN 62196 / IEC 61851 / ISO 15118 / AFIR (EU) 2023/1804 及 (EU) 2023/1542 电池法规(尽职调查经 (EU) 2025/1561 推迟至 2027-08-18)。R100/R10 为 E-mark 型批强制;充电接口与电池法规属 CE/标准侧,与型批并行。本报告由团队自查生成,供内部参照,<b>不构成型式批准或 CE 符合性结论</b>;正式判定以认可技术服务 / 批准机关 / 公告机构为准。</div>';
+  html+='<div class="rsum">'+MODS.map((mm,i)=>{const st=modStats(mm.id);return '<div>'+('①②③④⑤'[i])+' '+esc(mm.name)+' <b>'+st.pct+'%</b>（'+st.done+'/'+st.total+'）</div>';}).join('')+'</div>';
+  MODS.forEach((mm,i)=>{ html+='<h2>'+('①②③④⑤'[i])+' '+esc(mm.title)+'</h2>'+chk(mm.groups); });
+  html+='<div class="rfoot">条款依据 UN R100.03(Part I/II,附件 9A–9J,热扩散 §6.15)、UN R10.06(附件 4–22,充电模式 11–22)、EN 62196 / IEC 61851 / ISO 15118 / AFIR (EU) 2023/1804、(EU) 2023/1542 电池法规(尽职调查经 (EU) 2025/1561 推迟至 2027-08-18)及 (EU) 2026/1738 循环设计与报废车管理规定(2028-09-01 起废止 2000/53/EC 与 2005/64/EC)。R100/R10 为 E-mark 型批强制;充电接口、电池法规与循环/ELV 属 CE/标准侧,与型批并行。本报告由团队自查生成,供内部参照,<b>不构成型式批准或 CE 符合性结论</b>;正式判定以认可技术服务 / 批准机关 / 公告机构为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
   const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
   window.addEventListener('afterprint',cleanup);
   setTimeout(()=>{ try{window.print();}catch(e){cleanup();} }, 80);
 }
-/* ===== ⑤ 审计就绪包:证据台账 + 优先整改 + CSV 导出 ===== */
+/* ===== ⑥ 审计就绪包:证据台账 + 优先整改 + CSV 导出 ===== */
 function csvCell(v){ v=String(v==null?'':v); return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
 function downloadCSV(name,rows){
   const csv=rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
@@ -739,7 +776,7 @@ function faqHTML(){ return '<div class="std">'+FAQS.map((f,i)=>'<details'+(i===0
 function modsHTML(){
   const legalCol={red:['#f3d0d0','#b02222'],amber:['#f4e6bd','#7a5a10'],grey:['#eef0f2','#6b7280']};
   const cols=[['obj','测量对象'],['out','输出 / 刻度'],['legal','法定性'],['how','判定方式'],['std','依据标准'],['use','何时用']];
-  let h='<div class="sb-msub" style="margin-bottom:10px">四个模块**管的东西不同**——R100/R10 是 E-mark 型批强制;充电接口是标准/CE 侧衔接;电池法规是与型批并行的 CE 强制体系。互不替代。</div>';
+  let h='<div class="sb-msub" style="margin-bottom:10px">五个模块**管的东西不同**——R100/R10 是 E-mark 型批强制;充电接口是标准/CE 侧衔接;电池法规与循环/ELV 是与型批并行的 CE 强制体系。互不替代。</div>';
   h+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">模块</th>'+cols.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'</tr>';
   MODULES.forEach(x=>{
     const lc=legalCol[x.tone]||legalCol.grey;
@@ -749,7 +786,7 @@ function modsHTML(){
     }).join('')+'</tr>';
   });
   h+='</table></div>';
-  h+='<div class="ckleg">要点:同一辆电动车出口欧盟,高压安全与 EMC 走 <b>E-mark 型批</b>(缺一不可),动力电池另须满足 <b>CE 电池法规</b>(碳足迹/护照/尽职调查),充电互操作按 <b>标准侧</b>验证——三条线并行推进。</div>';
+  h+='<div class="ckleg">要点:同一辆电动车出口欧盟,高压安全与 EMC 走 <b>E-mark 型批</b>(缺一不可),动力电池另须满足 <b>CE 电池法规</b>(碳足迹/护照/尽职调查),整车循环设计/报废车管理另须满足 <b>(EU) 2026/1738 生产者责任层</b>,充电互操作按 <b>标准侧</b>验证——四条线并行推进。</div>';
   return h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 }
 function stdHTML(){ return '<div class="std">'+STD.map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
