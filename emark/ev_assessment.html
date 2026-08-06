@@ -23,6 +23,14 @@ a{color:var(--od)}
 .rl-lk:hover{text-decoration:underline}
 .rl-lk.ph{color:var(--greyl);font-weight:400}
 .rl-lk .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:2px;opacity:.85}
+.tlwrap{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
+.tlscroll{overflow-x:auto}
+.tlsvg{width:100%;min-width:640px;height:auto;display:block}
+.tllegend{margin-top:10px;display:flex;flex-direction:column;gap:5px}
+.tlrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px;color:var(--ink2)}
+.tlrow b{flex:0 0 auto;font-size:12px}
+.tldot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.tlchip{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:2px 8px;font-size:11.5px;color:var(--ink2);white-space:nowrap}
 .tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
 .tb-home:hover{background:var(--o);color:#fff}
 .tb-menu{position:relative}
@@ -403,6 +411,41 @@ const MODS=[
  sub:'<b>混合结构:型批相关的可回收性设计与再生材料要求(Art.4-7)已并入 (EU) 2018/858 型式批准框架(见 E-mark 评估台 EU_ITEMS 表 GA13 项,2032-09-01 起对新申请型批车型生效),本模块管的是型批之外的生产者责任层</b>——循环设计策略、生产者登记、拆解信息公开、数字循环护照、报废车处理目标与二手车境内转让/出口管理。分两批取代 Directive 2000/53/EC(报废车指令,2028-09-01 废止,部分条款延续)与 Directive 2005/64/EC(整车可回收利用率型批指令,2032-08-31 废止)。',
  pills:['2026-08-13 生效','2028-09-01 M1/N1 主体适用','循环策略/信息开放 2029-09','2031-09 M2-O+L 类适用/出口管制','2032-09 型批新要求+护照'],
  leg:'时间线与义务要点(2026-08 已核对 (EU) 2026/1738 官方公报原文 OJ L, 24.7.2026,此前口径仅凭 Noerr/Foresight·imds-professional/cambioslegales 三方二手信源推断、现已用一手法条逐条订正,订正明细见 docs/emark-tool-维护与变更.md):Art.59 生效日 2026-08-13(公布 2026-07-24 +20 日),主体规定 2028-09-01 起适用于 M1/N1 类车辆;特种用途 M1/N1 车 2029-09-01 起适用;M2/M3/N2/N3/O 类(客车/货车/挂车)及 L 类(摩托车等)统一延后至 2031-09-01 才适用(Art.2)。废止 Directive 2000/53/EC 于 2028-09-01(部分条款延续至 2029–2032,Art.57(1)),废止 Directive 2005/64/EC 于 2032-08-31(Art.57(2))——两者废止日不同,不要按同一日期处理。型批侧新要求(Art.4-7,可回收利用率/物质限制/再生材料/拆解设计)经 Art.55 修订 (EU) 2018/858 附件II,统一自 2032-09-01 起对新申请型批车型生效(对应 GA13)。生产者责任层:循环设计策略与拆解信息开放自 2029-09-01(Art.9/11)、生产者登记须成员国 2029-08-31 前建立(Art.19)、回收利用率目标自 2030-01-01(Art.33)、境内转让所有权文件要求随主体适用日 2028-09-01(Art.36)、出口第三国管制自 2031-09-01(Art.38-46,主管机关须 2027-09-30 前指定)、数字循环车辆护照自 2032-09-01(Art.13)。钢/铝再生材料最低占比尚未设定具体数字,欧委会将于 2027-09-30 前完成可行性评估、2028-09-30 前以授权法案设定(钢材目标不晚于 2033-08-14 起适用),本工具暂不断言具体比例。',
+ timeline:[
+  {lane:'适用范围(Art.2)',items:[
+   {d:'2026-08-13',t:'条例生效'},
+   {d:'2028-09-01',t:'M1/N1 类主体适用'},
+   {d:'2029-09-01',t:'M1/N1 特种用途车适用'},
+   {d:'2031-09-01',t:'M2/M3/N2/N3/O 类 + L 类适用'}
+  ]},
+  {lane:'型批侧新要求 → GA13(Art.4-7)',items:[
+   {d:'2032-09-01',t:'可回收利用率/物质限制/再生材料/拆解设计新要求生效'}
+  ]},
+  {lane:'循环设计与生产者登记(Art.9/17-19)',items:[
+   {d:'2029-08-31',t:'成员国须建立生产者登记系统'},
+   {d:'2029-09-01',t:'循环设计策略起算'}
+  ]},
+  {lane:'拆解信息与处理目标(Art.11/33/34)',items:[
+   {d:'2029-09-01',t:'拆解信息开放起算 · 非惰性废物填埋限制'},
+   {d:'2030-01-01',t:'回收利用率目标 95%/85%'},
+   {d:'2032-01-01',t:'塑料循环率 30% 目标追加'}
+  ]},
+  {lane:'数字循环车辆护照(Art.13)',items:[
+   {d:'2032-09-01',t:'每辆上市车辆须建立护照'}
+  ]},
+  {lane:'境内转让与出口管理(Art.36/38-46)',items:[
+   {d:'2027-09-30',t:'成员国须指定出口主管机关'},
+   {d:'2028-09-01',t:'境内转让所有权文件要求'},
+   {d:'2031-09-01',t:'出口第三国管制生效'}
+  ]},
+  {lane:'旧指令废止过渡(Art.57)',items:[
+   {d:'2026-08-13',t:'2000/53/EC 附件II 电池铅/镉豁免 4 项先失效'},
+   {d:'2028-09-01',t:'2000/53/EC 主体废止'},
+   {d:'2029-08-31',t:'2000/53/EC 多条款到期 · 2005/64/EC Art.6(3) 废止'},
+   {d:'2030-12-31',t:'2000/53/EC Art.7(2)(b) 数值目标到期'},
+   {d:'2032-08-31',t:'2005/64/EC 完全废止'}
+  ]}
+ ],
  groups:[
   {name:'法律基础、适用范围与型批侧速览(Art.1/2/57/59)',items:[
    {k:'elv.a1',t:'确认适用范围分类与各自起算日(Art.2):M1/N1 乘用车与轻型商用车主体适用日 2028-09-01;M1/N1 特种用途车 2029-09-01;M2/M3/N2/N3/O 类(客车/货车/挂车)及其特种用途车、L 类(摩托车/轻便摩托车等)统一至 2031-09-01 才适用——不要按统一日期误判在产车型的合规时间表',r:'(EU) 2026/1738 Art.2'},
@@ -676,13 +719,54 @@ function chkItemHTML(it){
   h+='</div>';
   return h;
 }
+/* ===== 时间线泳道图(纯 SVG,无外部依赖;仅当模块提供 timeline 数据时渲染)===== */
+const TL_COLORS=['#E8622C','#3A6B8A','#1F7A4D','#B45309','#8A3AA6','#C0392B','#0E7C86'];
+function tlDate(s){ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||''); return m? Date.UTC(+m[1],+m[2]-1,+m[3]) : null; }
+function renderTimeline(mod){
+  const tl=mod.timeline; if(!tl||!tl.length) return '';
+  const allT=[]; tl.forEach(lane=>lane.items.forEach(it=>{const t=tlDate(it.d); if(t!=null) allT.push(t);}));
+  if(!allT.length) return '';
+  const pad=Math.round(365.25*24*3600*1000*0.4);
+  const minT=Math.min(...allT)-pad, maxT=Math.max(...allT)+pad;
+  const W=960, marginL=10, marginR=10, rowH=42, axisH=24;
+  const plotW=W-marginL-marginR;
+  const x=t=>marginL+plotW*(t-minT)/(maxT-minT);
+  const H=axisH+tl.length*rowH+6;
+  const startY=new Date(minT).getUTCFullYear(), endY=new Date(maxT).getUTCFullYear();
+  let grid='';
+  for(let y=startY;y<=endY;y++){
+    const t=Date.UTC(y,0,1); if(t<minT||t>maxT) continue;
+    const xx=x(t);
+    grid+='<line x1="'+xx+'" y1="'+axisH+'" x2="'+xx+'" y2="'+H+'" stroke="var(--line)" stroke-width="1"/>'+
+      '<text x="'+xx+'" y="15" font-size="11" fill="var(--grey)" text-anchor="middle">'+y+'</text>';
+  }
+  let lanes='';
+  tl.forEach((lane,li)=>{
+    const cy=axisH+li*rowH+rowH/2, col=TL_COLORS[li%TL_COLORS.length];
+    lanes+='<text x="'+marginL+'" y="'+(cy-12)+'" font-size="10.5" font-weight="700" fill="'+col+'">'+esc(lane.lane)+'</text>'+
+      '<line x1="'+marginL+'" y1="'+cy+'" x2="'+(W-marginR)+'" y2="'+cy+'" stroke="'+col+'" stroke-opacity=".18" stroke-width="3"/>';
+    lane.items.forEach(it=>{
+      const t=tlDate(it.d); if(t==null) return; const xx=x(t);
+      lanes+='<circle cx="'+xx+'" cy="'+cy+'" r="4.5" fill="'+col+'"><title>'+esc(it.d)+' · '+esc(it.t)+'</title></circle>';
+    });
+  });
+  const legend=tl.map((lane,li)=>{
+    const col=TL_COLORS[li%TL_COLORS.length];
+    const items=lane.items.slice().sort((a,b)=>(tlDate(a.d)||0)-(tlDate(b.d)||0));
+    return '<div class="tlrow"><span class="tldot" style="background:'+col+'"></span><b>'+esc(lane.lane)+'</b>'+
+      items.map(it=>'<span class="tlchip">'+esc(it.d)+' '+esc(it.t)+'</span>').join('')+'</div>';
+  }).join('');
+  return '<div class="tlwrap"><div class="tlscroll"><svg class="tlsvg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet">'+grid+lanes+'</svg></div>'+
+    '<div class="tllegend">'+legend+'</div></div>';
+}
 function renderMain(){
   const m=document.getElementById('main');
   if(active==='home'){ renderHome(m); return; }
   if(active==='pack'){ renderPack(m); return; }
   const mod=modById(active); if(!mod){ renderHome(m); return; }
   let s='<div class="sb-mh">'+esc(mod.title)+'</div>'+
-    '<div class="sb-msub">'+mod.sub+'</div>';
+    '<div class="sb-msub">'+mod.sub+'</div>'+
+    renderTimeline(mod);
   mod.groups.forEach((g,gi)=>{
     s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>';
     g.items.forEach(it=>{ s+=chkItemHTML(it); });
