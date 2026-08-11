@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>智能驾驶合规 · 评估台 · ADAS 就绪度 / R157·R171 判级 / 测试与证据</title>
+<title>智能驾驶合规 · 评估台 · ADAS 就绪度 / R157·R171 判级 / 测试与证据 / AI 法案</title>
 <style>
 :root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--green:#1F7A4D;--red:#C0392B;--amber:#B45309}
 *{box-sizing:border-box}
@@ -19,6 +19,14 @@ a{color:var(--od)}
 .badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
 .badge-g:hover{background:var(--o);color:#fff}
 .badge-g .ico{stroke:currentColor;margin-right:4px}
+.tlwrap{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
+.tlscroll{overflow-x:auto}
+.tlsvg{width:100%;min-width:640px;height:auto;display:block}
+.tllegend{margin-top:10px;display:flex;flex-direction:column;gap:5px}
+.tlrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:12px;color:var(--ink2)}
+.tlrow b{flex:0 0 auto;font-size:12px}
+.tldot{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
+.tlchip{background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:2px 8px;font-size:11.5px;color:var(--ink2);white-space:nowrap}
 .tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
 .tb-home:hover{background:var(--o);color:#fff}
 .tb-menu{position:relative}
@@ -207,7 +215,7 @@ a{color:var(--od)}
 <div class="topbar"><div class="tb-in">
   <div class="tb-title">
     <h1>智能驾驶合规 <span class="em">·</span> 评估台</h1>
-    <div class="tb-sub">ADAS 法规就绪度 · 自动化级别判定 · 测试与证据清单</div>
+    <div class="tb-sub">ADAS 法规就绪度 · 自动化级别判定 · 测试与证据清单 · AI 法案高风险合规</div>
   </div>
   <div class="tb-act">
     <div class="tb-menu">
@@ -368,6 +376,57 @@ const EVID={groups:[
 ]};
 function evidItems(){ return EVID.groups.reduce((a,g)=>a.concat(g.items),[]); }
 function evidStats(){ const its=evidItems(); let done=0; its.forEach(it=>{ if(evid[it.k])done++; }); return {total:its.length,done,pct:its.length?Math.round(done/its.length*100):0}; }
+/* ===== 模块4 · AI 法案高风险合规(逐条 无/部分/已建立 三档自评,与模块1 共用 ans{} 状态)=====
+   条款以 (EU) 2024/1689(AI 法案)Art.6+附件I,经 (EU) 2026/1744(数字统一简化法案·AI 篇)修订后的时间线为准。
+   本模块 2026-08 建立时,(EU) 2026/1744 官方 PDF 被 EUR-Lex 反爬机制多次拦截未能直接核对,以下内容凭
+   AI 法案原文(Art.6/附件I/Art.113,经 artificialintelligenceact.eu 核对)+ 两家独立律所(Gibson Dunn、
+   Cooley)对 2026/1744 修订内容的交叉印证信源写成,未与官方公报逐条核对——业主如有官方原文,建议上传复核。 */
+const AIACT={groups:[
+  {name:'判定机制与适用范围(Art.6(1) + 附件I)',desc:'AI 系统落入 AI 法案"高风险"分类须同时满足两个条件:①作为附件I所列产品法规管辖产品的安全部件,②该产品依那部法规须完成第三方合规评估(型式批准)。',items:[
+    {k:'ai.a1',t:'已确认本车型 ADAS/自动驾驶相关 AI 系统落入附件I机制:附件I B节第18/19项分别列名 (EU) 2018/858(整车型批框架)与 (EU) 2019/2144(GSR,含 ADAS 强制项),L类车另见第14项 (EU) No 168/2013',r:'AI 法案 Art.6(1)(a) / 附件I B节'},
+    {k:'ai.a2',t:'已确认该 AI 系统所属车辆按上述法规须完成第三方合规评估(即已有型式批准环节)——这是落入高风险分类的第二个必要条件,两条都满足才算数',r:'AI 法案 Art.6(1)(b)'},
+    {k:'ai.a3',t:'附件III独立高风险场景(招聘/信用评分/执法/教育等)与车辆嵌入式 AI 通常是两条不同路径;如车企另有员工监控/征信类 AI 应用,需按附件III单独评估、义务与时间表都不同,不要与本模块混用',r:'AI 法案 附件III'}
+  ]},
+  {name:'高风险AI核心义务(Chapter III §2,Art.9-15,一般性框架)',desc:'条款号范围为 AI 法案既定结构,本轮未随 2026/1744 逐条重新核对具体细则,仅供先行熟悉框架。',items:[
+    {k:'ai.b1',t:'风险管理体系:识别/评估/缓解 AI 系统全生命周期风险,持续更新',r:'AI 法案 Art.9'},
+    {k:'ai.b2',t:'数据治理:训练/验证/测试数据的质量、代表性、偏见排查有文档留痕',r:'AI 法案 Art.10'},
+    {k:'ai.b3',t:'技术文档编制并保持更新,足以支撑合规评估',r:'AI 法案 Art.11'},
+    {k:'ai.b4',t:'系统具备自动记录日志(logging)能力,满足可追溯性要求',r:'AI 法案 Art.12'},
+    {k:'ai.b5',t:'透明度与向部署方(如经销商/车队运营方)提供的使用说明清晰完整',r:'AI 法案 Art.13'},
+    {k:'ai.b6',t:'人工监督(human oversight)设计到位,含必要时人工介入/中止机制',r:'AI 法案 Art.14'},
+    {k:'ai.b7',t:'准确性、鲁棒性与网络安全水平满足要求,并有验证证据',r:'AI 法案 Art.15'}
+  ]},
+  {name:'与既有型批/网安体系的整合(⚠ 待官方指引明确)',items:[
+    {k:'ai.c1',t:'⚠ 机械领域(2023/1230)已确认可"搭车"机械法规自身的合规评定、不用另走 AI 法案高风险全套义务;车辆领域截至本轮核实<b>未见类似整合安排的官方确认</b>,不要照搬机械的结论,按仍需独立满足 AI 法案义务规划',r:'参照(非确认)Taylor Wessing 分析'},
+    {k:'ai.c2',t:'AI 法案 Art.15 网络安全/鲁棒性义务与既有 UN R155(CSMS)/R156(SUMS)在举证内容上大概率有重叠,但官方尚未明确能否互认或需分别举证,建议提前和技术服务/批准机关沟通、避免重复建证据链',r:'跨工具提示 · 见本页③模块「网安前置」组'}
+  ]},
+  {name:'时间线(经 (EU) 2026/1744 修订,2026-08 未获官方原文直接核对)',items:[
+    {k:'ai.d1',t:'附件I嵌入式高风险(含车辆):原定 2027-08-02,经 2026/1744 推迟 12 个月至 2028-08-02',r:'AI 法案 Art.113 → 经 2026/1744 修订'},
+    {k:'ai.d2',t:'附件III独立高风险场景:原定 2026-08-02,经 2026/1744 推迟 16 个月至 2027-12-02(通常与车辆嵌入式 AI 无直接关系,员工监控类应用需留意)',r:'AI 法案 Art.113 → 经 2026/1744 修订'},
+    {k:'ai.d3',t:'⚠ "安全部件"(safety component)定义收窄:据信 2026/1744 收窄了该定义、可能减少落入高风险的 AI 系统范围,但具体新定义原文这次未能核实,不要提前按"收窄"结果自行判断哪些系统被豁免',r:'待官方原文确认具体定义'}
+  ]}
+ ],
+ timeline:[
+  {lane:'AI 法案总体时间线(背景,原文既定未变)',items:[
+   {d:'2024-08-01',t:'AI 法案生效'},
+   {d:'2025-02-02',t:'章节I/II适用(定义/禁止性AI应用)'},
+   {d:'2025-08-02',t:'章节III§4/V/VII/XII+Art.78适用(治理/罚则等)'}
+  ]},
+  {lane:'附件I嵌入式高风险(含车辆型批框架)',items:[
+   {d:'2027-08-02',t:'原定生效日(已被 2026/1744 推迟)'},
+   {d:'2028-08-02',t:'推迟后现行生效日'}
+  ]},
+  {lane:'附件III独立高风险场景',items:[
+   {d:'2026-08-02',t:'原定生效日(已被 2026/1744 推迟)'},
+   {d:'2027-12-02',t:'推迟后现行生效日'}
+  ]},
+  {lane:'(EU) 2026/1744 本身',items:[
+   {d:'2026-07-24',t:'公布'},
+   {d:'2026-07-27',t:'生效'}
+  ]}
+ ]};
+function aiactItems(){ return AIACT.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function aiactStats(){ const its=aiactItems(); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;}); return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
 const PROFILES_KEY='emark_ad_profiles_v1', ACTIVE_KEY='emark_ad_active_v1', SUM_KEY='emark_ad_summary_v1';
 /* ===== 术语速查 & FAQ ===== */
 const GLOSSARY=[
@@ -392,7 +451,9 @@ const GLOSSARY=[
   {t:'DVS',full:'Direct Vision Standard',d:'直接视野(UN R167):量化重型车驾驶室直接可视范围,减少盲区依赖;欧盟对新车型 2026-01 起适用(伦敦 DVS 许可制早于 UN 法规)。'},
   {t:'NATM',full:'New Assessment/Test Method',d:'WP.29 GRVA 的自动驾驶多支柱评估方法:审核/评估 + 仿真/虚拟测试 + 试验场 + 实路 + 在役监控(ISMR),R157 与 (EU) 2022/1426 的评估框架同源。'},
   {t:'DDT',full:'Dynamic Driving Task',d:'动态驾驶任务:感知、决策、纵横向控制的全部实时任务。L3 起激活期间由系统执行 DDT,这是与 L2(驾驶员始终执行/监督 DDT)的法律分水岭。'},
-  {t:'ADS',full:'Automated Driving System',d:'自动驾驶系统(L3+ 的系统总称)。欧盟对全自动车辆(无驾驶员兜底)的 ADS 按 (EU) 2022/1426 型批;UN 层面由 R157(ALKS)与后续法规覆盖。'}
+  {t:'ADS',full:'Automated Driving System',d:'自动驾驶系统(L3+ 的系统总称)。欧盟对全自动车辆(无驾驶员兜底)的 ADS 按 (EU) 2022/1426 型批;UN 层面由 R157(ALKS)与后续法规覆盖。'},
+  {t:'AI 法案高风险机制',full:'EU AI Act — High-Risk via Annex I',d:'(EU) 2024/1689 Art.6(1):AI 系统若①是附件I所列产品法规(含 2018/858、2019/2144 等车辆型批框架)管辖产品的安全部件,且②该产品须完成第三方合规评估,即构成"高风险AI系统"——ADAS/自动驾驶 AI 通常落入此机制,须满足 Chapter III §2 核心义务。与型批体系并行的 CE 横向义务,不是替代关系。'},
+  {t:'数字统一简化法案·AI篇',full:'Digital Omnibus on AI — Regulation (EU) 2026/1744',d:'2026-07-24 公布、2026-07-27 生效,推迟 AI 法案高风险义务生效日(附件I嵌入式系统 2027-08-02→2028-08-02;附件III独立场景 2026-08-02→2027-12-02),并给机械领域(2023/1230)开了整合口子。车辆领域截至核实未见类似整合安排。'}
 ];
 const FAQS=[
   {q:'L2 和 L3 在法规上差在哪?',a:'责任主体不同。L2(R171 DCAS):驾驶员始终监控环境并负责,系统只是"辅助",法规重点是参与度监测与防滥用;L3(R157 ALKS):激活期间系统执行动态驾驶任务,驾驶员只需响应接管请求,因此法规额外要求接管请求机制、MRM、DSSAD 数据存储与驾驶员可用性识别。宣传与 HMI 也须与级别一致,防止"L2 当 L3 用"。'},
@@ -406,13 +467,17 @@ const FAQS=[
   {q:'R157 现在允许开多快?能换道吗?',a:'00 系列限 60 km/h、不许自动换道;01 系列修订(2023-01 生效)把上限提高到 130 km/h,并允许系统发起的自动换道,仍限高速公路等物理隔离、禁行人自行车的 ODD。'},
   {q:'R155/R156 跟这里有什么关系?',a:'CSMS(R155)与 SUMS(R156)是 R157/R171 批准的前置条件:没有网络安全与软件更新管理体系认证,ALKS/DCAS 无法获批。所以模块3 把它们列为"网安前置"证据组;详评请用网安评估台。'},
   {q:'判级结果能直接当申报级别用吗?',a:'不能。本工具按功能描述做路径指引,正式分级与批准以技术服务/批准机关的评估为准;同一功能在不同 ODD/HMI 设计下可能落入不同法规路径。'},
-  {q:'中国市场的 L3 怎么办?',a:'中国非 1958 协定缔约方,R157/R171 证书不直接适用;走 GB 强制标准(如智能网联相关 GB 44495/44496 及在研的自动驾驶标准)与准入/上路试点(工信部等四部委试点)。出口欧盟/日本等则按本工具路径。'}
+  {q:'中国市场的 L3 怎么办?',a:'中国非 1958 协定缔约方,R157/R171 证书不直接适用;走 GB 强制标准(如智能网联相关 GB 44495/44496 及在研的自动驾驶标准)与准入/上路试点(工信部等四部委试点)。出口欧盟/日本等则按本工具路径。'},
+  {q:'ADAS/自动驾驶系统要不要单独按 AI 法案做合规?',a:'大概率要。AI 法案 Art.6(1) 附件I机制把"已被其他产品法规管、且须第三方合规评估"的产品里嵌的 AI 安全部件都纳入高风险——车辆型批框架((EU) 2018/858、2019/2144)正在附件I名单里。这是与型批/CE 并行的一套横向义务(风险管理/数据治理/技术文档/日志/透明度/人工监督/准确性鲁棒性网络安全),不是型批通过了就自动满足。'},
+  {q:'AI 法案高风险义务什么时候开始?',a:'经 (EU) 2026/1744(数字统一简化法案·AI 篇,2026-07-27 生效)推迟:附件I嵌入式高风险(含车辆)原定 2027-08-02,推迟到 2028-08-02;附件III独立高风险场景(与车辆嵌入式 AI 通常无关)原定 2026-08-02,推迟到 2027-12-02。'},
+  {q:'AI 法案合规跟现有型批/CoP体系是什么关系,要重新走一遍认证吗?',a:'不是重新走一遍,是在型批基础上叠加一套横向义务。机械领域(2023/1230)已确认可整合进机械法规自身合规评定、不用另走 AI 法案全套义务;车辆领域截至本轮核实未见类似整合安排的官方确认,建议按仍需独立满足 AI 法案义务规划,并留意 Art.15 网络安全义务与既有 R155/R156(CSMS/SUMS)举证内容的重叠,提前和批准机关沟通避免重复举证。'}
 ];
 /* 模块差异矩阵 */
 const MODULES=[
   {m:'① ADAS 法规就绪度',std:'GSR (EU) 2019/2144 附件II + UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160 + 欧盟细则',obj:'单项 ADAS 强制项是否齐备',out:'就绪度 % · 无/部分/已建立',legal:'型批强制(逐项)',tone:'red',how:'逐条条款自查 + 证据/责任人/差距追踪',use:'上市前逐项核对强制清单'},
   {m:'② 自动化级别判定',std:'UN R157 / UN R171 / (EU) 2022/1426(参考 SAE J3016 分级)',obj:'系统落在哪一级、走哪条批准路径',out:'L0–L4(限定场景)+ 法规路径卡(SAE J3016 全阶梯 L0–L5 对照)',legal:'路径判定(参考)',tone:'amber',how:'7 题问卷 → 规则判级 → 路径卡',use:'立项/功能定义阶段定路线'},
-  {m:'③ 测试与证据清单',std:'R157 附件4/5 · WP.29 NATM · ISO 26262 / 21448 · R155/R156',obj:'批准所需测试与证据是否齐备',out:'完成 % · 勾选',legal:'审核前置',tone:'red',how:'勾选式自查(带依据)',use:'送审前的交付物盘点'}];
+  {m:'③ 测试与证据清单',std:'R157 附件4/5 · WP.29 NATM · ISO 26262 / 21448 · R155/R156',obj:'批准所需测试与证据是否齐备',out:'完成 % · 勾选',legal:'审核前置',tone:'red',how:'勾选式自查(带依据)',use:'送审前的交付物盘点'},
+  {m:'④ AI 法案高风险合规',std:'(EU) 2024/1689 Art.6+附件I,经 (EU) 2026/1744 修订',obj:'ADAS/自动驾驶 AI 系统是否落入高风险合规义务',out:'就绪度 % · 无/部分/已建立',legal:'CE 横向法,与型批并行',tone:'amber',how:'逐条自查 + 时间线泳道图',use:'AI 系统作为车辆安全部件时的合规规划'}];
 const STANDARDS=[
   {name:'(EU) 2019/2144 通用安全法规(GSR)',id:'GSR',region:'欧盟',scope:'按附件 II 给各车类分派强制安全/ADAS 项目与适用日期,并授权委员会出实施/授权细则(ELKS 2021/646、ISA 2021/1958、DDAW 2021/1341、ADDW 2023/2590 等)。',points:['第一阶段:新车型 2022-07-06 / 全部新车 2024-07-07(ISA、DDAW、ELKS、EDR、倒车探测等)','第二阶段项(如 ADDW):新车型 2024-07-07 / 全部新车 2026-07-07','大量引用 UN 法规(R152/R130/R151/R159/R160 等)作为技术要求','Art.11 授权对全自动车辆 ADS 定型批细则 → (EU) 2022/1426'],timeline:'2019 发布,2022-07 起分阶段强制。'},
   {name:'UN R152 — 轻型车 AEBS',id:'UN R152',region:'UNECE 1958 协定',scope:'M1/N1 自动紧急制动系统:车对车、行人、自行车探测场景与性能要求;GSR 引用其为轻型 AEBS 技术基准。',points:['分阶段场景:车对车 → 行人 → 自行车','速度区间内避撞/减轻碰撞性能要求','误触发抑制与驾驶员超控','重型车 AEBS 走 UN R131'],timeline:'2020 生效;欧盟按 GSR 时间表强制。'},
@@ -421,7 +486,8 @@ const STANDARDS=[
   {name:'(EU) 2022/1426 — ADS 实施细则(全自动车辆)',id:'(EU) 2022/1426',region:'欧盟',scope:'依 2019/2144 Art.11,对全自动车辆(无驾驶员兜底)的自动驾驶系统 ADS 做型式批准:预定义区域载人/载货(含 AVP、摆渡)等使用场景。',points:['Annex II 性能要求;Annex III 合规评估(审核+仿真+测试)','Annex V AVP 技术规范(由 (EU) 2026/481 新增:定义/性能要求/合规评估三部分)','MRM 与远程监督/运营者机制','事件数据记录与在役监控义务','预定义区域使用场景,另需成员国运营许可'],timeline:'2022-09-15 生效;经 (EU) 2026/481(2026-03-24 生效)修订,新增 Annex V AVP 技术规范并取消原每年 1,500 辆小系列上限。'},
   {name:'UN R79 — 转向设备(ACSF)',id:'UN R79',region:'UNECE 1958 协定',scope:'转向系统法规:定义自动指令转向功能 ACSF 类别与边界——A 类低速泊车、B1 类车道内持续辅助、C 类确认式自动换道;附件6 为 CEL 安全审核。',points:['B1:横向加速度限值、手离检测、边界提示','C:驾驶员触发确认、后方接近车辆探测','附件6 CEL 审核是 R157/R171 安全评估的源头','超出边界的组合辅助走 R171'],timeline:'现行版持续修订;ACSF 条款 2017 年起引入。'},
   {name:'重型车专属包 — R131/R151/R159/R167/R169',id:'HDV 包',region:'UNECE 1958 协定 / 欧盟 GSR',scope:'M2/M3/N2/N3 专属:R131 AEBS、R151 盲区 BSIS、R159 起步 MOIS、R167 直接视野 DVS、R169 重型 EDR。',points:['BSIS/MOIS 针对城市弱势道路使用者事故','R167 DVS:驾驶室直接视野量化分级(欧盟新车型 2026-01 起)','R169:重型 EDR 数据要素与防篡改','伦敦 DVS 许可制早于 UN 法规,出口英国需另核'],timeline:'R151/R159 欧盟 2022/2024 强制;R167/R169 按 GSR 后续时间表。'},
-  {name:'ISO 21448 — SOTIF 预期功能安全',id:'ISO 21448',region:'国际标准',scope:'处理"无故障也不安全":传感器性能限制、算法不足、可预见误用;通过场景分析把未知不安全区持续压缩为已知并验证。',points:['与 ISO 26262(E/E 故障)互补,ADAS/AD 双证据线','触发条件(triggering conditions)库与场景覆盖论证','残余风险接受准则','是 R157/2022/1426 安全论证的支撑方法学'],timeline:'2022 正式版发布。'}
+  {name:'ISO 21448 — SOTIF 预期功能安全',id:'ISO 21448',region:'国际标准',scope:'处理"无故障也不安全":传感器性能限制、算法不足、可预见误用;通过场景分析把未知不安全区持续压缩为已知并验证。',points:['与 ISO 26262(E/E 故障)互补,ADAS/AD 双证据线','触发条件(triggering conditions)库与场景覆盖论证','残余风险接受准则','是 R157/2022/1426 安全论证的支撑方法学'],timeline:'2022 正式版发布。'},
+  {name:'欧盟人工智能法案(AI Act)· 高风险机制',id:'(EU) 2024/1689',region:'欧盟(CE 体系,横向法)',scope:'AI 系统作为附件I所列产品法规(含 2018/858、2019/2144 等车辆型批框架)管辖产品的安全部件、且该产品须完成第三方合规评估时,构成"高风险AI系统",须满足 Chapter III §2 核心义务(风险管理/数据治理/技术文档/日志/透明度/人工监督/准确性鲁棒性网络安全)。经 (EU) 2026/1744(数字统一简化法案·AI 篇)修订时间线与部分定义。',points:['判定机制:Art.6(1)(a)+(b) 双条件 + 附件I B节 14/15/18/19 项(车辆型批框架)','附件I嵌入式高风险(含车辆):原定 2027-08-02,经 2026/1744 推迟至 2028-08-02','附件III独立高风险场景:原定 2026-08-02,经 2026/1744 推迟至 2027-12-02','机械领域(2023/1230)已确认整合进机械法规自身合规评定体系,车辆领域截至核实未见类似安排','⚠ "安全部件"定义据信被 2026/1744 收窄,具体新定义原文未核实'],timeline:'AI 法案 2024-08-01 生效;2026/1744 于 2026-07-24 公布、2026-07-27 生效。⚠ 本条目未经 EUR-Lex 官方公报逐条核对,凭 AI 法案原文 + 两家律所交叉印证信源写成。'}
 ];
 let _glosQ='';
 let ans={}, quiz={}, evid={}, itemMeta={}, active='home'; // active: 'home'/'ready'/'level'/'evid'
@@ -436,16 +502,17 @@ function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), quiz:JSON.pars
 function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; quiz=(s&&s.quiz)?JSON.parse(JSON.stringify(s.quiz)):{}; evid=(s&&s.evid)?JSON.parse(JSON.stringify(s.evid)):{}; itemMeta=(s&&s.itemMeta)?JSON.parse(JSON.stringify(s.itemMeta)):{}; }
 function writeSummary(){
   // 供 E-mark 母工具跨页回显(同源 localStorage)。
-  // 契约:{v:1, ready:{pct,done,total}, level, evid:{pct,done,total}, ts, started}
+  // 契约:{v:1, ready:{pct,done,total}, level, evid:{pct,done,total}, aiact:{pct,done,total}, ts, started}
   // level ∈ '未判定'|'L1'|'L2 · DCAS'|'L3 · ALKS'|'AVP'
   try{
-    const rd=readyStats(), ev=evidStats(), lv=judgeLevel();
-    const started = rd.done>0||Object.keys(ans).some(k=>ans[k]>0)||quizDone()>0||ev.done>0;
+    const rd=readyStats(), ev=evidStats(), lv=judgeLevel(), ai=aiactStats();
+    const started = rd.done>0||Object.keys(ans).some(k=>ans[k]>0)||quizDone()>0||ev.done>0||ai.done>0;
     localStorage.setItem(SUM_KEY,JSON.stringify({
       v:1,
       ready:{pct:rd.pct,done:rd.done,total:rd.total},
       level:lv.code,
       evid:{pct:ev.pct,done:ev.done,total:ev.total},
+      aiact:{pct:ai.pct,done:ai.done,total:ai.total},
       ts:Date.now(), started
     }));
   }catch(e){}
@@ -506,6 +573,7 @@ function renderSummary(){
   if(active==='home'){ document.getElementById('summary').innerHTML=''; return; }
   if(active==='ready'){ renderReadySummary(); return; }
   if(active==='level'){ renderLevelSummary(); return; }
+  if(active==='aiact'){ renderAiactSummary(); return; }
   renderEvidSummary();
 }
 function renderReadySummary(){
@@ -538,33 +606,45 @@ function renderEvidSummary(){
     '<div class="pills">'+EVID.groups.map(g=>{const d=g.items.filter(it=>evid[it.k]).length;return '<span class="pill'+(d===g.items.length?' on':'')+'">'+esc(g.name.replace(/^[①-⑥] /,''))+' '+d+'/'+g.items.length+'</span>';}).join('')+'</div>'+
     '</div></div>';
 }
+function renderAiactSummary(){
+  const st=aiactStats();
+  const col=st.pct>=80?'var(--green)':(st.pct>=40?'var(--amber)':'var(--red)');
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">AI 法案高风险合规 <b style="color:'+col+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已建立 <b>'+st.done+'</b>/'+st.total+' 项 · 逐条对照 (EU) 2024/1689 Art.6+附件I,经 (EU) 2026/1744 修订(无 / 部分 / 已建立)</div>'+
+    '<div class="pills"><span class="pill">判定机制</span><span class="pill">核心义务</span><span class="pill">体系整合</span><span class="pill">时间线</span></div>'+
+    '</div></div>';
+}
 function renderNav(){
-  const rd=readyStats(), lv=judgeLevel(), ev=evidStats();
+  const rd=readyStats(), lv=judgeLevel(), ev=evidStats(), ai=aiactStats();
   const step=(id,n,title,sub)=>'<button class="sstep'+(active===id?' active':'')+'" onclick="pick(\''+id+'\')"><span class="n">'+n+'</span><span class="stx"><span>'+title+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</span></button>';
-  let h=step('home','◎','总览 Dashboard','三项一览 · 导出报告');
+  let h=step('home','◎','总览 Dashboard','四项一览 · 导出报告');
   h+='<div class="sgrp">评估模块</div>';
   h+=step('ready','1','ADAS 法规就绪度','就绪度 '+rd.pct+'% · '+rd.done+'/'+rd.total);
   h+=step('level','2','自动化级别判定',(lv.code==='未判定'?('已答 '+lv.done+'/'+QUIZ.length):lv.code));
   h+=step('evid','3','测试与证据清单','已备 '+ev.pct+'% · '+ev.done+'/'+ev.total);
+  h+=step('aiact','4','AI 法案高风险合规','就绪度 '+ai.pct+'% · '+ai.done+'/'+ai.total);
   document.getElementById('nav').innerHTML=h;
 }
 function dashCard(title,big,sub,col,onclick){
   return '<button class="dcard" onclick="'+onclick+'"><div class="dct">'+esc(title)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+sub+'</div></button>';
 }
 function renderHome(m){
-  const rd=readyStats(), lv=judgeLevel(), ev=evidStats();
+  const rd=readyStats(), lv=judgeLevel(), ev=evidStats(), ai=aiactStats();
   const pc=p=>p>=80?'var(--green)':(p>=40?'var(--amber)':'var(--red)');
   const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'(未保存草稿)';
   let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px">'+
     '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">智能驾驶合规评估台</div>'+
-    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 三步走:先核对 GSR/UN 强制 ADAS 清单,再按功能描述判定自动化级别与法规路径,最后盘点送审测试与证据。</div></div>'+
+    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 四步走:先核对 GSR/UN 强制 ADAS 清单,再按功能描述判定自动化级别与法规路径,盘点送审测试与证据,另核对 AI 法案高风险合规(与型批并行的 CE 横向义务)。</div></div>'+
     '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
   s+='<div class="dgrid">'+
     dashCard('① ADAS 法规就绪度', rd.pct+'%', '已建立 '+rd.done+'/'+rd.total+' 项', pc(rd.pct), "pick('ready')")+
     dashCard('② 自动化级别', (lv.code==='未判定'?'—':esc(lv.code)), (lv.code==='未判定'?('已答 '+lv.done+'/'+QUIZ.length+' 题'):esc(lv.disp)), (lv.code==='未判定'?'var(--greyl)':'var(--od)'), "pick('level')")+
     dashCard('③ 测试与证据', ev.pct+'%', '已备 '+ev.done+'/'+ev.total+' 项', pc(ev.pct), "pick('evid')")+
+    dashCard('④ AI 法案高风险合规', ai.pct+'%', '已建立 '+ai.done+'/'+ai.total+' 项', pc(ai.pct), "pick('aiact')")+
     '</div>';
-  s+='<div class="ckleg">三项均按当前档案本地保存。点卡片进入对应模块;「导出评估报告」把三项现状生成一份可打印/存 PDF 的报告。就绪度 % 与级别判定均为自查参照,非型式批准结论。</div>';
+  s+='<div class="ckleg">四项均按当前档案本地保存。点卡片进入对应模块;「导出评估报告」把四项现状生成一份可打印/存 PDF 的报告。就绪度 % 与级别判定均为自查参照,非型式批准结论。</div>';
   m.innerHTML=s;
 }
 /* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
@@ -605,6 +685,46 @@ function pathCardHTML(lv){
   if(warns.length) h+='<div class="pc-warn">⚠ '+warns.map(esc).join('<br>⚠ ')+'</div>';
   h+='</div>';
   return h;
+}
+/* ===== 时间线泳道图(纯 SVG,无外部依赖;移植自 ev_assessment.html)===== */
+const TL_COLORS=['#E8622C','#3A6B8A','#1F7A4D','#B45309','#8A3AA6','#C0392B','#0E7C86'];
+function tlDate(s){ const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||''); return m? Date.UTC(+m[1],+m[2]-1,+m[3]) : null; }
+function renderTimeline(mod){
+  const tl=mod.timeline; if(!tl||!tl.length) return '';
+  const allT=[]; tl.forEach(lane=>lane.items.forEach(it=>{const t=tlDate(it.d); if(t!=null) allT.push(t);}));
+  if(!allT.length) return '';
+  const pad=Math.round(365.25*24*3600*1000*0.4);
+  const minT=Math.min(...allT)-pad, maxT=Math.max(...allT)+pad;
+  const W=960, marginL=10, marginR=10, rowH=42, axisH=24;
+  const plotW=W-marginL-marginR;
+  const x=t=>marginL+plotW*(t-minT)/(maxT-minT);
+  const H=axisH+tl.length*rowH+6;
+  const startY=new Date(minT).getUTCFullYear(), endY=new Date(maxT).getUTCFullYear();
+  let grid='';
+  for(let y=startY;y<=endY;y++){
+    const t=Date.UTC(y,0,1); if(t<minT||t>maxT) continue;
+    const xx=x(t);
+    grid+='<line x1="'+xx+'" y1="'+axisH+'" x2="'+xx+'" y2="'+H+'" stroke="var(--line)" stroke-width="1"/>'+
+      '<text x="'+xx+'" y="15" font-size="11" fill="var(--grey)" text-anchor="middle">'+y+'</text>';
+  }
+  let lanes='';
+  tl.forEach((lane,li)=>{
+    const cy=axisH+li*rowH+rowH/2, col=TL_COLORS[li%TL_COLORS.length];
+    lanes+='<text x="'+marginL+'" y="'+(cy-12)+'" font-size="10.5" font-weight="700" fill="'+col+'">'+esc(lane.lane)+'</text>'+
+      '<line x1="'+marginL+'" y1="'+cy+'" x2="'+(W-marginR)+'" y2="'+cy+'" stroke="'+col+'" stroke-opacity=".18" stroke-width="3"/>';
+    lane.items.forEach(it=>{
+      const t=tlDate(it.d); if(t==null) return; const xx=x(t);
+      lanes+='<circle cx="'+xx+'" cy="'+cy+'" r="4.5" fill="'+col+'"><title>'+esc(it.d)+' · '+esc(it.t)+'</title></circle>';
+    });
+  });
+  const legend=tl.map((lane,li)=>{
+    const col=TL_COLORS[li%TL_COLORS.length];
+    const items=lane.items.slice().sort((a,b)=>(tlDate(a.d)||0)-(tlDate(b.d)||0));
+    return '<div class="tlrow"><span class="tldot" style="background:'+col+'"></span><b>'+esc(lane.lane)+'</b>'+
+      items.map(it=>'<span class="tlchip">'+esc(it.d)+' '+esc(it.t)+'</span>').join('')+'</div>';
+  }).join('');
+  return '<div class="tlwrap"><div class="tlscroll"><svg class="tlsvg" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="xMinYMin meet">'+grid+lanes+'</svg></div>'+
+    '<div class="tllegend">'+legend+'</div></div>';
 }
 function renderMain(){
   const m=document.getElementById('main');
@@ -654,11 +774,23 @@ function renderMain(){
     s+='<div class="ckleg">R155(CSMS)/R156(SUMS)是 R157/R171 批准的前置条件——第⑥组未齐备时,前五组再完整也无法送审。详评网安项请用「网安 & 功能安全评估台」。勾选随当前档案本地保存。</div>';
     m.innerHTML=s; return;
   }
+  if(active==='aiact'){
+    let s='<div class="sb-mh">④ AI 法案高风险合规自查</div>'+
+      '<div class="sb-msub">逐条对照 <b>(EU) 2024/1689</b>(AI 法案)Art.6+附件I 的高风险判定机制,经 <b>(EU) 2026/1744</b>(数字统一简化法案·AI 篇,2026-07-27 生效)修订后的时间线自查(无 / 部分 / 已建立)。与型批体系并行的 CE 横向义务,不是型式批准的替代。</div>'+
+      renderTimeline(AIACT);
+    AIACT.groups.forEach((g,gi)=>{
+      s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>'+(g.desc?'<div class="r156gd">'+esc(g.desc)+'</div>':'');
+      g.items.forEach(it=>{ s+=chkItemHTML(it); });
+      s+='</div>';
+    });
+    s+='<div class="ckleg">2026-08 建立本模块时,(EU) 2026/1744 官方 PDF 被 EUR-Lex 反爬机制多次拦截未能直接核对,内容凭 AI 法案原文(Art.6/附件I/Art.113)+ 两家独立律所(Gibson Dunn、Cooley)交叉印证信源写成,未与官方公报逐条核对——业主如有官方原文建议上传复核。就绪度随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
   renderHome(m);
 }
 /* ===== 导出评估报告(浏览器打印 → PDF)===== */
 function exportReport(){
-  const rd=readyStats(), lv=judgeLevel(), ev=evidStats();
+  const rd=readyStats(), lv=judgeLevel(), ev=evidStats(), ai=aiactStats();
   const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'未命名档案';
   let d=''; try{ d=new Date().toLocaleDateString('zh-CN'); }catch(e){}
   const labs=['无','部分','已建立'];
@@ -667,7 +799,7 @@ function exportReport(){
       const md=[m.ev?('证据:'+m.ev):'',m.owner?('责任人:'+m.owner):'',m.gap?('差距:'+m.gap):'',m.due?('目标:'+m.due):''].filter(Boolean).join(' ｜ ');
       return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+labs[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
   let html='<div class="rhead"><div class="rtitle">智能驾驶合规 · 评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准结论</div></div>';
-  html+='<div class="rsum"><div>① ADAS 法规就绪度 <b>'+rd.pct+'%</b>（'+rd.done+'/'+rd.total+'）</div><div>② 自动化级别 <b>'+esc(lv.code)+'</b>（已答 '+lv.done+'/'+QUIZ.length+' 题）</div><div>③ 测试与证据 <b>'+ev.pct+'%</b>（'+ev.done+'/'+ev.total+'）</div></div>';
+  html+='<div class="rsum"><div>① ADAS 法规就绪度 <b>'+rd.pct+'%</b>（'+rd.done+'/'+rd.total+'）</div><div>② 自动化级别 <b>'+esc(lv.code)+'</b>（已答 '+lv.done+'/'+QUIZ.length+' 题）</div><div>③ 测试与证据 <b>'+ev.pct+'%</b>（'+ev.done+'/'+ev.total+'）</div><div>④ AI 法案高风险合规 <b>'+ai.pct+'%</b>（'+ai.done+'/'+ai.total+'）</div></div>';
   html+='<h2>① ADAS 法规就绪度</h2>'+chk(READY.groups);
   html+='<h2>② 自动化级别判定</h2><table class="rt"><tr><th style="width:46%">问题</th><th>回答</th></tr>'+
     QUIZ.map(q=>{const a=quiz[q.id];const o=a?q.opts.find(x=>x[0]===a):null;return '<tr><td>'+esc(q.q)+'</td><td>'+(o?esc(o[1]):'—')+'</td></tr>';}).join('')+'</table>';
@@ -678,7 +810,8 @@ function exportReport(){
   } else { html+='<h3>判定:未判定(问卷未答完)</h3>'; }
   html+='<h2>③ 测试与证据清单</h2>'+EVID.groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:56%">交付物</th><th>依据</th><th>状态</th></tr>'+
     g.items.map(it=>{const on=!!evid[it.k];return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst '+(on?'s2':'s0')+'">'+(on?'已备':'缺')+'</td></tr>';}).join('')+'</table>').join('');
-  html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。</div>';
+  html+='<h2>④ AI 法案高风险合规</h2>'+chk(AIACT.groups);
+  html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448、(EU) 2024/1689(AI 法案)经 (EU) 2026/1744 修订。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。AI 法案高风险合规部分未经官方公报逐条核对,详见模块内说明。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
   const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
@@ -697,7 +830,7 @@ function faqHTML(){ return '<div class="std">'+FAQS.map((f,i)=>'<details'+(i===0
 function modsHTML(){
   const legalCol={red:['#f3d0d0','#b02222'],amber:['#f4e6bd','#7a5a10'],grey:['#eef0f2','#6b7280']};
   const cols=[['obj','测量对象'],['out','输出 / 刻度'],['legal','法定性'],['how','判定方式'],['std','依据法规/标准'],['use','何时用']];
-  let h='<div class="sb-msub" style="margin-bottom:10px">三个模块**测的东西不同**——强制清单核对(逐项通过/不通过)、路径判定(参考指引)、证据盘点(审核前置)互不替代。</div>';
+  let h='<div class="sb-msub" style="margin-bottom:10px">四个模块**测的东西不同**——强制清单核对(逐项通过/不通过)、路径判定(参考指引)、证据盘点(审核前置)、AI 法案高风险合规(CE 横向法,与型批并行)互不替代。</div>';
   h+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">模块</th>'+cols.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'</tr>';
   MODULES.forEach(x=>{
     const lc=legalCol[x.tone]||legalCol.grey;
@@ -707,7 +840,7 @@ function modsHTML(){
     }).join('')+'</tr>';
   });
   h+='</table></div>';
-  h+='<div class="ckleg">要点:模块1 回答"强制项齐不齐"(GSR/UN 逐项);模块2 回答"走哪条批准路径"(R157/R171/2022/1426);模块3 回答"送审证据全不全"(附件4/5 + NATM + 网安前置)。</div>';
+  h+='<div class="ckleg">要点:模块1 回答"强制项齐不齐"(GSR/UN 逐项);模块2 回答"走哪条批准路径"(R157/R171/2022/1426);模块3 回答"送审证据全不全"(附件4/5 + NATM + 网安前置);模块4 回答"AI 系统本身要不要单独走高风险合规"(AI 法案,与前三项并行的横向义务)。</div>';
   return h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 }
 function stdHTML(){ return '<div class="std">'+STANDARDS.map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
