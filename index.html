@@ -1067,13 +1067,21 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <span id="rd-rpt-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
+        <span style="font-size:11px;color:var(--accent);font-weight:700">✅ 内容已确认 · 待制作 Canva 版(数字/口径已核对,尚未在 Canva 排版发送):</span>
+        <a class="btn light" href="./reports/radar-monthly-2026-07.html" target="_blank" rel="noopener" style="text-decoration:none;border-color:var(--accent)" title="在新标签打开查看">📄 2026 年 7 月刊(内容定稿)</a>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-07.html','html')" title="下载该月报草稿的 HTML 文件">⬇ 导出 HTML</button>
+        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-07.html','pdf')" title="打开打印视图(仅月报卡片),在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
+        <button class="btn light" onclick="window.open('reports/radar-monthly-2026-07.html','_blank','noopener')" title="在新标签打开该月报草稿的 HTML 页面">🌐 打开 HTML</button>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
         <span style="font-size:11px;color:var(--muted)">📚 已归档月报(定稿存档,查看/导出/打印):</span>
-        <a class="btn light" href="./reports/radar-monthly-2026-06.html" target="_blank" rel="noopener" style="text-decoration:none" title="在新标签打开查看">📄 2026 年 6 月刊</a>
-        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','html')" title="下载该月报的 HTML 文件">⬇ 导出 HTML</button>
-        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','pdf')" title="打开打印视图(仅月报卡片),在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
-        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-06.html','png')" title="导出为一张不断开的长图 PNG(位图不含可点链接;需要可点链接请用「导出 PDF」)">🖼 导出长图 PNG</button>
+        <select id="rd-arch-sel" class="csel" style="min-width:130px" onchange="rdArchSelChange()"></select>
+        <a id="rd-arch-view" class="btn light" href="#" target="_blank" rel="noopener" style="text-decoration:none" title="在新标签打开查看">📄 查看</a>
+        <button class="btn light" onclick="rdExportReport(rdArchPath(),'html')" title="下载该月报的 HTML 文件">⬇ 导出 HTML</button>
+        <button class="btn light" onclick="rdExportReport(rdArchPath(),'pdf')" title="打开打印视图(仅月报卡片),在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
+        <button class="btn light" onclick="rdExportReport(rdArchPath(),'png')" title="导出为一张不断开的长图 PNG(位图不含可点链接;需要可点链接请用「导出 PDF」)">🖼 导出长图 PNG</button>
         <button class="btn light" onclick="rdCopyPrintCmd()" title="复制一段控制台命令:在已打开的月报页面 F12→Console 粘贴回车,只打印这张月报卡片">🖨 复制打印指令</button>
-        <button class="btn light" onclick="window.open('reports/radar-monthly-2026-06.html','_blank','noopener')" title="在新标签打开该月报的 HTML 页面">🌐 打开 HTML</button>
+        <button class="btn light" onclick="window.open(rdArchPath(),'_blank','noopener')" title="在新标签打开该月报的 HTML 页面">🌐 打开 HTML</button>
         <span id="rd-arch-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
       <div id="rd-kpi" style="font-family:var(--mono);font-size:11.5px;color:var(--ink);margin-top:6px"></div>
@@ -5384,6 +5392,21 @@ function radarClearSel(){
   document.querySelectorAll('#rd-body input[type=checkbox][data-radarid]').forEach(cb=>{cb.checked=false;});
   const cnt=$("#rd-selcnt");if(cnt)cnt.textContent="";
 }
+/* 已归档月报清单(定稿存档)· 下拉菜单数据源。新增一期:数组末尾追加一行即可,
+   下拉选项/查看/导出 HTML·PDF·PNG 按钮全部自动跟随选中项,无需再改其余代码或加新 DOM 块。
+   最新一期排最前(unshift 顺序 = 数组顺序倒序写,故此列表已按月份倒序排列)。 */
+const RD_ARCHIVED_REPORTS=[
+  {label:"2026 年 6 月刊",path:"reports/radar-monthly-2026-06.html"},
+];
+function rdArchPath(){const sel=$("#rd-arch-sel");return (sel&&sel.value)||(RD_ARCHIVED_REPORTS[0]&&RD_ARCHIVED_REPORTS[0].path)||"";}
+function rdArchSelChange(){
+  const v=$("#rd-arch-view");if(v)v.href="./"+rdArchPath();
+}
+function fillArchivedReports(){
+  const sel=$("#rd-arch-sel");if(!sel)return;
+  sel.innerHTML=RD_ARCHIVED_REPORTS.map(r=>`<option value="${esc(r.path)}">${esc(r.label)}</option>`).join("");
+  rdArchSelChange();
+}
 const RD_RPT_ASSET="https://zhenghannah1228-boop.github.io/Auto-Reg-Monitor/assets/report/";
 /* 正文按段落渲染,每段首行缩进两字符(2em);兼顾 Spotlight 的多段(\n 分段) */
 function rdIndentPara(txt){return String(txt==null?"":txt).split(/\n+/).map(p=>p.trim()).filter(Boolean).map(p=>`<div style="text-indent:2em;margin:0 0 6px">${esc(p)}</div>`).join("");}
@@ -6324,6 +6347,7 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
     return;
   }
   renderAll();
+  fillArchivedReports();
 })();
 </script>
 </body>
