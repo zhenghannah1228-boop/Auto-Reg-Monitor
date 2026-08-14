@@ -244,3 +244,37 @@
 - **日期列**:抓取日期=文件包批次日;发布日期=真实文本发布日、须落当月(上月则归本月最早
   合适日);实施日期填真实生效日(可跨月),未定填「待定」。
 - 来源默认范围 EU/UN/eping(全球)/英国/德国;其他国家(美/印/沙特等)业主直接给文件即视为破例纳入。
+
+### 7.2 0all/0error 每日监测汇总文件 · 筛查流程(2026-08 确认)
+
+> 与 7/7.1 的"填表"流程不同:这是**上游筛查**——业主每天上传抓取脚本产出的
+> `0all-YYYYMMDD.xlsx` / `0all-YYYYMMDD__1_.xlsx`(A/B 两个来源,列结构不同)
+> 及配套 `0error-*.xlsx`,**即使不附 prompt** 也默认触发,目的是从几百条杂讯里
+> 挑出真正的汽车准入类法规,按国家分组把链接直接回在对话框里——不生成 Excel
+> (需要结构化导出再转 `reg-data-extractor` skill)。
+
+**基准文件持久化**:所有历史 `0all*.xlsx` 存 `daily-triage/data/`(git 跟踪,
+容器重置也不丢)。每次处理新一天的文件前:
+1. 把当天 2 个 `0all*.xlsx` 存入 `daily-triage/data/`(先不要覆盖已有的)。
+2. 用**除当天外**的全部历史 `0all*.xlsx` 的 `Link` 列构建基准去重集合。
+3. 当天 A+B 两文件按 `Link` 合并去重(无 Link 的行跳过,不可靠)。
+
+**分类正则**(顺序:先查永久排除域名/链接特征 → 查是否已在基准里 → 关键词分类):
+- `KW`(准入相关正则,含 vehicle/motor vehicle/UN R\d/UNECE/GRSG 等工作组代号/
+  tyre/brake/emission/electric vehicle/autonomous/type approval/型式批准/整车 等,
+  ≤3 字母缩写注意 `\b` 词边界)命中 → **纳入**。
+- `EXCLUDE`(food/aviation/railway/election/insurance/housing/building bye-law/
+  cantonment/budget performance/horizon europe/comitology 等明显无关主题)命中
+  且 `KW` 未命中 → 剔除;`EXCLUDE` 与 `KW` 同时命中时**不能**自动判定,必须人工复核
+  (常见误触发:关键词来自站内检索目标 URL 而非正文本身,如"vehicle"命中金融
+  "investment vehicle"、印度兵营建筑细则里的停车位术语等)。
+- `BACKUP_KW`(tariff/关税/补贴/incentive/召回 recall 等外围相关但非法规文本本身)
+  命中 → **备查**,不算纳入。
+- 永久排除:域名 `dominica.gov.dm`、`motl.gov.et`;链接含 `DocDate=`。
+
+**输出格式**:按"纳入/备查/剔除说明"三段,纳入与备查内部按国家分组,每条给
+日期+标题+完整链接;剔除段只需汇总说明误触发原因,不用逐条列。**不确定的项
+(如日期缺失、命中原因牵强)必须人工复核后再定性,不能机械信正则结果**——
+历史经验:英国 legislation.gov.uk、突尼斯 JORT、加拿大 tc.canada.ca 等站点的
+"数据源"其实是"站内关键词全文检索结果"而非"当日新发布列表",没有基准文件
+比对时无法判断是新是旧,这种情况要如实告知业主"无法判断新旧",不要假装是新增。
