@@ -808,7 +808,7 @@ function exportReport(){
   html+='<h2>③ 测试与证据清单</h2>'+EVID.groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:56%">交付物</th><th>依据</th><th>状态</th></tr>'+
     g.items.map(it=>{const on=!!evid[it.k];return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst '+(on?'s2':'s0')+'">'+(on?'已备':'缺')+'</td></tr>';}).join('')+'</table>').join('');
   html+='<h2>④ AI 法案高风险合规</h2>'+chk(AIACT.groups);
-  html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448、(EU) 2024/1689(AI 法案)经 (EU) 2026/1744 修订(均已据官方原文逐条核对)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。</div>';
+  html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448、(EU) 2024/1689(AI 法案)经 (EU) 2026/1744 修订。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
   const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
