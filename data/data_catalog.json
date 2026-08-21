@@ -1,7 +1,7 @@
 {
   "_meta": {
     "title": "数据集主清单（内部数据状态 + 开发数据字典 共用底座）",
-    "asof": "2026-08-18",
+    "asof": "2026-08-21",
     "tiers": {
       "green": "🟢 原文核实 —— 已对照 EU/UN 官方原文或权威文件逐条核对（含本轮系统性审计）",
       "amber": "🟡 调研待核 —— 网络调研/二级来源得出，未经官方原文逐条背书，交付前建议专家复核",
@@ -132,12 +132,12 @@
       "trigger": "R157/R171/2022-1426 修订、AVP 细则", "edit": "改各常量；级别判定逻辑在 judgeLevel()。"
     },
     {
-      "id": "AIACT", "name": "AI 法案高风险合规模块(④)", "tool": "ad", "file": "emark/ad_assessment.html", "loc": "const AIACT(4组12项) + STANDARDS/GLOSSARY/FAQS 对应词条",
-      "what": "④模块:AI 法案(2024/1689)Art.6(1)+附件I 高风险判定机制、附件I B节产品按 Art.2(2) 的从轻适用范围、机械 vs 车辆整合授权差异、经 (EU) 2026/1744 修订后的时间线。",
-      "source": "AI 法案官方原文(OJ L 202401689)+ (EU) 2026/1744 官方原文(业主提供 PDF)逐条核对 Art.2(2)/Art.6(1a-1c)/Art.60a/附件I。CRA(2024/2847)业主同期提供但本轮未涉及具体订正。", "asof": "2026-08-11", "tier": "green",
-      "trigger": "欧委会就车辆型批法规(2018/858/2019/2144)发布 Art.2(2) 意义上的整合授权/延期法案、Art.60a 成员国落地案例出现",
+      "id": "AIACT", "name": "AI 法案高风险合规模块(④)", "tool": "ad", "file": "emark/ad_assessment.html", "loc": "const AIACT(4组13项) + STANDARDS/GLOSSARY/FAQS 对应词条",
+      "what": "④模块:AI 法案(2024/1689)Art.6(1)+附件I 高风险判定机制、附件I B节产品按 Art.2(2) 的从轻适用范围、Art.107(修订 2018/858)车辆整合入口 vs 机械强制整合期限、经 (EU) 2026/1744 修订后的时间线。",
+      "source": "AI 法案官方原文(OJ L 202401689)+ (EU) 2026/1744 官方原文(业主提供 PDF)逐条核对 Art.2(2)/Art.6(1a-1c)/Art.60a/附件I。Art.107(2018/858 Art.5(4))经两个独立二级镜像站(artificialintelligenceact.eu、euaiact.com)交叉核对文字一致,EUR-Lex 官方 PDF 本轮再次被 WAF 拦截未能直接核对。CRA(2024/2847)业主同期提供但本轮未涉及具体订正。", "asof": "2026-08-21", "tier": "green",
+      "trigger": "欧委会依 Art.107/(EU) 2018/858 Art.5(3) 就 AI 安全部件实际出台授权法案(目前为裁量性、无截止日期)、Art.60a 成员国落地案例出现",
       "edit": "改 AIACT.groups[].items[]；同步 STANDARDS/GLOSSARY/FAQS 对应词条。",
-      "notes": "主库 index.html 的 EULAW 词条(tab24)对「AI 法案↔车辆型批」整合的口径是 Art.107 修订 2018/858，与本模块的 Art.2(2) 机制表述尚未交叉核对——两者可能各自描述不同条款(不必然矛盾)，也可能存在需要对齐口径的分歧，留待后续核实。"
+      "notes": "已完成与主库 index.html EULAW 词条(tab24)的交叉核对:两者描述的是互补机制而非矛盾——Art.2(2) 是B节产品的整体适用范围条款,Art.107(修订 2018/858 Art.5,新增第4款)是车辆专属的具体整合入口,但为委员会裁量性条款、不设截止日期,弱于机械领域经 2026/1744 获得的强制 2028-08-02 期限。Art.107 具体文字未经 EUR-Lex 官方原文核对(WAF 拦截),仅两个独立二级站交叉印证,建议后续拿到官方 PDF 复核。"
     },
     {
       "id": "ev_data", "name": "电气工具评估数据", "tool": "ev", "file": "emark/ev_assessment.html", "loc": "MODS/STD",
