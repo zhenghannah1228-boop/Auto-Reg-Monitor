@@ -1,7 +1,7 @@
 {
   "_meta": {
     "title": "数据集主清单（内部数据状态 + 开发数据字典 共用底座）",
-    "asof": "2026-07-29",
+    "asof": "2026-08-18",
     "tiers": {
       "green": "🟢 原文核实 —— 已对照 EU/UN 官方原文或权威文件逐条核对（含本轮系统性审计）",
       "amber": "🟡 调研待核 —— 网络调研/二级来源得出，未经官方原文逐条背书，交付前建议专家复核",
@@ -132,11 +132,27 @@
       "trigger": "R157/R171/2022-1426 修订、AVP 细则", "edit": "改各常量；级别判定逻辑在 judgeLevel()。"
     },
     {
+      "id": "AIACT", "name": "AI 法案高风险合规模块(④)", "tool": "ad", "file": "emark/ad_assessment.html", "loc": "const AIACT(4组12项) + STANDARDS/GLOSSARY/FAQS 对应词条",
+      "what": "④模块:AI 法案(2024/1689)Art.6(1)+附件I 高风险判定机制、附件I B节产品按 Art.2(2) 的从轻适用范围、机械 vs 车辆整合授权差异、经 (EU) 2026/1744 修订后的时间线。",
+      "source": "AI 法案官方原文(OJ L 202401689)+ (EU) 2026/1744 官方原文(业主提供 PDF)逐条核对 Art.2(2)/Art.6(1a-1c)/Art.60a/附件I。CRA(2024/2847)业主同期提供但本轮未涉及具体订正。", "asof": "2026-08-11", "tier": "green",
+      "trigger": "欧委会就车辆型批法规(2018/858/2019/2144)发布 Art.2(2) 意义上的整合授权/延期法案、Art.60a 成员国落地案例出现",
+      "edit": "改 AIACT.groups[].items[]；同步 STANDARDS/GLOSSARY/FAQS 对应词条。",
+      "notes": "主库 index.html 的 EULAW 词条(tab24)对「AI 法案↔车辆型批」整合的口径是 Art.107 修订 2018/858，与本模块的 Art.2(2) 机制表述尚未交叉核对——两者可能各自描述不同条款(不必然矛盾)，也可能存在需要对齐口径的分歧，留待后续核实。"
+    },
+    {
       "id": "ev_data", "name": "电气工具评估数据", "tool": "ev", "file": "emark/ev_assessment.html", "loc": "MODS/STD",
-      "what": "R100.03/R10/充电/电池法规四模块清单 + 标准速览。",
-      "source": "对照 R100.03/R10.06/1542/充电标准原文校准。R10 标注现行 07 系列(附件号待 UNECE 正式文本)。", "asof": "2026-07", "tier": "green",
-      "trigger": "R100/R10 新系列、电池法阶段义务、充电标准更新",
-      "edit": "改 MODS[].groups[].items[].r。**待办**：R10 07 系列各条款附件号待取得 UNECE 正式文本后逐条核对(现按 06 系列结构)。"
+      "what": "R100.03/R10/充电/电池/循环设计与报废车管理(ELV)五模块清单 + 标准速览 + 各模块时间线泳道图。",
+      "source": "对照 R100.03/R10.06/1542/充电标准/(EU) 2026/1738(ELV,官方公报原文逐条核对)校准。R10 标注现行 07 系列(附件号待 UNECE 正式文本)。电池护照模块补 DPP Registry 注册要求与 EN 18xxx 系列标准引用(后者部分标准截至 2026-07 仍在发布中)。", "asof": "2026-08-18", "tier": "green",
+      "trigger": "R100/R10 新系列、电池法阶段义务、充电标准更新、(EU) 2026/1738 钢/铝再生材料比例授权法案(2028-09-30 前)、EN 18xxx 标准发布状态变化",
+      "edit": "改 MODS[].groups[].items[].r。**待办**：R10 07 系列各条款附件号待取得 UNECE 正式文本后逐条核对(现按 06 系列结构);(EU) 2026/1738 钢/铝再生材料具体比例待欧委会 2028-09-30 前授权法案;EN 18xxx 系列标准发布状态待核对 CEN/CENELEC 官网现状(prEN 18239/18246 截至本轮记录时仍在表决)。"
+    },
+    {
+      "id": "COP_DATA", "name": "生产一致性(CoP)工具评估数据", "tool": "cop", "file": "emark/cop_assessment.html", "loc": "认证模式对照表 + 核查频次说明 + 材料清单 + FAQ",
+      "what": "六大体系(欧盟/UN 1958/美/加/韩/中/日)CoP 认证模式对照、核查频次、申请准备材料清单勾选自查、常见误区提醒。",
+      "source": "(EU) 2018/858 Art.31+附件IV、UN 1958 Schedule 1(E/ECE/TRANS/505/Rev.3)+各 UN Reg CoP 章节、49 CFR Part 567/568、Motor Vehicle Safety Act+CMVSR、자동차관리법+KMVSS、CNCA/CCC 实施规则、日本道路运送车辆法+型式指定制度,混合官方文件与网络调研。", "asof": "2026-08-18", "tier": "amber",
+      "trigger": "各体系 CoP 核查频次/流程调整、CNCA 分类实施规则更新",
+      "edit": "改页内对应表格/常量。",
+      "notes": "以下细节尚未逐字对照官方原文,交付前建议核实:① Schedule 1 内部小节编号与通用基准审核频次的具体表述;② 欧盟型批证书模板 (EU) 2020/683 是否设「CoP 已核实」字段;③ CMVSR 精确 SOR 号;④ 日本型式指定精确条文与周期;⑤ R118 §8 频次(页面标注为每 2 年,建议复核);⑥ CNCA 分类实施规则文号。"
     },
     {
       "id": "REG_LINKS", "name": "法规链接占位表", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const REG_LINKS",
