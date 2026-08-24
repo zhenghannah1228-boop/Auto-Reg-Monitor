@@ -1201,6 +1201,25 @@
 
 ---
 
+77. **(2026-08-24)R13 重型制动:换查法再核实一遍,确认 EU 门槛未过期,补上 OJ 引用**:#75/#76 都没能确认
+    EU Annex I 对 R13 的最低系列要求是否还是 11 series(UN 层面已到 15 series)。业主要求再试一次,这轮
+    换了思路:不再死磕 EUR-Lex/unece.org 正面下载(两边都还是被拦截),改找"英国脱欧时定格快照 + EU 近两轮
+    Annex I 修订公开报道"两条侧路交叉验证：
+    - **legislation.gov.uk**(英国脱欧时对 (EU) 2019/2144 的镜像立法，之后英方自行修订与欧盟脱钩，但脱欧
+      当时的快照如实反映了脱欧那一刻的欧盟原文)Annex I 表格直接列出「13｜Braking of vehicles and
+      trailers｜11 series of amendments｜OJ L 42, 18.2.2016, p.1｜M2, M3, N, O」——顺带把此前一直空着的
+      OJ 引用也拿到了。
+    - **Council of the EU 文件 6039/25 ADD 1**(2025-02-10，可直接下载的 PDF）证实 EU 在 WP.29 层面截至
+      2025 年初也只是对 R13 的 15 series 与多项 Supplement 投票表态，尚未着手把这些新进展并入 Annex I。
+    - **TÜV Rheinland 与 igarr.com** 对 2024-2025 两轮 Annex I 修订的报道(涉及 R25/R79/R100/R127/R152/
+      R167/R169/R171 共 8 部法规)均未提及 R13，说明近两年 EU 确实没碰过 R13 的引用系列。
+    - 三条独立证据一致指向：**11 series 至今仍是 EU 现行门槛**——UN 系列号领先不等于 EU 门槛过期，EU 保留
+      旧系列引用是常见做法（供应链/型批稳定性考虑）。已把 OJ 引用 `L 42, 18.2.2016, p.1` 回填进
+      `REG_META['13']`，`data/data_catalog.json` 里 REG_META 条目 tier 由 amber 升级为 green。
+    - 校验：Playwright 确认 `emark_assessment.html` `REG_META['13'].oj` 正确、零 JS 报错；主回归 35/35 通过。
+
+---
+
 ## 五、验证约定
 
 改动 `emark/*.html` 后:

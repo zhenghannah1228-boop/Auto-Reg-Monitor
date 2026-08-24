@@ -44,9 +44,9 @@
       "id": "REG_META", "name": "UN 法规系列/OJ/适用车型元数据", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const REG_META",
       "what": "EU 型批全表(openEuTable)显示的要求系列(sr)、OJ 出处、适用车型；也作 verCell 兜底。键=UN 编号。",
       "source": "(EU) 2019/2144 Annex I + 各法规 OJ。本轮修正 R13/R13-H 误挂（原'13'实为 R13-H 数据，经 EUR-Lex 核实 OJ L335/2015=CELEX 42015X1222(01)=R13-H，已移至'13-H'，'13'改 R13 重型 11 series）。",
-      "asof": "2026-08-24", "tier": "amber",
+      "asof": "2026-08-24", "tier": "green",
       "trigger": "UN 法规系列升级、EU Annex I 修订", "edit": "改 REG_META[编号] 的 s/sr/oj/c/n。",
-      "notes": "R13 重型制动比想象中更需要核实:2026-08-24 查 data/unece_status.json(仓库自带、来自 UNECE WP.29/343 状态表)发现 UN 层面 R13 早已过了 11 series(2008),近 4 年内连续升到 12 series(2022-10-08)/13 series(2024-01-05)/14 series(2025-06-17)/15 series(2026-01-11)——而 REG_META['13'].sr 与 EU_REF_SERIES['13'] 都还停在 11。本轮多次尝试核实 EU 当前 Annex I 是否仍以 11 series 为最低门槛(igarr.com 两篇 2025 年欧盟型批更新通报文章均未提及 R13),EUR-Lex 官方 PDF 与 unece.org PDF 均被反爬拦截(WAF/Cloudflare),未能确认 11 是否已过期——这比单纯补一个 OJ 页码更重要,建议下次拿到官方文本时优先核实『EU Annex I 对 R13 的当前最低系列要求』,而不只是回填 OJ 引用。"
+      "notes": "R13 追加复核(2026-08-24 第二轮):UN 层面 R13 早已过了 11 series(2008),近 4 年内连续升到 12/13/14/15 series(最新 2026-01-11)——但这不代表 EU Annex I 的最低门槛过期了,两者是不同的问题。三方交叉验证 EU 当前门槛仍为 11 series:①legislation.gov.uk 的 (EU) 2019/2144 Annex I 表格(英国脱欧时定格快照)直接列出「13｜Braking of vehicles and trailers｜11 series of amendments｜OJ L 42, 18.2.2016, p.1｜M2, M3, N, O」;②Council of the EU 文件 6039/25 ADD 1(2025-02-10,PDF 可读)确认 EU 在 WP.29 层面仅对 R13 的 15 series/多项 Supplement 投票表态,尚未把这些新进展并入 Annex I;③TÜV Rheinland 与 igarr.com 对 2024-2025 年两轮 Annex I 修订(涉及 R25/R79/R100/R127/R152/R167/R169/R171)的报道均未提及 R13,说明近两年 EU 确未更新 R13 的引用系列。三条独立证据一致指向 11 series 至今仍是 EU 现行门槛(UN 系列号领先不等于 EU 门槛过期,EU 有意保留旧系列很常见)。OJ 引用 L 42, 18.2.2016, p.1 已据此回填进 REG_META,tier 由 amber 升级为 green。"
     },
     {
       "id": "EU_REF_SERIES", "name": "EU 引用系列（最低门槛）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EU_REF_SERIES",
