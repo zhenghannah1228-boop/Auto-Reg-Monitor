@@ -86,9 +86,10 @@
       "id": "EMARK_ACCEPT", "name": "采信/参照 E-mark 的国家清单", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EMARK_ACCEPT + EMARK_SRC",
       "what": "结论卡「可通行国家」的采信(4国)/参照(16国)/own(4国)分档与逐国注释。",
       "source": "各国国内法/区域协定的网络调研 + 部分官方文件(EMARK_SRC 列出)。经独立核实修正一轮(埃及降参照、印尼/伊拉克入own、越南限欧英原产、GCC 移出一证通行等)。2026-07-29 完成专家式逐国复核(全覆盖,无编造项):确认埃及 E62/巴基斯坦 E64 均为真实 1958 缔约方代号,并对以色列(2018/858 引用)、智利(Euro6c/WLTP 生效日)、GCC(车型年滚动)、缅甸(否定论断软化)、吉尔吉斯(4细节降拟核实)、伊朗(85项数目待复核)逐项修正措辞。",
-      "asof": "2026-07-29", "tier": "amber",
+      "asof": "2026-08-24", "tier": "amber",
       "trigger": "各国准入政策变动、采信协定更新",
-      "edit": "改 EMARK_ACCEPT.accepts/refs/own 的 [国名,注释]。已复核一轮;仍属二级来源、交付前建议认证专家最终签署。待人工拍板的 ❓存疑项:以色列 2016 法名确切称谓、印度 AIS-037 §条款号、阿根廷 CVHE 证书性质、加纳 DGS 4013H:2019 是否转正、伊拉克整车 COC 何时纳入清单、吉尔吉斯第37号决定 EEC 法律库原文。"
+      "edit": "改 EMARK_ACCEPT.accepts/refs/own 的 [国名,注释]。已复核一轮;仍属二级来源、交付前建议认证专家最终签署。",
+      "notes": "2026-08-24 六项❓存疑项分两路核实,结果:①以色列 2016 法名——Reshumot 2562/2016-07-18 号确认(🟡 medium,二级源聚合,官方PDF二进制流无法直接读取),英文名没有唯一官方版本、页面现有译法可接受,未改;②印度 AIS-037 §7.4/§6.3/§13.1/§13.2 四条款号与两次修正案日期——全部核实准确(🟢 primary/quasi-primary,siamonline.in原文+law.resource.org官方修正案PDF),未改,原表述已经是对的;③阿根廷 CVHE——Res.15/2019 §5/§7 原文核实「同等效力」(efecto equivalente)确实是原文能读到的全部、没有「替代LCM」的明文(🟢 primary,InfoLEG),原有「无替代明文、系推定」的谨慎措辞被证实准确,未改;④加纳 DGS 4013H:2019——仍是草案状态,GSA在线目录检索不到、无宪报公告证据(🟡 medium,原PDF本次仍读不出文本内容,只能读文件名元数据),维持「状态待函询」不变;⑤伊拉克COC——据伊拉克规划部(mop.gov.iq,🟡 medium)表态倾向仅新车(MY2025+)、未提二手车,已据此在页面补充措辞,证书有效期仍未找到、维持待确认;⑥吉尔吉斯EEC第37号决定——两个独立二级源(alta.ru/nkprom.ru)对四个日期完全一致确认(🟡 medium-high,非官方原文,eec.eaeunion.org本轮仍未收录该决定页面),页面日期与之相符,未改,「原件尚待EEC官方法律库调取」的caveat维持。"
     },
     {
       "id": "EU_APPLY_PENDING", "name": "EU 委托法规适用日 + 待定项", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const EU_APPLY + PENDING + SPLIT_REGS + ALT_REGS + REG_APPTYPE",
@@ -153,10 +154,10 @@
     {
       "id": "COP_DATA", "name": "生产一致性(CoP)工具评估数据", "tool": "cop", "file": "emark/cop_assessment.html", "loc": "认证模式对照表 + 核查频次说明 + 材料清单 + FAQ",
       "what": "六大体系(欧盟/UN 1958/美/加/韩/中/日)CoP 认证模式对照、核查频次、申请准备材料清单勾选自查、常见误区提醒。",
-      "source": "(EU) 2018/858 Art.31+附件IV、UN 1958 Schedule 1(E/ECE/TRANS/505/Rev.3)+各 UN Reg CoP 章节、49 CFR Part 567/568、Motor Vehicle Safety Act+CMVSR、자동차관리법+KMVSS、CNCA/CCC 实施规则、日本道路运送车辆法+型式指定制度,混合官方文件与网络调研。", "asof": "2026-08-18", "tier": "amber",
-      "trigger": "各体系 CoP 核查频次/流程调整、CNCA 分类实施规则更新",
+      "source": "(EU) 2018/858 Art.31+附件IV、UN 1958 Schedule 1(E/ECE/TRANS/505/Rev.3)+各 UN Reg CoP 章节、49 CFR Part 567/568、Motor Vehicle Safety Act+CMVSR、자동차관리법+KMVSS、CNCA-C11-01:2020、日本道路运送车辆法+型式指定制度,混合官方文件与网络调研。2026-08-24 分四路核实原 6 项待核清单,详见 notes。", "asof": "2026-08-24", "tier": "amber",
+      "trigger": "各体系 CoP 核查频次/流程调整、CNCA 实施规则更新",
       "edit": "改页内对应表格/常量。",
-      "notes": "以下细节尚未逐字对照官方原文,交付前建议核实:① Schedule 1 内部小节编号与通用基准审核频次的具体表述;② 欧盟型批证书模板 (EU) 2020/683 是否设「CoP 已核实」字段;③ CMVSR 精确 SOR 号;④ 日本型式指定精确条文与周期;⑤ R118 §8 频次(页面标注为每 2 年,建议复核);⑥ CNCA 分类实施规则文号。"
+      "notes": "2026-08-24 核实结果:①Schedule 1 §3.1.1.2 通用基准频次=每3年(与欧盟巧合一致),原文原句已读到(🟢 primary,unece.org 官方PDF经web.archive镜像);已据此改写页面表述,原「每3年是欧盟口径非UN」的说法是错的,已订正。②(EU) 2020/683 全文检索确认无任何CoP相关字段,CoP义务在母法2018/858 Art.31/34(🟢 primary,EUR-Lex全文检索);页面本就未断言此点,内部记录即可。③CMVSR 不是SOR号,是 C.R.C., c. 1038(🟢 primary,laws-lois.justice.gc.ca);已改页面。④日本审计周期:找到法条依据(道路运送车両法第75条+型式指定规则第7条)但周期数字本身未见法定化,MLIT官方文件明确说是留给非强制行政指导(🟢 primary,MLIT官方PDF,但「无固定周期」本身就是核实结论);已改页面。⑤R118 §8 每2年:多个独立二级源一致确认,但本轮官方PDF被Cloudflare拦截未直接读到原文(🟡 medium);页面数字未变,与已有表述一致。⑥CNCA 分类实施规则文号=CNCA-C11-01:2020《强制性产品认证实施规则(汽车)》,且§8.5明确监督频次不在规则内统一固定、按认证机构风险分级(🟢 primary,CNCA官方公告+cqc.com.cn全文);已改页面,原「年度监督审核」的绝对化表述过强,已软化。"
     },
     {
       "id": "REG_LINKS", "name": "法规链接占位表", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const REG_LINKS",
