@@ -20,7 +20,7 @@
       "notes": "本轮修正 4 处车型编码错误：R94(A20) 过宽→M1,N1；R13/R13-H 拆分(C4/C4H)；R140(C7) 过宽→M1,N1；R58(A12) 过宽→N2,N3,O3,O4。"
     },
     {
-      "id": "ITEMS", "name": "Step3 法规盘点清单（EU_ITEMS 子集）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const ITEMS（94 项）",
+      "id": "ITEMS", "name": "Step3 法规盘点清单（EU_ITEMS 子集）", "tool": "emark", "file": "emark/emark_assessment.html", "loc": "const ITEMS（95 项）",
       "what": "Step3 逐条自评用的子集，法规号理论上应与 EU_ITEMS 保持一致；只保留 Step3 专有字段 mark/tc/eif/cn。",
       "source": "派生自 EU_ITEMS,但实为手工维护的字面量数组、非运行时自动派生（无 toCompactReg() 之类的同步函数）,故会漂移。2026-08-24 排查发现 B1/B2(R127)的 reg 字段停留在 .02/.03(→.04),与 EU_ITEMS 早已更新的 .04 不一致,已改回同步（B1/B2 均为 UN R127.04,eif 各自保留历史生效日不变）。", "asof": "2026-08-24", "tier": "green",
       "trigger": "随 EU_ITEMS 变化；新增/拆分法规项时需同步加行；**因是手工同步,EU_ITEMS 改动后建议顺手比对 ITEMS 有无遗漏**",
