@@ -146,10 +146,10 @@
     {
       "id": "ev_data", "name": "电气工具评估数据", "tool": "ev", "file": "emark/ev_assessment.html", "loc": "MODS/STD",
       "what": "R100.03/R10/充电/电池/循环设计与报废车管理(ELV)五模块清单 + 标准速览 + 各模块时间线泳道图。",
-      "source": "对照 R100.03/R10.06/1542/充电标准/(EU) 2026/1738(ELV,官方公报原文逐条核对)校准。R10 标注现行 07 系列(附件号待 UNECE 正式文本)。电池护照模块补 DPP Registry 注册要求与 EN 18xxx 系列标准引用(后者部分标准截至 2026-07 仍在发布中)。", "asof": "2026-08-18", "tier": "green",
+      "source": "对照 R100.03/R10.06/1542/充电标准/(EU) 2026/1738(ELV,官方公报原文逐条核对)校准。R10 标注现行 07 系列(附件号待 UNECE 正式文本)。电池护照模块补 DPP Registry 注册要求与 EN 18xxx 系列标准引用(后者部分标准截至 2026-07 仍在发布中)。", "asof": "2026-08-24", "tier": "green",
       "trigger": "R100/R10 新系列、电池法阶段义务、充电标准更新、(EU) 2026/1738 钢/铝再生材料比例授权法案(2028-09-30 前)、EN 18xxx 标准发布状态变化",
       "edit": "改 MODS[].groups[].items[].r。**待办**：R10 07 系列各条款附件号待取得 UNECE 正式文本后逐条核对(现按 06 系列结构);(EU) 2026/1738 钢/铝再生材料具体比例待欧委会 2028-09-30 前授权法案;EN 18xxx 系列标准发布状态待核对 CEN/CENELEC 官网现状(prEN 18239/18246 截至本轮记录时仍在表决)。",
-      "notes": "R10 07 系列附件号 2026-08-24 再次尝试核实:UNECE 官方 PDF(unece.org)与 EUR-Lex 均被反爬拦截(分别为 Cloudflare JS challenge / AWS WAF),专业 EMC 检测机构文章(appluslaboratories/testups)也未列出完整附件对照表。仅确认一点:07 系列附件6 仍是整车抗扰度主题(新增大型车替代方法子款),未推翻现有 06 系列结构假设,但也未能验证。下次若拿到 07 系列官方 PDF(E/ECE/TRANS/505/Rev.3/Add.9/Rev.7),优先核对 r10.a1-a4/b1-b4/c1-c5 各条附件号。"
+      "notes": "R10 07 系列附件号:2026-08-24 已两轮尝试核实均未成功。第一轮:UNECE 官方 PDF(unece.org)与 EUR-Lex 均被反爬拦截(Cloudflare JS challenge / AWS WAF),专业 EMC 检测机构文章(appluslaboratories/testups)未列出完整附件对照表,仅确认附件6 仍是整车抗扰度主题(新增大型车替代方法子款)。第二轮(仿照 R13 核实成功的\"侧路交叉验证\"打法):试了 WP.29 提案原件直链(unece.org/sites/default/files/2025-01/ECE-TRANS-WP.29-2024-90e_1.pdf,再次被 Cloudflare 拦截)、UN Digital Library(403)、EU Publications Office(仅给 2010 年 02 series 老版元数据,非附件内容)、Interference Technology 专业站两篇文章(403,无法验证是否为07系列口径);仅从综合检索摘要拿到一份附件号-主题映射(Annex4/5=整车宽/窄带发射,Annex7/8=ESA宽/窄带发射,Annex9=ESA抗扰),但**无法确认这是07系列还是更早系列的编号**(且与本工具现有06系列假设的 Annex7/8=ESA发射、Annex9=ESA抗扰 高度相似,不排除是同一套编号被重复引用),置信度不足以采信、未改动 r10.* 正文。**顺带发现一个新问题**:legislation.gov.uk 的 (EU) 2019/2144 Annex I 快照显示 EU 对 R10 的门槛系列是 **05 series**(OJ L 41, 17.2.2017),比本工具假设的\"06系列\"更旧——与 R13 情况相同的模式(UN系列号领先、EU门槛滞后),但这次未及交叉验证 EU 是否已在更晚的修订中把门槛提到06,先记录、不改动。下次若拿到07系列官方PDF(E/ECE/TRANS/505/Rev.3/Add.9/Rev.7)或确认EU Annex I对R10现行门槛系列,优先核对 r10.a1-a4/b1-b4/c1-c5 各条附件号及 EU_REF_SERIES 是否需要新增 R10 条目。"
     },
     {
       "id": "COP_DATA", "name": "生产一致性(CoP)工具评估数据", "tool": "cop", "file": "emark/cop_assessment.html", "loc": "认证模式对照表 + 核查频次说明 + 材料清单 + FAQ",
