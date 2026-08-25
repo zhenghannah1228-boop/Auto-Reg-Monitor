@@ -1055,6 +1055,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
       <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
         <input id="rd-scope" class="csel" style="min-width:300px;flex:1" placeholder="可选:限定范围(如「欧盟+东南亚」「ADAS/网安」「近30天发布」「横向准入类」);留空=全维度">
         <button class="btn primary" onclick="copyRadarPrompt()">📋 复制采集指令(粘贴给 Claude 即可开扫)</button>
+        <button class="btn light" onclick="copyRadar72hPrompt()" title="独立于上面的全维度指令;只看近72小时,token开销小,作为「每日汽车监管检测」对话的补充来源">📋 复制72h补充扫描指令</button>
         <span id="rd-prompt-tip" style="font-size:11px;color:var(--muted)"></span>
       </div>
       <div class="netctrl" style="flex-wrap:wrap;margin-top:6px">
@@ -3921,7 +3922,8 @@ ${scopeLine}
    - **A 档·官方直链(首选,能取到就必须用)**:① 官方 PDF 直链(含 .pdf 结尾,或 lex.uz/pdffile、pravo.gov.ru/file/pdf、BORA /pdf/aviso、TYPO3 dumpFile、各部委 download 端点等),或 ② 官方一手 HTML 原文页(各国法律库 adilet/rada/law.moj、官方公报详情页、WTO 通报附件等,可在浏览器「打印成 PDF」留档)。
    - **B 档·新闻动态(A 档暂时取不到时可收,不再一律排除)**:官方新闻稿、权威媒体、行业协会/标准机构快讯、中国驻外经商处经贸新闻等二手报道也可作 source_url,但**必须同时满足**:①**真实性**——至少 2 个独立来源相互印证,或有官方机构明确表态/公告佐证;单一传闻、小道消息、AI 生成内容、无法二次印证者不收;②**时效性**——近期(优先近 1–2 个月)发布且**注明确切发布日期**,过期旧闻不收;③**诚实标注**——source_name 写清媒体/机构名,summary 里点明「据 XX 报道,官方原文/编号待核」,confidence 填「新闻源·待核实」,note 追加「·新闻动态」标签;④**仍要努力回补**——把当地语言检索词写进 search_kw,后续找到官方 PDF/HTML 就升级为 A 档并替换 source_url。
    - **底线(宁缺毋滥)**:纯传闻、无发布日期、无法交叉印证、或明显二手曲解的,一律不收;真实且有时效的新闻动态可收,但**绝不用杜撰或未经核实的内容顶替**。两档都取不到可靠来源的线索,把它写进 search_kw 并注明「官方无直链·待核」。
-9. **本指令是「每日汽车监管检测」那个对话存档的补充来源,不是替代**:业主另有一个独立对话专门做常规每日监测(存档名「每日汽车监管检测」),本指令(经由本按钮手动触发)用于**查漏补缺**,重点扫**近 72 小时内**新发布/更新的内容——即便你(当前会话)读不到那个对话的历史、不知道它具体扫过什么,也请按"当它已覆盖常规大路货,我专注 72 小时窗口内的增量+它可能漏掉的犄角旮旯"这个思路来,别要求业主先去复制粘贴那份记录才肯开工。**若业主要求"节省 token"的轻量扫描**:把范围收紧到近 72 小时(而不是本指令默认的 1–2 个月全维度扫射),按市场/主题抽样式过一遍即可,不必对每个国家都做地毯式深挖。
+
+(如果业主只想要近 72 小时的轻量补充扫描,应该用旁边「📋 复制72h补充扫描指令」按钮,那是另一份独立的短指令,不是本指令——本指令的时间窗按上面第 1 条执行,不要中途改成 72 小时。)
 
 ## 草稿每条须含字段
 - region(地区)/ country(国家或地区)/ agency(主管机构)
@@ -3949,6 +3951,36 @@ ${scopeLine}
   · **未覆盖的行保持空白**——监工看板就是要让"本轮漏了哪些国"一眼可见;长尾小国/纯组织本轮没扫就留空,别硬凑。
 - 写完报告:新增条数、按地区分布、总条数;**并报告本轮扫描监工看板覆盖 X 国/${'1210'}格中 Y 格、本轮漏扫哪些区域**;提醒我去【19 法规雷达】用 📄 原文 核验后 ✓确认 / 🗑删除。`;
   const done=()=>{if(tip)tip.textContent="✓ 已复制采集指令,粘贴到 Claude 对话发送即可";};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
+  else{cmpFallbackCopy(prompt);done();}
+}
+/* ---- 法规雷达:72小时轻量补充扫描 prompt——独立于「复制采集指令」,不是它的一部分,时间窗/token预算都不同 ---- */
+function copyRadar72hPrompt(){
+  const tip=$("#rd-prompt-tip");
+  const today=todayStr();
+  const winStart=new Date(new Date(today+"T00:00:00Z").getTime()-72*3600*1000).toISOString().slice(0,10);
+  const prompt=
+`# 任务:汽车法规雷达 · 72小时轻量补充扫描(${today})
+
+**这是一次轻量级补充扫描,不是全维度深挖**,目的是给业主另一个专门做常规每日监测的对话(存档名「每日汽车监管检测」)**补漏**,预算和时间窗都收紧,别按平时"复制采集指令"那份全维度指令的强度去做。
+
+## 硬性范围
+- **只要 ${winStart} 至 ${today} 这 72 小时内新发布/公示/征求意见/通过/生效的项**;72 小时之外的一律不收,哪怕内容再重要也跳过——这条不是"优先近期",是**硬性时间过滤**,不满足就不进草稿。
+- **按市场/主题抽样式过一遍即可,不追求地毯式覆盖**:美国联邦公报(NHTSA/EPA)、EU EUR-Lex(含未刊 OJ 的委员会授权/实施条例登记册)、中国 catarc/SAMR 强标计划、日本 MLIT/JISC、韩国 KATS、UNECE WP.29,以及 WTO TBT 当周新增通报——挑几个大概率有动作的市场快速看一遍,不必每国逐一深挖;某市场一时没搜到就跳过,不要为了"全覆盖"多跑几轮搜索(那是全维度指令的做法,这里反而要省)。
+- 横向准入类(化学品/电池循环经济/合格评定/网络安全/能效)一并顺手看,但不必像全维度指令那样逐条系统性扫描各国术语体系。
+
+## 来源与草稿要求(与「复制采集指令」一致,不重复展开)
+- 来源分 A 档官方直链 / B 档有据新闻动态两档,标准同「复制采集指令」里的第 8 条(真实性+时效性+诚实标注,B 档 confidence 填「新闻源·待核实」)。
+- 草稿字段同「复制采集指令」:region/country/agency/title/summary/stage/topics/dims/source_url/source_name/pub_date/effective_date/search_kw/tbt_no。
+- **先给草稿,我确认后你再写库**;去重按「同 country + 近似 title」跳过。
+
+## 我确认后写入 Supabase(此段你执行,我看草稿时先忽略)
+- project_id = nxiyifglhycvbrccbdhg,表 = reg_radar,列同「复制采集指令」。
+- **note 固定写「72h补充·${today}」**(不要写成「采集·${today}」,两者要能分开统计/去重);confidence/status 同默认(官方直链填「待核实」,B 档新闻动态填「新闻源·待核实」;status 统一「待确认」)。
+- 幂等:同批先 \`delete from reg_radar where note='72h补充·${today}'\` 再 insert。
+- **这次不用管 scan_matrix/scan_runs 监工看板**——那是全维度指令的机制,轻量补充扫不参与监工统计,免得把"只抽查几个市场"误记成"本轮全覆盖"。
+- 写完只需简短报告:新增几条、都是哪些国家/市场,提醒我去【19 法规雷达】核验后确认。`;
+  const done=()=>{if(tip)tip.textContent="✓ 已复制72h补充扫描指令,粘贴到 Claude 对话发送即可";};
   if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(prompt).then(done,()=>{cmpFallbackCopy(prompt);done();});}
   else{cmpFallbackCopy(prompt);done();}
 }
