@@ -1269,6 +1269,55 @@
 
 ---
 
+81. **(2026-08-25)`ad_assessment.html`/`cyber_assessment.html`/`cop_assessment.html` 补齐「一点通」法规
+    链接基础设施**:`emark_assessment.html`/`ev_assessment.html` 此前已有 `REG_LINKS`(法规编号→内网
+    URL 的映射,当前均为空字符串占位)+ 点击跳转机制,另外三个工具缺失,本轮补齐,统一复用 `ev_assessment.html`
+    的 `regRefHTML(s)` 写法(整段文本内联扫描,命中的法规编号片段包成 `<a class="rl-lk">`(有链接时)或
+    `<span class="rl-lk ph">`(占位,当前必然如此,因 `REG_LINKS` 待业主后续补URL)),不影响周边文字:
+    - **CSS**:三个文件均已具备 `--od`/`--greyl` 变量,新增 `.rl-lk`/`.rl-lk.ph`/`.rl-lk .ico` 四条规则,
+      与 `emark_assessment.html`/`ev_assessment.html` 完全一致。
+    - **`ad_assessment.html`**:`REG_LINKS` 收录本工具引用的 26 项 UN R/EU 法规编号(键值均为空占位)；
+      两处渲染点接入 `regRefHTML(it.r)`(①准入路径 READY 与④AIACT 模块共用的 `chkItemHTML`；③智能驾驶
+      功能清单 EVID 模块)。**EVID 模块原整行是 `<button class="ckrow" onclick="setEv(...)">`**,若直接嵌入
+      `<a>` 会构成无效的 `<button>` 内嵌 `<a>`(交互元素嵌套交互元素,点击行为会冲突/失效),改为
+      `<div role="button" tabindex="0" onclick=... onkeydown="Enter/Space 触发">`,保留点击与键盘切换行为
+      且合法可嵌套;并在 `regRefHTML()` 生成的 `<a>` 上统一加 `onclick="event.stopPropagation()"`(通用
+      防冒泡兜底,对所有嵌套场景安全)。Playwright 验证:READY 19 个占位徽标、EVID 18 项清单含 13 个占位
+      徽标、AIACT 6 个占位徽标均正确渲染;`button a` 嵌套数=0;清单勾选点击切换行为(`before=false→after=true`)
+      未受影响;零 JS 报错。
+    - **`cyber_assessment.html`**:`REG_LINKS` 收录 `UN R155`/`UN R156`/`(EU) 2019/2144`/`(EU) 2022/30`
+      四项;两处渲染点(§7.2.2 附近的 `<div class="qitem">` 结构、`d.items.forEach` 内的 `<div class="arow">`
+      结构,均为 div 非 button,无嵌套风险)接入 `regRefHTML(it.r)`。**接入后 Playwright 首轮验证发现
+      csms/r156/hara 三个标签页占位徽标计数均为 0**——排查发现本工具 `r:` 字段的既有引用惯例是**裸编号
+      "R155"/"R156"(无 "UN " 前缀)**,与 `ad_assessment.html`/`ev_assessment.html` 的 "UN R###" 全前缀
+      惯例不同,原 `REG_TOKEN_RE` 要求字面 "UN " 前缀,完全匹配不到,导致代码零报错但功能空转。修复:
+      `REG_TOKEN_RE` 追加 `\bR(?:155|156)\b` 分支(严格限定这两个编号,不做通用 `R\d+` 匹配,避免误伤无关
+      文本),`regNormalize()` 追加裸编号→`"UN R155"/"UN R156"` 键的归一化分支。修复后复测:csms 标签页
+      16 个占位徽标、r156 标签页 17 个,均正确渲染;hara 标签页仍为 0——核实后确认这是**预期行为**而非
+      残留 bug:该模块(ISO 26262 HARA 危害登记表)是用户自由录入的表格(危害事件/功能/S/E/C 字段),本就
+      不含 `r:` 编号引用字段,与 csms/r156 的固定清单结构不同。零 JS 报错。
+    - **`cop_assessment.html`**:架构与前三者不同——本工具是以静态说明性文字为主的指引台(定义卡片、流程
+      步骤、体系对比表、FAQ、参考来源、右侧固定 `.reglist` 徽标列表均为写死的 HTML,不经 JS 模板渲染),
+      仅「05 申请准备材料清单」的 `CK` 数组(`grp.h`/`it.s` 字段)是经 JS 模板拼接、且不含预置 HTML 标签
+      的纯文本,契合 `regRefHTML` 的适用场景。`REG_LINKS` 收录 `UN R118`/`(EU) 2018/858` 两项(取自 `CK`
+      数组实际出现的编号:`a5` 项 "如 R118 每 2 年" 用裸编号、`eu` 分组标题含 "(EU) 2018/858"),`REG_TOKEN_RE`
+      同样追加 `\bR118\b` 裸编号分支。**刻意未改动**的部分:FAQ 答案(`f.a`)、右侧固定 `.reglist`、各定义
+      卡片/流程步骤/体系对比表/参考来源等大段说明文字——这些要么已预置 `<b>` 等 HTML 标签(套用 `regRefHTML`
+      会把已有标签一并转义成字面文本,破坏排版),要么是纯静态 HTML、不经 JS 渲染,与另外三个工具「清单条目
+      配一条编号引用」的场景不同,强行套用性价比低、风险高,故仅接入这两处真正适配的纯文本字段。同时把
+      `it.t` 的插值方式由裸插值改为 `esc(it.t)`(该字段本无引用,顺手补上转义,避免与新引入的 `esc()` 依赖
+      风格不一致)。清单条目所在容器是 `<label>`(含内嵌 checkbox),同样存在点击穿透风险(点链接会连带触发
+      label 默认的勾选切换),`regRefHTML()` 生成的 `<a>` 已带 `stopPropagation()`,经 Playwright 验证清单
+      勾选切换行为(`before=false→after=true`)未受影响。Playwright 确认 2 个占位徽标正确渲染、零 JS 报错。
+    - 三个文件当前渲染出的均为**占位徽标**(`.rl-lk.ph`,灰色不可点),因 `REG_LINKS` 各键值仍是空字符串
+      占位——与 `emark_assessment.html`/`ev_assessment.html` 现状一致,等待业主后续提供「一点通」内网 URL
+      逐一填入即可生效,无需再改代码。
+    - `data/data_catalog.json` 三个数据集条目同步补充 `REG_LINKS` 说明。
+    - 校验:`node tools/verify_reg_data.mjs` 35/35 全部通过;四个文件(ad/cyber/cop 三个改动文件 + 关联的
+      emark/ev 基线)Playwright 零 JS 报错。
+
+---
+
 ## 五、验证约定
 
 改动 `emark/*.html` 后:

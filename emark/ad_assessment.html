@@ -19,6 +19,10 @@ a{color:var(--od)}
 .badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
 .badge-g:hover{background:var(--o);color:#fff}
 .badge-g .ico{stroke:currentColor;margin-right:4px}
+.rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--od);text-decoration:none;font-weight:700}
+.rl-lk:hover{text-decoration:underline}
+.rl-lk.ph{color:var(--greyl);font-weight:400}
+.rl-lk .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:2px;opacity:.85}
 .tlwrap{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
 .tlscroll{overflow-x:auto}
 .tlsvg{width:100%;min-width:640px;height:auto;display:block}
@@ -492,6 +496,32 @@ let ans={}, quiz={}, evid={}, itemMeta={}, active='home'; // active: 'home'/'rea
 let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
+const REG_LINKS={
+ "UN R46":"","UN R79":"","UN R121":"","UN R130":"","UN R131":"","UN R151":"","UN R152":"","UN R155":"","UN R156":"","UN R157":"","UN R158":"","UN R159":"","UN R160":"","UN R167":"","UN R169":"","UN R171":"",
+ "(EU) 167/2013":"","(EU) 168/2013":"","(EU) 2018/858":"","(EU) 2019/2144":"","(EU) 2021/646":"","(EU) 2021/1341":"","(EU) 2021/1958":"","(EU) 2022/1426":"","(EU) 2023/1230":"","(EU) 2023/2590":"","(EU) 2024/1689":"","(EU) 2026/481":"","(EU) 2026/1744":""
+};
+const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
+const REG_TOKEN_RE=/UN\s*R\s?\d{1,3}(?:-H)?|\((?:EU|EC)\)\s*(?:No\s*)?\d{1,4}\/\d{2,4}|Directive\s*\d{4}\/\d+\/E[UC]/gi;
+function regNormalize(tok){
+  let m;
+  if((m=/^UN\s*R\s?(\d{1,3}(?:-H)?)$/i.exec(tok))) return 'UN R'+m[1].toUpperCase();
+  if((m=/^\((EU|EC)\)\s*(?:No\s*)?(\d{1,4}\/\d{2,4})$/i.exec(tok))) return '('+m[1].toUpperCase()+') '+m[2];
+  if((m=/^Directive\s*(\d{4}\/\d+\/E[UC])$/i.exec(tok))) return 'Directive '+m[1];
+  return tok;
+}
+function regLink(k){ return (REG_LINKS[k]||'').trim() || '#'; }
+function regRefHTML(s){
+  s=s||''; if(!s) return '';
+  let out='', last=0, m; REG_TOKEN_RE.lastIndex=0;
+  while((m=REG_TOKEN_RE.exec(s))){
+    out+=esc(s.slice(last,m.index));
+    const u=regLink(regNormalize(m[0]));
+    out+= u==='#' ? '<span class="rl-lk ph">'+esc(m[0])+'</span>' : '<a class="rl-lk" href="'+u+'" target="_blank" rel="noopener" title="查看法规" onclick="event.stopPropagation()">'+_lnkIco+esc(m[0])+'</a>';
+    last=m.index+m[0].length;
+  }
+  out+=esc(s.slice(last));
+  return out;
+}
 /* ===== 多档案:保存进度 / 新建档案 / 我的档案(存 localStorage)===== */
 function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
 function setProfiles(o){ try{localStorage.setItem(PROFILES_KEY,JSON.stringify(o));}catch(e){alert('保存失败：浏览器存储不可用');} }
@@ -654,7 +684,7 @@ function chkItemHTML(it){
   const v=ans[it.k]||0;
   const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+labs[kk]+'</button>').join('');
   const open=!!_openItems[it.k], filled=metaFilled(it.k), m=itemMeta[it.k]||{};
-  let h='<div class="qitem"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+
+  let h='<div class="qitem"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+regRefHTML(it.r)+'</small>':'')+
     ' <button class="metatog'+(filled?' has':'')+'" onclick="toggleItem(\''+it.k+'\')">'+(filled?'📎 证据/责任人':'＋ 证据/责任人')+' '+(open?'▴':'▾')+'</button></div>'+
     '<div class="seg">'+seg+'</div></div>';
   if(open){
@@ -765,7 +795,7 @@ function renderMain(){
       s+='<div class="r156g"><div class="r156gh">'+esc(g.name)+'<span class="gprog">'+d+'/'+g.items.length+'</span></div>';
       g.items.forEach(it=>{
         const on=!!evid[it.k];
-        s+='<button class="ckrow'+(on?' on':'')+'" onclick="setEv(\''+it.k+'\')"><span class="ckbox">'+(on?'✓':'')+'</span><span class="ct">'+esc(it.t)+(it.r?'<small>依据:'+esc(it.r)+'</small>':'')+'</span></button>';
+        s+='<div class="ckrow'+(on?' on':'')+'" role="button" tabindex="0" onclick="setEv(\''+it.k+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();setEv(\''+it.k+'\');}"><span class="ckbox">'+(on?'✓':'')+'</span><span class="ct">'+esc(it.t)+(it.r?'<small>依据:'+regRefHTML(it.r)+'</small>':'')+'</span></div>';
       });
       s+='</div>';
     });

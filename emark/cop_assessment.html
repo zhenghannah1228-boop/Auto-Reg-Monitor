@@ -18,6 +18,10 @@ a{color:var(--od)}
 .badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
 .badge-g:hover{background:var(--o);color:#fff}
 .badge-g .ico{stroke:currentColor;margin-right:4px}
+.rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--od);text-decoration:none;font-weight:700}
+.rl-lk:hover{text-decoration:underline}
+.rl-lk.ph{color:var(--greyl);font-weight:400}
+.rl-lk .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:2px;opacity:.85}
 .tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
 .tb-home:hover{background:var(--o);color:#fff}
 .tb-menu{position:relative}
@@ -375,12 +379,12 @@ const pillOf=g=>g==='reg'?'<span class="pill reg">法规明确要求</span>':g==
 function buildCk(){
   const hasQms=!!ckState.__hasQms;
   document.getElementById('cklist').innerHTML=CK.map(grp=>`
-    <div class="ckgrp"><div class="gh">${pillOf(grp.g)} ${grp.h}</div>
+    <div class="ckgrp"><div class="gh">${pillOf(grp.g)} ${regRefHTML(grp.h)}</div>
       ${grp.items.map(it=>{
         const on=!!ckState[it.id];
         const simp=hasQms&&it.qmsCover?'<span class="cs" style="color:var(--amber)">↳ 已有 ISO/IATF 认证：此项初评可用认证佐证、可简化（须满足范围覆盖 + 涵盖 CoP + 提供认证细节并在变动时通知机关）</span>':'';
         return `<label class="ckitem ${on?'on':''}"><input type="checkbox" ${on?'checked':''} onchange="ckToggle('${it.id}',this.checked)">
-          <span class="cx"><span class="ct">${it.t}</span>${it.s?`<span class="cs">${it.s}</span>`:''}${simp}</span></label>`;
+          <span class="cx"><span class="ct">${esc(it.t)}</span>${it.s?`<span class="cs">${regRefHTML(it.s)}</span>`:''}${simp}</span></label>`;
       }).join('')}
     </div>`).join('');
   ckProgress();
@@ -420,6 +424,32 @@ function dl(name,mime,html){
   a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},120);
 }
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+const REG_LINKS={
+ "UN R118":"","(EU) 2018/858":""
+};
+const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
+const REG_TOKEN_RE=/UN\s*R\s?\d{1,3}(?:-H)?|\((?:EU|EC)\)\s*(?:No\s*)?\d{1,4}\/\d{2,4}|Directive\s*\d{4}\/\d+\/E[UC]|\bR118\b/gi;
+function regNormalize(tok){
+  let m;
+  if((m=/^UN\s*R\s?(\d{1,3}(?:-H)?)$/i.exec(tok))) return 'UN R'+m[1].toUpperCase();
+  if((m=/^\((EU|EC)\)\s*(?:No\s*)?(\d{1,4}\/\d{2,4})$/i.exec(tok))) return '('+m[1].toUpperCase()+') '+m[2];
+  if((m=/^Directive\s*(\d{4}\/\d+\/E[UC])$/i.exec(tok))) return 'Directive '+m[1];
+  if((m=/^R118$/i.exec(tok))) return 'UN R118';
+  return tok;
+}
+function regLink(k){ return (REG_LINKS[k]||'').trim() || '#'; }
+function regRefHTML(s){
+  s=s||''; if(!s) return '';
+  let out='', last=0, m; REG_TOKEN_RE.lastIndex=0;
+  while((m=REG_TOKEN_RE.exec(s))){
+    out+=esc(s.slice(last,m.index));
+    const u=regLink(regNormalize(m[0]));
+    out+= u==='#' ? '<span class="rl-lk ph">'+esc(m[0])+'</span>' : '<a class="rl-lk" href="'+u+'" target="_blank" rel="noopener" title="查看法规" onclick="event.stopPropagation()">'+_lnkIco+esc(m[0])+'</a>';
+    last=m.index+m[0].length;
+  }
+  out+=esc(s.slice(last));
+  return out;
+}
 // 生成清单表体行（8 列：序号/材料项/类别/法规依据·说明/是否具备/文件编号·版本/责任部门·人/备注）
 function tplRows(){
   let n=0,out='';
