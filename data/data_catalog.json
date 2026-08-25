@@ -106,10 +106,11 @@
     {
       "id": "cert_pyramid", "name": "认证金字塔 / 关税 / 采信体系", "tool": "index", "file": "data/cert_pyramid.json", "loc": "JSON（cert_systems，103 国）",
       "what": "09 金字塔、05 世界地图、13 合规路径的底数据：各国认证体系(system_type)、金字塔层级、关税(tariff)、对外采信(external_recognition)。",
-      "source": "各国官方/权威资料混合。本轮修正伊拉克(非GSO)、沙特 recognizes 补 GCC/GSO、5国关税更新。2026-07-29 关税复核:泰国 CBU 校正为约 80%(此前误列分段税率)、土耳其附加进口税自 2025-09 起扩及更广来源(不再仅中国产)。",
-      "asof": "2026-07-29", "tier": "amber",
+      "source": "各国官方/权威资料混合。本轮修正伊拉克(非GSO)、沙特 recognizes 补 GCC/GSO、5国关税更新。2026-07-29 关税复核:泰国 CBU 校正为约 80%(此前误列分段税率)、土耳其附加进口税自 2025-09 起扩及更广来源(不再仅中国产)。2026-08-24 用3个并行agent核实全部9个confidence=C(最低档)国家,详见notes。",
+      "asof": "2026-08-24", "tier": "amber",
       "trigger": "各国认证制度/关税税则变动",
-      "edit": "改 data/cert_pyramid.json 各国条目。**关税为参考值**(标注'以海关最新税则为准')；system_type 驱动地图着色+路径分档，改动属业务口径。confidence 字段(A/B/C)已逐国标注。"
+      "edit": "改 data/cert_pyramid.json 各国条目。**关税为参考值**(标注'以海关最新税则为准')；system_type 驱动地图着色+路径分档，改动属业务口径。confidence 字段(A/B/C)已逐国标注。",
+      "notes": "2026-08-24 核实9个原C档国家,5个因核心事实获多源确认已升级为B档(中国/塞尔维亚/加蓬/南苏丹/刚果金),4个仍为C档(利比亚/科特迪瓦/多哥/刚果布,因关键开放问题仍未解决)。**最重要发现——科特迪瓦(Côte d'Ivoire)疑似整体误分类**:官方GUCE/PWIC受管品类清单、海关官网、Cotecna官方FAQ均显示车辆不在CoC受管品类内(受管为食品/电子电气/PPE/纺织/建材/石油/林产品),车辆通关实际另循SYDAM Auto关务估价平台(通函N°1952/SEPMBPE/DGD,2018-09)——与该条目沿用的CODINORM/PSI/CoC框架(疑似与加蓬PROGEC方案混淆)可能不符,置信度medium-high但未达到可直接改system_type的把握,已在summary里加注但**system_type暂未改动**,建议后续与当地清关代理核实。刚果(金)15年车龄新规(2026-01-24总理令)获多家非洲商业媒体独立确认、与条目原有表述一致。加蓬10年车龄改动获官方公告+多家加蓬本地媒体确认,并补上了具体部令号(00551/PR/MTN)。中国54号令的定性有修正(此前「配套54号令」暗示是通用配套令,实为新能源汽车专项修订令)。利比亚/多哥的二手车龄上限本轮查到多个互相矛盾的具体数字(如利比亚5/9/10年三种说法并存)但均无官方公报可锁定,未采信任一数字、维持「说法不一」表述。9国之外的其余94国本轮未涉及。"
     },
     {
       "id": "PATH_BLOCS", "name": "合规路径认证区块", "tool": "index", "file": "index.html", "loc": "const PATH_BLOCS + PATH_TOKENS + ORG_FAMILY + STD_FAMILY",
