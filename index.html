@@ -3893,6 +3893,7 @@ function copyRadarPrompt(){
   const tip=$("#rd-prompt-tip");
   const scope=($("#rd-scope")&&$("#rd-scope").value.trim())||"";
   const today=todayStr();
+  const yNow=+today.slice(0,4), yPrev=yNow-1;
   const scopeLine=scope?`本次范围限定:${scope}。`:`本次为全维度扫射:覆盖所有主要汽车出口市场国别 + WTO TBT 汽车类通报 + 主题线(整车准入/ADAS/网络安全/排放/电池/EV补贴/射频/标签/注册监管/循环经济)。`;
   const prompt=
 `# 任务:汽车法规雷达 · 采集新发布信息(${today})
@@ -3904,7 +3905,7 @@ ${scopeLine}
 **默认每次采集都是全维度、全方向扫射,无需我指定方向**:主动把所有主要汽车出口市场国别、10 个维度主题线、以及所有横向壁垒源(化学品/有毒物质、关税与贸易措施、合格评定/装运前检验、数据与网络安全、能效强制)都挖到底。某个市场或角度暂时"薄",就**换检索词、换当地语言、换源(尤其 tab 21 的贸易壁垒源与驻外经商处)继续深挖**,并可多跑几轮搜索——**不要因为"净新增少"就停下来反问我要深挖哪个市场/方向**,尽量一轮就给全。
 
 ## 采集原则
-1. **要"近期发布"而非"早已生效"**:优先 2025–2026(尤其最近 1–2 个月)新**发布/公示/征求意见/通过**的项;不要只列早就生效的存量基线法规。
+1. **要"近期发布"而非"早已生效"**:优先 ${yPrev}–${yNow}(尤其最近 1–2 个月)新**发布/公示/征求意见/通过**的项;不要只列早就生效的存量基线法规。
 2. **用当地语言直接搜一手官方门户**,别依赖泰测(ATIC)等二手月报(慢且常不准)。按市场用本国语言检索:韩 molit.go.kr、日 mlit.go.jp、巴西 gov.br、印度 morth/PIB、俄/欧亚 eaeunion.org、美 federalregister.gov、欧盟 EUR-Lex/europarl、英 gov.uk、海湾 GSO/SASO、各国标准局与交通部官网及当地新闻/推文。
    - **⚠️ 交通部/部委公报之外,必须同步巡「标准制定机构 / 技术委员会」门户——这是二手月报常有、我们最易系统性漏的盲区**(ADAS/网安/照明/排放/电池等技术标准草案往往只在这些门户公示,不进部委新闻页):印度 **ARAI/AIS 委员会**(ai-standards.araiindia.com、hmr.araiindia.com、morth.nic.in/sites/.../ASI)、韩国 **KATS 国家技术标准院**(kats.go.kr、standard.go.kr「KS 고시/개정예고」、kssn.net)、日本 **JISC/NALTEC/MLIT 审议会**(jisc.go.jp、naltec.go.jp、mlit.go.jp 各审议会资料)、中国 **全国汽标委**(catarc zxd.catarc.org.cn)+ **SAMR 强标计划**(std.samr.gov.cn gbDetailed/gbqSuggestion)、**UNECE WP.29** 各 GR 分会工作文件。
    - **把 WTO TBT 汽车类通报当「查漏清单」逐条对号**:每轮到 ePing/evs.ee 拉当月 CHN/KOR/IND/USA/VNM 等汽车类通报号,逐条核对是否已入库(这批技术标准草案很多先以 TBT 通报暴露)。
@@ -3920,7 +3921,7 @@ ${scopeLine}
    - **A 档·官方直链(首选,能取到就必须用)**:① 官方 PDF 直链(含 .pdf 结尾,或 lex.uz/pdffile、pravo.gov.ru/file/pdf、BORA /pdf/aviso、TYPO3 dumpFile、各部委 download 端点等),或 ② 官方一手 HTML 原文页(各国法律库 adilet/rada/law.moj、官方公报详情页、WTO 通报附件等,可在浏览器「打印成 PDF」留档)。
    - **B 档·新闻动态(A 档暂时取不到时可收,不再一律排除)**:官方新闻稿、权威媒体、行业协会/标准机构快讯、中国驻外经商处经贸新闻等二手报道也可作 source_url,但**必须同时满足**:①**真实性**——至少 2 个独立来源相互印证,或有官方机构明确表态/公告佐证;单一传闻、小道消息、AI 生成内容、无法二次印证者不收;②**时效性**——近期(优先近 1–2 个月)发布且**注明确切发布日期**,过期旧闻不收;③**诚实标注**——source_name 写清媒体/机构名,summary 里点明「据 XX 报道,官方原文/编号待核」,confidence 填「新闻源·待核实」,note 追加「·新闻动态」标签;④**仍要努力回补**——把当地语言检索词写进 search_kw,后续找到官方 PDF/HTML 就升级为 A 档并替换 source_url。
    - **底线(宁缺毋滥)**:纯传闻、无发布日期、无法交叉印证、或明显二手曲解的,一律不收;真实且有时效的新闻动态可收,但**绝不用杜撰或未经核实的内容顶替**。两档都取不到可靠来源的线索,把它写进 search_kw 并注明「官方无直链·待核」。
-9. **先看「每日自动扫集」已覆盖什么,别重复劳动**:本项目有 GitHub Actions 每日自动跑 \`tools/daily_radar_scan.py\`,已固定扫 4 个源——美国联邦公报(NHTSA/EPA)、EU EUR-Lex(SPARQL)、英国 legislation.gov.uk、UNECE 新闻 RSS,写入的行 note 以 \`auto:fr:\` / \`auto:eurlex:\` / \`auto:uk:\` / \`auto:unece:\` 开头。**开工前先跑一句** \`select note,collected_date,title from reg_radar where note like 'auto:%' and collected_date>=current_date-7 order by collected_date desc\` 看这一周自动扫集已覆盖到哪些条目,避免手动再扫一遍这 4 个源的常规公告——重点精力放在:①**这 4 个源覆盖不到的全部市场**(亚洲/拉美/中东/东南亚/大洋洲等,及各国技术标准委员会门户);②这 4 个源**关键词规则可能漏筛**的非常规表述条目(daily_radar_scan.py 的 \`_FR_AUTO_KW\`/\`_EU_AUTO_KW\`/\`_UK_AUTO_KW\`/\`_UNECE_AUTO_KW\` 是正则关键词匹配,措辞生僻或跨领域的条目容易被漏);③WTO TBT/贸易壁垒/横向准入类(daily 脚本完全不碰这块)。**若用户要求"节省 token"的轻量扫描**,优先级别按此顺序:先查自动扫集空白国家/地区的近一周新发布,其次抽查①②③,不必逐国全维度地毯式扫。
+9. **本指令是「每日汽车监管检测」那个对话存档的补充来源,不是替代**:业主另有一个独立对话专门做常规每日监测(存档名「每日汽车监管检测」),本指令(经由本按钮手动触发)用于**查漏补缺**,重点扫**近 72 小时内**新发布/更新的内容——即便你(当前会话)读不到那个对话的历史、不知道它具体扫过什么,也请按"当它已覆盖常规大路货,我专注 72 小时窗口内的增量+它可能漏掉的犄角旮旯"这个思路来,别要求业主先去复制粘贴那份记录才肯开工。**若业主要求"节省 token"的轻量扫描**:把范围收紧到近 72 小时(而不是本指令默认的 1–2 个月全维度扫射),按市场/主题抽样式过一遍即可,不必对每个国家都做地毯式深挖。
 
 ## 草稿每条须含字段
 - region(地区)/ country(国家或地区)/ agency(主管机构)
