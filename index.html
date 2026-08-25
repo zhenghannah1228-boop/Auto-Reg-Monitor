@@ -3920,6 +3920,7 @@ ${scopeLine}
    - **A 档·官方直链(首选,能取到就必须用)**:① 官方 PDF 直链(含 .pdf 结尾,或 lex.uz/pdffile、pravo.gov.ru/file/pdf、BORA /pdf/aviso、TYPO3 dumpFile、各部委 download 端点等),或 ② 官方一手 HTML 原文页(各国法律库 adilet/rada/law.moj、官方公报详情页、WTO 通报附件等,可在浏览器「打印成 PDF」留档)。
    - **B 档·新闻动态(A 档暂时取不到时可收,不再一律排除)**:官方新闻稿、权威媒体、行业协会/标准机构快讯、中国驻外经商处经贸新闻等二手报道也可作 source_url,但**必须同时满足**:①**真实性**——至少 2 个独立来源相互印证,或有官方机构明确表态/公告佐证;单一传闻、小道消息、AI 生成内容、无法二次印证者不收;②**时效性**——近期(优先近 1–2 个月)发布且**注明确切发布日期**,过期旧闻不收;③**诚实标注**——source_name 写清媒体/机构名,summary 里点明「据 XX 报道,官方原文/编号待核」,confidence 填「新闻源·待核实」,note 追加「·新闻动态」标签;④**仍要努力回补**——把当地语言检索词写进 search_kw,后续找到官方 PDF/HTML 就升级为 A 档并替换 source_url。
    - **底线(宁缺毋滥)**:纯传闻、无发布日期、无法交叉印证、或明显二手曲解的,一律不收;真实且有时效的新闻动态可收,但**绝不用杜撰或未经核实的内容顶替**。两档都取不到可靠来源的线索,把它写进 search_kw 并注明「官方无直链·待核」。
+9. **先看「每日自动扫集」已覆盖什么,别重复劳动**:本项目有 GitHub Actions 每日自动跑 \`tools/daily_radar_scan.py\`,已固定扫 4 个源——美国联邦公报(NHTSA/EPA)、EU EUR-Lex(SPARQL)、英国 legislation.gov.uk、UNECE 新闻 RSS,写入的行 note 以 \`auto:fr:\` / \`auto:eurlex:\` / \`auto:uk:\` / \`auto:unece:\` 开头。**开工前先跑一句** \`select note,collected_date,title from reg_radar where note like 'auto:%' and collected_date>=current_date-7 order by collected_date desc\` 看这一周自动扫集已覆盖到哪些条目,避免手动再扫一遍这 4 个源的常规公告——重点精力放在:①**这 4 个源覆盖不到的全部市场**(亚洲/拉美/中东/东南亚/大洋洲等,及各国技术标准委员会门户);②这 4 个源**关键词规则可能漏筛**的非常规表述条目(daily_radar_scan.py 的 \`_FR_AUTO_KW\`/\`_EU_AUTO_KW\`/\`_UK_AUTO_KW\`/\`_UNECE_AUTO_KW\` 是正则关键词匹配,措辞生僻或跨领域的条目容易被漏);③WTO TBT/贸易壁垒/横向准入类(daily 脚本完全不碰这块)。**若用户要求"节省 token"的轻量扫描**,优先级别按此顺序:先查自动扫集空白国家/地区的近一周新发布,其次抽查①②③,不必逐国全维度地毯式扫。
 
 ## 草稿每条须含字段
 - region(地区)/ country(国家或地区)/ agency(主管机构)
