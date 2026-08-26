@@ -287,7 +287,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 <div class="topbar"><div class="tb-in">
   <div class="tb-title">
     <h1>网安 <span class="em">&amp;</span> 功能安全 · 合规评估台</h1>
-    <div class="tb-sub">ISO 21434 CAL · UN R155 CSMS / R156 SUMS · ISO 26262 ASIL</div>
+    <div class="tb-sub">ISO 21434 CAL · UN R155 CSMS / UN R156 SUMS · ISO 26262 ASIL</div>
   </div>
   <div class="tb-act">
     <div class="tb-menu">
@@ -316,7 +316,7 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
     <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off"></div>
     <div id="summary"></div>
     <div id="main"></div>
-    <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型批为 CSMS/SUMS 认证(通过/不通过)。评级与映射数据按<b>档案</b>保存在本浏览器。</div>
+    <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。评级与清单数据按<b>档案</b>保存在本浏览器。</div>
   </div>
   <aside class="reglist" id="reglist"></aside>
 </div>
@@ -519,7 +519,7 @@ const FAQS=[
   {q:'攻击可行性怎么评?',a:'可直接选(高/中/低/极低),或用"攻击潜力法"(21434 附录 G):耗时/专业能力/对象知识/机会窗口/装备 五因子点数求和 → 分档(0–13 高、14–19 中、20–24 低、≥25 极低);也可用 CVSS 或攻击向量法。'},
   {q:'影响为什么分 S/F/O/P 四类?',a:'ISO 21434 要求从安全 / 财务 / 运营 / 隐私四个维度评估损害,取最严一档作为总影响,再与攻击可行性组合确定风险值与 CAL。'},
   {q:'这个报告能当合规证明吗?',a:'不能。本工具是团队自查参照;CAL 属附录 E 资料性方法。正式判定以认可技术服务 / 批准机关为准,型式批准为 CSMS/SUMS 认证(通过/不通过)。'},
-  {q:'为什么去掉了成熟度自查?',a:'那是 CMM 式、非法定的自评,容易与法定等级混淆。现聚焦 R155/R156 认证就绪度 + CAL/ASIL 法定/标准评级。'},
+  {q:'为什么去掉了成熟度自查?',a:'那是仿照 CMM(能力成熟度模型)风格的、非法定的自评,容易与法定等级混淆。现聚焦 R155/R156 认证就绪度 + CAL/ASIL 法定/标准评级。'},
   {q:'ISO 21434 / 24089 / 26262 各管什么?',a:'21434 = 网络安全工程(R155 的落地方法);24089 = 软件更新工程(R156 的落地方法);26262 = 功能安全(ASIL)。'},
   {q:'什么时候强制?',a:'R155/R156:2022-07 起新车型、2024-07 起所有新注册车强制(欧盟、日本、韩国、印度等采纳方)。车辆类别 M、N、O 等。'}
 ];
@@ -813,8 +813,8 @@ function renderMain(){
         +'<div class="impder">→ '+(di?esc(impactCn(di)):'—')+'</div>';
       const apOn=apComplete(t);
       let feasCell;
-      if(apOn){ const fe=effFeas(t); feasCell='<div class="feasder">'+esc(feasCn(fe))+' <span class="cae2">潜力 '+apSum(t)+'</span></div><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起潜力':'▾ 攻击潜力')+'</button>'; }
-      else { feasCell='<button class="lvlbtn" onclick="taraFeasOpen('+i+',this,event)">'+(t.feas?esc(feasCn(t.feas)):'—')+' <span class="cae">▾</span></button><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起潜力':'▾ 攻击潜力法')+'</button>'; }
+      if(apOn){ const fe=effFeas(t); feasCell='<div class="feasder">'+esc(feasCn(fe))+' <span class="cae2">潜力 '+apSum(t)+'</span></div><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起攻击潜力法':'▾ 攻击潜力法')+'</button>'; }
+      else { feasCell='<button class="lvlbtn" onclick="taraFeasOpen('+i+',this,event)">'+(t.feas?esc(feasCn(t.feas)):'—')+' <span class="cae">▾</span></button><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起攻击潜力法':'▾ 攻击潜力法')+'</button>'; }
       s+='<tr><td class="lft"><div style="display:flex;gap:7px"><span class="tnum">'+(i+1)+'</span><div style="flex:1;min-width:0">'
         + '<input class="cin" value="'+escA(t.name)+'" placeholder="威胁场景" oninput="taraField('+i+',\'name\',this.value)">'
         + '<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap">'
@@ -1013,13 +1013,13 @@ function renderPack(m){
     s+='<div class="ckleg" style="margin-top:0">暂无待办:条款均已建立且有证据,且无高风险威胁 / 高 ASIL 危害。继续维护证据与定期复评即可。</div>';
   } else {
     s+='<div class="actwrap">';
-    if(unmetList.length){ s+='<div class="actcol"><div class="acth">① 拿证阻塞 · 未达标条款('+unmetList.length+')</div>'+
+    if(unmetList.length){ s+='<div class="actcol"><div class="acth">A · 拿证阻塞 · 未达标条款('+unmetList.length+')</div>'+
       unmetList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f3d0d0','#b02222'])+' <span>'+esc(c.it.t)+'</span><small>'+esc(c.it.r||'')+'</small></button>').join('')+
       (unmetList.length>8?'<div class="actmore">…另 '+(unmetList.length-8)+' 条,见下方台账</div>':'')+'</div>'; }
-    if(noEvList.length){ s+='<div class="actcol"><div class="acth">② 补证据即可闭环('+noEvList.length+')</div>'+
+    if(noEvList.length){ s+='<div class="actcol"><div class="acth">B · 补证据即可闭环('+noEvList.length+')</div>'+
       noEvList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f4e6bd','#7a5a10'])+' <span>'+esc(c.it.t)+'</span><small>状态已建立 · 缺证据/记录</small></button>').join('')+
       (noEvList.length>8?'<div class="actmore">…另 '+(noEvList.length-8)+' 条</div>':'')+'</div>'; }
-    if(hiThreat.length||hiHazard.length){ s+='<div class="actcol"><div class="acth">③ 高风险工程项('+(hiThreat.length+hiHazard.length)+')</div>'+
+    if(hiThreat.length||hiHazard.length){ s+='<div class="actcol"><div class="acth">C · 高风险工程项('+(hiThreat.length+hiHazard.length)+')</div>'+
       hiThreat.slice(0,6).map(o=>'<button class="actrow" onclick="pick(\'tara\')">'+chip('风险'+riskOf(o.t),(RISK_COL[riskOf(o.t)]||['#eee','#555']))+' <span>'+esc(o.t.name||'(未命名威胁)')+'</span><small>'+esc(o.t.asset||'')+'</small></button>').join('')+
       hiHazard.slice(0,6).map(o=>{const a=asilOf(o.h);return '<button class="actrow" onclick="pick(\'hara\')">'+chip('ASIL '+a,(ASIL_COL[a]||['#eee','#555']))+' <span>'+esc(o.h.name||'(未命名危害)')+'</span><small>'+esc(o.h.fn||'')+'</small></button>';}).join('')+'</div>'; }
     s+='</div>';
@@ -1027,7 +1027,7 @@ function renderPack(m){
   // —— 条款证据台账 ——
   const labs=['无','部分','已建立'], stCol=['#f3d0d0','#f4e6bd','#d9e8d1'], stFg=['#b02222','#7a5a10','#3d6b2c'];
   s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
-    '<div style="font-size:13px;font-weight:800">条款证据台账 <span style="font-weight:400;color:var(--grey);font-size:11.5px">R155 + R156 · 证据/责任人/差距在「就绪度清单」里填,这里汇总</span></div>'+
+    '<div style="font-size:13px;font-weight:800">条款证据台账 <span style="font-weight:400;color:var(--grey);font-size:11.5px">R155 + R156 · 证据/责任人/差距在各自的「认证就绪度自查」页里填,这里汇总</span></div>'+
     '<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="pill'+(_packGapOnly?' on':'')+'" style="cursor:pointer" onclick="togglePackGap()">'+(_packGapOnly?'✓ 只看缺口':'只看缺口')+'</button><button class="btn sm" onclick="exportLedgerCSV()">⬇ 导出台账 CSV</button></div></div>';
   let rows=allClauses();
   if(_packGapOnly) rows=rows.filter(c=>clauseFlag(c).type!=='ok');
@@ -1084,7 +1084,7 @@ function faqHTML(){ return '<div class="std">'+FAQS.map((f,i)=>'<details'+(i===0
 function modsHTML(){
   const legalCol={red:['#f3d0d0','#b02222'],amber:['#f4e6bd','#7a5a10'],grey:['#eef0f2','#6b7280']};
   const cols=[['obj','测量对象'],['out','输出 / 刻度'],['legal','法定性'],['how','判定方式'],['std','依据标准'],['use','何时用']];
-  let h='<div class="sb-msub" style="margin-bottom:10px">五个模块**测的东西不同**——认证就绪度(通过/不通过)、工程评级(风险等级)、就绪度概览(主观画像)互不替代。</div>';
+  let h='<div class="sb-msub" style="margin-bottom:10px">四个模块**测的东西不同**——认证就绪度(通过/不通过)、工程评级(风险等级),彼此互不替代。</div>';
   h+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">模块</th>'+cols.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'</tr>';
   MODULES.forEach(x=>{
     const lc=legalCol[x.tone]||legalCol.grey;

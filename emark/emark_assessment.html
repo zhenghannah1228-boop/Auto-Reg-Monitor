@@ -1270,8 +1270,8 @@ function markMatrix(){
    ['<b>整车 · 其他类别</b>（M2/M3/N/O）', N+'<small> R0 仅限 M1</small>', Y+'<small> EU-WVTA</small>', N, ''],
    ['<b>部件/STU · 有对应 UN 法规</b>（灯具/玻璃/R90…）', Y, N, N, 'Art 57/58：EU 直接采用 UN 法规，不走小 e'],
    ['<b>部件/STU · 仅 EU 条例覆盖</b>（eCall/前防护/氢材料/酒精锁）', N+'<small> 无 UN 法规</small>', Y, N, ''],
-   ['部件 <b>+ 无线/射频模块</b>', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', Y+'<small> 追加·RED 2014/53</small>', 'E/e 判定不变，CE 是叠加要求，多标并存各走各的评定'],
-   ['部件 <b>+ 机械动力</b>（液压/举升）', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', Y+'<small> 追加·2006/42→2023/1230（2027-01-20起）</small>', 'E/e 判定不变，CE 是叠加要求'],
+   ['部件 <b>+ 无线/射频模块</b>', '视部件本身<small>（有对应 UN 法规→打大 E）</small>', '视部件本身<small>（无对应 UN 法规、仅 EU 条例覆盖→打小 e）</small>', Y+'<small> 追加·RED 2014/53</small>', 'E/e 判定不变，CE 是叠加要求，多标并存各走各的评定'],
+   ['部件 <b>+ 机械动力</b>（液压/举升）', '视部件本身<small>（有对应 UN 法规→打大 E）</small>', '视部件本身<small>（无对应 UN 法规、仅 EU 条例覆盖→打小 e）</small>', Y+'<small> 追加·2006/42→2023/1230（2027-01-20起）</small>', 'E/e 判定不变，CE 是叠加要求'],
    ['部件 <b>+ 烟火件</b>（气囊气发/预紧器）', Y+'<small> R114/R16</small>', N, Y+'<small> 追加·2013/29</small>', '两证并行不互替']
   ].map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' style="white-space:normal;min-width:150px"':(i===4?' style="white-space:normal;color:var(--grey);font-size:11px;min-width:130px"':' style="text-align:center"')}>${c}</td>`).join('')}</tr>`).join('');
   return `<details open style="margin-bottom:12px"><summary style="font-size:12.5px;font-weight:700;color:var(--od);cursor:pointer">适用对照表：整车 / 部件 × 大E · 小e · CE</summary>
@@ -1758,7 +1758,7 @@ const EU_APPLY={
 const PENDING={}; // 自动驾驶项已定 (EU) 2022/1426(见 EU_APPLY);E10=UN R171
 function verCell(i){
   // 多编号合并项(如灯具:含 2+ 个 UN R)且无内置生效日 → 不挑单一版本,标"多项"
-  if(!i.eif && ((i.reg||'').match(/R\s*\d/gi)||[]).length>=2) return `<span class="ver snap">多项 UN 灯具法规（见清单）</span>`;
+  if(!i.eif && ((i.reg||'').match(/R\s*\d/gi)||[]).length>=2) return `<span class="ver snap">多项 UN 灯具法规（详见本行法规编号）</span>`;
   const v=liveVersion(i.reg);
   if(v) return `<span class="ver ok">现行 <b>${v.status}</b> · 生效 ${v.eif}</span>`;
   if(VERSTATE==='loading') return `<span class="ver load">版本加载中…</span>`;
@@ -1766,7 +1766,7 @@ function verCell(i){
   const reg=(i.reg||'').trim();
   const um=/(?:UN\s*)?R\s*(\d{1,3}(?:-H)?)/i.exec(reg);
   if(um){ // 单一/多项 UN R,但活数据没解析出版本(不在数据集或多编号合并格)
-    if(reg.indexOf('/')>=0) return `<span class="ver snap">多项 UN 灯具法规（见清单）</span>`;
+    if(reg.indexOf('/')>=0) return `<span class="ver snap">多项 UN 灯具法规（详见本行法规编号）</span>`;
     const rm=REG_META[um[1]]||REG_META[um[1].replace(/-.*/,'')];
     return `<span class="ver snap">UN R${um[1]}${rm&&rm.sr?' · '+rm.sr:''}</span>`;
   }
@@ -2137,7 +2137,7 @@ function delivHTML(st){
 }
 // ===== 常见问题（口径均为工具内已核验引用）=====
 const FAQ=[
- {q:'国内有哪些实验室可以做 E-mark 测试？',a:'（网络检索整理·非官方·非最全名单）<br><b>① 检测实验室</b>（在华设汽车检测实验室、公开提供 E-mark/ECE 测试）：<b>TÜV 莱茵</b>、<b>TÜV 南德</b>、<b>SGS 通标</b>、<b>DEKRA 德凯</b>、<b>Bureau Veritas 必维</b>、<b>Applus IDIADA</b>、<b>CATARC 中汽研（中汽中心）</b>。这些大实验室基本全品类通做。<br><b>② 认证代理/咨询机构</b>（协调办证、多结合欧洲实验室，<b>不一定自有检测资质</b>）：荣仪达、江苏中正检测、中联检、ATIC 泰测、赛特…等（数量众多，此处仅举例）。<br>要点：<b>具体某条法规的测试资质/范围以各机构现行认可为准</b>；<b>E-mark 型式批准证书仍由 1958 缔约方机关（KBA/RDW/VCA…）签发</b>，实验室出具的是测试报告。选代理时务必甄别——<b>代理 ≠ 官方指定技术服务</b>（核验方法见上一条：以 WP.29/343 Add.1 官方名录为准、核指定范围与文件有效期）。'},
+ {q:'国内有哪些实验室可以做 E-mark 测试？',a:'（网络检索整理·非官方·非最全名单）<br><b>① 检测实验室</b>（在华设汽车检测实验室、公开提供 E-mark/ECE 测试）：<b>TÜV 莱茵</b>、<b>TÜV 南德</b>、<b>SGS 通标</b>、<b>DEKRA 德凯</b>、<b>Bureau Veritas 必维</b>、<b>Applus IDIADA</b>、<b>CATARC 中汽研（中汽中心）</b>。这些大实验室基本全品类通做。<br><b>② 认证代理/咨询机构</b>（协调办证、多结合欧洲实验室，<b>不一定自有检测资质</b>）：荣仪达、江苏中正检测、中联检、ATIC 泰测、赛特…等（数量众多，此处仅举例）。<br>要点：<b>具体某条法规的测试资质/范围以各机构现行认可为准</b>；<b>E-mark 型式批准证书仍由 1958 缔约方机关（KBA/RDW/VCA…）签发</b>，实验室出具的是测试报告。选代理时务必甄别——<b>代理 ≠ 官方指定技术服务</b>（核验方法见下方「代理机构给我看『机关授权书/合作协议』，怎么核验真伪与效力？」一条：以 WP.29/343 Add.1 官方名录为准、核指定范围与文件有效期）。'},
  {q:'我的部件到底打大 E 还是小 e？',a:'<b>部件/STU 层面</b>：有对应 UN 法规的项打<b>大 E</b>——依 (EU) 2018/858 <b>Art 57/58</b>，Annex II 所列 UN 法规与 EU 法规等效、成员国须接受 E 标替代 EU 标，且大 E 在 1958 协定缔约方间互认。仅 EU 条例覆盖、无对应 UN 法规的项（eCall、前防护系统、氢系统材料、酒精锁安装）才打<b>小 e</b>，只在欧盟内有效。不确定就查「标志速查」对照表。<br>注意别与<b>整车层面</b>混淆：EU 整车型批（EU-WVTA）证书号以 e 开头、属 EU 框架，但它的技术要求大量引用 UN 法规、以部件大 E 批准为组成部分——「整车 e 证 + 部件大 E 标」并存是常态。'},
  {q:'一张 E-mark 证书能在多少个国家用？',a:'按<b>法规逐条</b>看：盘点页每条法规的「N 国互认」徽标给出适用该法规的缔约方数量与完整国家名单（数据：WP.29/343 Add.1）。互认不是一揽子的——不同法规的适用缔约方集合不同。'},
  {q:'法规出了新系列，我的老证书作废吗？',a:'不会自动作废。据 <b>WP.29/1044/Rev.3 §25</b>，法规出新系列后<b>既有批准持续有效</b>；仅当 UNECE 对该系列公布「法定失效日」时才有接受截止（见「版本时效自查表」红标，属少数个例）。新申请须按新系列。'},
