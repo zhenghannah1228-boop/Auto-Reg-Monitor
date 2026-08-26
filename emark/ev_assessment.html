@@ -638,7 +638,13 @@ function writeSummary(){
     }));
   }catch(e){}
 }
-function autosave(){ const id=activeId(); if(id){ const ps=getProfiles(); if(ps[id]){ ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); } } writeSummary(); }
+// 首次实质编辑时自动建档,不再要求先手动点「保存进度」才开始持久化——否则中途关闭标签页会丢光当前会话
+function autosave(){
+  const ps=getProfiles(); let id=activeId();
+  if(!id||!ps[id]){ id='e'+Date.now().toString(36)+Math.floor(Math.random()*1000); const name=curName()||('未命名档案 '+(Object.keys(ps).length+1)); ps[id]={name, state:curState(), ts:Date.now()}; setProfiles(ps); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} updatePBar(); }
+  else { ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); }
+  writeSummary();
+}
 function curName(){ const el=document.getElementById('pname'); return el?el.value.trim():''; }
 // 名称框失焦/回车时，若已有活动档案则直接改名并落盘——其余编辑都是自动保存的，唯独改名此前只在再次点「保存进度」时才生效，容易丢
 function syncNameField(){ const id=activeId(); if(!id) return; const ps=getProfiles(); if(!ps[id]) return; const n=curName(); if(!n) return; ps[id].name=n; setProfiles(ps); updatePBar(); }
@@ -661,7 +667,7 @@ function newProfile(){
 function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); _openItems={}; try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
 function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;} openProfiles(); updatePBar(); }
 function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; delete ps[id]; setProfiles(ps); if(activeId()===id){try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}} openProfiles(); updatePBar(); }
-function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 未保存(填写后点「保存进度」建立档案)'; }
+function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 尚未建档(填写后自动建档,也可点「保存进度」立即建档)'; }
 function openProfiles(){
   const ps=getProfiles(), id0=activeId();
   const ids=Object.keys(ps).sort((a,b)=>(ps[b].ts||0)-(ps[a].ts||0));
