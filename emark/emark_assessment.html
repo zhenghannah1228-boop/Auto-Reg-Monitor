@@ -1270,8 +1270,8 @@ function markMatrix(){
    ['<b>整车 · 其他类别</b>（M2/M3/N/O）', N+'<small> R0 仅限 M1</small>', Y+'<small> EU-WVTA</small>', N, ''],
    ['<b>部件/STU · 有对应 UN 法规</b>（灯具/玻璃/R90…）', Y, N, N, 'Art 57/58：EU 直接采用 UN 法规，不走小 e'],
    ['<b>部件/STU · 仅 EU 条例覆盖</b>（eCall/前防护/氢材料/酒精锁）', N+'<small> 无 UN 法规</small>', Y, N, ''],
-   ['部件 <b>+ 无线/射频模块</b>', '按上两行', '按上两行', Y+'<small> 追加·RED 2014/53</small>', '多标并存，各走各的评定'],
-   ['部件 <b>+ 机械动力</b>（液压/举升）', '按上两行', '按上两行', Y+'<small> 追加·2006/42→2023/1230（2027-01-20起）</small>', ''],
+   ['部件 <b>+ 无线/射频模块</b>', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', Y+'<small> 追加·RED 2014/53</small>', 'E/e 判定不变，CE 是叠加要求，多标并存各走各的评定'],
+   ['部件 <b>+ 机械动力</b>（液压/举升）', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', '视部件本身<small>（同上两行：有 UN 法规→E；否则→e）</small>', Y+'<small> 追加·2006/42→2023/1230（2027-01-20起）</small>', 'E/e 判定不变，CE 是叠加要求'],
    ['部件 <b>+ 烟火件</b>（气囊气发/预紧器）', Y+'<small> R114/R16</small>', N, Y+'<small> 追加·2013/29</small>', '两证并行不互替']
   ].map(r=>`<tr>${r.map((c,i)=>`<td${i===0?' style="white-space:normal;min-width:150px"':(i===4?' style="white-space:normal;color:var(--grey);font-size:11px;min-width:130px"':' style="text-align:center"')}>${c}</td>`).join('')}</tr>`).join('');
   return `<details open style="margin-bottom:12px"><summary style="font-size:12.5px;font-weight:700;color:var(--od);cursor:pointer">适用对照表：整车 / 部件 × 大E · 小e · CE</summary>
