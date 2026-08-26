@@ -526,7 +526,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
    <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
  </aside>
  <section class="center">
-   <div class="namebar"><label>评估对象名称</label><input id="objname" placeholder="如：XX 制动器 / XX 前照灯 / XX 灯具总成" oninput="objName=this.value"></div>
+   <div class="namebar"><label>评估对象名称</label><input id="objname" placeholder="如：XX 制动器 / XX 前照灯 / XX 灯具总成" oninput="objName=this.value;autosave();"></div>
    <div id="stage"></div>
  </section>
  <aside class="reglist" id="reglist"></aside>
@@ -2118,7 +2118,7 @@ const DELIV={
   {t:'版本时效台账（各系列生效日 / 法定失效日）', b:'数据见顶栏「速查工具 → 版本时效自查表」'}]
 };
 let stnChk={}; // 交付物勾选状态：`${站id}_${序号}` -> true
-function toggleChk(k){stnChk[k]=!stnChk[k];render();}
+function toggleChk(k){stnChk[k]=!stnChk[k];render();autosave();}
 // ===== 交付物总表（② 全路径文档交付物一览）=====
 // 口径：把认证旅程 9 站的 DELIV 汇成一张总表，勾选状态与旅程各站共用 stnChk（双向同步）。零新增数据。
 const DELIV_STN=[
@@ -2127,7 +2127,7 @@ const DELIV_STN=[
  {id:'test',n:'⑤ 送样与测试'},{id:'apply',n:'⑥ 递交批准申请'},
  {id:'grant',n:'⑦ 获证与打标'},{id:'cop',n:'⑧ 生产一致性 CoP'},
  {id:'life',n:'⑨ 持证运营'}];
-function toggleChkM(k){stnChk[k]=!stnChk[k];openDeliverables();}
+function toggleChkM(k){stnChk[k]=!stnChk[k];openDeliverables();autosave();}
 function openDeliverables(){
   let total=0, done=0, secs='';
   DELIV_STN.forEach(st=>{
@@ -2478,16 +2478,16 @@ function bind(){
     const id=b.dataset.pq, v=b.dataset.val, def=PROFILE.find(p=>p.id===id);
     if(def.multi){const arr=profile[id];const i=arr.indexOf(v);if(i>=0)arr.splice(i,1);else arr.push(v);}
     else profile[id]=(profile[id]===v? null : v);
-    render();
+    render(); autosave();
   });
-  document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{if(sel.role!==b.dataset.role){sel.parts=[];sel.cats=[];sel.powers=[];}sel.role=b.dataset.role;render();});
-  document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const g=b.dataset.part;const i=sel.parts.indexOf(g);if(i>=0)sel.parts.splice(i,1);else sel.parts.push(g);render();});
-  document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{const cs=b.dataset.cat.split(',');const all=cs.every(c=>sel.cats.includes(c));if(all)sel.cats=sel.cats.filter(c=>!cs.includes(c));else cs.forEach(c=>{if(!sel.cats.includes(c))sel.cats.push(c);});render();});
-  document.querySelectorAll('[data-pow]').forEach(b=>b.onclick=()=>{const k=b.dataset.pow;const i=sel.powers.indexOf(k);if(i>=0)sel.powers.splice(i,1);else sel.powers.push(k);render();});
+  document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{if(sel.role!==b.dataset.role){sel.parts=[];sel.cats=[];sel.powers=[];}sel.role=b.dataset.role;render();autosave();});
+  document.querySelectorAll('[data-part]').forEach(b=>b.onclick=()=>{const g=b.dataset.part;const i=sel.parts.indexOf(g);if(i>=0)sel.parts.splice(i,1);else sel.parts.push(g);render();autosave();});
+  document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{const cs=b.dataset.cat.split(',');const all=cs.every(c=>sel.cats.includes(c));if(all)sel.cats=sel.cats.filter(c=>!cs.includes(c));else cs.forEach(c=>{if(!sel.cats.includes(c))sel.cats.push(c);});render();autosave();});
+  document.querySelectorAll('[data-pow]').forEach(b=>b.onclick=()=>{const k=b.dataset.pow;const i=sel.powers.indexOf(k);if(i>=0)sel.powers.splice(i,1);else sel.powers.push(k);render();autosave();});
   document.querySelectorAll('[data-axis]').forEach(b=>b.onclick=()=>{_structAxis=b.dataset.axis;render();});
   document.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>jumpItem(b.dataset.jump));
-  document.querySelectorAll('.seg[data-item]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{regStatus[seg.dataset.item]=btn.dataset.v;render();});});
-  document.querySelectorAll('.seg[data-sys]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{sysStatus[seg.dataset.sys]=btn.dataset.v;render();});});
+  document.querySelectorAll('.seg[data-item]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{regStatus[seg.dataset.item]=btn.dataset.v;render();autosave();});});
+  document.querySelectorAll('.seg[data-sys]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{sysStatus[seg.dataset.sys]=btn.dataset.v;render();autosave();});});
 }
 // 保存进度 / 恢复（localStorage）
 // ===== 多档案系统（保存/新建/我的档案）=====
@@ -2503,6 +2503,19 @@ function applyState(s){
 function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
 function setProfiles(o){ try{localStorage.setItem(PROFILES_KEY,JSON.stringify(o));}catch(e){alert('保存失败：浏览器存储不可用');} }
 function activeId(){ return localStorage.getItem(ACTIVE_KEY)||''; }
+// 首次有实质填写时自动建档，此后每次实质操作都落盘——此前本文件唯一的持久化路径是手动点「保存进度」，
+// 中途关闭标签页/浏览器崩溃会丢光当前会话全部填写，与其余四个工具"填了就存"的预期不一致
+function autosave(){
+  const ps=getProfiles(); let id=activeId();
+  if(!id||!ps[id]){
+    id='p'+Date.now().toString(36)+Math.floor(Math.random()*1000);
+    const name=(objName||'').trim()||('未命名档案 '+(Object.keys(ps).length+1));
+    ps[id]={name, state:curState(), ts:Date.now()};
+    setProfiles(ps); localStorage.setItem(ACTIVE_KEY,id);
+  } else {
+    ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps);
+  }
+}
 function saveProgress(){
   const ps=getProfiles(); let id=activeId();
   if(!id||!ps[id]){ id='p'+Date.now().toString(36)+Math.floor(Math.random()*1000); }
