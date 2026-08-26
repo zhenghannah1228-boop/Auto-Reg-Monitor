@@ -440,8 +440,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .rl-sub{font-size:11.5px;font-weight:800;color:var(--od);letter-spacing:.02em;text-transform:none;padding:9px 0 8px;margin:4px 0 10px;border-top:1px dashed var(--line)}
 .rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--blue);text-decoration:none;font-weight:700}
 .rl-lk:hover{text-decoration:underline}
-.rl-lk.ph{color:var(--od);cursor:pointer}
-.rl-lk.ph:hover{color:var(--o);text-decoration:underline dotted}
+.rl-lk.ph{color:var(--greyl);font-weight:400}
+.rl-lk.ph:hover{text-decoration:none}
 .rl-lk .ico{margin-right:2px;opacity:.85}
 .rl-note{font-size:11px;color:var(--greyl);line-height:1.5;border-top:1px dashed var(--line);padding-top:9px;margin-top:2px}
 .rl-empty{font-size:12.5px;color:var(--greyl)}
@@ -1313,6 +1313,8 @@ async function loadVerDB(){
 
 let cur=0;
 let objName='';
+let _regSearchQ='', _reachSearchQ=''; // 法规速查 / 可通行国家搜索框内容，跨 render() 保留
+function attrEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
 let sel={role:null,market:null,groups:[],parts:[],cats:[],powers:[]};
 let profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]}; // 企业画像（线索）
 let regStatus={}; // item -> done/prog/no/unk
@@ -1499,7 +1501,7 @@ function render(){
   if(cur===0) st.innerHTML=intro();
   else if(cur===1) st.innerHTML=step1();
   else if(cur===2) st.innerHTML=step2();
-  else if(cur===3) st.innerHTML=step3();
+  else if(cur===3){ st.innerHTML=step3(); if(_regSearchQ) regSearch(_regSearchQ); if(_reachSearchQ) reachFilter(_reachSearchQ); }
   else if(cur===4) st.innerHTML=step4();
   else if(cur===5) st.innerHTML=step5();
   else if(cur===6) st.innerHTML=step6();
@@ -1686,7 +1688,7 @@ function reachData(){
   // 自有·不直接采信（中国/巴西等）不进可通行名单（业主指示）
   return {oem,rows};
 }
-function reachFilter(v){ v=(v||'').trim().toLowerCase(); document.querySelectorAll('#rc-list .rc-row').forEach(r=>{ r.style.display=(!v||(r.dataset.n||'').toLowerCase().includes(v))?'':'none'; }); }
+function reachFilter(v){ _reachSearchQ=v||''; v=(v||'').trim().toLowerCase(); document.querySelectorAll('#rc-list .rc-row').forEach(r=>{ r.style.display=(!v||(r.dataset.n||'').toLowerCase().includes(v))?'':'none'; }); }
 // 某项是否「纯独立部件」（其全部 UN R 均为 component）→ 归售后件，不进系统集成商
 function itemComponentOnly(i){
   const nos=(regTokens(i.reg)||[]).map(k=>k.replace(/^UN R/,''));
@@ -1797,6 +1799,7 @@ function structAxes(items){
 function jumpItem(it){const el=document.getElementById('row-'+it);if(!el)return;el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>{el.classList.remove('flash');},1400);}
 // Step 3 法规速查：按 编号/名称/项号 过滤（上方色块高亮/变暗作结构定位；下方明细行只留匹配项，空分组标题一并收起）
 function regSearch(v){
+  _regSearchQ=v||'';
   const q=(v||'').trim().toLowerCase().replace(/\s+/g,'');
   const cnt=document.getElementById('regsearch-cnt');
   const tiles=document.querySelectorAll('.stile[data-search]');
@@ -1864,7 +1867,19 @@ function certConclusionCard(){
     <div class="cc-h">认证与通行结论　<small>据角色 + 产品自动生成</small></div>
     <div class="cc-sec"><span class="cc-k">① 需做的认证</span>适用 <b>${items.length}</b> 项 —— ${big.length?`<span class="cc-E">大 E ${big.length} 项</span>（有 UN 法规·一证多国互认）`:''}${big.length&&small.length?'／ ':''}${small.length?`<span class="cc-e">小 e ${small.length} 项</span>（仅 EU 法规${big.length?'':'·无对应 UN 法规'}）`:''}。角色：<b>${roleTxt}</b>${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`；其中 <b>${na}</b> 项按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用（已在盘点标注）`:'';})():''}。</div>
     <div class="cc-sec"><span class="cc-k">② 认证版本口径</span>${big.length?`做证按 <b>(EU) 2019/2144 Annex I</b> 钉定的 UN 系列；<b>WVTA / 采信方接受</b> = 该系列 <b>+</b> 更高/等效 UN 系列 <b>+</b> 过渡期内老证。（逐条见「版本时效自查表」。）`:`做证按各条目对应的 <b>EU 条例 / 实施条例</b>现行版本（见每行版本标注）；小 e 批准不涉及 UN 系列口径。`}</div>
-    ${(()=>{const d=reachData();
+    ${(()=>{
+      // 「强制互认」国家列表来自 VERDB（异步加载的 UNECE 缔约方数据）；未 OEM/未 eOnly 时该列表依赖它，
+      // 加载中/加载失败时如果照常渲染，会静默漏掉全部缔约方大国、只剩零星的采信/参照国，
+      // 数字和结论都会显著失真——必须先给出明确的加载中/失败提示，而不是悄悄显示一份不完整的名单。
+      const depOnVerDB = !(sel.role==='OEM') && applicable().some(i=>regTokens(i.reg).some(k=>/^UN R\d/.test(k)));
+      if(depOnVerDB && VERSTATE!=='ok'){
+        const msg = VERSTATE==='loading'
+          ? '缔约方互认数据加载中，「可通行国家」名单暂不完整，请稍候刷新本页……'
+          : '缔约方互认数据加载失败（网络问题），下方「可通行国家」名单<b>不完整</b>，仅供参考——请刷新页面重试，或以官方 WP.29/343 名录为准。';
+        return `<div class="cc-sec cc-reach"><div class="cc-reach-hd"><span class="cc-k">③ 可通行国家</span></div>
+        <div class="rc-note2" style="color:${VERSTATE==='loading'?'var(--grey)':'var(--o)'}">${msg}</div></div>`;
+      }
+      const d=reachData();
       const note=d.eOnly
         ? '<b>小 e 口径</b>：当前范围全部为仅 EU 法规项（无对应 UN 法规），批准在欧盟 / EEA 内互认有效；1958 缔约方互认与 ECE 采信 / 参照路径均不适用。'
         : d.oem
@@ -1872,7 +1887,7 @@ function certConclusionCard(){
         : '<b>零部件 / 系统口径</b>：1958 缔约方对其<b>已采用</b>的 UN 法规，按 (EU) 2018/858 Art 57/58 <b>强制接受</b>您的大 E 证；采信 / 参照为非缔约国的国家制度采纳，以各国主管机关要求为准。';
       const rowsHtml=d.rows.map(r=>`<div class="rc-row" data-n="${r.cn}"><span class="rc-c">${r.cn}</span><span class="rc-tag ${r.tag}">${r.tagT}</span><span class="rc-note">${r.note}</span></div>`).join('');
       return `<div class="cc-sec cc-reach">
-      <div class="cc-reach-hd"><span class="cc-k">③ 可通行国家</span><input class="cc-reach-in" placeholder="🔍 搜索国家名称…" oninput="reachFilter(this.value)" autocomplete="off"></div>
+      <div class="cc-reach-hd"><span class="cc-k">③ 可通行国家</span><input class="cc-reach-in" placeholder="🔍 搜索国家名称…" value="${attrEsc(_reachSearchQ)}" oninput="reachFilter(this.value)" autocomplete="off"></div>
       <div class="rc-note2">${note}</div>
       <div class="rc-list" id="rc-list">${rowsHtml}</div>
       <div class="rc-cnt">共 ${d.rows.length} 个国家 / 地区${d.eOnly?'　·　本范围全部为小 e，出欧盟需当地另办':small.length?`　·　另有小 e ${small.length} 项仅欧盟有效，出欧盟需当地另办`:''}</div>
@@ -1910,7 +1925,7 @@ function step3(){
     <h2 class="st">逐条自评法规认证状态</h2>
     ${focusNote()}
     ${certConclusionCard()}
-    <div class="secttl s3-secttl"><span class="s3-ttl-t">X 轴 · 法规完成度（${items.length} 条适用法规${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`　·　其中 <span class="secttl-na">${na} 条按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用</span>`:'';})():''}）</span><span class="regsearch-wrap"><input class="regsearch" placeholder="🔍 速查法规（编号 / 名称，如 R155、内饰、D4）" oninput="regSearch(this.value)" onkeydown="if(event.key==='Enter')regSearchJump()" autocomplete="off" aria-label="速查法规"><span class="regsearch-cnt" id="regsearch-cnt"></span></span></div>
+    <div class="secttl s3-secttl"><span class="s3-ttl-t">X 轴 · 法规完成度（${items.length} 条适用法规${(sel.powers&&sel.powers.length)?(()=>{const na=items.filter(powNA).length;return na?`　·　其中 <span class="secttl-na">${na} 条按所选动力（${sel.powers.map(k=>POWER_LABEL[k]||k).join('/')}）通常不适用</span>`:'';})():''}）</span><span class="regsearch-wrap"><input class="regsearch" placeholder="🔍 速查法规（编号 / 名称，如 R155、内饰、D4）" value="${attrEsc(_regSearchQ)}" oninput="regSearch(this.value)" onkeydown="if(event.key==='Enter')regSearchJump()" autocomplete="off" aria-label="速查法规"><span class="regsearch-cnt" id="regsearch-cnt"></span></span></div>
     ${verBanner()}
     <div class="s3-view"><button class="s3-toggle" onclick="_structOn=!_structOn;render()">${_structOn?'◱ 收起结构总览':'◲ 展开结构总览'}</button></div>
     ${structHTML(items)}
@@ -2133,7 +2148,12 @@ function delivHTML(st){
   const done=list.filter((_,i)=>stnChk[st.id+'_'+i]).length;
   const rows=list.map((d,i)=>{const k=st.id+'_'+i, on=!!stnChk[k];
     return `<label class="chk ${on?'on':''}"><input type="checkbox" ${on?'checked':''} onchange="toggleChk('${k}')"><span class="chk-t">${d.t}${d.b?`<small>${d.b}</small>`:''}</span></label>`;}).join('');
-  return `<div class="deliv"><div class="deliv-h">本站交付物自查 <b>${done}/${list.length}</b></div>${rows}</div>`;
+  // st.dim 站（体系类：doc/cop/life）的状态徽标来自④体系自评问卷，与这里的交付物自查是两套独立口径——
+  // 前者问"有没有建立这套体系/能力"，后者问"这次项目的具体材料收集齐了没"，二者可能不同步，不是 bug。
+  // 但两个信号在页面上离得很近，勾满清单却看到徽标仍显示未完成容易让人误以为没保存成功，加一句话说明。
+  const mismatchNote=(st.dim&&list.length&&done===list.length&&st.state!=='done')
+    ?`<div class="stn-note" style="border-color:var(--greyl);margin-top:8px;font-size:12px;color:var(--grey)">上方状态徽标基于④体系自评的回答（判断是否已建立体系/能力）；本清单是本次出口项目单独跟踪的材料收集进度，两者口径不同、可能不同步——清单勾满不代表体系自评会自动变绿，如需更新请回到④重新作答。</div>`:'';
+  return `<div class="deliv"><div class="deliv-h">本站交付物自查 <b>${done}/${list.length}</b></div>${rows}${mismatchNote}</div>`;
 }
 // ===== 常见问题（口径均为工具内已核验引用）=====
 const FAQ=[
@@ -2497,7 +2517,7 @@ function newProfile(){
 }
 function loadProfile(id){
   const ps=getProfiles(); if(!ps[id]) return;
-  applyState(ps[id].state); localStorage.setItem(ACTIVE_KEY,id); emkClose(); render();
+  window._rno=null; applyState(ps[id].state); localStorage.setItem(ACTIVE_KEY,id); emkClose(); render();
 }
 function renameProfile(id){
   const ps=getProfiles(); if(!ps[id]) return;

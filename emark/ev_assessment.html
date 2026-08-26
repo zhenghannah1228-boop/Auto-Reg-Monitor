@@ -22,6 +22,7 @@ a{color:var(--od)}
 .rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--od);text-decoration:none;font-weight:700}
 .rl-lk:hover{text-decoration:underline}
 .rl-lk.ph{color:var(--greyl);font-weight:400}
+.rl-lk.ph:hover{text-decoration:none}
 .rl-lk .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:2px;opacity:.85}
 .tlwrap{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
 .tlscroll{overflow-x:auto}
@@ -169,6 +170,8 @@ a{color:var(--od)}
 .r156g{margin-bottom:14px}
 .r156gh{font-size:13.5px;font-weight:800;color:var(--od);border-bottom:2px solid var(--ol);padding-bottom:4px;margin-bottom:6px}
 .qitem{margin-bottom:2px}
+.qitem.flash{animation:flashrow 1.4s ease}
+@keyframes flashrow{0%,100%{background:#fff}28%{background:var(--ol,#fbe4d7)}}
 .metatog{font-family:inherit;font-size:11px;color:var(--grey);background:none;border:none;cursor:pointer;padding:2px 4px;white-space:nowrap}
 .metatog:hover{color:var(--od)}
 .metatog.has{color:var(--od);font-weight:700}
@@ -236,7 +239,7 @@ a{color:var(--od)}
     <div class="pstate" id="pstate"></div>
   </div>
   <div class="center">
-    <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off"></div>
+    <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off" onchange="syncNameField()"></div>
     <div id="summary"></div>
     <div id="main"></div>
     <div class="note">条款依据 UN R100.03(高压电安全与 REESS)、UN R10(EMC 含充电模式,现行 07 系列 2025-06-12 生效;条款编号仍按 06 系列结构)、充电接口与通信标准(EN 62196 / IEC 61851 / ISO 15118)及 (EU) 2023/1542 电池法规整理,用于团队自查参照,<b>非型式批准或 CE 符合性结论</b>。注意:充电与接口多为 <b>CE/标准侧</b>义务、电池法规为 <b>CE 体系</b>,与 E-mark 型式批准<b>并行</b>、互不替代。自评与证据按<b>档案</b>保存在本浏览器。</div>
@@ -637,6 +640,8 @@ function writeSummary(){
 }
 function autosave(){ const id=activeId(); if(id){ const ps=getProfiles(); if(ps[id]){ ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); } } writeSummary(); }
 function curName(){ const el=document.getElementById('pname'); return el?el.value.trim():''; }
+// 名称框失焦/回车时，若已有活动档案则直接改名并落盘——其余编辑都是自动保存的，唯独改名此前只在再次点「保存进度」时才生效，容易丢
+function syncNameField(){ const id=activeId(); if(!id) return; const ps=getProfiles(); if(!ps[id]) return; const n=curName(); if(!n) return; ps[id].name=n; setProfiles(ps); updatePBar(); }
 function saveProgress(){
   const ps=getProfiles(); let id=activeId();
   if(!id||!ps[id]) id='e'+Date.now().toString(36)+Math.floor(Math.random()*1000);
@@ -653,7 +658,7 @@ function newProfile(){
   const el=document.getElementById('pname'); if(el) el.value='';
   writeSummary(); updatePBar(); render();
 }
-function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
+function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); _openItems={}; try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
 function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;} openProfiles(); updatePBar(); }
 function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; delete ps[id]; setProfiles(ps); if(activeId()===id){try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}} openProfiles(); updatePBar(); }
 function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 未保存(填写后点「保存进度」建立档案)'; }
@@ -738,7 +743,7 @@ function chkItemHTML(it){
   const v=ans[it.k]||0;
   const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+LABELS[kk]+'</button>').join('');
   const open=!!_openItems[it.k], filled=metaFilled(it.k), m=itemMeta[it.k]||{};
-  let h='<div class="qitem"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+regRefHTML(it.r)+'</small>':'')+
+  let h='<div class="qitem" id="row-'+it.k+'"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+regRefHTML(it.r)+'</small>':'')+
     ' <button class="metatog'+(filled?' has':'')+'" onclick="toggleItem(\''+it.k+'\')">'+(filled?'📎 证据/责任人':'＋ 证据/责任人')+' '+(open?'▴':'▾')+'</button></div>'+
     '<div class="seg">'+seg+'</div></div>';
   if(open){
@@ -842,14 +847,18 @@ function allClauses(){ const out=[];
   return out; }
 // 条款审计风险判定:已建立但无证据=补证据即可闭环;未达标=尚未建立;逾期=有目标日期已过且未达标
 function clauseFlag(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}; const today=todayStr();
-  const overdue=!!(m.due&&today&&m.due<today&&v<2);
+  const notDone=v<2||!m.ev; // 未达标,或已建立但缺证据——两种情况目标日期过了都算逾期
+  const overdue=!!(m.due&&today&&m.due<today&&notDone);
   if(v<2) return {type:'unmet', label:(v===0?'未开始':'部分'), overdue};
-  if(!m.ev) return {type:'noev', label:'缺证据', overdue:false};
+  if(!m.ev) return {type:'noev', label:'缺证据', overdue};
   return {type:'ok', label:'已闭环', overdue:false}; }
 function packStats(){ const cs=allClauses(); let done=0,noEv=0,unmet=0,overdue=0;
   cs.forEach(c=>{ const f=clauseFlag(c), v=ans[c.it.k]||0; if(v===2)done++; if(f.type==='noev')noEv++; if(f.type==='unmet')unmet++; if(f.overdue)overdue++; });
   return {total:cs.length,done,noEv,unmet,overdue}; }
-function gotoItem(k){ _openItems[k]=true; const pre=String(k).split('.')[0]; active=modById(pre)?pre:'home'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function gotoItem(k){ _openItems[k]=true; const pre=String(k).split('.')[0]; active=modById(pre)?pre:'home'; render();
+  const el=document.getElementById('row-'+k);
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'center'}); el.classList.add('flash'); setTimeout(()=>el.classList.remove('flash'),1400); }
+  else window.scrollTo({top:0,behavior:'smooth'}); }
 function exportLedgerCSV(){ const rows=[['模块','分组','条款','依据','状态','证据/记录','责任人','差距/整改','目标日期','审计风险']];
   allClauses().forEach(function(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}, f=clauseFlag(c);
     const flag=f.type==='ok'?'':(f.type==='noev'?'已建立但缺证据':(f.label))+(f.overdue?'·逾期':'');

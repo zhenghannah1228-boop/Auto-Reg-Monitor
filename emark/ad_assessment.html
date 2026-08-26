@@ -22,6 +22,7 @@ a{color:var(--od)}
 .rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--od);text-decoration:none;font-weight:700}
 .rl-lk:hover{text-decoration:underline}
 .rl-lk.ph{color:var(--greyl);font-weight:400}
+.rl-lk.ph:hover{text-decoration:none}
 .rl-lk .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:2px;opacity:.85}
 .tlwrap{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0}
 .tlscroll{overflow-x:auto}
@@ -565,9 +566,11 @@ function newProfile(){
   const el=document.getElementById('pname'); if(el) el.value='';
   writeSummary(); updatePBar(); render();
 }
-function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
-function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;} openProfiles(); updatePBar(); }
-function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; delete ps[id]; setProfiles(ps); if(activeId()===id){try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}} openProfiles(); updatePBar(); }
+function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); _openItems={}; try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
+function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;render();} openProfiles(); updatePBar(); }
+function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; const wasActive=activeId()===id; delete ps[id]; setProfiles(ps);
+  if(wasActive){ try{localStorage.removeItem(ACTIVE_KEY);}catch(e){} ans={}; quiz={}; evid={}; itemMeta={}; _openItems={}; active='home'; const el=document.getElementById('pname'); if(el) el.value=''; writeSummary(); render(); }
+  openProfiles(); updatePBar(); }
 function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 未保存(填写后点「保存进度」建立档案)'; }
 function openProfiles(){
   const ps=getProfiles(), id0=activeId();
@@ -873,32 +876,33 @@ function modsHTML(){
   h+='<div class="ckleg">要点:模块1 回答"强制项齐不齐"(GSR/UN 逐项);模块2 回答"走哪条批准路径"(R157/R171/2022/1426);模块3 回答"送审证据全不全"(附件4/5 + NATM + 网安前置);模块4 回答"AI 系统本身要不要单独走高风险合规"(AI 法案,与前三项并行的横向义务)。</div>';
   return h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 }
-function stdHTML(){ return '<div class="std">'+STANDARDS.map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
+function stdHTML(focusIdx){ const fi=(focusIdx==null||focusIdx<0||focusIdx>=STANDARDS.length)?0:focusIdx; return '<div class="std">'+STANDARDS.map((x,i)=>'<details id="std-'+i+'"'+(i===fi?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
 function toggleTools(){ const d=document.getElementById('tb-dd'); if(d) d.classList.toggle('on'); }
 // 右侧「相关法规 / 标准」栏：源自本工具已有的标准数组，点项打开完整速览
 function relRegs(){
   const host=document.getElementById('reglist'); if(!host) return;
   const arr=(typeof STANDARDS!=='undefined'?STANDARDS:[]);
-  const card=x=>{
+  const card=(x,i)=>{
     const parts=String(x.name||'').split(/\s[—–-]\s/);
     const short=parts.length>1?parts.slice(1).join(' — '):(x.name||x.id||'');
-    return '<button class="rr-item" onclick="openTool(\'std\')" title="'+escA((x.scope||'')+(x.timeline?' ｜ 时效:'+x.timeline:''))+'">'
+    return '<button class="rr-item" onclick="openTool(\'std\','+i+')" title="'+escA((x.scope||'')+(x.timeline?' ｜ 时效:'+x.timeline:''))+'">'
       +'<span class="rr-id">'+esc(x.id||'')+'</span>'
       +'<span class="rr-nm">'+esc(short)+'</span>'
       +(x.region?'<span class="rr-rg">'+esc(x.region)+'</span>':'')+'</button>';
   };
   host.innerHTML='<div class="rr-h">相关法规 / 标准 <span class="rr-n">'+arr.length+'</span></div>'
-    +'<div class="rr-list">'+arr.map(card).join('')+'</div>'
+    +'<div class="rr-list">'+arr.map((x,i)=>card(x,i)).join('')+'</div>'
     +'<div class="rr-note">点任一项打开「相关法规 / 标准速览」，看适用范围、要点与时间线。</div>';
 }
-function openTool(which){
+function openTool(which,arg){
   const d=document.getElementById('tb-dd'); if(d) d.classList.remove('on');
   const t=document.getElementById('gmtitle'), bd=document.getElementById('gmbody');
   if(which==='glos'){ t.textContent='术语速查（'+GLOSSARY.length+' 条）'; bd.innerHTML='<input class="cin" id="glosq" style="max-width:340px;margin-bottom:12px" placeholder="搜索术语,如 DCAS / ODD / 接管请求" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)"><div id="glosList">'+glosListHTML()+'</div>'; }
   else if(which==='faq'){ t.textContent='常见问答 FAQ'; bd.innerHTML=faqHTML(); }
   else if(which==='mods'){ t.textContent='模块差异矩阵'; bd.innerHTML=modsHTML(); }
-  else { t.textContent='相关法规 / 标准速览'; bd.innerHTML=stdHTML(); }
+  else { t.textContent='相关法规 / 标准速览'; bd.innerHTML=stdHTML(arg); }
   document.getElementById('gmodal').classList.add('on');
+  if(which==='std'&&arg!=null){ const el=document.getElementById('std-'+arg); if(el) setTimeout(()=>el.scrollIntoView({block:'start'}),0); }
 }
 function gmClose(){ const m=document.getElementById('gmodal'); if(m) m.classList.remove('on'); }
 document.addEventListener('click',function(e){ const dd=document.getElementById('tb-dd'); if(dd&&dd.classList.contains('on')&&!e.target.closest('.tb-menu')) dd.classList.remove('on'); });

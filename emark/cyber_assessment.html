@@ -22,6 +22,7 @@ a{color:var(--od)}
 .rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--od);text-decoration:none;font-weight:700}
 .rl-lk:hover{text-decoration:underline}
 .rl-lk.ph{color:var(--greyl);font-weight:400}
+.rl-lk.ph:hover{text-decoration:none}
 .rl-lk .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:2px;opacity:.85}
 .tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
 .tb-home:hover{background:var(--o);color:#fff}
@@ -597,13 +598,15 @@ function saveProgress(){
 function newProfile(){
   if(!confirm('新建档案将清空当前页面(自评 + 映射)、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
   try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}
-  ans={}; tara=seedTara(); hara=seedHara(); itemMeta={}; _openItems={}; active='home';
+  ans={}; tara=seedTara(); hara=seedHara(); itemMeta={}; _openItems={}; _openAP={}; active='home';
   const el=document.getElementById('pname'); if(el) el.value='';
   writeSummary(); updatePBar(); render();
 }
-function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
-function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;} openProfiles(); updatePBar(); }
-function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; delete ps[id]; setProfiles(ps); if(activeId()===id){try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}} openProfiles(); updatePBar(); }
+function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); _openItems={}; _openAP={}; try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
+function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;render();} openProfiles(); updatePBar(); }
+function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; const wasActive=activeId()===id; delete ps[id]; setProfiles(ps);
+  if(wasActive){ try{localStorage.removeItem(ACTIVE_KEY);}catch(e){} ans={}; tara=seedTara(); hara=seedHara(); itemMeta={}; _openItems={}; _openAP={}; active='home'; const el=document.getElementById('pname'); if(el) el.value=''; writeSummary(); render(); }
+  openProfiles(); updatePBar(); }
 function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 未保存(填写后点「保存进度」建立档案)'; }
 function openProfiles(){
   const ps=getProfiles(), id0=activeId();
@@ -637,8 +640,11 @@ function taraFeasOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（
 function toggleAP(i){ _openAP[i]=!_openAP[i]; render(); }
 function taraApOpen(i,fk,btn,ev){ ev.stopPropagation(); const f=AP_FACTORS.find(x=>x.k===fk); const cur=String((tara[i].ap||{})[fk]!=null?(tara[i].ap||{})[fk]:''); showMenu(btn,[['','—']].concat(f.opts.map(o=>[String(o[1]),o[0]+'（'+o[1]+'）'])),cur,function(v){ tara[i].ap=tara[i].ap||{}; if(v==='')delete tara[i].ap[fk]; else tara[i].ap[fk]=+v; autosave(); render(); }); }
 function taraAdd(){ tara.push({name:'',asset:'',ref:'',imp:{},feas:'',ap:{}}); autosave(); render(); }
-function taraDel(i){ if(!confirm('删除该威胁场景行？'))return; tara.splice(i,1); autosave(); render(); }
-function taraReseed(){ if(!confirm('恢复为 R155 附件 5 威胁目录种子?当前威胁清单与评级将被覆盖。'))return; tara=seedTara(); autosave(); render(); }
+function taraDel(i){ if(!confirm('删除该威胁场景行？'))return; tara.splice(i,1);
+  // _openAP 按行下标记展开态，删行后其后各行下标整体前移一位，原样保留会挂到错的行上——重建映射
+  const na={}; Object.keys(_openAP).forEach(k=>{const idx=+k; if(idx<i)na[idx]=_openAP[k]; else if(idx>i)na[idx-1]=_openAP[k];}); _openAP=na;
+  autosave(); render(); }
+function taraReseed(){ if(!confirm('恢复为 R155 附件 5 威胁目录种子?当前威胁清单与评级将被覆盖。'))return; tara=seedTara(); _openAP={}; autosave(); render(); }
 /* ===== ISO 26262 ASIL(HARA)行编辑 ===== */
 function haraField(i,f,v){ if(!hara[i])return; hara[i][f]=v; autosave(); }
 function haraSevOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(SEV.map(x=>[x[0],x[1]])),hara[i].s||'',function(v){ haraField(i,'s',v); render(); }); }
@@ -773,7 +779,9 @@ function renderHome(m){
   m.innerHTML=s;
 }
 /* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
-function metaSet(k,f,v){ itemMeta[k]=itemMeta[k]||{}; itemMeta[k][f]=v; autosave(); if(f==='ev'||f==='owner'||f==='gap'){ /* 更新角标不重渲，避免丢焦点 */ } }
+function metaSet(k,f,v){ itemMeta[k]=itemMeta[k]||{}; itemMeta[k][f]=v; autosave();
+  // 更新「证据/责任人」角标而不整块重渲，避免打字时输入框丢焦点
+  const btn=document.getElementById('metatog-'+k); if(btn){ const filled=metaFilled(k); btn.classList.toggle('has',filled); const arrow=btn.textContent.trim().slice(-1); btn.textContent=(filled?'📎 证据/责任人 ':'＋ 证据/责任人 ')+arrow; } }
 function metaFilled(k){ const m=itemMeta[k]; return !!(m&&(m.ev||m.owner||m.gap||m.due)); }
 function toggleItem(k){ _openItems[k]=!_openItems[k]; renderMain(); }
 function chkItemHTML(it){
@@ -782,7 +790,7 @@ function chkItemHTML(it){
   const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+labs[kk]+'</button>').join('');
   const open=!!_openItems[it.k], filled=metaFilled(it.k), m=itemMeta[it.k]||{};
   let h='<div class="qitem"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+regRefHTML(it.r)+'</small>':'')+
-    ' <button class="metatog'+(filled?' has':'')+'" onclick="toggleItem(\''+it.k+'\')">'+(filled?'📎 证据/责任人':'＋ 证据/责任人')+' '+(open?'▴':'▾')+'</button></div>'+
+    ' <button class="metatog'+(filled?' has':'')+'" id="metatog-'+it.k+'" onclick="toggleItem(\''+it.k+'\')">'+(filled?'📎 证据/责任人':'＋ 证据/责任人')+' '+(open?'▴':'▾')+'</button></div>'+
     '<div class="seg">'+seg+'</div></div>';
   if(open){
     h+='<div class="idet">'+
@@ -1097,33 +1105,34 @@ function modsHTML(){
   h+='<div class="ckleg">要点:R155/R156 就绪度回答"能不能拿证"(逐条条款);CAL/ASIL 回答"该做多严"(逐条威胁/危害的风险等级),其中 <b>CAL 资料性、ASIL 强制</b>。</div>';
   return h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
 }
-function stdHTML(){ return '<div class="std">'+(CYBER.standards||[]).map((x,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
+function stdHTML(focusIdx){ const arr=(CYBER.standards||[]); const fi=(focusIdx==null||focusIdx<0||focusIdx>=arr.length)?0:focusIdx; return '<div class="std">'+arr.map((x,i)=>'<details id="std-'+i+'"'+(i===fi?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
 /* 速查工具下拉 + 弹窗 */
 function toggleTools(){ const d=document.getElementById('tb-dd'); if(d) d.classList.toggle('on'); }
 // 右侧「相关法规 / 标准」栏：源自本工具已有的标准数组，点项打开完整速览
 function relRegs(){
   const host=document.getElementById('reglist'); if(!host) return;
   const arr=(CYBER.standards||[]);
-  const card=x=>{
+  const card=(x,i)=>{
     const parts=String(x.name||'').split(/\s[—–-]\s/);
     const short=parts.length>1?parts.slice(1).join(' — '):(x.name||x.id||'');
-    return '<button class="rr-item" onclick="openTool(\'std\')" title="'+escA((x.scope||'')+(x.timeline?' ｜ 时效:'+x.timeline:''))+'">'
+    return '<button class="rr-item" onclick="openTool(\'std\','+i+')" title="'+escA((x.scope||'')+(x.timeline?' ｜ 时效:'+x.timeline:''))+'">'
       +'<span class="rr-id">'+esc(x.id||'')+'</span>'
       +'<span class="rr-nm">'+esc(short)+'</span>'
       +(x.region?'<span class="rr-rg">'+esc(x.region)+'</span>':'')+'</button>';
   };
   host.innerHTML='<div class="rr-h">相关法规 / 标准 <span class="rr-n">'+arr.length+'</span></div>'
-    +'<div class="rr-list">'+arr.map(card).join('')+'</div>'
+    +'<div class="rr-list">'+arr.map((x,i)=>card(x,i)).join('')+'</div>'
     +'<div class="rr-note">点任一项打开「相关标准 / 法规速览」，看适用范围、要点与时间线。</div>';
 }
-function openTool(which){
+function openTool(which,arg){
   const d=document.getElementById('tb-dd'); if(d) d.classList.remove('on');
   const t=document.getElementById('gmtitle'), bd=document.getElementById('gmbody');
   if(which==='glos'){ t.textContent='术语速查（'+GLOSSARY.length+' 条）'; bd.innerHTML='<input class="cin" id="glosq" style="max-width:340px;margin-bottom:12px" placeholder="搜索术语,如 CAL / RXSWIN / 攻击可行性" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)"><div id="glosList">'+glosListHTML()+'</div>'; }
   else if(which==='faq'){ t.textContent='常见问答 FAQ'; bd.innerHTML=faqHTML(); }
   else if(which==='mods'){ t.textContent='模块差异矩阵'; bd.innerHTML=modsHTML(); }
-  else { t.textContent='相关标准 / 法规速览'; bd.innerHTML=stdHTML(); }
+  else { t.textContent='相关标准 / 法规速览'; bd.innerHTML=stdHTML(arg); }
   document.getElementById('gmodal').classList.add('on');
+  if(which==='std'&&arg!=null){ const el=document.getElementById('std-'+arg); if(el) setTimeout(()=>el.scrollIntoView({block:'start'}),0); }
 }
 function gmClose(){ const m=document.getElementById('gmodal'); if(m) m.classList.remove('on'); }
 document.addEventListener('click',function(e){ const dd=document.getElementById('tb-dd'); if(dd&&dd.classList.contains('on')&&!e.target.closest('.tb-menu')) dd.classList.remove('on'); });
