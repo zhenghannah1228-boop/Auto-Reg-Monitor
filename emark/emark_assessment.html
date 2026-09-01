@@ -494,6 +494,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .ap-block{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px}
 .ap-h{font-size:12px;font-weight:700;color:var(--grey);margin-bottom:8px}
 .ap-row{font-size:13px;line-height:2;color:var(--ink)}
+.ap-sum{font-size:13px;line-height:1.7;color:var(--ink)}
 .ap-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}
 .ap-act{font-weight:700;margin-left:4px;color:var(--od)}
 .ap-done{background:#EAF5EE;border:1px solid #BFE2CB;border-radius:10px;padding:11px 14px;margin-top:12px;font-size:13px;color:#1F7A4D;font-weight:600}
@@ -2203,12 +2204,21 @@ function actionPlanHTML(st){
     return `<div class="ap-block"><div class="ap-h">行动计划（按④体系自评「${sys.name}」自动生成，${sys.qs.length-todo.length}/${sys.qs.length} 已建立）</div>${rows}</div>`;
   }
   if(st.reg){
+    // 委托技术服务机构/送样测试/递交申请三站共用同一个 regStatus 字段——数据上无法区分某条法规
+    // 具体卡在哪个环节，因此不在三站重复逐条铺陈同一份清单（此前的写法曾被反馈"看起来很同质化、
+    // 信息串太长"），改为一行状态统计 + 跳转到③法规盘点查看逐条明细，避免与③页重复铺陈。
     const items=applicable();
     const todo=items.filter(i=>regStatus[i.item]!=='done');
     if(!todo.length) return `<div class="ap-done">✓ 适用的 <b>${items.length}</b> 项法规均已认证，本站暂无待办事项。</div>`;
-    const rows=todo.map(i=>{const s=regStatus[i.item]||'unk';const c=STAT_COL[s].bg;const label={prog:'跟进至完成',no:'需启动',unk:'需先核实现状'}[s];
-      return `<div class="ap-row"><span class="ap-dot" style="background:${c}"></span><b>${i.cn}</b>（${i.reg||'—'}）<span class="ap-act">→ ${label}</span></div>`;}).join('');
-    return `<div class="ap-block"><div class="ap-h">行动计划（按③法规盘点自动生成，${items.length-todo.length}/${items.length} 已认证）</div>${rows}</div>`;
+    let progN=0,noN=0,unkN=0;
+    todo.forEach(i=>{const s=regStatus[i.item]||'unk';if(s==='prog')progN++;else if(s==='no')noN++;else unkN++;});
+    const parts=[];
+    if(noN) parts.push(`<b style="color:${STAT_COL.no.bg}">${noN}</b> 项未开始`);
+    if(unkN) parts.push(`<b style="color:${STAT_COL.unk.bg}">${unkN}</b> 项状态不清楚`);
+    if(progN) parts.push(`<b style="color:${STAT_COL.prog.bg}">${progN}</b> 项进行中`);
+    return `<div class="ap-block"><div class="ap-h">行动计划（按③法规盘点自动生成，${items.length-todo.length}/${items.length} 已认证）</div>
+      <div class="ap-sum">还有 ${parts.join(' · ')} 待处理。</div>
+      <button class="tp-link" onclick="go(3)">→ 查看逐条清单（③ 法规盘点）</button></div>`;
   }
   return '';
 }
