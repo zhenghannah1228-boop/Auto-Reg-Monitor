@@ -323,6 +323,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .mx-left{padding:22px 22px 16px;border-right:1px solid #23272E}
 @media(max-width:760px){.mx-left{border-right:none;border-bottom:1px solid #23272E}}
 .mx-eyebrow{font-family:Georgia,serif;font-size:10.5px;letter-spacing:2px;color:#6B7280;text-transform:uppercase;margin-bottom:8px}
+.mx-caption{font-size:10.5px;color:#6B7280;line-height:1.5;margin-top:8px}
 .mx-right{padding:22px 24px;color:#E6E9ED;display:flex;flex-direction:column;gap:15px}
 .mx-verdict{border-bottom:1px solid #23272E;padding-bottom:13px}
 .mx-tag{display:inline-block;font-family:Georgia,serif;font-size:17px;font-weight:700;color:#fff;padding:3px 14px;border-radius:4px;margin-bottom:8px}
@@ -480,6 +481,23 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .chk-t small{display:block;font-size:11.5px;color:var(--grey)}
 .chk.on .chk-t{color:var(--grey);text-decoration:line-through;text-decoration-color:#C9CFD8}
 .chk.on .chk-t small{text-decoration:none}
+.mand-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;margin-right:9px;flex:none;white-space:nowrap;align-self:flex-start;margin-top:2px}
+.mand-req{background:#FBEAE7;color:#B3401F}
+.mand-rec{background:#EEF1F4;color:#5B6572}
+.dl-row{display:flex;align-items:flex-start;gap:0;padding:8px 4px;border-top:1px solid #F1F2F4}
+.dl-row:first-child{border-top:none}
+.dl-t{font-size:13px;line-height:1.5;color:var(--ink);flex:1}
+.dl-t small{display:block;font-size:11.5px;color:var(--grey)}
+.tpl-wrap{display:block;margin-top:4px}
+.tpl-link{display:inline-block;font-size:11.5px;font-weight:700;color:var(--blue);text-decoration:none}
+.tpl-link:hover{text-decoration:underline}
+.ap-block{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px}
+.ap-h{font-size:12px;font-weight:700;color:var(--grey);margin-bottom:8px}
+.ap-row{font-size:13px;line-height:2;color:var(--ink)}
+.ap-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px}
+.ap-act{font-weight:700;margin-left:4px;color:var(--od)}
+.ap-done{background:#EAF5EE;border:1px solid #BFE2CB;border-radius:10px;padding:11px 14px;margin-top:12px;font-size:13px;color:#1F7A4D;font-weight:600}
+.tpl-note{font-size:11.5px;color:var(--grey);line-height:1.6;padding:8px 12px;border-top:1px solid #F1F2F4;margin-top:2px}
 /* FAQ 手风琴 */
 .faq{border-bottom:1px solid var(--line);padding:4px 0}
 .faq:last-child{border-bottom:none}
@@ -2044,7 +2062,7 @@ const STAGES=[
  {no:3,id:'ts',name:'委托技术服务机构',en:'Appoint Technical Service',actor:'您 + 技术服务',dur:'1–2 周确定 + 排期',cost:'（测试费在下一站）',
   what:'委托一家获认可的技术服务机构（实验室）执行法规规定的测试。',
   pitfall:'实验室排期是整个周期最大的变量；技术服务的资质范围必须覆盖您的全部法规项。',
-  sgs:'SGS 作为认可技术服务机构直接承接测试（核心环节）'},
+  sgs:'SGS 作为认可技术服务机构直接承接测试（核心环节）',reg:true},
  {no:4,id:'doc',name:'编制技术文档',en:'Technical Documentation',actor:'您 / 内部团队',dur:'2–4 周',cost:'中 · 编制工时',
   what:'编制型式批准信息文件夹：图纸、技术参数、材料清单、试验方案等。',
   pitfall:'文档与实物不一致是机关审核最高频的退回点。',
@@ -2073,87 +2091,126 @@ const STAGES=[
 const STAGE_STATE={done:{c:'#1F7A4D',t:'已完成'},prog:{c:'#B45309',t:'进行中'},todo:{c:'#9AA1AB',t:'未开始'},gap:{c:'#C0392B',t:'缺口'}};
 // ===== 每站交付物自查清单（按官方程序整理：2018/858 Art 24/31/Annex I、各 UN R 附件、WP.29/1044；
 // 周期/报价类精确数据未入库——档位见各站 meta，精确值以技术服务机构对具体产品评估为准）=====
+// mand:true = 法规/条例明文要求的强制交付物；mand:false = 未见明文强制、但有助于顺利过审的建议自备材料
+// tpl:{url,label} = 经核实存在的官方固定模板/表格外链（未核实到的类别不给链接，不臆造）
 const DELIV={
  scope:[
-  {t:'产品技术定义书',b:'部件 / 独立技术单元（STU，2018/858 Art 3(20)）属性判定、适用车型类别（M/N/O/L）'},
-  {t:'适用法规清单（含现行系列/增补版本）',b:'对照 WP.29/343 现行状态（盘点页右上版本标注）'},
+  {t:'产品技术定义书',b:'部件 / 独立技术单元（STU，2018/858 Art 3(20)）属性判定、适用车型类别（M/N/O/L）',mand:false},
+  {t:'适用法规清单（含现行系列/增补版本）',b:'对照 WP.29/343 现行状态（盘点页右上版本标注）',mand:false},
 ],
  authority:[
-  {t:'批准机关申请表', b:'目标机关官方表格（RDW/KBA/SNCH 等各机关自有格式）'},
-  {t:'制造商注册资料', b:'企业资质、地址、联系人；部分机关要求境内代表信息'},
-  {t:'申请语言要求确认', b:'各机关接受语言不同（EN/DE/NL…），译文成本计入预算'}],
+  {t:'批准机关申请表', b:'目标机关官方表格（RDW/KBA/SNCH 等各机关自有格式）',mand:true},
+  {t:'制造商注册资料', b:'企业资质、地址、联系人；部分机关要求境内代表信息',mand:true},
+  {t:'申请语言要求确认', b:'各机关接受语言不同（EN/DE/NL…），译文成本计入预算',mand:false}],
  ts:[
-  {t:'技术服务机构委托合同 / 报价单', b:'（精确报价以技服按产品评估为准）'},
-  {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖您的全部法规项'},
-  {t:'测试排期确认单', b:'排期是全周期最大变量，尽早锁定'}],
+  {t:'技术服务机构委托合同 / 报价单', b:'（精确报价以技服按产品评估为准）',mand:false},
+  {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖您的全部法规项',mand:false},
+  {t:'测试排期确认单', b:'排期是全周期最大变量，尽早锁定',mand:false}],
  doc:[
-  {t:'信息文档 Information Document', b:'按对应 UN 法规附件的信息文档模板逐项填写'},
-  {t:'总装图 / 零件图纸（带版本号）', b:'图纸版本与送样实物一致'},
-  {t:'技术参数表与材料清单（BOM）', b:''},
-  {t:'试验方案 / 内部预测试记录', b:'预测试可大幅降低正式测试不通过风险'},
-  {t:'商标与打标位置图', b:'E 标位置、尺寸预先设计'},
-  {t:'文档-实物一致性核查记录', b:'机关审核最高频退回点，交前自查'}],
+  {t:'信息文档 Information Document', b:'EU 侧固定模板见右侧官方文件；UN 法规侧另有各自附件（如 Annex 2A/2B）信息文档格式，因法规而异，以对应 UN 法规官方文本为准',mand:true,
+   tpl:{url:'https://cdn.fstyr.dk/faerdselsstyrelsen/Media/638305653111319573/Information%20document-EU-type-vehicle,%20systems,%20components%20or%20separate%20technical%20units.pdf',label:'EU 信息文件模板 (EU)2020/683 Annex I'}},
+  {t:'总装图 / 零件图纸（带版本号）', b:'图纸版本与送样实物一致',mand:true},
+  {t:'技术参数表与材料清单（BOM）', b:'',mand:true},
+  {t:'试验方案 / 内部预测试记录', b:'预测试可大幅降低正式测试不通过风险',mand:false},
+  {t:'商标与打标位置图', b:'E 标位置、尺寸预先设计',mand:false},
+  {t:'文档-实物一致性核查记录', b:'机关审核最高频退回点，交前自查',mand:false}],
  test:[
-  {t:'送样清单（数量按各法规规定）', b:'样品状态必须代表量产件'},
-  {t:'样品标识与追溯记录', b:''},
-  {t:'技服出具的测试报告', b:'核对报告引用的法规系列/增补版本'},
-  {t:'不符合项整改与复测记录（如有）', b:''}],
+  {t:'送样清单（数量按各法规规定）', b:'样品状态必须代表量产件',mand:true},
+  {t:'样品标识与追溯记录', b:'',mand:false},
+  {t:'技服出具的测试报告', b:'核对报告引用的法规系列/增补版本',mand:true},
+  {t:'不符合项整改与复测记录（如有）', b:'',mand:false}],
  apply:[
-  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款'},
-  {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）'},
-  {t:'机关往来问题答复记录', b:'指定专人跟进'}],
+  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；各批准机关申请表格式不同（部分机关走在线系统、无固定表格），右侧为德国 KBA 官方申请表示例',mand:true,
+   tpl:{url:'https://www.kba.de/DE/Themen/Typgenehmigung/Zum_Herunterladen/ErteilungTypgenehmigungen/mab_deutsch_nur_antrag_9_1.pdf',label:'德国 KBA 申请表示例'}},
+  {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）',mand:true},
+  {t:'机关往来问题答复记录', b:'指定专人跟进',mand:false}],
  grant:[
-  {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）'},
-  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息'},
-  {t:'打标合规自查照片记录', b:'打标不符规定本身构成不合规'}],
+  {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）；证书固定格式：UN 法规侧见各法规自身 Annex 1「Communication」模板（因法规而异，不逐条链接），EU 侧统一模板见右侧官方文件',mand:true,
+   tpl:{url:'https://www.legislation.gov.uk/eur/2020/683/annex/III',label:'EU 证书模板 (EU)2020/683 Annex III'}},
+  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息',mand:true},
+  {t:'打标合规自查照片记录', b:'打标不符规定本身构成不合规',mand:false}],
  cop:[
-  {t:'CoP 控制计划（检验项 / 频次 / 判定标准）', b:'2018/858 Art 31；各 UN R CoP 附件'},
-  {t:'例行试验记录', b:'按控制计划留痕，监督审核必查'},
-  {t:'年度监督审核安排', b:''},
-  {t:'不合格品处理与纠正措施流程', b:''}],
+  {t:'CoP 控制计划（检验项 / 频次 / 判定标准）', b:'2018/858 Art 31；各 UN R CoP 附件',mand:true},
+  {t:'例行试验记录', b:'按控制计划留痕，监督审核必查',mand:true},
+  {t:'年度监督审核安排', b:'',mand:true},
+  {t:'不合格品处理与纠正措施流程', b:'',mand:false}],
  life:[
-  {t:'证书台账与换版提醒机制', b:'编号 / 系列 / 各缔约方适用状态'},
-  {t:'法规版本追踪机制（订阅/负责人）', b:'跟踪 UN R 新系列/增补生效（数据源 WP.29/343）'},
-  {t:'设计变更 → 扩展申请流程', b:'变更未申报可致证书失效'},
-  {t:'版本时效台账（各系列生效日 / 法定失效日）', b:'数据见顶栏「速查工具 → 版本时效自查表」'}]
+  {t:'证书台账与换版提醒机制', b:'编号 / 系列 / 各缔约方适用状态',mand:false},
+  {t:'法规版本追踪机制（订阅/负责人）', b:'跟踪 UN R 新系列/增补生效（数据源 WP.29/343）',mand:false},
+  {t:'设计变更 → 扩展申请流程', b:'变更未申报可致证书失效',mand:true},
+  {t:'版本时效台账（各系列生效日 / 法定失效日）', b:'数据见顶栏「速查工具 → 版本时效自查表」',mand:false}]
 };
-let stnChk={}; // 交付物勾选状态：`${站id}_${序号}` -> true
-function toggleChk(k){stnChk[k]=!stnChk[k];render();autosave();}
+let stnChk={}; // 历史字段（旧版交付物勾选状态）：不再驱动 UI，仅为兼容旧档案数据结构而保留，读写不影响新逻辑
+// 强制/建议 标签徽标 + 官方模板外链按钮
+function mandBadge(m){return m?'<span class="mand-tag mand-req">认证强制必备</span>':'<span class="mand-tag mand-rec">建议企业自备</span>';}
+function tplBtn(d){return d.tpl?`<a class="tpl-link" href="${d.tpl.url}" target="_blank" rel="noopener">⬇ ${d.tpl.label||'官方模板'} ↗</a>`:'';}
 // ===== 交付物总表（② 全路径文档交付物一览）=====
-// 口径：把认证旅程 9 站的 DELIV 汇成一张总表，勾选状态与旅程各站共用 stnChk（双向同步）。零新增数据。
+// 口径：把认证旅程 9 站的 DELIV 汇成一张总表，纯参考展示（强制/建议标签 + 官方模板外链），不再有勾选状态。
 const DELIV_STN=[
  {id:'scope',n:'① 定标的与适用法规'},{id:'authority',n:'② 选型式批准机关'},
  {id:'ts',n:'③ 委托技术服务机构'},{id:'doc',n:'④ 编制技术文档'},
  {id:'test',n:'⑤ 送样与测试'},{id:'apply',n:'⑥ 递交批准申请'},
  {id:'grant',n:'⑦ 获证与打标'},{id:'cop',n:'⑧ 生产一致性 CoP'},
  {id:'life',n:'⑨ 持证运营'}];
-function toggleChkM(k){stnChk[k]=!stnChk[k];openDeliverables();autosave();}
 function openDeliverables(){
-  let total=0, done=0, secs='';
+  let total=0, mandN=0, secs='';
   DELIV_STN.forEach(st=>{
     const list=DELIV[st.id]||[]; if(!list.length) return;
-    const sd=list.filter((_,i)=>stnChk[st.id+'_'+i]).length; total+=list.length; done+=sd;
-    const rows=list.map((d,i)=>{const k=st.id+'_'+i,on=!!stnChk[k];
-      return `<label class="chk ${on?'on':''}" style="margin:0"><input type="checkbox" ${on?'checked':''} onchange="toggleChkM('${k}')"><span class="chk-t">${d.t}${d.b?`<small>${d.b}</small>`:''}</span></label>`;}).join('');
-    secs+=`<div class="cv-sec"><div class="cv-h">${st.n}<span class="cv-n">${sd}/${list.length}</span></div><div class="dv-grid">${rows}</div></div>`;
+    total+=list.length; mandN+=list.filter(d=>d.mand).length;
+    const rows=list.map(d=>`<div class="dl-row">${mandBadge(d.mand)}<span class="dl-t">${d.t}${d.b?`<small>${d.b}</small>`:''}${d.tpl?`<span class="tpl-wrap">${tplBtn(d)}</span>`:''}</span></div>`).join('');
+    const note=STN_TPL_NOTE[st.id]?`<div class="tpl-note">${STN_TPL_NOTE[st.id]}</div>`:'';
+    secs+=`<div class="cv-sec"><div class="cv-h">${st.n}<span class="cv-n">${list.filter(d=>d.mand).length}/${list.length} 强制</span></div>${rows}${note}</div>`;
   });
   emkModal('全路径文档交付物一览 · 总表',
-    `<div class="emk-note" style="border-top:none;border-bottom:1px solid var(--line)">认证全流程<b>应交付/应留存</b>的文档一站式清单——勾选状态与「认证旅程」各站<b>实时同步</b>。三类关键产出物：<b>证书类</b>（型式批准证书 / CoC）· <b>技术文档类</b>（信息文件夹 / 图纸 / 测试报告 / CoP 记录）· <b>打标与合规声明类</b>（E 标版面 / DoC）。<br><b>⚠ 保存年限</b>：型式批准技术文件与 CoP 试验记录须留存<b>最长 10 年</b>（(EU) 2018/858 Art 31 §3.3.3；技术文档保存要求见各 UN 法规 CoP 条款）。</div>
-     <div class="dv-sum">全表进度 <b>${done}/${total}</b></div>
+    `<div class="emk-note" style="border-top:none;border-bottom:1px solid var(--line)">认证全流程<b>应交付/应留存</b>的文档一站式清单——与「认证旅程」各站内容一致。三类关键产出物：<b>证书类</b>（型式批准证书 / CoC）· <b>技术文档类</b>（信息文件夹 / 图纸 / 测试报告 / CoP 记录）· <b>打标与合规声明类</b>（E 标版面 / DoC）。「认证强制必备」标注的是法规/条例明文要求的交付物；「建议企业自备」是未见明文强制、但有助于顺利过审的材料。<br><b>⚠ 保存年限</b>：型式批准技术文件与 CoP 试验记录须留存<b>最长 10 年</b>（(EU) 2018/858 Art 31 §3.3.3；技术文档保存要求见各 UN 法规 CoP 条款）。</div>
+     <div class="dv-sum">全表共 <b>${total}</b> 项，其中强制必备 <b>${mandN}</b> 项</div>
      <div class="cv-wrap">${secs}</div>`,
-    '数据源：本工具「认证旅程」9 站交付物清单（DELIV）汇总，非新增数据。保存年限依 (EU) 2018/858 Art 31。具体法规项的送样数量/文件模板以对应 UN 法规附件与批准机关要求为准。','emk-wide');
+    '数据源：本工具「认证旅程」9 站交付物清单（DELIV）汇总，非新增数据。强制/建议分类依据条文明确程度判定，具体以批准机关/技术服务机构现行要求为准。','emk-wide');
 }
-function delivHTML(st){
+// 官方固定模板逐站核实结论（2026-09）：多数申请环节法规只规定应包含的内容要件，格式由申请人/实验室
+// 自定，没有统一官方表格——下列站点如实标注「无固定模板」，不为凑数而臆造链接。④⑥⑦站的真实模板见 DELIV 对应条目的 tpl 字段。
+const STN_TPL_NOTE={
+ authority:'核实结论：各批准机关暂无统一官方申请表单——德国 KBA 有独立可下载申请表（见⑥「递交批准申请」站示例），荷兰 RDW 等机关走在线申请系统，无可下载表单。',
+ ts:'核实结论：技术服务机构委托属企业与机构间的商业安排，未见官方统一委托模板。',
+ test:'核实结论：测试报告仅规定须符合 EN ISO/IEC 17025:2017 并包含规定内容要素，具体格式由实验室自定，无统一官方模板。',
+ cop:'核实结论：CoP 控制计划由批准机关与制造商逐案协商约定（(EU) 2018/858 附件Ⅳ §3.2），法规只规定须包含的内容要件，无统一官方表格。',
+ life:'核实结论：证书延期/撤销复用⑦「获证与打标」站的官方 Communication 表格，暂无独立官方模板。'
+};
+// 本站涉及材料：纯参考展示，不再提供手动勾选——完成情况由上方「行动计划」根据法规盘点/体系自评数据自动判定
+function deliv2HTML(st){
   const list=DELIV[st.id]; if(!list) return '';
-  const done=list.filter((_,i)=>stnChk[st.id+'_'+i]).length;
-  const rows=list.map((d,i)=>{const k=st.id+'_'+i, on=!!stnChk[k];
-    return `<label class="chk ${on?'on':''}"><input type="checkbox" ${on?'checked':''} onchange="toggleChk('${k}')"><span class="chk-t">${d.t}${d.b?`<small>${d.b}</small>`:''}</span></label>`;}).join('');
-  // st.dim 站（体系类：doc/cop/life）的状态徽标来自④体系自评问卷，与这里的交付物自查是两套独立口径——
-  // 前者问"有没有建立这套体系/能力"，后者问"这次项目的具体材料收集齐了没"，二者可能不同步，不是 bug。
-  // 但两个信号在页面上离得很近，勾满清单却看到徽标仍显示未完成容易让人误以为没保存成功，加一句话说明。
-  const mismatchNote=(st.dim&&list.length&&done===list.length&&st.state!=='done')
-    ?`<div class="stn-note" style="border-color:var(--greyl);margin-top:8px;font-size:12px;color:var(--grey)">上方状态徽标基于④体系自评的回答（判断是否已建立体系/能力）；本清单是本次出口项目单独跟踪的材料收集进度，两者口径不同、可能不同步——清单勾满不代表体系自评会自动变绿，如需更新请回到④重新作答。</div>`:'';
-  return `<div class="deliv"><div class="deliv-h">本站交付物自查 <b>${done}/${list.length}</b></div>${rows}${mismatchNote}</div>`;
+  const rows=list.map(d=>`<div class="dl-row">${mandBadge(d.mand)}<span class="dl-t">${d.t}${d.b?`<small>${d.b}</small>`:''}${d.tpl?`<span class="tpl-wrap">${tplBtn(d)}</span>`:''}</span></div>`).join('');
+  const note=STN_TPL_NOTE[st.id]?`<div class="tpl-note">${STN_TPL_NOTE[st.id]}</div>`:'';
+  return `<div class="deliv"><div class="deliv-h">本站涉及材料</div>${rows}${note}</div>`;
+}
+// 行动计划：不再要求手动勾选，直接从法规盘点(regStatus)/体系自评(sysStatus)/企业画像已有数据逐条展开未完成项
+function actionPlanHTML(st){
+  if(st.id==='scope'){
+    const items=applicable();
+    return `<div class="ap-done">✓ 已根据您的角色 / 产品 / 车型自动识别 <b>${items.length}</b> 项适用法规，逐条清单见「③ 法规盘点」。</div>`;
+  }
+  if(st.id==='authority'){
+    const ok=profile.authority&&profile.authority!=='undecided';
+    return ok?`<div class="ap-done">✓ 已选定意向批准机关：<b>${plabel('authority')}</b>，可据此直接对接。</div>`
+             :`<div class="ap-block"><div class="ap-h">行动计划（按①企业画像自动生成）</div><div class="ap-row"><span class="ap-dot" style="background:${STAT_COL.no.bg}"></span>尚未选定批准机关<span class="ap-act">→ 请回到「① 企业画像」选定</span></div></div>`;
+  }
+  if(st.dim){
+    const sys=SYS.find(x=>x.id===st.dim);
+    const todo=sys.qs.filter(q=>sysStatus[q.id]!=='full');
+    if(!todo.length) return `<div class="ap-done">✓「${sys.name}」体系自评全部已建立，本站暂无待办事项。</div>`;
+    const rows=todo.map(q=>{const v=sysStatus[q.id]||'none';const c=v==='part'?STAT_COL.prog.bg:STAT_COL.no.bg;const label=v==='part'?'需补全':'需建立';
+      return `<div class="ap-row"><span class="ap-dot" style="background:${c}"></span>${q.q}<span class="ap-act">→ ${label}</span></div>`;}).join('');
+    return `<div class="ap-block"><div class="ap-h">行动计划（按④体系自评「${sys.name}」自动生成，${sys.qs.length-todo.length}/${sys.qs.length} 已建立）</div>${rows}</div>`;
+  }
+  if(st.reg){
+    const items=applicable();
+    const todo=items.filter(i=>regStatus[i.item]!=='done');
+    if(!todo.length) return `<div class="ap-done">✓ 适用的 <b>${items.length}</b> 项法规均已认证，本站暂无待办事项。</div>`;
+    const rows=todo.map(i=>{const s=regStatus[i.item]||'unk';const c=STAT_COL[s].bg;const label={prog:'跟进至完成',no:'需启动',unk:'需先核实现状'}[s];
+      return `<div class="ap-row"><span class="ap-dot" style="background:${c}"></span><b>${i.cn}</b>（${i.reg||'—'}）<span class="ap-act">→ ${label}</span></div>`;}).join('');
+    return `<div class="ap-block"><div class="ap-h">行动计划（按③法规盘点自动生成，${items.length-todo.length}/${items.length} 已认证）</div>${rows}</div>`;
+  }
+  return '';
 }
 // ===== 常见问题（口径均为工具内已核验引用）=====
 const FAQ=[
@@ -2204,16 +2261,11 @@ function journeyStatus(){
     let state='todo', note='';
     if(st.id==='scope'){state='done';note=`已识别 ${total} 项适用法规`;}
     else if(st.id==='authority'){const ok=profile.authority&&profile.authority!=='undecided';state=ok?'done':'todo';note=ok?'已选定 '+plabel('authority'):'尚未选定批准机关';}
-    else if(st.id==='ts'){
-      // 状态由本站交付物自查驱动（评估流程不采集此信息，此前写死「未开始」是盲点）
-      const list=DELIV.ts||[], dn=list.filter((_,i)=>stnChk['ts_'+i]).length;
-      state=list.length&&dn>=list.length?'done':(dn>0?'prog':'todo');
-      note=dn?`交付物自查 ${dn}/${list.length}${state==='done'?' · 已委托技术服务':''}`:'待委托认可技术服务机构——完成右侧「本站交付物自查」即更新状态';
-    }
     else if(st.dim){const sc=dimScore(SYS.find(x=>x.id===st.dim));state=sc>=100?'done':(sc>0?'prog':'todo');note={done:'体系已建立',prog:'体系部分建立',todo:'体系尚缺'}[state];
       if(st.id==='cop'&&done>0&&copSc===0){state='gap';note='已有证书但无 CoP 体系——证书面临失效风险';}}
     else if(st.reg){
       if(st.id==='grant'){state=done>0?(regDone?'done':'prog'):'todo';note=`已获 ${done} / ${total} 张证书`;}
+      else if(st.id==='ts'){state=regDone?'done':(regSome?'prog':'todo');note=regSome?`已按 ${done+prog} / ${total} 项法规推进委托测试`:'待按适用法规逐项委托认可技术服务机构';}
       else{state=regDone?'done':(regSome?'prog':'todo');note=`${done} 已认证 · ${prog} 进行中 · ${total-done-prog} 未开始`;}
     }
     return Object.assign({},st,{state,note});
@@ -2271,6 +2323,7 @@ function maturityBlock(){
       <div class="mx-left">
         <div class="mx-eyebrow">COMPLIANCE MATURITY MATRIX</div>
         ${svg}
+        <div class="mx-caption">X / Y 均为 0–100 的百分比刻度，与右下"适用法规总数（${total}）"是两个独立指标——坐标轴不随总数变化，这样不同企业的评估结果才能放在同一把尺子上比较。</div>
       </div>
       <div class="mx-right">
         <div class="mx-verdict"><span class="mx-tag" style="background:${q.color}">${q.name}象限</span><div class="mx-vd">${q.desc}</div></div>
@@ -2332,13 +2385,14 @@ function step5(){
   const detail=`<div class="sb-mh">${st.name} <small style="font-family:Georgia,serif;color:var(--greyl);font-weight:400">${st.en}</small> <span class="stn-st" style="color:${sc.c};margin-left:6px">${sc.t}</span></div>
       <div class="stn-note" style="border-color:${sc.c};margin-top:8px">您的现状：${st.note}</div>
       <p class="stn-what">${st.what}</p>
-      ${delivHTML(st)}
+      ${actionPlanHTML(st)}
+      ${deliv2HTML(st)}
       ${stationExtra(st)}`;
   return `<div class="step on">
     <div class="eyebrow">STEP 5 / 6 · 认证旅程</div>
     <h2 class="st">您的 E-mark 认证路线</h2>
     <div class="jbar">
-      <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curIdx<0?' · 全部完成 <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg>':` · 当前重点：第 <b>${js[curIdx].no}</b> 站「${js[curIdx].name}」`}</div>
+      <div class="jbar-l"><span class="jtag" style="background:${q.color}">${q.name}象限</span> &nbsp;X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b> · 旅程完成度 <b>${pct}%</b>${curIdx<0?' · 全部完成 <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.2l2.5 2.5 4.5-5"/></svg>':''}</div>
       <div class="jprog"><div class="jprog-f" style="width:${pct}%"></div></div>
     </div>
     <div class="sb">

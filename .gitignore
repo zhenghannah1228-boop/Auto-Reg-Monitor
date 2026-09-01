@@ -4,3 +4,6 @@ export/cert_map_interactive.html
 # Python 缓存
 __pycache__/
 *.pyc
+
+# 临时生成物（演示文稿等一次性交付物，已直接发送给用户，不入库）
+output/
