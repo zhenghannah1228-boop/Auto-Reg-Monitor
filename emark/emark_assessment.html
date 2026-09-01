@@ -323,6 +323,7 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .mx-left{padding:22px 22px 16px;border-right:1px solid #23272E}
 @media(max-width:760px){.mx-left{border-right:none;border-bottom:1px solid #23272E}}
 .mx-eyebrow{font-family:Georgia,serif;font-size:10.5px;letter-spacing:2px;color:#6B7280;text-transform:uppercase;margin-bottom:8px}
+.mx-caption{font-size:10.5px;color:#6B7280;line-height:1.5;margin-top:8px}
 .mx-right{padding:22px 24px;color:#E6E9ED;display:flex;flex-direction:column;gap:15px}
 .mx-verdict{border-bottom:1px solid #23272E;padding-bottom:13px}
 .mx-tag{display:inline-block;font-family:Georgia,serif;font-size:17px;font-weight:700;color:#fff;padding:3px 14px;border-radius:4px;margin-bottom:8px}
@@ -2271,6 +2272,7 @@ function maturityBlock(){
       <div class="mx-left">
         <div class="mx-eyebrow">COMPLIANCE MATURITY MATRIX</div>
         ${svg}
+        <div class="mx-caption">X / Y 均为 0–100 的百分比刻度，与右下"适用法规总数（${total}）"是两个独立指标——坐标轴不随总数变化，这样不同企业的评估结果才能放在同一把尺子上比较。</div>
       </div>
       <div class="mx-right">
         <div class="mx-verdict"><span class="mx-tag" style="background:${q.color}">${q.name}象限</span><div class="mx-vd">${q.desc}</div></div>
