@@ -2111,9 +2111,9 @@ const DELIV={
   {t:'信息文档 Information Document', b:'EU 侧固定模板见右侧官方文件；UN 法规侧另有各自附件（如 Annex 2A/2B）信息文档格式，因法规而异，以对应 UN 法规官方文本为准',mand:true,
    tpl:{url:'https://cdn.fstyr.dk/faerdselsstyrelsen/Media/638305653111319573/Information%20document-EU-type-vehicle,%20systems,%20components%20or%20separate%20technical%20units.pdf',label:'EU 信息文件模板 (EU)2020/683 Annex I'}},
   {t:'总装图 / 零件图纸（带版本号）', b:'图纸版本与送样实物一致',mand:true},
-  {t:'技术参数表与材料清单（BOM）', b:'',mand:true},
+  {t:'技术参数表与材料清单（BOM）', b:'企业自身工程文档，法规仅要求随信息文档提交图纸/参数、不规定固定表格版式——已核实这不是信息文档模板里遗漏的一部分，而是独立于模板之外的企业内部文档',mand:true},
   {t:'试验方案 / 内部预测试记录', b:'预测试可大幅降低正式测试不通过风险',mand:false},
-  {t:'商标与打标位置图', b:'E 标位置、尺寸预先设计',mand:false},
+  {t:'商标与打标位置图', b:'E 标位置、尺寸预先设计；各 UN 法规自身附件均含官方版式示意图（标注尺寸/示例批准号），但因法规而异、嵌在各自法规文本内，无跨法规通用的单一模板可链接',mand:false},
   {t:'文档-实物一致性核查记录', b:'机关审核最高频退回点，交前自查',mand:false}],
  test:[
   {t:'送样清单（数量按各法规规定）', b:'样品状态必须代表量产件',mand:true},
@@ -2128,7 +2128,7 @@ const DELIV={
  grant:[
   {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）；证书固定格式：UN 法规侧见各法规自身 Annex 1「Communication」模板（因法规而异，不逐条链接），EU 侧统一模板见右侧官方文件',mand:true,
    tpl:{url:'https://www.legislation.gov.uk/eur/2020/683/annex/III',label:'EU 证书模板 (EU)2020/683 Annex III'}},
-  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息',mand:true},
+  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息；各法规自身附件均含官方版式示意图，因法规而异、无跨法规通用的单一模板可链接，需按批准依据的具体 UN 法规版本查取其自身附件',mand:true},
   {t:'打标合规自查照片记录', b:'打标不符规定本身构成不合规',mand:false}],
  cop:[
   {t:'CoP 控制计划（检验项 / 频次 / 判定标准）', b:'2018/858 Art 31；各 UN R CoP 附件',mand:true},
