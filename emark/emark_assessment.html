@@ -654,7 +654,7 @@ const PROFILE=[
    ['kba','德国 KBA','e1 / E1 · 以严格权威著称'],
    ['se','瑞典 Transportstyrelsen','e5 / E5 · 指定技术服务网络完善'],
    ['vca','英国 VCA','E11 · 注意：仅 UNECE E 标'],
-   ['other','其他机关','已有明确目标，不在左侧四家'],
+   ['other','其他机关',''],
    ['undecided','还没想好','']],
   fb:{rdw:'RDW 英语流程成熟、对海外制造商接待经验丰富，是中国零部件企业最常用的入口机关之一。',
       kba:'KBA 权威度高、文档审核细致，适合有品牌背书诉求的企业；首次申请建议预留更长的文档往返时间。',
@@ -2123,11 +2123,13 @@ const DELIV={
   {t:'技服出具的测试报告', b:'核对报告引用的法规系列/增补版本',mand:true},
   {t:'不符合项整改与复测记录（如有）', b:'',mand:false}],
  apply:[
-  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；已逐一核实四大常用出口入口机关的申请方式——德国 KBA、瑞典 Transportstyrelsen 均有可下载申请表（右侧⬇，瑞典这份还有英文版）；荷兰 RDW 首次申请从发邮件开始（非公开表单/门户）、英国 VCA 需注册自助门户账户（右侧🔗均为官方渠道，非表单下载）',mand:true,
+  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；以下是四大常用机关的申请门户',mand:true,
    links:[
+    {url:'https://www.rdw.nl/zakelijke-partners/fabrikant/typegoedkeuring-aanvragen/toelating-voor-uw-bedrijf-aanvragen',label:'荷兰 RDW 申请入口（首次申请从发邮件开始，非在线表单，也非需登录的门户）',kind:'portal'},
+    {url:'https://www.kba.de/DE/Themen/Typgenehmigung/Typgenehmigungserteilung/typgenehmigungserteilung_node.html',label:'德国 KBA 申请入口（流程说明页，无在线提交系统，走下方表单+邮寄/邮件）',kind:'portal'},
     {url:'https://www.kba.de/DE/Themen/Typgenehmigung/Zum_Herunterladen/ErteilungTypgenehmigungen/mab_deutsch_nur_antrag_9_1.pdf',label:'德国 KBA 申请表示例',kind:'download'},
+    {url:'https://www.transportstyrelsen.se/en/road/vehicles/type-approval/type-approval-process/',label:'瑞典 Transportstyrelsen 申请入口（流程说明页，无在线提交系统，走下方表单+邮件）',kind:'portal'},
     {url:'https://www.transportstyrelsen.se/globalassets/global/blanketter/vag/english/application-for-type-approval-2024-02-19t.pdf',label:'瑞典 Transportstyrelsen 申请表 TSV7102（英文版）',kind:'download'},
-    {url:'https://www.rdw.nl/zakelijke-partners/fabrikant/typegoedkeuring-aanvragen/toelating-voor-uw-bedrijf-aanvragen',label:'荷兰 RDW 官方说明页（首次申请从发邮件开始，非在线表单，也非需登录的门户）',kind:'portal'},
     {url:'https://www.vehicle-certification-agency.gov.uk/vca-portal/',label:'英国 VCA 申请门户（需注册账户，无表单下载）',kind:'portal'}
    ]},
   {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）',mand:true},
