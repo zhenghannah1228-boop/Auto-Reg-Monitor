@@ -366,6 +366,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .mx-dt tr:last-child td{border-bottom:none}
 .mx-dt td.r{text-align:right}.mx-dt td.g{color:var(--grey)}.mx-dt td.rd{color:var(--red)}
 .mx-dt tr.tot td{background:#FBF3EC;font-weight:700;color:var(--ink)}
+.mx-calc{font-size:11.5px;color:var(--grey);line-height:1.7;background:#F7F8FA;border:1px dashed var(--ol);border-radius:8px;padding:10px 14px;margin-top:2px}
+.mx-calc b{color:var(--od)}
 /* ===== 三栏版式（左步骤栏 · 中内容 · 右法规清单）===== */
 .topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
 .tb-in{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px}
@@ -2439,7 +2441,8 @@ function maturityBlock(){
       <div class="mx-dt"><div class="mx-dth">体系成熟度明细 · Y 轴</div><table>
         ${sysDetail.map(d=>`<tr><td>${d.name}</td><td class="r"><b>${d.sc}</b></td><td class="r g">${d.lab}</td></tr>`).join('')}
         <tr class="tot"><td>${actSys.length} 维加权</td><td></td><td class="r">Y=${Y}</td></tr></table></div>
-    </div>`;
+    </div>
+    <div class="mx-calc"><b>计算方式：</b>X · 法规完成度 = 各适用法规状态得分之和 ÷ 适用法规总数 × 100（已认证=${CONFIG.weights.reg.done}、进行中=${CONFIG.weights.reg.prog}、未开始/不清楚=${CONFIG.weights.reg.no}）。Y · 体系成熟度 = 各活跃体系维度得分的加权平均 × 100，单维度得分 = 该维度下各题目得分均值（已建立=${CONFIG.weights.sysScore.full}、部分建立=${CONFIG.weights.sysScore.part}、缺失=${CONFIG.weights.sysScore.none}），当前各维度权重相同。象限分界线取 X / Y = ${CONFIG.threshold}。</div>`;
 }
 
 // 站点附加信息：把 Add.1 缔约方/机关/技术服务数据落到具体站
@@ -2637,6 +2640,8 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 .mx-dt tr:last-child td{border-bottom:none}
 .mx-dt td.r{text-align:right}.mx-dt td.g{color:#6B7280}.mx-dt td.rd{color:#C0392B}
 .mx-dt tr.tot td{background:#FBF3EC;font-weight:700;color:#1A1D21}
+.mx-calc{font-size:11px;color:#6B7280;line-height:1.7;background:#F7F8FA;border:1px dashed #FBE4D7;border-radius:8px;padding:9px 13px;margin-top:2px}
+.mx-calc b{color:#C44E1E}
 .chip{display:inline-block;font-size:11.5px;font-weight:700;color:#C44E1E;background:#FBE4D7;padding:3px 11px;border-radius:11px;margin:2px 4px 2px 0}
 .chips{margin:6px 0}
 .bar{position:sticky;top:0;background:#1A1D21;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;margin:-32px -28px 20px;font-size:13px;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
