@@ -1943,7 +1943,8 @@ function step3(){
       ? `<b>${i.cn}</b> <small>${i.item}</small>${markBadge(i)}${vehb}${altInfo(i)}${powTag(i)}`
       : `<b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${vehb}${iwvtaChip(i)}${srcChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}${powTag(i)}`;
     const subOn=!!regSub[i.item];
-    const subEl=`<label class="subchk${subOn?' on':''}" title="订阅《${i.cn}》动态更新（占位：勾选后暂不产生实际推送，功能建设中）">
+    const subNo=regTokens(i.reg)[0]||i.reg||i.item;
+    const subEl=`<label class="subchk${subOn?' on':''}" title="订阅《${subNo}》动态更新（占位：勾选后暂不产生实际推送，功能建设中）">
        <input type="checkbox" data-sub-item="${i.item}" ${subOn?'checked':''}><span>订阅该法规<br>动态</span></label>`;
     return gh+`<div class="${cls}" id="row-${i.item}" data-search="${_esc((i.item+' '+(i.reg||'')+' '+(i.cn||'')).toLowerCase())}">
      ${subEl}
