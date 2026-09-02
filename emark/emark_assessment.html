@@ -1475,6 +1475,10 @@ function altInfo(i){
   });
   return `<span class="alt-tag" title="两条法规对该固定点等效，取得任一批准即可，无需两条都做">二选一等效</span>${opts.join('<span class="alt-sep">或</span>')}`;
 }
+// 全量展开后的条目总数（捆绑项按 subItemsOf 拆成多条叶子法规）——凡是要与 applicable()
+// 的展开结果做"总数"对比，都必须用这个而非 ITEMS.length（后者是未展开的合并项数，
+// 会小于展开后的实际条数，导致"适用 X 条（全部 Y 条中）"出现 X > Y 的假象）
+function totalExpanded(){ let n=0; ITEMS.forEach(i=>{const s=subItemsOf(i); n+=s?s.length:1;}); return n; }
 function applicable(){
   let base;
   // 产品/系统精选优先：用户点选后精确锁定对应法规项。id 命中 PARTS→展开其 items；否则视为原始 item 编码（系统集成商按系统选）
@@ -1502,7 +1506,7 @@ function focusNote(){
   if(sel.role!=='STU'&&sel.role!=='AFTER') return '';
   const n=applicable().length;
   const what=sel.role==='STU'?'可独立认证（部件/技术单元）':'典型售后件（显式独立认证）';
-  return `<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>已按您的角色聚焦到${what}条目：<b>${n} / ${ITEMS.length} 项</b>参与评估${n===0?'——当前范围内没有此类条目，可更换角色或调整产品精选':''}。</div>`;
+  return `<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>已按您的角色聚焦到${what}条目：<b>${n} / ${totalExpanded()} 项</b>参与评估${n===0?'——当前范围内没有此类条目，可更换角色或调整产品精选':''}。</div>`;
 }
 // R155/R156 网安体系为整车级要求：整车厂强制；部件/售后件仅当申报范围含网安/
 // 软件更新法规项、或系统集成商涉及电子/智能网联(D/E 组)时才相关，否则不该出现
@@ -1620,7 +1624,7 @@ function oemScopeHTML(){
   return `
     <div class="secttl">③ 按车型选（可多选，据车型收敛适用法规；不选=全部车型）</div>
     <div class="opts g3">${catBtns}</div>
-    ${sel.cats.length?`<div class="probe">已按车型（${sel.cats.join('/')}）收敛：本车型适用 <b>${applicable().length}</b> 条（全部 ${ITEMS.length} 条中）。</div>`:''}
+    ${sel.cats.length?`<div class="probe">已按车型（${sel.cats.join('/')}）收敛：本车型适用 <b>${applicable().length}</b> 条（全部 ${totalExpanded()} 条中）。</div>`:''}
     <div class="secttl">④ 按动力类型选（可多选，仅标注与您动力相关/不适用的法规族，不删项）</div>
     <div class="opts g3">${powBtns}</div>
     ${sel.powers.length?`<div class="probe">已选动力类型：盘点中约 <b>${na}</b> 条法规按此动力通常不适用（下一步以灰标提示，仍保留可核对；GA 欧7 与噪声等跨全部动力不受影响）。</div>`:''}`;
