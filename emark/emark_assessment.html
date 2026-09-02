@@ -2137,7 +2137,7 @@ const DELIV={
  grant:[
   {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）；证书固定格式：UN 法规侧见各法规自身 Annex 1「Communication」模板（因法规而异，不逐条链接）；EU 侧统一模板见右侧官方文件——从 EUR-Lex 官方 PDF（CELEX:02020R0683，2022-03-06 综合版）逐页截取的附件III原文（第112–149页，Model A–E），非重新排版，页面版式（含页眉编号、版本标记）与原文完全一致',mand:true,
    tpl:{url:'../data/templates/eu-2020-683-annex-III-approval-certificates.pdf',label:'EU 证书模板 (EU)2020/683 Annex III · Model A–E'}},
-  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息；各法规自身附件均含官方版式示意图，因法规而异、无跨法规通用的单一模板可链接，需按批准依据的具体 UN 法规版本查取其自身附件，右侧为通用示意图（非官方）',mand:true,example:true},
+  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息；各法规自身附件均含官方版式示意图，因法规而异、无跨法规通用的单一模板可链接，需按批准依据的具体 UN 法规版本查取其自身附件，右侧为 UN R10（电磁兼容）Annex 1 官方原图节选，供打标版式参照',mand:true,example:true},
   {t:'打标合规自查照片记录', b:'打标不符规定本身构成不合规',mand:false}],
  cop:[
   {t:'CoP 控制计划（检验项 / 频次 / 判定标准）', b:'2018/858 Art 31；各 UN R CoP 附件',mand:true},
@@ -2165,33 +2165,17 @@ function linksBtn(d){
 // 打标位置示例图：通用示意（非任一具体法规官方版式），因法规而异的项目没有单一官方图可给时，
 // 给一张标注清楚"这是示例、不是官方图"的通用示意，帮助理解要求本身，不冒充官方文件。
 function markPositionExample(){
-  const svg=`<svg viewBox="0 0 320 220" width="100%" style="max-width:300px" aria-label="打标位置与尺寸示例示意图">
-    <rect x="16" y="24" width="288" height="160" fill="none" stroke="#B9BEC6" stroke-width="1.5" stroke-dasharray="4 3"/>
-    <text x="20" y="16" font-size="11" fill="#8A93A0" font-family="Arial">产品/部件外形（示意）</text>
-    <circle cx="250" cy="150" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/>
-    <text x="250" y="157" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor" font-family="Arial">E4</text>
-    <text x="250" y="185" font-size="9" text-anchor="middle" fill="currentColor" font-family="Arial">03 1234</text>
-    <line x1="227" y1="129" x2="227" y2="171" stroke="#C6502A" stroke-width="1"/>
-    <line x1="221" y1="129" x2="233" y2="129" stroke="#C6502A" stroke-width="1"/>
-    <line x1="221" y1="171" x2="233" y2="171" stroke="#C6502A" stroke-width="1"/>
-    <text x="212" y="153" font-size="9" fill="#C6502A" text-anchor="end" font-family="Arial">字高 ≥8mm</text>
-  </svg>`;
-  return `<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
-      <div style="color:var(--od)">${svg}</div>
-      <div style="font-size:12.5px;color:var(--ink2);line-height:1.75;flex:1;min-width:200px">
-        <b>示例·打标位置与尺寸示意</b>（非特定法规官方图，仅示意通用原则）
-        <ul style="margin:8px 0 0;padding-left:18px">
-          <li>位置：贴/刻于产品本体或铭牌上的清晰可见处，不得因常规装配/使用而被遮挡</li>
-          <li>尺寸：字高通常要求 ≥8mm（不同法规、不同部件类别的具体最小尺寸不同）</li>
-          <li>耐久：需能在产品正常使用寿命内保持清晰可辨认（不宜用易脱落标签）</li>
-        </ul>
-        <div style="color:var(--grey);margin-top:8px">具体位置、尺寸与耐久性要求以对应 UN 法规打标条款（或 EU 条例打标附件）原文为准，各法规、各部件类别不完全相同。</div>
+  return `<div style="display:flex;flex-direction:column;gap:12px">
+      <img src="../data/templates/un-r10-annex1-approval-marks-example.png" alt="UN R10 Annex 1 打标版式示例（Model A/B）" style="width:100%;border:1px solid var(--line);border-radius:8px">
+      <div style="font-size:12.5px;color:var(--ink2);line-height:1.75">
+        <b>UN R10（电磁兼容）Annex 1 打标版式官方原图</b>（节选，非本产品对应法规的官方图——各 UN 法规均有各自 Annex，版式与字高比例因法规而异，此处作打标版式的具体参照）
+        <div style="color:var(--grey);margin-top:8px">来源：UN Regulation No 10 Annex 1，EU 官方公报 OJ L254/29（2012-09-20，CELEX 42012X0920(01)），从 EUR-Lex 官方 PDF 逐页截取，非重新排版。</div>
       </div>
     </div>`;
 }
 function openMarkPositionExample(){
-  emkModal('打标位置与尺寸示例（示意图）', markPositionExample(),
-    '本图为通用示意，非任一具体法规的官方版式图；实际位置/尺寸/耐久要求以批准依据的具体法规条款为准。');
+  emkModal('打标版式示例（UN R10 官方原图节选）', markPositionExample(),
+    '本图为 UN R10 Annex 1 官方原图节选，非本产品对应法规的官方图；实际位置/尺寸/耐久要求以批准依据的具体法规条款为准。');
 }
 function exampleBtn(d){return d.example?`<button class="tpl-link" style="border:none;background:none;cursor:pointer;padding:0" onclick="openMarkPositionExample()">🖼 查看示例图</button>`:'';}
 // ===== 交付物总表（② 全路径文档交付物一览）=====
