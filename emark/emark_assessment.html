@@ -2100,7 +2100,7 @@ const DELIV={
   {t:'适用法规清单（含现行系列/增补版本）',b:'对照 WP.29/343 现行状态（盘点页右上版本标注）',mand:false},
 ],
  authority:[
-  {t:'批准机关申请表', b:'各机关申请入口不同——已核实：德国 KBA 有可下载表格；荷兰 RDW / 英国 VCA 走在线门户；卢森堡 SNCH 无表单、需邮件联系（链接见⑥「递交批准申请」站）',mand:true},
+  {t:'批准机关申请表', b:'各机关申请入口不同——已核实：德国 KBA 有可下载表格；荷兰 RDW 首次申请从发邮件开始；英国 VCA 走自助门户；卢森堡 SNCH 无表单、需邮件联系（链接见⑥「递交批准申请」站）',mand:true},
   {t:'制造商注册资料', b:'企业资质、地址、联系人；部分机关要求境内代表信息',mand:true},
   {t:'申请语言要求确认', b:'各机关接受语言不同（EN/DE/NL…），译文成本计入预算',mand:false}],
  ts:[
@@ -2121,11 +2121,11 @@ const DELIV={
   {t:'技服出具的测试报告', b:'核对报告引用的法规系列/增补版本',mand:true},
   {t:'不符合项整改与复测记录（如有）', b:'',mand:false}],
  apply:[
-  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；已逐一核实四大常用出口入口机关的申请方式——德国 KBA 有可下载申请表（右侧⬇）；荷兰 RDW、卢森堡 SNCH、英国 VCA 均确认<b>无可下载申请表</b>，改为在线门户或人工联系（右侧🔗，均为官方页面，非表单下载）',mand:true,
+  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；已逐一核实四大常用出口入口机关的申请方式——德国 KBA 有可下载申请表（右侧⬇）；其余三家均<b>无可下载申请表</b>，且入口形式各不相同：荷兰 RDW 首次申请从发邮件开始（非公开表单/门户）、英国 VCA 需注册自助门户账户、卢森堡 SNCH 全站无在线入口需直接邮件/电话联系（右侧🔗均为官方页面，非表单下载）',mand:true,
    links:[
     {url:'https://www.kba.de/DE/Themen/Typgenehmigung/Zum_Herunterladen/ErteilungTypgenehmigungen/mab_deutsch_nur_antrag_9_1.pdf',label:'德国 KBA 申请表示例',kind:'download'},
-    {url:'https://typegoedkeuringaanvragen.rdw.nl/',label:'荷兰 RDW 申请门户（需账户，无表单下载）',kind:'portal'},
-    {url:'https://www.snch.lu/en/our-services',label:'卢森堡 SNCH 官网（无申请表，需邮件联系 info@snch.lu 启动）',kind:'portal'},
+    {url:'https://www.rdw.nl/zakelijke-partners/fabrikant/typegoedkeuring-aanvragen/toelating-voor-uw-bedrijf-aanvragen',label:'荷兰 RDW 官方说明页（首次申请从发邮件开始，非在线表单，也非需登录的门户）',kind:'portal'},
+    {url:'https://www.snch.lu/en',label:'卢森堡 SNCH 官网首页（全站无型式认证申请入口，需邮件 info@snch.lu 或电话 +352 26 15 70 25 0 人工联系启动）',kind:'portal'},
     {url:'https://www.vehicle-certification-agency.gov.uk/vca-portal/',label:'英国 VCA 申请门户（需注册账户，无表单下载）',kind:'portal'}
    ]},
   {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）',mand:true},
@@ -2216,7 +2216,7 @@ function openDeliverables(){
 // 官方固定模板逐站核实结论（2026-09）：多数申请环节法规只规定应包含的内容要件，格式由申请人/实验室
 // 自定，没有统一官方表格——下列站点如实标注「无固定模板」，不为凑数而臆造链接。④⑥⑦站的真实模板见 DELIV 对应条目的 tpl 字段。
 const STN_TPL_NOTE={
- authority:'核实结论（已逐一实测四大常用出口入口机关）：德国 KBA 有独立可下载申请表；荷兰 RDW、卢森堡 SNCH、英国 VCA 均确认无可下载申请表——RDW/VCA 走官方在线门户（需注册账户），SNCH 无门户、需邮件人工联系启动申请。四家官方入口链接见⑥「递交批准申请」站。',
+ authority:'核实结论（已逐一实测四大常用出口入口机关）：德国 KBA 有独立可下载申请表；荷兰 RDW、卢森堡 SNCH、英国 VCA 均确认无可下载申请表，且入口形式各不相同——RDW 首次申请从发邮件开始（非公开表单/门户）、VCA 走自助门户（需注册账户）、SNCH 全站无在线入口需邮件/电话人工联系。四家官方入口链接见⑥「递交批准申请」站。',
  ts:'核实结论：技术服务机构委托属企业与机构间的商业安排，未见官方统一委托模板。',
  test:'核实结论：测试报告仅规定须符合 EN ISO/IEC 17025:2017 并包含规定内容要素，具体格式由实验室自定，无统一官方模板。',
  cop:'核实结论：CoP 控制计划由批准机关与制造商逐案协商约定（(EU) 2018/858 附件Ⅳ §3.2），法规只规定须包含的内容要件，无统一官方表格。',
