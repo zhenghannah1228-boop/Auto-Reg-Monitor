@@ -2654,7 +2654,7 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 <h2>二、总体结论与下一步行动</h2>
 <p class="concl">${conclText}</p>
 <table><thead><tr><th>站</th><th>阶段</th><th>状态</th><th>现状</th><th>该做什么</th></tr></thead><tbody>${jRows}</tbody></table>
-<h2>三、成熟度定位</h2>
+<h2>三、成熟度矩阵</h2>
 ${maturityBlock()}
 <h2>四、法规认证缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${regGaps.filter(g=>g.sev==='red').length} · 中 ${regGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${regGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(regGaps)}</tbody></table>`:'<p class="rtnote">适用法规均已启动或完成认证，无缺口。</p>'}
