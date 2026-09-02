@@ -7,3 +7,6 @@ __pycache__/
 
 # 临时生成物（演示文稿等一次性交付物，已直接发送给用户，不入库）
 output/
+
+# Claude Code 个人本地设置（权限规则等，不入库）
+.claude/settings.local.json

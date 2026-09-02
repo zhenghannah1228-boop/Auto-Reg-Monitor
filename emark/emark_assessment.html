@@ -2110,12 +2110,12 @@ const DELIV={
   {t:'技服资质范围核对记录', b:'确认其指定范围（designation）覆盖您的全部法规项',mand:false},
   {t:'测试排期确认单', b:'排期是全周期最大变量，尽早锁定',mand:false}],
  doc:[
-  {t:'信息文档 Information Document', b:'EU 侧固定模板见右侧官方文件——从 EUR-Lex 官方 PDF（CELEX:02020R0683，2022-03-06 综合版）逐页截取的附件I原文（第5–89页），非重新排版，含开头的脚注说明与其后的填空式清单，打开后请直接按目录定位到与本产品相关的条目；UN 法规侧另有各自附件（如 Annex 2A/2B）信息文档格式，因法规而异，以对应 UN 法规官方文本为准',mand:true,
+  {t:'信息文档 Information Document', b:'',mand:true,
    tpl:{url:'../data/templates/eu-2020-683-annex-I-information-document.pdf',label:'EU 信息文件模板 (EU)2020/683 Annex I · 65页逐项填空清单'}},
   {t:'总装图 / 零件图纸（带版本号）', b:'图纸版本与送样实物一致',mand:true},
-  {t:'技术参数表与材料清单（BOM）', b:'企业自身工程文档，法规仅要求随信息文档提交图纸/参数、不规定固定表格版式——已核实这不是信息文档模板里遗漏的一部分，而是独立于模板之外的企业内部文档',mand:true},
+  {t:'技术参数表与材料清单（BOM）', b:'企业自身工程文档，法规仅要求随信息文档提交图纸/参数、不规定固定表格版式',mand:true},
   {t:'试验方案 / 内部预测试记录', b:'预测试可大幅降低正式测试不通过风险',mand:false},
-  {t:'商标与打标位置图', b:'E 标位置、尺寸预先设计；各 UN 法规自身附件均含官方版式示意图（标注尺寸/示例批准号），但因法规而异、嵌在各自法规文本内，无跨法规通用的单一模板可链接，右侧为通用示意图（非官方，仅示意位置/尺寸/耐久的通用原则）',mand:false,example:true},
+  {t:'商标与打标位置图', b:'E 标位置、尺寸预先设计；各 UN 法规自身附件均含官方版式示意图（标注尺寸/示例批准号）',mand:false},
   {t:'文档-实物一致性核查记录', b:'机关审核最高频退回点，交前自查',mand:false}],
  test:[
   {t:'送样清单（数量按各法规规定）', b:'样品状态必须代表量产件',mand:true},
@@ -2125,19 +2125,20 @@ const DELIV={
  apply:[
   {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；以下是四大常用机关的申请门户',mand:true,
    links:[
-    {url:'https://www.rdw.nl/zakelijke-partners/fabrikant/typegoedkeuring-aanvragen/toelating-voor-uw-bedrijf-aanvragen',label:'荷兰 RDW 申请入口（首次申请从发邮件开始，非在线表单，也非需登录的门户）',kind:'portal'},
-    {url:'https://www.kba.de/DE/Themen/Typgenehmigung/Typgenehmigungserteilung/typgenehmigungserteilung_node.html',label:'德国 KBA 申请入口（流程说明页，无在线提交系统，走下方表单+邮寄/邮件）',kind:'portal'},
+    {url:'https://www.rdw.nl/zakelijke-partners/fabrikant/typegoedkeuring-aanvragen/toelating-voor-uw-bedrijf-aanvragen',label:'荷兰 RDW 申请入口',kind:'portal'},
+    {url:'https://www.kba.de/DE/Themen/Typgenehmigung/Typgenehmigungserteilung/typgenehmigungserteilung_node.html',label:'德国 KBA 申请入口',kind:'portal'},
     {url:'https://www.kba.de/DE/Themen/Typgenehmigung/Zum_Herunterladen/ErteilungTypgenehmigungen/mab_deutsch_nur_antrag_9_1.pdf',label:'德国 KBA 申请表示例',kind:'download'},
-    {url:'https://www.transportstyrelsen.se/en/road/vehicles/type-approval/type-approval-process/',label:'瑞典 Transportstyrelsen 申请入口（流程说明页，无在线提交系统，走下方表单+邮件）',kind:'portal'},
-    {url:'https://www.transportstyrelsen.se/globalassets/global/blanketter/vag/english/application-for-type-approval-2024-02-19t.pdf',label:'瑞典 Transportstyrelsen 申请表 TSV7102（英文版）',kind:'download'},
-    {url:'https://www.vehicle-certification-agency.gov.uk/vca-portal/',label:'英国 VCA 申请门户（需注册账户，无表单下载）',kind:'portal'}
+    {url:'https://www.transportstyrelsen.se/en/road/vehicles/type-approval/type-approval-process/',label:'瑞典 Transportstyrelsen 申请入口',kind:'portal'},
+    {url:'https://www.transportstyrelsen.se/globalassets/global/blanketter/vag/english/application-for-type-approval-2024-02-19t.pdf',label:'瑞典 Transportstyrelsen 申请表 TSV7102',kind:'download'},
+    {url:'https://www.vehicle-certification-agency.gov.uk/vca-portal/',label:'英国 VCA 申请门户',kind:'portal'}
    ]},
   {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）',mand:true},
   {t:'机关往来问题答复记录', b:'指定专人跟进',mand:false}],
  grant:[
-  {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）；证书固定格式：UN 法规侧见各法规自身 Annex 1「Communication」模板（因法规而异，不逐条链接）；EU 侧统一模板见右侧官方文件——从 EUR-Lex 官方 PDF（CELEX:02020R0683，2022-03-06 综合版）逐页截取的附件III原文（第112–149页，Model A–E），非重新排版，页面版式（含页眉编号、版本标记）与原文完全一致',mand:true,
-   tpl:{url:'../data/templates/eu-2020-683-annex-III-approval-certificates.pdf',label:'EU 证书模板 (EU)2020/683 Annex III · Model A–E'}},
-  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息；各法规自身附件均含官方版式示意图，因法规而异、无跨法规通用的单一模板可链接，需按批准依据的具体 UN 法规版本查取其自身附件，右侧为通用示意图（非官方）',mand:true,example:true},
+  {t:'型式批准证书原件归档', b:'建立证书台账（编号/系列/签发机关）；证书固定格式：UN 法规侧见各法规自身 Annex 1「Communication」模板（因法规而异，不逐条链接，右侧附 R90 官方空白模板 + 真实签发示例作格式参照）；EU 侧统一模板见右侧官方文件——从 EUR-Lex 官方 PDF（CELEX:02020R0683，2022-03-06 综合版）逐页截取的附件III原文（第112–149页，Model A–E），非重新排版，页面版式（含页眉编号、版本标记）与原文完全一致',mand:true,example:'cert',
+   tpl:{url:'../data/templates/eu-2020-683-annex-III-approval-certificates.pdf',label:'EU 证书模板 (EU)2020/683 Annex III · Model A–E'},
+   links:[{url:'../data/templates/un-r90-annex1A-communication-template.pdf',label:'UN R90 证书模板示例 Annex 1A（因法规而异，仅供格式参照）',kind:'download'}]},
+  {t:'E 标打标版面图（圈 E + 国别号 + 批准号）', b:'按对应 UN 法规打标条款核对位置/尺寸/信息；各法规自身附件均含官方版式示意图，因法规而异、无跨法规通用的单一模板可链接，需按批准依据的具体 UN 法规版本查取其自身附件，右侧为 UN R10（电磁兼容）Annex 1 官方原图节选，供打标版式参照',mand:true,example:'mark'},
   {t:'打标合规自查照片记录', b:'打标不符规定本身构成不合规',mand:false}],
  cop:[
   {t:'CoP 控制计划（检验项 / 频次 / 判定标准）', b:'2018/858 Art 31；各 UN R CoP 附件',mand:true},
@@ -2165,35 +2166,36 @@ function linksBtn(d){
 // 打标位置示例图：通用示意（非任一具体法规官方版式），因法规而异的项目没有单一官方图可给时，
 // 给一张标注清楚"这是示例、不是官方图"的通用示意，帮助理解要求本身，不冒充官方文件。
 function markPositionExample(){
-  const svg=`<svg viewBox="0 0 320 220" width="100%" style="max-width:300px" aria-label="打标位置与尺寸示例示意图">
-    <rect x="16" y="24" width="288" height="160" fill="none" stroke="#B9BEC6" stroke-width="1.5" stroke-dasharray="4 3"/>
-    <text x="20" y="16" font-size="11" fill="#8A93A0" font-family="Arial">产品/部件外形（示意）</text>
-    <circle cx="250" cy="150" r="22" fill="none" stroke="currentColor" stroke-width="2.5"/>
-    <text x="250" y="157" font-size="16" font-weight="700" text-anchor="middle" fill="currentColor" font-family="Arial">E4</text>
-    <text x="250" y="185" font-size="9" text-anchor="middle" fill="currentColor" font-family="Arial">03 1234</text>
-    <line x1="227" y1="129" x2="227" y2="171" stroke="#C6502A" stroke-width="1"/>
-    <line x1="221" y1="129" x2="233" y2="129" stroke="#C6502A" stroke-width="1"/>
-    <line x1="221" y1="171" x2="233" y2="171" stroke="#C6502A" stroke-width="1"/>
-    <text x="212" y="153" font-size="9" fill="#C6502A" text-anchor="end" font-family="Arial">字高 ≥8mm</text>
-  </svg>`;
-  return `<div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
-      <div style="color:var(--od)">${svg}</div>
-      <div style="font-size:12.5px;color:var(--ink2);line-height:1.75;flex:1;min-width:200px">
-        <b>示例·打标位置与尺寸示意</b>（非特定法规官方图，仅示意通用原则）
-        <ul style="margin:8px 0 0;padding-left:18px">
-          <li>位置：贴/刻于产品本体或铭牌上的清晰可见处，不得因常规装配/使用而被遮挡</li>
-          <li>尺寸：字高通常要求 ≥8mm（不同法规、不同部件类别的具体最小尺寸不同）</li>
-          <li>耐久：需能在产品正常使用寿命内保持清晰可辨认（不宜用易脱落标签）</li>
-        </ul>
-        <div style="color:var(--grey);margin-top:8px">具体位置、尺寸与耐久性要求以对应 UN 法规打标条款（或 EU 条例打标附件）原文为准，各法规、各部件类别不完全相同。</div>
+  return `<div style="display:flex;flex-direction:column;gap:12px">
+      <img src="../data/templates/un-r10-annex1-approval-marks-example.png" alt="UN R10 Annex 1 打标版式示例（Model A/B）" style="width:100%;border:1px solid var(--line);border-radius:8px">
+      <div style="font-size:12.5px;color:var(--ink2);line-height:1.75">
+        <b>UN R10（电磁兼容）Annex 1 打标版式官方原图</b>（节选，非本产品对应法规的官方图——各 UN 法规均有各自 Annex，版式与字高比例因法规而异，此处作打标版式的具体参照）
+        <div style="color:var(--grey);margin-top:8px">来源：UN Regulation No 10 Annex 1，EU 官方公报 OJ L254/29（2012-09-20，CELEX 42012X0920(01)），从 EUR-Lex 官方 PDF 逐页截取，非重新排版。</div>
       </div>
     </div>`;
 }
 function openMarkPositionExample(){
-  emkModal('打标位置与尺寸示例（示意图）', markPositionExample(),
-    '本图为通用示意，非任一具体法规的官方版式图；实际位置/尺寸/耐久要求以批准依据的具体法规条款为准。');
+  emkModal('打标版式示例（UN R10 官方原图节选）', markPositionExample(),
+    '本图为 UN R10 Annex 1 官方原图节选，非本产品对应法规的官方图；实际位置/尺寸/耐久要求以批准依据的具体法规条款为准。');
 }
-function exampleBtn(d){return d.example?`<button class="tpl-link" style="border:none;background:none;cursor:pointer;padding:0" onclick="openMarkPositionExample()">🖼 查看示例图</button>`:'';}
+// UN 侧证书真实示例：某国内刹车件厂商已获批的 R90 Communication 证书（RDW/E4 签发），
+// 展示真实签发证书的实际样貌（而非空白表格）——因涉及具体企业信息，仅作证书格式参照，
+// 不代表任何产品与本工具使用者相关。
+function certExample(){
+  return `<div style="display:flex;flex-direction:column;gap:12px">
+      <img src="../data/templates/un-r90-communication-certificate-example.png" alt="UN R90 Communication 证书真实示例" style="width:100%;border:1px solid var(--line);border-radius:8px">
+      <div style="font-size:12.5px;color:var(--ink2);line-height:1.75">
+        <b>UN R90（替换刹车衬片）Communication 证书真实示例</b>（荷兰 RDW/E4 签发，某国内厂商真实已获批证书，仅作证书实际样貌参照——因法规而异，非本产品对应法规的官方格式）
+        <div style="color:var(--grey);margin-top:8px">证书内容对应本条目上方的 UN R90 Annex 1A 官方空白模板；具体条款/字段以批准依据的实际法规版本为准。</div>
+      </div>
+    </div>`;
+}
+function openCertExample(){
+  emkModal('证书示例（UN R90 真实签发案例）', certExample(),
+    '本图为某国内厂商真实已获批的 R90 证书，仅作格式参照；因法规而异，非本产品对应法规的官方格式。');
+}
+const EXAMPLE_FN={mark:'openMarkPositionExample',cert:'openCertExample'};
+function exampleBtn(d){return d.example?`<button class="tpl-link" style="border:none;background:none;cursor:pointer;padding:0" onclick="${EXAMPLE_FN[d.example]||EXAMPLE_FN.mark}()">🖼 查看示例图</button>`:'';}
 // ===== 交付物总表（② 全路径文档交付物一览）=====
 // 口径：把认证旅程 9 站的 DELIV 汇成一张总表，纯参考展示（强制/建议标签 + 官方模板外链），不再有勾选状态。
 const DELIV_STN=[
@@ -2220,7 +2222,6 @@ function openDeliverables(){
 // 官方固定模板逐站核实结论（2026-09）：多数申请环节法规只规定应包含的内容要件，格式由申请人/实验室
 // 自定，没有统一官方表格——下列站点如实标注「无固定模板」，不为凑数而臆造链接。④⑥⑦站的真实模板见 DELIV 对应条目的 tpl 字段。
 const STN_TPL_NOTE={
- authority:'核实结论（已逐一实测四大常用出口入口机关）：德国 KBA、瑞典 Transportstyrelsen 均有独立可下载申请表（瑞典这份含英文版，表号 TSV7102）；荷兰 RDW、英国 VCA 无可下载申请表，且入口形式不同——RDW 首次申请从发邮件开始（非公开表单/门户）、VCA 走自助门户（需注册账户）。四家官方入口链接见⑥「递交批准申请」站。',
  ts:'核实结论：技术服务机构委托属企业与机构间的商业安排，未见官方统一委托模板。',
  test:'核实结论：测试报告仅规定须符合 EN ISO/IEC 17025:2017 并包含规定内容要素，具体格式由实验室自定，无统一官方模板。',
  cop:'核实结论：CoP 控制计划由批准机关与制造商逐案协商约定（(EU) 2018/858 附件Ⅳ §3.2），法规只规定须包含的内容要件，无统一官方表格。',
