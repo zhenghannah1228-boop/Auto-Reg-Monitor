@@ -2403,7 +2403,11 @@ function maturityBlock(chartHTML){
   const actSys=activeSys();
   const sysDetail=actSys.map(s=>{const sc=dimScore(s);const lab=sc===100?'已建立':(sc===0?'缺失':'部分');return {name:s.name,sc,lab};});
   const svg=chartHTML||matrixSVGString();
-  const recsHTML=copy.recs.map(r=>`<li>${r}</li>`).join('');
+  // 「成熟」象限的优先建议原文提到「网安/ADAS」，但网安体系仅在 cyberRelevant() 时才相关
+  // （整车厂强制；部件/售后件仅当范围触及网安/ADAS 或申报范围本身含 R155/R156 才算）——
+  // 不相关时把这个例子去掉，避免给机械件/售后件企业推一条跟他们无关的建议
+  const recsAdj=cyberRelevant()?copy.recs:copy.recs.map(r=>r.replace(/（网安\/ADAS 等）/,''));
+  const recsHTML=recsAdj.map(r=>`<li>${r}</li>`).join('');
   return `<div class="mx-block">
       <div class="mx-left">
         <div class="mx-eyebrow">COMPLIANCE MATURITY MATRIX</div>
@@ -2494,7 +2498,9 @@ function step5(){
 
 function plabel(id){
   const def=PROFILE.find(p=>p.id===id);
-  if(def.multi){const t=profile[id].map(k=>{const o=def.opts.find(o=>o[0]===k);return o?o[1]:k;}).join('、');return t||'—';}
+  // 多选项若混入不在 opts 里的脏值（如旧档案遗留/手工改过 localStorage），
+  // 不应该把内部 key 原样显示给用户——直接丢弃，全部丢弃后按未填处理显示 —
+  if(def.multi){const t=(profile[id]||[]).map(k=>{const o=def.opts.find(o=>o[0]===k);return o?o[1]:null;}).filter(Boolean).join('、');return t||'—';}
   const o=def.opts.find(o=>o[0]===profile[id]);return o?o[1]:'—';
 }
 // 缺口 → 服务映射（step6 与报告下载共用）。每条缺口带 cat（reg/sys）、lvl（高/中，供分级表着色）、
