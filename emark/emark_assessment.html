@@ -2548,6 +2548,37 @@ function subscribedList(items){
   items.forEach(i=>{ if(!regSub[i.item]) return; const tok=(regTokens(i.reg)[0])||i.reg||i.item; if(seen.has(tok)) return; seen.add(tok); out.push(tok); });
   return out;
 }
+// 报告/行动清单页共用的总结陈述：把全部评估结果收拢成一段叙述性文字（而非表格数字），
+// 页面与报告都调用同一份，避免各写一份越改越不一致。escFn 供报告侧对 objName 做 HTML 转义。
+function buildSummaryText(escFn){
+  const esc=escFn||(s=>s);
+  const {X,Y,items}=computeScores();
+  const q=quadrant(X,Y);
+  const copy=QUADRANT_COPY[q.key]||{risk:'',recs:[]};
+  const gapRows=computeGaps(items);
+  const regGaps=gapRows.filter(g=>g.cat==='reg'), sysGaps=gapRows.filter(g=>g.cat==='sys');
+  const regHi=regGaps.filter(g=>g.sev==='red').length, regMid=regGaps.filter(g=>g.sev==='amber').length;
+  const sysHi=sysGaps.filter(g=>g.sev==='red').length, sysMid=sysGaps.filter(g=>g.sev==='amber').length;
+  let done=0,prog=0,nostart=0,unk=0;
+  items.forEach(i=>{const s=regStatus[i.item];if(s==='done')done++;else if(s==='prog')prog++;else if(s==='no')nostart++;else unk++;});
+  const actSys=activeSys();
+  const sysNames=actSys.map(s=>s.name).join('、');
+  const journey=journeyStatus();
+  const nextStage=journey.find(s=>s.state!=='done');
+  const subs=subscribedList(items);
+  const roleLabel={OEM:'OEM 整车厂',STU:'系统集成商',AFTER:'售后件供应商'}[sel.role]||'贵司';
+  const nameTag=objName?`「${esc(objName)}」`:'贵司产品';
+  const p1=`综合来看，${roleLabel}${nameTag}在本次 E-mark / e-mark 认证成熟度评估中，法规完成度评分为 ${X} 分，体系成熟度评分为 ${Y} 分（满分均为 100 分，${CONFIG.threshold} 分为象限分界线），整体定位于「${q.name}象限」——${q.desc}。${copy.risk}`;
+  const p2=regGaps.length
+    ?`从法规维度看，本次评估共识别出 ${items.length} 项适用于贵司产品范围的法规条目，其中已完成认证 ${done} 项、认证进行中 ${prog} 项、尚未开始 ${nostart} 项、状态不清楚 ${unk} 项。共计 ${regGaps.length} 项法规认证缺口需要处理，其中 ${regHi} 项为高优先级（尚未启动认证）、${regMid} 项为中优先级（状态待核实），建议按报告「法规认证缺口」表中列出的具体建议行动逐项推进，尤其应优先处理临近法规修订生效日期的条目，避免因版本切换而需要重新检测、拖长整体周期。`
+    :`从法规维度看，本次评估共识别出 ${items.length} 项适用于贵司产品范围的法规条目，目前均已启动或完成认证，法规维度暂无明显缺口，建议保持现有节奏，持续跟踪相关法规的修订与生效动态，避免因版本更新而措手不及。`;
+  const p3=sysGaps.length
+    ?`从体系维度看，${sysNames}等 ${actSys.length} 个体系维度中，共识别出 ${sysGaps.length} 项体系缺口（高优先级 ${sysHi} 项、中优先级 ${sysMid} 项）。体系成熟度是维持证书长期有效、顺利通过批准机关监督审核的关键——尤其是生产一致性（CoP）体系，若证书已获批却缺乏配套的体系支撑，将面临证书被暂停乃至撤销的风险，这也是「待加固」象限企业最容易忽视的隐患，建议优先补齐。`
+    :`从体系维度看，${sysNames}等 ${actSys.length} 个体系维度目前均已建立或部分建立，体系基础较为扎实，建议持续保持并定期复核，尤其关注生产一致性（CoP）体系的年度监督审核安排，避免因疏于维护而影响证书的持续有效性。`;
+  const p4=`从认证旅程进度看，贵司目前处于 9 站认证流程中的第 ${nextStage?nextStage.no:9} 站——「${nextStage?esc(nextStage.name):'持证运营'}」，${nextStage?`现状为「${esc(nextStage.note)}」，下一步应${esc(nextStage.what)}`:'认证旅程 9 站均已全部完成，后续工作重心应转向持证运营阶段的常规维护，包括法规版本追踪、证书台账管理与设计变更的扩展申请评估'}。${subs.length?`此外，贵司已订阅 ${subs.length} 项法规的动态更新提醒，相关法规发生修订或生效日期变化时会第一时间通知贵司。`:''}`;
+  const p5=`需要特别说明的是，本报告基于贵司在评估过程中填写的信息自动生成，旨在为贵司提供一份初步、结构化的合规现状导航，帮助梳理认证优先级与资源投入方向，但不构成正式的合规意见或法律建议，具体认证方案、检测项目范围与费用仍需以认可技术服务机构或型式批准机关按产品实际情况出具的评估为准。若您希望进一步了解每一项缺口的具体整改方案、优先级排序及预计周期，欢迎预约我们的专家团队进行一对一解读，我们将结合贵司的产品特性、目标市场与时间要求，提供更具针对性的落地建议，协助贵司高效、稳妥地完成认证进程。`;
+  return [p1,p2,p3,p4,p5];
+}
 // 分级风险表一行（页面 rtab / 报告 rtab 共用同一 class 命名）
 function gapRowHTML(g,dueChipFn){
   return `<tr><td class="lv ${g.sev==='red'?'lvhi':'lvmid'}">${g.lvl}</td><td>${g.txt}${dueChipFn(g)}</td><td><b>${g.svc}</b> — ${g.action}</td></tr>`;
@@ -2657,6 +2688,8 @@ ${regGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><
 <h2>五、体系成熟度缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${sysGaps.filter(g=>g.sev==='red').length} · 中 ${sysGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${sysGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(sysGaps)}</tbody></table>`:'<p class="rtnote">体系四维度要求均已满足，无缺口。</p>'}
 ${subSec}
+<h2>七、总结</h2>
+${buildSummaryText(esc).map(p=>`<p>${p}</p>`).join('')}
 <div class="disc"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</div>`;
 }
 function downloadReport(){
@@ -2673,56 +2706,6 @@ ${reportBodyHTML()}
   const w=window.open('','_blank');
   if(!w){alert('浏览器拦截了弹窗，请允许本站弹窗后重试导出 PDF。');return;}
   w.document.open();w.document.write(html);w.document.close();
-}
-// 把 SVG 字符串栅格化为 PNG dataURL（DOCX 导出用：Word 的 HTML 渲染引擎不支持内联 SVG）
-function svgToPngDataURL(svgStr,w,h){
-  return new Promise(resolve=>{
-    try{
-      const img=new Image();
-      const svg64=btoa(unescape(encodeURIComponent(svgStr)));
-      img.onload=()=>{
-        try{
-          const scale=2, canvas=document.createElement('canvas');
-          canvas.width=w*scale; canvas.height=h*scale;
-          const ctx=canvas.getContext('2d');
-          ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
-          ctx.scale(scale,scale); ctx.drawImage(img,0,0,w,h);
-          resolve(canvas.toDataURL('image/png'));
-        }catch(e){ resolve(null); }
-      };
-      img.onerror=()=>resolve(null);
-      img.src='data:image/svg+xml;base64,'+svg64;
-    }catch(e){ resolve(null); }
-  });
-}
-// 导出 Word 报告：用 Word 原生识别的 HTML 格式（业界通用做法——Word/WPS 直接打开、无格式警告，
-// 零依赖零 CDN，符合本工具"纯 HTML/JS，不引入外部库"的约束）。文件用 .doc 扩展名——它本质是
-// Word 专属 HTML、并非真正的 OOXML .docx 压缩包，扩展名与内容如实对应，Word 才不会弹"格式不符"警告。
-// 成熟度矩阵先经 svgToPngDataURL 转成 PNG 再嵌入，因为 Word 的 HTML 渲染引擎不认内联 SVG（会留空白）。
-async function downloadReportDocx(){
-  const btn=document.getElementById('docxBtn');
-  if(btn){btn.disabled=true;btn.textContent='生成中…';}
-  try{
-    const png=await svgToPngDataURL(matrixSVGString(),420,420);
-    const chartHTML=png?`<img src="${png}" alt="成熟度矩阵" style="width:100%;max-width:420px">`:'';
-    const body=reportBodyHTML(chartHTML);
-    const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
-<head><meta charset="UTF-8"><title>E-mark评估报告_${reportNo()}</title>
-<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom><w:DoNotOptimizeForBrowser/></w:WordDocument></xml><![endif]-->
-<style>${reportCSS()}</style></head><body>${body}</body></html>`;
-    const blob=new Blob(['﻿'+html],{type:'application/msword'});
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    // 文件名用纯 ASCII（reportNo() 本身即 ASCII）：部分 Chromium 版本在 a[download] 含非 ASCII 字符时
-    // 会整体丢弃、静默退化成通用文件名「download」——文档内 <title>/<h1> 仍是中文，不影响 Word 内显示
-    a.href=url; a.download=`E-mark-Report_${reportNo()}.doc`;
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(()=>URL.revokeObjectURL(url),4000);
-  }catch(e){
-    alert('生成 Word 报告失败，请重试或改用 PDF 导出。');
-  }finally{
-    if(btn){btn.disabled=false;btn.textContent='⬇ 导出 Word 报告';}
-  }
 }
 function step6(){
   const {X,Y,items}=computeScores();
@@ -2777,13 +2760,16 @@ function step6(){
       <div class="rcard"><div class="rk">企业画像</div><div class="rv">规模：${plabel('size')} · 出口经验：${plabel('exp')}<br>时间要求：${plabel('timeline')}<br>已持认证：${plabel('certs')}</div></div>
       <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}<br><small style="color:var(--grey)">X ${X} / Y ${Y} · ${gapRows.length} 项缺口</small></div></div>
     </div>
+    <div class="rtab-wrap">
+      <div class="rtab-hd"><span class="rt-t">总结</span></div>
+      <div style="padding:2px 18px 16px">${buildSummaryText().map(p=>`<p class="concl" style="margin:10px 0;background:none;border-left:none;padding:0">${p}</p>`).join('')}</div>
+    </div>
     <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</p>
     <div class="cta-box">
       <h3>您的免费评估报告已生成</h3>
       <p>报告编号 <b>${reportNo()}</b> · 共 ${gapRows.length} 项缺口（按法规生效日历排序）。<br>想知道「每一项具体怎么补、优先做哪个」？预约我们的专家，一对一为您解读。</p>
       <button class="btn" onclick="alert('（示意）已记录：报告 ${reportNo()} · ${q.name}象限 · ${gapRows.length}项缺口 · 将转销售预约专家解读')">预约专家解读我的缺口 →</button>
       <button class="btn" style="margin-left:10px" onclick="downloadReport()">⬇ 导出 PDF 报告</button>
-      <button class="btn" id="docxBtn" style="margin-left:10px" onclick="downloadReportDocx()">⬇ 导出 Word 报告</button>
     </div>
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
