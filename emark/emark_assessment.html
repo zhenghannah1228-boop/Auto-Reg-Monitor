@@ -2575,7 +2575,20 @@ function downloadReport(){
   const rtabRows=rows=>rows.map(g=>`<tr><td class="lv ${g.sev==='red'?'lvhi':'lvmid'}">${g.lvl}</td><td>${esc(g.txt)}${dueTxt(g)}</td><td><b>${esc(g.svc)}</b> — ${esc(g.action)}</td></tr>`).join('');
   const ovRows=ov.map(o=>`<tr><td class="ovn">${o.n}</td><td>${esc(o.label)}</td><td class="ovhi">${o.hi||''}</td><td class="ovmid">${o.mid||''}</td><td>${esc(o.note)}</td></tr>`).join('');
   const objLine=objName?`评估对象：<b>${esc(objName)}</b> · `:'';
-  const subSec=subs.length?`<h2>五、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
+  const subSec=subs.length?`<h2>六、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
+  // 总体结论与下一步行动：把「导读/总览」的数字翻译成一段具体叙述 + 9 站认证旅程当前进度/下一步该做什么，
+  // 不再只靠数字表格让企业自己猜——这是本节唯一目的，故不复用 journeyStatus() 之外的额外计算。
+  const {X:cX,Y:cY}=computeScores(), cq=quadrant(cX,cY);
+  const roleLabel={OEM:'OEM 整车厂',STU:'系统集成商',AFTER:'售后件供应商'}[sel.role]||'贵司';
+  const journey=journeyStatus();
+  const nextStage=journey.find(s=>s.state!=='done');
+  const conclText=`${objName?`<b>${esc(objName)}</b>（`:''}${esc(roleLabel)}${objName?'）':''}目前处于「<b>${esc(cq.name)}象限</b>」——${esc(cq.desc)}。共识别 <b>${gaps.length}</b> 项待处理事项（法规 ${regGaps.length} 项、体系 ${sysGaps.length} 项），认证时间要求为「${esc(plabel('timeline'))}」。`
+    +(nextStage
+      ?`<br><b>下一步应立即推进：</b>「${nextStage.no}. ${esc(nextStage.name)}」— ${esc(nextStage.what)}（现状：${esc(nextStage.note)}）`
+      :`<br>认证旅程 9 站均已完成，下一步转入持证运营阶段的常规维护（法规版本追踪、CoP 监督、证书台账）。`);
+  const jRows=journey.map(s=>{const ss=STAGE_STATE[s.state], isNext=nextStage&&s.no===nextStage.no;
+    return `<tr${isNext?' style="background:#FBF3EC"':''}><td class="jno">${s.no}</td><td><b>${esc(s.name)}</b></td><td><span class="jst" style="background:${ss.c}">${ss.t}</span></td><td>${esc(s.note)}</td><td>${esc(s.what)}</td></tr>`;
+  }).join('');
   const html=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>E-mark评估报告_${reportNo()}</title>
 <style>
 @page{size:A4;margin:16mm}
@@ -2596,6 +2609,9 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 .rtnote{font-size:11px;color:#9AA1AB;margin:2px 0 6px}
 .meta{font-size:12px;color:#6B7280}
 .disc{font-size:11.5px;color:#6B7280;border:1px solid #C6502A;border-radius:8px;padding:10px 14px;margin-top:24px}
+.concl{font-size:12.5px;line-height:1.75;background:#FBF3EC;border-left:4px solid #C6502A;padding:12px 16px;margin:8px 0}
+.jno{width:24px;text-align:center;color:#9AA1AB}
+.jst{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px;white-space:nowrap}
 /* 成熟度矩阵（与页面 maturityBlock() 同一套 class，供导出报告直接复用同一份 HTML） */
 .mx-block{display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:10px;overflow:hidden;margin:8px 0 14px;border:1px solid #E3E6EA;page-break-inside:avoid}
 .mx-left{padding:16px 18px 12px;border-right:1px solid #E3E6EA}
@@ -2635,11 +2651,14 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 <table class="ovtab"><thead><tr><th>#</th><th>类别</th><th>高</th><th>中</th><th>结论 / 最该关注</th></tr></thead><tbody>${ovRows}</tbody></table>
 <h2>一、企业画像</h2>
 <table><tr><td>企业规模</td><td>${esc(plabel('size'))}</td></tr><tr><td>出口经验</td><td>${esc(plabel('exp'))}</td></tr><tr><td>认证时间要求</td><td>${esc(plabel('timeline'))}</td></tr><tr><td>意向批准机关</td><td>${esc(plabel('authority'))}</td></tr><tr><td>已持认证</td><td>${esc(plabel('certs'))}</td></tr><tr><td>关注痛点</td><td>${esc(plabel('pains'))}</td></tr></table>
-<h2>二、成熟度定位</h2>
+<h2>二、总体结论与下一步行动</h2>
+<p class="concl">${conclText}</p>
+<table><thead><tr><th>站</th><th>阶段</th><th>状态</th><th>现状</th><th>该做什么</th></tr></thead><tbody>${jRows}</tbody></table>
+<h2>三、成熟度定位</h2>
 ${maturityBlock()}
-<h2>三、法规认证缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${regGaps.filter(g=>g.sev==='red').length} · 中 ${regGaps.filter(g=>g.sev==='amber').length}</small></h2>
+<h2>四、法规认证缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${regGaps.filter(g=>g.sev==='red').length} · 中 ${regGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${regGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(regGaps)}</tbody></table>`:'<p class="rtnote">适用法规均已启动或完成认证，无缺口。</p>'}
-<h2>四、体系成熟度缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${sysGaps.filter(g=>g.sev==='red').length} · 中 ${sysGaps.filter(g=>g.sev==='amber').length}</small></h2>
+<h2>五、体系成熟度缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${sysGaps.filter(g=>g.sev==='red').length} · 中 ${sysGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${sysGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(sysGaps)}</tbody></table>`:'<p class="rtnote">体系四维度要求均已满足，无缺口。</p>'}
 ${subSec}
 <div class="disc"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</div>
