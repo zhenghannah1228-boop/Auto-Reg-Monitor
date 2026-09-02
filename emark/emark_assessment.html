@@ -2564,21 +2564,18 @@ function reportNo(){
   return window._rno;
 }
 function downloadReport(){
-  const {X,Y,items}=computeScores();
-  const q=quadrant(X,Y);
+  const {items}=computeScores();
   const gaps=computeGaps(items);
   const ov=gapOverview(gaps);
   const regGaps=gaps.filter(g=>g.cat==='reg'), sysGaps=gaps.filter(g=>g.cat==='sys');
   const subs=subscribedList(items);
-  const copy=QUADRANT_COPY[q.key]||{risk:'',recs:[]};
   const dstr=new Date().toISOString().slice(0,10);
   const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
   const dueTxt=g=>g.due?` <b style="color:#A8401F">（距新版生效 ${g.due.days} 天，${esc(g.due.status)} · ${g.due.eif}）</b>`:'';
   const rtabRows=rows=>rows.map(g=>`<tr><td class="lv ${g.sev==='red'?'lvhi':'lvmid'}">${g.lvl}</td><td>${esc(g.txt)}${dueTxt(g)}</td><td><b>${esc(g.svc)}</b> — ${esc(g.action)}</td></tr>`).join('');
   const ovRows=ov.map(o=>`<tr><td class="ovn">${o.n}</td><td>${esc(o.label)}</td><td class="ovhi">${o.hi||''}</td><td class="ovmid">${o.mid||''}</td><td>${esc(o.note)}</td></tr>`).join('');
-  const sysLis=activeSys().map(s=>`<tr><td>${esc(s.name)}</td><td style="text-align:right"><b>${dimScore(s)}</b></td></tr>`).join('');
   const objLine=objName?`评估对象：<b>${esc(objName)}</b> · `:'';
-  const subSec=subs.length?`<h2>六、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
+  const subSec=subs.length?`<h2>五、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
   const html=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>E-mark评估报告_${reportNo()}</title>
 <style>
 @page{size:A4;margin:16mm}
@@ -2597,8 +2594,33 @@ table.rtab td.lv{width:36px;text-align:center;font-weight:800;font-size:12px}
 table.rtab td.lv.lvhi{background:#F6E0D6;color:#A8401F}
 table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 .rtnote{font-size:11px;color:#9AA1AB;margin:2px 0 6px}
-.meta{font-size:12px;color:#6B7280}.tag{display:inline-block;background:${q.color};color:#fff;font-weight:700;padding:2px 12px;border-radius:4px}
+.meta{font-size:12px;color:#6B7280}
 .disc{font-size:11.5px;color:#6B7280;border:1px solid #C6502A;border-radius:8px;padding:10px 14px;margin-top:24px}
+/* 成熟度矩阵（与页面 maturityBlock() 同一套 class，供导出报告直接复用同一份 HTML） */
+.mx-block{display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:10px;overflow:hidden;margin:8px 0 14px;border:1px solid #E3E6EA;page-break-inside:avoid}
+.mx-left{padding:16px 18px 12px;border-right:1px solid #E3E6EA}
+.mx-eyebrow{font-family:Georgia,serif;font-size:10px;letter-spacing:2px;color:#6B7280;text-transform:uppercase;margin-bottom:6px}
+.mx-caption{font-size:10px;color:#6B7280;line-height:1.5;margin-top:6px}
+.mx-right{padding:16px 20px;color:#1A1D21;display:flex;flex-direction:column;gap:12px}
+.mx-verdict{border-bottom:1px solid #E3E6EA;padding-bottom:10px}
+.mx-tag{display:inline-block;font-family:Georgia,serif;font-size:16px;font-weight:700;color:#fff;padding:3px 14px;border-radius:4px;margin-bottom:6px}
+.mx-vd{font-size:12.5px;color:#3A3F46;line-height:1.5}
+.mx-metrics{display:flex;gap:18px;border-bottom:1px solid #E3E6EA;padding-bottom:12px;flex-wrap:wrap}
+.mx-metrics>div{display:flex;flex-direction:column}
+.mm-v{font-family:Georgia,serif;font-size:26px;font-weight:700;line-height:1}
+.mm-l{font-size:10.5px;color:#6B7280;margin-top:3px}
+.mx-iph{font-family:Georgia,serif;font-size:10.5px;letter-spacing:1.5px;color:#E8622C;text-transform:uppercase;margin:2px 0 5px}
+.mx-risk{font-size:12px;color:#3A3F46;line-height:1.6;margin-bottom:9px}
+.mx-recs{margin:0;padding-left:18px;font-size:12px;color:#3A3F46;line-height:1.5}
+.mx-recs li{margin-bottom:4px}
+.mx-tables{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px;page-break-inside:avoid}
+.mx-dt{background:#fff;border:1px solid #E3E6EA;border-radius:8px;overflow:hidden}
+.mx-dth{font-family:Georgia,serif;font-size:11.5px;color:#1A1D21;font-weight:700;padding:9px 13px;background:#F4F5F7;border-bottom:1px solid #E3E6EA}
+.mx-dt table{width:100%;border-collapse:collapse;font-size:12px;margin:0}
+.mx-dt td{padding:7px 13px;border:none;border-bottom:1px solid #F0F1F3}
+.mx-dt tr:last-child td{border-bottom:none}
+.mx-dt td.r{text-align:right}.mx-dt td.g{color:#6B7280}.mx-dt td.rd{color:#C0392B}
+.mx-dt tr.tot td{background:#FBF3EC;font-weight:700;color:#1A1D21}
 .chip{display:inline-block;font-size:11.5px;font-weight:700;color:#C44E1E;background:#FBE4D7;padding:3px 11px;border-radius:11px;margin:2px 4px 2px 0}
 .chips{margin:6px 0}
 .bar{position:sticky;top:0;background:#1A1D21;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;margin:-32px -28px 20px;font-size:13px;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
@@ -2614,14 +2636,10 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 <h2>一、企业画像</h2>
 <table><tr><td>企业规模</td><td>${esc(plabel('size'))}</td></tr><tr><td>出口经验</td><td>${esc(plabel('exp'))}</td></tr><tr><td>认证时间要求</td><td>${esc(plabel('timeline'))}</td></tr><tr><td>意向批准机关</td><td>${esc(plabel('authority'))}</td></tr><tr><td>已持认证</td><td>${esc(plabel('certs'))}</td></tr><tr><td>关注痛点</td><td>${esc(plabel('pains'))}</td></tr></table>
 <h2>二、成熟度定位</h2>
-<p><span class="tag">${q.name}象限</span> &nbsp; X 法规完成度 <b>${X}</b> / Y 体系成熟度 <b>${Y}</b>（适用法规 ${items.length} 项，象限分界 ${CONFIG.threshold}）</p>
-<div style="text-align:center;margin:10px 0">${radarSVG(240)}</div>
-<p><b>风险研判：</b>${esc(copy.risk)}</p>
-<p><b>优先建议：</b></p><ol>${copy.recs.map(r=>`<li>${esc(r)}</li>`).join('')}</ol>
-<h2>三、体系成熟度明细（Y 轴）</h2><table>${sysLis}</table>
-<h2>四、法规认证缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${regGaps.filter(g=>g.sev==='red').length} · 中 ${regGaps.filter(g=>g.sev==='amber').length}</small></h2>
+${maturityBlock()}
+<h2>三、法规认证缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${regGaps.filter(g=>g.sev==='red').length} · 中 ${regGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${regGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(regGaps)}</tbody></table>`:'<p class="rtnote">适用法规均已启动或完成认证，无缺口。</p>'}
-<h2>五、体系成熟度缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${sysGaps.filter(g=>g.sev==='red').length} · 中 ${sysGaps.filter(g=>g.sev==='amber').length}</small></h2>
+<h2>四、体系成熟度缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${sysGaps.filter(g=>g.sev==='red').length} · 中 ${sysGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${sysGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(sysGaps)}</tbody></table>`:'<p class="rtnote">体系四维度要求均已满足，无缺口。</p>'}
 ${subSec}
 <div class="disc"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</div>
