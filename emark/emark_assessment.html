@@ -201,6 +201,9 @@ table.rtab{width:100%;border-collapse:collapse;font-size:13px}
 .rtab td.ovmid{width:40px;text-align:center;font-weight:800;color:var(--amber)}
 .subchips{padding:14px 18px;display:flex;flex-wrap:wrap;gap:8px}
 .subchip{font-size:12px;font-weight:700;color:var(--od);background:var(--ol);padding:4px 11px;border-radius:12px}
+.concl{font-size:13px;line-height:1.75;background:var(--cream);border-left:4px solid var(--o);border-radius:0 8px 8px 0;padding:12px 16px;margin:0 18px 12px}
+.jno{width:24px;text-align:center;color:var(--greyl)}
+.jst{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:10px;white-space:nowrap}
 .cta-box{background:linear-gradient(120deg,var(--o),var(--od));color:#fff;border-radius:16px;padding:26px 30px;text-align:center;margin-top:8px}
 .cta-box h3{font-size:20px;margin-bottom:6px;color:#fff}
 .cta-box p{color:#FCE8DD;font-size:14px;margin-bottom:16px}
@@ -2325,22 +2328,6 @@ function openFAQ(){
   emkModal('常见问题 · E-mark 认证 FAQ', body,
     '口径均出自工具内已核验的官方引用（(EU) 2018/858 / WP.29 系列文件 / 各专项指令），正式判定以认可技术服务机构 / 型式批准机关为准。');
 }
-// ===== 成熟度雷达图（X 法规完成度 + 各体系维度）=====
-function radarSVG(size){
-  const {X}=computeScores();
-  const axes=[{n:'法规完成度',v:X}].concat(activeSys().map(s=>({n:s.name.replace(/体系|机制|管理$/g,'').slice(0,7),v:dimScore(s)})));
-  const N=axes.length, R=(size||220)/2-34, cx=(size||220)/2, cy=(size||220)/2+4;
-  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
-  const ring=f=>axes.map((_,i)=>pt(i,R*f).map(v=>v.toFixed(1)).join(',')).join(' ');
-  const poly=axes.map((ax,i)=>pt(i,R*ax.v/100).map(v=>v.toFixed(1)).join(',')).join(' ');
-  const labels=axes.map((ax,i)=>{const [x,y]=pt(i,R+16);const anch=Math.abs(x-cx)<8?'middle':(x>cx?'start':'end');
-    return `<text x="${x.toFixed(1)}" y="${(y+4).toFixed(1)}" font-size="10.5" fill="#6B7280" text-anchor="${anch}">${ax.n} ${ax.v}</text>`;}).join('');
-  const spokes=axes.map((_,i)=>{const [x,y]=pt(i,R);return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#ECEEF1"/>`;}).join('');
-  return `<svg viewBox="0 0 ${size||220} ${size||220}" width="100%" style="max-width:${size||220}px" aria-label="成熟度雷达图">
-    ${[0.25,0.5,0.75,1].map(f=>`<polygon points="${ring(f)}" fill="none" stroke="#ECEEF1"/>`).join('')}${spokes}
-    <polygon points="${poly}" fill="rgba(232,98,44,.18)" stroke="#E8622C" stroke-width="1.8" stroke-linejoin="round"/>
-    ${axes.map((ax,i)=>{const [x,y]=pt(i,R*ax.v/100);return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="#E8622C"/>`;}).join('')}${labels}</svg>`;
-}
 // 每一站的现状：从画像 + 法规盘点 + 体系自评推导
 function journeyStatus(){
   const {items}=computeScores();
@@ -2363,20 +2350,14 @@ function journeyStatus(){
     return Object.assign({},st,{state,note});
   });
 }
-function maturityBlock(){
-  const {X,Y,items}=computeScores();
-  const q=quadrant(X,Y);
-  const copy=QUADRANT_COPY[q.key]||{risk:'',recs:[]};
-  let done=0,prog=0,nostart=0,unk=0;
-  items.forEach(i=>{const s=regStatus[i.item];if(s==='done')done++;else if(s==='prog')prog++;else if(s==='no')nostart++;else unk++;});
-  const total=items.length, gaps=nostart+unk;
-  const donePct=total?Math.round(done/total*100):0;
-  const actSys=activeSys();
-  const sysDetail=actSys.map(s=>{const sc=dimScore(s);const lab=sc===100?'已建立':(sc===0?'缺失':'部分');return {name:s.name,sc,lab};});
+// 成熟度矩阵散点图独立导出为 SVG 字符串：DOCX 导出要把它先转成 PNG 光栅图再嵌入
+// （Word 的 HTML 渲染引擎不支持内联 SVG，直接嵌会整块空白），故与 maturityBlock() 拆开复用。
+function matrixSVGString(){
+  const {X,Y}=computeScores(); const q=quadrant(X,Y);
   const ref=REF_POINT[sel.role]||REF_POINT._default;
   const cx=(60+X*3.4).toFixed(1), cy=(20+(100-Y)*3.4).toFixed(1);
   const labY=(+cy-14).toFixed(1);
-  const svg=`<svg viewBox="0 0 420 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="合规成熟度矩阵，您的定位 X ${X} Y ${Y}，${q.name}象限">
+  return `<svg viewBox="0 0 420 420" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="合规成熟度矩阵，您的定位 X ${X} Y ${Y}，${q.name}象限">
       <defs><pattern id="mxg" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0 L0 0 0 34" fill="none" stroke="#E5E7EB" stroke-width="0.5"/></pattern></defs>
       <rect x="60" y="20" width="340" height="340" fill="url(#mxg)"/>
       <rect x="60" y="20" width="170" height="170" fill="#2563EB" opacity="0.06"/>
@@ -2410,6 +2391,18 @@ function maturityBlock(){
       <circle cx="${cx}" cy="${cy}" r="8" fill="${q.color}" stroke="#fff" stroke-width="2.5"/>
       <text x="${cx}" y="${labY}" fill="#1F2937" font-size="10.5" text-anchor="middle" font-weight="bold">您 (${X}, ${Y})</text>
     </svg>`;
+}
+function maturityBlock(chartHTML){
+  const {X,Y,items}=computeScores();
+  const q=quadrant(X,Y);
+  const copy=QUADRANT_COPY[q.key]||{risk:'',recs:[]};
+  let done=0,prog=0,nostart=0,unk=0;
+  items.forEach(i=>{const s=regStatus[i.item];if(s==='done')done++;else if(s==='prog')prog++;else if(s==='no')nostart++;else unk++;});
+  const total=items.length, gaps=nostart+unk;
+  const donePct=total?Math.round(done/total*100):0;
+  const actSys=activeSys();
+  const sysDetail=actSys.map(s=>{const sc=dimScore(s);const lab=sc===100?'已建立':(sc===0?'缺失':'部分');return {name:s.name,sc,lab};});
+  const svg=chartHTML||matrixSVGString();
   const recsHTML=copy.recs.map(r=>`<li>${r}</li>`).join('');
   return `<div class="mx-block">
       <div class="mx-left">
@@ -2566,36 +2559,11 @@ function reportNo(){
   }
   return window._rno;
 }
-function downloadReport(){
-  const {items}=computeScores();
-  const gaps=computeGaps(items);
-  const ov=gapOverview(gaps);
-  const regGaps=gaps.filter(g=>g.cat==='reg'), sysGaps=gaps.filter(g=>g.cat==='sys');
-  const subs=subscribedList(items);
-  const dstr=new Date().toISOString().slice(0,10);
-  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const dueTxt=g=>g.due?` <b style="color:#A8401F">（距新版生效 ${g.due.days} 天，${esc(g.due.status)} · ${g.due.eif}）</b>`:'';
-  const rtabRows=rows=>rows.map(g=>`<tr><td class="lv ${g.sev==='red'?'lvhi':'lvmid'}">${g.lvl}</td><td>${esc(g.txt)}${dueTxt(g)}</td><td><b>${esc(g.svc)}</b> — ${esc(g.action)}</td></tr>`).join('');
-  const ovRows=ov.map(o=>`<tr><td class="ovn">${o.n}</td><td>${esc(o.label)}</td><td class="ovhi">${o.hi||''}</td><td class="ovmid">${o.mid||''}</td><td>${esc(o.note)}</td></tr>`).join('');
-  const objLine=objName?`评估对象：<b>${esc(objName)}</b> · `:'';
-  const subSec=subs.length?`<h2>六、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
-  // 总体结论与下一步行动：把「导读/总览」的数字翻译成一段具体叙述 + 9 站认证旅程当前进度/下一步该做什么，
-  // 不再只靠数字表格让企业自己猜——这是本节唯一目的，故不复用 journeyStatus() 之外的额外计算。
-  const {X:cX,Y:cY}=computeScores(), cq=quadrant(cX,cY);
-  const roleLabel={OEM:'OEM 整车厂',STU:'系统集成商',AFTER:'售后件供应商'}[sel.role]||'贵司';
-  const journey=journeyStatus();
-  const nextStage=journey.find(s=>s.state!=='done');
-  const conclText=`${objName?`<b>${esc(objName)}</b>（`:''}${esc(roleLabel)}${objName?'）':''}目前处于「<b>${esc(cq.name)}象限</b>」——${esc(cq.desc)}。共识别 <b>${gaps.length}</b> 项待处理事项（法规 ${regGaps.length} 项、体系 ${sysGaps.length} 项），认证时间要求为「${esc(plabel('timeline'))}」。`
-    +(nextStage
-      ?`<br><b>下一步应立即推进：</b>「${nextStage.no}. ${esc(nextStage.name)}」— ${esc(nextStage.what)}（现状：${esc(nextStage.note)}）`
-      :`<br>认证旅程 9 站均已完成，下一步转入持证运营阶段的常规维护（法规版本追踪、CoP 监督、证书台账）。`);
-  const jRows=journey.map(s=>{const ss=STAGE_STATE[s.state], isNext=nextStage&&s.no===nextStage.no;
-    return `<tr${isNext?' style="background:#FBF3EC"':''}><td class="jno">${s.no}</td><td><b>${esc(s.name)}</b></td><td><span class="jst" style="background:${ss.c}">${ss.t}</span></td><td>${esc(s.note)}</td><td>${esc(s.what)}</td></tr>`;
-  }).join('');
-  const html=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>E-mark评估报告_${reportNo()}</title>
-<style>
+// 报告 CSS：PDF 打印窗口与 DOCX 导出共用同一份，避免两处各写一份、越改越不一致
+function reportCSS(){
+  return `
 @page{size:A4;margin:16mm}
-*{box-sizing:border-box}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;color-adjust:exact}
 body{font-family:Georgia,"Songti SC","SimSun",serif;color:#1A1D21;max-width:860px;margin:0 auto;padding:32px 28px;line-height:1.7;font-size:13px}
 h1{font-size:22px;border-bottom:3px solid #C6502A;padding-bottom:10px;font-family:inherit}
 h2{font-size:15px;color:#C6502A;margin-top:26px;padding-bottom:4px;border-bottom:1px solid #E3E6EA;page-break-after:avoid}
@@ -2644,13 +2612,36 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 .mx-calc b{color:#C44E1E}
 .chip{display:inline-block;font-size:11.5px;font-weight:700;color:#C44E1E;background:#FBE4D7;padding:3px 11px;border-radius:11px;margin:2px 4px 2px 0}
 .chips{margin:6px 0}
-.bar{position:sticky;top:0;background:#1A1D21;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;margin:-32px -28px 20px;font-size:13px;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
-.bar b{flex:1}
-.bar button{font-family:inherit;font-size:13px;font-weight:700;border:none;border-radius:7px;padding:8px 16px;cursor:pointer;background:#E8622C;color:#fff}
-@media print{.bar{display:none}body{padding-top:0}}
-</style></head><body>
-<div class="bar noprint"><b>报告已生成 — 在打印对话框中选择「目标打印机 → 另存为 PDF」即可导出</b><button onclick="window.print()">🖨 保存为 PDF</button></div>
-<h1>E-mark / e-mark 合规成熟度评估报告</h1>
+`;
+}
+// 报告正文（导读/总览…免责声明）：PDF 打印与 DOCX 导出共用同一份内容，避免两处各写一份、越改越不一致。
+// chartHTML：成熟度矩阵图表的替代渲染——不传时走 maturityBlock() 默认的内联 SVG（PDF 用）；
+// DOCX 需先把 SVG 转成 PNG 再传入（Word 的 HTML 渲染引擎不支持内联 SVG，直接嵌会整块空白）。
+function reportBodyHTML(chartHTML){
+  const {items}=computeScores();
+  const gaps=computeGaps(items);
+  const ov=gapOverview(gaps);
+  const regGaps=gaps.filter(g=>g.cat==='reg'), sysGaps=gaps.filter(g=>g.cat==='sys');
+  const subs=subscribedList(items);
+  const dstr=new Date().toISOString().slice(0,10);
+  const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const dueTxt=g=>g.due?` <b style="color:#A8401F">（距新版生效 ${g.due.days} 天，${esc(g.due.status)} · ${g.due.eif}）</b>`:'';
+  const rtabRows=rows=>rows.map(g=>`<tr><td class="lv ${g.sev==='red'?'lvhi':'lvmid'}">${g.lvl}</td><td>${esc(g.txt)}${dueTxt(g)}</td><td><b>${esc(g.svc)}</b> — ${esc(g.action)}</td></tr>`).join('');
+  const ovRows=ov.map(o=>`<tr><td class="ovn">${o.n}</td><td>${esc(o.label)}</td><td class="ovhi">${o.hi||''}</td><td class="ovmid">${o.mid||''}</td><td>${esc(o.note)}</td></tr>`).join('');
+  const objLine=objName?`评估对象：<b>${esc(objName)}</b> · `:'';
+  const subSec=subs.length?`<h2>六、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
+  const {X:cX,Y:cY}=computeScores(), cq=quadrant(cX,cY);
+  const roleLabel={OEM:'OEM 整车厂',STU:'系统集成商',AFTER:'售后件供应商'}[sel.role]||'贵司';
+  const journey=journeyStatus();
+  const nextStage=journey.find(s=>s.state!=='done');
+  const conclText=`${objName?`<b>${esc(objName)}</b>（`:''}${esc(roleLabel)}${objName?'）':''}目前处于「<b>${esc(cq.name)}象限</b>」——${esc(cq.desc)}。共识别 <b>${gaps.length}</b> 项待处理事项（法规 ${regGaps.length} 项、体系 ${sysGaps.length} 项），认证时间要求为「${esc(plabel('timeline'))}」。`
+    +(nextStage
+      ?`<br><b>下一步应立即推进：</b>「${nextStage.no}. ${esc(nextStage.name)}」— ${esc(nextStage.what)}（现状：${esc(nextStage.note)}）`
+      :`<br>认证旅程 9 站均已完成，下一步转入持证运营阶段的常规维护（法规版本追踪、CoP 监督、证书台账）。`);
+  const jRows=journey.map(s=>{const ss=STAGE_STATE[s.state], isNext=nextStage&&s.no===nextStage.no;
+    return `<tr${isNext?' style="background:#FBF3EC"':''}><td class="jno">${s.no}</td><td><b>${esc(s.name)}</b></td><td><span class="jst" style="background:${ss.c}">${ss.t}</span></td><td>${esc(s.note)}</td><td>${esc(s.what)}</td></tr>`;
+  }).join('');
+  return `<h1>E-mark / e-mark 合规成熟度评估报告</h1>
 <p class="meta">${objLine}报告编号：<b>${reportNo()}</b> · 生成日期：${dstr} · 一点通</p>
 <h2>导读 / 总览</h2>
 <table class="ovtab"><thead><tr><th>#</th><th>类别</th><th>高</th><th>中</th><th>结论 / 最该关注</th></tr></thead><tbody>${ovRows}</tbody></table>
@@ -2660,18 +2651,78 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 <p class="concl">${conclText}</p>
 <table><thead><tr><th>站</th><th>阶段</th><th>状态</th><th>现状</th><th>该做什么</th></tr></thead><tbody>${jRows}</tbody></table>
 <h2>三、成熟度矩阵</h2>
-${maturityBlock()}
+${maturityBlock(chartHTML)}
 <h2>四、法规认证缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${regGaps.filter(g=>g.sev==='red').length} · 中 ${regGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${regGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(regGaps)}</tbody></table>`:'<p class="rtnote">适用法规均已启动或完成认证，无缺口。</p>'}
 <h2>五、体系成熟度缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${sysGaps.filter(g=>g.sev==='red').length} · 中 ${sysGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${sysGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(sysGaps)}</tbody></table>`:'<p class="rtnote">体系四维度要求均已满足，无缺口。</p>'}
 ${subSec}
-<div class="disc"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</div>
+<div class="disc"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</div>`;
+}
+function downloadReport(){
+  const barCSS=`.bar{position:sticky;top:0;background:#1A1D21;color:#fff;padding:10px 16px;display:flex;align-items:center;gap:12px;margin:-32px -28px 20px;font-size:13px;font-family:"Microsoft YaHei","PingFang SC",sans-serif}
+.bar b{flex:1}
+.bar button{font-family:inherit;font-size:13px;font-weight:700;border:none;border-radius:7px;padding:8px 16px;cursor:pointer;background:#E8622C;color:#fff}
+@media print{.bar{display:none}body{padding-top:0}}`;
+  const html=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>E-mark评估报告_${reportNo()}</title>
+<style>${reportCSS()}${barCSS}</style></head><body>
+<div class="bar noprint"><b>报告已生成 — 在打印对话框中选择「目标打印机 → 另存为 PDF」即可导出</b><button onclick="window.print()">🖨 保存为 PDF</button></div>
+${reportBodyHTML()}
 <script>window.addEventListener('load',function(){setTimeout(function(){try{window.print();}catch(e){}},400);});<\/script>
 </body></html>`;
   const w=window.open('','_blank');
   if(!w){alert('浏览器拦截了弹窗，请允许本站弹窗后重试导出 PDF。');return;}
   w.document.open();w.document.write(html);w.document.close();
+}
+// 把 SVG 字符串栅格化为 PNG dataURL（DOCX 导出用：Word 的 HTML 渲染引擎不支持内联 SVG）
+function svgToPngDataURL(svgStr,w,h){
+  return new Promise(resolve=>{
+    try{
+      const img=new Image();
+      const svg64=btoa(unescape(encodeURIComponent(svgStr)));
+      img.onload=()=>{
+        try{
+          const scale=2, canvas=document.createElement('canvas');
+          canvas.width=w*scale; canvas.height=h*scale;
+          const ctx=canvas.getContext('2d');
+          ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height);
+          ctx.scale(scale,scale); ctx.drawImage(img,0,0,w,h);
+          resolve(canvas.toDataURL('image/png'));
+        }catch(e){ resolve(null); }
+      };
+      img.onerror=()=>resolve(null);
+      img.src='data:image/svg+xml;base64,'+svg64;
+    }catch(e){ resolve(null); }
+  });
+}
+// 导出 Word 报告：用 Word 原生识别的 HTML 格式（业界通用做法——Word/WPS 直接打开、无格式警告，
+// 零依赖零 CDN，符合本工具"纯 HTML/JS，不引入外部库"的约束）。文件用 .doc 扩展名——它本质是
+// Word 专属 HTML、并非真正的 OOXML .docx 压缩包，扩展名与内容如实对应，Word 才不会弹"格式不符"警告。
+// 成熟度矩阵先经 svgToPngDataURL 转成 PNG 再嵌入，因为 Word 的 HTML 渲染引擎不认内联 SVG（会留空白）。
+async function downloadReportDocx(){
+  const btn=document.getElementById('docxBtn');
+  if(btn){btn.disabled=true;btn.textContent='生成中…';}
+  try{
+    const png=await svgToPngDataURL(matrixSVGString(),420,420);
+    const chartHTML=png?`<img src="${png}" alt="成熟度矩阵" style="width:100%;max-width:420px">`:'';
+    const body=reportBodyHTML(chartHTML);
+    const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"><title>E-mark评估报告_${reportNo()}</title>
+<!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View><w:Zoom>100</w:Zoom><w:DoNotOptimizeForBrowser/></w:WordDocument></xml><![endif]-->
+<style>${reportCSS()}</style></head><body>${body}</body></html>`;
+    const blob=new Blob(['﻿'+html],{type:'application/msword'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    // 文件名用纯 ASCII（reportNo() 本身即 ASCII）：部分 Chromium 版本在 a[download] 含非 ASCII 字符时
+    // 会整体丢弃、静默退化成通用文件名「download」——文档内 <title>/<h1> 仍是中文，不影响 Word 内显示
+    a.href=url; a.download=`E-mark-Report_${reportNo()}.doc`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url),4000);
+  }catch(e){
+    alert('生成 Word 报告失败，请重试或改用 PDF 导出。');
+  }finally{
+    if(btn){btn.disabled=false;btn.textContent='⬇ 导出 Word 报告';}
+  }
 }
 function step6(){
   const {X,Y,items}=computeScores();
@@ -2691,6 +2742,18 @@ function step6(){
   const painDef=PROFILE.find(p=>p.id==='pains');
   const painHTML=profile.pains.map(k=>{const o=painDef.opts.find(x=>x[0]===k);return o?`<div class="gap"><span class="gdot amber"></span><span>${o[1]} <small style="color:var(--grey)">${o[2]}</small></span><span class="gsvc">${o[3]||'专家解读'}</span></div>`:'';}).join('');
   const subHTML=subs.length?`<div class="rtab-wrap"><div class="rtab-hd"><span class="rt-t">📌 已订阅法规动态</span><span class="rt-n">${subs.length} 项</span></div><div class="subchips">${subs.map(s=>`<span class="subchip">${s}</span>`).join('')}</div></div>`:'';
+  // 总体结论与下一步行动：与导出报告同一套口径（角色/象限/缺口统计 + 认证旅程 9 站真实进度），
+  // 页面与报告始终保持一致，不再各写各的
+  const roleLabel={OEM:'OEM 整车厂',STU:'系统集成商',AFTER:'售后件供应商'}[sel.role]||'贵司';
+  const journey=journeyStatus();
+  const nextStage=journey.find(s=>s.state!=='done');
+  const conclText=`${objName?`<b>${objName}</b>（`:''}${roleLabel}${objName?'）':''}目前处于「<b>${q.name}象限</b>」——${q.desc}。共识别 <b>${gapRows.length}</b> 项待处理事项（法规 ${regGaps.length} 项、体系 ${sysGaps.length} 项），认证时间要求为「${plabel('timeline')}」。`
+    +(nextStage
+      ?`<br><b>下一步应立即推进：</b>「${nextStage.no}. ${nextStage.name}」— ${nextStage.what}（现状：${nextStage.note}）`
+      :`<br>认证旅程 9 站均已完成，下一步转入持证运营阶段的常规维护（法规版本追踪、CoP 监督、证书台账）。`);
+  const jRows=journey.map(s=>{const ss=STAGE_STATE[s.state], isNext=nextStage&&s.no===nextStage.no;
+    return `<tr${isNext?' style="background:var(--cream)"':''}><td class="jno">${s.no}</td><td><b>${s.name}</b></td><td><span class="jst" style="background:${ss.c}">${ss.t}</span></td><td>${s.note}</td><td>${s.what}</td></tr>`;
+  }).join('');
   return `<div class="step on">
     <div class="eyebrow">STEP 6 / 6 · 行动清单与报告</div>
     <h2 class="st">您的合规待办清单</h2>
@@ -2699,6 +2762,13 @@ function step6(){
       <div class="rtab-hd"><span class="rt-t">导读 / 总览</span><span class="rt-n">先读本表：每类缺口的高 / 中数量与最该关注事项</span></div>
       <table class="rtab"><thead><tr><th>#</th><th>类别</th><th>高</th><th>中</th><th>结论 / 最该关注</th></tr></thead><tbody>${ovRows}</tbody></table>
     </div>
+    <div class="rtab-wrap">
+      <div class="rtab-hd"><span class="rt-t">总体结论与下一步行动</span></div>
+      <p class="concl">${conclText}</p>
+      <table class="rtab"><thead><tr><th>站</th><th>阶段</th><th>状态</th><th>现状</th><th>该做什么</th></tr></thead><tbody>${jRows}</tbody></table>
+    </div>
+    <div class="mfold-title" style="margin-top:0">成熟度矩阵</div>
+    <div class="mfold-b">${maturityBlock()}</div>
     ${gapTable(regGaps,'法规认证缺口','①')}
     ${gapTable(sysGaps,'体系成熟度缺口','②')}
     ${subHTML}
@@ -2706,7 +2776,6 @@ function step6(){
     <div class="rcard-g">
       <div class="rcard"><div class="rk">企业画像</div><div class="rv">规模：${plabel('size')} · 出口经验：${plabel('exp')}<br>时间要求：${plabel('timeline')}<br>已持认证：${plabel('certs')}</div></div>
       <div class="rcard"><div class="rk">象限策略</div><div class="rv"><b style="color:${q.color}">${q.name}</b> — ${q.svc}<br><small style="color:var(--grey)">X ${X} / Y ${Y} · ${gapRows.length} 项缺口</small></div></div>
-      <div class="rcard" style="text-align:center"><div class="rk">成熟度雷达</div>${radarSVG(210)}</div>
     </div>
     <p class="disclaimer"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</p>
     <div class="cta-box">
@@ -2714,6 +2783,7 @@ function step6(){
       <p>报告编号 <b>${reportNo()}</b> · 共 ${gapRows.length} 项缺口（按法规生效日历排序）。<br>想知道「每一项具体怎么补、优先做哪个」？预约我们的专家，一对一为您解读。</p>
       <button class="btn" onclick="alert('（示意）已记录：报告 ${reportNo()} · ${q.name}象限 · ${gapRows.length}项缺口 · 将转销售预约专家解读')">预约专家解读我的缺口 →</button>
       <button class="btn" style="margin-left:10px" onclick="downloadReport()">⬇ 导出 PDF 报告</button>
+      <button class="btn" id="docxBtn" style="margin-left:10px" onclick="downloadReportDocx()">⬇ 导出 Word 报告</button>
     </div>
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
