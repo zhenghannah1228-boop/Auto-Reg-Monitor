@@ -1744,7 +1744,7 @@ function step2(){
   return `<div class="step on">
     <div class="eyebrow">STEP 2 / 6 · 范围界定</div>
     <h2 class="st">您的产品范围</h2>
-    <p class="lead">选定角色与产品/车型范围，系统据此圈定「适用法规集」，并<b>自动判断需做的认证与可通行国家</b>（不必再选目标市场）。</p>
+    <p class="lead">选定角色与产品/车型范围，系统据此圈定「适用法规集」，并<b>自动判断需做的认证与可通行国家</b>。</p>
     <div class="secttl">① 您的角色</div>
     <div class="opts g3">${roles.map(r=>`<button class="opt ${sel.role===r[0]?'sel':''}" data-role="${r[0]}"><div class="ot">${r[1]}</div><div class="od">${r[2]}</div></button>`).join('')}</div>
     ${sel.role&&ROLE_FB[sel.role]?`<div class="probe"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 17h6M9.5 20h5M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.4 1 2.5h6c0-1.1.3-1.8 1-2.5A6 6 0 0 0 12 3Z"/></svg>${ROLE_FB[sel.role]}</div>`:''}
