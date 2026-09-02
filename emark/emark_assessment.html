@@ -652,12 +652,12 @@ const PROFILE=[
  {id:'authority',ttl:'意向批准机关（可先不定）',multi:false,req:false,opts:[
    ['rdw','荷兰 RDW','e4 / E4 · 海外制造商常用'],
    ['kba','德国 KBA','e1 / E1 · 以严格权威著称'],
-   ['snch','卢森堡 SNCH','e13 / E13 · 流程紧凑'],
+   ['se','瑞典 Transportstyrelsen','e5 / E5 · 指定技术服务网络完善'],
    ['vca','英国 VCA','E11 · 注意：仅 UNECE E 标'],
    ['undecided','还没想好','']],
   fb:{rdw:'RDW 英语流程成熟、对海外制造商接待经验丰富，是中国零部件企业最常用的入口机关之一。',
       kba:'KBA 权威度高、文档审核细致，适合有品牌背书诉求的企业；首次申请建议预留更长的文档往返时间。',
-      snch:'SNCH 体量小、沟通路径短，适合标准化程度高的部件产品线走量。',
+      se:'Transportstyrelsen（瑞典交通局）指定技术服务机构数量在欧盟成员国中排第三（仅次于德国、荷兰），且官方申请表本身就有英文版，沟通门槛较低。',
       vca:'关键提示：英国脱欧后 VCA 只能签发 UNECE E 标（大 E），不能签发 EU e 标（小 e）——若产品必须满足 EU 条例（如 2021/535 附件项目），需另选欧盟成员国机关。这是被误解最多的一点。',
       undecided:'机关选择直接影响周期、语言、费用与后续 CoP 监督安排——预约解读时可按您的具体产品线给出机关建议。'}},
  {id:'certs',ttl:'已持有认证（可多选）',multi:true,req:false,opts:[
@@ -1138,7 +1138,7 @@ function upcomingAmendment(no){
   return best;
 }
 // ===== Add.1 缔约方/机关数据的使用 =====
-const AUTH_ECODE={rdw:4,kba:1,snch:13,vca:11};   // 画像机关选项 → E 代码
+const AUTH_ECODE={rdw:4,kba:1,se:5,vca:11};   // 画像机关选项 → E 代码
 function authInfo(e){ return AUTHDIR.find(a=>a.e===e); }
 function sgsTScountries(){ return AUTHDIR.filter(a=>a.sgs).map(a=>a.cn); }
 // 某 UN R 被多少个 1958 缔约方适用（=您的 E-mark 证书互认范围）
@@ -2100,7 +2100,7 @@ const DELIV={
   {t:'适用法规清单（含现行系列/增补版本）',b:'对照 WP.29/343 现行状态（盘点页右上版本标注）',mand:false},
 ],
  authority:[
-  {t:'批准机关申请表', b:'各机关申请入口不同——已核实：德国 KBA 有可下载表格；荷兰 RDW 首次申请从发邮件开始；英国 VCA 走自助门户；卢森堡 SNCH 无表单、需邮件联系（链接见⑥「递交批准申请」站）',mand:true},
+  {t:'批准机关申请表', b:'各机关申请入口不同——已核实：德国 KBA、瑞典 Transportstyrelsen 均有可下载表格（后者含英文版）；荷兰 RDW 首次申请从发邮件开始；英国 VCA 走自助门户（链接见⑥「递交批准申请」站）',mand:true},
   {t:'制造商注册资料', b:'企业资质、地址、联系人；部分机关要求境内代表信息',mand:true},
   {t:'申请语言要求确认', b:'各机关接受语言不同（EN/DE/NL…），译文成本计入预算',mand:false}],
  ts:[
@@ -2121,11 +2121,11 @@ const DELIV={
   {t:'技服出具的测试报告', b:'核对报告引用的法规系列/增补版本',mand:true},
   {t:'不符合项整改与复测记录（如有）', b:'',mand:false}],
  apply:[
-  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；已逐一核实四大常用出口入口机关的申请方式——德国 KBA 有可下载申请表（右侧⬇）；其余三家均<b>无可下载申请表</b>，且入口形式各不相同：荷兰 RDW 首次申请从发邮件开始（非公开表单/门户）、英国 VCA 需注册自助门户账户、卢森堡 SNCH 全站无在线入口/无相关说明页，右侧直接给联系邮箱，需邮件或电话人工联系（右侧🔗均为官方渠道，非表单下载）',mand:true,
+  {t:'完整申请包（申请函 + 信息文件夹 + 测试报告）', b:'2018/858 Art 24 / 各 UN R 申请条款；已逐一核实四大常用出口入口机关的申请方式——德国 KBA、瑞典 Transportstyrelsen 均有可下载申请表（右侧⬇，瑞典这份还有英文版）；荷兰 RDW 首次申请从发邮件开始（非公开表单/门户）、英国 VCA 需注册自助门户账户（右侧🔗均为官方渠道，非表单下载）',mand:true,
    links:[
     {url:'https://www.kba.de/DE/Themen/Typgenehmigung/Zum_Herunterladen/ErteilungTypgenehmigungen/mab_deutsch_nur_antrag_9_1.pdf',label:'德国 KBA 申请表示例',kind:'download'},
+    {url:'https://www.transportstyrelsen.se/globalassets/global/blanketter/vag/english/application-for-type-approval-2024-02-19t.pdf',label:'瑞典 Transportstyrelsen 申请表 TSV7102（英文版）',kind:'download'},
     {url:'https://www.rdw.nl/zakelijke-partners/fabrikant/typegoedkeuring-aanvragen/toelating-voor-uw-bedrijf-aanvragen',label:'荷兰 RDW 官方说明页（首次申请从发邮件开始，非在线表单，也非需登录的门户）',kind:'portal'},
-    {url:'mailto:info@snch.lu',label:'卢森堡 SNCH 联系邮箱 info@snch.lu（已核实全站无在线申请入口/无相关说明页，真实第一步是直接发邮件或致电 +352 26 15 70 25 0 人工对接，故不给一个"看似官方、实则无关内容"的网页链接）',kind:'portal'},
     {url:'https://www.vehicle-certification-agency.gov.uk/vca-portal/',label:'英国 VCA 申请门户（需注册账户，无表单下载）',kind:'portal'}
    ]},
   {t:'CoP 初次评估安排', b:'生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）',mand:true},
@@ -2216,7 +2216,7 @@ function openDeliverables(){
 // 官方固定模板逐站核实结论（2026-09）：多数申请环节法规只规定应包含的内容要件，格式由申请人/实验室
 // 自定，没有统一官方表格——下列站点如实标注「无固定模板」，不为凑数而臆造链接。④⑥⑦站的真实模板见 DELIV 对应条目的 tpl 字段。
 const STN_TPL_NOTE={
- authority:'核实结论（已逐一实测四大常用出口入口机关）：德国 KBA 有独立可下载申请表；荷兰 RDW、卢森堡 SNCH、英国 VCA 均确认无可下载申请表，且入口形式各不相同——RDW 首次申请从发邮件开始（非公开表单/门户）、VCA 走自助门户（需注册账户）、SNCH 全站无在线入口需邮件/电话人工联系。四家官方入口链接见⑥「递交批准申请」站。',
+ authority:'核实结论（已逐一实测四大常用出口入口机关）：德国 KBA、瑞典 Transportstyrelsen 均有独立可下载申请表（瑞典这份含英文版，表号 TSV7102）；荷兰 RDW、英国 VCA 无可下载申请表，且入口形式不同——RDW 首次申请从发邮件开始（非公开表单/门户）、VCA 走自助门户（需注册账户）。四家官方入口链接见⑥「递交批准申请」站。',
  ts:'核实结论：技术服务机构委托属企业与机构间的商业安排，未见官方统一委托模板。',
  test:'核实结论：测试报告仅规定须符合 EN ISO/IEC 17025:2017 并包含规定内容要素，具体格式由实验室自定，无统一官方模板。',
  cop:'核实结论：CoP 控制计划由批准机关与制造商逐案协商约定（(EU) 2018/858 附件Ⅳ §3.2），法规只规定须包含的内容要件，无统一官方表格。',
@@ -2416,7 +2416,7 @@ function stationExtra(st){
   if(st.id==='authority'){
     const e=AUTH_ECODE[profile.authority], a=e&&authInfo(e);
     if(a) return `<div class="stn-extra">您选定的机关：<b>${a.a}</b>（E${a.e}）${a.w?` · <a href="${a.w}" target="_blank" rel="noopener">官网</a>`:''}<br>依 Add.1，该国另有 <b>${a.ts}</b> 家指定技术服务机构可选；证书在共同适用该法规的缔约方之间互认。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
-    return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、卢森堡 SNCH(E13)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
+    return `<div class="stn-extra">常用出口入口机关：荷兰 RDW(E4)、德国 KBA(E1)、瑞典 Transportstyrelsen(E5)、英国 VCA(E11，仅签 UNECE E 标)。可在第 1 步「意向批准机关」选定。<br><button class="dirbtn" style="margin:8px 0 0" onclick="openAuthDir()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5C10.5 5 8 4.5 4 5v13c4-.5 6.5 0 8 1.5 1.5-1.5 4-2 8-1.5V5c-4-.5-6.5 0-8 1.5Z"/><path d="M12 6.5V19"/></svg>查看全部 ${AUTHDIR.length} 国机关名录</button></div>`;
   }
   if(st.id==='life'){
     return `<div class="stn-extra">法规系列更新后，既有证书持续有效；仅少数系列有 UNECE 公布的法定失效日，新申请须按新系列。<button class="tp-link" onclick="openVersionBoard()">📋 版本时效自查表</button><br><span style="font-size:11.5px;color:var(--grey)">依据 WP.29/1044/Rev.3 §25</span></div>`;
