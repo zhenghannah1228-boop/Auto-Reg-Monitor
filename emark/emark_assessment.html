@@ -2498,7 +2498,9 @@ function step5(){
 
 function plabel(id){
   const def=PROFILE.find(p=>p.id===id);
-  if(def.multi){const t=profile[id].map(k=>{const o=def.opts.find(o=>o[0]===k);return o?o[1]:k;}).join('、');return t||'—';}
+  // 多选项若混入不在 opts 里的脏值（如旧档案遗留/手工改过 localStorage），
+  // 不应该把内部 key 原样显示给用户——直接丢弃，全部丢弃后按未填处理显示 —
+  if(def.multi){const t=(profile[id]||[]).map(k=>{const o=def.opts.find(o=>o[0]===k);return o?o[1]:null;}).filter(Boolean).join('、');return t||'—';}
   const o=def.opts.find(o=>o[0]===profile[id]);return o?o[1]:'—';
 }
 // 缺口 → 服务映射（step6 与报告下载共用）。每条缺口带 cat（reg/sys）、lvl（高/中，供分级表着色）、
