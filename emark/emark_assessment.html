@@ -2144,7 +2144,7 @@ const DELIV={
 let stnChk={}; // 历史字段（旧版交付物勾选状态）：不再驱动 UI，仅为兼容旧档案数据结构而保留，读写不影响新逻辑
 // 强制/建议 标签徽标 + 官方模板外链按钮
 function mandBadge(m){return m?'<span class="mand-tag mand-req">认证强制必备</span>':'<span class="mand-tag mand-rec">建议企业自备</span>';}
-function tplBtn(d){return d.tpl?`<a class="tpl-link" href="${d.tpl.url}" target="_blank" rel="noopener">⬇ ${d.tpl.label||'官方模板'} ↗</a>`:'';}
+function tplBtn(d){return d.tpl?`<a class="tpl-link" href="${d.tpl.url}" download>⬇ ${d.tpl.label||'官方模板'}</a>`:'';}
 // ===== 交付物总表（② 全路径文档交付物一览）=====
 // 口径：把认证旅程 9 站的 DELIV 汇成一张总表，纯参考展示（强制/建议标签 + 官方模板外链），不再有勾选状态。
 const DELIV_STN=[
