@@ -53,6 +53,11 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 /* self-assessment rows */
 .secttl{font-size:16px;font-weight:800;margin:22px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--ol);color:var(--od)}
 .arow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin-bottom:8px}
+.arow.has-sub{grid-template-columns:auto 1fr auto}
+.subchk{display:flex;flex-direction:column;align-items:center;gap:3px;width:50px;flex-shrink:0;cursor:pointer;user-select:none}
+.subchk input{width:15px;height:15px;accent-color:var(--od);cursor:pointer;margin:0}
+.subchk span{font-size:9.5px;color:var(--greyl);line-height:1.2;text-align:center;white-space:nowrap}
+.subchk.on span{color:var(--od);font-weight:700}
 .arow .al{font-size:13.5px}
 .arow .al b{font-weight:700}.arow .al small{color:var(--grey);font-size:12px}
 /* 拆分组：分组标题 + 缩进子行 */
@@ -1341,6 +1346,7 @@ function attrEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&qu
 let sel={role:null,market:null,groups:[],parts:[],cats:[],powers:[]};
 let profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]}; // 企业画像（线索）
 let regStatus={}; // item -> done/prog/no/unk
+let regSub={}; // item -> true/false，订阅该法规动态（占位：仅记录勾选状态，暂不接推送）
 let sysStatus={}; // 题目id -> full/part/none
 let _sysActive=null; // 体系自评 · 当前维度id（侧边栏）
 let _stnActive=null; // 认证旅程 · 当前站索引（侧边栏）
@@ -1933,12 +1939,16 @@ function step3(){
       gh=`<div class="arow-gh"><span class="ghico">▾</span><b>${i._pcn}</b> <small>${i._parent} · ${n} 项 UN 法规，逐条自评</small>${VEH[i._parent]?`<span class="vehb">${VEH[i._parent]}</span>`:''}</div>`;
     }
     lastP=i._parent||null;
-    const cls='arow'+(powNA(i)?' pt-na':'')+(i._parent?' arow-sub':'');
+    const cls='arow has-sub'+(powNA(i)?' pt-na':'')+(i._parent?' arow-sub':'');
     const vehb=(!i._parent&&VEH[i.item])?`<span class="vehb">${VEH[i.item]}</span>`:'';
     const al = ALT_REGS[i.item]
       ? `<b>${i.cn}</b> <small>${i.item}</small>${markBadge(i)}${vehb}${altInfo(i)}${powTag(i)}`
       : `<b>${i.cn}</b> <small>${i.item} · ${i.reg||'—'}</small>${markBadge(i)}${pyroBadge(i)}${vehb}${iwvtaChip(i)}${srcChip(i)}${reachBadge(i)}${verCell(i)}${seriesAlert(i)}${powTag(i)}`;
+    const subOn=!!regSub[i.item];
+    const subEl=`<label class="subchk${subOn?' on':''}" title="订阅《${i.cn}》动态更新（占位：勾选后暂不产生实际推送，功能建设中）">
+       <input type="checkbox" data-sub-item="${i.item}" ${subOn?'checked':''}><span>订阅动态</span></label>`;
     return gh+`<div class="${cls}" id="row-${i.item}" data-search="${_esc((i.item+' '+(i.reg||'')+' '+(i.cn||'')).toLowerCase())}">
+     ${subEl}
      <div class="al">${al}</div>
      <div class="seg" data-item="${i.item}">
        <button class="${regStatus[i.item]==='done'?'on done-b':''}" data-v="done">已认证</button>
@@ -2588,7 +2598,7 @@ function step6(){
     <div class="nav"><button class="ghost" onclick="go(5)">← 返回认证旅程</button><button class="ghost" onclick="restart()">↻ 重新评估</button></div>
   </div>`;
 }
-function restart(){sel={role:null,market:null,groups:[],parts:[],cats:[],powers:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};sysStatus={};stnChk={};_sysActive=null;_stnActive=null;window._rno=null;objName='';const inp=document.getElementById('objname');if(inp)inp.value='';go(0);}
+function restart(){sel={role:null,market:null,groups:[],parts:[],cats:[],powers:[]};profile={size:null,exp:null,timeline:null,authority:null,certs:[],pains:[]};regStatus={};regSub={};sysStatus={};stnChk={};_sysActive=null;_stnActive=null;window._rno=null;objName='';const inp=document.getElementById('objname');if(inp)inp.value='';go(0);}
 
 function bind(){
   document.querySelectorAll('[data-pq]').forEach(b=>b.onclick=()=>{
@@ -2604,17 +2614,18 @@ function bind(){
   document.querySelectorAll('[data-axis]').forEach(b=>b.onclick=()=>{_structAxis=b.dataset.axis;render();});
   document.querySelectorAll('[data-jump]').forEach(b=>b.onclick=()=>jumpItem(b.dataset.jump));
   document.querySelectorAll('.seg[data-item]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{regStatus[seg.dataset.item]=btn.dataset.v;render();autosave();});});
+  document.querySelectorAll('input[data-sub-item]').forEach(cb=>cb.onchange=()=>{regSub[cb.dataset.subItem]=cb.checked;render();autosave();});
   document.querySelectorAll('.seg[data-sys]').forEach(seg=>{seg.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{sysStatus[seg.dataset.sys]=btn.dataset.v;render();autosave();});});
 }
 // 保存进度 / 恢复（localStorage）
 // ===== 多档案系统（保存/新建/我的档案）=====
 const SAVE_KEY='emark_nav_progress_v1';           // 兼容旧单档
 const PROFILES_KEY='emark_profiles_v1', ACTIVE_KEY='emark_active_v1';
-function curState(){return {cur,objName,sel,profile,regStatus,sysStatus,stnChk,_sysActive,_stnActive,ts:Date.now()};}
+function curState(){return {cur,objName,sel,profile,regStatus,regSub,sysStatus,stnChk,_sysActive,_stnActive,ts:Date.now()};}
 function applyState(s){
   if(!s) return;
   cur=typeof s.cur==='number'?s.cur:0; objName=s.objName||''; sel=s.sel||sel; sel.parts=sel.parts||[]; sel.cats=sel.cats||[]; sel.powers=sel.powers||[]; profile=s.profile||profile;
-  regStatus=s.regStatus||{}; sysStatus=s.sysStatus||{}; stnChk=s.stnChk||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
+  regStatus=s.regStatus||{}; regSub=s.regSub||{}; sysStatus=s.sysStatus||{}; stnChk=s.stnChk||{}; _sysActive=s._sysActive??null; _stnActive=s._stnActive??null;
   const inp=document.getElementById('objname'); if(inp) inp.value=objName;
 }
 function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
