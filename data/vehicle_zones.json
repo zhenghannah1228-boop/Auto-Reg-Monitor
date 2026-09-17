@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "note": "区域划分基于 vendor/models/CarConcept/CarConcept.glb(Khronos 示例概念车,燃油车,无独立电池包/ADAS传感器/网联ECU等部件建模)实际节点名。故本迭代仅覆盖车身/制动/车轮/内饰/号牌/动力总成对应的维度(整车准入·环保全链条·标签标识);充电电池/EV补贴/射频认证/网络安全/ADAS/注册监管/随车工具等维度暂无对应可点选3D部件,仍可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。",
+  "zones": [
+    {
+      "id": "body_chassis",
+      "label_cn": "车身覆盖件",
+      "label_en": "Body Panels & Chassis",
+      "gltf_nodes": ["BodyUnderside", "BodyRoofPanel", "BodyPanelsColor2", "BodyPillars", "BodyRearPanelsColor1"],
+      "dims": [0],
+      "domain_keywords": ["安全", "车身", "整车", "碰撞"],
+      "desc": "车身覆盖件与底盘结构相关的整车准入合规范围(如碰撞安全、车身刚性等法规)。"
+    },
+    {
+      "id": "doors_hood",
+      "label_cn": "车门与引擎盖",
+      "label_en": "Doors & Hood",
+      "gltf_nodes": ["BodyDoorRColor1", "BodyDoorLColor1", "BodyHood"],
+      "dims": [0],
+      "domain_keywords": ["安全", "车门", "锁止", "整车"],
+      "desc": "车门/引擎盖锁止与开闭安全相关的整车准入合规范围。"
+    },
+    {
+      "id": "glazing_wipers",
+      "label_cn": "风挡玻璃与雨刷",
+      "label_en": "Glazing & Wipers",
+      "gltf_nodes": ["BodyWindshield", "BodyWindshieldGasket", "BodyWindshieldWipers", "BodyWindshieldWipersBase", "BodyWindowsRearSides", "BodyRearwindow", "BodyDoorRWindow", "BodyDoorRWindowGasket", "BodyDoorLWindow", "BodyDoorLWindowGasket"],
+      "dims": [0],
+      "domain_keywords": ["安全玻璃", "风挡", "雨刷", "视野"],
+      "desc": "安全玻璃与视野/雨刷系统相关的整车准入合规范围。"
+    },
+    {
+      "id": "lighting_mirrors",
+      "label_cn": "车灯与后视镜",
+      "label_en": "Lighting & Mirrors",
+      "gltf_nodes": ["BodyHeadlights", "BodyTaillights", "BodyTaillightsPanels", "BodyTurnsignalsRear", "BodyDoorRMirror", "BodyDoorRMirrorColor1", "BodyDoorRMirrorColor2", "BodyDoorLMirror", "BodyDoorLMirrorColor1", "BodyDoorLMirrorColor2"],
+      "dims": [0],
+      "domain_keywords": ["照明", "灯具", "后视镜", "车灯"],
+      "desc": "车灯具、转向灯与后视镜相关的整车准入合规范围(CLAUDE.md 规则:照明归入维度1)。"
+    },
+    {
+      "id": "brakes",
+      "label_cn": "制动系统",
+      "label_en": "Brake System",
+      "gltf_nodes": ["WheelFrontLBrakePad", "WheelFrontLBrakeDisc", "WheelFrontRBrakePad", "WheelFrontRBrakeDisc", "WheelRearLBrakeDisc", "WheelRearLBrakePad", "WheelRearRBrakeDisc", "WheelRearRBrakePad"],
+      "dims": [0],
+      "domain_keywords": ["制动", "刹车", "安全"],
+      "desc": "制动系统相关的整车准入合规范围。"
+    },
+    {
+      "id": "wheels_tires",
+      "label_cn": "车轮与轮胎",
+      "label_en": "Wheels & Tires",
+      "gltf_nodes": ["WheelFrontLRim", "WheelFrontRRim", "WheelRearLRim", "WheelRearRRim", "Axles"],
+      "dims": [0],
+      "domain_keywords": ["轮胎", "车轮", "安全"],
+      "desc": "车轮与轮胎相关的整车准入合规范围。"
+    },
+    {
+      "id": "license_plate",
+      "label_cn": "号牌与标识",
+      "label_en": "License Plate",
+      "gltf_nodes": ["License Plate"],
+      "dims": [7],
+      "domain_keywords": ["标识", "标签", "号牌", "VIN", "铭牌"],
+      "desc": "号牌安装与整车标签标识相关的合规范围。"
+    },
+    {
+      "id": "interior_cabin",
+      "label_cn": "内饰与座舱",
+      "label_en": "Interior & Cabin",
+      "gltf_nodes": ["InteriorSeatsColor1", "InteriorSeatsColor2", "InteriorFloor", "InteriorFloormats", "InteriorCage", "InteriorDashMid", "InteriorDashSides", "InteriorPillar", "InteriorPedalAccel", "InteriorPedalAccelArm", "InteriorPedalBrake", "InteriorPedalBrakeArm", "InteriorSteeringBase", "InteriorSteeringCylinder", "InteriorSteeringWheel01", "InteriorSteeringWheel02", "InteriorSteeringWheel03", "InteriorSteeringWheel04", "InteriorSteeringDash", "InteriorSteeringDashColumn", "InteriorSteeringHandleL", "InteriorSteeringHandleR", "InteriorDoorR01", "InteriorDoorR02", "InteriorDoorR03", "InteriorDoorR04", "InteriorDoorR05", "InteriorDoorR06", "InteriorDoorL01", "InteriorDoorL02", "InteriorDoorL03", "InteriorDoorL04", "InteriorDoorL05", "InteriorDoorL06", "InteriorRearHatch", "InteriorRearPanels"],
+      "dims": [0],
+      "domain_keywords": ["座椅", "内饰", "转向", "阻燃", "安全带"],
+      "desc": "座椅、转向机构与内饰阻燃等相关的整车准入合规范围。"
+    },
+    {
+      "id": "powertrain",
+      "label_cn": "动力总成",
+      "label_en": "Powertrain",
+      "gltf_nodes": ["Engine"],
+      "dims": [1],
+      "domain_keywords": ["排放", "油耗", "节能", "环保"],
+      "desc": "发动机及动力总成相关的环保全链条合规范围(排放、油耗等)。"
+    }
+  ]
+}
