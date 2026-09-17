@@ -8,6 +8,9 @@
 <script src="./echarts.min.js"></script>
 <script src="./vendor/pdfjs/pdf.min.js"></script>
 <script src="./config.js"></script>
+<script type="importmap">
+{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}
+</script>
 <style>
 :root{
   --ink:#18271d; --ink2:#243528; --paper:#dce8d3; --panel:#eef5e9; --panel2:#e5efdd;
@@ -522,6 +525,33 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .imgmgr .del{font-size:10px;color:var(--accent);cursor:pointer;margin-top:3px;display:inline-block}
 @media(max-width:880px){.pyr-grid{grid-template-columns:1fr}.pyr-secs{grid-template-columns:1fr}}
 
+/* ============ 合规孪生(3D) ============ */
+.veh3d-wrap{display:flex;gap:22px;align-items:flex-start}
+.veh3d-main{flex:1 1 0;min-width:0}
+.veh3d-side{width:320px;flex-shrink:0}
+.veh3d-canvas{position:relative;width:100%;height:560px;border:1px solid var(--line);
+  border-radius:8px;overflow:hidden;background:var(--panel2);box-shadow:var(--shadow)}
+.veh3d-canvas canvas{display:block;width:100%;height:100%;cursor:grab}
+.veh3d-canvas canvas:active{cursor:grabbing}
+.veh3d-loading{position:absolute;inset:0;display:flex;flex-direction:column;gap:8px;
+  align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;
+  color:var(--muted);background:var(--panel2);transition:opacity .25s}
+.veh3d-loading.hide{opacity:0;pointer-events:none}
+.veh3d-hint{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10.5px;
+  color:var(--muted);background:rgba(238,245,233,.85);padding:3px 9px;border-radius:5px}
+.veh3d-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.veh3d-dot.g{background:var(--good)}.veh3d-dot.a{background:var(--warn)}.veh3d-dot.r{background:var(--bad)}
+.veh3d-badge{font-family:var(--mono);font-size:11px;background:var(--panel2);border:1px solid var(--line);
+  border-radius:13px;padding:3px 11px;color:var(--ink2);display:inline-block}
+.veh3d-status{font-size:12.5px;color:var(--ink2);margin:8px 0}
+.veh3d-dims{margin-top:10px}
+.veh3d-dims .vd-row{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;
+  cursor:pointer;border-bottom:1px solid var(--linesoft)}
+.veh3d-dims .vd-row:last-child{border-bottom:none}
+.veh3d-dims .vd-row:hover{color:var(--accent)}
+.veh3d-empty{color:var(--faint);font-size:12.5px;font-style:italic}
+@media(max-width:980px){.veh3d-wrap{flex-direction:column}.veh3d-side{width:100%}.veh3d-canvas{height:420px}}
+
 @media(max-width:980px){
   .kpis{grid-template-columns:repeat(2,1fr)}
   .detgrid,.diffgrid{grid-template-columns:1fr}
@@ -625,7 +655,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 
 <div id="board">
   <div class="tabs">
-    <div class="tab on" data-p="p-ov"><span class="tn">01</span>总览排行</div>
+    <div class="tab on" data-p="p-3d"><span class="tn">★</span>合规孪生</div>
+    <div class="tab" data-p="p-ov"><span class="tn">01</span>总览排行</div>
     <div class="tab" data-p="p-dim"><span class="tn">02</span>维度矩阵</div>
     <div class="tab" data-p="p-cty"><span class="tn">03</span>国家详情</div>
     <div class="tab" data-p="p-new"><span class="tn">04</span>新增监控</div>
@@ -652,7 +683,34 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
     <div class="tab" data-p="p-ops" id="tab-ops"><span class="tn">25</span>数据状态·内部</div>
   </div>
 
-  <div class="pane on" id="p-ov">
+  <div class="pane on" id="p-3d">
+    <div class="kpis" id="veh3d-kpis"></div>
+    <div class="veh3d-wrap">
+      <div class="veh3d-main">
+        <div class="card" style="margin-bottom:0">
+          <h3>整车合规孪生
+            <select id="veh3d-cty" class="csel" style="font-size:12px;padding:5px 10px;min-width:0"></select>
+            <span class="hint">拖动旋转 · 滚轮缩放 · 点击部件查看该区域合规范围</span></h3>
+          <div class="veh3d-canvas" id="veh3d-canvas">
+            <div class="veh3d-loading" id="veh3d-loading">[ 正在载入车辆模型… ]</div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono)">
+            模型:Khronos CarConcept(CC BY 4.0,见 vendor/models/CREDITS.md)· 本迭代区域覆盖整车准入/环保全链条/标签标识三个维度,其余维度见「维度矩阵」「国家详情」
+          </div>
+        </div>
+      </div>
+      <div class="veh3d-side">
+        <div class="pyr-detail" id="veh3d-detail">
+          <div class="pd-lbl">车辆区域</div>
+          <div class="pd-title">点击左侧任意部件</div>
+          <div class="pd-local">查看该区域的合规覆盖情况</div>
+          <div class="pd-desc veh3d-empty">尚未选择部件。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pane" id="p-ov">
     <div class="kpis" id="kpis"></div>
     <div class="card">
       <h3>各国法规收集量
@@ -1733,6 +1791,7 @@ function renderAll(){
     renderKPIs();renderRank();renderDrafts();renderMatrix();fillCountrySelects();renderCountry();renderNew();renderTree();
     if($("#p-net")&&$("#p-net").classList.contains("on"))buildNet(); // 网络图较重,仅在其标签可见时构建
     if(typeof renderMemos==="function")renderMemos();
+    if(typeof window.veh3dOnData==="function")window.veh3dOnData(); // 合规孪生(3D):法规数据就绪后刷新详情面板数字
   }catch(e){console.error("renderAll 渲染链异常(不阻断对账刷新):",e);}
   // 文本对账独立刷新:即便上面某个渲染器抛错,导入后 07 视图也必须更新
   try{
@@ -6385,5 +6444,6 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
   fillArchivedReports();
 })();
 </script>
+<script type="module" src="./vehicle3d.js"></script>
 </body>
 </html>
