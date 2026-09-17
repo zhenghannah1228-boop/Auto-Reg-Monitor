@@ -129,12 +129,24 @@ function showZoneDetail(zoneId) {
     <div class="veh3d-dims">
       <div class="pd-lbl" style="margin-bottom:4px">涉及维度(点击跳转维度矩阵)</div>
       ${dimsRow}
-    </div>`;
+    </div>
+    <div class="btn light" id="veh3d-emark-link" style="margin-top:12px;text-align:center;cursor:pointer">→ 查看 E-mark 评估</div>`;
   host.querySelectorAll(".vd-row").forEach(row => {
     row.addEventListener("click", () => {
       if (typeof switchTab === "function") switchTab("p-dim");
     });
   });
+  const emarkLink = host.querySelector("#veh3d-emark-link");
+  if (emarkLink) emarkLink.addEventListener("click", goToEmark);
+}
+
+/* 浅联动:跳转 23 E-mark 评估标签页,并触发其惰性加载(与 index.html 主 tab-click 链一致,
+   因为程序化 switchTab() 不会经过该 if-chain)。不做条目级定位——E-mark 评估工具目前
+   没有 URL 参数/postMessage 接口,按 UN R 编号组织,与本页的维度分区不是一一对应关系。 */
+function goToEmark() {
+  if (typeof switchTab === "function") switchTab("p-emark");
+  const f = document.getElementById("emark-frame");
+  if (f && !f.src) f.src = f.dataset.src;
 }
 
 function sizeRenderer() {
