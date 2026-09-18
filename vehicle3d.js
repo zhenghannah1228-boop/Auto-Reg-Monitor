@@ -16,6 +16,9 @@ let nodeToZone = new Map();// gltf 节点名(小写) -> zoneId
 let curZoneId = null;
 let curCountry = "";       // "" = 全部国家(聚合)
 let scene, camera, renderer, controls, carRoot, raycaster, hoverObj, hoverOrigEmissive;
+let xrayOn = false;
+let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域等),
+                    // 用简易占位几何体 + 虚线标签展示,不冒充精细建模
 
 async function loadZones() {
   const seedResp = await fetch(ZONES_URL);
@@ -92,7 +95,7 @@ function renderVeh3DKPIs() {
   const readyN = zoneAgg.filter(s => s && s.state === "g").length;
   const blankN = zoneAgg.filter(s => s && s.count === 0).length;
   const tiles = [
-    { lbl: "监控部件区域数", v: ZONES.length, meta: "基于 CarConcept 模型实际节点划分" },
+    { lbl: "监控部件区域数", v: ZONES.length, meta: "基于车辆模型实际节点划分" },
     { lbl: "全库法规总数", v: total, meta: total ? "与「总览排行」同口径" : "数据加载中…" },
     { lbl: "就绪区域数", v: readyN, meta: "全部国家该区域均 ≥3 条", hot: readyN > 0 },
     { lbl: "空白区域数", v: blankN, meta: "尚无匹配法规记录" },
@@ -119,8 +122,9 @@ function showZoneDetail(zoneId) {
   const dimsRow = zone.dims.map(i =>
     `<div class="vd-row" data-dim="${i}">${esc((typeof DIMS !== "undefined" ? DIMS[i] : "维度" + i))}</div>`
   ).join("");
+  const nodeInfo = zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`;
   host.innerHTML = `
-    <div class="pd-lbl">${esc(zoneId)} · ${(zone.gltf_nodes || []).length} 个模型节点</div>
+    <div class="pd-lbl">${esc(zoneId)} · ${nodeInfo}</div>
     <div class="pd-title">${esc(zone.label_cn)}</div>
     <div class="pd-local">${esc(zone.label_en)}</div>
     <div class="veh3d-status">${statusText}</div>
@@ -175,6 +179,75 @@ function frameCamera(object3d) {
   controls.minDistance = dist * 0.3;
   controls.maxDistance = dist * 3;
   controls.update();
+}
+
+/* 电池包/ECU-OTA 域等无实体建模的维度:放一个简易占位几何体在车内大致位置(业主 2026-09 指示),
+   仅在「X-Ray 透视」开启、车身变半透明后才可见——不做射线拾取,点击走下方 HTML 标签卡片,
+   避免"占位盒子恰好被判定为最近命中"这种不真实的交互。 */
+function buildHotspots() {
+  hotspots.forEach(h => h.mesh.parent && h.mesh.parent.remove(h.mesh));
+  hotspots = [];
+  const layer = $("#veh3d-hotspot-layer");
+  if (layer) layer.innerHTML = '<svg class="veh3d-hs-svg"></svg>';
+  ZONES.filter(z => z.hotspot && Array.isArray(z.hotspot_pos)).forEach(zone => {
+    const mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(0.42, 0.28, 0.55),
+      new THREE.MeshStandardMaterial({ color: 0xc79a2e, emissive: 0x3a2c08, roughness: 0.4 })
+    );
+    mesh.position.fromArray(zone.hotspot_pos);
+    mesh.visible = xrayOn;
+    carRoot.add(mesh);
+    const card = document.createElement("div");
+    card.className = "veh3d-hs-card";
+    card.textContent = zone.label_cn;
+    card.addEventListener("click", () => showZoneDetail(zone.id));
+    if (layer) layer.appendChild(card);
+    hotspots.push({ zone, mesh, card });
+  });
+}
+
+const _hsVec = new THREE.Vector3();
+function updateHotspotLayer() {
+  if (!xrayOn || !hotspots.length) return;
+  const host = $("#veh3d-canvas");
+  const svg = document.querySelector("#veh3d-hotspot-layer .veh3d-hs-svg");
+  if (!host || !svg) return;
+  const w = host.clientWidth, h = host.clientHeight;
+  let lines = "";
+  hotspots.forEach((hs, i) => {
+    _hsVec.setFromMatrixPosition(hs.mesh.matrixWorld);
+    _hsVec.project(camera);
+    const x = (_hsVec.x * 0.5 + 0.5) * w;
+    const y = (-_hsVec.y * 0.5 + 0.5) * h;
+    const behind = _hsVec.z > 1;
+    const cardX = Math.min(w - 12, Math.max(12, x + 60));
+    const cardY = Math.max(20, y - 40 - (i % 2) * 34);
+    hs.card.style.display = behind ? "none" : "block";
+    hs.card.style.left = cardX + "px";
+    hs.card.style.top = cardY + "px";
+    if (!behind) lines += `<line x1="${x}" y1="${y}" x2="${cardX}" y2="${cardY + 10}" class="veh3d-hs-line"/><circle cx="${x}" cy="${y}" r="3.5" class="veh3d-hs-dot"/>`;
+  });
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.innerHTML = lines;
+}
+
+function setXray(on) {
+  xrayOn = on;
+  if (carRoot) {
+    carRoot.traverse(o => {
+      if (!o.isMesh || !o.material) return;
+      const isHotspot = hotspots.some(hs => hs.mesh === o);
+      if (isHotspot) { o.visible = on; return; }
+      o.material.transparent = true;
+      o.material.opacity = on ? 0.22 : 1;
+      o.material.depthWrite = !on;
+      o.material.needsUpdate = true;
+    });
+  }
+  const layer = $("#veh3d-hotspot-layer");
+  if (layer) layer.style.display = on ? "block" : "none";
+  const btn = $("#veh3d-xray-btn");
+  if (btn) btn.classList.toggle("on", on);
 }
 
 function resolveZoneFromObject(obj) {
@@ -291,7 +364,11 @@ async function initVeh3D() {
   renderer.setAnimationLoop(() => {
     controls.update();
     renderer.render(scene, camera);
+    updateHotspotLayer();
   });
+
+  const xrayBtn = $("#veh3d-xray-btn");
+  if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
 
   fillCountrySelect();
   renderVeh3DKPIs();
@@ -306,6 +383,7 @@ async function initVeh3D() {
       carRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
       carRoot.updateMatrixWorld(true);
       frameCamera(carRoot);
+      buildHotspots();
       setLoadingProgress(100, true, false);
     },
     evt => {
@@ -313,7 +391,7 @@ async function initVeh3D() {
       setLoadingProgress(Math.min(99, pct), false, false);
     },
     err => {
-      console.error("CarConcept.glb 加载失败:", err);
+      console.error("车辆模型加载失败:", err);
       setLoadingProgress(0, false, true);
     }
   );
