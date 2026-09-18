@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘几何(underside 是空的)。电池包/ECU-OTA域两个区域源模型无对应实体建模,按业主指示用简易占位几何体(标注为 hotspot)放在车内大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。",
+  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘、发动机舱、悬架/制动/转向等底盘机械件,也没有座椅/仪表板/安全气囊等内饰几何(underside 是空的,只有一层外观壳体)。2026-09 业主要求展示动力总成/底盘/空调/内饰共 16 个新系统(发动机、变速器、离合器、散热风扇、前后悬架、制动、转向系统、半轴传动轴、空调、座椅、仪表板、方向盘、安全气囊、脚垫、门饰板)——已就是否购买带真实机械分件的付费模型(如 DOSCH 3D Car Details)征询过业主,业主选择不付费,故这 16 个区域与既有的电池包/ECU-OTA 域一样,用简易占位几何体(标注为 hotspot)放在车内/机舱大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模;唯一找到的免费候选(Sketchfab CC-BY「Engine Exploded View」)因平台要求登录账号才能下载,当前会话环境内无法直接获取,如后续业主自行下载并提供该文件,可将 engine 区域从占位升级为真实网格,替换方式与奥迪 R8 素材相同。全部 18 个 hotspot 区域现按 group 字段分为 6 组(ev/connectivity/powertrain/chassis/hvac/interior),前端「X-Ray」下按组切换显示,避免 18 个标签同屏堆叠——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。",
   "zones": [
     {
       "id": "body_shell",
@@ -70,6 +70,7 @@
       "label_cn": "电池包",
       "label_en": "Battery Pack",
       "hotspot": true,
+      "group": "ev",
       "hotspot_pos": [0.5, 0.12, 0.45],
       "dims": [3, 4],
       "domain_keywords": ["电池", "充电", "REESS", "补贴", "battery", "charging"],
@@ -80,10 +81,187 @@
       "label_cn": "ECU / OTA 域",
       "label_en": "ECU / OTA Domain",
       "hotspot": true,
+      "group": "connectivity",
       "hotspot_pos": [0.5, 0.55, 0.7],
       "dims": [5, 6],
       "domain_keywords": ["网络安全", "OTA", "cybersecurity", "SUMS", "CSMS", "ADAS", "智能网联"],
       "desc": "整车电子控制与远程升级的示意占位(源模型无对应实体建模,位置为前舱仪表台大致区域),相关维度为网络安全与 ADAS(与「智能网联」领域映射一致)。"
+    },
+    {
+      "id": "engine",
+      "label_cn": "发动机",
+      "label_en": "Engine",
+      "hotspot": true,
+      "group": "powertrain",
+      "hotspot_pos": [0.5, 0.22, 0.25],
+      "dims": [0, 1],
+      "domain_keywords": ["发动机", "动力总成", "排放", "油耗", "整车", "安全", "节能环保"],
+      "desc": "发动机(动力总成)合规范围的示意占位(源模型无发动机舱几何,位置为座舱后方机舱大致区域,与该车中置后驱的实际布局一致),相关维度为整车准入与环保全链条。"
+    },
+    {
+      "id": "transmission",
+      "label_cn": "变速器",
+      "label_en": "Transmission",
+      "hotspot": true,
+      "group": "powertrain",
+      "hotspot_pos": [0.5, 0.18, 0.15],
+      "dims": [0],
+      "domain_keywords": ["变速器", "变速箱", "传动系统", "整车", "安全"],
+      "desc": "变速器合规范围的示意占位(源模型无对应实体建模,位置紧邻发动机区域大致区域)。"
+    },
+    {
+      "id": "clutch",
+      "label_cn": "离合器",
+      "label_en": "Clutch",
+      "hotspot": true,
+      "group": "powertrain",
+      "hotspot_pos": [0.5, 0.18, 0.32],
+      "dims": [0],
+      "domain_keywords": ["离合器", "传动", "整车", "安全"],
+      "desc": "离合器合规范围的示意占位(源模型无对应实体建模,位置为发动机与变速器之间大致区域)。"
+    },
+    {
+      "id": "radiator_fan",
+      "label_cn": "散热风扇",
+      "label_en": "Radiator Fan",
+      "hotspot": true,
+      "group": "powertrain",
+      "hotspot_pos": [0.5, 0.15, 0.85],
+      "dims": [1],
+      "domain_keywords": ["散热", "冷却", "制冷剂", "节能", "环保"],
+      "desc": "散热系统合规范围的示意占位(源模型无对应实体建模,位置为前舱进气格栅后方大致区域),相关维度为环保全链条(能耗/制冷剂)。"
+    },
+    {
+      "id": "front_suspension",
+      "label_cn": "前悬架",
+      "label_en": "Front Suspension",
+      "hotspot": true,
+      "group": "chassis",
+      "hotspot_pos": [0.5, 0.15, 0.72],
+      "dims": [0],
+      "domain_keywords": ["悬架", "底盘", "操稳", "整车", "安全"],
+      "desc": "前悬架合规范围的示意占位(源模型无底盘机械几何,位置为前轮轴大致区域)。"
+    },
+    {
+      "id": "rear_suspension",
+      "label_cn": "后悬架",
+      "label_en": "Rear Suspension",
+      "hotspot": true,
+      "group": "chassis",
+      "hotspot_pos": [0.5, 0.15, 0.12],
+      "dims": [0],
+      "domain_keywords": ["悬架", "底盘", "操稳", "整车", "安全"],
+      "desc": "后悬架合规范围的示意占位(源模型无底盘机械几何,位置为后轮轴大致区域)。"
+    },
+    {
+      "id": "brakes",
+      "label_cn": "制动系统",
+      "label_en": "Brakes",
+      "hotspot": true,
+      "group": "chassis",
+      "hotspot_pos": [0.16, 0.15, 0.68],
+      "dims": [0],
+      "domain_keywords": ["制动", "刹车", "制动系统", "安全", "整车"],
+      "desc": "制动系统合规范围的示意占位(源模型车轮几何已与车身主壳合并,无独立制动盘/卡钳网格,位置为前左轮大致区域)。"
+    },
+    {
+      "id": "steering_system",
+      "label_cn": "转向系统",
+      "label_en": "Steering System",
+      "hotspot": true,
+      "group": "chassis",
+      "hotspot_pos": [0.35, 0.28, 0.58],
+      "dims": [0],
+      "domain_keywords": ["转向", "转向系统", "安全", "整车"],
+      "desc": "转向系统(转向器/转向柱)合规范围的示意占位(源模型无对应实体建模,位置为前舱脚部空间大致区域)。"
+    },
+    {
+      "id": "axle_driveshaft",
+      "label_cn": "半轴 / 传动轴",
+      "label_en": "Axle / Driveshaft",
+      "hotspot": true,
+      "group": "chassis",
+      "hotspot_pos": [0.5, 0.15, 0.4],
+      "dims": [0],
+      "domain_keywords": ["半轴", "传动轴", "驱动轴", "底盘", "整车"],
+      "desc": "半轴与传动轴合规范围的示意占位(源模型无底盘机械几何,位置为车身纵向中段大致区域)。"
+    },
+    {
+      "id": "ac_system",
+      "label_cn": "空调系统",
+      "label_en": "A/C System",
+      "hotspot": true,
+      "group": "hvac",
+      "hotspot_pos": [0.5, 0.5, 0.6],
+      "dims": [1],
+      "domain_keywords": ["空调", "制冷剂", "能效", "节能", "环保"],
+      "desc": "空调系统合规范围的示意占位(源模型无对应实体建模,位置为中控台大致区域),相关维度为环保全链条(制冷剂/能效)。"
+    },
+    {
+      "id": "seats",
+      "label_cn": "座椅",
+      "label_en": "Seats",
+      "hotspot": true,
+      "group": "interior",
+      "hotspot_pos": [0.35, 0.35, 0.45],
+      "dims": [0],
+      "domain_keywords": ["座椅", "安全带", "约束系统", "碰撞", "安全"],
+      "desc": "座椅(含安全带固定点)合规范围的示意占位(源模型无内饰几何,位置为驾驶座大致区域)。"
+    },
+    {
+      "id": "dashboard",
+      "label_cn": "仪表板",
+      "label_en": "Dashboard",
+      "hotspot": true,
+      "group": "interior",
+      "hotspot_pos": [0.5, 0.55, 0.65],
+      "dims": [0],
+      "domain_keywords": ["仪表板", "仪表台", "内饰", "安全"],
+      "desc": "仪表板合规范围的示意占位(源模型无内饰几何,位置为前舱仪表台大致区域)。"
+    },
+    {
+      "id": "steering_wheel",
+      "label_cn": "方向盘",
+      "label_en": "Steering Wheel",
+      "hotspot": true,
+      "group": "interior",
+      "hotspot_pos": [0.3, 0.5, 0.62],
+      "dims": [0],
+      "domain_keywords": ["方向盘", "转向盘", "碰撞", "安全"],
+      "desc": "方向盘合规范围的示意占位(源模型无内饰几何,位置为驾驶席前方大致区域)。"
+    },
+    {
+      "id": "airbag",
+      "label_cn": "安全气囊",
+      "label_en": "Airbag",
+      "hotspot": true,
+      "group": "interior",
+      "hotspot_pos": [0.3, 0.52, 0.64],
+      "dims": [0],
+      "domain_keywords": ["安全气囊", "气囊", "乘员保护", "碰撞", "安全"],
+      "desc": "安全气囊系统合规范围的示意占位(源模型无内饰几何,位置紧邻方向盘大致区域)。"
+    },
+    {
+      "id": "floor_mat",
+      "label_cn": "脚垫 / 地毯",
+      "label_en": "Floor Mat / Carpet",
+      "hotspot": true,
+      "group": "interior",
+      "hotspot_pos": [0.4, 0.13, 0.5],
+      "dims": [0],
+      "domain_keywords": ["脚垫", "地毯", "阻燃", "内饰", "安全"],
+      "desc": "脚垫与地毯(阻燃性要求)合规范围的示意占位(源模型无内饰几何,位置为座舱地板大致区域)。"
+    },
+    {
+      "id": "door_trim",
+      "label_cn": "门饰板",
+      "label_en": "Door Trim",
+      "hotspot": true,
+      "group": "interior",
+      "hotspot_pos": [0.15, 0.35, 0.45],
+      "dims": [0],
+      "domain_keywords": ["门饰板", "车门内饰", "阻燃", "安全"],
+      "desc": "车门内饰板合规范围的示意占位(源模型车门几何已并入车身主壳外观,无独立内饰板网格,位置为左侧车门内侧大致区域)。"
     }
   ]
 }

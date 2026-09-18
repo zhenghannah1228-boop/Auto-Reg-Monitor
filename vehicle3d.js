@@ -17,8 +17,21 @@ let curZoneId = null;
 let curCountry = "";       // "" = 全部国家(聚合)
 let scene, camera, renderer, controls, carRoot, raycaster, hoverObj, hoverOrigEmissive;
 let xrayOn = false;
-let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域等),
-                    // 用简易占位几何体 + 虚线标签展示,不冒充精细建模
+let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域、
+                    // 2026-09 新增的动力总成/底盘/空调/内饰等 18 个区域),用简易占位几何体 +
+                    // 虚线标签展示,不冒充精细建模
+
+/* 18 个 hotspot 区域按 group 字段分 6 组,X-Ray 下按组切换显示——不然 18 张标签卡片同屏堆叠
+   会完全看不清。ev/connectivity 是一期就有的默认展示组,其余 4 组默认收起,用户按需勾选。 */
+const HOTSPOT_GROUPS = [
+  { id: "ev", label: "三电系统" },
+  { id: "connectivity", label: "智能网联" },
+  { id: "powertrain", label: "动力总成" },
+  { id: "chassis", label: "底盘/制动转向" },
+  { id: "hvac", label: "空调" },
+  { id: "interior", label: "内饰与乘员防护" },
+];
+let activeGroups = new Set(["ev", "connectivity"]);
 
 async function loadZones() {
   const seedResp = await fetch(ZONES_URL);
@@ -228,7 +241,7 @@ function buildHotspots() {
       new THREE.MeshStandardMaterial({ color: 0xc79a2e, emissive: 0x3a2c08, roughness: 0.4 })
     );
     mesh.position.fromArray(hotspotWorldPos(zone.hotspot_pos));
-    mesh.visible = xrayOn;
+    mesh.visible = xrayOn && activeGroups.has(zone.group);
     carRoot.add(mesh);
     const card = document.createElement("div");
     card.className = "veh3d-hs-card";
@@ -239,26 +252,59 @@ function buildHotspots() {
   });
 }
 
+/* group 勾选变化 / X-Ray 开关变化都走这一个函数,保持 mesh.visible 是唯一状态源——
+   updateHotspotLayer() 每帧只看 mesh.visible,不重复判断分组逻辑。 */
+function refreshHotspotVisibility() {
+  hotspots.forEach(hs => { hs.mesh.visible = xrayOn && activeGroups.has(hs.zone.group); });
+}
+
+function buildGroupBar() {
+  const bar = $("#veh3d-group-bar");
+  if (!bar) return;
+  bar.innerHTML = '<span class="veh3d-group-hint">X-Ray 透视下按系统分组显示占位标注:</span>' +
+    HOTSPOT_GROUPS.map(g =>
+      `<button type="button" class="veh3d-group-chip${activeGroups.has(g.id) ? " on" : ""}" data-g="${g.id}">${esc(g.label)}</button>`
+    ).join("");
+  bar.querySelectorAll(".veh3d-group-chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const g = btn.dataset.g;
+      if (activeGroups.has(g)) activeGroups.delete(g); else activeGroups.add(g);
+      btn.classList.toggle("on");
+      refreshHotspotVisibility();
+    });
+  });
+}
+
 const _hsVec = new THREE.Vector3();
+/* 18 个 hotspot 里同一分组常常在车身上物理位置很近(比如动力总成 4 个都挤在机舱区域),
+   投影到屏幕后位置也会很近——早期"按下标交替偏移 34px"的写法只够分开 2 个,分组功能上线后
+   同屏最多可能有 6 张卡片,必须做真正的防重叠:按屏幕 Y 排序后贪心下推,不再靠下标取巧。 */
 function updateHotspotLayer() {
   if (!xrayOn || !hotspots.length) return;
   const host = $("#veh3d-canvas");
   const svg = document.querySelector("#veh3d-hotspot-layer .veh3d-hs-svg");
   if (!host || !svg) return;
   const w = host.clientWidth, h = host.clientHeight;
-  let lines = "";
-  hotspots.forEach((hs, i) => {
+  const visible = [];
+  hotspots.forEach(hs => {
+    if (!hs.mesh.visible) { hs.card.style.display = "none"; return; } // 未勾选该分组,或未开 X-Ray
     _hsVec.setFromMatrixPosition(hs.mesh.matrixWorld);
     _hsVec.project(camera);
-    const x = (_hsVec.x * 0.5 + 0.5) * w;
-    const y = (-_hsVec.y * 0.5 + 0.5) * h;
-    const behind = _hsVec.z > 1;
-    const cardX = Math.min(w - 12, Math.max(12, x + 60));
-    const cardY = Math.max(20, y - 40 - (i % 2) * 34);
-    hs.card.style.display = behind ? "none" : "block";
-    hs.card.style.left = cardX + "px";
-    hs.card.style.top = cardY + "px";
-    if (!behind) lines += `<line x1="${x}" y1="${y}" x2="${cardX}" y2="${cardY + 10}" class="veh3d-hs-line"/><circle cx="${x}" cy="${y}" r="3.5" class="veh3d-hs-dot"/>`;
+    if (_hsVec.z > 1) { hs.card.style.display = "none"; return; } // 在相机背面
+    visible.push({ hs, x: (_hsVec.x * 0.5 + 0.5) * w, y: (-_hsVec.y * 0.5 + 0.5) * h });
+  });
+  visible.sort((a, b) => a.y - b.y);
+  const CARD_H = 28;
+  let lastCardY = -Infinity;
+  let lines = "";
+  visible.forEach(v => {
+    const cardX = Math.min(w - 12, Math.max(12, v.x + 60));
+    const cardY = Math.max(20, Math.max(v.y - 40, lastCardY + CARD_H));
+    lastCardY = cardY;
+    v.hs.card.style.display = "block";
+    v.hs.card.style.left = cardX + "px";
+    v.hs.card.style.top = cardY + "px";
+    lines += `<line x1="${v.x}" y1="${v.y}" x2="${cardX}" y2="${cardY + 10}" class="veh3d-hs-line"/><circle cx="${v.x}" cy="${v.y}" r="3.5" class="veh3d-hs-dot"/>`;
   });
   svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
   svg.innerHTML = lines;
@@ -296,8 +342,8 @@ function setXray(on) {
   if (carRoot) {
     carRoot.traverse(o => {
       if (!o.isMesh || !o.material) return;
-      const isHotspot = hotspots.some(hs => hs.mesh === o);
-      if (isHotspot) { o.visible = on; return; }
+      const hs = hotspots.find(h => h.mesh === o);
+      if (hs) { hs.mesh.visible = on && activeGroups.has(hs.zone.group); return; }
       if (!o.userData.opaqueMat) o.userData.opaqueMat = o.material;
       if (!o.userData.xrayMat) o.userData.xrayMat = buildXrayMaterial(o.userData.opaqueMat);
       if (!o.userData.edgeLine) o.userData.edgeLine = buildEdgeLines(o);
@@ -430,6 +476,7 @@ async function initVeh3D() {
 
   const xrayBtn = $("#veh3d-xray-btn");
   if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
+  buildGroupBar();
 
   fillCountrySelect();
   renderVeh3DKPIs();
