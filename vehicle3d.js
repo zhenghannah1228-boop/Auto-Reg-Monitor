@@ -234,16 +234,24 @@ function updateHotspotLayer() {
 /* 车身材质来自按顶点色导出的资产,glTF 里标的是 alphaMode:OPAQUE——运行时改同一个材质的
    .opacity/.transparent 不可靠(浏览器测试中肉眼看不出变化,应是编译期就把 alpha 输出裁掉了)。
    改为加载时就构建好一份"opaque 材质"与一份"xray 材质"(后者从一开始就 transparent:true 构造),
-   切换时直接整体替换 mesh.material,而不是运行时修改属性。 */
+   切换时直接整体替换 mesh.material,而不是运行时修改属性。
+   纯调低透明度这一件事做出来的效果很糟——车身多层重叠面(尤其车轮:胎面+轮辋+轮辐+刹车盘)
+   叠加后观感比车身更"实",整体又像一团灰蒙蒙的东西、没有轮廓,不像真正的透视图。改为工程图
+   常见做法:极低不透明度的实体填充(给出体量感)+ EdgesGeometry 生成的清晰轮廓线(给出结构感),
+   两者叠加,而不是单靠一个透明度数值硬撑。 */
 function buildXrayMaterial(mat) {
   const m = mat.clone();
   m.transparent = true;
-  // 车身由多层重叠面组成(车轮尤其明显:胎面+轮辋+轮辐+刹车盘层层叠加),简单 alpha 混合会让
-  // 重叠越多的部位越接近不透明——实测 0.15 是"整车轮廓仍连贯可辨、车轮不会显得比车身更实心"
-  // 的平衡点,数值越高车轮越会显得比车身"更实"、像是脱离车身悬浮
-  m.opacity = 0.15;
+  m.opacity = 0.06;
   m.depthWrite = false;
   return m;
+}
+function buildEdgeLines(mesh) {
+  const edges = new THREE.EdgesGeometry(mesh.geometry, 32); // 32°阈值:只留有意义的棱线,滤掉高多边形噪点
+  const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x1a2420, transparent: true, opacity: 0.55 }));
+  line.visible = false;
+  mesh.add(line); // 作为 mesh 的子节点,自动继承其局部变换
+  return line;
 }
 
 function setXray(on) {
@@ -255,7 +263,9 @@ function setXray(on) {
       if (isHotspot) { o.visible = on; return; }
       if (!o.userData.opaqueMat) o.userData.opaqueMat = o.material;
       if (!o.userData.xrayMat) o.userData.xrayMat = buildXrayMaterial(o.userData.opaqueMat);
+      if (!o.userData.edgeLine) o.userData.edgeLine = buildEdgeLines(o);
       o.material = on ? o.userData.xrayMat : o.userData.opaqueMat;
+      o.userData.edgeLine.visible = on;
     });
   }
   const layer = $("#veh3d-hotspot-layer");
