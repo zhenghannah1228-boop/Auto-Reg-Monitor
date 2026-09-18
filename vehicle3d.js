@@ -242,7 +242,11 @@ function updateHotspotLayer() {
 function buildXrayMaterial(mat) {
   const m = mat.clone();
   m.transparent = true;
-  m.opacity = 0.06;
+  // 任何非零填充不透明度,只要碰到模型里堆叠多层的密集区域(格栅缝隙、大灯多层结构、车轮
+  // 胎面+轮辋+轮辐+刹车盘),多层透明面叠加后观感都会滚雪球一样趋近不透明,看起来像"实心的
+  // 一块"——这个问题在车轮、前脸格栅两处都实测复现了,不是单个数值能调好的,索性把填充调到
+  // 近乎全透明(不用 0,避免个别渲染路径把 opacity:0 当成整体剔除处理),结构感完全交给棱线。
+  m.opacity = 0.02;
   m.depthWrite = false;
   return m;
 }
