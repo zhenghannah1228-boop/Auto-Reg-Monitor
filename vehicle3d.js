@@ -153,31 +153,46 @@ function goToEmark() {
   if (f && !f.src) f.src = f.dataset.src;
 }
 
+let _orthoHalfHeight = 1; // frameCamera() 算出的世界空间半高,resize 时按新宽高比重算 left/right,不动 top/bottom
+
 function sizeRenderer() {
   const host = $("#veh3d-canvas");
   if (!host || !renderer || !camera) return;
   const w = host.clientWidth || 1, h = host.clientHeight || 1;
   renderer.setSize(w, h, false);
-  camera.aspect = w / h;
+  const aspect = w / h;
+  camera.left = -_orthoHalfHeight * aspect;
+  camera.right = _orthoHalfHeight * aspect;
+  camera.top = _orthoHalfHeight;
+  camera.bottom = -_orthoHalfHeight;
   camera.updateProjectionMatrix();
 }
 
+/* 正投影(平行投影):没有消失点、物体大小不随镜头远近变化——这是业主明确要的"汽车线稿/
+   工程图"效果,也顺带解决了之前透视相机贴近车身时(controls.minDistance 较小、45°广角)
+   边缘部件视觉上"甩出去"的畸变问题(那不是车身数据错位,单独排查过整车 33 个网格节点的
+   世界坐标包围盒,全部落在车身整体包络内;是广角透视镜头贴近物体时的固有畸变,换正投影后
+   按构造就不存在这类畸变)。*/
 function frameCamera(object3d) {
   const box = new THREE.Box3().setFromObject(object3d);
   const size = box.getSize(new THREE.Vector3());
   const center = box.getCenter(new THREE.Vector3());
   const radius = size.length() * 0.5 || 1;
-  const vFov = camera.fov * (Math.PI / 180);
-  const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
-  const dist = Math.max(radius / Math.sin(vFov / 2), radius / Math.sin(hFov / 2)) * 1.15;
-  const dir = new THREE.Vector3(0.5, 0.68, 0.62).normalize(); // 斜前方俯视:抬高仰角比例,俯视感更明显
+  _orthoHalfHeight = radius * 1.15;
+  const dist = radius * 4; // 正投影下相机距离不影响物体视觉大小,只要留够近远裁剪空间即可
+  // 斜前方俯视角度。实测过把仰角(Y 分量)调更高(0.68)想让俯视感更明显,结果车轮在这具体
+  // 模型上明显"甩出去"——这具体模型没有翼子板/轮拱内衬几何体去视觉上"接住"车轮,仰角一旦太陡,
+  // 车轮的自然侧向外扩就会脱离车身正投影轮廓,看起来像飞出去(拿正投影/透视各测过一遍,现象一致,
+  // 不是相机类型的问题)。0.38 这个仰角是实测干净、车轮視觉上仍贴合车身的上限附近,不再继续抬高。
+  const dir = new THREE.Vector3(0.55, 0.38, 0.75).normalize();
   camera.position.copy(center).addScaledVector(dir, dist);
-  camera.near = Math.max(dist / 100, 0.01);
+  camera.near = dist / 100;
   camera.far = dist * 10;
-  camera.updateProjectionMatrix();
+  camera.zoom = 1;
+  sizeRenderer(); // 用当前画布宽高比设置 left/right/top/bottom
   controls.target.copy(center);
-  controls.minDistance = dist * 0.3;
-  controls.maxDistance = dist * 3;
+  controls.minZoom = 0.4;
+  controls.maxZoom = 4;
   controls.update();
 }
 
@@ -378,7 +393,7 @@ async function initVeh3D() {
   scene = new THREE.Scene();
   scene.background = new THREE.Color(panelBg);
 
-  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100); // 真实边界在 frameCamera() 里按模型算
   camera.position.set(4, 2.4, 5);
 
   renderer = new THREE.WebGLRenderer({ antialias: true });
