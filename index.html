@@ -550,6 +550,16 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .veh3d-dims .vd-row:last-child{border-bottom:none}
 .veh3d-dims .vd-row:hover{color:var(--accent)}
 .veh3d-empty{color:var(--faint);font-size:12.5px;font-style:italic}
+#veh3d-xray-btn{margin-left:8px;font-size:11px;padding:5px 12px}
+#veh3d-xray-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.veh3d-hotspot-layer{position:absolute;inset:0;pointer-events:none}
+.veh3d-hs-svg{width:100%;height:100%}
+.veh3d-hs-line{stroke:var(--gold);stroke-width:1.5;stroke-dasharray:4 3}
+.veh3d-hs-dot{fill:var(--gold)}
+.veh3d-hs-card{position:absolute;transform:translate(-50%,-100%);pointer-events:auto;cursor:pointer;
+  background:var(--panel);border:1px solid var(--gold);border-radius:6px;padding:4px 10px;
+  font-size:11px;font-weight:600;color:var(--ink);white-space:nowrap;box-shadow:var(--shadow)}
+.veh3d-hs-card:hover{background:var(--panel2)}
 @media(max-width:980px){.veh3d-wrap{flex-direction:column}.veh3d-side{width:100%}.veh3d-canvas{height:420px}}
 
 @media(max-width:980px){
@@ -690,12 +700,14 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <div class="card" style="margin-bottom:0">
           <h3>整车合规孪生
             <select id="veh3d-cty" class="csel" style="font-size:12px;padding:5px 10px;min-width:0"></select>
-            <span class="hint">拖动旋转 · 滚轮缩放 · 点击部件查看该区域合规范围</span></h3>
+            <span class="btn light" id="veh3d-xray-btn" style="cursor:pointer">◈ X-Ray 透视</span>
+            <span class="hint">拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围</span></h3>
           <div class="veh3d-canvas" id="veh3d-canvas">
             <div class="veh3d-loading" id="veh3d-loading">[ 正在载入车辆模型… ]</div>
+            <div class="veh3d-hotspot-layer" id="veh3d-hotspot-layer" style="display:none"></div>
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono)">
-            模型:Khronos CarConcept(CC BY 4.0,见 vendor/models/CREDITS.md)· 本迭代区域覆盖整车准入/环保全链条/标签标识三个维度,其余维度见「维度矩阵」「国家详情」
+            模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身部件覆盖整车准入/环保全链条;电池包/ECU-OTA域无实体建模,开启 X-Ray 后以占位标注展示(充电电池/EV补贴/网络安全/ADAS)· 其余维度见「维度矩阵」「国家详情」
           </div>
         </div>
       </div>

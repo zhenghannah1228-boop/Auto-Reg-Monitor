@@ -8,7 +8,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-const MODEL_URL = "./vendor/models/CarConcept/CarConcept.glb";
+const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
 const ZONES_URL = "./data/vehicle_zones.json";
 
 let ZONES = [];            // 合并静态种子 + 团队覆盖层后的区域定义数组
@@ -16,6 +16,9 @@ let nodeToZone = new Map();// gltf 节点名(小写) -> zoneId
 let curZoneId = null;
 let curCountry = "";       // "" = 全部国家(聚合)
 let scene, camera, renderer, controls, carRoot, raycaster, hoverObj, hoverOrigEmissive;
+let xrayOn = false;
+let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域等),
+                    // 用简易占位几何体 + 虚线标签展示,不冒充精细建模
 
 async function loadZones() {
   const seedResp = await fetch(ZONES_URL);
@@ -92,7 +95,7 @@ function renderVeh3DKPIs() {
   const readyN = zoneAgg.filter(s => s && s.state === "g").length;
   const blankN = zoneAgg.filter(s => s && s.count === 0).length;
   const tiles = [
-    { lbl: "监控部件区域数", v: ZONES.length, meta: "基于 CarConcept 模型实际节点划分" },
+    { lbl: "监控部件区域数", v: ZONES.length, meta: "基于车辆模型实际节点划分" },
     { lbl: "全库法规总数", v: total, meta: total ? "与「总览排行」同口径" : "数据加载中…" },
     { lbl: "就绪区域数", v: readyN, meta: "全部国家该区域均 ≥3 条", hot: readyN > 0 },
     { lbl: "空白区域数", v: blankN, meta: "尚无匹配法规记录" },
@@ -119,8 +122,9 @@ function showZoneDetail(zoneId) {
   const dimsRow = zone.dims.map(i =>
     `<div class="vd-row" data-dim="${i}">${esc((typeof DIMS !== "undefined" ? DIMS[i] : "维度" + i))}</div>`
   ).join("");
+  const nodeInfo = zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`;
   host.innerHTML = `
-    <div class="pd-lbl">${esc(zoneId)} · ${(zone.gltf_nodes || []).length} 个模型节点</div>
+    <div class="pd-lbl">${esc(zoneId)} · ${nodeInfo}</div>
     <div class="pd-title">${esc(zone.label_cn)}</div>
     <div class="pd-local">${esc(zone.label_en)}</div>
     <div class="veh3d-status">${statusText}</div>
@@ -166,7 +170,7 @@ function frameCamera(object3d) {
   const vFov = camera.fov * (Math.PI / 180);
   const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
   const dist = Math.max(radius / Math.sin(vFov / 2), radius / Math.sin(hFov / 2)) * 1.15;
-  const dir = new THREE.Vector3(0.55, 0.38, 0.75).normalize();
+  const dir = new THREE.Vector3(0.5, 0.68, 0.62).normalize(); // 斜前方俯视:抬高仰角比例,俯视感更明显
   camera.position.copy(center).addScaledVector(dir, dist);
   camera.near = Math.max(dist / 100, 0.01);
   camera.far = dist * 10;
@@ -175,6 +179,121 @@ function frameCamera(object3d) {
   controls.minDistance = dist * 0.3;
   controls.maxDistance = dist * 3;
   controls.update();
+}
+
+/* data/vehicle_zones.json 里原先的 hotspot_pos 是手估的绝对坐标,实测和车身实际曲面对不上
+   (量出来电池包一半悬在底盘外、ECU 偏出仪表台曲面),视觉上就是"贴纸贴在车上"而不是嵌入车身。
+   排查过用射线从正上方往下打、找车身实际曲面来对齐——但这个素材本身只建了看得见的外观壳体,
+   底盘/地板没有建模(underside 是空的),往下打的射线只会命中车顶一次,再往下就是空气,没有
+   "地板"这层几何可以对齐。改为更稳的办法:hotspot_pos 存的不是绝对坐标,而是车身实际包围盒
+   三轴上的比例(0~1,如 X 方向 0=最左 1=最右),运行时按当前模型的真实包围盒换算成世界坐标——
+   占位盒体因此始终落在这具体模型的真实体量范围之内,不会因为手估数值偏差而钻出车身包络。 */
+function hotspotWorldPos(fracPos) {
+  if (!carRoot) return fracPos;
+  const box = new THREE.Box3().setFromObject(carRoot);
+  const [fx, fy, fz] = fracPos;
+  return [
+    box.min.x + fx * (box.max.x - box.min.x),
+    box.min.y + fy * (box.max.y - box.min.y),
+    box.min.z + fz * (box.max.z - box.min.z),
+  ];
+}
+
+/* 电池包/ECU-OTA 域等无实体建模的维度:放一个简易占位几何体在车内大致位置(业主 2026-09 指示),
+   仅在「X-Ray 透视」开启、车身变半透明后才可见——不做射线拾取,点击走下方 HTML 标签卡片,
+   避免"占位盒子恰好被判定为最近命中"这种不真实的交互。 */
+function buildHotspots() {
+  hotspots.forEach(h => h.mesh.parent && h.mesh.parent.remove(h.mesh));
+  hotspots = [];
+  const layer = $("#veh3d-hotspot-layer");
+  if (layer) layer.innerHTML = '<svg class="veh3d-hs-svg"></svg>';
+  ZONES.filter(z => z.hotspot && Array.isArray(z.hotspot_pos)).forEach(zone => {
+    const mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(0.42, 0.28, 0.55),
+      new THREE.MeshStandardMaterial({ color: 0xc79a2e, emissive: 0x3a2c08, roughness: 0.4 })
+    );
+    mesh.position.fromArray(hotspotWorldPos(zone.hotspot_pos));
+    mesh.visible = xrayOn;
+    carRoot.add(mesh);
+    const card = document.createElement("div");
+    card.className = "veh3d-hs-card";
+    card.textContent = zone.label_cn;
+    card.addEventListener("click", () => showZoneDetail(zone.id));
+    if (layer) layer.appendChild(card);
+    hotspots.push({ zone, mesh, card });
+  });
+}
+
+const _hsVec = new THREE.Vector3();
+function updateHotspotLayer() {
+  if (!xrayOn || !hotspots.length) return;
+  const host = $("#veh3d-canvas");
+  const svg = document.querySelector("#veh3d-hotspot-layer .veh3d-hs-svg");
+  if (!host || !svg) return;
+  const w = host.clientWidth, h = host.clientHeight;
+  let lines = "";
+  hotspots.forEach((hs, i) => {
+    _hsVec.setFromMatrixPosition(hs.mesh.matrixWorld);
+    _hsVec.project(camera);
+    const x = (_hsVec.x * 0.5 + 0.5) * w;
+    const y = (-_hsVec.y * 0.5 + 0.5) * h;
+    const behind = _hsVec.z > 1;
+    const cardX = Math.min(w - 12, Math.max(12, x + 60));
+    const cardY = Math.max(20, y - 40 - (i % 2) * 34);
+    hs.card.style.display = behind ? "none" : "block";
+    hs.card.style.left = cardX + "px";
+    hs.card.style.top = cardY + "px";
+    if (!behind) lines += `<line x1="${x}" y1="${y}" x2="${cardX}" y2="${cardY + 10}" class="veh3d-hs-line"/><circle cx="${x}" cy="${y}" r="3.5" class="veh3d-hs-dot"/>`;
+  });
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.innerHTML = lines;
+}
+
+/* 车身材质来自按顶点色导出的资产,glTF 里标的是 alphaMode:OPAQUE——运行时改同一个材质的
+   .opacity/.transparent 不可靠(浏览器测试中肉眼看不出变化,应是编译期就把 alpha 输出裁掉了)。
+   改为加载时就构建好一份"opaque 材质"与一份"xray 材质"(后者从一开始就 transparent:true 构造),
+   切换时直接整体替换 mesh.material,而不是运行时修改属性。
+   纯调低透明度这一件事做出来的效果很糟——车身多层重叠面(尤其车轮:胎面+轮辋+轮辐+刹车盘)
+   叠加后观感比车身更"实",整体又像一团灰蒙蒙的东西、没有轮廓,不像真正的透视图。改为工程图
+   常见做法:极低不透明度的实体填充(给出体量感)+ EdgesGeometry 生成的清晰轮廓线(给出结构感),
+   两者叠加,而不是单靠一个透明度数值硬撑。 */
+function buildXrayMaterial(mat) {
+  const m = mat.clone();
+  m.transparent = true;
+  // 任何非零填充不透明度,只要碰到模型里堆叠多层的密集区域(格栅缝隙、大灯多层结构、车轮
+  // 胎面+轮辋+轮辐+刹车盘),多层透明面叠加后观感都会滚雪球一样趋近不透明,看起来像"实心的
+  // 一块"——这个问题在车轮、前脸格栅两处都实测复现了,不是单个数值能调好的,索性把填充调到
+  // 近乎全透明(不用 0,避免个别渲染路径把 opacity:0 当成整体剔除处理),结构感完全交给棱线。
+  m.opacity = 0.02;
+  m.depthWrite = false;
+  return m;
+}
+function buildEdgeLines(mesh) {
+  const edges = new THREE.EdgesGeometry(mesh.geometry, 32); // 32°阈值:只留有意义的棱线,滤掉高多边形噪点
+  const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x1a2420, transparent: true, opacity: 0.55 }));
+  line.visible = false;
+  mesh.add(line); // 作为 mesh 的子节点,自动继承其局部变换
+  return line;
+}
+
+function setXray(on) {
+  xrayOn = on;
+  if (carRoot) {
+    carRoot.traverse(o => {
+      if (!o.isMesh || !o.material) return;
+      const isHotspot = hotspots.some(hs => hs.mesh === o);
+      if (isHotspot) { o.visible = on; return; }
+      if (!o.userData.opaqueMat) o.userData.opaqueMat = o.material;
+      if (!o.userData.xrayMat) o.userData.xrayMat = buildXrayMaterial(o.userData.opaqueMat);
+      if (!o.userData.edgeLine) o.userData.edgeLine = buildEdgeLines(o);
+      o.material = on ? o.userData.xrayMat : o.userData.opaqueMat;
+      o.userData.edgeLine.visible = on;
+    });
+  }
+  const layer = $("#veh3d-hotspot-layer");
+  if (layer) layer.style.display = on ? "block" : "none";
+  const btn = $("#veh3d-xray-btn");
+  if (btn) btn.classList.toggle("on", on);
 }
 
 function resolveZoneFromObject(obj) {
@@ -291,7 +410,11 @@ async function initVeh3D() {
   renderer.setAnimationLoop(() => {
     controls.update();
     renderer.render(scene, camera);
+    updateHotspotLayer();
   });
+
+  const xrayBtn = $("#veh3d-xray-btn");
+  if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
 
   fillCountrySelect();
   renderVeh3DKPIs();
@@ -301,8 +424,12 @@ async function initVeh3D() {
     gltf => {
       carRoot = gltf.scene;
       scene.add(carRoot);
+      // 逐 mesh 克隆材质:部分模型(如按顶点色导出的资产)会让多个 mesh 共享同一材质实例,
+      // 悬停高亮若直接改共享材质的 emissive 会连带染色整车,而非仅高亮当前部件
+      carRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
       carRoot.updateMatrixWorld(true);
       frameCamera(carRoot);
+      buildHotspots();
       setLoadingProgress(100, true, false);
     },
     evt => {
@@ -310,7 +437,7 @@ async function initVeh3D() {
       setLoadingProgress(Math.min(99, pct), false, false);
     },
     err => {
-      console.error("CarConcept.glb 加载失败:", err);
+      console.error("车辆模型加载失败:", err);
       setLoadingProgress(0, false, true);
     }
   );

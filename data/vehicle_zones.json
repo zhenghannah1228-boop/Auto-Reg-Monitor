@@ -1,87 +1,89 @@
 {
   "schema_version": "1.0",
-  "note": "区域划分基于 vendor/models/CarConcept/CarConcept.glb(Khronos 示例概念车,燃油车,无独立电池包/ADAS传感器/网联ECU等部件建模)实际节点名。故本迭代仅覆盖车身/制动/车轮/内饰/号牌/动力总成对应的维度(整车准入·环保全链条·标签标识);充电电池/EV补贴/射频认证/网络安全/ADAS/注册监管/随车工具等维度暂无对应可点选3D部件,仍可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。",
+  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘几何(underside 是空的)。电池包/ECU-OTA域两个区域源模型无对应实体建模,按业主指示用简易占位几何体(标注为 hotspot)放在车内大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。",
   "zones": [
     {
-      "id": "body_chassis",
-      "label_cn": "车身覆盖件",
-      "label_en": "Body Panels & Chassis",
-      "gltf_nodes": ["BodyUnderside", "BodyRoofPanel", "BodyPanelsColor2", "BodyPillars", "BodyRearPanelsColor1"],
+      "id": "body_shell",
+      "label_cn": "车身主体",
+      "label_en": "Body Shell",
+      "gltf_nodes": ["body_shell", "body_shell_1", "body_shell_2", "body_shell_3", "body_shell_4"],
       "dims": [0],
       "domain_keywords": ["安全", "车身", "整车", "碰撞"],
-      "desc": "车身覆盖件与底盘结构相关的整车准入合规范围(如碰撞安全、车身刚性等法规)。"
+      "desc": "车身主壳(含车轮,源模型未单独拆分)相关的整车准入合规范围。"
     },
     {
-      "id": "doors_hood",
-      "label_cn": "车门与引擎盖",
-      "label_en": "Doors & Hood",
-      "gltf_nodes": ["BodyDoorRColor1", "BodyDoorLColor1", "BodyHood"],
+      "id": "front_end",
+      "label_cn": "前端(格栅/大灯/保险杠)",
+      "label_en": "Front End",
+      "gltf_nodes": ["front_end", "front_end_1", "front_end_2", "front_end_3", "front_end_4", "front_end_5", "front_end_6", "front_end_7", "front_end_8", "front_end_9", "front_end_10"],
       "dims": [0],
-      "domain_keywords": ["安全", "车门", "锁止", "整车"],
-      "desc": "车门/引擎盖锁止与开闭安全相关的整车准入合规范围。"
+      "domain_keywords": ["照明", "大灯", "保险杠", "安全", "整车"],
+      "desc": "前进气格栅、大灯与前保险杠相关的整车准入合规范围(含照明,CLAUDE.md 规则:照明归入维度1)。"
     },
     {
-      "id": "glazing_wipers",
-      "label_cn": "风挡玻璃与雨刷",
-      "label_en": "Glazing & Wipers",
-      "gltf_nodes": ["BodyWindshield", "BodyWindshieldGasket", "BodyWindshieldWipers", "BodyWindshieldWipersBase", "BodyWindowsRearSides", "BodyRearwindow", "BodyDoorRWindow", "BodyDoorRWindowGasket", "BodyDoorLWindow", "BodyDoorLWindowGasket"],
+      "id": "rear_end",
+      "label_cn": "后端(尾灯/保险杠)",
+      "label_en": "Rear End",
+      "gltf_nodes": ["rear_end", "rear_end_1", "rear_end_2", "rear_end_3", "rear_end_4", "rear_end_5", "rear_end_6", "rear_end_7", "rear_end_8", "rear_end_9"],
       "dims": [0],
-      "domain_keywords": ["安全玻璃", "风挡", "雨刷", "视野"],
-      "desc": "安全玻璃与视野/雨刷系统相关的整车准入合规范围。"
+      "domain_keywords": ["照明", "尾灯", "保险杠", "安全", "整车"],
+      "desc": "尾灯与后保险杠相关的整车准入合规范围。"
     },
     {
-      "id": "lighting_mirrors",
-      "label_cn": "车灯与后视镜",
-      "label_en": "Lighting & Mirrors",
-      "gltf_nodes": ["BodyHeadlights", "BodyTaillights", "BodyTaillightsPanels", "BodyTurnsignalsRear", "BodyDoorRMirror", "BodyDoorRMirrorColor1", "BodyDoorRMirrorColor2", "BodyDoorLMirror", "BodyDoorLMirrorColor1", "BodyDoorLMirrorColor2"],
-      "dims": [0],
-      "domain_keywords": ["照明", "灯具", "后视镜", "车灯"],
-      "desc": "车灯具、转向灯与后视镜相关的整车准入合规范围(CLAUDE.md 规则:照明归入维度1)。"
-    },
-    {
-      "id": "brakes",
-      "label_cn": "制动系统",
-      "label_en": "Brake System",
-      "gltf_nodes": ["WheelFrontLBrakePad", "WheelFrontLBrakeDisc", "WheelFrontRBrakePad", "WheelFrontRBrakeDisc", "WheelRearLBrakeDisc", "WheelRearLBrakePad", "WheelRearRBrakeDisc", "WheelRearRBrakePad"],
-      "dims": [0],
-      "domain_keywords": ["制动", "刹车", "安全"],
-      "desc": "制动系统相关的整车准入合规范围。"
-    },
-    {
-      "id": "wheels_tires",
-      "label_cn": "车轮与轮胎",
-      "label_en": "Wheels & Tires",
-      "gltf_nodes": ["WheelFrontLRim", "WheelFrontRRim", "WheelRearLRim", "WheelRearRRim", "Axles"],
-      "dims": [0],
-      "domain_keywords": ["轮胎", "车轮", "安全"],
-      "desc": "车轮与轮胎相关的整车准入合规范围。"
-    },
-    {
-      "id": "license_plate",
-      "label_cn": "号牌与标识",
-      "label_en": "License Plate",
-      "gltf_nodes": ["License Plate"],
-      "dims": [7],
-      "domain_keywords": ["标识", "标签", "号牌", "VIN", "铭牌"],
-      "desc": "号牌安装与整车标签标识相关的合规范围。"
-    },
-    {
-      "id": "interior_cabin",
-      "label_cn": "内饰与座舱",
-      "label_en": "Interior & Cabin",
-      "gltf_nodes": ["InteriorSeatsColor1", "InteriorSeatsColor2", "InteriorFloor", "InteriorFloormats", "InteriorCage", "InteriorDashMid", "InteriorDashSides", "InteriorPillar", "InteriorPedalAccel", "InteriorPedalAccelArm", "InteriorPedalBrake", "InteriorPedalBrakeArm", "InteriorSteeringBase", "InteriorSteeringCylinder", "InteriorSteeringWheel01", "InteriorSteeringWheel02", "InteriorSteeringWheel03", "InteriorSteeringWheel04", "InteriorSteeringDash", "InteriorSteeringDashColumn", "InteriorSteeringHandleL", "InteriorSteeringHandleR", "InteriorDoorR01", "InteriorDoorR02", "InteriorDoorR03", "InteriorDoorR04", "InteriorDoorR05", "InteriorDoorR06", "InteriorDoorL01", "InteriorDoorL02", "InteriorDoorL03", "InteriorDoorL04", "InteriorDoorL05", "InteriorDoorL06", "InteriorRearHatch", "InteriorRearPanels"],
-      "dims": [0],
-      "domain_keywords": ["座椅", "内饰", "转向", "阻燃", "安全带"],
-      "desc": "座椅、转向机构与内饰阻燃等相关的整车准入合规范围。"
-    },
-    {
-      "id": "powertrain",
-      "label_cn": "动力总成",
-      "label_en": "Powertrain",
-      "gltf_nodes": ["Engine"],
+      "id": "exhaust",
+      "label_cn": "排气系统",
+      "label_en": "Exhaust",
+      "gltf_nodes": ["exhaust"],
       "dims": [1],
-      "domain_keywords": ["排放", "油耗", "节能", "环保"],
-      "desc": "发动机及动力总成相关的环保全链条合规范围(排放、油耗等)。"
+      "domain_keywords": ["排放", "油耗", "节能", "环保", "噪声"],
+      "desc": "排气系统相关的环保全链条合规范围(排放、噪声等)。"
+    },
+    {
+      "id": "glazing",
+      "label_cn": "车窗区域",
+      "label_en": "Glazing Area",
+      "gltf_nodes": ["glazing", "glazing_1"],
+      "dims": [0],
+      "domain_keywords": ["安全玻璃", "风挡", "视野"],
+      "desc": "车窗开口相关的安全玻璃/视野合规范围(源模型无独立玻璃网格,此区域为车身壳体上对应的窗口开口部分)。"
+    },
+    {
+      "id": "mirrors",
+      "label_cn": "后视镜",
+      "label_en": "Mirrors",
+      "gltf_nodes": ["mirrors", "mirrors_1"],
+      "dims": [0],
+      "domain_keywords": ["后视镜", "视野", "安全"],
+      "desc": "后视镜相关的整车准入合规范围。"
+    },
+    {
+      "id": "roof",
+      "label_cn": "车顶细节",
+      "label_en": "Roof Detail",
+      "gltf_nodes": ["roof", "roof_1"],
+      "dims": [0],
+      "domain_keywords": ["车顶", "安全", "整车"],
+      "desc": "车顶相关细节的整车准入合规范围。"
+    },
+    {
+      "id": "battery_pack",
+      "label_cn": "电池包",
+      "label_en": "Battery Pack",
+      "hotspot": true,
+      "hotspot_pos": [0.5, 0.12, 0.45],
+      "dims": [3, 4],
+      "domain_keywords": ["电池", "充电", "REESS", "补贴", "battery", "charging"],
+      "desc": "动力电池系统的示意占位(源模型无对应实体建模,位置为地板下方大致区域),相关维度为充电电池与 EV 补贴(与「电动汽车」领域映射一致)。"
+    },
+    {
+      "id": "ecu_ota",
+      "label_cn": "ECU / OTA 域",
+      "label_en": "ECU / OTA Domain",
+      "hotspot": true,
+      "hotspot_pos": [0.5, 0.55, 0.7],
+      "dims": [5, 6],
+      "domain_keywords": ["网络安全", "OTA", "cybersecurity", "SUMS", "CSMS", "ADAS", "智能网联"],
+      "desc": "整车电子控制与远程升级的示意占位(源模型无对应实体建模,位置为前舱仪表台大致区域),相关维度为网络安全与 ADAS(与「智能网联」领域映射一致)。"
     }
   ]
 }
