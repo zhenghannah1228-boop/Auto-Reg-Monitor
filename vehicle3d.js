@@ -231,6 +231,21 @@ function updateHotspotLayer() {
   svg.innerHTML = lines;
 }
 
+/* 车身材质来自按顶点色导出的资产,glTF 里标的是 alphaMode:OPAQUE——运行时改同一个材质的
+   .opacity/.transparent 不可靠(浏览器测试中肉眼看不出变化,应是编译期就把 alpha 输出裁掉了)。
+   改为加载时就构建好一份"opaque 材质"与一份"xray 材质"(后者从一开始就 transparent:true 构造),
+   切换时直接整体替换 mesh.material,而不是运行时修改属性。 */
+function buildXrayMaterial(mat) {
+  const m = mat.clone();
+  m.transparent = true;
+  // 车身由多层重叠面组成(车轮尤其明显:胎面+轮辋+轮辐+刹车盘层层叠加),简单 alpha 混合会让
+  // 重叠越多的部位越接近不透明——实测 0.15 是"整车轮廓仍连贯可辨、车轮不会显得比车身更实心"
+  // 的平衡点,数值越高车轮越会显得比车身"更实"、像是脱离车身悬浮
+  m.opacity = 0.15;
+  m.depthWrite = false;
+  return m;
+}
+
 function setXray(on) {
   xrayOn = on;
   if (carRoot) {
@@ -238,10 +253,9 @@ function setXray(on) {
       if (!o.isMesh || !o.material) return;
       const isHotspot = hotspots.some(hs => hs.mesh === o);
       if (isHotspot) { o.visible = on; return; }
-      o.material.transparent = true;
-      o.material.opacity = on ? 0.22 : 1;
-      o.material.depthWrite = !on;
-      o.material.needsUpdate = true;
+      if (!o.userData.opaqueMat) o.userData.opaqueMat = o.material;
+      if (!o.userData.xrayMat) o.userData.xrayMat = buildXrayMaterial(o.userData.opaqueMat);
+      o.material = on ? o.userData.xrayMat : o.userData.opaqueMat;
     });
   }
   const layer = $("#veh3d-hotspot-layer");
