@@ -552,6 +552,12 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .veh3d-empty{color:var(--faint);font-size:12.5px;font-style:italic}
 #veh3d-xray-btn{margin-left:8px;font-size:11px;padding:5px 12px}
 #veh3d-xray-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.veh3d-group-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:9px 0 2px}
+.veh3d-group-hint{font-size:10.5px;color:var(--muted);font-family:var(--mono);margin-right:2px}
+.veh3d-group-chip{font-size:11px;padding:4px 11px;border:1px solid var(--line);border-radius:12px;
+  background:var(--panel);color:var(--ink2);cursor:pointer;font-family:var(--sans)}
+.veh3d-group-chip:hover{border-color:var(--gold)}
+.veh3d-group-chip.on{background:var(--gold);border-color:var(--gold);color:#3a2c08;font-weight:600}
 .veh3d-hotspot-layer{position:absolute;inset:0;pointer-events:none}
 .veh3d-hs-svg{width:100%;height:100%}
 .veh3d-hs-line{stroke:var(--gold);stroke-width:1.5;stroke-dasharray:4 3}
@@ -702,12 +708,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
             <select id="veh3d-cty" class="csel" style="font-size:12px;padding:5px 10px;min-width:0"></select>
             <span class="btn light" id="veh3d-xray-btn" style="cursor:pointer">◈ X-Ray 透视</span>
             <span class="hint">拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围</span></h3>
+          <div class="veh3d-group-bar" id="veh3d-group-bar"></div>
           <div class="veh3d-canvas" id="veh3d-canvas">
             <div class="veh3d-loading" id="veh3d-loading">[ 正在载入车辆模型… ]</div>
             <div class="veh3d-hotspot-layer" id="veh3d-hotspot-layer" style="display:none"></div>
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono)">
-            模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身部件覆盖整车准入/环保全链条;电池包/ECU-OTA域无实体建模,开启 X-Ray 后以占位标注展示(充电电池/EV补贴/网络安全/ADAS)· 其余维度见「维度矩阵」「国家详情」
+            模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示(未买机械分件付费模型,详见区域数据 note)· 其余维度见「维度矩阵」「国家详情」
           </div>
         </div>
       </div>
