@@ -206,6 +206,16 @@ function frameCamera(object3d) {
   controls.target.copy(center);
   controls.minZoom = 0.4;
   controls.maxZoom = 4;
+  // 2026-09 排查"部分车身/车轮从画面消失"反馈时确认过:33 个网格节点在任意角度下 visible 都是
+  // true、也都在视锥体内(逐网格 dump 过 Frustum.intersectsSphere),不是剔除/材质 bug——问题是
+  // OrbitControls 默认极角不设限(0~180°),用户把车往下拖得足够狠时相机会转到车身水平线以下,
+  // 从底盘方向往上看。这个模型只建了看得见的外观壳体,没有底盘/地板几何(underside 是空的),
+  // 从那个方向看正好是"从没建模的洞往里看",格栅/保险杠这类薄且复杂的前端部件在这种反常视角下
+  // 视觉上会收缩成看不见的窄边,车轮因为真实的左右外扩量在这个角度下显得像脱离车身——用实测
+  // 142° 极角复现过,和"车轮飞出去"是同一类症状但触发条件不同(那次是仰角太陡,这次是能转到
+  // 水平线以下)。不修渲染 hack,直接把极角限制在车身水平线以上,不让相机转到没建模的区域去。
+  controls.minPolarAngle = 0.15;  // ≈8.6°,留一点余量避免正上方万向节死锁(车顶有建模,可以看)
+  controls.maxPolarAngle = 1.45;  // ≈83°,不允许转到水平线以下
   controls.update();
 }
 
@@ -487,7 +497,12 @@ async function initVeh3D() {
       carRoot = gltf.scene;
       scene.add(carRoot);
       // 逐 mesh 克隆材质:部分模型(如按顶点色导出的资产)会让多个 mesh 共享同一材质实例,
-      // 悬停高亮若直接改共享材质的 emissive 会连带染色整车,而非仅高亮当前部件
+      // 悬停高亮若直接改共享材质的 emissive 会连带染色整车,而非仅高亮当前部件。
+      // 排查"部分车身消失"问题时验证过 side:DoubleSide 不是正确修复——这个模型部分节点的法线
+      // 方向与三角形环绕不一致(trimesh 转换过程留下的),强制双面渲染会触发 three.js 标准材质
+      // 着色器的背面法线翻转逻辑,反而让本来朝向正确的面被当成"背面"处理、按翻转后的法线来光照,
+      // 实测表现为车身大片发黑——弊大于利,不采用。真正的消失问题是相机极角能转到车身水平线
+      // 以下(见 frameCamera 里 minPolarAngle/maxPolarAngle 处的说明),和背面剔除无关。
       carRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
       carRoot.updateMatrixWorld(true);
       frameCamera(carRoot);
