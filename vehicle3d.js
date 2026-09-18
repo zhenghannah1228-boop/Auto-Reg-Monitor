@@ -170,7 +170,7 @@ function frameCamera(object3d) {
   const vFov = camera.fov * (Math.PI / 180);
   const hFov = 2 * Math.atan(Math.tan(vFov / 2) * camera.aspect);
   const dist = Math.max(radius / Math.sin(vFov / 2), radius / Math.sin(hFov / 2)) * 1.15;
-  const dir = new THREE.Vector3(0.55, 0.38, 0.75).normalize();
+  const dir = new THREE.Vector3(0.5, 0.68, 0.62).normalize(); // 斜前方俯视:抬高仰角比例,俯视感更明显
   camera.position.copy(center).addScaledVector(dir, dist);
   camera.near = Math.max(dist / 100, 0.01);
   camera.far = dist * 10;
@@ -179,6 +179,24 @@ function frameCamera(object3d) {
   controls.minDistance = dist * 0.3;
   controls.maxDistance = dist * 3;
   controls.update();
+}
+
+/* data/vehicle_zones.json 里原先的 hotspot_pos 是手估的绝对坐标,实测和车身实际曲面对不上
+   (量出来电池包一半悬在底盘外、ECU 偏出仪表台曲面),视觉上就是"贴纸贴在车上"而不是嵌入车身。
+   排查过用射线从正上方往下打、找车身实际曲面来对齐——但这个素材本身只建了看得见的外观壳体,
+   底盘/地板没有建模(underside 是空的),往下打的射线只会命中车顶一次,再往下就是空气,没有
+   "地板"这层几何可以对齐。改为更稳的办法:hotspot_pos 存的不是绝对坐标,而是车身实际包围盒
+   三轴上的比例(0~1,如 X 方向 0=最左 1=最右),运行时按当前模型的真实包围盒换算成世界坐标——
+   占位盒体因此始终落在这具体模型的真实体量范围之内,不会因为手估数值偏差而钻出车身包络。 */
+function hotspotWorldPos(fracPos) {
+  if (!carRoot) return fracPos;
+  const box = new THREE.Box3().setFromObject(carRoot);
+  const [fx, fy, fz] = fracPos;
+  return [
+    box.min.x + fx * (box.max.x - box.min.x),
+    box.min.y + fy * (box.max.y - box.min.y),
+    box.min.z + fz * (box.max.z - box.min.z),
+  ];
 }
 
 /* 电池包/ECU-OTA 域等无实体建模的维度:放一个简易占位几何体在车内大致位置(业主 2026-09 指示),
@@ -194,7 +212,7 @@ function buildHotspots() {
       new THREE.BoxGeometry(0.42, 0.28, 0.55),
       new THREE.MeshStandardMaterial({ color: 0xc79a2e, emissive: 0x3a2c08, roughness: 0.4 })
     );
-    mesh.position.fromArray(zone.hotspot_pos);
+    mesh.position.fromArray(hotspotWorldPos(zone.hotspot_pos));
     mesh.visible = xrayOn;
     carRoot.add(mesh);
     const card = document.createElement("div");
