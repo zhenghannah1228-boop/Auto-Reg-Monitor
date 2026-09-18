@@ -8,7 +8,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-const MODEL_URL = "./vendor/models/CarConcept/CarConcept.glb";
+const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
 const ZONES_URL = "./data/vehicle_zones.json";
 
 let ZONES = [];            // 合并静态种子 + 团队覆盖层后的区域定义数组
@@ -301,6 +301,9 @@ async function initVeh3D() {
     gltf => {
       carRoot = gltf.scene;
       scene.add(carRoot);
+      // 逐 mesh 克隆材质:部分模型(如按顶点色导出的资产)会让多个 mesh 共享同一材质实例,
+      // 悬停高亮若直接改共享材质的 emissive 会连带染色整车,而非仅高亮当前部件
+      carRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
       carRoot.updateMatrixWorld(true);
       frameCamera(carRoot);
       setLoadingProgress(100, true, false);
