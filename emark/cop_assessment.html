@@ -129,8 +129,6 @@ a{color:var(--od)}
 .faq.open .q .ar{transform:rotate(90deg)}
 .faq .a{display:none;padding:0 15px 13px;font-size:12.8px;color:var(--ink2);line-height:1.65}
 .faq.open .a{display:block}
-.srcs{font-size:12px;color:var(--grey);line-height:1.8}
-.srcs a{word-break:break-all}
 .note{font-size:11.5px;color:var(--greyl);margin-top:10px;line-height:1.6}
 @media print{.topbar,.sidebar,.reglist,.ckbtn,.discl{display:none!important}.layout{display:block;max-width:none;padding:0}.card,.faq{break-inside:avoid;box-shadow:none}.faq .a{display:block!important}}
 </style>
@@ -172,7 +170,7 @@ a{color:var(--od)}
   <div class="center">
     <div class="discl">
       本指引仅作<b>科普与准备引导</b>，帮助出口车企理解生产一致性（CoP）的含义、申请与材料要求；<b>不产生法律结论</b>。
-      精确的条款号、频次与提交格式，以型式批准机关的现行官方文件与法规原文为准（来源见文末「参考法规与出处」）。
+      精确的条款号、频次与提交格式，以型式批准机关的现行官方文件与法规原文为准。
     </div>
 
     <!-- 1 什么是 CoP -->
@@ -286,20 +284,6 @@ a{color:var(--od)}
       <h2><span class="k">06</span>常见问答 / 误区</h2>
       <div id="faq"></div>
     </section>
-
-    <!-- 6 参考来源 -->
-    <section class="card" id="s6">
-      <h2><span class="k">07</span>参考法规与出处</h2>
-      <div class="srcs">
-        <p>· UN 1958 协定 <b>Schedule 1「Conformity of production procedures」E/ECE/TRANS/505/Rev.3</b>（UNECE 官方）</p>
-        <p>· 各 UN Regulation 的「Conformity of production」章节（如 UN R118 §8，回指 Schedule 1 并设本规频次）</p>
-        <p>· <b>(EU) 2018/858 第 31 条</b> ‹https://eur-lex.europa.eu/eli/reg/2018/858/oj/eng› 及 <b>附件 IV</b>（生产一致性程序）</p>
-        <p>· 英国 VCA 官方培训文件《2018/858/EU and CoP》（对初评、QMS 采信、撤证程序的机关口径）</p>
-        <p>· QMS 采信依据：EN ISO 9001:2015 / IATF 16949（原称 ISO/TS 16949）—— 附条件采信，见附件 IV</p>
-        <p>· 各体系差异：美 <b>49 CFR Part 567 / 568</b>（eCFR）、<b>49 U.S.C. Ch.301</b>；加 <b>Motor Vehicle Safety Act + CMVSR</b>（Transport Canada 国家安全标志）；韩 <b>자동차관리법 §30 + KMVSS</b>（KATRI 自认证适合调查）；中 <b>CNCA / CCC 实施规则</b>（获证后监督）；日 道路运送车辆法 · 型式指定</p>
-        <p class="note">以下条目请以官方原文最新版本为准：① Schedule 1 内部小节编号与通用基准审核频次的具体表述；② 欧盟型批证书模板 (EU) 2020/683 是否设「CoP 已核实」字段；③ CMVSR 精确 SOR 号、日本型式指定精确条文与周期、R118 频次、CNCA 分类实施规则文号。</p>
-      </div>
-    </section>
   </div>
 
   <!-- 右侧相关法规 -->
@@ -327,8 +311,7 @@ const SECTIONS=[
   {id:'s3',t:'申请与认证流程',s:'初评 → 授批确认 → 周期核查 → 撤证'},
   {id:'s7',t:'各体系 CoP 差异',s:'型批制 vs 自认证制 vs 认证+监督'},
   {id:'s4',t:'申请准备材料清单',s:'可交互勾选 · 进度 · 打印'},
-  {id:'s5',t:'常见问答 / 误区',s:'CoP≠IATF · CoP≠型式试验'},
-  {id:'s6',t:'参考法规与出处',s:'一手 / 准一手来源'}
+  {id:'s5',t:'常见问答 / 误区',s:'CoP≠IATF · CoP≠型式试验'}
 ];
 function buildNav(){
   document.getElementById('nav').innerHTML=SECTIONS.map((x,i)=>
