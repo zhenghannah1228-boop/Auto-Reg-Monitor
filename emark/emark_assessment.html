@@ -89,10 +89,13 @@ h2.st{font-size:24px;font-weight:800;margin-bottom:6px}
 .stab{font-family:inherit;font-size:12.5px;font-weight:600;border:none;background:#fff;color:var(--grey);padding:7px 14px;cursor:pointer}
 .stab.on{background:var(--o);color:#fff}
 .struct-ring{display:flex;align-items:center;gap:11px}
-.wring{width:50px;height:50px;flex:none;position:relative}
+.wring-box{width:50px;height:50px;flex:none;position:relative}
+.wring{width:100%;height:100%;display:block}
 .wr-bg{fill:none;stroke:#EBDFD4;stroke-width:6}
 .wr-fg{fill:none;stroke:var(--green);stroke-width:6;stroke-linecap:round;transform:rotate(-90deg);transform-origin:32px 32px;transition:stroke-dashoffset .5s}
-.struct-ring .wr-t{margin-left:-40px;width:34px;text-align:center;font-size:13px;font-weight:800;color:var(--ink)}
+/* 百分比文字用绝对定位居中在环内，而不是靠负 margin 硬凑——负 margin 那版对 inline
+   的 span 不生效 width/text-align，两位数(45%)凑巧看着还行，三位数(100%)就顶出环外 */
+.wr-t{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--ink)}
 .struct-ktr{font-size:12px;color:var(--ink2);line-height:1.5;margin-left:4px}.struct-ktr small{color:var(--grey)}
 .sblock{margin-top:11px}
 .sblock-h{display:flex;align-items:baseline;gap:8px;font-size:12.5px;margin-bottom:7px}
@@ -1894,7 +1897,7 @@ function structHTML(items){
   const prog=items.filter(i=>regStatus[i.item]==='prog').length;
   const pct=Math.round(done/items.length*100);
   const R=26,C=2*Math.PI*R,off=(C*(1-pct/100)).toFixed(1);
-  const ring=`<svg class="wring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}" class="wr-bg"/><circle cx="32" cy="32" r="${R}" class="wr-fg" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off}"/></svg><span class="wr-t">${pct}%</span>`;
+  const ring=`<div class="wring-box"><svg class="wring" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${R}" class="wr-bg"/><circle cx="32" cy="32" r="${R}" class="wr-fg" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${off}"/></svg><span class="wr-t">${pct}%</span></div>`;
   const blockHTML=blocks.map(b=>{
     const bd=b.rows.filter(i=>regStatus[i.item]==='done').length;
     const tiles=b.rows.map(i=>{const st=regStatus[i.item]||'unk';const c=STAT_COL[st];
