@@ -126,7 +126,59 @@ a{color:var(--od)}
 .faq .a{display:none;padding:0 15px 13px;font-size:12.8px;color:var(--ink2);line-height:1.65}
 .faq.open .a{display:block}
 .note{font-size:11.5px;color:var(--greyl);margin-top:10px;line-height:1.6}
-@media print{.topbar,.sidebar,.reglist,.ckbtn,.discl{display:none!important}.layout{display:block;max-width:none;padding:0}.card,.faq{break-inside:avoid;box-shadow:none}.faq .a{display:block!important}}
+/* 速查工具下拉 */
+.qk-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:210px;padding:6px;z-index:60}
+.qk-dd.on{display:block}
+.qk-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;cursor:pointer;border-radius:8px;padding:9px 12px}
+.qk-dd button:hover{background:var(--cream);color:var(--od)}
+/* 侧栏档案卡片 */
+.profbox{background:#fcfbf6;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px}
+.profbox .pf-h{font-size:11px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:4px}
+.profbox .pf-n{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.4;word-break:break-all}
+.profbox .btn{display:block;width:100%;font-family:inherit;font-size:12.5px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:7px 10px;cursor:pointer;margin-bottom:6px}
+.profbox .btn:last-child{margin-bottom:0}
+.profbox .btn:hover{border-color:var(--o);color:var(--od)}
+.profbox .btn.p{background:var(--o);border-color:var(--o);color:#fff}
+.profbox .btn.p:hover{background:var(--od)}
+/* 档案 / 名词速查 弹窗 */
+.modal-mask{display:none;position:fixed;inset:0;background:rgba(20,24,28,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
+.modal-mask.on{display:flex}
+.mbox{background:#fff;border-radius:14px;max-width:520px;width:100%;max-height:82vh;overflow:auto;padding:20px 22px}
+.mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.mh h3{font-size:16px;font-weight:800;margin:0;color:var(--ink)}
+.mx{font-family:inherit;font-size:20px;line-height:1;background:none;border:none;cursor:pointer;color:var(--greyl);padding:2px 6px}
+.mx:hover{color:var(--od)}
+.pmlist{display:flex;flex-direction:column;gap:9px}
+.pmrow{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.pmrow.cur{border-color:var(--o);background:var(--cream)}
+.pmn{font-size:13.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px}
+.pmcur{font-size:10px;font-weight:700;background:var(--o);color:#fff;border-radius:5px;padding:1px 6px}
+.pmd{font-size:11.5px;color:var(--grey);margin:4px 0 8px}
+.pmbtns{display:flex;gap:6px;flex-wrap:wrap}
+.btn.sm{font-family:inherit;font-size:11.5px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:7px;padding:5px 10px;cursor:pointer}
+.btn.sm:hover{border-color:var(--o);color:var(--od)}
+.pmempty{font-size:12.5px;color:var(--greyl);text-align:center;padding:20px 0}
+.pmnewbtn{margin-top:14px;width:100%;font-family:inherit;font-size:13px;font-weight:700;background:var(--o);color:#fff;border:none;border-radius:9px;padding:10px;cursor:pointer}
+.pmnewbtn:hover{background:var(--od)}
+.glositem{border-bottom:1px solid var(--line);padding:10px 0}
+.glositem:last-child{border-bottom:none}
+.glositem .gt{font-size:13.5px;font-weight:800;color:var(--od);margin-bottom:3px}
+.glositem .gd{font-size:12.5px;color:var(--ink2);line-height:1.6}
+/* 导出报告（打印专用隐藏区） */
+#report{display:none;max-width:900px;margin:0 auto;padding:20px;font-family:"Microsoft YaHei",sans-serif;color:#1A1D21}
+#report .rhead h1{font-size:19px;margin:0 0 6px}
+#report .rmeta{font-size:11px;color:#666;margin-bottom:6px}
+#report .rsum{font-size:13px;font-weight:800;color:#C44E1E;margin-bottom:14px}
+#report .rgrp{margin-bottom:14px;break-inside:avoid}
+#report .rgh{font-size:13px;font-weight:800;color:#C44E1E;margin-bottom:6px}
+#report .rtab{width:100%;border-collapse:collapse;font-size:12px}
+#report .rtab td{border-bottom:1px solid #E3E6EA;padding:5px 6px;vertical-align:top}
+#report .rc{width:22px;text-align:center;font-weight:800}
+#report .rs{font-size:10.5px;color:#6B7280;margin-top:2px}
+#report .rfoot{font-size:10px;color:#9AA1AB;margin-top:14px;line-height:1.6}
+@media print{.topbar,.sidebar,.reglist,.ckbtn,.discl{display:none!important}.layout{display:block;max-width:none;padding:0}.card,.faq{break-inside:avoid;box-shadow:none}.faq .a{display:block!important}
+body.printing .layout{display:none!important}
+body.printing #report{display:block!important}}
 </style>
 </head>
 <body>
@@ -145,7 +197,16 @@ a{color:var(--od)}
         <a href="ev_assessment.html">⚡ 电气与电动化合规</a>
       </div>
     </div>
-    <button class="badge-g" onclick="window.print()">🖨 打印 / 导出</button>
+    <div class="tb-menu">
+      <button class="badge-g" onclick="event.stopPropagation();toggleQuick()">☰ 速查工具 ▾</button>
+      <div class="qk-dd" id="qk-dd">
+        <button onclick="openGlossary()">📖 名词速查</button>
+        <button onclick="jump('s7');document.getElementById('qk-dd').classList.remove('on')">🧭 各体系对比速查</button>
+      </div>
+    </div>
+    <button class="badge-g" onclick="openProfiles()">📁 我的档案</button>
+    <button class="badge-g" onclick="exportReport()">📊 导出报告</button>
+    <button class="badge-g" onclick="window.print()">🖨 打印完整指南</button>
     <a class="tb-home" href="emark_assessment.html">← 返回评估工具</a>
   </div>
 </div></div>
@@ -153,6 +214,12 @@ a{color:var(--od)}
 <div class="layout">
   <!-- 左侧步骤导航 -->
   <div class="sidebar">
+    <div class="profbox">
+      <div class="pf-h">当前档案</div>
+      <div class="pf-n" id="curProfName">未保存草稿</div>
+      <button class="btn p" onclick="saveProgress()">💾 保存进度</button>
+      <button class="btn" onclick="newProfile()">＋ 新建档案</button>
+    </div>
     <div class="sb-h">内容导航</div>
     <div class="snav" id="nav"></div>
   </div>
@@ -294,6 +361,21 @@ a{color:var(--od)}
   </div>
 </div>
 
+<div id="pmodal" class="modal-mask" onclick="if(event.target===this)closeProfiles()">
+  <div class="mbox">
+    <div class="mh"><h3>我的档案</h3><button class="mx" onclick="closeProfiles()">×</button></div>
+    <div class="pmlist" id="pmlist"></div>
+    <button class="pmnewbtn" onclick="closeProfiles();newProfile()">＋ 新建档案</button>
+  </div>
+</div>
+<div id="gmodal" class="modal-mask" onclick="if(event.target===this)closeGlossary()">
+  <div class="mbox">
+    <div class="mh"><h3>名词速查</h3><button class="mx" onclick="closeGlossary()">×</button></div>
+    <div id="glosList"></div>
+  </div>
+</div>
+<div id="report"></div>
+
 <script>
 /* ============ 内容导航 ============ */
 const SECTIONS=[
@@ -310,7 +392,8 @@ function buildNav(){
 }
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
 function toggleTools(){document.getElementById('tb-dd').classList.toggle('on');}
-document.addEventListener('click',()=>document.getElementById('tb-dd').classList.remove('on'));
+function toggleQuick(){document.getElementById('qk-dd').classList.toggle('on');}
+document.addEventListener('click',()=>{document.getElementById('tb-dd').classList.remove('on');document.getElementById('qk-dd').classList.remove('on');});
 // 滚动高亮
 const spy=()=>{
   let cur=SECTIONS[0].id;
@@ -372,6 +455,128 @@ function ckProgress(){
   document.getElementById('ckfill').style.width=all?(done/all*100)+'%':'0';
 }
 function saveCk(){try{localStorage.setItem(CKKEY,JSON.stringify(ckState));}catch(e){}}
+
+/* ============ 我的档案（多方案保存，基于同一套材料清单勾选状态） ============ */
+const PROFILES_KEY='emark_cop_profiles_v1';
+const ACTIVE_KEY='emark_cop_active_v1';
+function getProfiles(){try{return JSON.parse(localStorage.getItem(PROFILES_KEY)||'[]');}catch(e){return [];}}
+function setProfiles(list){try{localStorage.setItem(PROFILES_KEY,JSON.stringify(list));}catch(e){}}
+function activeId(){return localStorage.getItem(ACTIVE_KEY)||'';}
+function setActiveId(id){try{localStorage.setItem(ACTIVE_KEY,id||'');}catch(e){}}
+function curProfile(){const id=activeId();return getProfiles().find(p=>p.id===id)||null;}
+function curName(){const p=curProfile();return p?p.name:'未保存草稿';}
+function syncNameField(){const el=document.getElementById('curProfName');if(el)el.textContent=curName();}
+function hasUnsavedChanges(){
+  const p=curProfile();
+  const saved=p?JSON.stringify(p.ckState||{}):'{}';
+  return JSON.stringify(ckState)!==saved && Object.values(ckState).some(Boolean);
+}
+function newProfile(){
+  if(hasUnsavedChanges()&&!confirm('当前勾选尚未保存到档案，新建档案将清空当前勾选状态，是否继续？'))return;
+  const name=prompt('新档案名称（如车型 / 项目名）：','');
+  if(name===null)return;
+  const nm=name.trim()||('档案'+(getProfiles().length+1));
+  ckState={};saveCk();buildCk();
+  const list=getProfiles();
+  const id='p'+Date.now();
+  list.push({id,name:nm,createdAt:Date.now(),updatedAt:Date.now(),ckState:{}});
+  setProfiles(list);setActiveId(id);syncNameField();
+}
+function saveProgress(){
+  const list=getProfiles();
+  let p=curProfile();
+  if(!p){
+    const name=prompt('尚未建档，保存到新档案，请输入名称：','')||('档案'+(list.length+1));
+    p={id:'p'+Date.now(),name:name.trim()||name,createdAt:Date.now(),updatedAt:Date.now(),ckState:{}};
+    list.push(p);setActiveId(p.id);
+  }
+  p.ckState=JSON.parse(JSON.stringify(ckState));p.updatedAt=Date.now();
+  setProfiles(list);syncNameField();
+  alert('进度已保存到「'+p.name+'」');
+}
+function loadProfile(id){
+  if(id!==activeId()&&hasUnsavedChanges()&&!confirm('当前勾选尚未保存，切换档案将丢弃未保存的改动，是否继续？'))return;
+  const p=getProfiles().find(x=>x.id===id);
+  if(!p)return;
+  ckState=JSON.parse(JSON.stringify(p.ckState||{}));saveCk();buildCk();
+  setActiveId(id);syncNameField();closeProfiles();
+}
+function renameProfile(id){
+  const list=getProfiles(),p=list.find(x=>x.id===id);if(!p)return;
+  const nm=prompt('重命名档案：',p.name);
+  if(nm===null||!nm.trim())return;
+  p.name=nm.trim();p.updatedAt=Date.now();setProfiles(list);syncNameField();openProfiles();
+}
+function delProfile(id){
+  const list=getProfiles(),p=list.find(x=>x.id===id);if(!p)return;
+  if(!confirm('删除档案「'+p.name+'」？此操作不可撤销。'))return;
+  setProfiles(list.filter(x=>x.id!==id));
+  if(activeId()===id){setActiveId('');syncNameField();}
+  openProfiles();
+}
+function openProfiles(){
+  const list=getProfiles();
+  const all=CK.reduce((n,g)=>n+g.items.length,0);
+  document.getElementById('pmlist').innerHTML = list.length ? list.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).map(p=>{
+    const done=Object.values(p.ckState||{}).filter(Boolean).length;
+    const cur=p.id===activeId();
+    return `<div class="pmrow ${cur?'cur':''}">
+      <div class="pmn">${esc(p.name)}${cur?'<span class="pmcur">当前</span>':''}</div>
+      <div class="pmd">${done} / ${all} 已勾选　·　${new Date(p.updatedAt||p.createdAt).toLocaleString('zh-CN')}</div>
+      <div class="pmbtns">
+        <button class="btn sm" onclick="loadProfile('${p.id}')">载入</button>
+        <button class="btn sm" onclick="renameProfile('${p.id}')">重命名</button>
+        <button class="btn sm" onclick="delProfile('${p.id}')">删除</button>
+      </div></div>`;
+  }).join('') : '<div class="pmempty">还没有保存的档案。点击下方「＋ 新建档案」创建第一个。</div>';
+  document.getElementById('pmodal').classList.add('on');
+}
+function closeProfiles(){document.getElementById('pmodal').classList.remove('on');}
+
+/* ============ 速查工具：名词速查 ============ */
+const GLOS=[
+ {t:'CoP（生产一致性）',d:'Conformity of Production——保证量产的每一辆车 / 每一件系统或部件都与已获批准的型式保持一致，是型式批准的强制组成部分，不是可单独获得的产品证书。'},
+ {t:'型式批准 Type Approval',d:'由型批机关对代表性样品做一次性符合性认定，是 CoP 得以持续维系的对象（已批准的「型式」）。'},
+ {t:'ISO 9001',d:'通用质量管理体系国际标准；范围覆盖待批产品且涵盖生产一致性时，可用作 CoP 初评的支撑证据。'},
+ {t:'IATF 16949',d:'汽车行业专属质量管理体系标准，基于 ISO 9001 增加行业专属要求；同样可支撑 CoP 初评，但不替代机关审核。'},
+ {t:'ISO 31000:2018',d:'风险管理国际标准；欧盟 (EU) 2018/858 附件 IV 据此确定 CoP 核查强度与频次。'},
+ {t:'CoC 合格证书',d:'Certificate of Conformity，随车文件，声明整车与已批准型式一致；欧盟侧机关核查时会抽样核对。'},
+ {t:'VCA',d:'Vehicle Certification Agency，英国车辆认证机构，核实 CoP 后可出具留有记录的确认文件。'},
+ {t:'自我认证 Self-Certification',d:'美 / 加 / 韩模式：无政府事前型批与事前 CoP 审核，制造商自证，政府靠事后抽检与召回执法。'}
+];
+function openGlossary(){
+  document.getElementById('glosList').innerHTML=GLOS.map(g=>`<div class="glositem"><div class="gt">${esc(g.t)}</div><div class="gd">${esc(g.d)}</div></div>`).join('');
+  document.getElementById('gmodal').classList.add('on');
+  document.getElementById('qk-dd').classList.remove('on');
+}
+function closeGlossary(){document.getElementById('gmodal').classList.remove('on');}
+
+/* ============ 导出报告（按当前档案的勾选状态生成完成度报告并打印） ============ */
+function exportReport(){
+  const all=CK.reduce((n,g)=>n+g.items.length,0);
+  const done=CK.reduce((n,g)=>n+g.items.filter(it=>ckState[it.id]).length,0);
+  const pct=all?Math.round(done/all*100):0;
+  const today=new Date().toLocaleDateString('zh-CN');
+  let body=`<div class="rhead"><h1>生产一致性（CoP）材料准备自查报告</h1>
+    <div class="rmeta">档案：${esc(curName())}　|　生成日期：${today}　|　法律依据：UN 1958 协定 Schedule 1 · (EU) 2018/858 第 31 条 + 附件 IV</div>
+    <div class="rsum">材料准备完成度：${pct}%（${done} / ${all} 项已勾选）</div></div>`;
+  CK.forEach(grp=>{
+    const gdone=grp.items.filter(it=>ckState[it.id]).length;
+    body+=`<div class="rgrp"><div class="rgh">${esc(grp.h)}　（${gdone} / ${grp.items.length}）</div><table class="rtab">`;
+    grp.items.forEach(it=>{
+      const on=!!ckState[it.id];
+      body+=`<tr><td class="rc">${on?'✓':'☐'}</td><td>${esc(it.t)}${it.s?`<div class="rs">${esc(it.s)}</div>`:''}</td></tr>`;
+    });
+    body+='</table></div>';
+  });
+  body+=`<div class="rfoot">本报告基于当前档案在本工具中的自查勾选状态自动生成，仅作准备引导，不产生法律结论；精确条款、频次与提交格式以型式批准机关的现行官方文件与法规原文为准。</div>`;
+  document.getElementById('report').innerHTML=body;
+  document.body.classList.add('printing');
+  const cleanup=()=>{document.body.classList.remove('printing');window.removeEventListener('afterprint',cleanup);};
+  window.addEventListener('afterprint',cleanup);
+  window.print();
+  setTimeout(cleanup,4000);
+}
 
 /* ============ FAQ ============ */
 const FAQ=[
@@ -555,7 +760,7 @@ ${tplRows()}
 
 /* ============ init ============ */
 buildNav();buildFaq();
-buildCk();spy();
+buildCk();spy();syncNameField();
 </script>
 </body>
 </html>
