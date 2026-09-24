@@ -26,10 +26,6 @@ a{color:var(--od)}
 .tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
 .tb-home:hover{background:var(--o);color:#fff}
 .tb-menu{position:relative}
-.tb-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:210px;padding:6px;z-index:60}
-.tb-dd.on{display:block}
-.tb-dd a{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);text-decoration:none;border-radius:8px;padding:9px 12px}
-.tb-dd a:hover{background:var(--cream);color:var(--od)}
 .layout{max-width:1420px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:220px minmax(0,1fr) 258px;gap:24px;align-items:start}
 .reglist{position:sticky;top:16px;align-self:start;background:#fcfbf6;border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;max-height:calc(100vh - 32px);overflow:auto}
 .reglist .rr-h{font-size:13px;font-weight:800;color:var(--ink);padding-bottom:9px;margin-bottom:10px;border-bottom:1px solid var(--line)}
@@ -189,15 +185,6 @@ body.printing #report{display:block!important}}
   </div>
   <div class="tb-act">
     <div class="tb-menu">
-      <button class="badge-g" onclick="event.stopPropagation();toggleTools()">☰ 其他评估台 ▾</button>
-      <div class="tb-dd" id="tb-dd">
-        <a href="emark_assessment.html">🏷 E-mark 型式认证评估</a>
-        <a href="cyber_assessment.html">🛡 网安 &amp; 功能安全（R155/R156）</a>
-        <a href="ad_assessment.html">🚗 智能驾驶合规评估</a>
-        <a href="ev_assessment.html">⚡ 电气与电动化合规</a>
-      </div>
-    </div>
-    <div class="tb-menu">
       <button class="badge-g" onclick="event.stopPropagation();toggleQuick()">☰ 速查工具 ▾</button>
       <div class="qk-dd" id="qk-dd">
         <button onclick="openGlossary()">📖 名词速查</button>
@@ -209,7 +196,6 @@ body.printing #report{display:block!important}}
     </div>
     <button class="badge-g" onclick="openProfiles()">📁 我的档案</button>
     <button class="badge-g" onclick="exportReport()">📊 导出报告</button>
-    <button class="badge-g" onclick="window.print()">🖨 打印完整指南</button>
     <a class="tb-home" href="emark_assessment.html">← 返回评估工具</a>
   </div>
 </div></div>
@@ -391,10 +377,9 @@ function buildNav(){
     `<button class="sstep" id="nav-${x.id}" onclick="jump('${x.id}')"><span class="n">${i+1}</span><span class="stx"><span>${x.t}</span><small>${x.s}</small></span></button>`).join('');
 }
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
-function toggleTools(){document.getElementById('tb-dd').classList.toggle('on');}
 function toggleQuick(){document.getElementById('qk-dd').classList.toggle('on');}
 function closeQuick(){document.getElementById('qk-dd').classList.remove('on');}
-document.addEventListener('click',()=>{document.getElementById('tb-dd').classList.remove('on');document.getElementById('qk-dd').classList.remove('on');});
+document.addEventListener('click',()=>closeQuick());
 // 滚动高亮
 const spy=()=>{
   let cur=SECTIONS[0].id;
