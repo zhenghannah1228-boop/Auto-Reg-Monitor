@@ -219,7 +219,7 @@ body.printing #report{display:block!important}}
 
     <!-- 3 申请与认证流程 -->
     <section class="card" id="s3">
-      <h2><span class="k">03</span>申请与认证流程</h2>
+      <h2><span class="k">01</span>申请与认证流程</h2>
       <p class="lead">CoP 不是单独去「考」一张证，而是嵌在型式批准的申请与维持过程里。下面是标准骨架。</p>
       <div class="flow">
         <div class="fstep"><div class="fn">1</div><div class="fc"><div class="ft">初始评估　Initial Assessment<small>授批前</small></div><p>型批机关（或其委托的技术服务机构，本页下文简称「技服」）核查制造商的生产设施、过程控制与质量管理体系，判断是否足以保证量产持续符合已批准型式。<b>可采信</b>覆盖相关产品的 ISO 9001 / IATF 16949 认证作为证据。</p></div></div>
@@ -233,7 +233,7 @@ body.printing #report{display:block!important}}
 
     <!-- 4 材料清单 -->
     <section class="card" id="s4">
-      <h2><span class="k">05</span>申请准备材料清单</h2>
+      <h2><span class="k">02</span>申请准备材料清单</h2>
       <p class="lead">按可溯源程度分三组勾选自查。<span class="pill reg">法规明确要求</span><span class="pill eu">欧盟制度性文件</span><span class="pill qms">体系惯例 / 支撑</span></p>
       <div class="ckhead">
         <div class="ckbar"><i id="ckfill"></i></div>
@@ -370,26 +370,23 @@ body.printing #report{display:block!important}}
 <div id="report"></div>
 
 <script>
-/* ============ 内容导航 ============ */
+/* ============ 内容导航（页面切换，与其他评估台一致：默认只显示第一项，点导航才切到对应项） ============ */
 const SECTIONS=[
   {id:'s3',t:'申请与认证流程',s:'初评 → 授批确认 → 周期核查 → 撤证'},
   {id:'s4',t:'申请准备材料清单',s:'可交互勾选 · 进度 · 打印'}
 ];
-function buildNav(){
+let active=SECTIONS[0].id;
+function pick(id){active=id;renderNav();renderSections();window.scrollTo({top:0,behavior:'smooth'});}
+function renderNav(){
   document.getElementById('nav').innerHTML=SECTIONS.map((x,i)=>
-    `<button class="sstep" id="nav-${x.id}" onclick="jump('${x.id}')"><span class="n">${i+1}</span><span class="stx"><span>${x.t}</span><small>${x.s}</small></span></button>`).join('');
+    `<button class="sstep${active===x.id?' active':''}" onclick="pick('${x.id}')"><span class="n">${i+1}</span><span class="stx"><span>${x.t}</span><small>${x.s}</small></span></button>`).join('');
 }
-function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+function renderSections(){
+  SECTIONS.forEach(x=>{const el=document.getElementById(x.id);if(el)el.style.display=(active===x.id)?'':'none';});
+}
 function toggleQuick(){document.getElementById('qk-dd').classList.toggle('on');}
 function closeQuick(){document.getElementById('qk-dd').classList.remove('on');}
 document.addEventListener('click',()=>closeQuick());
-// 滚动高亮
-const spy=()=>{
-  let cur=SECTIONS[0].id;
-  for(const x of SECTIONS){const el=document.getElementById(x.id);if(el&&el.getBoundingClientRect().top<=120)cur=x.id;}
-  SECTIONS.forEach(x=>{const b=document.getElementById('nav-'+x.id);if(b)b.classList.toggle('active',x.id===cur);});
-};
-window.addEventListener('scroll',spy,{passive:true});
 
 /* ============ 材料清单 ============ */
 // grp: reg=法规明确要求 / eu=欧盟制度性文件 / qms=体系惯例支撑
@@ -758,8 +755,8 @@ ${tplRows()}
 }
 
 /* ============ init ============ */
-buildNav();buildFaq();
-buildCk();spy();updatePBar();
+renderNav();renderSections();buildFaq();
+buildCk();updatePBar();
 </script>
 </body>
 </html>
