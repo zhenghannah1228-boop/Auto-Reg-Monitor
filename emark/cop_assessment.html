@@ -128,18 +128,18 @@ a{color:var(--od)}
 .qk-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;cursor:pointer;border-radius:8px;padding:9px 12px}
 .qk-dd button:hover{background:var(--cream);color:var(--od)}
 /* 侧栏档案卡片 */
-.profbox{background:#fcfbf6;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px}
-.profbox .pf-h{font-size:11px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:4px}
-.profbox .pf-n{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.4;word-break:break-all}
-.profbox .btn{display:block;width:100%;font-family:inherit;font-size:12.5px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:7px 10px;cursor:pointer;margin-bottom:6px}
-.profbox .btn:last-child{margin-bottom:0}
-.profbox .btn:hover{border-color:var(--o);color:var(--od)}
-.profbox .btn.p{background:var(--o);border-color:var(--o);color:#fff}
-.profbox .btn.p:hover{background:var(--od)}
+.saveBtn{display:block;width:100%;font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;box-shadow:0 2px 8px rgba(232,98,44,.25);margin-top:10px}
+.saveBtn:hover{background:var(--od)}
+.newBtn{display:block;width:100%;font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:9px;padding:9px;cursor:pointer;margin-top:8px}
+.newBtn:hover{background:var(--cream)}
+.pstate{font-size:11px;color:var(--grey);line-height:1.4;margin-top:8px}
 /* 档案 / 名词速查 弹窗 */
 .modal-mask{display:none;position:fixed;inset:0;background:rgba(20,24,28,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
 .modal-mask.on{display:flex}
-.mbox{background:#fff;border-radius:14px;max-width:520px;width:100%;max-height:82vh;overflow:auto;padding:20px 22px}
+.mbox{position:relative;background:#fff;border-radius:14px;max-width:520px;width:100%;max-height:82vh;overflow:auto;padding:20px 22px}
+.mbox.wide{max-width:920px}
+.qm-x{position:absolute;top:12px;right:14px;z-index:2}
+#qmBody .card{border:none;box-shadow:none;padding:6px 4px 0;margin:0}
 .mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .mh h3{font-size:16px;font-weight:800;margin:0;color:var(--ink)}
 .mx{font-family:inherit;font-size:20px;line-height:1;background:none;border:none;cursor:pointer;color:var(--greyl);padding:2px 6px}
@@ -188,10 +188,10 @@ body.printing #report{display:block!important}}
       <button class="badge-g" onclick="event.stopPropagation();toggleQuick()">☰ 速查工具 ▾</button>
       <div class="qk-dd" id="qk-dd">
         <button onclick="openGlossary()">📖 名词速查</button>
-        <button onclick="jump('s1');closeQuick()">📘 什么是 CoP</button>
-        <button onclick="jump('s2');closeQuick()">⚖️ 法律依据</button>
-        <button onclick="jump('s7');closeQuick()">🧭 各体系 CoP 差异</button>
-        <button onclick="jump('s5');closeQuick()">❓ 常见问答 / 误区</button>
+        <button onclick="openQuickSection('s1')">📘 什么是 CoP</button>
+        <button onclick="openQuickSection('s2')">⚖️ 法律依据</button>
+        <button onclick="openQuickSection('s7')">🧭 各体系 CoP 差异</button>
+        <button onclick="openQuickSection('s5')">❓ 常见问答 / 误区</button>
       </div>
     </div>
     <button class="badge-g" onclick="openProfiles()">📁 我的档案</button>
@@ -203,15 +203,12 @@ body.printing #report{display:block!important}}
 <div class="layout">
   <!-- 左侧步骤导航 -->
   <div class="sidebar">
-    <div class="profbox">
-      <div class="pf-h">当前档案</div>
-      <div class="pf-n" id="curProfName">未保存草稿</div>
-      <button class="btn p" onclick="saveProgress()">💾 保存进度</button>
-      <button class="btn" onclick="newProfile()">＋ 新建档案</button>
-    </div>
     <div class="sb-h">内容导航</div>
     <div class="snav" id="nav"></div>
-    <div class="note" style="margin:2px 0 0">CoP 定义 / 法律依据 / 各体系差异 / 常见问答已移至顶部「速查工具 ▾」</div>
+    <button class="saveBtn" id="savebtn" onclick="saveProgress()">保存进度</button>
+    <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
+    <div class="pstate" id="pstate"></div>
+    <div class="note" style="margin:8px 0 0">CoP 定义 / 法律依据 / 各体系差异 / 常见问答已移至顶部「速查工具 ▾」</div>
   </div>
 
   <!-- 中间正文 -->
@@ -220,52 +217,6 @@ body.printing #report{display:block!important}}
       本指引仅作<b>科普与准备引导</b>，帮助出口车企理解生产一致性（CoP）的含义、申请与材料要求；<b>不产生法律结论</b>。
       精确的条款号、频次与提交格式，以型式批准机关的现行官方文件与法规原文为准。
     </div>
-
-    <!-- 1 什么是 CoP -->
-    <section class="card" id="s1">
-      <h2><span class="k">01</span>什么是生产一致性（CoP）</h2>
-      <p class="lead">Conformity of Production —— 确保「量产的每一辆车 / 每一件系统或部件」都与获批的型式保持一致。</p>
-      <div class="defbox">
-        <div class="dt">一句话定义</div>
-        <p>CoP 是<b>型式批准制度的强制组成部分</b>：型式试验证明「样品达标」，CoP 则保证「后续批量生产持续与已批准型式一致」。它<b>不是一张可以替代型式批准、单独赋予产品上市资格的产品证书</b>，而是<b>授予并持续维持型式批准的前提条件</b>。</p>
-      </div>
-      <h3>为什么必须要有 CoP</h3>
-      <ul>
-        <li>型式批准只对「送检的代表性样品」发证；没有 CoP，无法保证生产线上第 1 万台仍与样品一致。</li>
-        <li>型批机关据此获得<b>持续监督权</b>：可按周期抽检、审厂，发现批量偏离时<b>暂停或撤销型式批准</b>。</li>
-        <li>对车企而言，CoP 安排是拿证的「入场券」之一，也是维持证书有效、避免召回 / 撤证风险的日常基础。</li>
-      </ul>
-      <h3>CoP 与相邻概念的区别（先厘清，后面不再混）</h3>
-      <div class="grid2">
-        <div class="mini"><div class="mh">CoP　≠　型式试验（Type Test）</div><p>型式试验是<b>一次性</b>证明代表性样品满足技术要求；CoP 是<b>授批后持续</b>保证批量与已批准型式一致。两者分属不同环节。</p></div>
-        <div class="mini"><div class="mh">CoP　≠　IATF 16949 认证</div><p>CoP 由<b>型批机关</b>针对<b>某一已批准型式</b>执行，机关可据此撤销型批；IATF 16949 是<b>行业自愿的 QMS 认证</b>，面向组织质量体系。后者可作 CoP 初评证据，但不替代机关审核与抽检。</p></div>
-      </div>
-    </section>
-
-    <!-- 2 法律依据 -->
-    <section class="card" id="s2">
-      <h2><span class="k">02</span>法律依据（两大体系）</h2>
-      <p class="lead">无论走 UN 型式批准还是欧盟整车 / 部件型批，CoP 都有明确法条落点。</p>
-      <div class="grid2">
-        <div class="mini">
-          <div class="mh">联合国 1958 协定体系 <span class="ml">UN</span></div>
-          <p>CoP 程序规定在协定的 <b>Schedule 1「Conformity of production procedures」</b>（文件号 <b>E/ECE/TRANS/505/Rev.3</b>）。</p>
-          <p>每一条 UN Regulation 都设有独立的「Conformity of production」章节<b>回指该 Schedule</b>，并追加本规专属的试验与核查<b>频次</b>。</p>
-        </div>
-        <div class="mini">
-          <div class="mh">欧盟框架法规 <span class="ml">EU</span></div>
-          <p>主条款为 <b>(EU) 2018/858 第 31 条「Conformity of production arrangements」</b>；具体程序见 <b>附件 IV「Conformity of Production Procedures」</b>。</p>
-          <p>2018/858 自 <b>2020-09-01</b> 起对新型式强制适用，取代原 2007/46/EC。</p>
-        </div>
-      </div>
-      <h3>两大体系共同的「两块内容」</h3>
-      <ul>
-        <li><b>① 初始评估（授批前）</b>：机关核查制造商的生产与质控安排 / 质量体系，是否足以保证持续一致。</li>
-        <li><b>② 产品符合性安排（授批后）</b>：按约定间隔做试验与检查，并保存可供机关核查的记录。</li>
-      </ul>
-      <h3>核查频次</h3>
-      <p><b>欧盟</b>：附件 IV 要求核查<b>至少每 3 年一次</b>、按 <b>ISO 31000:2018</b> 风险方法确定强度。<b>UN 1958</b>：Schedule 1 §3.1.1.2 规定的通用基准频次同样是<b>至少每 3 年一次</b>（按 ISO 31000 风险法，与欧盟口径巧合一致），但<b>各 UN Regulation 可自行加严</b>——例如 UN R118（材料燃烧特性）§8 为<b>每 2 年一次</b>。<b>两套体系的通用基准恰好相同，但具体法规可能各自加严，不要想当然把「每 3 年」套用到所有 UN 法规上</b>；具体以适用法规为准。</p>
-    </section>
 
     <!-- 3 申请与认证流程 -->
     <section class="card" id="s3">
@@ -279,36 +230,6 @@ body.printing #report{display:block!important}}
         <div class="fstep"><div class="fn">5</div><div class="fc"><div class="ft">不符合时的措施<small>可撤证</small></div><p>发现批量偏离时要求整改；必要时<b>暂停或撤销型式批准</b>（欧盟依 §31 / §35）。此外，型式<b>持续停产</b>亦会导致型批失效。</p></div></div>
       </div>
       <div class="defbox"><div class="dt">一个常被问到的点</div><p>是否会拿到「CoP 证书」？——CoP 本身<b>不是替代型批、单独授予上市资格的产品证书</b>；但部分机关（如英国 VCA，Vehicle Certification Agency）会在核实 CoP 后，<b>出具留有记录的确认文件或用于清关的文件</b>。准确理解是：<b>CoP 是型式批准的组成 / 前提，而不是一张独立的产品证书。</b></p></div>
-    </section>
-
-    <!-- 各体系 CoP 差异 -->
-    <section class="card" id="s7">
-      <h2><span class="k">04</span>各标准体系的 CoP 差异</h2>
-      <p class="lead">「量产由谁盯、怎么盯」在不同准入体系里完全不同——先看你目标市场落在哪一档。</p>
-      <div class="grid2">
-        <div class="mini"><div class="mh"><span class="mode ta">型式批准制</span> 欧盟 · UN 1958 · 日本</div><p>政府/技服<b>事前</b>做 CoP 初评，<b>事后</b>周期审核量产一致性。</p></div>
-        <div class="mini"><div class="mh"><span class="mode sc">自我认证制</span> 美 FMVSS · 加 CMVSS · 韩 KMVSS</div><p><b>无政府事前型批、无政府事前 CoP 审核</b>；制造商自证，政府靠<b>事后抽检 + 召回</b>执法。</p></div>
-      </div>
-      <div class="cmpwrap"><table class="cmptab">
-        <thead><tr><th>体系</th><th>准入模式</th><th>量产符合性谁管 · 怎么管</th><th>政府 / 第三方 CoP 审核及频次</th><th>法律锚点</th></tr></thead>
-        <tbody>
-          <tr><td class="sy">欧盟 EU-WVTA</td><td><span class="mode ta">型式批准</span></td><td>授批机关初评 + 持续核查，按 ISO 31000:2018 风险法</td><td><b>有</b>政府 CoP 审核；无专门频次时<b>至少每 3 年</b></td><td>(EU) 2018/858 §31 + 附件Ⅳ</td></tr>
-          <tr><td class="sy">联合国 UN 1958</td><td><span class="mode ta">型式批准</span></td><td>授批机关 / 技服核查「生产符合性安排」（QMS + 产品控制）</td><td><b>有</b>；Schedule 1 §3.1.1.2 通用基准同为<b>每 3 年</b>，具体法规可加严（如 R118 §8 每 2 年）</td><td>Schedule 1（E/ECE/TRANS/505/Rev.3）§1-3</td></tr>
-          <tr><td class="sy">美国 FMVSS</td><td><span class="mode sc">自我认证</span></td><td>制造商自证符合并加认证标签；<b>无政府事前审批</b></td><td><b>无</b>政府事前 CoP 审核；NHTSA 事后抽检 / 缺陷召回</td><td>49 CFR Part 567（标签）/ 568（多阶段）；49 U.S.C. Ch.301</td></tr>
-          <tr><td class="sy">加拿大 CMVSS</td><td><span class="mode sc">自我认证</span></td><td>凭<b>国家安全标志 NSM</b> 自证；不要求型批</td><td><b>无</b>事前审批；加拿大运输部（Transport Canada, TC）以<b>随机抽查审计</b>监督</td><td>Motor Vehicle Safety Act + CMVSR（加拿大法规汇编编号 <b>C.R.C., c. 1038</b>；注意其历次修订单独以「SOR」号——加拿大法规公报编号——发布，CMVSR 本身的编号并不是 SOR 号，引用时不要混淆）</td></tr>
-          <tr><td class="sy">韩国 KMVSS</td><td><span class="mode sc">自我认证</span></td><td>制造商 / 进口商自证符合 KMVSS（2003 起改自认证）</td><td><b>无</b>事前型批；KATRI 事后<b>自认证适合调查</b>（市场抽检）</td><td>자동차관리법 §30 + KMVSS</td></tr>
-          <tr><td class="sy">中国 CCC + GB</td><td><span class="mode cs">认证 + 监督</span></td><td>指定认证机构发证，含<b>获证后监督</b>（工厂监督审核 + 抽检 + 飞行检查）</td><td><b>有</b>（第三方）；监督频次按认证机构风险分级确定（实施规则本身未强制统一为年度）</td><td><b>CNCA-C11-01:2020</b>《强制性产品认证实施规则（汽车）》</td></tr>
-          <tr><td class="sy">日本 型式指定</td><td><span class="mode ta">型式指定</span></td><td>日本国土交通省（MLIT）/ 独立行政法人 NALTEC（National Agency for Automobile and Land Transport Technology）样车检验 + 均一性核查；发证后指导监督审计</td><td><b>有</b>政府监督审计；审计周期没有法定固定数字，据 MLIT 官方文件属非强制性的行政指导范畴，由机关自行掌握</td><td>道路运送车辆法第75条 + 型式指定规则（昭和26年运输省令85号）第7条</td></tr>
-        </tbody>
-      </table></div>
-      <h3>给客户的关键提醒</h3>
-      <ul>
-        <li><b>认证模式 ≠ 有没有政府盯量产</b>：欧盟 / UN / 日本 / 中国有政府或第三方持续 CoP 审核（欧盟与 UN 通用基准均为每 3 年，具体法规可加严如 R118 每 2 年；中国按认证机构风险分级）；<b>美 / 加 / 韩是自我认证，政府不做事前 CoP 审核</b>。</li>
-        <li><b>自认证 ≠ 宽松</b>：风险后移到<b>事后召回</b>——一旦不符合，制造商承担召回、罚款乃至刑责（韩国自认证不符可处徒刑 / 罚金）。合规重心在「随时能举证」：工厂须能拿出符合性测试记录与设计依据，应对美国 NHTSA（National Highway Traffic Safety Administration，国家公路交通安全管理局）、加拿大 TC（Transport Canada）、韩国 KATRI（Korea Automobile Testing & Research Institute，汽车检测研究院）等市场监管方的抽检。</li>
-        <li><b>欧盟与 UN 的「每 3 年」通用基准其实一致，别以为 UN 统一是 2 年</b>：Schedule 1 §3.1.1.2 的默认基准也是每 3 年，只有具体 UN 法规另设更严频次时才会更短（如 R118 §8 每 2 年）；两者不是两套独立口径,只是 UN 侧允许逐法规加严。</li>
-        <li><b>一份批准 ≠ 全球免检</b>：跨到自认证市场需另走自认证 + 事后抽检逻辑，量产监管接口完全不同。</li>
-        <li>日本审计周期、CNCA 实施规则后续修订等个别细节仍以官方原文最新版本为准。</li>
-      </ul>
     </section>
 
     <!-- 4 材料清单 -->
@@ -327,11 +248,6 @@ body.printing #report{display:block!important}}
       <p class="note">勾选状态自动保存在本浏览器（localStorage），换设备不同步。<b>「⬇ Excel / Word 模板」</b>可下载一份<b>可直接填写</b>的材料清单（含「是否具备 / 文件编号·版本 / 责任人 / 备注」列），并会带上你在本页已勾选的项；页头「🖨 打印」则出一份网页版自查表。<b>标注均为准备引导</b>，最终以型批机关要求的清单与格式为准。</p>
     </section>
 
-    <!-- 5 常见误区 / FAQ -->
-    <section class="card" id="s5">
-      <h2><span class="k">06</span>常见问答 / 误区</h2>
-      <div id="faq"></div>
-    </section>
   </div>
 
   <!-- 右侧相关法规 -->
@@ -348,6 +264,94 @@ body.printing #report{display:block!important}}
     <div class="rr-item"><span class="rr-id">ISO 9001</span><span class="rr-nm">质量管理体系</span><span class="rr-rg">CoP 初评可采信（须覆盖产品 + 涵盖 CoP）</span></div>
     <div class="rr-item"><span class="rr-id">IATF 16949</span><span class="rr-nm">汽车行业 QMS</span><span class="rr-rg">行业自愿认证 · 可支撑初评 · 不替代机关审核</span></div>
     <div class="rr-note">CoP 是型式批准的前提与持续条件，非独立产品证书；本栏为准备引导，精确条款以官方原文为准。</div>
+  </div>
+</div>
+
+<!-- 以下 4 个板块不再作为正文常驻显示，仅作为「速查工具」弹窗的内容源，通过 openQuickSection() 按需注入 #qmBody -->
+<div id="quickSections" style="display:none" aria-hidden="true">
+  <section class="card" id="s1">
+    <h2><span class="k">01</span>什么是生产一致性（CoP）</h2>
+    <p class="lead">Conformity of Production —— 确保「量产的每一辆车 / 每一件系统或部件」都与获批的型式保持一致。</p>
+    <div class="defbox">
+      <div class="dt">一句话定义</div>
+      <p>CoP 是<b>型式批准制度的强制组成部分</b>：型式试验证明「样品达标」，CoP 则保证「后续批量生产持续与已批准型式一致」。它<b>不是一张可以替代型式批准、单独赋予产品上市资格的产品证书</b>，而是<b>授予并持续维持型式批准的前提条件</b>。</p>
+    </div>
+    <h3>为什么必须要有 CoP</h3>
+    <ul>
+      <li>型式批准只对「送检的代表性样品」发证；没有 CoP，无法保证生产线上第 1 万台仍与样品一致。</li>
+      <li>型批机关据此获得<b>持续监督权</b>：可按周期抽检、审厂，发现批量偏离时<b>暂停或撤销型式批准</b>。</li>
+      <li>对车企而言，CoP 安排是拿证的「入场券」之一，也是维持证书有效、避免召回 / 撤证风险的日常基础。</li>
+    </ul>
+    <h3>CoP 与相邻概念的区别（先厘清，后面不再混）</h3>
+    <div class="grid2">
+      <div class="mini"><div class="mh">CoP　≠　型式试验（Type Test）</div><p>型式试验是<b>一次性</b>证明代表性样品满足技术要求；CoP 是<b>授批后持续</b>保证批量与已批准型式一致。两者分属不同环节。</p></div>
+      <div class="mini"><div class="mh">CoP　≠　IATF 16949 认证</div><p>CoP 由<b>型批机关</b>针对<b>某一已批准型式</b>执行，机关可据此撤销型批；IATF 16949 是<b>行业自愿的 QMS 认证</b>，面向组织质量体系。后者可作 CoP 初评证据，但不替代机关审核与抽检。</p></div>
+    </div>
+  </section>
+
+  <section class="card" id="s2">
+    <h2><span class="k">02</span>法律依据（两大体系）</h2>
+    <p class="lead">无论走 UN 型式批准还是欧盟整车 / 部件型批，CoP 都有明确法条落点。</p>
+    <div class="grid2">
+      <div class="mini">
+        <div class="mh">联合国 1958 协定体系 <span class="ml">UN</span></div>
+        <p>CoP 程序规定在协定的 <b>Schedule 1「Conformity of production procedures」</b>（文件号 <b>E/ECE/TRANS/505/Rev.3</b>）。</p>
+        <p>每一条 UN Regulation 都设有独立的「Conformity of production」章节<b>回指该 Schedule</b>，并追加本规专属的试验与核查<b>频次</b>。</p>
+      </div>
+      <div class="mini">
+        <div class="mh">欧盟框架法规 <span class="ml">EU</span></div>
+        <p>主条款为 <b>(EU) 2018/858 第 31 条「Conformity of production arrangements」</b>；具体程序见 <b>附件 IV「Conformity of Production Procedures」</b>。</p>
+        <p>2018/858 自 <b>2020-09-01</b> 起对新型式强制适用，取代原 2007/46/EC。</p>
+      </div>
+    </div>
+    <h3>两大体系共同的「两块内容」</h3>
+    <ul>
+      <li><b>① 初始评估（授批前）</b>：机关核查制造商的生产与质控安排 / 质量体系，是否足以保证持续一致。</li>
+      <li><b>② 产品符合性安排（授批后）</b>：按约定间隔做试验与检查，并保存可供机关核查的记录。</li>
+    </ul>
+    <h3>核查频次</h3>
+    <p><b>欧盟</b>：附件 IV 要求核查<b>至少每 3 年一次</b>、按 <b>ISO 31000:2018</b> 风险方法确定强度。<b>UN 1958</b>：Schedule 1 §3.1.1.2 规定的通用基准频次同样是<b>至少每 3 年一次</b>（按 ISO 31000 风险法，与欧盟口径巧合一致），但<b>各 UN Regulation 可自行加严</b>——例如 UN R118（材料燃烧特性）§8 为<b>每 2 年一次</b>。<b>两套体系的通用基准恰好相同，但具体法规可能各自加严，不要想当然把「每 3 年」套用到所有 UN 法规上</b>；具体以适用法规为准。</p>
+  </section>
+
+  <section class="card" id="s7">
+    <h2><span class="k">04</span>各标准体系的 CoP 差异</h2>
+    <p class="lead">「量产由谁盯、怎么盯」在不同准入体系里完全不同——先看你目标市场落在哪一档。</p>
+    <div class="grid2">
+      <div class="mini"><div class="mh"><span class="mode ta">型式批准制</span> 欧盟 · UN 1958 · 日本</div><p>政府/技服<b>事前</b>做 CoP 初评，<b>事后</b>周期审核量产一致性。</p></div>
+      <div class="mini"><div class="mh"><span class="mode sc">自我认证制</span> 美 FMVSS · 加 CMVSS · 韩 KMVSS</div><p><b>无政府事前型批、无政府事前 CoP 审核</b>；制造商自证，政府靠<b>事后抽检 + 召回</b>执法。</p></div>
+    </div>
+    <div class="cmpwrap"><table class="cmptab">
+      <thead><tr><th>体系</th><th>准入模式</th><th>量产符合性谁管 · 怎么管</th><th>政府 / 第三方 CoP 审核及频次</th><th>法律锚点</th></tr></thead>
+      <tbody>
+        <tr><td class="sy">欧盟 EU-WVTA</td><td><span class="mode ta">型式批准</span></td><td>授批机关初评 + 持续核查，按 ISO 31000:2018 风险法</td><td><b>有</b>政府 CoP 审核；无专门频次时<b>至少每 3 年</b></td><td>(EU) 2018/858 §31 + 附件Ⅳ</td></tr>
+        <tr><td class="sy">联合国 UN 1958</td><td><span class="mode ta">型式批准</span></td><td>授批机关 / 技服核查「生产符合性安排」（QMS + 产品控制）</td><td><b>有</b>；Schedule 1 §3.1.1.2 通用基准同为<b>每 3 年</b>，具体法规可加严（如 R118 §8 每 2 年）</td><td>Schedule 1（E/ECE/TRANS/505/Rev.3）§1-3</td></tr>
+        <tr><td class="sy">美国 FMVSS</td><td><span class="mode sc">自我认证</span></td><td>制造商自证符合并加认证标签；<b>无政府事前审批</b></td><td><b>无</b>政府事前 CoP 审核；NHTSA 事后抽检 / 缺陷召回</td><td>49 CFR Part 567（标签）/ 568（多阶段）；49 U.S.C. Ch.301</td></tr>
+        <tr><td class="sy">加拿大 CMVSS</td><td><span class="mode sc">自我认证</span></td><td>凭<b>国家安全标志 NSM</b> 自证；不要求型批</td><td><b>无</b>事前审批；加拿大运输部（Transport Canada, TC）以<b>随机抽查审计</b>监督</td><td>Motor Vehicle Safety Act + CMVSR（加拿大法规汇编编号 <b>C.R.C., c. 1038</b>；注意其历次修订单独以「SOR」号——加拿大法规公报编号——发布，CMVSR 本身的编号并不是 SOR 号，引用时不要混淆）</td></tr>
+        <tr><td class="sy">韩国 KMVSS</td><td><span class="mode sc">自我认证</span></td><td>制造商 / 进口商自证符合 KMVSS（2003 起改自认证）</td><td><b>无</b>事前型批；KATRI 事后<b>自认证适合调查</b>（市场抽检）</td><td>자동차관리법 §30 + KMVSS</td></tr>
+        <tr><td class="sy">中国 CCC + GB</td><td><span class="mode cs">认证 + 监督</span></td><td>指定认证机构发证，含<b>获证后监督</b>（工厂监督审核 + 抽检 + 飞行检查）</td><td><b>有</b>（第三方）；监督频次按认证机构风险分级确定（实施规则本身未强制统一为年度）</td><td><b>CNCA-C11-01:2020</b>《强制性产品认证实施规则（汽车）》</td></tr>
+        <tr><td class="sy">日本 型式指定</td><td><span class="mode ta">型式指定</span></td><td>日本国土交通省（MLIT）/ 独立行政法人 NALTEC（National Agency for Automobile and Land Transport Technology）样车检验 + 均一性核查；发证后指导监督审计</td><td><b>有</b>政府监督审计；审计周期没有法定固定数字，据 MLIT 官方文件属非强制性的行政指导范畴，由机关自行掌握</td><td>道路运送车辆法第75条 + 型式指定规则（昭和26年运输省令85号）第7条</td></tr>
+      </tbody>
+    </table></div>
+    <h3>给客户的关键提醒</h3>
+    <ul>
+      <li><b>认证模式 ≠ 有没有政府盯量产</b>：欧盟 / UN / 日本 / 中国有政府或第三方持续 CoP 审核（欧盟与 UN 通用基准均为每 3 年，具体法规可加严如 R118 每 2 年；中国按认证机构风险分级）；<b>美 / 加 / 韩是自我认证，政府不做事前 CoP 审核</b>。</li>
+      <li><b>自认证 ≠ 宽松</b>：风险后移到<b>事后召回</b>——一旦不符合，制造商承担召回、罚款乃至刑责（韩国自认证不符可处徒刑 / 罚金）。合规重心在「随时能举证」：工厂须能拿出符合性测试记录与设计依据，应对美国 NHTSA（National Highway Traffic Safety Administration，国家公路交通安全管理局）、加拿大 TC（Transport Canada）、韩国 KATRI（Korea Automobile Testing & Research Institute，汽车检测研究院）等市场监管方的抽检。</li>
+      <li><b>欧盟与 UN 的「每 3 年」通用基准其实一致，别以为 UN 统一是 2 年</b>：Schedule 1 §3.1.1.2 的默认基准也是每 3 年，只有具体 UN 法规另设更严频次时才会更短（如 R118 §8 每 2 年）；两者不是两套独立口径,只是 UN 侧允许逐法规加严。</li>
+      <li><b>一份批准 ≠ 全球免检</b>：跨到自认证市场需另走自认证 + 事后抽检逻辑，量产监管接口完全不同。</li>
+      <li>日本审计周期、CNCA 实施规则后续修订等个别细节仍以官方原文最新版本为准。</li>
+    </ul>
+  </section>
+
+  <section class="card" id="s5">
+    <h2><span class="k">06</span>常见问答 / 误区</h2>
+    <div id="faq"></div>
+  </section>
+</div>
+
+<div id="qmodal" class="modal-mask" onclick="if(event.target===this)closeQuickModal()">
+  <div class="mbox wide">
+    <button class="mx qm-x" onclick="closeQuickModal()">×</button>
+    <div id="qmBody"></div>
   </div>
 </div>
 
@@ -451,7 +455,7 @@ function activeId(){return localStorage.getItem(ACTIVE_KEY)||'';}
 function setActiveId(id){try{localStorage.setItem(ACTIVE_KEY,id||'');}catch(e){}}
 function curProfile(){const id=activeId();return getProfiles().find(p=>p.id===id)||null;}
 function curName(){const p=curProfile();return p?p.name:'未保存草稿';}
-function syncNameField(){const el=document.getElementById('curProfName');if(el)el.textContent=curName();}
+function updatePBar(){const p=curProfile();const el=document.getElementById('pstate');if(el)el.textContent=p?('● 当前档案：'+(p.name||'未命名')):'○ 尚未建档（点「保存进度」立即建档）';}
 function hasUnsavedChanges(){
   const p=curProfile();
   const saved=p?JSON.stringify(p.ckState||{}):'{}';
@@ -466,7 +470,7 @@ function newProfile(){
   const list=getProfiles();
   const id='p'+Date.now();
   list.push({id,name:nm,createdAt:Date.now(),updatedAt:Date.now(),ckState:{}});
-  setProfiles(list);setActiveId(id);syncNameField();
+  setProfiles(list);setActiveId(id);updatePBar();
 }
 function saveProgress(){
   const list=getProfiles();
@@ -477,7 +481,7 @@ function saveProgress(){
     list.push(p);setActiveId(p.id);
   }
   p.ckState=JSON.parse(JSON.stringify(ckState));p.updatedAt=Date.now();
-  setProfiles(list);syncNameField();
+  setProfiles(list);updatePBar();
   alert('进度已保存到「'+p.name+'」');
 }
 function loadProfile(id){
@@ -485,19 +489,19 @@ function loadProfile(id){
   const p=getProfiles().find(x=>x.id===id);
   if(!p)return;
   ckState=JSON.parse(JSON.stringify(p.ckState||{}));saveCk();buildCk();
-  setActiveId(id);syncNameField();closeProfiles();
+  setActiveId(id);updatePBar();closeProfiles();
 }
 function renameProfile(id){
   const list=getProfiles(),p=list.find(x=>x.id===id);if(!p)return;
   const nm=prompt('重命名档案：',p.name);
   if(nm===null||!nm.trim())return;
-  p.name=nm.trim();p.updatedAt=Date.now();setProfiles(list);syncNameField();openProfiles();
+  p.name=nm.trim();p.updatedAt=Date.now();setProfiles(list);updatePBar();openProfiles();
 }
 function delProfile(id){
   const list=getProfiles(),p=list.find(x=>x.id===id);if(!p)return;
   if(!confirm('删除档案「'+p.name+'」？此操作不可撤销。'))return;
   setProfiles(list.filter(x=>x.id!==id));
-  if(activeId()===id){setActiveId('');syncNameField();}
+  if(activeId()===id){setActiveId('');updatePBar();}
   openProfiles();
 }
 function openProfiles(){
@@ -536,6 +540,16 @@ function openGlossary(){
   closeQuick();
 }
 function closeGlossary(){document.getElementById('gmodal').classList.remove('on');}
+
+/* ============ 速查工具：背景板块（什么是CoP/法律依据/各体系差异/常见问答）弹窗查看 ============ */
+function openQuickSection(id){
+  const src=document.getElementById(id);
+  if(!src)return;
+  document.getElementById('qmBody').innerHTML=src.innerHTML;
+  document.getElementById('qmodal').classList.add('on');
+  closeQuick();
+}
+function closeQuickModal(){document.getElementById('qmodal').classList.remove('on');}
 
 /* ============ 导出报告（按当前档案的勾选状态生成完成度报告并打印） ============ */
 function exportReport(){
@@ -576,7 +590,7 @@ const FAQ=[
 ];
 function buildFaq(){
   document.getElementById('faq').innerHTML=FAQ.map((f,i)=>
-    `<div class="faq" id="faq-${i}"><div class="q" onclick="document.getElementById('faq-${i}').classList.toggle('open')"><span>${f.q}</span><span class="ar">›</span></div><div class="a">${f.a}</div></div>`).join('');
+    `<div class="faq"><div class="q" onclick="this.parentElement.classList.toggle('open')"><span>${f.q}</span><span class="ar">›</span></div><div class="a">${f.a}</div></div>`).join('');
 }
 
 /* ============ 导出可填写模板（Excel .xls / Word .doc，纯前端、无外部库） ============ */
@@ -746,7 +760,7 @@ ${tplRows()}
 
 /* ============ init ============ */
 buildNav();buildFaq();
-buildCk();spy();syncNameField();
+buildCk();spy();updatePBar();
 </script>
 </body>
 </html>
