@@ -201,7 +201,10 @@ body.printing #report{display:block!important}}
       <button class="badge-g" onclick="event.stopPropagation();toggleQuick()">☰ 速查工具 ▾</button>
       <div class="qk-dd" id="qk-dd">
         <button onclick="openGlossary()">📖 名词速查</button>
-        <button onclick="jump('s7');document.getElementById('qk-dd').classList.remove('on')">🧭 各体系对比速查</button>
+        <button onclick="jump('s1');closeQuick()">📘 什么是 CoP</button>
+        <button onclick="jump('s2');closeQuick()">⚖️ 法律依据</button>
+        <button onclick="jump('s7');closeQuick()">🧭 各体系 CoP 差异</button>
+        <button onclick="jump('s5');closeQuick()">❓ 常见问答 / 误区</button>
       </div>
     </div>
     <button class="badge-g" onclick="openProfiles()">📁 我的档案</button>
@@ -222,6 +225,7 @@ body.printing #report{display:block!important}}
     </div>
     <div class="sb-h">内容导航</div>
     <div class="snav" id="nav"></div>
+    <div class="note" style="margin:2px 0 0">CoP 定义 / 法律依据 / 各体系差异 / 常见问答已移至顶部「速查工具 ▾」</div>
   </div>
 
   <!-- 中间正文 -->
@@ -379,12 +383,8 @@ body.printing #report{display:block!important}}
 <script>
 /* ============ 内容导航 ============ */
 const SECTIONS=[
-  {id:'s1',t:'什么是 CoP',s:'定义 · 为什么 · 与型式试验/IATF 的区别'},
-  {id:'s2',t:'法律依据',s:'UN Schedule 1 · (EU) 2018/858 §31 + 附件 IV'},
   {id:'s3',t:'申请与认证流程',s:'初评 → 授批确认 → 周期核查 → 撤证'},
-  {id:'s7',t:'各体系 CoP 差异',s:'型批制 vs 自认证制 vs 认证+监督'},
-  {id:'s4',t:'申请准备材料清单',s:'可交互勾选 · 进度 · 打印'},
-  {id:'s5',t:'常见问答 / 误区',s:'CoP≠IATF · CoP≠型式试验'}
+  {id:'s4',t:'申请准备材料清单',s:'可交互勾选 · 进度 · 打印'}
 ];
 function buildNav(){
   document.getElementById('nav').innerHTML=SECTIONS.map((x,i)=>
@@ -393,6 +393,7 @@ function buildNav(){
 function jump(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
 function toggleTools(){document.getElementById('tb-dd').classList.toggle('on');}
 function toggleQuick(){document.getElementById('qk-dd').classList.toggle('on');}
+function closeQuick(){document.getElementById('qk-dd').classList.remove('on');}
 document.addEventListener('click',()=>{document.getElementById('tb-dd').classList.remove('on');document.getElementById('qk-dd').classList.remove('on');});
 // 滚动高亮
 const spy=()=>{
@@ -547,7 +548,7 @@ const GLOS=[
 function openGlossary(){
   document.getElementById('glosList').innerHTML=GLOS.map(g=>`<div class="glositem"><div class="gt">${esc(g.t)}</div><div class="gd">${esc(g.d)}</div></div>`).join('');
   document.getElementById('gmodal').classList.add('on');
-  document.getElementById('qk-dd').classList.remove('on');
+  closeQuick();
 }
 function closeGlossary(){document.getElementById('gmodal').classList.remove('on');}
 
