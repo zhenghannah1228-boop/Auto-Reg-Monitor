@@ -128,14 +128,11 @@ a{color:var(--od)}
 .qk-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;cursor:pointer;border-radius:8px;padding:9px 12px}
 .qk-dd button:hover{background:var(--cream);color:var(--od)}
 /* 侧栏档案卡片 */
-.profbox{background:#fcfbf6;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px}
-.profbox .pf-h{font-size:11px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:4px}
-.profbox .pf-n{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:9px;line-height:1.4;word-break:break-all}
-.profbox .btn{display:block;width:100%;font-family:inherit;font-size:12.5px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:8px;padding:7px 10px;cursor:pointer;margin-bottom:6px}
-.profbox .btn:last-child{margin-bottom:0}
-.profbox .btn:hover{border-color:var(--o);color:var(--od)}
-.profbox .btn.p{background:var(--o);border-color:var(--o);color:#fff}
-.profbox .btn.p:hover{background:var(--od)}
+.saveBtn{display:block;width:100%;font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;box-shadow:0 2px 8px rgba(232,98,44,.25);margin-top:10px}
+.saveBtn:hover{background:var(--od)}
+.newBtn{display:block;width:100%;font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:9px;padding:9px;cursor:pointer;margin-top:8px}
+.newBtn:hover{background:var(--cream)}
+.pstate{font-size:11px;color:var(--grey);line-height:1.4;margin-top:8px}
 /* 档案 / 名词速查 弹窗 */
 .modal-mask{display:none;position:fixed;inset:0;background:rgba(20,24,28,.5);z-index:100;align-items:center;justify-content:center;padding:20px}
 .modal-mask.on{display:flex}
@@ -206,15 +203,12 @@ body.printing #report{display:block!important}}
 <div class="layout">
   <!-- 左侧步骤导航 -->
   <div class="sidebar">
-    <div class="profbox">
-      <div class="pf-h">当前档案</div>
-      <div class="pf-n" id="curProfName">未保存草稿</div>
-      <button class="btn p" onclick="saveProgress()">💾 保存进度</button>
-      <button class="btn" onclick="newProfile()">＋ 新建档案</button>
-    </div>
     <div class="sb-h">内容导航</div>
     <div class="snav" id="nav"></div>
-    <div class="note" style="margin:2px 0 0">CoP 定义 / 法律依据 / 各体系差异 / 常见问答已移至顶部「速查工具 ▾」</div>
+    <button class="saveBtn" id="savebtn" onclick="saveProgress()">保存进度</button>
+    <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
+    <div class="pstate" id="pstate"></div>
+    <div class="note" style="margin:8px 0 0">CoP 定义 / 法律依据 / 各体系差异 / 常见问答已移至顶部「速查工具 ▾」</div>
   </div>
 
   <!-- 中间正文 -->
@@ -461,7 +455,7 @@ function activeId(){return localStorage.getItem(ACTIVE_KEY)||'';}
 function setActiveId(id){try{localStorage.setItem(ACTIVE_KEY,id||'');}catch(e){}}
 function curProfile(){const id=activeId();return getProfiles().find(p=>p.id===id)||null;}
 function curName(){const p=curProfile();return p?p.name:'未保存草稿';}
-function syncNameField(){const el=document.getElementById('curProfName');if(el)el.textContent=curName();}
+function updatePBar(){const p=curProfile();const el=document.getElementById('pstate');if(el)el.textContent=p?('● 当前档案：'+(p.name||'未命名')):'○ 尚未建档（点「保存进度」立即建档）';}
 function hasUnsavedChanges(){
   const p=curProfile();
   const saved=p?JSON.stringify(p.ckState||{}):'{}';
@@ -476,7 +470,7 @@ function newProfile(){
   const list=getProfiles();
   const id='p'+Date.now();
   list.push({id,name:nm,createdAt:Date.now(),updatedAt:Date.now(),ckState:{}});
-  setProfiles(list);setActiveId(id);syncNameField();
+  setProfiles(list);setActiveId(id);updatePBar();
 }
 function saveProgress(){
   const list=getProfiles();
@@ -487,7 +481,7 @@ function saveProgress(){
     list.push(p);setActiveId(p.id);
   }
   p.ckState=JSON.parse(JSON.stringify(ckState));p.updatedAt=Date.now();
-  setProfiles(list);syncNameField();
+  setProfiles(list);updatePBar();
   alert('进度已保存到「'+p.name+'」');
 }
 function loadProfile(id){
@@ -495,19 +489,19 @@ function loadProfile(id){
   const p=getProfiles().find(x=>x.id===id);
   if(!p)return;
   ckState=JSON.parse(JSON.stringify(p.ckState||{}));saveCk();buildCk();
-  setActiveId(id);syncNameField();closeProfiles();
+  setActiveId(id);updatePBar();closeProfiles();
 }
 function renameProfile(id){
   const list=getProfiles(),p=list.find(x=>x.id===id);if(!p)return;
   const nm=prompt('重命名档案：',p.name);
   if(nm===null||!nm.trim())return;
-  p.name=nm.trim();p.updatedAt=Date.now();setProfiles(list);syncNameField();openProfiles();
+  p.name=nm.trim();p.updatedAt=Date.now();setProfiles(list);updatePBar();openProfiles();
 }
 function delProfile(id){
   const list=getProfiles(),p=list.find(x=>x.id===id);if(!p)return;
   if(!confirm('删除档案「'+p.name+'」？此操作不可撤销。'))return;
   setProfiles(list.filter(x=>x.id!==id));
-  if(activeId()===id){setActiveId('');syncNameField();}
+  if(activeId()===id){setActiveId('');updatePBar();}
   openProfiles();
 }
 function openProfiles(){
@@ -766,7 +760,7 @@ ${tplRows()}
 
 /* ============ init ============ */
 buildNav();buildFaq();
-buildCk();spy();syncNameField();
+buildCk();spy();updatePBar();
 </script>
 </body>
 </html>
