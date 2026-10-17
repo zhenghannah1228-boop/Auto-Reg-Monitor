@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<script>
+/* 演示版预置档案：仅当本机浏览器还没有该工具的档案时才写入，不覆盖真实使用产生的数据 */
+(function(){
+  try{
+    if(!localStorage.getItem("emark_cyber_active_v1")){
+      localStorage.setItem("emark_cyber_active_v1", "cmuf2xhyy443");
+      localStorage.setItem("emark_cyber_summary_v1", "{\"v\":2,\"r155\":{\"pct\":63,\"done\":8,\"total\":16},\"r156\":{\"pct\":85,\"done\":12,\"total\":17},\"maxCal\":3,\"calRated\":3,\"calTotal\":8,\"maxA\":\"D\",\"asilRated\":2,\"asilTotal\":6,\"ts\":1790226995081,\"started\":true}");
+      localStorage.setItem("emark_cyber_profiles_v1", "{\"cmuf2xhyy443\":{\"name\":\"Model X 2027 · 网安与功能安全演示项目\",\"state\":{\"ans\":{\"r155.a1\":0,\"r155.a2\":2,\"r155.a3\":2,\"r155.b1\":1,\"r155.b2\":2,\"r155.b3\":0,\"r155.c1\":1,\"r155.c2\":2,\"r155.c3\":2,\"r155.d1\":1,\"r155.d2\":0,\"r155.e1\":2,\"r155.e2\":1,\"r155.e3\":2,\"r155.f1\":2,\"r155.f2\":0,\"r156.a1\":1,\"r156.a2\":2,\"r156.a3\":2,\"r156.b1\":2,\"r156.b2\":1,\"r156.b3\":2,\"r156.c1\":2,\"r156.c2\":2,\"r156.c3\":1,\"r156.d1\":2,\"r156.d2\":2,\"r156.e1\":2,\"r156.e2\":1,\"r156.e3\":2,\"r156.e4\":2,\"r156.f1\":2,\"r156.f2\":1},\"tara\":[{\"name\":\"后端服务器被入侵并被用作攻击车辆的跳板\",\"asset\":\"后端/云服务\",\"ref\":\"R155 附件5 §4.3.1\",\"imp\":{\"S\":\"Major\",\"F\":\"Moderate\",\"O\":\"Moderate\",\"P\":\"Negligible\"},\"feas\":\"High\",\"ap\":{}},{\"name\":\"车辆通信信道被欺骗/篡改(消息注入、重放)\",\"asset\":\"V2X / 车内总线\",\"ref\":\"R155 附件5 §4.3.2/§4.3.3\",\"imp\":{\"S\":\"Severe\",\"F\":\"Major\",\"O\":\"Moderate\",\"P\":\"Moderate\"},\"feas\":\"Medium\",\"ap\":{}},{\"name\":\"更新流程被滥用(固件被篡改、回滚到有漏洞版本)\",\"asset\":\"OTA / 软件更新\",\"ref\":\"R155 附件5 §4.3.4\",\"imp\":{\"S\":\"Moderate\",\"F\":\"Negligible\",\"O\":\"Negligible\",\"P\":\"Negligible\"},\"feas\":\"Low\",\"ap\":{}},{\"name\":\"对外接口(OBD/USB/充电)被用于注入恶意代码或提权\",\"asset\":\"诊断/外设接口\",\"ref\":\"R155 附件5 §4.3.6\",\"imp\":{},\"feas\":\"\",\"ap\":{}},{\"name\":\"密钥/凭证管理不当被提取,用于伪造身份或解密\",\"asset\":\"密钥 / PKI\",\"ref\":\"R155 附件5 §4.3.5\",\"imp\":{},\"feas\":\"\",\"ap\":{}},{\"name\":\"拒绝服务(总线泛洪/资源耗尽)导致安全功能失效\",\"asset\":\"车内网络 / ECU\",\"ref\":\"R155 附件5 §4.3.7\",\"imp\":{},\"feas\":\"\",\"ap\":{}},{\"name\":\"个人数据/隐私被越权访问或泄露\",\"asset\":\"用户数据\",\"ref\":\"R155 附件5 §4.3.8\",\"imp\":{},\"feas\":\"\",\"ap\":{}},{\"name\":\"供应链/第三方组件引入的漏洞被利用\",\"asset\":\"第三方软硬件\",\"ref\":\"R155 附件5 §4.3.7/21434 Cl.15\",\"imp\":{},\"feas\":\"\",\"ap\":{}}],\"hara\":[{\"name\":\"被攻击导致非预期加速或动力丧失\",\"fn\":\"动力/驱动\",\"s\":\"S3\",\"e\":\"E4\",\"c\":\"C3\"},{\"name\":\"被攻击导致意外制动或制动失效\",\"fn\":\"制动系统\",\"s\":\"S2\",\"e\":\"E3\",\"c\":\"C2\"},{\"name\":\"被攻击导致转向异常/失控\",\"fn\":\"转向系统\",\"s\":\"\",\"e\":\"\",\"c\":\"\"},{\"name\":\"被攻击篡改 ADAS 感知/决策 → 误动作\",\"fn\":\"ADAS/自动驾驶\",\"s\":\"\",\"e\":\"\",\"c\":\"\"},{\"name\":\"被攻击禁用安全气囊/约束系统\",\"fn\":\"被动安全\",\"s\":\"\",\"e\":\"\",\"c\":\"\"},{\"name\":\"被攻击致仪表/警告信息错误或缺失\",\"fn\":\"人机接口\",\"s\":\"\",\"e\":\"\",\"c\":\"\"}],\"itemMeta\":{}},\"ts\":1790226995081}}");
+    }
+  }catch(e){}
+})();
+</script>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>网安 & 功能安全 · 合规评估台 · 21434 CAL / R155-R156 / 26262 ASIL</title>
+<style>
+:root{--o:#E8622C;--od:#C44E1E;--ol:#FBE4D7;--ink:#1A1D21;--ink2:#3A3F46;--grey:#6B7280;--greyl:#9AA1AB;--line:#E3E6EA;--bg:#F7F8FA;--card:#FFF;--cream:#FDF6F0;--green:#1F7A4D;--red:#C0392B;--amber:#B45309}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Microsoft YaHei","PingFang SC",-apple-system,Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+a{color:var(--od)}
+/* ===== 布局:对齐 E-mark 母工具(浅色顶栏 + 左侧栏 + 内容)===== */
+.topbar{background:linear-gradient(120deg,#fff,var(--cream));border-bottom:1px solid var(--line);position:sticky;top:0;z-index:30}
+.tb-in{max-width:1160px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.tb-title h1{font-size:21px;font-weight:800;letter-spacing:-.3px;margin:0;color:var(--ink)}
+.tb-title h1 .em{color:var(--o)}
+.tb-title .tb-sub{font-size:12px;color:var(--grey);margin-top:2px}
+.tb-act{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.badge-g{font-family:inherit;cursor:pointer;font-size:12.5px;font-weight:700;background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 14px;color:var(--od);white-space:nowrap}
+.badge-g:hover{background:var(--o);color:#fff}
+.badge-g .ico{stroke:currentColor;margin-right:4px}
+.rl-lk{display:inline-flex;align-items:center;gap:1px;color:var(--od);text-decoration:none;font-weight:700}
+.rl-lk:hover{text-decoration:underline}
+.rl-lk.ph{color:var(--greyl);font-weight:400}
+.rl-lk.ph:hover{text-decoration:none}
+.rl-lk .ico{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:2px;opacity:.85}
+.tb-home{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:20px;padding:7px 15px;text-decoration:none;white-space:nowrap}
+.tb-home:hover{background:var(--o);color:#fff}
+.tb-menu{position:relative}
+.tb-dd{display:none;position:absolute;right:0;top:calc(100% + 7px);background:#fff;border:1px solid #ECEEF1;border-radius:11px;box-shadow:0 8px 28px rgba(16,24,40,.14);min-width:200px;padding:6px;z-index:60}
+.tb-dd.on{display:block}
+.tb-dd button{display:block;width:100%;text-align:left;font-family:inherit;font-size:13px;color:var(--ink);background:none;border:none;border-radius:8px;padding:9px 12px;cursor:pointer}
+.tb-dd button:hover{background:var(--cream);color:var(--od)}
+.layout{max-width:1420px;margin:0 auto;padding:22px 24px 70px;display:grid;grid-template-columns:216px minmax(0,1fr) 252px;gap:24px;align-items:start}
+.reglist{position:sticky;top:16px;align-self:start;background:#fcfbf6;border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px;max-height:calc(100vh - 32px);overflow:auto}
+.reglist .rr-h{font-size:13px;font-weight:800;color:var(--ink);padding-bottom:9px;margin-bottom:10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:7px}
+.reglist .rr-n{font-size:11px;font-weight:700;color:#fff;background:var(--od);border-radius:10px;padding:1px 7px}
+.reglist .rr-list{display:flex;flex-direction:column;gap:7px}
+.reglist .rr-item{display:block;width:100%;text-align:left;font-family:inherit;background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 10px;cursor:pointer;transition:.12s}
+.reglist .rr-item:hover{border-color:var(--o);box-shadow:0 2px 6px rgba(16,24,40,.08)}
+.reglist .rr-id{display:inline-block;font-family:monospace;font-size:10.5px;font-weight:700;color:var(--od);background:#fbeee7;border-radius:5px;padding:1px 6px;margin-bottom:4px}
+.reglist .rr-nm{display:block;font-size:12px;font-weight:600;color:var(--ink);line-height:1.4}
+.reglist .rr-rg{display:block;font-size:10.5px;color:#8a8f98;margin-top:2px}
+.reglist .rr-note{font-size:10.5px;color:#9aa1ab;line-height:1.55;border-top:1px dashed var(--line);margin-top:11px;padding-top:9px}
+@media(max-width:1120px){.layout{grid-template-columns:216px minmax(0,1fr);max-width:960px}.reglist{grid-column:1/-1;position:static;max-height:none;margin-top:2px}.reglist .rr-list{flex-direction:row;flex-wrap:wrap}.reglist .rr-item{flex:1 1 240px}}
+@media(max-width:860px){.layout{grid-template-columns:1fr;gap:14px}}
+.sidebar{position:sticky;top:74px;display:flex;flex-direction:column;gap:8px}
+@media(max-width:860px){.sidebar{position:static}}
+.sb-h{font-size:12px;font-weight:800;color:var(--greyl);letter-spacing:.5px;margin-bottom:2px}
+.snav{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.sstep{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grey);cursor:pointer;padding:8px 10px;border-radius:9px;transition:.12s;line-height:1.3;font-family:inherit;background:none;border:none;text-align:left;width:100%}
+.sstep:hover{background:#fff;color:var(--ink)}
+.sstep .n{flex:none;width:24px;height:24px;border-radius:50%;border:1.6px solid var(--line);display:grid;place-items:center;font-size:11.5px;font-weight:700;background:#fff;color:var(--grey)}
+.sstep.active{background:var(--cream);color:var(--ink);font-weight:700}
+.sstep.active .n{background:var(--o);border-color:var(--o);color:#fff}
+.sstep .stx{display:flex;flex-direction:column;min-width:0}
+.sstep .stx small{color:var(--greyl);font-size:10.5px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sgrp{font-size:10px;font-weight:700;color:var(--greyl);letter-spacing:.5px;margin:8px 2px 1px}
+.saveBtn{font-family:inherit;font-size:13.5px;font-weight:700;color:#fff;background:var(--o);border:none;border-radius:9px;padding:11px;cursor:pointer;box-shadow:0 2px 8px rgba(232,98,44,.25)}
+.saveBtn:hover{background:var(--od)}
+.newBtn{font-family:inherit;font-size:13px;font-weight:700;color:var(--o);background:#fff;border:1.5px solid var(--o);border-radius:9px;padding:9px;cursor:pointer}
+.newBtn:hover{background:var(--cream)}
+.center{min-width:0}
+.namebar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.namebar label{font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
+.namebar label::after{content:" *";color:var(--o)}
+.namebar input{flex:1;font-family:inherit;font-size:14px;border:1.5px solid var(--line);border-radius:9px;padding:10px 13px;color:var(--ink);background:#fff}
+.namebar input:focus{outline:none;border-color:var(--o)}
+#main{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 22px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.ico{width:15px;height:15px;display:inline-block;vertical-align:-2px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-right:5px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px;align-items:center}
+.btn{font-family:inherit;font-size:13px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:9px;padding:9px 16px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.p{background:var(--o);border-color:var(--o);color:#fff}
+.btn:hover{border-color:var(--o);color:var(--od)}
+.btn.p:hover{background:var(--od);color:#fff}
+/* 顶部成熟度概览 */
+.sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(16,24,40,.05);display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.sum .rad{flex:none;width:210px}
+.sum .info{flex:1;min-width:200px}
+.sum .lv{font-size:18px;font-weight:900}
+.sum .lv b{color:var(--od)}
+.sum .meta{font-size:12.5px;color:var(--ink2);margin:5px 0 10px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--line);color:var(--grey)}
+.pill.on{border-color:var(--o);color:var(--od);font-weight:700;background:var(--cream)}
+/* 侧边栏布局（对齐合规工具 Step4） */
+.sb{display:grid;grid-template-columns:232px 1fr;gap:16px}
+@media(max-width:760px){.sb{grid-template-columns:1fr;gap:10px}}
+.sb-nav{display:flex;flex-direction:column;gap:6px;align-self:start;position:sticky;top:96px}
+@media(max-width:760px){.sb-nav{flex-direction:row;overflow-x:auto;position:static;padding-bottom:4px}}
+.sb-item{display:flex;align-items:center;gap:9px;text-align:left;font-family:inherit;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:10px 12px;cursor:pointer;color:var(--ink);white-space:nowrap;flex:none;transition:.12s}
+.sb-item:hover{border-color:var(--o)}
+.sb-item.on{border-color:var(--o);background:var(--cream);font-weight:700}
+.sb-dot{width:10px;height:10px;border-radius:50%;flex:none}
+.sb-item .tx{display:flex;flex-direction:column;line-height:1.3}
+.sb-item small{color:var(--greyl);font-size:11px;font-weight:400}
+.sb-main{min-width:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.sb-mh{font-size:16px;font-weight:800;color:var(--od);margin-bottom:4px}
+.sb-msub{font-size:12px;color:var(--grey);margin-bottom:12px}
+.lvbox{background:var(--cream);border-radius:9px;padding:9px 12px;margin-bottom:12px;font-size:11.5px}
+.lvbox .lr{display:flex;gap:8px;padding:2px 0}
+.lvbox .lr b{flex:none;width:26px;color:var(--grey)}
+.lvbox .lr.cur b,.lvbox .lr.cur span{color:var(--od);font-weight:700}
+.arow{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;border-top:1px solid var(--line);padding:11px 0}
+.arow:first-of-type{border-top:none}
+.al b{font-weight:600;font-size:13px}
+.al small{display:block;color:var(--grey);font-size:11px;margin-top:2px;font-family:ui-monospace,Menlo,Consolas,monospace}
+.seg{display:flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;flex:none}
+.seg button{font-family:inherit;font-size:12px;font-weight:600;border:none;background:#fff;padding:8px 13px;cursor:pointer;color:var(--grey);border-right:1px solid var(--line)}
+.seg button:last-child{border-right:none}
+.seg button.on{color:#fff}
+.seg button.on.done-b{background:var(--green)}
+.seg button.on.prog-b{background:var(--amber)}
+.seg button.on.no-b{background:var(--red)}
+.std details{border-top:1px solid var(--line);padding:9px 0}
+.std details:first-of-type{border-top:none}
+.std summary{cursor:pointer;font-size:13px;font-weight:600}
+.std .sc{font-size:12px;color:var(--ink2);margin:6px 0 4px}
+.std ul{margin:4px 0;padding-left:18px;font-size:12px}
+.std .tl{font-size:11px;color:var(--od);font-family:ui-monospace,Menlo,Consolas,monospace}
+/* 术语速查 */
+.glosgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.glos{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fff}
+.glost{font-weight:800;font-size:13px;color:var(--ink)}
+.glost .glosf{font-weight:400;font-size:10.5px;color:var(--greyl)}
+.glosd{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.6}
+/* 模块差异矩阵 */
+.modtab{border-collapse:collapse;font-size:12px;min-width:820px}
+.modtab th{padding:7px 10px;border-bottom:2px solid var(--line);text-align:left;font-weight:700;color:var(--ink2);white-space:nowrap;background:var(--bg)}
+.modtab td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top;line-height:1.5}
+.modtab td.lft,.modtab th.lft{position:sticky;left:0;background:#fff;min-width:130px}
+.modtab th.lft{background:var(--bg)}
+.mlegal{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11px;font-weight:700;white-space:nowrap}
+/* 审计就绪包:优先处理三栏 + 台账链接 */
+.actwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.actcol{border:1px solid var(--line);border-radius:11px;padding:10px 12px;background:#fff}
+.acth{font-size:12px;font-weight:800;color:var(--ink2);margin-bottom:6px}
+.actrow{display:flex;align-items:baseline;gap:7px;width:100%;text-align:left;font-family:inherit;background:none;border:none;border-top:1px solid var(--line);padding:7px 2px;cursor:pointer;color:var(--ink);font-size:12px;line-height:1.4}
+.actrow:first-of-type{border-top:none}
+.actrow:hover{color:var(--od)}
+.actrow>span{flex:1;min-width:0}
+.actrow small{flex:none;color:var(--greyl);font-size:10.5px;max-width:38%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.actmore{font-size:11px;color:var(--grey);padding:6px 2px 0}
+.lnk{font-family:inherit;font-size:12px;text-align:left;background:none;border:none;padding:0;color:var(--ink);cursor:pointer;font-weight:600;line-height:1.4}
+.lnk:hover{color:var(--od);text-decoration:underline}
+.note{font-size:11.5px;color:var(--grey);background:#FBF7F2;border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:10px 14px;margin-top:16px;line-height:1.7}
+/* 卡片 / 自定义下拉 / 输入(TARA·HARA 行编辑共用) */
+.ckpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.kc{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.kc .kl{font-size:11.5px;color:var(--grey)}
+.kc .kv{font-size:26px;font-weight:800;line-height:1.15;margin:2px 0}
+.kc .kbar{height:6px;border-radius:4px;background:var(--line);overflow:hidden;margin:2px 0 6px}
+.kc .kbar>div{height:100%}
+.kc .kn{font-size:10.5px;color:var(--grey);font-family:ui-monospace,Menlo,Consolas,monospace}
+.cktab{border-collapse:collapse;font-size:11.5px;min-width:820px}
+.cktab th{padding:6px 8px;border-bottom:2px solid var(--line);white-space:nowrap;text-align:center;font-weight:700}
+.cktab th.lft,.cktab td.lft{text-align:left;position:sticky;left:0;background:var(--card)}
+.cktab tr{border-top:1px solid var(--line)}
+.cktab td{padding:6px 8px;text-align:center}
+.cktab td.dash{color:var(--greyl)}
+.cktab .rd{font-size:10px;color:var(--grey);font-weight:400}
+.cbadge{display:inline-block;padding:2px 8px;border-radius:11px;font-size:10.5px;font-weight:600}
+.ckleg{font-size:11px;color:var(--grey);font-family:ui-monospace,Menlo,Consolas,monospace;margin-top:10px;line-height:1.9}
+.tag-ed{font-size:10.5px;font-weight:700;color:var(--od);background:var(--cream);border:1px solid var(--ol);border-radius:20px;padding:1px 8px;vertical-align:2px}
+.ckhint{font-size:11.5px;color:var(--ink2);background:var(--cream);border-left:3px solid var(--o);border-radius:0 8px 8px 0;padding:8px 12px;margin:8px 0 12px;line-height:1.6}
+.cin{font-family:inherit;font-size:12px;width:100%;border:1px solid var(--line);border-radius:6px;padding:5px 7px;color:var(--ink);background:#fff}
+.cin:focus{outline:none;border-color:var(--o)}
+select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
+/* 自定义下拉:按钮 + 弹层(字号完全可控) */
+.lvlbtn{font-family:inherit;font-size:13.5px;width:100%;text-align:left;border:1px solid var(--line);border-radius:6px;padding:6px 9px;background:#fff;cursor:pointer;color:var(--ink);display:flex;align-items:center;justify-content:space-between;gap:4px}
+.lvlbtn:hover{border-color:var(--o)}
+.lvlbtn .cae{color:var(--greyl);font-size:11px;flex:none}
+.lvlmenu{position:absolute;z-index:200;background:#fff;border:1px solid var(--line);border-radius:9px;box-shadow:0 10px 28px rgba(16,24,40,.2);padding:5px;display:none}
+.lvlmenu.on{display:block}
+.lvlmenu button{display:block;width:100%;text-align:left;font-family:inherit;font-size:14px;border:none;background:#fff;padding:9px 13px;border-radius:6px;cursor:pointer;color:var(--ink);white-space:nowrap}
+.lvlmenu button:hover{background:var(--cream)}
+.lvlmenu button.sel{color:var(--od);font-weight:700;background:var(--cream)}
+.cin.num{width:72px;flex:none;text-align:center}
+.cin.sm{font-size:11px;margin-top:5px;color:var(--grey)}
+.cin.col{min-width:104px}
+.cktab td,.cktab th{vertical-align:top;min-width:104px}
+.cktab td.lft,.cktab th.lft{min-width:156px;max-width:220px;white-space:normal}
+.cktab td .cin.lvl{width:100%;margin-bottom:4px}
+.cktab td .cin.num2{width:100%;text-align:center}
+/* 档案栏 */
+.pbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 16px}
+.pbar #pname{font-family:inherit;font-size:13px;min-width:220px;flex:0 1 300px;border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;color:var(--ink);background:#fff}
+.pbar #pname:focus{outline:none;border-color:var(--o)}
+.pstate{font-size:11px;color:var(--grey);line-height:1.4;margin-top:2px}
+.btn.sm{font-size:12px;font-weight:600;padding:6px 11px;border-radius:8px}
+/* 我的档案 模态 */
+.pmodal{position:fixed;inset:0;background:rgba(20,24,28,.5);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto}
+.pmodal.on{display:flex}
+.pmbox{background:#fff;border-radius:14px;max-width:560px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}
+.pmh{background:linear-gradient(120deg,var(--ink),#2A2F36);color:#fff;padding:14px 18px;font-size:15px;font-weight:700;display:flex;align-items:center}
+.pmx{margin-left:auto;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:8px;cursor:pointer;font-size:14px}
+.pmx:hover{background:rgba(255,255,255,.3)}
+.pmlist{padding:12px 16px 18px;max-height:64vh;overflow-y:auto}
+.pmrow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px}
+.pmrow.cur{border-color:var(--o);background:var(--cream)}
+.pmn{flex:1;font-size:13.5px;font-weight:700;min-width:0}
+.pmcur{font-size:10.5px;font-weight:700;color:var(--od);background:#fff;border:1px solid var(--ol);border-radius:20px;padding:1px 8px}
+.pmd{font-size:11px;color:var(--grey);font-weight:400;margin-top:2px}
+.pmbtns{display:flex;gap:6px;flex:none}
+.pmempty{font-size:13px;color:var(--grey);text-align:center;padding:24px 8px}
+/* 侧栏分组标签 */
+.navsep{font-size:10.5px;font-weight:700;color:var(--greyl);letter-spacing:.5px;margin:10px 2px 2px;text-transform:none}
+/* 21434 风险评级表 */
+.taratab{border-collapse:collapse;font-size:12.5px;min-width:760px;width:100%}
+.taratab th{padding:8px 10px;border-bottom:2px solid var(--line);text-align:center;font-weight:700;white-space:nowrap;color:var(--ink2)}
+.taratab th.lft{text-align:left}
+.taratab td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+.taratab td.lft{min-width:300px}
+.taratab .tnum{flex:none;width:22px;height:22px;border-radius:50%;background:var(--cream);color:var(--od);font-weight:700;font-size:11px;display:grid;place-items:center;margin-top:5px}
+.taratab .lvlbtn{min-width:96px}
+.rvb{display:inline-block;min-width:34px;padding:4px 10px;border-radius:20px;font-size:13px;font-weight:800}
+.muted{color:var(--greyl)}
+.delx{border:none;background:none;color:var(--greyl);cursor:pointer;font-size:14px;padding:4px}
+.delx:hover{color:var(--red)}
+/* 参照矩阵 */
+.mtxwrap{display:flex;gap:20px;flex-wrap:wrap;margin-top:18px}
+.mtxh{font-size:12.5px;font-weight:700;margin-bottom:6px}
+.mtxh span{font-weight:400;color:var(--grey);font-size:10.5px}
+.mtx{border-collapse:collapse;font-size:11.5px}
+.mtx th{padding:5px 9px;border:1px solid var(--line);background:var(--bg);font-weight:600;white-space:nowrap}
+.mtx td{padding:6px 12px;border:1px solid var(--line);text-align:center;font-weight:700}
+.mtx td.lft{text-align:left;font-weight:600;background:var(--bg);white-space:nowrap}
+/* R156 SUMS 就绪度分组 */
+.r156g{margin-bottom:14px}
+.r156gh{font-size:13.5px;font-weight:800;color:var(--od);border-bottom:2px solid var(--ol);padding-bottom:4px;margin-bottom:6px}
+.qitem{margin-bottom:2px}
+.metatog{font-family:inherit;font-size:11px;color:var(--grey);background:none;border:none;cursor:pointer;padding:2px 4px;white-space:nowrap}
+.metatog:hover{color:var(--od)}
+.metatog.has{color:var(--od);font-weight:700}
+.idet{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px 12px;background:var(--cream);border:1px solid var(--ol);border-radius:9px;padding:10px 12px;margin:2px 0 8px}
+.idet label{display:flex;flex-direction:column;font-size:11px;color:var(--grey);gap:3px;font-weight:600}
+.idet label .cin{font-weight:400;color:var(--ink)}
+/* TARA 四类影响 + 攻击潜力 */
+.impcell{min-width:120px}
+.improw{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.improw .implab{flex:none;width:14px;font-size:11px;font-weight:700;color:var(--grey)}
+.improw .lvlbtn{padding:4px 7px;font-size:12px}
+.impder{font-size:11px;color:var(--od);font-weight:700;margin-top:2px}
+.feascell{min-width:110px}
+.feasder{font-size:13px;font-weight:700;color:var(--od)}
+.feasder .cae2{font-size:10.5px;color:var(--grey);font-weight:400}
+.apt{display:block;margin-top:5px;font-family:inherit;font-size:10.5px;color:var(--blue);background:none;border:none;cursor:pointer;padding:0}
+.apt:hover{text-decoration:underline}
+.aprow>td{background:var(--cream);padding:0}
+.apbox{padding:10px 14px}
+.apttl{font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:8px}
+.apnote{font-weight:400;color:var(--grey)}
+.apgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px}
+.apf{display:flex;flex-direction:column;gap:3px}
+.apflab{font-size:11px;color:var(--grey);font-weight:600}
+.apf .lvlbtn{font-size:12px}
+/* 总览 Dashboard */
+.dgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:4px 0 8px}
+.dcard{text-align:left;font-family:inherit;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;cursor:pointer;transition:.12s;box-shadow:0 1px 3px rgba(16,24,40,.05)}
+.dcard:hover{border-color:var(--o);box-shadow:0 4px 14px rgba(16,24,40,.09)}
+.dcard .dct{font-size:12.5px;color:var(--grey);font-weight:600}
+.dcard .dcbig{font-size:30px;font-weight:900;line-height:1.15;margin:5px 0}
+.dcard .dcsub{font-size:11.5px;color:var(--grey)}
+/* 导出报告 */
+.report{display:none}
+.report .rhead{border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:12px}
+.report .rtitle{font-size:20px;font-weight:800}
+.report .rmeta{font-size:11px;color:#555;margin-top:4px}
+.report .rsum{display:flex;flex-wrap:wrap;gap:16px;font-size:12px;margin-bottom:14px}
+.report h2{font-size:15px;margin:16px 0 6px;border-left:4px solid #E8622C;padding-left:8px}
+.report h3{font-size:12.5px;margin:10px 0 4px;color:#333}
+.report .rt{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:8px}
+.report .rt th{background:#f0f0f0;border:1px solid #ccc;padding:4px 6px;text-align:left}
+.report .rt td{border:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.report .rref{color:#666;font-size:10px;white-space:nowrap}
+.report .rst{text-align:center;font-weight:700;white-space:nowrap}
+.report .rst.s2{color:#1F7A4D}.report .rst.s1{color:#B45309}.report .rst.s0{color:#C0392B}
+.report .rfoot{font-size:10px;color:#666;margin-top:14px;border-top:1px solid #ccc;padding-top:6px;line-height:1.6}
+@media print{
+  body.printing>*{display:none !important}
+  body.printing>#report{display:block !important}
+  .report h2{page-break-after:avoid}
+  .report .rt tr{page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="tb-in">
+  <div class="tb-title">
+    <h1>网安 <span class="em">&amp;</span> 功能安全 · 合规评估台</h1>
+    <div class="tb-sub">ISO 21434 CAL · UN R155 CSMS / UN R156 SUMS · ISO 26262 ASIL</div>
+  </div>
+  <div class="tb-act">
+    <div class="tb-menu">
+      <button class="badge-g" onclick="event.stopPropagation();toggleTools()">☰ 速查工具 ▾</button>
+      <div class="tb-dd" id="tb-dd">
+        <button onclick="openTool('mods')">🧭 模块差异矩阵</button>
+        <button onclick="openTool('glos')">📖 术语速查</button>
+        <button onclick="openTool('faq')">❔ 常见问答 FAQ</button>
+        <button onclick="openTool('std')">📑 相关标准速览</button>
+      </div>
+    </div>
+    <button class="badge-g" onclick="openProfiles()"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5A1.5 1.5 0 0 1 5.5 6h4l2 2h7A1.5 1.5 0 0 1 20 9.5v8A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5Z"/></svg>我的档案</button>
+    <button class="badge-g" onclick="exportReport()">🖨 导出报告</button>
+    <a class="tb-home" href="emark_assessment.html" id="backbtn">← 返回评估工具</a>
+  </div>
+</div></div>
+<div class="layout">
+  <div class="sidebar">
+    <div class="sb-h">评估模块</div>
+    <div class="snav" id="nav"></div>
+    <button class="saveBtn" id="savebtn" onclick="saveProgress()">保存进度</button>
+    <button class="newBtn" onclick="newProfile()">＋ 新建档案</button>
+    <div class="pstate" id="pstate"></div>
+  </div>
+  <div class="center">
+    <div class="namebar"><label>档案名称</label><input id="pname" placeholder="如 Model X 2027 / 欧盟项目" autocomplete="off"></div>
+    <div id="summary"></div>
+    <div id="main"></div>
+    <div class="note">评级方法依据 ISO/SAE 21434(风险值 / CAL)与 UN R155/R156 条款，威胁目录取自 R155 附件 5，用于团队自查参照，<b>非型式批准结论</b>；CAL 属附录 E 资料性方法，R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。评级与清单数据按<b>档案</b>保存在本浏览器。</div>
+  </div>
+  <aside class="reglist" id="reglist"></aside>
+</div>
+<div id="report" class="report"></div>
+<div id="lvlmenu" class="lvlmenu"></div>
+<div id="pmodal" class="pmodal" onclick="if(event.target===this)closeProfiles()">
+  <div class="pmbox">
+    <div class="pmh">我的档案 <button class="pmx" onclick="closeProfiles()" aria-label="关闭">✕</button></div>
+    <div id="pmlist" class="pmlist"></div>
+  </div>
+</div>
+<div id="gmodal" class="pmodal" onclick="if(event.target===this)gmClose()">
+  <div class="pmbox" style="max-width:760px">
+    <div class="pmh"><span id="gmtitle"></span><button class="pmx" onclick="gmClose()" aria-label="关闭">✕</button></div>
+    <div id="gmbody" class="pmlist"></div>
+  </div>
+</div>
+<script>
+const CYBER={"levels":["临时 Ad Hoc","可重复 Repeatable","已管理 Managed","已优化 Optimized","韧性 Resilient"],"labels":["未开始","部分达成","已达成"],"domains":[{"key":"csms","name":"治理与 CSMS","desc":"网络安全管理体系、组织职责、政策与生命周期治理(R155 核心)。","levels":["无安全角色或政策","安全政策文档化、角色已分配","CSMS 认证、安全指导委员会、有度量","与企业风险管理集成","持续改进、行业信息共享"],"items":[{"k":"csms.1","t":"已建立书面 CSMS 政策,明确角色/职责/汇报线(CISO 或等效)","r":"UN R155 / ISO 21434 Cl.5"},{"k":"csms.2","t":"网络安全活动覆盖开发/生产/后生产全生命周期并有阶段门禁","r":"UN R155"},{"k":"csms.3","t":"持有有效 CSMS 证书,且每个在售车型有 CS 型式批准","r":"UN R155"},{"k":"csms.4","t":"与供应商签订网络安全责任接口协议(DIA),职责边界清晰","r":"ISO 21434 Cl.15"},{"k":"csms.5","t":"把网络安全纳入采购准入与项目里程碑评审","r":"Handbook Ch1/Ch15"}]},{"key":"tara","name":"威胁分析与风险评估(TARA)","desc":"资产识别、威胁建模、攻击路径与风险定级及处置。","levels":["无 TARA、临时风险讨论","部分条目做了 TARA、无正式方法","按 21434 全量 TARA、分配 CAL、链接设计","TARA 自动化、持续更新","数据驱动、威胁情报回灌"],"items":[{"k":"tara.1","t":"对每个项目识别资产与其网络安全属性(C/I/A)","r":"ISO 21434 Cl.15"},{"k":"tara.2","t":"用结构化方法(STRIDE/攻击树)枚举威胁场景与攻击路径","r":"Handbook Ch6"},{"k":"tara.3","t":"按影响×攻击可行性给出风险值并决定处置(降/避/转/留)","r":"ISO 21434"},{"k":"tara.4","t":"TARA 与功能安全 HARA 对齐(安全-安全集成)","r":"ISO 26262 / Ch7"},{"k":"tara.5","t":"TARA 随设计变更与新情报定期复评、版本留痕","r":"ISO 21434"}]},{"key":"arch","name":"安全架构与纵深防御","desc":"域隔离、网关防护、最小权限与边界防御。","levels":["无安全架构、信任边界未文档化","基础分域、部分安全设计模式","正式信任模型、网关控制、HSM 集成","零信任(Zero Trust)架构","运行时验证、SDV 安全栈"],"items":[{"k":"arch.1","t":"对外接口(蜂窝/Wi-Fi/蓝牙/USB/OBD)清单化并最小化暴露面","r":"Handbook Ch2/Ch8"},{"k":"arch.2","t":"网络分域隔离,中央网关做消息过滤与访问控制","r":"Ch8"},{"k":"arch.3","t":"关键总线/域采用消息认证(如 SecOC)防伪造重放","r":"Ch8/Ch9"},{"k":"arch.4","t":"落实最小权限与默认拒绝;调试/诊断接口(JTAG/OBD/DoIP)生产态受控","r":"Ch8"},{"k":"arch.5","t":"后端/云 API 鉴权与授权严格(防 BOLA 越权枚举)","r":"附录C 案例"}]},{"key":"crypto","name":"安全启动·密码学·身份","desc":"Secure Boot、密钥管理、HSM、身份与后量子准备。","levels":["明文/硬编码密钥、无安全启动","部分 ECU 启用 Secure Boot、密钥基础管理","HSM 保护密钥+分级轮换、唯一身份与吊销","密码敏捷、算法可在线替换","完成 PQC(ML-KEM/ML-DSA)迁移并试点"],"items":[{"k":"crypto.1","t":"关键 ECU 启用 Secure Boot / 信任根校验固件完整性","r":"Handbook Ch9"},{"k":"crypto.2","t":"密钥由 HSM/安全存储保护,具备分级与轮换机制","r":"Ch9"},{"k":"crypto.3","t":"每车/每件唯一身份与证书(PKI),支持吊销","r":"Ch9"},{"k":"crypto.4","t":"采用密码敏捷设计,算法可经更新替换","r":"NIST PQC / 附录J"},{"k":"crypto.5","t":"已制定后量子密码(ML-KEM/ML-DSA)迁移路线","r":"FIPS 203/204/205"}]},{"key":"ota","name":"OTA 安全更新(SUMS)","desc":"软件更新管理体系、签名校验、回滚与 RXSWIN。","levels":["无 OTA 或手动刷写、无回滚","有 OTA 但签名/回滚不完整","SUMS+端到端签名+A/B 回滚+RXSWIN","分群灰度+管线 SLSA 溯源","<24h 关键补丁 OTA、自动化发布门禁"],"items":[{"k":"ota.1","t":"已建立 SUMS,更新包端到端签名与完整性校验","r":"UN R156 / Ch10"},{"k":"ota.2","t":"更新失败可安全回滚(A/B 分区),具备防变砖保护","r":"Ch10"},{"k":"ota.3","t":"维护 RXSWIN/软件物料清单,更新前评估型式批准影响","r":"UN R156"},{"k":"ota.4","t":"向用户告知更新内容/影响,记录可追溯","r":"UN R156"},{"k":"ota.5","t":"更新后端管线自身受保护(HSM 签名密钥、发布门禁)","r":"Ch10"}]},{"key":"devtest","name":"安全开发与测试","desc":"安全编码、SAST/DAST、模糊测试与渗透测试。","levels":["仅发布前渗透、无回归","CI 中 SAST+基础 fuzz+SOP 渗透","完整金字塔:SAST+单元+fuzz+HIL+渗透","自动化回归+对抗 ML 测试+红队","持续红队、SOP 前红队演练"],"items":[{"k":"devtest.1","t":"安全需求可追溯至 TARA,并纳入验收门禁","r":"Handbook Ch11"},{"k":"devtest.2","t":"CI 中集成静态/组成成分分析(SAST/SCA)","r":"Ch11"},{"k":"devtest.3","t":"对接口/协议做模糊测试(fuzzing)","r":"Ch11"},{"k":"devtest.4","t":"发布前由独立方做渗透测试并闭环整改","r":"Ch11"},{"k":"devtest.5","t":"测试证据归档,支撑型式批准审计","r":"ISO 21434"}]},{"key":"monitor","name":"检测·日志·监控(VSOC)","desc":"车端异常检测、安全日志与车队级安全运营中心。","levels":["无监控、手动打补丁","基础日志与告警","IDS 部署+基础告警+补丁流程","车队 SOC+MTTD/MTTR 跟踪+playbook","AI 异常检测+预测分析"],"items":[{"k":"monitor.1","t":"车端记录安全相关事件日志,可上报后端","r":"Handbook Ch12"},{"k":"monitor.2","t":"部署入侵检测/异常监控(IDS,规则+行为基线)","r":"Ch12"},{"k":"monitor.3","t":"运营 VSOC,对车队遥测做关联分析与告警","r":"Ch12"},{"k":"monitor.4","t":"关注新威胁情报(Auto-ISAC)并映射到在产车型","r":"UN R155 后生产"}]},{"key":"ir","name":"事件响应与漏洞管理","desc":"PSIRT、漏洞披露、应急处置与监管上报。","levels":["无预案、临时应对","有联系人/基础流程","PSIRT+playbook+定期演练","车队级快速响应+取证流程","<24h OTA 缓解+Auto-ISAC 共享"],"items":[{"k":"ir.1","t":"设立 PSIRT/CSIRT 与事件响应预案并定期演练","r":"Handbook Ch13"},{"k":"ir.2","t":"有协调式漏洞披露(CVD)渠道与处理 SLA","r":"Ch13"},{"k":"ir.3","t":"具备应急 OTA/缓解下发能力","r":"Ch10/Ch13"},{"k":"ir.4","t":"明确监管/客户上报流程(含 CRA 24h 早期预警 / 72h 通知)","r":"EU CRA"}]},{"key":"supply","name":"供应链与 SBOM","desc":"软件物料清单、第三方/开源组件与供应商安全。","levels":["假设供应商安全、无 SBOM","供应商问卷+基础安全条款","SBOM 必需+21434 Cl.7 审核+TARA 复评","实时 CVE 监控+供应商评分+SLSA L3+","全自动 CVE 告警+预测性分析"],"items":[{"k":"supply.1","t":"为车载软件维护 SBOM(CycloneDX/SPDX)并随版本更新","r":"EU CRA / 附录D"},{"k":"supply.2","t":"持续监测组件已知漏洞(CVE,结合 EPSS+ASIL 加权)","r":"附录D"},{"k":"supply.3","t":"对供应商做网络安全能力评估与合同约束","r":"ISO 21434 Cl.15"},{"k":"supply.4","t":"构建与发布管线防篡改(SLSA 供应链完整性)","r":"附录D"}]},{"key":"diag","name":"诊断与刷写安全","desc":"OBD-II/UDS-over-DoIP 接口防护、Security Access、Bootloader 签名校验(诊断手册 Ch2/8/19)。","levels":["0x27 明文种子-密钥、无失败锁定、诊断口无防护","有失败锁定/S3超时,但仍用对称种子-密钥","关键服务分会话/分安全级管控(访问控制矩阵)","0x29 证书/HMAC 认证(HSM 支撑)覆盖编程级访问","DoIP TLS 1.3 双向认证+OEM 签名固件+诊断接口纳入 TARA"],"items":[{"k":"diag.1","t":"已制定诊断服务访问控制矩阵(哪些 SID 需哪个会话/安全级/证书)","r":"诊断手册 Ch19.5"},{"k":"diag.2","t":"Security Access(0x27)采用 HSM 支撑的种子-密钥,或已升级到 0x29 证书/HMAC 认证","r":"诊断手册 Ch2.5/19.2"},{"k":"diag.3","t":"失败尝试触发锁定(NRC 0x37)与强制延时,S3 会话超时兜底","r":"诊断手册 Ch19.3"},{"k":"diag.4","t":"DoIP 远程诊断通道启用 TLS 1.3 双向认证(ISO 13400-2:2019)","r":"诊断手册 Ch19.3"},{"k":"diag.5","t":"刷写服务(0x34/0x36/0x37)要求 OEM 签名固件,Bootloader 校验签名后才跳转应用","r":"诊断手册 Ch8.2/19.5"},{"k":"diag.6","t":"OBD 物理端口对敏感模式(编程/标定)做接入管控或选择性禁用","r":"诊断手册 Ch19.3"}]}],"standards":[{"name":"UNECE R155 — 网络安全与 CSMS","id":"UN R155","region":"联合国 WP.29(签署国通行)","scope":"要求 OEM 建立并通过审核的网络安全管理体系(CSMS),并对每个车型做型式批准;覆盖整车生命周期的风险识别与缓解。","points":["CSMS 证书 + 逐车型 CS 型式批准,二者缺一不可","附件5列出威胁与对应缓解措施清单(设计须逐项应对)","覆盖开发、生产、后生产(运营/事件监测)全周期","不合规 = 型式批准被拒/吊销 → 签署国市场不得销售"],"timeline":"2022-07 起新车型强制;2024-07 起所有在产新车强制(欧盟/日/韩/印度等)。"},{"name":"UNECE R156 — 软件更新与 SUMS","id":"UN R156","region":"联合国 WP.29","scope":"要求建立软件更新管理体系(SUMS),保障 OTA/线下更新的完整性、真实性与可追溯;管理 RXSWIN 软件标识。","points":["SUMS 证书 + 车型批准;每个受管软件配 RXSWIN","更新前评估对型式批准与安全的影响","保证更新真实性/完整性(签名),失败可回滚","向用户告知更新内容与影响,记录可追溯"],"timeline":"与 R155 同步强制(2022-07 / 2024-07)。"},{"name":"ISO/SAE 21434 — 道路车辆网络安全工程","id":"ISO/SAE 21434","region":"国际标准(R155 的事实落地方法)","scope":"定义从概念、开发到生产运维的网络安全工程流程;TARA 是其核心方法。是证明 R155 符合性的主要技术依据。","points":["面向风险的全生命周期工程(概念/开发/生产/运维/退役)","TARA:资产→威胁→攻击路径→影响→风险值→处置","要求工作产物与证据链(可审计);用 CAL 分级严苛度","分布式开发责任划分(OEM↔供应商,DIA 接口协议)"],"timeline":"2021 发布;当前行业基线。"},{"name":"ISO 26262 — 功能安全(ASIL)","id":"ISO 26262","region":"国际标准","scope":"功能安全标准,与网络安全需协同(安全-安全集成):安全攸关功能须考虑被攻击导致的失效。","points":["ASIL A–D 风险分级(严重度×暴露×可控性)","HARA(危害分析)与 TARA 需对齐","安全机制不得被网络攻击绕过","Security 为 Safety 提供完整性前提"],"timeline":"2018(第二版)。"},{"name":"欧盟网络韧性法案(Cyber Resilience Act, CRA)","id":"EU CRA","region":"欧盟(横向法)","scope":"面向所有含数字要素的产品的横向网安法。**Art 2 明确:受 (EU) 2019/2144 型批网安规则覆盖的车辆不适用 CRA**(lex specialis 专门法优先)——整车网安走 R155,CRA 让位;真正归 CRA 的是不在整车型批内的车载数字件、售后件、后端/App。","points":["默认安全设计 + 全生命周期漏洞管理、提供安全更新支持期","重要事件分两段上报:知悉后 24h 早期预警 + 72h 正式通知(经各成员国 CSIRT 与 ENISA 的单一报告平台,2026-09 起适用)","提供 SBOM 与漏洞协调披露","其网安要求将于 2027-12-11 取代 RED 网安授权法案 (EU) 2022/30;不合规可处全球营业额比例罚款"],"timeline":"2024-12 生效;主要义务 2026–2027 分阶段适用(核心 2027-12-11 全面适用)。"},{"name":"NIST 后量子密码(FIPS 203/204/205)","id":"NIST PQC","region":"美国 NIST(全球参考)","scope":"抗量子算法标准:车辆生命周期长(10–15 年),今日加密数据面临『先窃取后解密』风险,需规划密码敏捷与迁移。","points":["FIPS 203 ML-KEM(密钥封装,替代 Kyber/ECDH)","FIPS 204 ML-DSA(签名,替代 Dilithium)/ 205 SLH-DSA(哈希签名)","密码敏捷(crypto-agility):可在线升级算法","OTA/Secure Boot 签名链优先迁移规划"],"timeline":"2024-08 正式发布;车规迁移规划应即启动。"},{"name":"ISO 14229 — UDS 统一诊断服务","id":"ISO 14229","region":"国际标准(诊断协议基座)","scope":"定义 ECU 诊断/编程/标定的服务集(SID);OBD-II 端口与 UDS-over-DoIP 是主要汽车攻击向量,ISO 21434 要求对所有诊断接口做 TARA。","points":["0x27 Security Access(种子-密钥)已可被 0x29 Authentication(证书/HMAC,HSM 支撑)取代","0x34/0x36 刷写、0x2E 标定写入等敏感服务须分会话/分安全级管控","失败锁定 NRC 0x37、S3 会话超时 5 秒兜底","DoIP(ISO 13400-2:2019)支持 TLS 1.3 双向认证"],"timeline":"ISO 14229-1:2020(现行);0x29 Authentication 为该版新增服务。"}]};
+/* ===== ISO/SAE 21434 风险评级(TARA → 风险值 1–5 / CAL 1–4)=====
+   影响分级 Impact(Cl.15.3,取 S/F/O/P 最严)× 攻击可行性 Attack Feasibility(Cl.15.4)
+   → 风险值 Risk Value 1–5(Cl.15.5,示例矩阵,组织可裁剪)
+   → CAL 1–4(附录 E,资料性,概念阶段按影响×可行性定保障严苛度)。R155 本身无等级。*/
+const IMPACTS=[['Severe','严重'],['Major','重大'],['Moderate','中等'],['Negligible','轻微']];
+const FEAS=[['VeryLow','极低'],['Low','低'],['Medium','中'],['High','高']]; // 索引 0..3
+// 风险值矩阵 RISK[impact][feasIdx] (feasIdx: 0极低..3高) — 21434 Cl.15.5 示例
+const RISK={Severe:[2,3,4,5],Major:[1,2,3,4],Moderate:[1,2,2,3],Negligible:[1,1,1,1]};
+// CAL 矩阵 CAL_TBL[impact][feasIdx] — 21434 附录 E(资料性)
+const CAL_TBL={Severe:[1,2,3,4],Major:[1,1,2,3],Moderate:[1,1,1,2],Negligible:[0,0,0,0]}; // 0 = 无需 CAL
+const RISK_COL={1:['#e7ecef','#4b5563'],2:['#d9e8d1','#3d6b2c'],3:['#f4e6bd','#7a5a10'],4:['#f6ddc9','#a2531f'],5:['#f3d0d0','#b02222']};
+const CAL_COL={0:['#eef0f2','#9aa1ab'],1:['#d9e8d1','#3d6b2c'],2:['#f4e6bd','#7a5a10'],3:['#f6ddc9','#a2531f'],4:['#f3d0d0','#b02222']};
+function impactCn(k){const o=IMPACTS.find(x=>x[0]===k);return o?o[1]:'';}
+function feasCn(k){const o=FEAS.find(x=>x[0]===k);return o?o[1]:'';}
+function feasIdx(k){return FEAS.findIndex(x=>x[0]===k);}
+const SEVRANK={Severe:4,Major:3,Moderate:2,Negligible:1};
+const IMP_CATS=[['S','安全'],['F','财务'],['O','运营'],['P','隐私']];
+// 四类影响 S/F/O/P 取最严一档(21434 Cl.15.3);兼容旧的单一 impact
+function derivedImpact(t){ if(!t)return null; if(t.imp){let best=null,br=0;IMP_CATS.forEach(c=>{const v=t.imp[c[0]];if(v&&SEVRANK[v]>br){br=SEVRANK[v];best=v;}});if(best)return best;} return t.impact||null; }
+// 攻击潜力法(21434 附录 G):5 因子点数求和 → 攻击可行性
+const AP_FACTORS=[
+  {k:'et',name:'耗时',opts:[['≤1天',0],['≤1周',1],['≤1月',4],['≤6月',17],['>6月',19]]},
+  {k:'ex',name:'专业能力',opts:[['外行',0],['熟练',3],['专家',6],['多专家',8]]},
+  {k:'kn',name:'对象知识',opts:[['公开',0],['受限',3],['机密',7],['严格机密',11]]},
+  {k:'wo',name:'机会窗口',opts:[['无限',0],['容易',1],['中等',4],['困难',10]]},
+  {k:'eq',name:'装备',opts:[['标准',0],['专门',4],['定制',7],['多定制',9]]}
+];
+function apComplete(t){ return !!(t&&t.ap&&AP_FACTORS.every(f=>t.ap[f.k]!=null&&t.ap[f.k]!=='')); }
+function apSum(t){ return AP_FACTORS.reduce((s,f)=>s+(+((t.ap||{})[f.k])||0),0); }
+function apFeasKey(sum){ return sum<=13?'High':(sum<=19?'Medium':(sum<=24?'Low':'VeryLow')); }
+function apLabel(fk,val){ const f=AP_FACTORS.find(x=>x.k===fk); if(!f)return''; const o=f.opts.find(o=>String(o[1])===String(val)); return o?o[0]:''; }
+// 有效攻击可行性:攻击潜力齐全则用其推导,否则用直接选择
+function effFeas(t){ if(apComplete(t))return apFeasKey(apSum(t)); return (t&&t.feas)||''; }
+function riskOf(t){ const di=derivedImpact(t), fe=effFeas(t); if(!di||!fe)return null; const i=feasIdx(fe); if(i<0)return null; return (RISK[di]||[])[i]??null; }
+function calOf(t){ const di=derivedImpact(t), fe=effFeas(t); if(!di||!fe)return null; const i=feasIdx(fe); if(i<0)return null; return (CAL_TBL[di]||[])[i]??null; }
+// UN R155 附件 5(Part A)威胁目录做种子(威胁名预置、评级留空,逐条评)
+function seedTara(){ return [
+  {name:'后端服务器被入侵并被用作攻击车辆的跳板',asset:'后端/云服务',ref:'R155 附件5 §4.3.1',imp:{},feas:'',ap:{}},
+  {name:'车辆通信信道被欺骗/篡改(消息注入、重放)',asset:'V2X / 车内总线',ref:'R155 附件5 §4.3.2/§4.3.3',imp:{},feas:'',ap:{}},
+  {name:'更新流程被滥用(固件被篡改、回滚到有漏洞版本)',asset:'OTA / 软件更新',ref:'R155 附件5 §4.3.4',imp:{},feas:'',ap:{}},
+  {name:'对外接口(OBD/USB/充电)被用于注入恶意代码或提权',asset:'诊断/外设接口',ref:'R155 附件5 §4.3.6',imp:{},feas:'',ap:{}},
+  {name:'密钥/凭证管理不当被提取,用于伪造身份或解密',asset:'密钥 / PKI',ref:'R155 附件5 §4.3.5',imp:{},feas:'',ap:{}},
+  {name:'拒绝服务(总线泛洪/资源耗尽)导致安全功能失效',asset:'车内网络 / ECU',ref:'R155 附件5 §4.3.7',imp:{},feas:'',ap:{}},
+  {name:'个人数据/隐私被越权访问或泄露',asset:'用户数据',ref:'R155 附件5 §4.3.8',imp:{},feas:'',ap:{}},
+  {name:'供应链/第三方组件引入的漏洞被利用',asset:'第三方软硬件',ref:'R155 附件5 §4.3.7/21434 Cl.15',imp:{},feas:'',ap:{}}
+]; }
+/* ===== UN R156 · SUMS 认证就绪度自查(逐条对照 R156 条款;整车/OEM 级)=====
+   条款以 UN R156 现行版为准;答案沿用 ans(键前缀 r156.),随档案保存。*/
+const R156={groups:[
+  {name:'SUMS 体系与证书',items:[
+    {k:'r156.a1',t:'已建立文件化的软件更新管理体系(SUMS),覆盖流程、职责与记录',r:'R156 §7.1.1'},
+    {k:'r156.a2',t:'持有缔约方批准机关签发的有效 SUMS 合规证书(有效期最长 3 年,届满前复审换发)',r:'R156 §6 / 附录1'},
+    {k:'r156.a3',t:'每个在售车型已取得 R156 型式批准',r:'R156 §7'}
+  ]},
+  {name:'软件配置与 RXSWIN 管理',items:[
+    {k:'r156.b1',t:'记录整车相关硬件/软件版本与配置,可追溯',r:'R156 §7.1.1'},
+    {k:'r156.b2',t:'为受监管软件分配并管理 RXSWIN,车辆可读取',r:'R156 §7.1.1.3–.4'},
+    {k:'r156.b3',t:'RXSWIN 与型式批准文件关联;受监管软件变更即更新 RXSWIN',r:'R156 §7.1.1.3 / §7.1.2.3'}
+  ]},
+  {name:'更新影响评估',items:[
+    {k:'r156.c1',t:'能识别"与型式批准相关的软件",判断某次更新是否影响型式批准',r:'R156 §7.1.1'},
+    {k:'r156.c2',t:'评估更新对车辆安全运行及与其他系统交互的影响',r:'R156 §7.1.1'},
+    {k:'r156.c3',t:'更新若影响型式批准,先取得批准/扩展后再下发',r:'R156 §7.1.1 / §7.1.2'}
+  ]},
+  {name:'更新完整性与真实性',items:[
+    {k:'r156.d1',t:'更新包端到端签名,车辆校验完整性与来源真实性',r:'R156 §7.1.1'},
+    {k:'r156.d2',t:'具备防止未授权篡改/伪造更新的机制',r:'R156 §7.1.1'}
+  ]},
+  {name:'OTA 无线更新安全执行(附加要求)',items:[
+    {k:'r156.e1',t:'仅在车辆安全状态下执行更新(行驶中不得影响安全)',r:'R156 §7.1.2'},
+    {k:'r156.e2',t:'确保有足够电量/条件使更新可完成',r:'R156 §7.1.2'},
+    {k:'r156.e3',t:'更新失败可恢复到先前版本或安全状态(回滚)',r:'R156 §7.1.2'},
+    {k:'r156.e4',t:'向用户告知更新目的/内容/结果及所需操作',r:'R156 §7.1.2'}
+  ]},
+  {name:'记录、追溯与告知',items:[
+    {k:'r156.f1',t:'更新记录归档、可审计,含 RXSWIN 变更历史',r:'R156 §7.1.1'},
+    {k:'r156.f2',t:'明确对用户/机关的告知与文档留存流程',r:'R156 §7.1.1'}
+  ]}
+]};
+function r156Items(){ return R156.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function r156Stats(){ const its=r156Items(); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;}); return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
+/* ===== UN R155 · CSMS 认证就绪度自查(逐条对照 R155 §7.2/§7.3 + 附件 5)===== */
+const R155={groups:[
+  {name:'CSMS 体系与证书',items:[
+    {k:'r155.a1',t:'已建立文件化的网络安全管理体系(CSMS),明确角色/职责/汇报线',r:'R155 §7.2.2'},
+    {k:'r155.a2',t:'持有缔约方批准机关签发的有效 CSMS 合规证书(有效期最长 3 年,届满前复审换发)',r:'R155 §7.2 / 附录'},
+    {k:'r155.a3',t:'每个在售车型已取得网络安全(CS)型式批准',r:'R155 §7.3'}
+  ]},
+  {name:'全生命周期风险管理',items:[
+    {k:'r155.b1',t:'对车型识别、评估、分类网络安全风险(TARA),并决定处置',r:'R155 §7.2.2 / ISO 21434'},
+    {k:'r155.b2',t:'网络安全活动覆盖开发/生产/后生产全阶段并有阶段门禁',r:'R155 §7.2.2'},
+    {k:'r155.b3',t:'风险处置与残余风险有记录、经评审接受',r:'R155 §7.3.7'}
+  ]},
+  {name:'附件 5 威胁与缓解',items:[
+    {k:'r155.c1',t:'对附件 5(Part A)所列威胁逐项识别其对车型的适用性',r:'R155 附件5 Part A'},
+    {k:'r155.c2',t:'针对适用威胁在设计中落实对应缓解(Part B/C)',r:'R155 附件5 Part B/C'},
+    {k:'r155.c3',t:'验证缓解措施的有效性并留存证据',r:'R155 §7.3.7'}
+  ]},
+  {name:'供应链与责任接口',items:[
+    {k:'r155.d1',t:'与供应商签订网络安全责任接口协议(DIA),职责边界清晰',r:'R155 §7.2.2 / ISO 21434 Cl.15'},
+    {k:'r155.d2',t:'向关键供应商传递网安要求并做能力评估/审核',r:'R155 §7.2.2'}
+  ]},
+  {name:'后生产监测与响应',items:[
+    {k:'r155.e1',t:'持续监测新威胁/漏洞并映射到在产车型',r:'R155 §7.2.2 (后生产)'},
+    {k:'r155.e2',t:'具备网络安全事件检测、响应与应急处置能力',r:'R155 §7.2.2'},
+    {k:'r155.e3',t:'明确向批准机关的事件上报与信息共享流程',r:'R155 §7.2.2'}
+  ]},
+  {name:'记录与审计',items:[
+    {k:'r155.f1',t:'保持可审计的证据链(风险/缓解/验证/决策留痕)',r:'R155 §7.3.7'},
+    {k:'r155.f2',t:'变更管理:设计变更触发风险复评与记录更新',r:'R155 §7.2.2'}
+  ]}
+]};
+function r155Items(){ return R155.groups.reduce((a,g)=>a.concat(g.items),[]); }
+function r155Stats(){ const its=r155Items(); let sum=0,done=0; its.forEach(it=>{const v=ans[it.k]||0; sum+=v; if(v===2)done++;}); return {total:its.length,done,pct:its.length?Math.round(sum/(2*its.length)*100):0}; }
+/* ===== ISO 26262 · ASIL 定级(HARA:严重度 S × 暴露 E × 可控性 C → ASIL)=====
+   ISO 26262-3 Table 4:任一为 0 类(S0/E0/C0)→ QM;否则 ASIL 由 S+E+C 之和决定
+   (S1..3、E1..4、C1..3):和 7→A、8→B、9→C、10→D、≤6→QM。安全-安全集成:HARA↔TARA、ASIL↔CAL。*/
+const SEV=[['S0','S0 无伤害'],['S1','S1 轻中度伤害'],['S2','S2 严重(可存活)'],['S3','S3 危及生命/致命']];
+const EXP=[['E0','E0 极罕见'],['E1','E1 很低'],['E2','E2 低'],['E3','E3 中'],['E4','E4 高']];
+const CTRL=[['C0','C0 一般可控'],['C1','C1 易控'],['C2','C2 通常可控'],['C3','C3 难控/不可控']];
+const ASIL_COL={QM:['#eef0f2','#6b7280'],A:['#d9e8d1','#3d6b2c'],B:['#f4e6bd','#7a5a10'],C:['#f6ddc9','#a2531f'],D:['#f3d0d0','#b02222']};
+const ASIL_RANK={QM:0,A:1,B:2,C:3,D:4};
+function svNum(s){return {S1:1,S2:2,S3:3}[s]||0;}
+function exNum(e){return {E1:1,E2:2,E3:3,E4:4}[e]||0;}
+function ctNum(c){return {C1:1,C2:2,C3:3}[c]||0;}
+function asilOf(h){ if(!h||!h.s||!h.e||!h.c)return null; if(h.s==='S0'||h.e==='E0'||h.c==='C0')return 'QM'; const sum=svNum(h.s)+exNum(h.e)+ctNum(h.c); return sum>=10?'D':sum===9?'C':sum===8?'B':sum===7?'A':'QM'; }
+function seedHara(){ return [
+  {name:'被攻击导致非预期加速或动力丧失',fn:'动力/驱动',s:'',e:'',c:''},
+  {name:'被攻击导致意外制动或制动失效',fn:'制动系统',s:'',e:'',c:''},
+  {name:'被攻击导致转向异常/失控',fn:'转向系统',s:'',e:'',c:''},
+  {name:'被攻击篡改 ADAS 感知/决策 → 误动作',fn:'ADAS/自动驾驶',s:'',e:'',c:''},
+  {name:'被攻击禁用安全气囊/约束系统',fn:'被动安全',s:'',e:'',c:''},
+  {name:'被攻击致仪表/警告信息错误或缺失',fn:'人机接口',s:'',e:'',c:''}
+]; }
+function haraStats(){
+  const rated=hara.filter(h=>h.s&&h.e&&h.c);
+  const cnt={QM:0,A:0,B:0,C:0,D:0}; let maxR=0,maxA='—';
+  rated.forEach(h=>{const a=asilOf(h); if(a){cnt[a]++; if(ASIL_RANK[a]>maxR){maxR=ASIL_RANK[a];maxA=a;}}});
+  return {total:hara.length,rated:rated.length,cnt,maxA};
+}
+const PROFILES_KEY='emark_cyber_profiles_v1', ACTIVE_KEY='emark_cyber_active_v1', SUM_KEY='emark_cyber_summary_v1';
+const OLD_ANS='emark_cyber_assess_v1', OLD_CK='emark_cockpit_v1';
+/* ===== 术语速查 & FAQ(内容按标准编写)===== */
+const GLOSSARY=[
+  {t:'CSMS',full:'Cyber Security Management System',d:'网络安全管理体系。UN R155 要求 OEM 建立并通过审核的组织级体系,覆盖开发/生产/后生产的网安风险管理;缔约方批准机关审核后签发证书。'},
+  {t:'SUMS',full:'Software Update Management System',d:'软件更新管理体系。UN R156 要求;管理软件更新的完整性、真实性、可追溯与 RXSWIN。'},
+  {t:'RXSWIN',full:'Regulation X Software Identification Number',d:'与型式批准要求相关的软件标识。车辆可读、须登记;受监管软件变更时更新,并评估更新是否影响型式批准。'},
+  {t:'TARA',full:'Threat Analysis and Risk Assessment',d:'威胁分析与风险评估。ISO 21434 核心方法:资产 → 威胁场景 → 攻击路径 → 影响 × 攻击可行性 → 风险值 → 处置。'},
+  {t:'HARA',full:'Hazard Analysis and Risk Assessment',d:'危害分析与风险评估。ISO 26262 功能安全方法:严重度 S × 暴露 E × 可控性 C → ASIL。'},
+  {t:'CAL',full:'Cybersecurity Assurance Level',d:'网络安全保障等级 1–4。ISO 21434 附录 E(资料性),由影响 × 攻击可行性推导,决定网安工程的保障严苛度。不是成熟度评分。'},
+  {t:'ASIL',full:'Automotive Safety Integrity Level',d:'汽车安全完整性等级 QM/A/B/C/D。ISO 26262 由 S × E × C 决定,决定功能安全开发严苛度。'},
+  {t:'S / E / C',full:'Severity / Exposure / Controllability',d:'ASIL 三要素:严重度、暴露概率、可控性。任一为 0 类(S0/E0/C0)→ QM。'},
+  {t:'S / F / O / P',full:'Safety / Financial / Operational / Privacy',d:'ISO 21434 影响分级的四个维度:安全 / 财务 / 运营 / 隐私。分别评估,取最严一档作为总影响。'},
+  {t:'攻击可行性',full:'Attack Feasibility',d:'攻击实现的难易程度,分 高/中/低/极低。可用攻击潜力法、CVSS 法或攻击向量法评估(21434 附录 G)。'},
+  {t:'攻击潜力',full:'Attack Potential',d:'21434 附录 G 方法:耗时、专业能力、对象知识、机会窗口、装备 五因子点数求和 → 可行性(0–13 高 / 14–19 中 / 20–24 低 / ≥25 极低)。'},
+  {t:'风险值',full:'Risk Value',d:'1–5。由影响 × 攻击可行性决定(ISO 21434 Cl.15.5,示例矩阵可按组织风险准则裁剪)。'},
+  {t:'DIA',full:'Development Interface Agreement',d:'开发接口协议。划分 OEM 与供应商的网络安全责任边界(ISO 21434 Cl.15)。'},
+  {t:'UN R155',full:'UN Regulation No.155',d:'网络安全与 CSMS 法规(WP.29)。整车型式批准前置,无 L 等级(通过/不通过)。'},
+  {t:'UN R156',full:'UN Regulation No.156',d:'软件更新与 SUMS 法规。与 R155 同为整车型批前置。'},
+  {t:'ISO/SAE 21434',full:'Road vehicles — Cybersecurity engineering',d:'道路车辆网络安全工程标准,是证明 R155 符合性的主要技术依据。'},
+  {t:'ISO 24089',full:'Road vehicles — Software update engineering',d:'软件更新工程标准,R156 的落地方法学。'},
+  {t:'ISO 26262',full:'Road vehicles — Functional safety',d:'道路车辆功能安全标准,定义 ASIL 与安全生命周期。'},
+  {t:'OTA',full:'Over-the-Air',d:'无线软件更新。R156 对 OTA 有附加要求:安全状态执行、失败回滚、用户告知。'},
+  {t:'Secure Boot',full:'安全启动',d:'由信任根逐级校验固件完整性与真实性,防止运行被篡改的软件。'},
+  {t:'HSM',full:'Hardware Security Module',d:'硬件安全模块。安全存储与运算密钥,支撑签名/认证。'},
+  {t:'SBOM',full:'Software Bill of Materials',d:'软件物料清单(CycloneDX/SPDX)。用于追踪组件与已知漏洞(CVE)。'},
+  {t:'PSIRT',full:'Product Security Incident Response Team',d:'产品安全事件响应团队。负责漏洞处置与应急响应。'},
+  {t:'VSOC',full:'Vehicle Security Operations Center',d:'车队级安全运营中心。对遥测做关联分析、检测与告警。'},
+  {t:'CVD',full:'Coordinated Vulnerability Disclosure',d:'协调式漏洞披露。对外接收并处理漏洞报告的渠道与 SLA。'},
+  {t:'SecOC',full:'Secure Onboard Communication',d:'车载安全通信。对关键报文加认证码,防伪造与重放。'},
+  {t:'QM',full:'Quality Management',d:'质量管理级。ASIL 之下,无特定安全完整性要求的档位。'},
+  {t:'缔约方',full:'Contracting Party',d:'1958 协定缔约方。型式批准由缔约方机关签发(如德国 KBA、荷兰 RDW、英国 VCA)。中国非 1958 缔约方。'}
+];
+const FAQS=[
+  {q:'R155 和 R156 有什么区别?',a:'R155 = 网络安全(CSMS);R156 = 软件更新(SUMS)。两者都是整车型式批准的前置,缺一不可。'},
+  {q:'CAL 和 ASIL 是一回事吗?',a:'不是。CAL 是网络安全保障等级(ISO 21434,1–4);ASIL 是功能安全完整性等级(ISO 26262,QM/A/B/C/D)。二者在"安全-安全集成"中需对齐,但坐标不同(网安 vs 功能安全)。'},
+  {q:'R155 / R156 有 L1–L5 等级吗?',a:'没有。它们是 CSMS/SUMS 认证 + 逐车型型式批准,判定为通过/不通过。唯一的"等级"来自 ISO 21434 的 CAL(由风险推导)。'},
+  {q:'中国是缔约方吗?证书谁签发?',a:'中国非 1958 协定缔约方。R155/R156 型批证书由缔约方批准机关签发(如德国 KBA、荷兰 RDW、英国 VCA)。中国的 GB 44495(网安)/ GB 44496(OTA)是与之映射的本国强制标准。'},
+  {q:'零部件厂需要做 R155/R156 吗?',a:'R155/R156 是整车/OEM 级。零部件供应商通常是配合 OEM 的 CSMS/SUMS(签 DIA、提供证据),而非自己申请型批;除非作为独立技术单元且涉及网安/软件。'},
+  {q:'RXSWIN 是什么?',a:'与型式批准要求相关的软件标识。车辆可读、须登记;受监管软件变更时更新,并评估更新是否影响型式批准与安全运行。'},
+  {q:'攻击可行性怎么评?',a:'可直接选(高/中/低/极低),或用"攻击潜力法"(21434 附录 G):耗时/专业能力/对象知识/机会窗口/装备 五因子点数求和 → 分档(0–13 高、14–19 中、20–24 低、≥25 极低);也可用 CVSS 或攻击向量法。'},
+  {q:'影响为什么分 S/F/O/P 四类?',a:'ISO 21434 要求从安全 / 财务 / 运营 / 隐私四个维度评估损害,取最严一档作为总影响,再与攻击可行性组合确定风险值与 CAL。'},
+  {q:'这个报告能当合规证明吗?',a:'不能。本工具是团队自查参照;CAL 属附录 E 资料性方法。正式判定以认可技术服务 / 批准机关为准,型式批准为 CSMS/SUMS 认证(通过/不通过)。'},
+  {q:'为什么去掉了成熟度自查?',a:'那是仿照 CMM(能力成熟度模型)风格的、非法定的自评,容易与法定等级混淆。现聚焦 R155/R156 认证就绪度 + CAL/ASIL 法定/标准评级。'},
+  {q:'ISO 21434 / 24089 / 26262 各管什么?',a:'21434 = 网络安全工程(R155 的落地方法);24089 = 软件更新工程(R156 的落地方法);26262 = 功能安全(ASIL)。'},
+  {q:'什么时候强制?',a:'R155/R156:2022-07 起新车型、2024-07 起所有新注册车强制(欧盟、日本、韩国、印度等采纳方)。车辆类别 M、N、O 等。'}
+];
+/* 模块差异矩阵:讲清四大模块 + 就绪度概览各自测什么/出什么/法定性/怎么判/何时用 */
+const MODULES=[
+  {m:'R155 CSMS 就绪度',std:'UN R155 §7.2/§7.3 + 附件5',obj:'网络安全管理体系(CSMS)是否到位',out:'就绪度 % · 无/部分/已建立',legal:'型批前置(通过/不通过)',tone:'red',how:'逐条条款自查 + 证据/责任人/差距追踪',use:'申请、维持整车网安型式批准'},
+  {m:'R156 SUMS 就绪度',std:'UN R156 §7.1 + RXSWIN',obj:'软件更新管理体系(SUMS)是否到位',out:'就绪度 %',legal:'型批前置(通过/不通过)',tone:'red',how:'逐条条款自查 + 证据追踪',use:'申请、维持 OTA/软件更新型批'},
+  {m:'21434 CAL 风险评级',std:'ISO/SAE 21434 Cl.15 + 附录E',obj:'每条网安威胁场景的风险',out:'风险值 1–5 · CAL 1–4',legal:'资料性(非强制)',tone:'amber',how:'影响(S/F/O/P)× 攻击可行性 → 推导',use:'定网安工程保障严苛度、排优先级'},
+  {m:'26262 ASIL 定级',std:'ISO 26262-3(HARA)',obj:'每个功能安全危害的风险',out:'ASIL QM/A/B/C/D',legal:'功能安全强制分级',tone:'red',how:'严重度 S × 暴露 E × 可控性 C → 推导',use:'定功能安全开发严苛度'},];
+let _glosQ='';
+let ans={}, tara=null, hara=null, itemMeta={}, active='home'; // active: 'home'/'tara'/'r156'/'csms'/'hara'/'std'/'glos'/'faq'
+let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
+let _packGapOnly=false; // 审计就绪包:只看缺口(不持久化)
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escA(s){return esc(s).replace(/"/g,'&quot;');}
+const REG_LINKS={
+ "UN R155":"","UN R156":"","(EU) 2019/2144":"","(EU) 2022/30":""
+};
+const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
+const REG_TOKEN_RE=/UN\s*R\s?\d{1,3}(?:-H)?|\((?:EU|EC)\)\s*(?:No\s*)?\d{1,4}\/\d{2,4}|Directive\s*\d{4}\/\d+\/E[UC]|\bR(?:155|156)\b/gi;
+function regNormalize(tok){
+  let m;
+  if((m=/^UN\s*R\s?(\d{1,3}(?:-H)?)$/i.exec(tok))) return 'UN R'+m[1].toUpperCase();
+  if((m=/^\((EU|EC)\)\s*(?:No\s*)?(\d{1,4}\/\d{2,4})$/i.exec(tok))) return '('+m[1].toUpperCase()+') '+m[2];
+  if((m=/^Directive\s*(\d{4}\/\d+\/E[UC])$/i.exec(tok))) return 'Directive '+m[1];
+  if((m=/^R(155|156)$/i.exec(tok))) return 'UN R'+m[1];
+  return tok;
+}
+function regLink(k){ return (REG_LINKS[k]||'').trim() || '#'; }
+function regRefHTML(s){
+  s=s||''; if(!s) return '';
+  let out='', last=0, m; REG_TOKEN_RE.lastIndex=0;
+  while((m=REG_TOKEN_RE.exec(s))){
+    out+=esc(s.slice(last,m.index));
+    const u=regLink(regNormalize(m[0]));
+    out+= u==='#' ? '<span class="rl-lk ph">'+esc(m[0])+'</span>' : '<a class="rl-lk" href="'+u+'" target="_blank" rel="noopener" title="查看法规" onclick="event.stopPropagation()">'+_lnkIco+esc(m[0])+'</a>';
+    last=m.index+m[0].length;
+  }
+  out+=esc(s.slice(last));
+  return out;
+}
+/* ===== 多档案:保存进度 / 新建档案 / 我的档案(存 localStorage)===== */
+function getProfiles(){ try{return JSON.parse(localStorage.getItem(PROFILES_KEY))||{};}catch(e){return {};} }
+function setProfiles(o){ try{localStorage.setItem(PROFILES_KEY,JSON.stringify(o));}catch(e){alert('保存失败：浏览器存储不可用');} }
+function activeId(){ try{return localStorage.getItem(ACTIVE_KEY)||'';}catch(e){return '';} }
+function curState(){ return {ans:JSON.parse(JSON.stringify(ans)), tara:JSON.parse(JSON.stringify(tara)), hara:JSON.parse(JSON.stringify(hara)), itemMeta:JSON.parse(JSON.stringify(itemMeta))}; }
+function applyState(s){ ans=(s&&s.ans)?JSON.parse(JSON.stringify(s.ans)):{}; tara=(s&&Array.isArray(s.tara))?JSON.parse(JSON.stringify(s.tara)):seedTara(); hara=(s&&Array.isArray(s.hara))?JSON.parse(JSON.stringify(s.hara)):seedHara(); itemMeta=(s&&s.itemMeta)?JSON.parse(JSON.stringify(s.itemMeta)):{}; }
+function writeSummary(){
+  // 供 E-mark 母工具跨页回显(同源 localStorage)。口径已随本工具改版:
+  // 不再是 L1–L5 成熟度,而是 R155/R156 就绪度 + 21434 CAL / 26262 ASIL 定级。
+  try{
+    const cs=r155Stats(), rs=r156Stats(), ts=taraStats(), ha=haraStats();
+    const started = cs.done>0||rs.done>0||ts.rated>0||ha.rated>0||Object.keys(ans).some(k=>ans[k]>0);
+    localStorage.setItem(SUM_KEY,JSON.stringify({
+      v:2,
+      r155:{pct:cs.pct,done:cs.done,total:cs.total},
+      r156:{pct:rs.pct,done:rs.done,total:rs.total},
+      maxCal:ts.maxCal, calRated:ts.rated, calTotal:ts.total,
+      maxA:ha.maxA, asilRated:ha.rated, asilTotal:ha.total,
+      ts:Date.now(), started
+    }));
+  }catch(e){}
+}
+// 首次实质编辑时自动建档,不再要求先手动点「保存进度」才开始持久化——否则中途关闭标签页会丢光当前会话
+function autosave(){
+  const ps=getProfiles(); let id=activeId();
+  if(!id||!ps[id]){ id='c'+Date.now().toString(36)+Math.floor(Math.random()*1000); const name=curName()||('未命名档案 '+(Object.keys(ps).length+1)); ps[id]={name, state:curState(), ts:Date.now()}; setProfiles(ps); try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} updatePBar(); }
+  else { ps[id].state=curState(); ps[id].ts=Date.now(); setProfiles(ps); }
+  writeSummary();
+}
+function curName(){ const el=document.getElementById('pname'); return el?el.value.trim():''; }
+function saveProgress(){
+  const ps=getProfiles(); let id=activeId();
+  if(!id||!ps[id]) id='c'+Date.now().toString(36)+Math.floor(Math.random()*1000);
+  const name=curName()||('未命名档案 '+(Object.keys(ps).length+1));
+  ps[id]={name, state:curState(), ts:Date.now()}; setProfiles(ps);
+  try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){}
+  writeSummary(); updatePBar();
+  const b=document.getElementById('savebtn'); if(b){const o=b.textContent;b.textContent='✓ 已存入「'+name.slice(0,8)+'」';setTimeout(()=>b.textContent=o,1500);}
+}
+function newProfile(){
+  if(!confirm('新建档案将清空当前页面(自评 + 映射)、另起一份新的空白档案。已保存的档案不受影响。继续？'))return;
+  try{localStorage.removeItem(ACTIVE_KEY);}catch(e){}
+  ans={}; tara=seedTara(); hara=seedHara(); itemMeta={}; _openItems={}; _openAP={}; active='home';
+  const el=document.getElementById('pname'); if(el) el.value='';
+  writeSummary(); updatePBar(); render();
+}
+function loadProfile(id){ const ps=getProfiles(); if(!ps[id])return; applyState(ps[id].state); _openItems={}; _openAP={}; try{localStorage.setItem(ACTIVE_KEY,id);}catch(e){} const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; active='home'; closeProfiles(); writeSummary(); updatePBar(); render(); }
+function renameProfile(id){ const ps=getProfiles(); if(!ps[id])return; const n=prompt('重命名档案：',ps[id].name||''); if(n===null)return; ps[id].name=n.trim()||ps[id].name; setProfiles(ps); if(activeId()===id){const el=document.getElementById('pname');if(el)el.value=ps[id].name;render();} openProfiles(); updatePBar(); }
+function delProfile(id){ const ps=getProfiles(); if(!ps[id])return; if(!confirm('删除档案「'+(ps[id].name||'')+'」？不可撤销。'))return; const wasActive=activeId()===id; delete ps[id]; setProfiles(ps);
+  if(wasActive){ try{localStorage.removeItem(ACTIVE_KEY);}catch(e){} ans={}; tara=seedTara(); hara=seedHara(); itemMeta={}; _openItems={}; _openAP={}; active='home'; const el=document.getElementById('pname'); if(el) el.value=''; writeSummary(); render(); }
+  openProfiles(); updatePBar(); }
+function updatePBar(){ const id=activeId(), ps=getProfiles(); const st=document.getElementById('pstate'); if(st) st.textContent=(id&&ps[id])?('● 当前档案:'+(ps[id].name||'未命名')):'○ 尚未建档(填写后自动建档,也可点「保存进度」立即建档)'; }
+function openProfiles(){
+  const ps=getProfiles(), id0=activeId();
+  const ids=Object.keys(ps).sort((a,b)=>(ps[b].ts||0)-(ps[a].ts||0));
+  let h= ids.length? ids.map(id=>{ const p=ps[id]; const cur=id===id0; const n=Object.keys((p.state&&p.state.ans)||{}).length;
+      return '<div class="pmrow'+(cur?' cur':'')+'"><div class="pmn">'+esc(p.name||'未命名')+(cur?' <span class="pmcur">当前</span>':'')+'<div class="pmd">'+n+' 项自评记录</div></div>'+
+        '<div class="pmbtns"><button class="btn sm" onclick="loadProfile(\''+id+'\')">载入</button><button class="btn sm" onclick="renameProfile(\''+id+'\')">重命名</button><button class="btn sm" onclick="delProfile(\''+id+'\')">删除</button></div></div>';
+    }).join('') : '<div class="pmempty">还没有档案。填写后点「保存进度」建立第一份。</div>';
+  document.getElementById('pmlist').innerHTML=h; document.getElementById('pmodal').classList.add('on');
+}
+function closeProfiles(){ const m=document.getElementById('pmodal'); if(m) m.classList.remove('on'); }
+/* ===== 自定义下拉(替代原生 select,弹层字号可控)===== */
+let _menuCb=null;
+function showMenu(btn,opts,cur,cb){
+  _menuCb=cb;
+  const menu=document.getElementById('lvlmenu');
+  menu.innerHTML=opts.map(o=>'<button class="'+(o[0]===cur?'sel':'')+'" onclick="pickMenu(\''+String(o[0]).replace(/'/g,"\\'")+'\')">'+esc(o[1])+'</button>').join('');
+  const r=btn.getBoundingClientRect();
+  menu.style.left=(window.scrollX+r.left)+'px';
+  menu.style.top=(window.scrollY+r.bottom+3)+'px';
+  menu.style.minWidth=Math.max(r.width,150)+'px';
+  menu.classList.add('on');
+}
+function pickMenu(v){ const cb=_menuCb; const m=document.getElementById('lvlmenu'); if(m)m.classList.remove('on'); _menuCb=null; if(cb)cb(v); }
+document.addEventListener('click',function(){ const m=document.getElementById('lvlmenu'); if(m)m.classList.remove('on'); });
+/* ===== 21434 风险评级(TARA)行编辑 ===== */
+function taraField(i,f,v){ if(!tara[i])return; tara[i][f]=v; autosave(); }
+let _openAP={}; // TARA 行"攻击潜力"展开态(不持久化)
+function taraImpOpen(i,cat,btn,ev){ ev.stopPropagation(); const cur=(tara[i].imp||{})[cat]||''; showMenu(btn,[['','—']].concat(IMPACTS.map(x=>[x[0],x[1]+' '+x[0]])),cur,function(v){ tara[i].imp=tara[i].imp||{}; tara[i].imp[cat]=v; autosave(); render(); }); }
+function taraFeasOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(FEAS.map(x=>[x[0],x[1]+' '+x[0]])),tara[i].feas||'',function(v){ taraField(i,'feas',v); render(); }); }
+function toggleAP(i){ _openAP[i]=!_openAP[i]; render(); }
+function taraApOpen(i,fk,btn,ev){ ev.stopPropagation(); const f=AP_FACTORS.find(x=>x.k===fk); const cur=String((tara[i].ap||{})[fk]!=null?(tara[i].ap||{})[fk]:''); showMenu(btn,[['','—']].concat(f.opts.map(o=>[String(o[1]),o[0]+'（'+o[1]+'）'])),cur,function(v){ tara[i].ap=tara[i].ap||{}; if(v==='')delete tara[i].ap[fk]; else tara[i].ap[fk]=+v; autosave(); render(); }); }
+function taraAdd(){ tara.push({name:'',asset:'',ref:'',imp:{},feas:'',ap:{}}); autosave(); render(); }
+function taraDel(i){ if(!confirm('删除该威胁场景行？'))return; tara.splice(i,1);
+  // _openAP 按行下标记展开态，删行后其后各行下标整体前移一位，原样保留会挂到错的行上——重建映射
+  const na={}; Object.keys(_openAP).forEach(k=>{const idx=+k; if(idx<i)na[idx]=_openAP[k]; else if(idx>i)na[idx-1]=_openAP[k];}); _openAP=na;
+  autosave(); render(); }
+function taraReseed(){ if(!confirm('恢复为 R155 附件 5 威胁目录种子?当前威胁清单与评级将被覆盖。'))return; tara=seedTara(); _openAP={}; autosave(); render(); }
+/* ===== ISO 26262 ASIL(HARA)行编辑 ===== */
+function haraField(i,f,v){ if(!hara[i])return; hara[i][f]=v; autosave(); }
+function haraSevOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(SEV.map(x=>[x[0],x[1]])),hara[i].s||'',function(v){ haraField(i,'s',v); render(); }); }
+function haraExpOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(EXP.map(x=>[x[0],x[1]])),hara[i].e||'',function(v){ haraField(i,'e',v); render(); }); }
+function haraCtrlOpen(i,btn,ev){ ev.stopPropagation(); showMenu(btn,[['','—（未评）']].concat(CTRL.map(x=>[x[0],x[1]])),hara[i].c||'',function(v){ haraField(i,'c',v); render(); }); }
+function haraAdd(){ hara.push({name:'',fn:'',s:'',e:'',c:''}); autosave(); render(); }
+function haraDel(i){ if(!confirm('删除该危害事件行？'))return; hara.splice(i,1); autosave(); render(); }
+function haraReseed(){ if(!confirm('恢复为示例危害事件?当前 HARA 清单与定级将被覆盖。'))return; hara=seedHara(); autosave(); render(); }
+function taraStats(){
+  // 「已评」以能否推出风险值为准(影响 S/F/O/P 或旧 impact × 攻击可行性 或攻击潜力法),
+  // 与表格/CAL 计算口径一致;旧版按 t.impact&&t.feas 过滤会漏掉 S/F/O/P + 攻击潜力法评的行。
+  const calCount={1:0,2:0,3:0,4:0}, riskCount={1:0,2:0,3:0,4:0,5:0};
+  let maxCal=0,maxRisk=0,rated=0;
+  tara.forEach(t=>{const r=riskOf(t),c=calOf(t); if(r==null)return; rated++; riskCount[r]++; if(r>maxRisk)maxRisk=r; if(c>0){calCount[c]++; if(c>maxCal)maxCal=c;}});
+  return {total:tara.length,rated,calCount,riskCount,maxCal,maxRisk};
+}
+function domScore(d){ if(!d.items.length)return 0; let s=0; d.items.forEach(it=>s+=(ans[it.k]||0)); return s/(2*d.items.length); }
+function level(sc){ return 1+Math.round(sc*4); }
+function stats(){
+  let done=0,total=0; CYBER.domains.forEach(d=>d.items.forEach(it=>{total++;if((ans[it.k]||0)===2)done++;}));
+  const ov=CYBER.domains.reduce((a,d)=>a+domScore(d),0)/CYBER.domains.length;
+  const lv=level(ov);
+  return {overall:ov,pct:Math.round(ov*100),level:lv,levelName:CYBER.levels[lv-1]||'',done,total};
+}
+function radarSVG(size){
+  const axes=CYBER.domains.map(d=>({n:d.name.replace(/[（(].*$/,'').slice(0,6),v:Math.round(domScore(d)*100)}));
+  const N=axes.length,R=(size||210)/2-38,cx=(size||210)/2,cy=(size||210)/2+2;
+  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/N;return [cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  const ring=f=>axes.map((_,i)=>pt(i,R*f).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const poly=axes.map((ax,i)=>pt(i,R*ax.v/100).map(v=>v.toFixed(1)).join(',')).join(' ');
+  const labels=axes.map((ax,i)=>{const p=pt(i,R+15);const x=p[0],y=p[1];const anch=Math.abs(x-cx)<8?'middle':(x>cx?'start':'end');
+    return '<text x="'+x.toFixed(1)+'" y="'+(y+4).toFixed(1)+'" font-size="9" fill="#6B7280" text-anchor="'+anch+'">'+esc(ax.n)+'</text>';}).join('');
+  const spokes=axes.map((_,i)=>{const p=pt(i,R);return '<line x1="'+cx+'" y1="'+cy+'" x2="'+p[0].toFixed(1)+'" y2="'+p[1].toFixed(1)+'" stroke="#ECEEF1"/>';}).join('');
+  return '<svg viewBox="0 0 '+(size||210)+' '+(size||210)+'" width="100%" style="max-width:'+(size||210)+'px" aria-label="网安成熟度雷达图">'+
+    [0.25,0.5,0.75,1].map(f=>'<polygon points="'+ring(f)+'" fill="none" stroke="#ECEEF1"/>').join('')+spokes+
+    '<polygon points="'+poly+'" fill="rgba(232,98,44,.18)" stroke="#E8622C" stroke-width="1.8" stroke-linejoin="round"/>'+
+    axes.map((ax,i)=>{const p=pt(i,R*ax.v/100);return '<circle cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="2.6" fill="#E8622C"/>';}).join('')+labels+'</svg>';
+}
+function persist(){ autosave(); }
+function setItem(k,v){ ans[k]=v; persist(); renderSummary(); renderNav(); renderMain(); }
+function pick(a){ active=a; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+function renderSummary(){
+  if(active==='home'||active==='pack'){ document.getElementById('summary').innerHTML=''; return; }
+  if(active==='r156'){ renderR156Summary(); return; }
+  if(active==='csms'){ renderCsmsSummary(); return; }
+  if(active==='hara'){ renderHaraSummary(); return; }
+  renderTaraSummary(); // CAL 为默认头部;其他视图(映射/标准)也用它
+}
+function renderCsmsSummary(){
+  const st=r155Stats();
+  const col=st.pct>=80?'var(--green)':(st.pct>=40?'var(--amber)':'var(--red)');
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">UN R155 · CSMS 认证就绪度 <b style="color:'+col+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已建立 <b>'+st.done+'</b>/'+st.total+' 项 · 逐条对照 R155 §7.2/§7.3 + 附件5(无 / 部分 / 已建立)· 整车/OEM 级</div>'+
+    '<div class="pills"><span class="pill">CSMS 体系</span><span class="pill">风险管理</span><span class="pill">附件5 缓解</span><span class="pill">供应链 DIA</span><span class="pill">后生产监测</span></div>'+
+    '</div></div>';
+}
+function renderHaraSummary(){
+  const st=haraStats();
+  const cc=ASIL_COL[st.maxA]||['#eef0f2','#6b7280'];
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">ISO 26262 · HARA 定级 · 最高 <b style="color:'+cc[1]+'">'+(st.maxA==='—'?'—':'ASIL '+st.maxA)+'</b></div>'+
+    '<div class="meta">已评 <b>'+st.rated+'</b>/'+st.total+' 项危害 · 严重度 S × 暴露 E × 可控性 C → ASIL(QM/A/B/C/D)· 与网安 CAL 对齐</div>'+
+    '<div class="pills">'+['A','B','C','D'].map(a=>{const x=ASIL_COL[a];return '<span class="pill" style="border-color:'+x[0]+';color:'+x[1]+(a===st.maxA?';background:'+x[0]+';font-weight:700':'')+'">ASIL '+a+' · '+st.cnt[a]+'</span>';}).join('')+'</div>'+
+    '</div></div>';
+}
+function renderR156Summary(){
+  const st=r156Stats();
+  const col=st.pct>=80?'var(--green)':(st.pct>=40?'var(--amber)':'var(--red)');
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">UN R156 · SUMS 认证就绪度 <b style="color:'+col+'">'+st.pct+'%</b></div>'+
+    '<div class="meta">已建立 <b>'+st.done+'</b>/'+st.total+' 项 · 逐条对照 R156 条款自查(无 / 部分 / 已建立)· 整车/OEM 级</div>'+
+    '<div class="pills"><span class="pill">SUMS 体系</span><span class="pill">RXSWIN</span><span class="pill">更新影响评估</span><span class="pill">完整性/真实性</span><span class="pill">OTA 安全执行</span></div>'+
+    '</div></div>';
+}
+function renderTaraSummary(){
+  const st=taraStats();
+  const cc=CAL_COL[st.maxCal]||['#eef0f2','#9aa1ab'];
+  document.getElementById('summary').innerHTML=
+    '<div class="sum"><div class="info" style="flex:1;min-width:220px">'+
+    '<div class="lv">ISO 21434 风险评级 · 最高 <b style="color:'+cc[1]+'">'+(st.maxCal>0?'CAL '+st.maxCal:'—')+'</b> <span style="font-size:12px;color:var(--grey);font-weight:400">/ 最高风险值 '+(st.maxRisk||'—')+'</span></div>'+
+    '<div class="meta">已评 <b>'+st.rated+'</b>/'+st.total+' 条威胁 · 逐条 影响 × 攻击可行性 → 风险值 1–5、CAL 1–4</div>'+
+    '<div class="pills">'+[1,2,3,4].map(c=>{const x=CAL_COL[c];return '<span class="pill" style="border-color:'+x[0]+';color:'+x[1]+(c===st.maxCal?';background:'+x[0]+';font-weight:700':'')+'">CAL '+c+' · '+st.calCount[c]+' 条</span>';}).join('')+'</div>'+
+    '</div></div>';
+}
+function domDot(pct){ return pct>=100?'var(--green)':(pct>0?'var(--amber)':'var(--greyl)'); }
+function renderNav(){
+  const ts=taraStats(), rs=r156Stats(), cs=r155Stats(), ha=haraStats();
+  const step=(id,n,title,sub)=>'<button class="sstep'+(active===id?' active':'')+'" onclick="pick(\''+id+'\')"><span class="n">'+n+'</span><span class="stx"><span>'+title+'</span>'+(sub?'<small>'+sub+'</small>':'')+'</span></button>';
+  let h=step('home','◎','总览 Dashboard','四项一览 · 导出报告');
+  h+='<div class="sgrp">合规认证就绪度</div>';
+  h+=step('csms','1','R155 CSMS 就绪度','就绪度 '+cs.pct+'% · '+cs.done+'/'+cs.total);
+  h+=step('r156','2','R156 SUMS 就绪度','就绪度 '+rs.pct+'% · '+rs.done+'/'+rs.total);
+  h+='<div class="sgrp">工程评级方法</div>';
+  h+=step('tara','3','21434 CAL 风险评级',(ts.maxCal>0?'最高 CAL '+ts.maxCal+' · ':'')+'已评 '+ts.rated+'/'+ts.total);
+  h+=step('hara','4','26262 ASIL 定级',(ha.maxA==='—'?'':'最高 ASIL '+ha.maxA+' · ')+'已评 '+ha.rated+'/'+ha.total);
+  h+='<div class="sgrp">审计与导出</div>';
+  const pk=packStats();
+  h+=step('pack','⑤','审计就绪包',(pk.noEv||pk.unmet)?('缺口 '+(pk.noEv+pk.unmet)+' · 可导出'):'台账/登记册 · 可导出');
+  document.getElementById('nav').innerHTML=h;
+}
+function taraRefHTML(){
+  let risk='<table class="mtx"><tr><th>影响＼可行性</th>'+FEAS.map(f=>'<th>'+esc(f[1])+'</th>').join('')+'</tr>'+
+    IMPACTS.map(im=>'<tr><td class="lft">'+esc(im[1])+'</td>'+FEAS.map((f,fi)=>{const v=RISK[im[0]][fi];const c=RISK_COL[v];return '<td style="background:'+c[0]+';color:'+c[1]+'">'+v+'</td>';}).join('')+'</tr>').join('')+'</table>';
+  let cal='<table class="mtx"><tr><th>影响＼可行性</th>'+FEAS.map(f=>'<th>'+esc(f[1])+'</th>').join('')+'</tr>'+
+    IMPACTS.map(im=>'<tr><td class="lft">'+esc(im[1])+'</td>'+FEAS.map((f,fi)=>{const v=CAL_TBL[im[0]][fi];const c=CAL_COL[v];return '<td style="background:'+c[0]+';color:'+c[1]+'">'+(v>0?'CAL '+v:'—')+'</td>';}).join('')+'</tr>').join('')+'</table>';
+  return '<div class="mtxwrap"><div><div class="mtxh">风险值矩阵 <span>ISO 21434 Cl.15.5(示例矩阵,组织可按风险准则裁剪)</span></div>'+risk+'</div>'+
+    '<div><div class="mtxh">CAL 矩阵 <span>ISO 21434 附录 E(资料性 informative)</span></div>'+cal+'</div></div>'+
+    '<div class="ckleg">说明:<b>影响</b>按 S 安全 / F 财务 / O 运营 / P 隐私 四类分别评,取最严一档(Cl.15.3);<b>攻击可行性</b>可直接选,或点「攻击潜力法」按 21434 附录 G 五因子(耗时/专业能力/对象知识/机会窗口/装备)点数求和自动推导(0–13 高 / 14–19 中 / 20–24 低 / ≥25 极低)。CAL 为附录 E <b>资料性</b>方法(非强制);<b>R155 型式批准不直接给 CAL、也无 L 等级</b>(CSMS 认证 = 通过/不通过)。评级随当前档案本地保存。</div>';
+}
+function dashCard(title,big,sub,col,onclick){
+  return '<button class="dcard" onclick="'+onclick+'"><div class="dct">'+esc(title)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+sub+'</div></button>';
+}
+function renderHome(m){
+  const cs=r155Stats(), rs=r156Stats(), ts=taraStats(), ha=haraStats();
+  const pc=p=>p>=80?'var(--green)':(p>=40?'var(--amber)':'var(--red)');
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'(未保存草稿)';
+  let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:6px">'+
+    '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">网安 & 功能安全合规评估台</div>'+
+    '<div class="sb-msub" style="margin-bottom:0">当前档案:<b>'+esc(pname)+'</b> · 四项标准评估一览。R155/R156 为整车型批前置(通过/不通过);CAL/ASIL 为工程定级(21434 / 26262)。</div></div>'+
+    '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
+  s+='<div class="dgrid">'+
+    dashCard('① R155 CSMS 就绪度', cs.pct+'%', '已建立 '+cs.done+'/'+cs.total+' 项', pc(cs.pct), "pick('csms')")+
+    dashCard('② R156 SUMS 就绪度', rs.pct+'%', '已建立 '+rs.done+'/'+rs.total+' 项', pc(rs.pct), "pick('r156')")+
+    dashCard('③ 21434 最高 CAL', (ts.maxCal>0?'CAL '+ts.maxCal:'—'), '已评 '+ts.rated+'/'+ts.total+' 条威胁', (ts.maxCal>0?(CAL_COL[ts.maxCal]||[])[1]:'var(--greyl)'), "pick('tara')")+
+    dashCard('④ 26262 最高 ASIL', (ha.maxA==='—'?'—':'ASIL '+ha.maxA), '已评 '+ha.rated+'/'+ha.total+' 项危害', (ha.maxA==='—'?'var(--greyl)':(ASIL_COL[ha.maxA]||[])[1]), "pick('hara')")+
+    '</div>';
+  s+='<div class="ckleg">四项均按当前档案本地保存。点卡片进入对应模块评估;「导出评估报告」把四项现状生成一份可打印/存 PDF 的报告。就绪度 % 与 CAL/ASIL 均为自查参照,非型式批准结论。</div>';
+  m.innerHTML=s;
+}
+/* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
+function metaSet(k,f,v){ itemMeta[k]=itemMeta[k]||{}; itemMeta[k][f]=v; autosave();
+  // 更新「证据/责任人」角标而不整块重渲，避免打字时输入框丢焦点
+  const btn=document.getElementById('metatog-'+k); if(btn){ const filled=metaFilled(k); btn.classList.toggle('has',filled); const arrow=btn.textContent.trim().slice(-1); btn.textContent=(filled?'📎 证据/责任人 ':'＋ 证据/责任人 ')+arrow; } }
+function metaFilled(k){ const m=itemMeta[k]; return !!(m&&(m.ev||m.owner||m.gap||m.due)); }
+function toggleItem(k){ _openItems[k]=!_openItems[k]; renderMain(); }
+function chkItemHTML(it){
+  const labs=['无','部分','已建立'];
+  const v=ans[it.k]||0;
+  const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+labs[kk]+'</button>').join('');
+  const open=!!_openItems[it.k], filled=metaFilled(it.k), m=itemMeta[it.k]||{};
+  let h='<div class="qitem"><div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+regRefHTML(it.r)+'</small>':'')+
+    ' <button class="metatog'+(filled?' has':'')+'" id="metatog-'+it.k+'" onclick="toggleItem(\''+it.k+'\')">'+(filled?'📎 证据/责任人':'＋ 证据/责任人')+' '+(open?'▴':'▾')+'</button></div>'+
+    '<div class="seg">'+seg+'</div></div>';
+  if(open){
+    h+='<div class="idet">'+
+      '<label>证据 / 记录<input class="cin" value="'+escA(m.ev||'')+'" placeholder="文档编号 / 链接 / 报告名" oninput="metaSet(\''+it.k+'\',\'ev\',this.value)"></label>'+
+      '<label>责任人<input class="cin" value="'+escA(m.owner||'')+'" placeholder="姓名 / 团队" oninput="metaSet(\''+it.k+'\',\'owner\',this.value)"></label>'+
+      '<label>差距 / 整改<input class="cin" value="'+escA(m.gap||'')+'" placeholder="缺口与整改计划" oninput="metaSet(\''+it.k+'\',\'gap\',this.value)"></label>'+
+      '<label>目标日期<input class="cin" type="date" value="'+escA(m.due||'')+'" onchange="metaSet(\''+it.k+'\',\'due\',this.value)"></label>'+
+      '</div>';
+  }
+  h+='</div>';
+  return h;
+}
+function renderMain(){
+  const m=document.getElementById('main');
+  if(active==='home'){ renderHome(m); return; }
+  if(active==='tara'){
+    let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
+      '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">ISO 21434 风险评级 · TARA → 风险值 / CAL</div>'+
+      '<div class="sb-msub" style="margin-bottom:0">逐条威胁按 <b>影响(Cl.15.3)× 攻击可行性(Cl.15.4)</b> → 风险值 1–5(Cl.15.5)与 CAL 1–4(附录 E)。种子取自 <b>UN R155 附件 5</b> 威胁目录,可增删改。</div></div>'+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="taraAdd()">＋ 添加威胁</button><button class="btn sm" onclick="exportTaraCSV()">⬇ CSV</button><button class="btn" onclick="taraReseed()">↺ 恢复 R155 目录</button></div></div>';
+    s+='<div style="overflow:auto"><table class="taratab"><tr><th class="lft">#　威胁场景 / 资产 / 依据</th><th>影响 S/F/O/P（取最严）</th><th>攻击可行性</th><th>风险值</th><th>CAL</th><th></th></tr>';
+    tara.forEach((t,i)=>{
+      const rv=riskOf(t), cal=calOf(t);
+      const rc=rv?RISK_COL[rv]:null, cc=(cal!=null)?CAL_COL[cal]:null;
+      const di=derivedImpact(t);
+      const imp=t.imp||{};
+      const impCell=IMP_CATS.map(c=>'<div class="improw"><span class="implab">'+c[0]+'</span><button class="lvlbtn" onclick="taraImpOpen('+i+',\''+c[0]+'\',this,event)">'+(imp[c[0]]?esc(impactCn(imp[c[0]])):'—')+' <span class="cae">▾</span></button></div>').join('')
+        +'<div class="impder">→ '+(di?esc(impactCn(di)):'—')+'</div>';
+      const apOn=apComplete(t);
+      let feasCell;
+      if(apOn){ const fe=effFeas(t); feasCell='<div class="feasder">'+esc(feasCn(fe))+' <span class="cae2">潜力 '+apSum(t)+'</span></div><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起攻击潜力法':'▾ 攻击潜力法')+'</button>'; }
+      else { feasCell='<button class="lvlbtn" onclick="taraFeasOpen('+i+',this,event)">'+(t.feas?esc(feasCn(t.feas)):'—')+' <span class="cae">▾</span></button><button class="apt" onclick="toggleAP('+i+')">'+(_openAP[i]?'▴ 收起攻击潜力法':'▾ 攻击潜力法')+'</button>'; }
+      s+='<tr><td class="lft"><div style="display:flex;gap:7px"><span class="tnum">'+(i+1)+'</span><div style="flex:1;min-width:0">'
+        + '<input class="cin" value="'+escA(t.name)+'" placeholder="威胁场景" oninput="taraField('+i+',\'name\',this.value)">'
+        + '<div style="display:flex;gap:6px;margin-top:4px;flex-wrap:wrap">'
+        +   '<input class="cin sm" style="flex:1;min-width:90px" value="'+escA(t.asset)+'" placeholder="资产 / 目标" oninput="taraField('+i+',\'asset\',this.value)">'
+        +   '<input class="cin sm" style="flex:1;min-width:120px" value="'+escA(t.ref)+'" placeholder="依据(如 R155 附件5 §…)" oninput="taraField('+i+',\'ref\',this.value)">'
+        + '</div></div></div></td>'
+        + '<td class="impcell">'+impCell+'</td>'
+        + '<td class="feascell">'+feasCell+'</td>'
+        + '<td style="text-align:center">'+(rv?'<span class="rvb" style="background:'+rc[0]+';color:'+rc[1]+'">'+rv+'</span>':'<span class="muted">—</span>')+'</td>'
+        + '<td style="text-align:center">'+(cal!=null?(cal>0?'<span class="rvb" style="background:'+cc[0]+';color:'+cc[1]+'">CAL '+cal+'</span>':'<span class="muted">无需</span>'):'<span class="muted">—</span>')+'</td>'
+        + '<td style="text-align:center"><button class="delx" onclick="taraDel('+i+')" title="删除该行">✕</button></td></tr>';
+      if(_openAP[i]){
+        const ap=t.ap||{};
+        const factors=AP_FACTORS.map(f=>{const val=ap[f.k]; return '<div class="apf"><span class="apflab">'+esc(f.name)+'</span><button class="lvlbtn" onclick="taraApOpen('+i+',\''+f.k+'\',this,event)">'+(val!=null&&val!==''?esc(apLabel(f.k,val))+'（'+val+'）':'—')+' <span class="cae">▾</span></button></div>';}).join('');
+        s+='<tr class="aprow"><td colspan="6"><div class="apbox"><div class="apttl">攻击潜力法(ISO 21434 附录 G)· 五因子点数求和 → 可行性　<span class="apnote">合计 '+apSum(t)+'（0–13 高 / 14–19 中 / 20–24 低 / ≥25 极低）'+(apComplete(t)?' → <b>'+esc(feasCn(apFeasKey(apSum(t))))+'</b>,覆盖上方直选':' · 五项填全后自动生效')+'</span></div><div class="apgrid">'+factors+'</div></div></td></tr>';
+      }
+    });
+    s+='</table></div>';
+    s+=taraRefHTML();
+    m.innerHTML=s; return;
+  }
+  if(active==='r156'){
+    const labs=['无','部分','已建立'];
+    let s='<div class="sb-mh">UN R156 · SUMS 认证就绪度自查</div>'+
+      '<div class="sb-msub">逐条对照 R156 <b>软件更新管理体系(SUMS)</b>条款自查(无 / 部分 / 已建立)。<b>整车/OEM 级</b>,证书由缔约方批准机关签发;非零部件级、非本工具最终判定。</div>';
+    R156.groups.forEach((g,gi)=>{
+      s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>';
+      g.items.forEach(it=>{ s+=chkItemHTML(it); });
+      s+='</div>';
+    });
+    s+='<div class="ckleg">条款编号以 UN R156 现行版为准;R156 与 R155 同为整车型式批准前置,2022-07 新车型 / 2024-07 所有新注册车强制。落地方法学参考 ISO 24089。就绪度随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='csms'){
+    const labs=['无','部分','已建立'];
+    let s='<div class="sb-mh">UN R155 · CSMS 认证就绪度自查</div>'+
+      '<div class="sb-msub">逐条对照 R155 <b>网络安全管理体系(CSMS)</b>及附件 5 威胁/缓解自查(无 / 部分 / 已建立)。<b>整车/OEM 级</b>,证书由缔约方批准机关签发;落地方法学参考 ISO/SAE 21434。</div>';
+    R155.groups.forEach((g,gi)=>{
+      s+='<div class="r156g"><div class="r156gh">'+(gi+1)+'. '+esc(g.name)+'</div>';
+      g.items.forEach(it=>{ s+=chkItemHTML(it); });
+      s+='</div>';
+    });
+    s+='<div class="ckleg">条款编号以 UN R155 现行版为准;R155(CSMS)与 R156(SUMS)同为整车型式批准前置,2022-07 / 2024-07 强制。附件 5 列出威胁与对应缓解,须逐项应对。就绪度随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='hara'){
+    let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
+      '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">ISO 26262 · ASIL 定级(HARA)</div>'+
+      '<div class="sb-msub">逐条危害事件按 <b>严重度 S × 暴露 E × 可控性 C</b> → ASIL(QM/A/B/C/D,ISO 26262-3 Table 4)。功能安全与网安需协同:<b>HARA↔TARA、ASIL↔CAL</b> 对齐(21434 安全-安全集成)。</div></div>'+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;flex:none"><button class="btn p" onclick="haraAdd()">＋ 添加危害</button><button class="btn sm" onclick="exportHaraCSV()">⬇ CSV</button><button class="btn" onclick="haraReseed()">↺ 恢复示例</button></div></div>';
+    s+='<div style="overflow:auto"><table class="taratab"><tr><th class="lft">#　危害事件 / 功能</th><th>严重度 S</th><th>暴露 E</th><th>可控性 C</th><th>ASIL</th><th></th></tr>';
+    hara.forEach((h,i)=>{
+      const a=asilOf(h), ac=(a!=null)?ASIL_COL[a]:null;
+      s+='<tr><td class="lft"><div style="display:flex;gap:7px"><span class="tnum">'+(i+1)+'</span><div style="flex:1;min-width:0">'
+        + '<input class="cin" value="'+escA(h.name)+'" placeholder="危害事件" oninput="haraField('+i+',\'name\',this.value)">'
+        + '<input class="cin sm" style="margin-top:4px" value="'+escA(h.fn)+'" placeholder="相关功能 / 系统" oninput="haraField('+i+',\'fn\',this.value)">'
+        + '</div></div></td>'
+        + '<td><button class="lvlbtn" onclick="haraSevOpen('+i+',this,event)">'+(h.s?esc(h.s):'—')+' <span class="cae">▾</span></button></td>'
+        + '<td><button class="lvlbtn" onclick="haraExpOpen('+i+',this,event)">'+(h.e?esc(h.e):'—')+' <span class="cae">▾</span></button></td>'
+        + '<td><button class="lvlbtn" onclick="haraCtrlOpen('+i+',this,event)">'+(h.c?esc(h.c):'—')+' <span class="cae">▾</span></button></td>'
+        + '<td style="text-align:center">'+(a!=null?'<span class="rvb" style="background:'+ac[0]+';color:'+ac[1]+'">'+(a==='QM'?'QM':'ASIL '+a)+'</span>':'<span class="muted">—</span>')+'</td>'
+        + '<td style="text-align:center"><button class="delx" onclick="haraDel('+i+')" title="删除该行">✕</button></td></tr>';
+    });
+    s+='</table></div>';
+    s+='<div class="ckleg">定级规则(ISO 26262-3 Table 4):任一为 0 类(S0/E0/C0)→ <b>QM</b>;否则按 S+E+C 之和 → 7=A · 8=B · 9=C · 10=D。S1–3 / E1–4 / C1–3。ASIL 决定功能安全开发严苛度;与网安 <b>CAL</b> 互为姊妹刻度(21434 Cl.6 安全-安全集成)。定级随当前档案本地保存。</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='std'){
+    let s='<div class="sb-mh">相关标准 / 法规速览</div><div class="sb-msub">点击展开每项的适用范围、要点与时间线。</div><div class="std">';
+    (CYBER.standards||[]).forEach((x,i)=>{
+      s+='<details'+(i===0?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+
+        (x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+
+        (x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+
+        (x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>';
+    });
+    s+='</div>'; m.innerHTML=s; return;
+  }
+  if(active==='glos'){
+    let s='<div class="sb-mh">术语速查</div><div class="sb-msub">网安 & 功能安全合规常用术语('+GLOSSARY.length+' 条)。可搜索中/英/缩写。</div>'+
+      '<input class="cin" id="glosq" style="max-width:320px;margin-bottom:12px" placeholder="搜索术语,如 CAL / RXSWIN / 攻击可行性" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)">'+
+      '<div id="glosList">'+glosListHTML()+'</div>';
+    m.innerHTML=s; return;
+  }
+  if(active==='faq'){
+    let s='<div class="sb-mh">常见问答 FAQ</div><div class="sb-msub">口径依据 ISO/SAE 21434、ISO 26262、UN R155/R156;自查参照,非型式批准结论。</div><div class="std">';
+    FAQS.forEach((f,i)=>{ s+='<details'+(i===0?' open':'')+'><summary>'+esc(f.q)+'</summary><div class="sc">'+esc(f.a)+'</div></details>'; });
+    s+='</div>'; m.innerHTML=s; return;
+  }
+  if(active==='pack'){ renderPack(m); return; }
+  const d=CYBER.domains[active]; if(!d){ renderHome(m); return; }
+  const sc=domScore(d),dlv=level(sc);
+  let h='<div class="sb-mh">'+(active+1)+'. '+esc(d.name)+'</div><div class="sb-msub">'+esc(d.desc)+' · 本域 <b style="color:var(--od)">L'+dlv+' · '+Math.round(sc*100)+'%</b></div>';
+  if(d.levels&&d.levels.length===5){
+    h+='<div class="lvbox">'+d.levels.map((lx,i)=>'<div class="lr'+(i+1===dlv?' cur':'')+'"><b>L'+(i+1)+'</b><span>'+esc(lx)+(i+1===dlv?'　← 当前':'')+'</span></div>').join('')+'</div>';
+  }
+  d.items.forEach(it=>{
+    const v=ans[it.k]||0;
+    const seg=[0,1,2].map(kk=>'<button class="'+(v===kk?'on '+(kk===2?'done-b':kk===1?'prog-b':'no-b'):'')+'" onclick="setItem(\''+it.k+'\','+kk+')">'+esc(CYBER.labels[kk])+'</button>').join('');
+    h+='<div class="arow"><div class="al"><b>'+esc(it.t)+'</b>'+(it.r?'<small>依据:'+regRefHTML(it.r)+'</small>':'')+'</div><div class="seg">'+seg+'</div></div>';
+  });
+  m.innerHTML=h;
+}
+/* ===== 导出评估报告(浏览器打印 → PDF)===== */
+function exportReport(){
+  const cs=r155Stats(), rs=r156Stats(), ts=taraStats(), ha=haraStats();
+  const id=activeId(), ps=getProfiles(); const pname=(id&&ps[id])?ps[id].name:'未命名档案';
+  let d=''; try{ d=new Date().toLocaleDateString('zh-CN'); }catch(e){}
+  const labs=['无','部分','已建立'];
+  const chk=groups=>groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:42%">条目</th><th>依据</th><th>状态</th><th>证据 / 责任人 / 差距 / 目标</th></tr>'+
+    g.items.map(it=>{const v=ans[it.k]||0;const m=itemMeta[it.k]||{};
+      const md=[m.ev?('证据:'+m.ev):'',m.owner?('责任人:'+m.owner):'',m.gap?('差距:'+m.gap):'',m.due?('目标:'+m.due):''].filter(Boolean).join(' ｜ ');
+      return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+labs[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
+  let html='<div class="rhead"><div class="rtitle">网安 &amp; 功能安全 · 合规评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准结论</div></div>';
+  html+='<div class="rsum"><div>① R155 CSMS 就绪度 <b>'+cs.pct+'%</b>（'+cs.done+'/'+cs.total+'）</div><div>② R156 SUMS 就绪度 <b>'+rs.pct+'%</b>（'+rs.done+'/'+rs.total+'）</div><div>③ 21434 最高 <b>'+(ts.maxCal>0?'CAL '+ts.maxCal:'—')+'</b>（已评 '+ts.rated+'/'+ts.total+'）</div><div>④ 26262 最高 <b>'+(ha.maxA==='—'?'—':'ASIL '+ha.maxA)+'</b>（已评 '+ha.rated+'/'+ha.total+'）</div></div>';
+  html+='<h2>① UN R155 · CSMS 认证就绪度</h2>'+chk(R155.groups);
+  html+='<h2>② UN R156 · SUMS 认证就绪度</h2>'+chk(R156.groups);
+  html+='<h2>③ ISO 21434 · 风险评级(TARA → 风险值 / CAL)</h2><table class="rt"><tr><th>威胁场景</th><th>资产</th><th>影响</th><th>可行性</th><th>风险值</th><th>CAL</th></tr>'+
+    tara.map(t=>{const rv=riskOf(t),c=calOf(t);const di=derivedImpact(t),fe=effFeas(t);return '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.asset||'')+'</td><td>'+(di?esc(impactCn(di)):'—')+'</td><td>'+(fe?esc(feasCn(fe))+(apComplete(t)?'（潜力'+apSum(t)+'）':''):'—')+'</td><td class="rst">'+(rv||'—')+'</td><td class="rst">'+(c!=null?(c>0?'CAL '+c:'无需'):'—')+'</td></tr>';}).join('')+'</table>';
+  html+='<h2>④ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
+    hara.map(h=>{const a=asilOf(h);return '<tr><td>'+esc(h.name)+'</td><td>'+esc(h.fn||'')+'</td><td class="rst">'+(h.s||'—')+'</td><td class="rst">'+(h.e||'—')+'</td><td class="rst">'+(h.c||'—')+'</td><td class="rst">'+(a!=null?(a==='QM'?'QM':'ASIL '+a):'—')+'</td></tr>';}).join('')+'</table>';
+  html+='<div class="rfoot">评级方法依据 ISO/SAE 21434(风险值 / CAL,附录 E 资料性)、ISO 26262-3(ASIL)与 UN R155/R156 条款;R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;正式判定以认可技术服务 / 批准机关为准。</div>';
+  const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
+  document.body.classList.add('printing');
+  const cleanup=()=>{ document.body.classList.remove('printing'); window.removeEventListener('afterprint',cleanup); };
+  window.addEventListener('afterprint',cleanup);
+  setTimeout(()=>{ try{window.print();}catch(e){cleanup();} }, 80);
+}
+/* ===== ⑤ 审计就绪包:证据台账 + 风险登记册 + 优先整改 + CSV 导出 ===== */
+function csvCell(v){ v=String(v==null?'':v); return /[",\n\r]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }
+function downloadCSV(name,rows){
+  const csv=rows.map(r=>r.map(csvCell).join(',')).join('\r\n');
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8;'}); // BOM 保证 Excel 正确识别中文
+  const url=URL.createObjectURL(blob), a=document.createElement('a');
+  a.href=url; a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },120);
+}
+function todayStr(){ try{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }catch(e){ return ''; } }
+function riskPrio(rv){ return rv>=4?'高':(rv===3?'中':(rv?'低':'')); }
+function asilPrio(a){ return (a==='C'||a==='D')?'高':(a==='B'?'中':(a==='A'?'低':'')); }
+// 风险登记册排序:威胁按风险值→CAL 降序;危害按 ASIL 降序
+function taraSorted(){ return tara.map((t,i)=>({t,i})).sort(function(a,b){ return (riskOf(b.t)||0)-(riskOf(a.t)||0) || (calOf(b.t)||0)-(calOf(a.t)||0); }); }
+function haraSorted(){ return hara.map((h,i)=>({h,i})).sort(function(a,b){ return (ASIL_RANK[asilOf(b.h)]||0)-(ASIL_RANK[asilOf(a.h)]||0); }); }
+// 全部自查条款(R155 → R156)扁平化,带体系/分组
+function allClauses(){ const out=[];
+  R155.groups.forEach(g=>g.items.forEach(it=>out.push({sys:'R155',grp:g.name,it})));
+  R156.groups.forEach(g=>g.items.forEach(it=>out.push({sys:'R156',grp:g.name,it})));
+  return out; }
+// 条款审计风险判定:已建立但无证据=补证据即可闭环;未达标=尚未建立;逾期=有目标日期且已过且未达标
+function clauseFlag(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}; const today=todayStr();
+  const overdue=!!(m.due&&today&&m.due<today&&v<2);
+  if(v<2) return {type:'unmet', label:(v===0?'未开始':'部分'), overdue};
+  if(!m.ev) return {type:'noev', label:'缺证据', overdue:false};
+  return {type:'ok', label:'已闭环', overdue:false}; }
+function packStats(){ const cs=allClauses(); let done=0,noEv=0,unmet=0,overdue=0;
+  cs.forEach(c=>{ const f=clauseFlag(c), v=ans[c.it.k]||0; if(v===2)done++; if(f.type==='noev')noEv++; if(f.type==='unmet')unmet++; if(f.overdue)overdue++; });
+  return {total:cs.length,done,noEv,unmet,overdue}; }
+function gotoItem(k){ _openItems[k]=true; active=(k.indexOf('r156.')===0)?'r156':'csms'; render(); window.scrollTo({top:0,behavior:'smooth'}); }
+// —— CSV 导出 ——
+function exportTaraCSV(){ const rows=[['#','威胁场景','资产/目标','依据','影响(取最严)','攻击可行性','攻击潜力合计','风险值','CAL','建议优先级']];
+  taraSorted().forEach(function(o,n){ const t=o.t, di=derivedImpact(t), fe=effFeas(t), rv=riskOf(t), c=calOf(t);
+    rows.push([n+1, t.name||'', t.asset||'', t.ref||'', di?impactCn(di):'', fe?feasCn(fe):'', apComplete(t)?apSum(t):'', rv||'', c!=null?(c>0?'CAL '+c:'无需'):'', riskPrio(rv)]); });
+  downloadCSV('TARA风险登记册_'+todayStr()+'.csv', rows); }
+function exportHaraCSV(){ const rows=[['#','危害事件','功能/系统','严重度S','暴露E','可控性C','ASIL','建议优先级']];
+  haraSorted().forEach(function(o,n){ const h=o.h, a=asilOf(h);
+    rows.push([n+1, h.name||'', h.fn||'', h.s||'', h.e||'', h.c||'', a!=null?(a==='QM'?'QM':'ASIL '+a):'', asilPrio(a)]); });
+  downloadCSV('HARA危害登记册_'+todayStr()+'.csv', rows); }
+function exportLedgerCSV(){ const rows=[['体系','分组','条款','依据','状态','证据/记录','责任人','差距/整改','目标日期','审计风险']];
+  const labs=['无','部分','已建立'];
+  allClauses().forEach(function(c){ const v=ans[c.it.k]||0, m=itemMeta[c.it.k]||{}, f=clauseFlag(c);
+    const flag=f.type==='ok'?'':(f.type==='noev'?'已建立但缺证据':(f.label))+(f.overdue?'·逾期':'');
+    rows.push([c.sys, c.grp, c.it.t, c.it.r||'', labs[v], m.ev||'', m.owner||'', m.gap||'', m.due||'', flag]); });
+  downloadCSV('R155-R156证据台账_'+todayStr()+'.csv', rows); }
+function togglePackGap(){ _packGapOnly=!_packGapOnly; renderMain(); }
+function packKpi(t,big,sub,col){ return '<div class="dcard" style="cursor:default"><div class="dct">'+esc(t)+'</div><div class="dcbig" style="color:'+col+'">'+big+'</div><div class="dcsub">'+esc(sub)+'</div></div>'; }
+function renderPack(m){
+  const ps=packStats();
+  let s='<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:8px">'+
+    '<div style="min-width:220px;flex:1"><div class="sb-mh" style="margin-bottom:2px">审计就绪包 · 证据台账与风险登记册</div>'+
+    '<div class="sb-msub" style="margin-bottom:0">把 R155/R156 逐条证据与 TARA/HARA 风险汇成可交付、可导出的一页,直接对接认证审核与项目整改。均取自当前档案,本地生成。</div></div>'+
+    '<div style="flex:none"><button class="btn p" onclick="exportReport()">🖨 导出评估报告 (PDF)</button></div></div>';
+  // KPI
+  s+='<div class="dgrid">'+
+    packKpi('自查条款总数', ps.total, 'R155 + R156', 'var(--ink)')+
+    packKpi('已建立', ps.done+'/'+ps.total, '状态 = 已建立', ps.done?'var(--green)':'var(--greyl)')+
+    packKpi('⚠ 缺证据', ps.noEv, '已建立但无证据/记录', ps.noEv?'var(--red)':'var(--green)')+
+    packKpi('未达标', ps.unmet+(ps.overdue?' · 逾期'+ps.overdue:''), '状态 = 无 / 部分', ps.unmet?'var(--amber)':'var(--green)')+
+    '</div>';
+  // —— 建议优先处理 ——
+  const unmetList=allClauses().filter(c=>clauseFlag(c).type==='unmet').sort((a,b)=>(ans[a.it.k]||0)-(ans[b.it.k]||0));
+  const noEvList=allClauses().filter(c=>clauseFlag(c).type==='noev');
+  const hiThreat=taraSorted().filter(o=>(riskOf(o.t)||0)>=4);
+  const hiHazard=haraSorted().filter(o=>ASIL_RANK[asilOf(o.h)]>=3); // C/D
+  const chip=(txt,col)=>'<span class="mlegal" style="background:'+col[0]+';color:'+col[1]+'">'+esc(txt)+'</span>';
+  s+='<div style="font-size:13px;font-weight:800;margin:14px 0 6px">建议优先处理 <span style="font-weight:400;color:var(--grey);font-size:11.5px">按「拿证阻塞 → 补证据即可闭环 → 高风险工程项」排序</span></div>';
+  if(!unmetList.length&&!noEvList.length&&!hiThreat.length&&!hiHazard.length){
+    s+='<div class="ckleg" style="margin-top:0">暂无待办:条款均已建立且有证据,且无高风险威胁 / 高 ASIL 危害。继续维护证据与定期复评即可。</div>';
+  } else {
+    s+='<div class="actwrap">';
+    if(unmetList.length){ s+='<div class="actcol"><div class="acth">A · 拿证阻塞 · 未达标条款('+unmetList.length+')</div>'+
+      unmetList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f3d0d0','#b02222'])+' <span>'+esc(c.it.t)+'</span><small>'+esc(c.it.r||'')+'</small></button>').join('')+
+      (unmetList.length>8?'<div class="actmore">…另 '+(unmetList.length-8)+' 条,见下方台账</div>':'')+'</div>'; }
+    if(noEvList.length){ s+='<div class="actcol"><div class="acth">B · 补证据即可闭环('+noEvList.length+')</div>'+
+      noEvList.slice(0,8).map(c=>'<button class="actrow" onclick="gotoItem(\''+c.it.k+'\')">'+chip(c.sys,['#f4e6bd','#7a5a10'])+' <span>'+esc(c.it.t)+'</span><small>状态已建立 · 缺证据/记录</small></button>').join('')+
+      (noEvList.length>8?'<div class="actmore">…另 '+(noEvList.length-8)+' 条</div>':'')+'</div>'; }
+    if(hiThreat.length||hiHazard.length){ s+='<div class="actcol"><div class="acth">C · 高风险工程项('+(hiThreat.length+hiHazard.length)+')</div>'+
+      hiThreat.slice(0,6).map(o=>'<button class="actrow" onclick="pick(\'tara\')">'+chip('风险'+riskOf(o.t),(RISK_COL[riskOf(o.t)]||['#eee','#555']))+' <span>'+esc(o.t.name||'(未命名威胁)')+'</span><small>'+esc(o.t.asset||'')+'</small></button>').join('')+
+      hiHazard.slice(0,6).map(o=>{const a=asilOf(o.h);return '<button class="actrow" onclick="pick(\'hara\')">'+chip('ASIL '+a,(ASIL_COL[a]||['#eee','#555']))+' <span>'+esc(o.h.name||'(未命名危害)')+'</span><small>'+esc(o.h.fn||'')+'</small></button>';}).join('')+'</div>'; }
+    s+='</div>';
+  }
+  // —— 条款证据台账 ——
+  const labs=['无','部分','已建立'], stCol=['#f3d0d0','#f4e6bd','#d9e8d1'], stFg=['#b02222','#7a5a10','#3d6b2c'];
+  s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
+    '<div style="font-size:13px;font-weight:800">条款证据台账 <span style="font-weight:400;color:var(--grey);font-size:11.5px">R155 + R156 · 证据/责任人/差距在各自的「认证就绪度自查」页里填,这里汇总</span></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="pill'+(_packGapOnly?' on':'')+'" style="cursor:pointer" onclick="togglePackGap()">'+(_packGapOnly?'✓ 只看缺口':'只看缺口')+'</button><button class="btn sm" onclick="exportLedgerCSV()">⬇ 导出台账 CSV</button></div></div>';
+  let rows=allClauses();
+  if(_packGapOnly) rows=rows.filter(c=>clauseFlag(c).type!=='ok');
+  s+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">条款</th><th>体系</th><th>状态</th><th>证据/记录</th><th>责任人</th><th>差距/整改</th><th>目标</th><th>审计风险</th></tr>';
+  if(!rows.length){ s+='<tr><td colspan="8" style="color:var(--grey)">无缺口:全部条款已建立且有证据。</td></tr>'; }
+  rows.forEach(function(c){ const v=ans[c.it.k]||0, mm=itemMeta[c.it.k]||{}, f=clauseFlag(c);
+    const flagBadge=f.type==='ok'?'<span style="color:var(--green)">✓ 闭环</span>':
+      (f.type==='noev'?'<span class="mlegal" style="background:#f3d0d0;color:#b02222">⚠ 缺证据</span>':
+       '<span class="mlegal" style="background:#f4e6bd;color:#7a5a10">未达标</span>')+(f.overdue?' <span class="mlegal" style="background:#f3d0d0;color:#b02222">逾期</span>':'');
+    s+='<tr'+(f.type!=='ok'?' style="background:#fdf6f0"':'')+'><td class="lft"><button class="lnk" onclick="gotoItem(\''+c.it.k+'\')">'+esc(c.it.t)+'</button><div style="font-size:10.5px;color:var(--grey)">'+esc(c.it.r||'')+'</div></td>'+
+      '<td>'+esc(c.sys)+'</td>'+
+      '<td><span class="mlegal" style="background:'+stCol[v]+';color:'+stFg[v]+'">'+labs[v]+'</span></td>'+
+      '<td>'+(mm.ev?esc(mm.ev):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td>'+(mm.owner?esc(mm.owner):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td>'+(mm.gap?esc(mm.gap):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td style="white-space:nowrap">'+(mm.due?esc(mm.due):'<span style="color:var(--greyl)">—</span>')+'</td>'+
+      '<td style="white-space:nowrap">'+flagBadge+'</td></tr>';
+  });
+  s+='</table></div>';
+  // —— 风险登记册 ——
+  s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
+    '<div style="font-size:13px;font-weight:800">风险登记册 <span style="font-weight:400;color:var(--grey);font-size:11.5px">TARA 威胁按风险值 / HARA 危害按 ASIL 降序</span></div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" onclick="exportTaraCSV()">⬇ TARA CSV</button><button class="btn sm" onclick="exportHaraCSV()">⬇ HARA CSV</button></div></div>';
+  s+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">威胁场景(TARA)</th><th>资产</th><th>影响</th><th>可行性</th><th>风险值</th><th>CAL</th><th>优先级</th></tr>';
+  const ts=taraSorted();
+  if(!ts.length){ s+='<tr><td colspan="7" style="color:var(--grey)">尚无威胁条目。</td></tr>'; }
+  ts.forEach(function(o){ const t=o.t, di=derivedImpact(t), fe=effFeas(t), rv=riskOf(t), c=calOf(t), rc=rv?RISK_COL[rv]:null, cc=(c!=null)?CAL_COL[c]:null;
+    s+='<tr><td class="lft">'+esc(t.name||'(未命名)')+'</td><td>'+esc(t.asset||'')+'</td><td>'+(di?esc(impactCn(di)):'—')+'</td><td>'+(fe?esc(feasCn(fe)):'—')+'</td>'+
+      '<td>'+(rv?'<span class="mlegal" style="background:'+rc[0]+';color:'+rc[1]+'">'+rv+'</span>':'—')+'</td>'+
+      '<td>'+(c!=null?(c>0?'<span class="mlegal" style="background:'+cc[0]+';color:'+cc[1]+'">CAL '+c+'</span>':'无需'):'—')+'</td>'+
+      '<td>'+(riskPrio(rv)||'—')+'</td></tr>';
+  });
+  s+='</table></div>';
+  s+='<div style="overflow:auto;margin-top:10px"><table class="modtab"><tr><th class="lft">危害事件(HARA)</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th><th>优先级</th></tr>';
+  const hs=haraSorted();
+  if(!hs.length){ s+='<tr><td colspan="7" style="color:var(--grey)">尚无危害条目。</td></tr>'; }
+  hs.forEach(function(o){ const h=o.h, a=asilOf(h), ac=(a!=null)?ASIL_COL[a]:null;
+    s+='<tr><td class="lft">'+esc(h.name||'(未命名)')+'</td><td>'+esc(h.fn||'')+'</td><td>'+(h.s||'—')+'</td><td>'+(h.e||'—')+'</td><td>'+(h.c||'—')+'</td>'+
+      '<td>'+(a!=null?'<span class="mlegal" style="background:'+ac[0]+';color:'+ac[1]+'">'+(a==='QM'?'QM':'ASIL '+a)+'</span>':'—')+'</td>'+
+      '<td>'+(asilPrio(a)||'—')+'</td></tr>';
+  });
+  s+='</table></div>';
+  s+='<div class="ckleg">「审计风险」口径:<b>未达标</b>=状态为无/部分(拿证阻塞);<b>⚠ 缺证据</b>=已勾选已建立但未填证据/记录——审核现场无法举证,补上即可闭环;<b>逾期</b>=有目标日期且已过而仍未达标。CSV 为 UTF-8(含 BOM),Excel 可直接打开。全部为团队自查参照,非型式批准结论。</div>';
+  m.innerHTML=s;
+}
+function glosListHTML(){
+  const q=(_glosQ||'').trim().toLowerCase();
+  const list=GLOSSARY.filter(g=>!q||(g.t+' '+g.full+' '+g.d).toLowerCase().indexOf(q)>=0);
+  if(!list.length) return '<div class="pmempty">没有匹配「'+esc(_glosQ)+'」的术语。</div>';
+  return '<div class="glosgrid">'+list.map(g=>'<div class="glos"><div class="glost">'+esc(g.t)+' <span class="glosf">'+esc(g.full)+'</span></div><div class="glosd">'+esc(g.d)+'</div></div>').join('')+'</div>';
+}
+function glosSearch(v){ _glosQ=v; const el=document.getElementById('glosList'); if(el) el.innerHTML=glosListHTML(); }
+function faqHTML(){ return '<div class="std">'+FAQS.map((f,i)=>'<details'+(i===0?' open':'')+'><summary>'+esc(f.q)+'</summary><div class="sc">'+esc(f.a)+'</div></details>').join('')+'</div>'; }
+function modsHTML(){
+  const legalCol={red:['#f3d0d0','#b02222'],amber:['#f4e6bd','#7a5a10'],grey:['#eef0f2','#6b7280']};
+  const cols=[['obj','测量对象'],['out','输出 / 刻度'],['legal','法定性'],['how','判定方式'],['std','依据标准'],['use','何时用']];
+  let h='<div class="sb-msub" style="margin-bottom:10px">四个模块**测的东西不同**——认证就绪度(通过/不通过)、工程评级(风险等级),彼此互不替代。</div>';
+  h+='<div style="overflow:auto"><table class="modtab"><tr><th class="lft">模块</th>'+cols.map(c=>'<th>'+esc(c[1])+'</th>').join('')+'</tr>';
+  MODULES.forEach(x=>{
+    const lc=legalCol[x.tone]||legalCol.grey;
+    h+='<tr><td class="lft"><b>'+esc(x.m)+'</b></td>'+cols.map(c=>{
+      if(c[0]==='legal') return '<td><span class="mlegal" style="background:'+lc[0]+';color:'+lc[1]+'">'+esc(x.legal)+'</span></td>';
+      return '<td>'+esc(x[c[0]])+'</td>';
+    }).join('')+'</tr>';
+  });
+  h+='</table></div>';
+  h+='<div class="ckleg">要点:R155/R156 就绪度回答"能不能拿证"(逐条条款);CAL/ASIL 回答"该做多严"(逐条威胁/危害的风险等级),其中 <b>CAL 资料性、ASIL 强制</b>。</div>';
+  return h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+}
+function stdHTML(focusIdx){ const arr=(CYBER.standards||[]); const fi=(focusIdx==null||focusIdx<0||focusIdx>=arr.length)?0:focusIdx; return '<div class="std">'+arr.map((x,i)=>'<details id="std-'+i+'"'+(i===fi?' open':'')+'><summary>'+esc(x.name)+' · '+esc(x.id)+(x.region?' · '+esc(x.region):'')+'</summary>'+(x.scope?'<div class="sc">'+esc(x.scope)+'</div>':'')+(x.points&&x.points.length?'<ul>'+x.points.map(p=>'<li>'+esc(p)+'</li>').join('')+'</ul>':'')+(x.timeline?'<div class="tl">⏱ '+esc(x.timeline)+'</div>':'')+'</details>').join('')+'</div>'; }
+/* 速查工具下拉 + 弹窗 */
+function toggleTools(){ const d=document.getElementById('tb-dd'); if(d) d.classList.toggle('on'); }
+// 右侧「相关法规 / 标准」栏：源自本工具已有的标准数组，点项打开完整速览
+function relRegs(){
+  const host=document.getElementById('reglist'); if(!host) return;
+  const arr=(CYBER.standards||[]);
+  const card=(x,i)=>{
+    const parts=String(x.name||'').split(/\s[—–-]\s/);
+    const short=parts.length>1?parts.slice(1).join(' — '):(x.name||x.id||'');
+    return '<button class="rr-item" onclick="openTool(\'std\','+i+')" title="'+escA((x.scope||'')+(x.timeline?' ｜ 时效:'+x.timeline:''))+'">'
+      +'<span class="rr-id">'+esc(x.id||'')+'</span>'
+      +'<span class="rr-nm">'+esc(short)+'</span>'
+      +(x.region?'<span class="rr-rg">'+esc(x.region)+'</span>':'')+'</button>';
+  };
+  host.innerHTML='<div class="rr-h">相关法规 / 标准 <span class="rr-n">'+arr.length+'</span></div>'
+    +'<div class="rr-list">'+arr.map((x,i)=>card(x,i)).join('')+'</div>'
+    +'<div class="rr-note">点任一项打开「相关标准 / 法规速览」，看适用范围、要点与时间线。</div>';
+}
+function openTool(which,arg){
+  const d=document.getElementById('tb-dd'); if(d) d.classList.remove('on');
+  const t=document.getElementById('gmtitle'), bd=document.getElementById('gmbody');
+  if(which==='glos'){ t.textContent='术语速查（'+GLOSSARY.length+' 条）'; bd.innerHTML='<input class="cin" id="glosq" style="max-width:340px;margin-bottom:12px" placeholder="搜索术语,如 CAL / RXSWIN / 攻击可行性" value="'+escA(_glosQ)+'" oninput="glosSearch(this.value)"><div id="glosList">'+glosListHTML()+'</div>'; }
+  else if(which==='faq'){ t.textContent='常见问答 FAQ'; bd.innerHTML=faqHTML(); }
+  else if(which==='mods'){ t.textContent='模块差异矩阵'; bd.innerHTML=modsHTML(); }
+  else { t.textContent='相关标准 / 法规速览'; bd.innerHTML=stdHTML(arg); }
+  document.getElementById('gmodal').classList.add('on');
+  if(which==='std'&&arg!=null){ const el=document.getElementById('std-'+arg); if(el) setTimeout(()=>el.scrollIntoView({block:'start'}),0); }
+}
+function gmClose(){ const m=document.getElementById('gmodal'); if(m) m.classList.remove('on'); }
+document.addEventListener('click',function(e){ const dd=document.getElementById('tb-dd'); if(dd&&dd.classList.contains('on')&&!e.target.closest('.tb-menu')) dd.classList.remove('on'); });
+function render(){ renderSummary(); renderNav(); renderMain(); }
+(function(){
+  const bl=document.getElementById('backlink'), bb=document.getElementById('backbtn');
+  [bl,bb].forEach(el=>{ if(el) el.addEventListener('click',function(e){
+    if(window.opener && !window.opener.closed){ e.preventDefault(); window.close(); }
+  }); });
+})();
+(function init(){
+  const ps=getProfiles(), id=activeId();
+  if(id&&ps[id]){ applyState(ps[id].state); const el=document.getElementById('pname'); if(el) el.value=ps[id].name||''; }
+  else {
+    // 首次:迁移旧的自评答案(真实输入)作为草稿
+    let migAns=null; try{ migAns=JSON.parse(localStorage.getItem(OLD_ANS)); }catch(e){}
+    ans=(migAns&&typeof migAns==='object')?migAns:{};
+    tara=seedTara(); hara=seedHara(); itemMeta={};
+    try{ localStorage.removeItem(OLD_CK); }catch(e){} // 清掉旧映射种子缓存
+  }
+  updatePBar(); writeSummary(); render(); relRegs();
+})();
+</script>
+</body>
+</html>
