@@ -589,9 +589,9 @@ function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 /* ===== 一点通法规链接(与 emark_assessment.html 同一机制,仅收录实际法规/指令,不含 ISO/IEC/EN 等技术标准)===== */
 const REG_LINKS={
- "UN R10":"","UN R94":"","UN R95":"","UN R100":"","UN R137":"",
- "(EU) 2018/858":"","(EU) 2023/1542":"","(EU) 2023/1804":"","(EU) 2024/1257":"","(EU) 2024/1781":"","(EU) 2025/1561":"","(EU) 2026/1738":"","(EU) 2026/1778":"",
- "Directive 2000/53/EC":"","Directive 2005/64/EC":""
+ "UN R10":"https://www.1clicktong.com/law/lawDetail?lawUuid=986edecfcbc14d378867e0c1d40c78f1","UN R94":"https://www.1clicktong.com/law/lawDetail?lawUuid=6fcd836a739e447083a92f2c1ef50980","UN R95":"https://www.1clicktong.com/law/lawDetail?lawUuid=418bcca4cfbf44f3a07112073c5b8083","UN R100":"https://www.1clicktong.com/law/lawDetail?lawUuid=d7fb08f4dd384a18a0989ba3570fbe1b","UN R137":"https://www.1clicktong.com/law/lawDetail?lawUuid=99bfc0b8f94f4fb08eff002ae4c9af24",
+ "(EU) 2018/858":"https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6","(EU) 2023/1542":"https://new.1clicktong.com/law/lawDetail?lawUuid=b9aec867093a95007f4f338af6831cc8","(EU) 2023/1804":"https://new.1clicktong.com/law/lawDetail?lawUuid=4515f2a8b7d104f057b52938fd756c73","(EU) 2024/1257":"https://new.1clicktong.com/law/lawDetail?lawUuid=8bfa3b65ff0491e7c9969fc37791e660","(EU) 2024/1781":"https://new.1clicktong.com/law/lawDetail?lawUuid=c96bab15fca24727ac5bb317fe89b0c1","(EU) 2025/1561":"https://new.1clicktong.com/law/lawDetail?lawUuid=92954e151f91d859a8a2e606e822d7b7","(EU) 2026/1738":"https://new.1clicktong.com/law/lawDetail?lawUuid=97e2340a9ea7445b8f286db31a45e25f","(EU) 2026/1778":"https://new.1clicktong.com/law/lawDetail?lawUuid=e6c7474de24f48a58bf84e72b122f2ee",
+ "Directive 2000/53/EC":"https://new.1clicktong.com/law/lawDetail?lawUuid=c514c60579a8bf042587acf9d8457a59","Directive 2005/64/EC":"https://new.1clicktong.com/law/lawDetail?lawUuid=3e87e064d57744e3f19edea562dbfe8d"
 };
 const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
 const REG_TOKEN_RE=/UN\s*R\s?\d{1,3}(?:-H)?|\((?:EU|EC)\)\s*(?:No\s*)?\d{1,4}\/\d{2,4}|Directive\s*\d{4}\/\d+\/E[UC]/gi;
