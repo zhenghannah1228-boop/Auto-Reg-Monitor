@@ -537,7 +537,7 @@ let _packGapOnly=false; // 审计就绪包:只看缺口(不持久化)
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 const REG_LINKS={
- "UN R155":"","UN R156":"","(EU) 2019/2144":"","(EU) 2022/30":""
+ "UN R155":"https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f","UN R156":"https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976","(EU) 2019/2144":"https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4","(EU) 2022/30":"https://new.1clicktong.com/law/lawDetail?lawUuid=06765a9b79356d3274b336b128a06df9"
 };
 const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
 const REG_TOKEN_RE=/UN\s*R\s?\d{1,3}(?:-H)?|\((?:EU|EC)\)\s*(?:No\s*)?\d{1,4}\/\d{2,4}|Directive\s*\d{4}\/\d+\/E[UC]|\bR(?:155|156)\b/gi;
