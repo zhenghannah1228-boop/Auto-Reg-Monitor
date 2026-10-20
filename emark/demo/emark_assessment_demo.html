@@ -487,6 +487,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .rl-lk .ico{margin-right:2px;opacity:.85}
 .rl-note{font-size:11px;color:var(--greyl);line-height:1.5;border-top:1px dashed var(--line);padding-top:9px;margin-top:2px}
 .rl-empty{font-size:12.5px;color:var(--greyl)}
+.rl-tags{display:block;margin-top:4px}
+.rl-tags .rl-lk{margin-right:10px;font-size:11.5px}
 @media(max-width:940px){
   .layout{grid-template-columns:1fr;gap:16px}
   .sidebar{position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)}
@@ -1398,17 +1400,21 @@ const D858='../docs/Reg-EU-2018-858-framework.pdf', D2144='../docs/Reg-EU-2019-2
 // 法规→「一点通」链接占位表：键 = 规范化法规号（regTokens 产出）。当前全部占位（''），后期逐条填该法规在「一点通」的 URL。
 const REG_LINKS={
  // —— UN 法规（ECE R）——
- "UN R3":"","UN R4":"","UN R10":"","UN R11":"","UN R12":"","UN R13-H":"","UN R14":"","UN R16":"","UN R17":"","UN R21":"","UN R26":"","UN R28":"",
- "UN R30":"","UN R31":"","UN R34":"","UN R37":"","UN R39":"","UN R43":"","UN R44":"","UN R45":"","UN R46":"","UN R48":"","UN R51":"","UN R55":"",
- "UN R58":"","UN R64":"","UN R67":"","UN R79":"","UN R90":"","UN R94":"","UN R95":"","UN R97":"","UN R100":"","UN R108":"",
- "UN R110":"","UN R114":"","UN R121":"","UN R122":"","UN R124":"","UN R125":"","UN R126":"","UN R127":"","UN R129":"","UN R130":"",
- "UN R131":"","UN R133":"","UN R134":"","UN R135":"","UN R137":"","UN R138":"","UN R139":"","UN R140":"","UN R141":"","UN R142":"",
- "UN R145":"","UN R152":"","UN R153":"","UN R155":"","UN R156":"","UN R157":"","UN R158":"","UN R160":"","UN R171":"","UN R179":"",
+ "UN R3":"https://www.1clicktong.com/law/lawDetail?lawUuid=9240ed011eb044b28ed7f93ba5d1b900","UN R4":"https://www.1clicktong.com/law/lawDetail?lawUuid=64bbbed6eeee4510b2816084050855b1","UN R10":"https://www.1clicktong.com/law/lawDetail?lawUuid=986edecfcbc14d378867e0c1d40c78f1","UN R11":"https://www.1clicktong.com/law/lawDetail?lawUuid=f69c70807895407b8f797e6d302d1619","UN R12":"https://www.1clicktong.com/law/lawDetail?lawUuid=445a77addd8b4ed4b9692de9e6928bc9","UN R13-H":"https://www.1clicktong.com/law/lawDetail?lawUuid=0666a6ea8c6d4adebe8008f75ec5c506","UN R14":"https://www.1clicktong.com/law/lawDetail?lawUuid=caf6146beb3c4cc080ecc3c3a3d632cd","UN R16":"https://www.1clicktong.com/law/lawDetail?lawUuid=933d5da0f7ef4a6fb06f362206016576","UN R17":"https://www.1clicktong.com/law/lawDetail?lawUuid=51a7f193ec84405bafba7e77d2e313e2","UN R21":"https://www.1clicktong.com/law/lawDetail?lawUuid=b7000f42a2c94e589433ef95776a23d9","UN R26":"https://www.1clicktong.com/law/lawDetail?lawUuid=864fb813d99f4210ba0e50f55d88fe9c","UN R28":"https://www.1clicktong.com/law/lawDetail?lawUuid=65c4d07604824a64bbeadc5c49cdedc0",
+ "UN R30":"https://www.1clicktong.com/law/lawDetail?lawUuid=7b435acea436444fb3f740bae494f26c","UN R31":"https://www.1clicktong.com/law/lawDetail?lawUuid=e34f8bd194e04a139d4c36b5b41a2e74","UN R34":"https://www.1clicktong.com/law/lawDetail?lawUuid=e591809061294019905ed678898d1663","UN R37":"https://www.1clicktong.com/law/lawDetail?lawUuid=89383565cbce4126a5f8f26f24bef17a","UN R39":"https://www.1clicktong.com/law/lawDetail?lawUuid=cf9191323ae4422cabfe15e178618267","UN R43":"https://www.1clicktong.com/law/lawDetail?lawUuid=6a812510feaa4d4d80bef2c5984e4e81","UN R44":"https://www.1clicktong.com/law/lawDetail?lawUuid=32f38dc94fbc479589e03f7ef6e2d81c","UN R45":"https://www.1clicktong.com/law/lawDetail?lawUuid=9c6ca8f561c4465791e2f771ce524a38","UN R46":"https://www.1clicktong.com/law/lawDetail?lawUuid=06eb822b1de14b2e97747b2a63db0651","UN R48":"https://www.1clicktong.com/law/lawDetail?lawUuid=d4b0507dbc8b47899b9686f98ee21259","UN R51":"https://www.1clicktong.com/law/lawDetail?lawUuid=6206a2a7f35846a89bf405677c9a7061","UN R55":"https://www.1clicktong.com/law/lawDetail?lawUuid=0cb05f8f3427488b871d386dfeeb75d8",
+ "UN R58":"https://www.1clicktong.com/law/lawDetail?lawUuid=e049536ee2014f8bb943168696767770","UN R64":"https://www.1clicktong.com/law/lawDetail?lawUuid=41bdc690b4f84645891b72723de42853","UN R67":"https://www.1clicktong.com/law/lawDetail?lawUuid=2e4b0570879e46809572bb82cb1cfe39","UN R79":"https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430","UN R90":"https://www.1clicktong.com/law/lawDetail?lawUuid=b4c5f3885a044b5c8bb4c93c43ea4453","UN R94":"https://www.1clicktong.com/law/lawDetail?lawUuid=6fcd836a739e447083a92f2c1ef50980","UN R95":"https://www.1clicktong.com/law/lawDetail?lawUuid=418bcca4cfbf44f3a07112073c5b8083","UN R97":"https://www.1clicktong.com/law/lawDetail?lawUuid=c736f51052d24ed6a5f597adfce09051","UN R100":"https://www.1clicktong.com/law/lawDetail?lawUuid=d7fb08f4dd384a18a0989ba3570fbe1b","UN R108":"https://www.1clicktong.com/law/lawDetail?lawUuid=9f87f370b8bd4f61af95b847a7ad9380",
+ "UN R110":"https://www.1clicktong.com/law/lawDetail?lawUuid=b9d16bf2646945d3b620e9a21bb90e2c","UN R114":"https://www.1clicktong.com/law/lawDetail?lawUuid=868cb670eb4d420c9cd6dac0af2268a4","UN R121":"https://www.1clicktong.com/law/lawDetail?lawUuid=05df660f6deb4888be0b57f6939f7378","UN R122":"https://www.1clicktong.com/law/lawDetail?lawUuid=02c7df237a0e44fdb611914046d9cf7c","UN R124":"https://www.1clicktong.com/law/lawDetail?lawUuid=7028fa2a5e8f4890b356320244973517","UN R125":"https://www.1clicktong.com/law/lawDetail?lawUuid=dcdd3c5356d5454aa2a3a579e308a1ef","UN R126":"https://www.1clicktong.com/law/lawDetail?lawUuid=1db925e940314ef9bec0b881fb90507f","UN R127":"https://www.1clicktong.com/law/lawDetail?lawUuid=01dd7ea7b3f942c988cee8e475e3c2af","UN R129":"https://www.1clicktong.com/law/lawDetail?lawUuid=0d1a6229314941eaa70093ba5a0686c9","UN R130":"https://www.1clicktong.com/law/lawDetail?lawUuid=7f09f5d405344bef9bcf1ed56a9cc4af",
+ "UN R131":"https://www.1clicktong.com/law/lawDetail?lawUuid=d768e0b5a5074df780f9bc793eed9744","UN R133":"https://www.1clicktong.com/law/lawDetail?lawUuid=dab34398539447c6b541ce4acdedfaa7","UN R134":"https://www.1clicktong.com/law/lawDetail?lawUuid=4559a999fdaa4295b4469991f0a4f93e","UN R135":"https://www.1clicktong.com/law/lawDetail?lawUuid=9ccd5d9c5ba340208902e259f406712f","UN R137":"https://www.1clicktong.com/law/lawDetail?lawUuid=99bfc0b8f94f4fb08eff002ae4c9af24","UN R138":"https://www.1clicktong.com/law/lawDetail?lawUuid=2d6388e71921428d90a388d4b2c56677","UN R139":"https://www.1clicktong.com/law/lawDetail?lawUuid=83169940ea33479292ef06de12a99c89","UN R140":"https://www.1clicktong.com/law/lawDetail?lawUuid=c020382dccd44b21abfc61b795b127c4","UN R141":"https://www.1clicktong.com/law/lawDetail?lawUuid=3306d4b9a57a4cf9aa36d1afc3d541a8","UN R142":"https://www.1clicktong.com/law/lawDetail?lawUuid=2b9f15544f964ec3a80c8912a068cf1c",
+ "UN R13":"https://www.1clicktong.com/law/lawDetail?lawUuid=49f6a4502d36492485f9f259d76471fa","UN R145":"https://www.1clicktong.com/law/lawDetail?lawUuid=a04a5b651ec64bcdb7e208f5dab76ad1","UN R152":"https://www.1clicktong.com/law/lawDetail?lawUuid=dcdc0bca828d441091fcce4ae9275ba9","UN R153":"https://www.1clicktong.com/law/lawDetail?lawUuid=056b2a7d8d3e457a8aad19d9e66ffc25","UN R155":"https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f","UN R156":"https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976","UN R157":"https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e","UN R158":"https://www.1clicktong.com/law/lawDetail?lawUuid=22f446ff0e604b74addbb7875f02424c","UN R160":"https://www.1clicktong.com/law/lawDetail?lawUuid=0f07b51aa18544ef9f948faf15645491","UN R171":"https://www.1clicktong.com/law/lawDetail?lawUuid=e9c28a4445a3437d9cec799dfc16ab65","UN R179":"https://www.1clicktong.com/law/lawDetail?lawUuid=b240f7a0011944c7b2b4b192bdc83303",
  // —— EU / EC 法规 ——
- "(EU) 2017/79":"","(EU) 540/2014":"","(EU) 2018/858":"","(EU) 2019/2144":"","(EU) 2021/535":"","(EU) 2021/646":"","(EU) 2021/1243":"","(EU) 2021/1341":"","(EU) 2021/1958":"","(EU) 2022/1426":"",
- "(EU) 2023/2590":"","(EU) 2024/1257":"","(EU) 2025/1706":"","(EU) 2025/2161":"","(EC) 595/2009":"","(EC) 715/2007":"",
+ "(EU) 2017/79":"https://new.1clicktong.com/law/lawDetail?lawUuid=6a2aa9a54917fd06ac888ca1df60cc13","(EU) 540/2014":"https://new.1clicktong.com/law/lawDetail?lawUuid=366661e343bb24fe5b7c4c1284825236","(EU) 2018/858":"https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6","(EU) 2019/2144":"https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4","(EU) 2021/535":"https://new.1clicktong.com/law/lawDetail?lawUuid=b7e60474bc4cce1dc1b11afe502f557f","(EU) 2021/646":"https://new.1clicktong.com/law/lawDetail?lawUuid=f6c7b7276a0c3d2f79e86eec4f191ebb","(EU) 2021/1243":"https://new.1clicktong.com/law/lawDetail?lawUuid=420315af4e032be971dde1d8ddafb9d9","(EU) 2021/1341":"https://new.1clicktong.com/law/lawDetail?lawUuid=c3376db405aee15ca094c76dd9564963","(EU) 2021/1958":"https://new.1clicktong.com/law/lawDetail?lawUuid=0f914f61496d3c7f570cef29a6dc5198","(EU) 2022/1426":"https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c",
+ "(EU) 2023/2590":"https://new.1clicktong.com/law/lawDetail?lawUuid=5a0d8f53d653346d7c5b42c019eba7d7","(EU) 2024/1257":"https://new.1clicktong.com/law/lawDetail?lawUuid=8bfa3b65ff0491e7c9969fc37791e660","(EU) 2025/1706":"https://new.1clicktong.com/law/lawDetail?lawUuid=64eda635be054f2ba100cb26148af81f","(EU) 2025/2161":"https://new.1clicktong.com/law/lawDetail?lawUuid=274da4262c587de317755183bf7a8650","(EC) 595/2009":"https://new.1clicktong.com/law/lawDetail?lawUuid=e74f1d91f8392c8ba15d5a664a511b0b","(EC) 715/2007":"https://new.1clicktong.com/law/lawDetail?lawUuid=b0808c29bd25f6c7c9cf0f1d469a6747",
  // —— 指令（Directive）——
- "Directive 2005/64/EC":"","Directive 2006/40/EC":""
+ "Directive 2005/64/EC":"https://new.1clicktong.com/law/lawDetail?lawUuid=3e87e064d57744e3f19edea562dbfe8d","Directive 2006/40/EC":"https://new.1clicktong.com/law/lawDetail?lawUuid=9bc644d98a2742c5e5b5e3584dc07cb7",
+ // —— 组合项细分法规（道路照明/光信号/防盗报警/轮胎噪声等捆绑项按 SPLIT_REGS 展开后的子法规）——
+ "UN R117":"https://www.1clicktong.com/law/lawDetail?lawUuid=18e769e6fccc498b9e37ee5817a7eccf","UN R116":"https://www.1clicktong.com/law/lawDetail?lawUuid=8bac34ce9338468c986ed5905abd8dcd","UN R161":"https://www.1clicktong.com/law/lawDetail?lawUuid=3d72535345154f228a1317b53371f749","UN R162":"https://www.1clicktong.com/law/lawDetail?lawUuid=64ed0bc15e1d42dfa1743c299a7233f4","UN R163":"https://www.1clicktong.com/law/lawDetail?lawUuid=0f6206ec214d4aa0a37bc81c90d11686","UN R6":"https://www.1clicktong.com/law/lawDetail?lawUuid=8051ccb101334f1b8b2c7f01af485f6c","UN R7":"https://www.1clicktong.com/law/lawDetail?lawUuid=8e22c7c2f5464cc182252feec5344d56","UN R19":"https://www.1clicktong.com/law/lawDetail?lawUuid=ecfdb0bbabdc4a81b357c8447936ca42","UN R23":"https://www.1clicktong.com/law/lawDetail?lawUuid=2e3415b75a884c9282a6582364379123","UN R38":"https://www.1clicktong.com/law/lawDetail?lawUuid=0f0aa6e02c2f4fb9a68127c99966a82e","UN R77":"https://www.1clicktong.com/law/lawDetail?lawUuid=5c9619d39d8b42a9961bfe4396b3b632","UN R87":"https://www.1clicktong.com/law/lawDetail?lawUuid=3f6f7489e1774f01ba799e49c1b2b972","UN R91":"https://www.1clicktong.com/law/lawDetail?lawUuid=9783a2ba90834243a88c60e69864d278","UN R148":"https://www.1clicktong.com/law/lawDetail?lawUuid=1eadec0e9ecf402f8548973037fe1c0b","UN R98":"https://www.1clicktong.com/law/lawDetail?lawUuid=50dad4ea38714d5f9a720801b32421c3","UN R112":"https://www.1clicktong.com/law/lawDetail?lawUuid=6ce49c865dbd4d5eadb77e78e4c55861","UN R119":"https://www.1clicktong.com/law/lawDetail?lawUuid=5d496be3f7674abf952314762e441900","UN R123":"https://www.1clicktong.com/law/lawDetail?lawUuid=e4abbb719c374c648d11629d2aea14a9","UN R149":"https://www.1clicktong.com/law/lawDetail?lawUuid=cac131ddf5d14b2f87ce31a79deb5627","UN R104":"https://www.1clicktong.com/law/lawDetail?lawUuid=1e4d5da47c9e46d9968832b2b34d0a90","UN R150":"https://www.1clicktong.com/law/lawDetail?lawUuid=eab55159335b49ebbb2ac0dbc89d9ae2","UN R99":"https://www.1clicktong.com/law/lawDetail?lawUuid=868c2600f81e468d928c25374d16ccd7","UN R128":"https://www.1clicktong.com/law/lawDetail?lawUuid=e79152a188cc4f5f992fc1d79e2bfbb4","UN R59":"https://www.1clicktong.com/law/lawDetail?lawUuid=cd7ed8cf9e0949fab4afb477b3dfe3fb",
+ // —— 一点通二批补充(2026-08 v3 清单)：CE 并行/EMC/RED/机械/eCall 家族等 ——
+ "(EU) 2015/758":"https://new.1clicktong.com/law/lawDetail?lawUuid=4dfed5dee2910dc61fe38474ce2e558f","(EU) 2017/78":"https://new.1clicktong.com/law/lawDetail?lawUuid=60e8447267147e4a4e032d2d10dfc1b2","(EU) 2025/1707":"https://new.1clicktong.com/law/lawDetail?lawUuid=f9be1f84c24b4e3e80613f4636aefadb","(EU) 2025/1871":"https://new.1clicktong.com/law/lawDetail?lawUuid=ce8aa18bd0130ba9a3cc90ad89084184","(EU) 2026/1762":"https://new.1clicktong.com/law/lawDetail?lawUuid=47d96714d9bd4c31a51d463706a281d7","(EU) 2026/1764":"https://new.1clicktong.com/law/lawDetail?lawUuid=9daf6bbbded0455cafefaef40ba350d8","(EU) 2013/29":"https://new.1clicktong.com/law/lawDetail?lawUuid=24842143525e025a850e08612bc678d4","(EU) 2014/30 (EMC指令)":"https://new.1clicktong.com/law/lawDetail?lawUuid=818c91904520cc5c9cec16695ff8fe6e","(EU) 2014/53 (RED)":"https://new.1clicktong.com/law/lawDetail?lawUuid=26f96a0b94103b0a47ee97ab64209d84","(EU) 2023/1230":"https://new.1clicktong.com/law/lawDetail?lawUuid=0482e3db8c02e84e25920c2b76706310","2006/42/EC":"https://new.1clicktong.com/law/lawDetail?lawUuid=d670b6221f4f5b0ec76e124797aba805",
 };
 function regLink(k){ return (REG_LINKS[k]||'').trim() || '#'; }
 // 从法规文本(紧凑格式)抽取规范化法规号：UN R21.01→UN R21；(EU) 2021/535 Annex XIV→(EU) 2021/535；Directive 2005/64/EC
@@ -1437,33 +1443,36 @@ function pageRegList(){
     .sort((a,b)=>{const x=rank(a.k),y=rank(b.k);return x[0]-y[0]||x[1]-y[1]||x[2]-y[2];});
 }
 const STEP_REGS={
- 0:[{t:'适用框架',c:'1958 协定（UN 法规互认体系，大 E）＋ <b>(EU) 2018/858</b> 型式批准与市场监督框架条例。'}],
+ 0:[{t:'适用框架',c:'1958 协定（UN 法规互认体系，大 E）＋ <b>(EU) 2018/858</b> 型式批准与市场监督框架条例。',rl:['(EU) 2018/858']}],
  1:[{t:'适用框架',c:'1958 协定多国互认（大 E）／ EU 型式批准（小 e）两条路线；本步为线索收集，据规模与时间要求校准结论。'},
-    {t:'(EU) 2018/858',c:'型式批准与市场监督框架条例。',l:D858}],
- 2:[{t:'(EU) 2018/858 · Art 57/58',c:'Annex II 所列 UN 法规是 EU 型批要求组成部分（57）；UN 法规与 EU 法规<b>等效</b>、成员国须接受 E 标替代 EU 标（58）。',l:D858},
-    {t:'(EU) 2018/858 · Art 3(20)',c:'独立技术单元（STU）定义。',l:D858},
-    {t:'EMC 2014/30/EU · Art 2(2)',c:'车辆及 ESA 排除出通用 EMC 指令，改由 UN R10 覆盖 → 打大 E。'},
-    {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230（<b>2027-01-20 起适用</b>,20 号前不得依新法规签发 EU 符合性声明,无过渡期、只有切换日）；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。'}],
+    {t:'(EU) 2018/858',c:'型式批准与市场监督框架条例。',l:D858,rl:['(EU) 2018/858']}],
+ 2:[{t:'(EU) 2018/858 · Art 57/58',c:'Annex II 所列 UN 法规是 EU 型批要求组成部分（57）；UN 法规与 EU 法规<b>等效</b>、成员国须接受 E 标替代 EU 标（58）。',l:D858,rl:['(EU) 2018/858']},
+    {t:'(EU) 2018/858 · Art 3(20)',c:'独立技术单元（STU）定义。',l:D858,rl:['(EU) 2018/858']},
+    {t:'EMC 2014/30/EU · Art 2(2)',c:'车辆及 ESA 排除出通用 EMC 指令，改由 UN R10 覆盖 → 打大 E。',rl:['(EU) 2014/30 (EMC指令)']},
+    {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230（<b>2027-01-20 起适用</b>,20 号前不得依新法规签发 EU 符合性声明,无过渡期、只有切换日）；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。',rl:['(EU) 2014/53 (RED)','2006/42/EC','(EU) 2023/1230','(EU) 2013/29']}],
  3:[{t:'WP.29/343 Add.1',c:'各缔约国指定型式批准机关与技术服务名录（63 国）＋缔约方适用（互认国数）。'},
     {t:'WP.29/343 Add.2',c:'各 UN 法规系列/增补生效日期（工具版本标注数据源）。'},
     {t:'WP.29/1044/Rev.3',c:'UN 法规程序通用指南——法规出新系列后既有批准持续有效；增补/勘误/修订的法律区别。'},
     {t:'WP.29/2025/159',c:'UN R0 IWVTA 08 series 提案（整车必备 43 项法规系列）。'},
-    {t:'(EU) 2019/2144 · Art 16',c:'EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。',l:D2144}],
- 4:[{t:'(EU) 2018/858 · Art 31',c:'生产一致性（CoP）安排——量产件须持续与批准样品一致。',l:D858},
-    {t:'UN R155 / R156',c:'CSMS 网络安全 / SUMS 软件更新管理体系（<b>整车级</b>，仅申报范围相关时计入）。'},
-    {t:'(EU) 2018/858 · Art 24/Annex I',c:'信息文件夹（技术文档）与型式批准申请材料。',l:D858}],
- 5:[{t:'(EU) 2018/858 · Art 31',c:'CoP 生产一致性——「有证无体系」时证书面临失效风险。',l:D858},
+    {t:'(EU) 2019/2144 · Art 16',c:'EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。',l:D2144,rl:['(EU) 2019/2144']}],
+ 4:[{t:'(EU) 2018/858 · Art 31',c:'生产一致性（CoP）安排——量产件须持续与批准样品一致。',l:D858,rl:['(EU) 2018/858']},
+    {t:'UN R155 / R156',c:'CSMS 网络安全 / SUMS 软件更新管理体系（<b>整车级</b>，仅申报范围相关时计入）。',rl:['UN R155','UN R156']},
+    {t:'(EU) 2018/858 · Art 24/Annex I',c:'信息文件夹（技术文档）与型式批准申请材料。',l:D858,rl:['(EU) 2018/858']}],
+ 5:[{t:'(EU) 2018/858 · Art 31',c:'CoP 生产一致性——「有证无体系」时证书面临失效风险。',l:D858,rl:['(EU) 2018/858']},
     {t:'WP.29/343 Add.1',c:'各国指定型式批准机关与技术服务机构（选机关/委托技服站）。'},
     {t:'WP.29/1044/Rev.3',c:'既有证书在系列更新后持续有效；法定失效日（如有）见顶栏「速查工具 → 版本时效自查表」。'}],
- 6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144},
-    {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858}]
+ 6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144,rl:['(EU) 2019/2144']},
+    {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858,rl:['(EU) 2018/858']}]
 };
 const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
 // 每条法规号渲染为可点链接（占位 # → 后期填「一点通」URL；已填则新窗打开）
 function regChip(k){ const u=regLink(k); if(u==='#') return `<span class="rl-lk ph">${k}</span>`; return `<a class="rl-lk" href="${u}" target="_blank" rel="noopener" title="查看法规">${_lnkIco}${k}</a>`; }
 function reglistHTML(n){
   const items=STEP_REGS[n]||[];
-  const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">${_lnkIco}</a>`:''}${r.c}</span></div>`).join('')
+  const body=items.length? items.map(r=>{
+    const tags=(r.rl||[]).map(k=>regChip(k)).join('');
+    return `<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">${_lnkIco}</a>`:''}${r.c}${tags?`<span class="rl-tags">${tags}</span>`:''}</span></div>`;
+  }).join('')
     : '<div class="rl-empty">本步无强制关联法规。</div>';
   // 02 范围界定 / 03 法规盘点：动态列出本页所有被引用的适用法规（去重，附覆盖主题 + 占位链接）
   let dyn='';
