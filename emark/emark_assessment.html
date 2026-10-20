@@ -475,6 +475,8 @@ button:focus-visible,.opt:focus-visible,[tabindex]:focus-visible{outline:2.5px s
 .rl-lk .ico{margin-right:2px;opacity:.85}
 .rl-note{font-size:11px;color:var(--greyl);line-height:1.5;border-top:1px dashed var(--line);padding-top:9px;margin-top:2px}
 .rl-empty{font-size:12.5px;color:var(--greyl)}
+.rl-tags{display:block;margin-top:4px}
+.rl-tags .rl-lk{margin-right:10px;font-size:11.5px}
 @media(max-width:940px){
   .layout{grid-template-columns:1fr;gap:16px}
   .sidebar{position:static;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--line)}
@@ -1427,33 +1429,36 @@ function pageRegList(){
     .sort((a,b)=>{const x=rank(a.k),y=rank(b.k);return x[0]-y[0]||x[1]-y[1]||x[2]-y[2];});
 }
 const STEP_REGS={
- 0:[{t:'适用框架',c:'1958 协定（UN 法规互认体系，大 E）＋ <b>(EU) 2018/858</b> 型式批准与市场监督框架条例。'}],
+ 0:[{t:'适用框架',c:'1958 协定（UN 法规互认体系，大 E）＋ <b>(EU) 2018/858</b> 型式批准与市场监督框架条例。',rl:['(EU) 2018/858']}],
  1:[{t:'适用框架',c:'1958 协定多国互认（大 E）／ EU 型式批准（小 e）两条路线；本步为线索收集，据规模与时间要求校准结论。'},
-    {t:'(EU) 2018/858',c:'型式批准与市场监督框架条例。',l:D858}],
- 2:[{t:'(EU) 2018/858 · Art 57/58',c:'Annex II 所列 UN 法规是 EU 型批要求组成部分（57）；UN 法规与 EU 法规<b>等效</b>、成员国须接受 E 标替代 EU 标（58）。',l:D858},
-    {t:'(EU) 2018/858 · Art 3(20)',c:'独立技术单元（STU）定义。',l:D858},
+    {t:'(EU) 2018/858',c:'型式批准与市场监督框架条例。',l:D858,rl:['(EU) 2018/858']}],
+ 2:[{t:'(EU) 2018/858 · Art 57/58',c:'Annex II 所列 UN 法规是 EU 型批要求组成部分（57）；UN 法规与 EU 法规<b>等效</b>、成员国须接受 E 标替代 EU 标（58）。',l:D858,rl:['(EU) 2018/858']},
+    {t:'(EU) 2018/858 · Art 3(20)',c:'独立技术单元（STU）定义。',l:D858,rl:['(EU) 2018/858']},
     {t:'EMC 2014/30/EU · Art 2(2)',c:'车辆及 ESA 排除出通用 EMC 指令，改由 UN R10 覆盖 → 打大 E。'},
     {t:'CE 并行触发',c:'无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230（<b>2027-01-20 起适用</b>,20 号前不得依新法规签发 EU 符合性声明,无过渡期、只有切换日）；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。'}],
  3:[{t:'WP.29/343 Add.1',c:'各缔约国指定型式批准机关与技术服务名录（63 国）＋缔约方适用（互认国数）。'},
     {t:'WP.29/343 Add.2',c:'各 UN 法规系列/增补生效日期（工具版本标注数据源）。'},
     {t:'WP.29/1044/Rev.3',c:'UN 法规程序通用指南——法规出新系列后既有批准持续有效；增补/勘误/修订的法律区别。'},
     {t:'WP.29/2025/159',c:'UN R0 IWVTA 08 series 提案（整车必备 43 项法规系列）。'},
-    {t:'(EU) 2019/2144 · Art 16',c:'EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。',l:D2144}],
- 4:[{t:'(EU) 2018/858 · Art 31',c:'生产一致性（CoP）安排——量产件须持续与批准样品一致。',l:D858},
-    {t:'UN R155 / R156',c:'CSMS 网络安全 / SUMS 软件更新管理体系（<b>整车级</b>，仅申报范围相关时计入）。'},
-    {t:'(EU) 2018/858 · Art 24/Annex I',c:'信息文件夹（技术文档）与型式批准申请材料。',l:D858}],
- 5:[{t:'(EU) 2018/858 · Art 31',c:'CoP 生产一致性——「有证无体系」时证书面临失效风险。',l:D858},
+    {t:'(EU) 2019/2144 · Art 16',c:'EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。',l:D2144,rl:['(EU) 2019/2144']}],
+ 4:[{t:'(EU) 2018/858 · Art 31',c:'生产一致性（CoP）安排——量产件须持续与批准样品一致。',l:D858,rl:['(EU) 2018/858']},
+    {t:'UN R155 / R156',c:'CSMS 网络安全 / SUMS 软件更新管理体系（<b>整车级</b>，仅申报范围相关时计入）。',rl:['UN R155','UN R156']},
+    {t:'(EU) 2018/858 · Art 24/Annex I',c:'信息文件夹（技术文档）与型式批准申请材料。',l:D858,rl:['(EU) 2018/858']}],
+ 5:[{t:'(EU) 2018/858 · Art 31',c:'CoP 生产一致性——「有证无体系」时证书面临失效风险。',l:D858,rl:['(EU) 2018/858']},
     {t:'WP.29/343 Add.1',c:'各国指定型式批准机关与技术服务机构（选机关/委托技服站）。'},
     {t:'WP.29/1044/Rev.3',c:'既有证书在系列更新后持续有效；法定失效日（如有）见顶栏「速查工具 → 版本时效自查表」。'}],
- 6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144},
-    {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858}]
+ 6:[{t:'(EU) 2019/2144 · Art 16 + Annex II',c:'新型式/新车强制适用日历——缺口按生效日排序。',l:D2144,rl:['(EU) 2019/2144']},
+    {t:'(EU) 2018/858 · Art 57/58',c:'等效与互认（大 E 一证多国的依据）。',l:D858,rl:['(EU) 2018/858']}]
 };
 const _lnkIco='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5M8.5 13h7M8.5 16.5h7"/></svg>';
 // 每条法规号渲染为可点链接（占位 # → 后期填「一点通」URL；已填则新窗打开）
 function regChip(k){ const u=regLink(k); if(u==='#') return `<span class="rl-lk ph">${k}</span>`; return `<a class="rl-lk" href="${u}" target="_blank" rel="noopener" title="查看法规">${_lnkIco}${k}</a>`; }
 function reglistHTML(n){
   const items=STEP_REGS[n]||[];
-  const body=items.length? items.map(r=>`<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">${_lnkIco}</a>`:''}${r.c}</span></div>`).join('')
+  const body=items.length? items.map(r=>{
+    const tags=(r.rl||[]).map(k=>regChip(k)).join('');
+    return `<div class="rl-item"><span class="rl-t">${r.t}</span><span class="rl-c">${r.l?`<a href="${r.l}" target="_blank">${_lnkIco}</a>`:''}${r.c}${tags?`<span class="rl-tags">${tags}</span>`:''}</span></div>`;
+  }).join('')
     : '<div class="rl-empty">本步无强制关联法规。</div>';
   // 02 范围界定 / 03 法规盘点：动态列出本页所有被引用的适用法规（去重，附覆盖主题 + 占位链接）
   let dyn='';
