@@ -986,14 +986,14 @@ function exportReport(){
       const md=[m.ev?('证据:'+m.ev):'',m.owner?('责任人:'+m.owner):'',m.gap?('差距:'+m.gap):'',m.due?('目标:'+m.due):''].filter(Boolean).join(' ｜ ');
       return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+labs[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
   let html='<div class="rhead"><div class="rtitle">网安 &amp; 功能安全 · 合规评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准结论</div></div>';
-  html+='<div class="rsum"><div>① R155 CSMS 就绪度 <b>'+cs.pct+'%</b>（'+cs.done+'/'+cs.total+'）</div><div>② R156 SUMS 就绪度 <b>'+rs.pct+'%</b>（'+rs.done+'/'+rs.total+'）</div><div>③ 21434 最高 <b>'+(ts.maxCal>0?'CAL '+ts.maxCal:'—')+'</b>（已评 '+ts.rated+'/'+ts.total+'）</div><div>④ 26262 最高 <b>'+(ha.maxA==='—'?'—':'ASIL '+ha.maxA)+'</b>（已评 '+ha.rated+'/'+ha.total+'）</div></div>';
-  html+='<h2>① UN R155 · CSMS 认证就绪度</h2>'+chk(R155.groups);
-  html+='<h2>② UN R156 · SUMS 认证就绪度</h2>'+chk(R156.groups);
-  html+='<h2>③ ISO 21434 · 风险评级(TARA → 风险值 / CAL)</h2><table class="rt"><tr><th>威胁场景</th><th>资产</th><th>影响</th><th>可行性</th><th>风险值</th><th>CAL</th></tr>'+
+  html+='<div class="rsum"><div>② R155 CSMS 就绪度 <b>'+cs.pct+'%</b>（'+cs.done+'/'+cs.total+'）</div><div>③ R156 SUMS 就绪度 <b>'+rs.pct+'%</b>（'+rs.done+'/'+rs.total+'）</div><div>④ 21434 最高 <b>'+(ts.maxCal>0?'CAL '+ts.maxCal:'—')+'</b>（已评 '+ts.rated+'/'+ts.total+'）</div><div>⑤ 26262 最高 <b>'+(ha.maxA==='—'?'—':'ASIL '+ha.maxA)+'</b>（已评 '+ha.rated+'/'+ha.total+'）</div></div>';
+  html+='<h2>① 认证费用与周期估算</h2>'+certEstimateHTML();
+  html+='<h2>② UN R155 · CSMS 认证就绪度</h2>'+chk(R155.groups);
+  html+='<h2>③ UN R156 · SUMS 认证就绪度</h2>'+chk(R156.groups);
+  html+='<h2>④ ISO 21434 · 风险评级(TARA → 风险值 / CAL)</h2><table class="rt"><tr><th>威胁场景</th><th>资产</th><th>影响</th><th>可行性</th><th>风险值</th><th>CAL</th></tr>'+
     tara.map(t=>{const rv=riskOf(t),c=calOf(t);const di=derivedImpact(t),fe=effFeas(t);return '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.asset||'')+'</td><td>'+(di?esc(impactCn(di)):'—')+'</td><td>'+(fe?esc(feasCn(fe))+(apComplete(t)?'（潜力'+apSum(t)+'）':''):'—')+'</td><td class="rst">'+(rv||'—')+'</td><td class="rst">'+(c!=null?(c>0?'CAL '+c:'无需'):'—')+'</td></tr>';}).join('')+'</table>';
-  html+='<h2>④ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
+  html+='<h2>⑤ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
     hara.map(h=>{const a=asilOf(h);return '<tr><td>'+esc(h.name)+'</td><td>'+esc(h.fn||'')+'</td><td class="rst">'+(h.s||'—')+'</td><td class="rst">'+(h.e||'—')+'</td><td class="rst">'+(h.c||'—')+'</td><td class="rst">'+(a!=null?(a==='QM'?'QM':'ASIL '+a):'—')+'</td></tr>';}).join('')+'</table>';
-  html+='<h2>⑤ 认证费用与周期估算</h2>'+certEstimateHTML();
   html+='<div class="rfoot">评级方法依据 ISO/SAE 21434(风险值 / CAL,附录 E 资料性)、ISO 26262-3(ASIL)与 UN R155/R156 条款;R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
@@ -1083,6 +1083,9 @@ function renderPack(m){
       hiHazard.slice(0,6).map(o=>{const a=asilOf(o.h);return '<button class="actrow" onclick="pick(\'hara\')">'+chip('ASIL '+a,(ASIL_COL[a]||['#eee','#555']))+' <span>'+esc(o.h.name||'(未命名危害)')+'</span><small>'+esc(o.h.fn||'')+'</small></button>';}).join('')+'</div>'; }
     s+='</div>';
   }
+  // —— 认证费用与周期估算 ——
+  s+='<div style="font-size:13px;font-weight:800;margin:18px 0 6px">认证费用与周期估算 <span style="font-weight:400;color:var(--grey);font-size:11.5px">参考市场均价区间,实际以服务商报价为准</span></div>';
+  s+=certEstimateHTML();
   // —— 条款证据台账 ——
   const labs=['无','部分','已建立'], stCol=['#f3d0d0','#f4e6bd','#d9e8d1'], stFg=['#b02222','#7a5a10','#3d6b2c'];
   s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
@@ -1106,9 +1109,6 @@ function renderPack(m){
       '<td style="white-space:nowrap">'+flagBadge+'</td></tr>';
   });
   s+='</table></div>';
-  // —— 认证费用与周期估算 ——
-  s+='<div style="font-size:13px;font-weight:800;margin:18px 0 6px">认证费用与周期估算 <span style="font-weight:400;color:var(--grey);font-size:11.5px">参考市场均价区间,实际以服务商报价为准</span></div>';
-  s+=certEstimateHTML();
   // —— 风险登记册 ——
   s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
     '<div style="font-size:13px;font-weight:800">风险登记册 <span style="font-weight:400;color:var(--grey);font-size:11.5px">TARA 威胁按风险值 / HARA 危害按 ASIL 降序</span></div>'+

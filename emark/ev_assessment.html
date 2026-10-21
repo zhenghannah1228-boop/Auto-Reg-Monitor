@@ -862,9 +862,9 @@ function exportReport(){
       const md=[mm.ev?('证据:'+mm.ev):'',mm.owner?('责任人:'+mm.owner):'',mm.gap?('差距:'+mm.gap):'',mm.due?('目标:'+mm.due):''].filter(Boolean).join(' ｜ ');
       return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+LABELS[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
   let html='<div class="rhead"><div class="rtitle">电气与电动化合规 · 评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准/CE 符合性结论</div></div>';
-  html+='<div class="rsum">'+MODS.map((mm,i)=>{const st=modStats(mm.id);return '<div>'+('①②③④⑤'[i])+' '+esc(mm.name)+' <b>'+st.pct+'%</b>（'+st.done+'/'+st.total+'）</div>';}).join('')+'</div>';
-  MODS.forEach((mm,i)=>{ html+='<h2>'+('①②③④⑤'[i])+' '+esc(mm.title)+'</h2>'+chk(mm.groups); });
-  html+='<h2>⑥ 认证费用与周期估算</h2>'+certEstimateHTML();
+  html+='<div class="rsum">'+MODS.map((mm,i)=>{const st=modStats(mm.id);return '<div>'+('②③④⑤⑥'[i])+' '+esc(mm.name)+' <b>'+st.pct+'%</b>（'+st.done+'/'+st.total+'）</div>';}).join('')+'</div>';
+  html+='<h2>① 认证费用与周期估算</h2>'+certEstimateHTML();
+  MODS.forEach((mm,i)=>{ html+='<h2>'+('②③④⑤⑥'[i])+' '+esc(mm.title)+'</h2>'+chk(mm.groups); });
   html+='<div class="rfoot">条款依据 UN R100.03(Part I/II,附件 9A–9J,热扩散 §6.15)、UN R10.06(附件 4–22,充电模式 11–22)、EN 62196 / IEC 61851 / ISO 15118 / AFIR (EU) 2023/1804、(EU) 2023/1542 电池法规(尽职调查经 (EU) 2025/1561 推迟至 2027-08-18)及 (EU) 2026/1738 循环设计与报废车管理规定(2028-09-01 起废止 2000/53/EC 与 2005/64/EC)。R100/R10 为 E-mark 型批强制;充电接口、电池法规与循环/ELV 属 CE/标准侧,与型批并行。本报告由团队自查生成,供内部参照,<b>不构成型式批准或 CE 符合性结论</b>;正式判定以认可技术服务 / 批准机关 / 公告机构为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');

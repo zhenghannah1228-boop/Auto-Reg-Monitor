@@ -866,19 +866,19 @@ function exportReport(){
       const md=[m.ev?('证据:'+m.ev):'',m.owner?('责任人:'+m.owner):'',m.gap?('差距:'+m.gap):'',m.due?('目标:'+m.due):''].filter(Boolean).join(' ｜ ');
       return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst s'+v+'">'+labs[v]+'</td><td class="rref" style="white-space:normal">'+esc(md)+'</td></tr>';}).join('')+'</table>').join('');
   let html='<div class="rhead"><div class="rtitle">智能驾驶合规 · 评估报告</div><div class="rmeta">档案:'+esc(pname)+'　｜　生成日期:'+esc(d)+'　｜　自查参照,非型式批准结论</div></div>';
-  html+='<div class="rsum"><div>① ADAS 法规就绪度 <b>'+rd.pct+'%</b>（'+rd.done+'/'+rd.total+'）</div><div>② 自动化级别 <b>'+esc(lv.code)+'</b>（已答 '+lv.done+'/'+QUIZ.length+' 题）</div><div>③ 测试与证据 <b>'+ev.pct+'%</b>（'+ev.done+'/'+ev.total+'）</div><div>④ AI 法案高风险合规 <b>'+ai.pct+'%</b>（'+ai.done+'/'+ai.total+'）</div></div>';
-  html+='<h2>① ADAS 法规就绪度</h2>'+chk(READY.groups);
-  html+='<h2>② 自动化级别判定</h2><table class="rt"><tr><th style="width:46%">问题</th><th>回答</th></tr>'+
+  html+='<div class="rsum"><div>② ADAS 法规就绪度 <b>'+rd.pct+'%</b>（'+rd.done+'/'+rd.total+'）</div><div>③ 自动化级别 <b>'+esc(lv.code)+'</b>（已答 '+lv.done+'/'+QUIZ.length+' 题）</div><div>④ 测试与证据 <b>'+ev.pct+'%</b>（'+ev.done+'/'+ev.total+'）</div><div>⑤ AI 法案高风险合规 <b>'+ai.pct+'%</b>（'+ai.done+'/'+ai.total+'）</div></div>';
+  html+='<h2>① 认证费用与周期估算</h2>'+certEstimateHTML();
+  html+='<h2>② ADAS 法规就绪度</h2>'+chk(READY.groups);
+  html+='<h2>③ 自动化级别判定</h2><table class="rt"><tr><th style="width:46%">问题</th><th>回答</th></tr>'+
     QUIZ.map(q=>{const a=quiz[q.id];const o=a?q.opts.find(x=>x[0]===a):null;return '<tr><td>'+esc(q.q)+'</td><td>'+(o?esc(o[1]):'—')+'</td></tr>';}).join('')+'</table>';
   if(lv.code!=='未判定'&&PATHS[lv.code]){ const p=PATHS[lv.code];
     html+='<h3>判定:'+esc(lv.disp)+'</h3><table class="rt"><tr><th style="width:20%">适用法规</th><td>'+p.regs.map(esc).join(' · ')+'</td></tr>'+
       '<tr><th>关键义务</th><td>'+p.obl.map(esc).join('；')+'</td></tr>'+
       '<tr><th>市场落地提示</th><td>'+esc(p.mkt)+'</td></tr></table>';
   } else { html+='<h3>判定:未判定(问卷未答完)</h3>'; }
-  html+='<h2>③ 测试与证据清单</h2>'+EVID.groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:56%">交付物</th><th>依据</th><th>状态</th></tr>'+
+  html+='<h2>④ 测试与证据清单</h2>'+EVID.groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:56%">交付物</th><th>依据</th><th>状态</th></tr>'+
     g.items.map(it=>{const on=!!evid[it.k];return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst '+(on?'s2':'s0')+'">'+(on?'已备':'缺')+'</td></tr>';}).join('')+'</table>').join('');
-  html+='<h2>④ AI 法案高风险合规</h2>'+chk(AIACT.groups);
-  html+='<h2>⑤ 认证费用与周期估算</h2>'+certEstimateHTML();
+  html+='<h2>⑤ AI 法案高风险合规</h2>'+chk(AIACT.groups);
   html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448、(EU) 2024/1689(AI 法案)经 (EU) 2026/1744 修订。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
