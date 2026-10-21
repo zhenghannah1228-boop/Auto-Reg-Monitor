@@ -2244,14 +2244,14 @@ function certEstimateHTML(escFn){
   let totalMin=0,totalMax=0;
   const trs=rows.map(r=>{
     totalMin+=r.cMin; totalMax+=r.cMax;
-    const cost=r.cMin===r.cMax?fmtCost(r.cMin,r.cUnit||''):`${fmtCost(r.cMin)}~${fmtCost(r.cMax,r.cUnit||'')}`;
+    const cost=fmtCost(r.cMin,r.cUnit||'');
     return `<tr><td>${esc(r.cat)}</td><td>${esc(r.items)}</td><td>${esc(r.reg)}</td><td class="r">${cost}</td><td>${esc(r.tl)}</td><td>${esc(r.nb)}</td><td>${esc(r.sc)}</td><td>${esc(r.note)}</td></tr>`;
   }).join('');
-  const totalCost=totalMin===totalMax?fmtCost(totalMin):`${fmtCost(totalMin)}~${fmtCost(totalMax)}`;
+  const totalCost=fmtCost(totalMin);
   return `<table class="ctab"><thead><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用 (RMB)</th><th>周期</th><th>NB 介入</th><th>适用场景</th><th>备注</th></tr></thead>
 <tbody>${trs}</tbody>
-<tfoot><tr class="ctot"><td colspan="3"><b>合计估算区间</b></td><td class="r"><b>${totalCost}</b></td><td colspan="4">以上为参考估算，实际以技术服务机构/公告机构对具体产品评估报价为准</td></tr></tfoot></table>
-<p class="rtnote">费用数据基于 2024–2026 主要技术服务机构公开报价区间整理，因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考。</p>`;
+<tfoot><tr class="ctot"><td colspan="3"><b>合计估算</b></td><td class="r"><b>${totalCost}</b></td><td colspan="4">以上取市场低价参考，实际以技术服务机构/公告机构对具体产品评估报价为准</td></tr></tfoot></table>
+<p class="rtnote">费用取 2024–2026 主要技术服务机构报价区间低值，实际因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考。</p>`;
 }
 let stnChk={}; // 历史字段（旧版交付物勾选状态）：不再驱动 UI，仅为兼容旧档案数据结构而保留，读写不影响新逻辑
 // 强制/建议 标签徽标 + 官方模板外链按钮

@@ -611,10 +611,10 @@ function certEstimateHTML(){
  let h='<table class="ctab"><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用(RMB)</th><th>周期</th><th>NB/机构介入</th><th>适用场景</th><th>备注</th></tr>';
  let tMin=0,tMax=0;
  CERT_ESTIMATE.forEach(function(c){tMin+=c.cMin;tMax+=c.cMax;
-  h+='<tr><td style="white-space:nowrap;font-weight:700">'+esc(c.cat)+'</td><td>'+esc(c.items)+'</td><td style="white-space:nowrap">'+esc(c.reg)+'</td><td style="white-space:nowrap;text-align:right">'+fmtCost(c.cMin)+' ~ '+fmtCost(c.cMax)+(c.cUnit?esc(c.cUnit):'')+'</td><td style="white-space:nowrap">'+esc(c.tl)+'</td><td>'+esc(c.nb)+'</td><td style="white-space:nowrap">'+esc(c.sc)+'</td><td>'+esc(c.note)+'</td></tr>';
+  h+='<tr><td style="white-space:nowrap;font-weight:700">'+esc(c.cat)+'</td><td>'+esc(c.items)+'</td><td style="white-space:nowrap">'+esc(c.reg)+'</td><td style="white-space:nowrap;text-align:right">'+fmtCost(c.cMin)+(c.cUnit?esc(c.cUnit):'')+'</td><td style="white-space:nowrap">'+esc(c.tl)+'</td><td>'+esc(c.nb)+'</td><td style="white-space:nowrap">'+esc(c.sc)+'</td><td>'+esc(c.note)+'</td></tr>';
  });
- h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算区间</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+' ~ '+fmtCost(tMax)+'</td><td colspan="4">以上为单车型/单电池型号首次认证参考;年度监督、变更扩展另计</td></tr></table>';
- h+='<div class="ctnote">费用为市场均价区间(含测试+认证+基本咨询),实际随车型复杂度、供应商选择及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。</div>';
+ h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+'</td><td colspan="4">以上为单车型/单电池型号首次认证参考;年度监督、变更扩展另计</td></tr></table>';
+ h+='<div class="ctnote">费用取市场报价区间低值(含测试+认证+基本咨询),实际随车型复杂度、供应商选择及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。</div>';
  return h;
 }
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
