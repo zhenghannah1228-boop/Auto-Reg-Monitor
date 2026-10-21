@@ -1,0 +1,4014 @@
+{
+  "flowCode": "EMARK_EU_TYPE_APPROVAL",
+  "flowName": "E-mark 欧盟整车型式批准合规导航",
+  "flowVersion": "1.0.0",
+  "regulation": "Regulation (EU) 2018/858",
+  "summary": "欧盟整车型式批准(WVTA)全流程合规评估与法规清单",
+  "stepCount": 6,
+  "steps": [
+    {
+      "stepId": "step_00",
+      "stepOrder": 0,
+      "title": "企业画像",
+      "moduleType": "profile",
+      "stepRegs": [
+        {
+          "title": "适用框架",
+          "content": "1958 协定（UN 法规互认体系，大 E）＋ <b>(EU) 2018/858</b> 型式批准与市场监督框架条例。",
+          "localLink": null,
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stepId": "step_01",
+      "stepOrder": 1,
+      "title": "范围界定",
+      "moduleType": "scope",
+      "stepRegs": [
+        {
+          "title": "适用框架",
+          "content": "1958 协定多国互认（大 E）／ EU 型式批准（小 e）两条路线；本步为线索收集，据规模与时间要求校准结论。",
+          "localLink": null,
+          "lawRefs": null
+        },
+        {
+          "title": "(EU) 2018/858",
+          "content": "型式批准与市场监督框架条例。",
+          "localLink": "../docs/Reg-EU-2018-858-framework.pdf",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stepId": "step_02",
+      "stepOrder": 2,
+      "title": "法规盘点",
+      "moduleType": "inventory",
+      "stepRegs": [
+        {
+          "title": "(EU) 2018/858 · Art 57/58",
+          "content": "Annex II 所列 UN 法规是 EU 型批要求组成部分（57）；UN 法规与 EU 法规<b>等效</b>、成员国须接受 E 标替代 EU 标（58）。",
+          "localLink": "../docs/Reg-EU-2018-858-framework.pdf",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        },
+        {
+          "title": "(EU) 2018/858 · Art 3(20)",
+          "content": "独立技术单元（STU）定义。",
+          "localLink": "../docs/Reg-EU-2018-858-framework.pdf",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        },
+        {
+          "title": "EMC 2014/30/EU · Art 2(2)",
+          "content": "车辆及 ESA 排除出通用 EMC 指令，改由 UN R10 覆盖 → 打大 E。",
+          "localLink": null,
+          "lawRefs": {
+            "text": "(EU) 2014/30 (EMC指令)",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2014/30 (EMC指令)",
+                "text": "(EU) 2014/30 (EMC指令)",
+                "lawUuid": "818c91904520cc5c9cec16695ff8fe6e",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=818c91904520cc5c9cec16695ff8fe6e",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2014/30 (EMC指令)",
+                "lawUuid": "818c91904520cc5c9cec16695ff8fe6e",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=818c91904520cc5c9cec16695ff8fe6e"
+              }
+            ]
+          }
+        },
+        {
+          "title": "CE 并行触发",
+          "content": "无线＝RED 2014/53/EU；机械＝2006/42/EC→(EU) 2023/1230（<b>2027-01-20 起适用</b>,20 号前不得依新法规签发 EU 符合性声明,无过渡期、只有切换日）；<b>烟火件＝(EU) 2013/29 第 6/8 条</b>（气囊气发/预紧器）。",
+          "localLink": null,
+          "lawRefs": {
+            "text": "(EU) 2014/53 (RED)\n2006/42/EC\n(EU) 2023/1230\n(EU) 2013/29",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2014/53 (RED)",
+                "text": "(EU) 2014/53 (RED)",
+                "lawUuid": "26f96a0b94103b0a47ee97ab64209d84",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=26f96a0b94103b0a47ee97ab64209d84",
+                "linked": true
+              },
+              {
+                "type": "law",
+                "title": "2006/42/EC",
+                "text": "2006/42/EC",
+                "lawUuid": "d670b6221f4f5b0ec76e124797aba805",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=d670b6221f4f5b0ec76e124797aba805",
+                "linked": true
+              },
+              {
+                "type": "law",
+                "title": "(EU) 2023/1230",
+                "text": "(EU) 2023/1230",
+                "lawUuid": "0482e3db8c02e84e25920c2b76706310",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=0482e3db8c02e84e25920c2b76706310",
+                "linked": true
+              },
+              {
+                "type": "law",
+                "title": "(EU) 2013/29",
+                "text": "(EU) 2013/29",
+                "lawUuid": "24842143525e025a850e08612bc678d4",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24842143525e025a850e08612bc678d4",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2014/53 (RED)",
+                "lawUuid": "26f96a0b94103b0a47ee97ab64209d84",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=26f96a0b94103b0a47ee97ab64209d84"
+              },
+              {
+                "title": "2006/42/EC",
+                "lawUuid": "d670b6221f4f5b0ec76e124797aba805",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=d670b6221f4f5b0ec76e124797aba805"
+              },
+              {
+                "title": "(EU) 2023/1230",
+                "lawUuid": "0482e3db8c02e84e25920c2b76706310",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=0482e3db8c02e84e25920c2b76706310"
+              },
+              {
+                "title": "(EU) 2013/29",
+                "lawUuid": "24842143525e025a850e08612bc678d4",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24842143525e025a850e08612bc678d4"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stepId": "step_03",
+      "stepOrder": 3,
+      "title": "体系自评",
+      "moduleType": "selfAssess",
+      "stepRegs": [
+        {
+          "title": "WP.29/343 Add.1",
+          "content": "各缔约国指定型式批准机关与技术服务名录（63 国）＋缔约方适用（互认国数）。",
+          "localLink": null,
+          "lawRefs": null
+        },
+        {
+          "title": "WP.29/343 Add.2",
+          "content": "各 UN 法规系列/增补生效日期（工具版本标注数据源）。",
+          "localLink": null,
+          "lawRefs": null
+        },
+        {
+          "title": "WP.29/1044/Rev.3",
+          "content": "UN 法规程序通用指南——法规出新系列后既有批准持续有效；增补/勘误/修订的法律区别。",
+          "localLink": null,
+          "lawRefs": null
+        },
+        {
+          "title": "WP.29/2025/159",
+          "content": "UN R0 IWVTA 08 series 提案（整车必备 43 项法规系列）。",
+          "localLink": null,
+          "lawRefs": null
+        },
+        {
+          "title": "(EU) 2019/2144 · Art 16",
+          "content": "EU 强制适用日（＋Annex II），区别于 UNECE 增补生效日。",
+          "localLink": "../docs/Reg-EU-2019-2144-general-safety.pdf",
+          "lawRefs": {
+            "text": "(EU) 2019/2144",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2019/2144",
+                "text": "(EU) 2019/2144",
+                "lawUuid": "ed4b377cb152b428cdf84730aea098d4",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2019/2144",
+                "lawUuid": "ed4b377cb152b428cdf84730aea098d4",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stepId": "step_04",
+      "stepOrder": 4,
+      "title": "认证旅程",
+      "moduleType": "journey",
+      "stepRegs": [
+        {
+          "title": "(EU) 2018/858 · Art 31",
+          "content": "生产一致性（CoP）安排——量产件须持续与批准样品一致。",
+          "localLink": "../docs/Reg-EU-2018-858-framework.pdf",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        },
+        {
+          "title": "UN R155 / R156",
+          "content": "CSMS 网络安全 / SUMS 软件更新管理体系（<b>整车级</b>，仅申报范围相关时计入）。",
+          "localLink": null,
+          "lawRefs": {
+            "text": "UN R155\nUN R156",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R155",
+                "text": "UN R155",
+                "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+                "linked": true
+              },
+              {
+                "type": "law",
+                "title": "UN R156",
+                "text": "UN R156",
+                "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R155",
+                "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f"
+              },
+              {
+                "title": "UN R156",
+                "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976"
+              }
+            ]
+          }
+        },
+        {
+          "title": "(EU) 2018/858 · Art 24/Annex I",
+          "content": "信息文件夹（技术文档）与型式批准申请材料。",
+          "localLink": "../docs/Reg-EU-2018-858-framework.pdf",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "stepId": "step_05",
+      "stepOrder": 5,
+      "title": "行动清单",
+      "moduleType": "action",
+      "stepRegs": [
+        {
+          "title": "(EU) 2018/858 · Art 31",
+          "content": "CoP 生产一致性——「有证无体系」时证书面临失效风险。",
+          "localLink": "../docs/Reg-EU-2018-858-framework.pdf",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        },
+        {
+          "title": "WP.29/343 Add.1",
+          "content": "各国指定型式批准机关与技术服务机构（选机关/委托技服站）。",
+          "localLink": null,
+          "lawRefs": null
+        },
+        {
+          "title": "WP.29/1044/Rev.3",
+          "content": "既有证书在系列更新后持续有效；法定失效日（如有）见顶栏「速查工具 → 版本时效自查表」。",
+          "localLink": null,
+          "lawRefs": null
+        }
+      ]
+    }
+  ],
+  "regulationInventory": {
+    "groups": [
+      {
+        "key": "A",
+        "name": "安全 (Safety)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2025-06-17",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2020-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2025-06-17",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2017-06-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2017-06-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2025-11-12",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2022-06-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2022-06-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2023-06-05",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2019-10-15",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2025-06-17",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2024-06-26",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "e",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2025-11-12",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2024-01-05",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2024-01-05",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2018-07-19",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2024-06-15",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2024-06-15",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2024-06-15",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "e",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "B",
+        "name": "行人保护与视野 (Pedestrian & Vision)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2016-06-18",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2025-06-17",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "e",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2025-09-26",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2022-10-08",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2025-06-17",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2021-09-30",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2023-09-24",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "C",
+        "name": "制动与转向 (Braking & Steering)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2016-10-08",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": "2024-06-15",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2018-12-29",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2024-09-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2013-01-27",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": "2022-10-08",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2023-01-04",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "D",
+        "name": "电子与照明 (Electronics & Lighting)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2020-09-25",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2016-10-08",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2021-09-30",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2025-01-10",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2022-10-08",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2022-10-08",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2023-09-24",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "EXPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2023-06-05",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2023-06-05",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2024-09-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "E",
+        "name": "驾驶辅助 (Driver Assistance)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "e",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2024-06-15",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2026-01-11",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "F",
+        "name": "车身与标识 (Body & Identification)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2019-05-28",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2022-06-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "G",
+        "name": "排放与环保 (Emissions & Environment)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "E",
+            "testCategory": "IMPLICIT",
+            "enforcementDate": "2025-01-10",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2022-06-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "H",
+        "name": "OBD与软件更新 (OBD & Software)",
+        "items": [
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": null,
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          },
+          {
+            "implementationNote": null,
+            "mark": "—",
+            "testCategory": "VEHICLE",
+            "enforcementDate": "2021-01-22",
+            "meta": null,
+            "euItem": null,
+            "lawRefs": null
+          }
+        ]
+      }
+    ],
+    "splitRegs": {
+      "C10": [
+        "30",
+        "117"
+      ],
+      "D3": [
+        "97",
+        "116",
+        "161",
+        "162",
+        "163"
+      ],
+      "D11": [
+        "4",
+        "6",
+        "7",
+        "19",
+        "23",
+        "38",
+        "77",
+        "87",
+        "91",
+        "148"
+      ],
+      "D12": [
+        "31",
+        "98",
+        "112",
+        "119",
+        "123",
+        "149"
+      ],
+      "D13": [
+        "3",
+        "104",
+        "150"
+      ],
+      "D14": [
+        "37",
+        "99",
+        "128"
+      ],
+      "G1": [
+        "51",
+        "59"
+      ]
+    },
+    "altRegs": {
+      "A8": [
+        "145",
+        "14"
+      ]
+    },
+    "subCn": {
+      "51": "噪声排放（M/N 类车辆）",
+      "59": "替换消声系统"
+    }
+  },
+  "iwvtaRequirements": [
+    {
+      "regNumber": "10",
+      "series": "06",
+      "conditional": false,
+      "title": "Vehicles with regard to electromagnetic compatibility",
+      "lawRefs": {
+        "text": "UN R10",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R10",
+            "text": "UN R10",
+            "lawUuid": "986edecfcbc14d378867e0c1d40c78f1",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=986edecfcbc14d378867e0c1d40c78f1",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R10",
+            "lawUuid": "986edecfcbc14d378867e0c1d40c78f1",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=986edecfcbc14d378867e0c1d40c78f1"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "11",
+      "series": "04",
+      "conditional": false,
+      "title": "Vehicles with regard to door latches and door retention components",
+      "lawRefs": {
+        "text": "UN R11",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R11",
+            "text": "UN R11",
+            "lawUuid": "f69c70807895407b8f797e6d302d1619",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=f69c70807895407b8f797e6d302d1619",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R11",
+            "lawUuid": "f69c70807895407b8f797e6d302d1619",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=f69c70807895407b8f797e6d302d1619"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "12",
+      "series": "05",
+      "conditional": false,
+      "title": "Vehicles with regard to the protection of the driver against the steering mechanism in the event of impact",
+      "lawRefs": {
+        "text": "UN R12",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R12",
+            "text": "UN R12",
+            "lawUuid": "445a77addd8b4ed4b9692de9e6928bc9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=445a77addd8b4ed4b9692de9e6928bc9",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R12",
+            "lawUuid": "445a77addd8b4ed4b9692de9e6928bc9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=445a77addd8b4ed4b9692de9e6928bc9"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "13-H",
+      "series": "01",
+      "conditional": false,
+      "title": "Brakes of M1 and N1 vehicles",
+      "lawRefs": {
+        "text": "UN R13-H",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R13-H",
+            "text": "UN R13-H",
+            "lawUuid": "0666a6ea8c6d4adebe8008f75ec5c506",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0666a6ea8c6d4adebe8008f75ec5c506",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R13-H",
+            "lawUuid": "0666a6ea8c6d4adebe8008f75ec5c506",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0666a6ea8c6d4adebe8008f75ec5c506"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "14",
+      "series": "09",
+      "conditional": false,
+      "title": "Vehicles with regard to safety-belt anchorages",
+      "lawRefs": {
+        "text": "UN R14",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R14",
+            "text": "UN R14",
+            "lawUuid": "caf6146beb3c4cc080ecc3c3a3d632cd",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=caf6146beb3c4cc080ecc3c3a3d632cd",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R14",
+            "lawUuid": "caf6146beb3c4cc080ecc3c3a3d632cd",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=caf6146beb3c4cc080ecc3c3a3d632cd"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "16",
+      "series": "09",
+      "conditional": false,
+      "title": "Safety-belts, restraint systems, child restraint systems and ISOFIX child restraint systems",
+      "lawRefs": {
+        "text": "UN R16",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R16",
+            "text": "UN R16",
+            "lawUuid": "933d5da0f7ef4a6fb06f362206016576",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=933d5da0f7ef4a6fb06f362206016576",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R16",
+            "lawUuid": "933d5da0f7ef4a6fb06f362206016576",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=933d5da0f7ef4a6fb06f362206016576"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "17",
+      "series": "11",
+      "conditional": false,
+      "title": "Vehicles with regard to the seats, their anchorages and any head restraints",
+      "lawRefs": {
+        "text": "UN R17",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R17",
+            "text": "UN R17",
+            "lawUuid": "51a7f193ec84405bafba7e77d2e313e2",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=51a7f193ec84405bafba7e77d2e313e2",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R17",
+            "lawUuid": "51a7f193ec84405bafba7e77d2e313e2",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=51a7f193ec84405bafba7e77d2e313e2"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "21",
+      "series": "01",
+      "conditional": false,
+      "title": "Vehicles with regard to their interior fittings",
+      "lawRefs": {
+        "text": "UN R21",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R21",
+            "text": "UN R21",
+            "lawUuid": "b7000f42a2c94e589433ef95776a23d9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b7000f42a2c94e589433ef95776a23d9",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R21",
+            "lawUuid": "b7000f42a2c94e589433ef95776a23d9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b7000f42a2c94e589433ef95776a23d9"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "26",
+      "series": "04",
+      "conditional": false,
+      "title": "Vehicles with regard to their external projections",
+      "lawRefs": {
+        "text": "UN R26",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R26",
+            "text": "UN R26",
+            "lawUuid": "864fb813d99f4210ba0e50f55d88fe9c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=864fb813d99f4210ba0e50f55d88fe9c",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R26",
+            "lawUuid": "864fb813d99f4210ba0e50f55d88fe9c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=864fb813d99f4210ba0e50f55d88fe9c"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "28",
+      "series": "00",
+      "conditional": false,
+      "title": "Audible warning devices and of motor vehicles with regard to their audible signals",
+      "lawRefs": {
+        "text": "UN R28",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R28",
+            "text": "UN R28",
+            "lawUuid": "65c4d07604824a64bbeadc5c49cdedc0",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=65c4d07604824a64bbeadc5c49cdedc0",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R28",
+            "lawUuid": "65c4d07604824a64bbeadc5c49cdedc0",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=65c4d07604824a64bbeadc5c49cdedc0"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "30",
+      "series": "02",
+      "conditional": false,
+      "title": "Pneumatic tyres for motor vehicles and their trailers (Tyres should be type approved to No. 54.)",
+      "lawRefs": {
+        "text": "UN R30",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R30",
+            "text": "UN R30",
+            "lawUuid": "7b435acea436444fb3f740bae494f26c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=7b435acea436444fb3f740bae494f26c",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R30",
+            "lawUuid": "7b435acea436444fb3f740bae494f26c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=7b435acea436444fb3f740bae494f26c"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "34",
+      "series": "04",
+      "conditional": false,
+      "title": "Vehicles with regard to the prevention of fire risks",
+      "lawRefs": {
+        "text": "UN R34",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R34",
+            "text": "UN R34",
+            "lawUuid": "e591809061294019905ed678898d1663",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=e591809061294019905ed678898d1663",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R34",
+            "lawUuid": "e591809061294019905ed678898d1663",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=e591809061294019905ed678898d1663"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "39",
+      "series": "01",
+      "conditional": false,
+      "title": "The speedometer and odometer equipment including installation",
+      "lawRefs": {
+        "text": "UN R39",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R39",
+            "text": "UN R39",
+            "lawUuid": "cf9191323ae4422cabfe15e178618267",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=cf9191323ae4422cabfe15e178618267",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R39",
+            "lawUuid": "cf9191323ae4422cabfe15e178618267",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=cf9191323ae4422cabfe15e178618267"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "43",
+      "series": "01",
+      "conditional": false,
+      "title": "Safety glazing materials and their installation on vehicles",
+      "lawRefs": {
+        "text": "UN R43",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R43",
+            "text": "UN R43",
+            "lawUuid": "6a812510feaa4d4d80bef2c5984e4e81",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6a812510feaa4d4d80bef2c5984e4e81",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R43",
+            "lawUuid": "6a812510feaa4d4d80bef2c5984e4e81",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6a812510feaa4d4d80bef2c5984e4e81"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "46",
+      "series": "06",
+      "conditional": false,
+      "title": "Devices for indirect vision including installation",
+      "lawRefs": {
+        "text": "UN R46",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R46",
+            "text": "UN R46",
+            "lawUuid": "06eb822b1de14b2e97747b2a63db0651",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=06eb822b1de14b2e97747b2a63db0651",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R46",
+            "lawUuid": "06eb822b1de14b2e97747b2a63db0651",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=06eb822b1de14b2e97747b2a63db0651"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "48",
+      "series": "08",
+      "conditional": false,
+      "title": "Installation of lighting and light-signaling devices",
+      "lawRefs": {
+        "text": "UN R48",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R48",
+            "text": "UN R48",
+            "lawUuid": "d4b0507dbc8b47899b9686f98ee21259",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d4b0507dbc8b47899b9686f98ee21259",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R48",
+            "lawUuid": "d4b0507dbc8b47899b9686f98ee21259",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d4b0507dbc8b47899b9686f98ee21259"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "51",
+      "series": "03",
+      "conditional": false,
+      "title": "Motor vehicles having at least four wheels with regard to their sound emissions",
+      "lawRefs": {
+        "text": "UN R51",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R51",
+            "text": "UN R51",
+            "lawUuid": "6206a2a7f35846a89bf405677c9a7061",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6206a2a7f35846a89bf405677c9a7061",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R51",
+            "lawUuid": "6206a2a7f35846a89bf405677c9a7061",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6206a2a7f35846a89bf405677c9a7061"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "54",
+      "series": "00",
+      "conditional": false,
+      "title": "Pneumatic tyres for commercial vehicles and their trailers (Tyres should be type approved to UN Regulation No. 30 or UN Regulation No. 54.)",
+      "lawRefs": {
+        "text": "UN R54",
+        "segments": [
+          {
+            "type": "text",
+            "content": "UN R54"
+          }
+        ],
+        "laws": []
+      }
+    },
+    {
+      "regNumber": "58",
+      "series": "03",
+      "conditional": false,
+      "title": "Rear Underrun Protective Devices (RUPDs) and the installation of a RUPD of an approved type, Rear Underrun Protection (RUP)",
+      "lawRefs": {
+        "text": "UN R58",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R58",
+            "text": "UN R58",
+            "lawUuid": "e049536ee2014f8bb943168696767770",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=e049536ee2014f8bb943168696767770",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R58",
+            "lawUuid": "e049536ee2014f8bb943168696767770",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=e049536ee2014f8bb943168696767770"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "64",
+      "series": "03",
+      "conditional": true,
+      "title": "A temporary-use spare unit, run-flat tyres",
+      "lawRefs": {
+        "text": "UN R64",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R64",
+            "text": "UN R64",
+            "lawUuid": "41bdc690b4f84645891b72723de42853",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=41bdc690b4f84645891b72723de42853",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R64",
+            "lawUuid": "41bdc690b4f84645891b72723de42853",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=41bdc690b4f84645891b72723de42853"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "79",
+      "series": "04",
+      "conditional": false,
+      "title": "Vehicles with regard to steering equipment",
+      "lawRefs": {
+        "text": "UN R79",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R79",
+            "text": "UN R79",
+            "lawUuid": "eb21e785c9c94d198041a4439caed430",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R79",
+            "lawUuid": "eb21e785c9c94d198041a4439caed430",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "85",
+      "series": "00",
+      "conditional": false,
+      "title": "Internal combustion engines or electric drive trains intended for the propulsion of motor vehicles of categories M and N with regard to the measurement of the net power and the maximum 30 minutes power of electric drive trains (Engine power)",
+      "lawRefs": {
+        "text": "UN R85",
+        "segments": [
+          {
+            "type": "text",
+            "content": "UN R85"
+          }
+        ],
+        "laws": []
+      }
+    },
+    {
+      "regNumber": "94",
+      "series": "04",
+      "conditional": false,
+      "title": "Protection of occupants in the event of a frontal collision",
+      "lawRefs": {
+        "text": "UN R94",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R94",
+            "text": "UN R94",
+            "lawUuid": "6fcd836a739e447083a92f2c1ef50980",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6fcd836a739e447083a92f2c1ef50980",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R94",
+            "lawUuid": "6fcd836a739e447083a92f2c1ef50980",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6fcd836a739e447083a92f2c1ef50980"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "95",
+      "series": "05",
+      "conditional": false,
+      "title": "Protection of occupants in the event of a lateral collision",
+      "lawRefs": {
+        "text": "UN R95",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R95",
+            "text": "UN R95",
+            "lawUuid": "418bcca4cfbf44f3a07112073c5b8083",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=418bcca4cfbf44f3a07112073c5b8083",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R95",
+            "lawUuid": "418bcca4cfbf44f3a07112073c5b8083",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=418bcca4cfbf44f3a07112073c5b8083"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "100",
+      "series": "03",
+      "conditional": true,
+      "title": "Vehicles with regard to specific requirements for the electric power train",
+      "lawRefs": {
+        "text": "UN R100",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R100",
+            "text": "UN R100",
+            "lawUuid": "d7fb08f4dd384a18a0989ba3570fbe1b",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d7fb08f4dd384a18a0989ba3570fbe1b",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R100",
+            "lawUuid": "d7fb08f4dd384a18a0989ba3570fbe1b",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d7fb08f4dd384a18a0989ba3570fbe1b"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "110",
+      "series": "06",
+      "conditional": true,
+      "title": "Vehicles with regard to the installation of specific components for the use of CNG and/or LNG in their propulsion system",
+      "lawRefs": {
+        "text": "UN R110",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R110",
+            "text": "UN R110",
+            "lawUuid": "b9d16bf2646945d3b620e9a21bb90e2c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b9d16bf2646945d3b620e9a21bb90e2c",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R110",
+            "lawUuid": "b9d16bf2646945d3b620e9a21bb90e2c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b9d16bf2646945d3b620e9a21bb90e2c"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "117",
+      "series": "04",
+      "conditional": false,
+      "title": "Tyres with regard to rolling sound emissions and/or to adhesion on wet surfaces and/or to rolling resistance",
+      "lawRefs": {
+        "text": "UN R117",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R117",
+            "text": "UN R117",
+            "lawUuid": "18e769e6fccc498b9e37ee5817a7eccf",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=18e769e6fccc498b9e37ee5817a7eccf",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R117",
+            "lawUuid": "18e769e6fccc498b9e37ee5817a7eccf",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=18e769e6fccc498b9e37ee5817a7eccf"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "121",
+      "series": "01",
+      "conditional": false,
+      "title": "Vehicles with regard to the location and identification of hand controls, tell-tales and indicators",
+      "lawRefs": {
+        "text": "UN R121",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R121",
+            "text": "UN R121",
+            "lawUuid": "05df660f6deb4888be0b57f6939f7378",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=05df660f6deb4888be0b57f6939f7378",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R121",
+            "lawUuid": "05df660f6deb4888be0b57f6939f7378",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=05df660f6deb4888be0b57f6939f7378"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "125",
+      "series": "03",
+      "conditional": false,
+      "title": "Motor vehicles with regard to the forward field of vision of the motor vehicle driver",
+      "lawRefs": {
+        "text": "UN R125",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R125",
+            "text": "UN R125",
+            "lawUuid": "dcdd3c5356d5454aa2a3a579e308a1ef",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdd3c5356d5454aa2a3a579e308a1ef",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R125",
+            "lawUuid": "dcdd3c5356d5454aa2a3a579e308a1ef",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdd3c5356d5454aa2a3a579e308a1ef"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "127",
+      "series": "04",
+      "conditional": false,
+      "title": "Motor vehicles with regard to their pedestrian safety performance",
+      "lawRefs": {
+        "text": "UN R127",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R127",
+            "text": "UN R127",
+            "lawUuid": "01dd7ea7b3f942c988cee8e475e3c2af",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=01dd7ea7b3f942c988cee8e475e3c2af",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R127",
+            "lawUuid": "01dd7ea7b3f942c988cee8e475e3c2af",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=01dd7ea7b3f942c988cee8e475e3c2af"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "129",
+      "series": "04",
+      "conditional": true,
+      "title": "Enhanced Child Restraint Systems used on board of motor vehicles (only in as much as it relates to built-in \"specific vehicle booster seats\" but not covering standalone child seats)",
+      "lawRefs": {
+        "text": "UN R129",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R129",
+            "text": "UN R129",
+            "lawUuid": "0d1a6229314941eaa70093ba5a0686c9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0d1a6229314941eaa70093ba5a0686c9",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R129",
+            "lawUuid": "0d1a6229314941eaa70093ba5a0686c9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0d1a6229314941eaa70093ba5a0686c9"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "134",
+      "series": "00",
+      "conditional": true,
+      "title": "Motor vehicles with regard to the safety related performance of hydrogen-fuelled vehicles",
+      "lawRefs": {
+        "text": "UN R134",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R134",
+            "text": "UN R134",
+            "lawUuid": "4559a999fdaa4295b4469991f0a4f93e",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=4559a999fdaa4295b4469991f0a4f93e",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R134",
+            "lawUuid": "4559a999fdaa4295b4469991f0a4f93e",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=4559a999fdaa4295b4469991f0a4f93e"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "135",
+      "series": "02",
+      "conditional": false,
+      "title": "Vehicles with regard to their Pole Side Impact performance",
+      "lawRefs": {
+        "text": "UN R135",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R135",
+            "text": "UN R135",
+            "lawUuid": "9ccd5d9c5ba340208902e259f406712f",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=9ccd5d9c5ba340208902e259f406712f",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R135",
+            "lawUuid": "9ccd5d9c5ba340208902e259f406712f",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=9ccd5d9c5ba340208902e259f406712f"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "137",
+      "series": "02",
+      "conditional": false,
+      "title": "Passenger cars in the event of a frontal collision with focus on the restraint system",
+      "lawRefs": {
+        "text": "UN R137",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R137",
+            "text": "UN R137",
+            "lawUuid": "99bfc0b8f94f4fb08eff002ae4c9af24",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=99bfc0b8f94f4fb08eff002ae4c9af24",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R137",
+            "lawUuid": "99bfc0b8f94f4fb08eff002ae4c9af24",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=99bfc0b8f94f4fb08eff002ae4c9af24"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "138",
+      "series": "02",
+      "conditional": true,
+      "title": "Quiet Road Transport Vehicles with regard to their reduced audibility",
+      "lawRefs": {
+        "text": "UN R138",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R138",
+            "text": "UN R138",
+            "lawUuid": "2d6388e71921428d90a388d4b2c56677",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2d6388e71921428d90a388d4b2c56677",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R138",
+            "lawUuid": "2d6388e71921428d90a388d4b2c56677",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2d6388e71921428d90a388d4b2c56677"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "139",
+      "series": "00",
+      "conditional": false,
+      "title": "Brake assist systems",
+      "lawRefs": {
+        "text": "UN R139",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R139",
+            "text": "UN R139",
+            "lawUuid": "83169940ea33479292ef06de12a99c89",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=83169940ea33479292ef06de12a99c89",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R139",
+            "lawUuid": "83169940ea33479292ef06de12a99c89",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=83169940ea33479292ef06de12a99c89"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "140",
+      "series": "00",
+      "conditional": false,
+      "title": "Electronic stability control systems",
+      "lawRefs": {
+        "text": "UN R140",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R140",
+            "text": "UN R140",
+            "lawUuid": "c020382dccd44b21abfc61b795b127c4",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=c020382dccd44b21abfc61b795b127c4",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R140",
+            "lawUuid": "c020382dccd44b21abfc61b795b127c4",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=c020382dccd44b21abfc61b795b127c4"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "141",
+      "series": "01",
+      "conditional": false,
+      "title": "Tyre pressure monitoring systems",
+      "lawRefs": {
+        "text": "UN R141",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R141",
+            "text": "UN R141",
+            "lawUuid": "3306d4b9a57a4cf9aa36d1afc3d541a8",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=3306d4b9a57a4cf9aa36d1afc3d541a8",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R141",
+            "lawUuid": "3306d4b9a57a4cf9aa36d1afc3d541a8",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=3306d4b9a57a4cf9aa36d1afc3d541a8"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "142",
+      "series": "01",
+      "conditional": false,
+      "title": "Tyre installation",
+      "lawRefs": {
+        "text": "UN R142",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R142",
+            "text": "UN R142",
+            "lawUuid": "2b9f15544f964ec3a80c8912a068cf1c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b9f15544f964ec3a80c8912a068cf1c",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R142",
+            "lawUuid": "2b9f15544f964ec3a80c8912a068cf1c",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b9f15544f964ec3a80c8912a068cf1c"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "154",
+      "series": "03",
+      "conditional": false,
+      "title": "WLTP",
+      "lawRefs": {
+        "text": "UN R154",
+        "segments": [
+          {
+            "type": "text",
+            "content": "UN R154"
+          }
+        ],
+        "laws": []
+      }
+    },
+    {
+      "regNumber": "161",
+      "series": "00",
+      "conditional": false,
+      "title": "The protection of motor vehicles against unauthorized use (Locking system)",
+      "lawRefs": {
+        "text": "UN R161",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R161",
+            "text": "UN R161",
+            "lawUuid": "3d72535345154f228a1317b53371f749",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=3d72535345154f228a1317b53371f749",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R161",
+            "lawUuid": "3d72535345154f228a1317b53371f749",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=3d72535345154f228a1317b53371f749"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "162",
+      "series": "00",
+      "conditional": true,
+      "title": "Immobilizers",
+      "lawRefs": {
+        "text": "UN R162",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R162",
+            "text": "UN R162",
+            "lawUuid": "64ed0bc15e1d42dfa1743c299a7233f4",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=64ed0bc15e1d42dfa1743c299a7233f4",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R162",
+            "lawUuid": "64ed0bc15e1d42dfa1743c299a7233f4",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=64ed0bc15e1d42dfa1743c299a7233f4"
+          }
+        ]
+      }
+    },
+    {
+      "regNumber": "163",
+      "series": "00",
+      "conditional": true,
+      "title": "Vehicle alarm system",
+      "lawRefs": {
+        "text": "UN R163",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R163",
+            "text": "UN R163",
+            "lawUuid": "0f6206ec214d4aa0a37bc81c90d11686",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f6206ec214d4aa0a37bc81c90d11686",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R163",
+            "lawUuid": "0f6206ec214d4aa0a37bc81c90d11686",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f6206ec214d4aa0a37bc81c90d11686"
+          }
+        ]
+      }
+    }
+  ],
+  "parts": [
+    {
+      "id": "brake_pad",
+      "n": "刹车片/制动摩擦件（替换用）",
+      "items": [
+        "C5"
+      ],
+      "r": "R90"
+    },
+    {
+      "id": "tyre",
+      "n": "轮胎",
+      "items": [
+        "C10"
+      ],
+      "r": "R30+R117"
+    },
+    {
+      "id": "retread",
+      "n": "翻新轮胎",
+      "items": [
+        "C12"
+      ],
+      "r": "R108"
+    },
+    {
+      "id": "wheel",
+      "n": "替换用车轮/轮毂",
+      "items": [
+        "C16"
+      ],
+      "r": "R124"
+    },
+    {
+      "id": "siglamp",
+      "n": "光信号灯具",
+      "items": [
+        "D11"
+      ],
+      "r": "R4/R6/R7/R148…"
+    },
+    {
+      "id": "headlamp",
+      "n": "前照灯/道路照明",
+      "items": [
+        "D12"
+      ],
+      "r": "R98/R112/R149…"
+    },
+    {
+      "id": "reflector",
+      "n": "回复反射器/反光标识",
+      "items": [
+        "D13"
+      ],
+      "r": "R3/R104/R150"
+    },
+    {
+      "id": "bulb",
+      "n": "灯泡/光源",
+      "items": [
+        "D14"
+      ],
+      "r": "R37/R99/R128"
+    },
+    {
+      "id": "hlclean",
+      "n": "大灯清洗器",
+      "items": [
+        "D17"
+      ],
+      "r": "R45"
+    },
+    {
+      "id": "glass",
+      "n": "安全玻璃",
+      "items": [
+        "B10"
+      ],
+      "r": "R43"
+    },
+    {
+      "id": "mirror",
+      "n": "后视镜/间接视野装置",
+      "items": [
+        "B13"
+      ],
+      "r": "R46"
+    },
+    {
+      "id": "horn",
+      "n": "喇叭",
+      "items": [
+        "D1"
+      ],
+      "r": "R28"
+    },
+    {
+      "id": "seatbelt",
+      "n": "安全带",
+      "items": [
+        "A5"
+      ],
+      "r": "R16"
+    },
+    {
+      "id": "crs",
+      "n": "儿童座椅",
+      "items": [
+        "A9",
+        "A10"
+      ],
+      "r": "R44/R129"
+    },
+    {
+      "id": "airbag",
+      "n": "替换用安全气囊",
+      "items": [
+        "A23"
+      ],
+      "r": "R114"
+    },
+    {
+      "id": "seat",
+      "n": "座椅及头枕",
+      "items": [
+        "A2"
+      ],
+      "r": "R17"
+    },
+    {
+      "id": "towbar",
+      "n": "拖车钩/机械挂接装置",
+      "items": [
+        "F12"
+      ],
+      "r": "R55"
+    },
+    {
+      "id": "rup",
+      "n": "后下防护装置",
+      "items": [
+        "A12"
+      ],
+      "r": "R58"
+    },
+    {
+      "id": "gas",
+      "n": "LPG/CNG 系统部件",
+      "items": [
+        "A15",
+        "A16"
+      ],
+      "r": "R67/R110"
+    },
+    {
+      "id": "emc",
+      "n": "车用电子件（EMC）",
+      "items": [
+        "D2"
+      ],
+      "r": "R10"
+    },
+    {
+      "id": "antitheft",
+      "n": "防盗/报警/IMMO",
+      "items": [
+        "D3"
+      ],
+      "r": "R97/R116…"
+    },
+    {
+      "id": "heater",
+      "n": "燃油加热器/加热系统",
+      "items": [
+        "D10"
+      ],
+      "r": "R122"
+    },
+    {
+      "id": "reversing",
+      "n": "倒车探测装置",
+      "items": [
+        "B7"
+      ],
+      "r": "R158"
+    },
+    {
+      "id": "edr",
+      "n": "事件数据记录 EDR",
+      "items": [
+        "E5"
+      ],
+      "r": "R160"
+    },
+    {
+      "id": "doorlock",
+      "n": "门锁与铰链",
+      "items": [
+        "F3"
+      ],
+      "r": "R11"
+    },
+    {
+      "id": "avas",
+      "n": "AVAS 行人警报",
+      "items": [
+        "B14"
+      ],
+      "r": "R138"
+    }
+  ],
+  "scoring": {
+    "weights": {
+      "reg": {
+        "done": 1,
+        "prog": 0.5,
+        "no": 0,
+        "unk": 0
+      },
+      "sysScore": {
+        "full": 1,
+        "part": 0.5,
+        "none": 0
+      },
+      "sysWeight": {
+        "cop": 1,
+        "version": 1,
+        "cyber": 1,
+        "doc": 1
+      }
+    },
+    "threshold": 50
+  },
+  "quadrantCopy": {
+    "ready": {
+      "risk": "低危：法规覆盖与支撑体系均达标。主要风险来自 UN R 版本迭代与新强制项扩容，需保持监控以维持领先。",
+      "recs": [
+        "订阅法规版本追踪，第一时间跟进 UN R 修订与生效日期",
+        "对新增强制项（网安/ADAS 等）提前布局，扩大合规护城河",
+        "定期 CoP 内审，确保量产一致性持续有效"
+      ]
+    },
+    "fragile": {
+      "risk": "高危：法规已满足但缺乏支撑体系，证书在 CoP 审核或法规更新时面临失效风险。依据 (EU) 2018/858 第 31 条与 1958 协定附表 1，生产一致性必须持续有效——CoP 监督不通过可导致批准被暂停乃至撤销。",
+      "recs": [
+        "优先补建 CoP 生产一致性体系，防止已获证书失效",
+        "建立法规版本追踪机制，避免因 UN R 修订被动掉队",
+        "对已认证项做体系化归档，将「已拿证」转化为「可持续合规」"
+      ]
+    },
+    "start": {
+      "risk": "中危：体系基础已具备，但法规覆盖不全，产品面临无法准入或被通报的风险，缺口集中在尚未认证的条目。",
+      "recs": [
+        "优先完成未开始的强制法规认证，打通市场准入",
+        "借助已有体系批量推进认证，缩短整体周期",
+        "对进行中项目做节点管理，避免拖期错过生效窗口"
+      ]
+    },
+    "naked": {
+      "risk": "高危：法规与体系双缺，作为新进入者尚无合规基础，产品无法合法进入目标市场。",
+      "recs": [
+        "从范围界定入手，锁定强制适用法规清单与优先级",
+        "认证与基础体系（CoP/文档）同步搭建，避免返工",
+        "引入全流程托管或入门培训，快速建立合规能力"
+      ]
+    }
+  },
+  "regLinks": {
+    "UN R3": "https://www.1clicktong.com/law/lawDetail?lawUuid=9240ed011eb044b28ed7f93ba5d1b900",
+    "UN R4": "https://www.1clicktong.com/law/lawDetail?lawUuid=64bbbed6eeee4510b2816084050855b1",
+    "UN R10": "https://www.1clicktong.com/law/lawDetail?lawUuid=986edecfcbc14d378867e0c1d40c78f1",
+    "UN R11": "https://www.1clicktong.com/law/lawDetail?lawUuid=f69c70807895407b8f797e6d302d1619",
+    "UN R12": "https://www.1clicktong.com/law/lawDetail?lawUuid=445a77addd8b4ed4b9692de9e6928bc9",
+    "UN R13-H": "https://www.1clicktong.com/law/lawDetail?lawUuid=0666a6ea8c6d4adebe8008f75ec5c506",
+    "UN R14": "https://www.1clicktong.com/law/lawDetail?lawUuid=caf6146beb3c4cc080ecc3c3a3d632cd",
+    "UN R16": "https://www.1clicktong.com/law/lawDetail?lawUuid=933d5da0f7ef4a6fb06f362206016576",
+    "UN R17": "https://www.1clicktong.com/law/lawDetail?lawUuid=51a7f193ec84405bafba7e77d2e313e2",
+    "UN R21": "https://www.1clicktong.com/law/lawDetail?lawUuid=b7000f42a2c94e589433ef95776a23d9",
+    "UN R26": "https://www.1clicktong.com/law/lawDetail?lawUuid=864fb813d99f4210ba0e50f55d88fe9c",
+    "UN R28": "https://www.1clicktong.com/law/lawDetail?lawUuid=65c4d07604824a64bbeadc5c49cdedc0",
+    "UN R30": "https://www.1clicktong.com/law/lawDetail?lawUuid=7b435acea436444fb3f740bae494f26c",
+    "UN R31": "https://www.1clicktong.com/law/lawDetail?lawUuid=e34f8bd194e04a139d4c36b5b41a2e74",
+    "UN R34": "https://www.1clicktong.com/law/lawDetail?lawUuid=e591809061294019905ed678898d1663",
+    "UN R37": "https://www.1clicktong.com/law/lawDetail?lawUuid=89383565cbce4126a5f8f26f24bef17a",
+    "UN R39": "https://www.1clicktong.com/law/lawDetail?lawUuid=cf9191323ae4422cabfe15e178618267",
+    "UN R43": "https://www.1clicktong.com/law/lawDetail?lawUuid=6a812510feaa4d4d80bef2c5984e4e81",
+    "UN R44": "https://www.1clicktong.com/law/lawDetail?lawUuid=32f38dc94fbc479589e03f7ef6e2d81c",
+    "UN R45": "https://www.1clicktong.com/law/lawDetail?lawUuid=9c6ca8f561c4465791e2f771ce524a38",
+    "UN R46": "https://www.1clicktong.com/law/lawDetail?lawUuid=06eb822b1de14b2e97747b2a63db0651",
+    "UN R48": "https://www.1clicktong.com/law/lawDetail?lawUuid=d4b0507dbc8b47899b9686f98ee21259",
+    "UN R51": "https://www.1clicktong.com/law/lawDetail?lawUuid=6206a2a7f35846a89bf405677c9a7061",
+    "UN R55": "https://www.1clicktong.com/law/lawDetail?lawUuid=0cb05f8f3427488b871d386dfeeb75d8",
+    "UN R58": "https://www.1clicktong.com/law/lawDetail?lawUuid=e049536ee2014f8bb943168696767770",
+    "UN R64": "https://www.1clicktong.com/law/lawDetail?lawUuid=41bdc690b4f84645891b72723de42853",
+    "UN R67": "https://www.1clicktong.com/law/lawDetail?lawUuid=2e4b0570879e46809572bb82cb1cfe39",
+    "UN R79": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430",
+    "UN R90": "https://www.1clicktong.com/law/lawDetail?lawUuid=b4c5f3885a044b5c8bb4c93c43ea4453",
+    "UN R94": "https://www.1clicktong.com/law/lawDetail?lawUuid=6fcd836a739e447083a92f2c1ef50980",
+    "UN R95": "https://www.1clicktong.com/law/lawDetail?lawUuid=418bcca4cfbf44f3a07112073c5b8083",
+    "UN R97": "https://www.1clicktong.com/law/lawDetail?lawUuid=c736f51052d24ed6a5f597adfce09051",
+    "UN R100": "https://www.1clicktong.com/law/lawDetail?lawUuid=d7fb08f4dd384a18a0989ba3570fbe1b",
+    "UN R108": "https://www.1clicktong.com/law/lawDetail?lawUuid=9f87f370b8bd4f61af95b847a7ad9380",
+    "UN R110": "https://www.1clicktong.com/law/lawDetail?lawUuid=b9d16bf2646945d3b620e9a21bb90e2c",
+    "UN R114": "https://www.1clicktong.com/law/lawDetail?lawUuid=868cb670eb4d420c9cd6dac0af2268a4",
+    "UN R121": "https://www.1clicktong.com/law/lawDetail?lawUuid=05df660f6deb4888be0b57f6939f7378",
+    "UN R122": "https://www.1clicktong.com/law/lawDetail?lawUuid=02c7df237a0e44fdb611914046d9cf7c",
+    "UN R124": "https://www.1clicktong.com/law/lawDetail?lawUuid=7028fa2a5e8f4890b356320244973517",
+    "UN R125": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdd3c5356d5454aa2a3a579e308a1ef",
+    "UN R126": "https://www.1clicktong.com/law/lawDetail?lawUuid=1db925e940314ef9bec0b881fb90507f",
+    "UN R127": "https://www.1clicktong.com/law/lawDetail?lawUuid=01dd7ea7b3f942c988cee8e475e3c2af",
+    "UN R129": "https://www.1clicktong.com/law/lawDetail?lawUuid=0d1a6229314941eaa70093ba5a0686c9",
+    "UN R130": "https://www.1clicktong.com/law/lawDetail?lawUuid=7f09f5d405344bef9bcf1ed56a9cc4af",
+    "UN R131": "https://www.1clicktong.com/law/lawDetail?lawUuid=d768e0b5a5074df780f9bc793eed9744",
+    "UN R133": "https://www.1clicktong.com/law/lawDetail?lawUuid=dab34398539447c6b541ce4acdedfaa7",
+    "UN R134": "https://www.1clicktong.com/law/lawDetail?lawUuid=4559a999fdaa4295b4469991f0a4f93e",
+    "UN R135": "https://www.1clicktong.com/law/lawDetail?lawUuid=9ccd5d9c5ba340208902e259f406712f",
+    "UN R137": "https://www.1clicktong.com/law/lawDetail?lawUuid=99bfc0b8f94f4fb08eff002ae4c9af24",
+    "UN R138": "https://www.1clicktong.com/law/lawDetail?lawUuid=2d6388e71921428d90a388d4b2c56677",
+    "UN R139": "https://www.1clicktong.com/law/lawDetail?lawUuid=83169940ea33479292ef06de12a99c89",
+    "UN R140": "https://www.1clicktong.com/law/lawDetail?lawUuid=c020382dccd44b21abfc61b795b127c4",
+    "UN R141": "https://www.1clicktong.com/law/lawDetail?lawUuid=3306d4b9a57a4cf9aa36d1afc3d541a8",
+    "UN R142": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b9f15544f964ec3a80c8912a068cf1c",
+    "UN R13": "https://www.1clicktong.com/law/lawDetail?lawUuid=49f6a4502d36492485f9f259d76471fa",
+    "UN R145": "https://www.1clicktong.com/law/lawDetail?lawUuid=a04a5b651ec64bcdb7e208f5dab76ad1",
+    "UN R152": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdc0bca828d441091fcce4ae9275ba9",
+    "UN R153": "https://www.1clicktong.com/law/lawDetail?lawUuid=056b2a7d8d3e457a8aad19d9e66ffc25",
+    "UN R155": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+    "UN R156": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+    "UN R157": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+    "UN R158": "https://www.1clicktong.com/law/lawDetail?lawUuid=22f446ff0e604b74addbb7875f02424c",
+    "UN R160": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f07b51aa18544ef9f948faf15645491",
+    "UN R171": "https://www.1clicktong.com/law/lawDetail?lawUuid=e9c28a4445a3437d9cec799dfc16ab65",
+    "UN R179": "https://www.1clicktong.com/law/lawDetail?lawUuid=b240f7a0011944c7b2b4b192bdc83303",
+    "(EU) 2017/79": "https://new.1clicktong.com/law/lawDetail?lawUuid=6a2aa9a54917fd06ac888ca1df60cc13",
+    "(EU) 540/2014": "https://new.1clicktong.com/law/lawDetail?lawUuid=366661e343bb24fe5b7c4c1284825236",
+    "(EU) 2018/858": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+    "(EU) 2019/2144": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4",
+    "(EU) 2021/535": "https://new.1clicktong.com/law/lawDetail?lawUuid=b7e60474bc4cce1dc1b11afe502f557f",
+    "(EU) 2021/646": "https://new.1clicktong.com/law/lawDetail?lawUuid=f6c7b7276a0c3d2f79e86eec4f191ebb",
+    "(EU) 2021/1243": "https://new.1clicktong.com/law/lawDetail?lawUuid=420315af4e032be971dde1d8ddafb9d9",
+    "(EU) 2021/1341": "https://new.1clicktong.com/law/lawDetail?lawUuid=c3376db405aee15ca094c76dd9564963",
+    "(EU) 2021/1958": "https://new.1clicktong.com/law/lawDetail?lawUuid=0f914f61496d3c7f570cef29a6dc5198",
+    "(EU) 2022/1426": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c",
+    "(EU) 2023/2590": "https://new.1clicktong.com/law/lawDetail?lawUuid=5a0d8f53d653346d7c5b42c019eba7d7",
+    "(EU) 2024/1257": "https://new.1clicktong.com/law/lawDetail?lawUuid=8bfa3b65ff0491e7c9969fc37791e660",
+    "(EU) 2025/1706": "https://new.1clicktong.com/law/lawDetail?lawUuid=64eda635be054f2ba100cb26148af81f",
+    "(EU) 2025/2161": "https://new.1clicktong.com/law/lawDetail?lawUuid=274da4262c587de317755183bf7a8650",
+    "(EC) 595/2009": "https://new.1clicktong.com/law/lawDetail?lawUuid=e74f1d91f8392c8ba15d5a664a511b0b",
+    "(EC) 715/2007": "https://new.1clicktong.com/law/lawDetail?lawUuid=b0808c29bd25f6c7c9cf0f1d469a6747",
+    "Directive 2005/64/EC": "https://new.1clicktong.com/law/lawDetail?lawUuid=3e87e064d57744e3f19edea562dbfe8d",
+    "Directive 2006/40/EC": "https://new.1clicktong.com/law/lawDetail?lawUuid=9bc644d98a2742c5e5b5e3584dc07cb7",
+    "UN R117": "https://www.1clicktong.com/law/lawDetail?lawUuid=18e769e6fccc498b9e37ee5817a7eccf",
+    "UN R116": "https://www.1clicktong.com/law/lawDetail?lawUuid=8bac34ce9338468c986ed5905abd8dcd",
+    "UN R161": "https://www.1clicktong.com/law/lawDetail?lawUuid=3d72535345154f228a1317b53371f749",
+    "UN R162": "https://www.1clicktong.com/law/lawDetail?lawUuid=64ed0bc15e1d42dfa1743c299a7233f4",
+    "UN R163": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f6206ec214d4aa0a37bc81c90d11686",
+    "UN R6": "https://www.1clicktong.com/law/lawDetail?lawUuid=8051ccb101334f1b8b2c7f01af485f6c",
+    "UN R7": "https://www.1clicktong.com/law/lawDetail?lawUuid=8e22c7c2f5464cc182252feec5344d56",
+    "UN R19": "https://www.1clicktong.com/law/lawDetail?lawUuid=ecfdb0bbabdc4a81b357c8447936ca42",
+    "UN R23": "https://www.1clicktong.com/law/lawDetail?lawUuid=2e3415b75a884c9282a6582364379123",
+    "UN R38": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f0aa6e02c2f4fb9a68127c99966a82e",
+    "UN R77": "https://www.1clicktong.com/law/lawDetail?lawUuid=5c9619d39d8b42a9961bfe4396b3b632",
+    "UN R87": "https://www.1clicktong.com/law/lawDetail?lawUuid=3f6f7489e1774f01ba799e49c1b2b972",
+    "UN R91": "https://www.1clicktong.com/law/lawDetail?lawUuid=9783a2ba90834243a88c60e69864d278",
+    "UN R148": "https://www.1clicktong.com/law/lawDetail?lawUuid=1eadec0e9ecf402f8548973037fe1c0b",
+    "UN R98": "https://www.1clicktong.com/law/lawDetail?lawUuid=50dad4ea38714d5f9a720801b32421c3",
+    "UN R112": "https://www.1clicktong.com/law/lawDetail?lawUuid=6ce49c865dbd4d5eadb77e78e4c55861",
+    "UN R119": "https://www.1clicktong.com/law/lawDetail?lawUuid=5d496be3f7674abf952314762e441900",
+    "UN R123": "https://www.1clicktong.com/law/lawDetail?lawUuid=e4abbb719c374c648d11629d2aea14a9",
+    "UN R149": "https://www.1clicktong.com/law/lawDetail?lawUuid=cac131ddf5d14b2f87ce31a79deb5627",
+    "UN R104": "https://www.1clicktong.com/law/lawDetail?lawUuid=1e4d5da47c9e46d9968832b2b34d0a90",
+    "UN R150": "https://www.1clicktong.com/law/lawDetail?lawUuid=eab55159335b49ebbb2ac0dbc89d9ae2",
+    "UN R99": "https://www.1clicktong.com/law/lawDetail?lawUuid=868c2600f81e468d928c25374d16ccd7",
+    "UN R128": "https://www.1clicktong.com/law/lawDetail?lawUuid=e79152a188cc4f5f992fc1d79e2bfbb4",
+    "UN R59": "https://www.1clicktong.com/law/lawDetail?lawUuid=cd7ed8cf9e0949fab4afb477b3dfe3fb",
+    "(EU) 2015/758": "https://new.1clicktong.com/law/lawDetail?lawUuid=4dfed5dee2910dc61fe38474ce2e558f",
+    "(EU) 2017/78": "https://new.1clicktong.com/law/lawDetail?lawUuid=60e8447267147e4a4e032d2d10dfc1b2",
+    "(EU) 2025/1707": "https://new.1clicktong.com/law/lawDetail?lawUuid=f9be1f84c24b4e3e80613f4636aefadb",
+    "(EU) 2025/1871": "https://new.1clicktong.com/law/lawDetail?lawUuid=ce8aa18bd0130ba9a3cc90ad89084184",
+    "(EU) 2026/1762": "https://new.1clicktong.com/law/lawDetail?lawUuid=47d96714d9bd4c31a51d463706a281d7",
+    "(EU) 2026/1764": "https://new.1clicktong.com/law/lawDetail?lawUuid=9daf6bbbded0455cafefaef40ba350d8",
+    "(EU) 2013/29": "https://new.1clicktong.com/law/lawDetail?lawUuid=24842143525e025a850e08612bc678d4",
+    "(EU) 2014/30 (EMC指令)": "https://new.1clicktong.com/law/lawDetail?lawUuid=818c91904520cc5c9cec16695ff8fe6e",
+    "(EU) 2014/53 (RED)": "https://new.1clicktong.com/law/lawDetail?lawUuid=26f96a0b94103b0a47ee97ab64209d84",
+    "(EU) 2023/1230": "https://new.1clicktong.com/law/lawDetail?lawUuid=0482e3db8c02e84e25920c2b76706310",
+    "2006/42/EC": "https://new.1clicktong.com/law/lawDetail?lawUuid=d670b6221f4f5b0ec76e124797aba805"
+  },
+  "regMeta": {
+    "1": {
+      "s": "配备R2和/或HS1灯丝灯的不对称近光灯和/或远光灯",
+      "sr": "02 series",
+      "oj": "L 177, 10.7.2010, p. 1",
+      "c": "M, N",
+      "n": "(a) UN R 1、8、20 不适用于车辆EU型式认证。"
+    },
+    "3": {
+      "s": "机动车辆及其拖车用反射装置",
+      "sr": "02 series",
+      "oj": "L 323, 6.12.2011, p. 1",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "4": {
+      "s": "机动车辆及其拖车后牌照板照明",
+      "sr": "原始版",
+      "oj": "L 4, 7.1.2012, p. 17",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "6": {
+      "s": "机动车辆及其拖车用方向指示灯",
+      "sr": "01 series",
+      "oj": "L 213, 18.7.2014, p. 1",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "7": {
+      "s": "机动车辆及其拖车前/后位置灯、制动灯和端部轮廓灯",
+      "sr": "02 series",
+      "oj": "L 285, 30.9.2014, p. 1",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "8": {
+      "s": "机动车辆前照灯（H1、H2、H3、HB3、HB4、H7、H8、H9、HIR1、H",
+      "sr": "05 series",
+      "oj": "L 177, 10.7.2010, p. 71",
+      "c": "M, N",
+      "n": "(a) UN R 1、8、20 不适用于车辆EU型式认证。"
+    },
+    "10": {
+      "s": "电磁兼容性",
+      "sr": "05 series",
+      "oj": "L 41, 17.2.2017, p. 1",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "11": {
+      "s": "车门锁扣和车门保持部件",
+      "sr": "04 series",
+      "oj": "L 218, 21.8.2019, p. 1",
+      "c": "M1, N1",
+      "n": ""
+    },
+    "12": {
+      "s": "碰撞时驾驶员转向机构防护",
+      "sr": "04 series",
+      "oj": "L 89, 27.3.2013, p. 1",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "13": {
+      "s": "重型车与挂车的制动",
+      "sr": "11 series",
+      "oj": "L 42, 18.2.2016, p. 1",
+      "c": "M2, M3, N, O",
+      "n": ""
+    },
+    "14": {
+      "s": "安全带固定装置",
+      "sr": "09 series",
+      "oj": "L 324, 13.12.2019, p. 14",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "16": {
+      "s": "安全带、约束系统、儿童约束系统和ISOFIX儿童约束系统",
+      "sr": "07 series",
+      "oj": "L 109, 27.4.2018, p. 1",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "17": {
+      "s": "座椅、座椅固定装置及头枕",
+      "sr": "09 series",
+      "oj": "L 266, 18.10.2019, p. 1",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "18": {
+      "s": "机动车辆防盗保护",
+      "sr": "03 series",
+      "oj": "L 120, 13.5.2010, p. 29",
+      "c": "M2, M3, N2, N3",
+      "n": ""
+    },
+    "19": {
+      "s": "机动车辆前雾灯",
+      "sr": "04 series",
+      "oj": "L 250, 22.8.2014, p. 1",
+      "c": "M, N",
+      "n": ""
+    },
+    "20": {
+      "s": "配备卤素灯丝灯（H4灯）的不对称近光/远光前照灯",
+      "sr": "03 series",
+      "oj": "L 177, 10.7.2010, p. 170",
+      "c": "M, N",
+      "n": "(a) UN R 1、8、20 不适用于车辆EU型式认证。"
+    },
+    "21": {
+      "s": "内部装备",
+      "sr": "01 series",
+      "oj": "L 188, 16.7.2008, p. 32",
+      "c": "M1",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "23": {
+      "s": "机动车辆及其拖车用倒车灯和机动灯",
+      "sr": "原始版",
+      "oj": "L 237, 8.8.2014, p. 1",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "25": {
+      "s": "头枕（无论是否集成于座椅）",
+      "sr": "04 series",
+      "oj": "L 258, 7.8.2020, p. 30",
+      "c": "M, N",
+      "n": ""
+    },
+    "26": {
+      "s": "外部突出物",
+      "sr": "03 series",
+      "oj": "L 215, 14.8.2010, p. 27",
+      "c": "M1",
+      "n": ""
+    },
+    "28": {
+      "s": "音响警告装置及音响信号",
+      "sr": "原始版",
+      "oj": "L 323, 6.12.2011, p. 33",
+      "c": "M, N",
+      "n": ""
+    },
+    "29": {
+      "s": "商用车驾驶室乘员的保护",
+      "sr": "03 series",
+      "oj": "L 283, 5.11.2019, p. 72",
+      "c": "N",
+      "n": ""
+    },
+    "30": {
+      "s": "机动车辆及其拖车用充气轮胎（C1类）",
+      "sr": "02 series",
+      "oj": "L 307, 23.11.2011, p. 1",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "31": {
+      "s": "密封光束前照灯（SB）",
+      "sr": "02 series",
+      "oj": "L 185, 17.7.2010, p. 15",
+      "c": "M, N",
+      "n": ""
+    },
+    "34": {
+      "s": "防火风险（液体燃料箱）",
+      "sr": "04 series",
+      "oj": "L 2025/1454, 29.7.2025",
+      "c": "M, N, O",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "37": {
+      "s": "机动车辆及其拖车认证灯具用灯丝灯",
+      "sr": "03 series",
+      "oj": "L 213, 18.7.2014, p. 36",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "38": {
+      "s": "机动车辆及其拖车用后雾灯",
+      "sr": "原始版",
+      "oj": "L 4, 7.1.2012, p. 20",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "39": {
+      "s": "速度计和里程计设备及其安装",
+      "sr": "01 series",
+      "oj": "L 302, 28.11.2018, p. 106",
+      "c": "M, N",
+      "n": ""
+    },
+    "43": {
+      "s": "安全玻璃材料及其在车辆上的安装",
+      "sr": "01 series",
+      "oj": "L 42, 12.2.2014, p. 1",
+      "c": "M, N, O",
+      "n": "",
+      "im": "2022年7月6日之后的所有M类、N类、O类新车及新玻璃（零部件）均需满足。"
+    },
+    "44": {
+      "s": "机动车辆儿童乘员约束装置（儿童约束系统）",
+      "sr": "04 series",
+      "oj": "L 285, 1.9.2020, p. 1",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "45": {
+      "s": "前照灯清洗装置",
+      "sr": "01 series",
+      "oj": "L 136, 29.4.2020, p. 1",
+      "c": "M, N",
+      "n": ""
+    },
+    "46": {
+      "s": "间接视野装置及其安装",
+      "sr": "04 series",
+      "oj": "L 237, 8.8.2014, p. 24",
+      "c": "M, N",
+      "n": "",
+      "im": "2022年7月6日之后的所有M类、N类新车及零部件均需满足。"
+    },
+    "48": {
+      "s": "机动车辆照明和信号灯具的安装",
+      "sr": "07 series",
+      "oj": "L 347, 30.9.2021, p. 1",
+      "c": "M, N, O",
+      "n": "(c) 若制造商声明车辆适用于拖曳，且任何机械连接装置（无论是否已安装）可能遮挡照明部件和/或后牌照安装空间，则适用以下规定：用户说明书须明确说明不得安装无法轻易拆卸或移位的连接装置；须明确说明不使用时必须拆卸或移位连接装置；对于R55系统"
+    },
+    "54": {
+      "s": "商用车辆及其拖车用充气轮胎（C2和C3类）",
+      "sr": "原始版",
+      "oj": "L 307, 23.11.2011, p. 2",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "55": {
+      "s": "组合车辆的机械连接部件",
+      "sr": "01 series",
+      "oj": "L 153, 15.6.2018, p. 179",
+      "c": "M, N, O",
+      "n": "(c) 若制造商声明车辆适用于拖曳，且任何机械连接装置（无论是否已安装）可能遮挡照明部件和/或后牌照安装空间，则适用以下规定（同R48备注）。须确保完全遵守拆卸/移位/替代位置规定（照明安装和后牌照安装空间）。"
+    },
+    "58": {
+      "s": "后防下钻保护装置及其安装；后防下钻保护",
+      "sr": "03 series",
+      "oj": "L 49, 20.2.2019, p. 1",
+      "c": "M, N, O",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "61": {
+      "s": "商用车辆驾驶室后壁前方外部突出物",
+      "sr": "原始版",
+      "oj": "L 164, 30.6.2010, p. 1",
+      "c": "N",
+      "n": ""
+    },
+    "64": {
+      "s": "临时备用车轮、缺气保用轮胎/系统（及胎压监测系统）",
+      "sr": "02 series",
+      "oj": "L 310, 26.11.2010, p. 18",
+      "c": "M1, N1",
+      "n": ""
+    },
+    "66": {
+      "s": "大型客车上部结构强度",
+      "sr": "02 series",
+      "oj": "L 84, 30.3.2011, p. 1",
+      "c": "M2,",
+      "n": ""
+    },
+    "67": {
+      "s": "使用液化石油气（LPG）的机动车辆",
+      "sr": "01 series",
+      "oj": "L 285, 20.10.2016, p. 1",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "73": {
+      "s": "货运车辆侧面防护装置",
+      "sr": "01 series",
+      "oj": "L 122, 8.5.2012, p. 1",
+      "c": "N2, N3, O3, O4",
+      "n": ""
+    },
+    "77": {
+      "s": "机动车辆停车灯",
+      "sr": "原始版",
+      "oj": "L 4, 7.1.2012, p. 21",
+      "c": "M, N",
+      "n": ""
+    },
+    "79": {
+      "s": "转向装置",
+      "sr": "04 series",
+      "oj": "L 2025/3, 10.1.2025",
+      "c": "M, N, O",
+      "n": "",
+      "im": "电动 / 电子助力转向 新车型2022 年 7 月 6 日起强制符合 ELKS+R79 所有新车2024 年 7 月 7 日起全面强制 液压助力转向 新车型2022 年 7 月 6 日起强制安装 LDWS 所有新车2024 年 7 月 7 日起需加装 CDCF CDCF 可延迟至2026 年 7 月 7 日（仅 LDWS 过渡期至 2024 年）"
+    },
+    "80": {
+      "s": "大型客车座椅",
+      "sr": "03 series",
+      "oj": "L 266, 18.10.2019, p. 31",
+      "c": "M2,",
+      "n": ""
+    },
+    "87": {
+      "s": "机动车辆日间行驶灯",
+      "sr": "原始版",
+      "oj": "L 4, 7.1.2012, p. 24",
+      "c": "M, N",
+      "n": ""
+    },
+    "89": {
+      "s": "限速装置和可调限速装置",
+      "sr": "原始版",
+      "oj": "L 4, 7.1.2012, p. 25",
+      "c": "M, N",
+      "n": "(d) 仅涉及限速装置（SLD）及M₂、、N₂、N₃类车辆强制安装SLD。"
+    },
+    "90": {
+      "s": "机动车辆及其拖车用替换制动衬片总成、鼓式制动衬片、制动盘和制动鼓",
+      "sr": "02 series",
+      "oj": "L 290, 16.11.2018, p. 54",
+      "c": "M, N, O",
+      "n": "UN R 90 适用于以下零部件的市场投放或投入使用：(a)(i) M₁（≤3.5 吨）、M₂（≤3.5 吨）、N₁、O₁、O₂类车辆（1998 年 4 月 7 日后获得 R13 或 R13-H 型式认证的）替换制动衬片总成；(ii) M₁"
+    },
+    "91": {
+      "s": "机动车辆及其拖车用侧标志灯",
+      "sr": "原始版",
+      "oj": "L 4, 7.1.2012, p. 27",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "93": {
+      "s": "前防下钻保护装置及其安装；前防下钻保护",
+      "sr": "原始版",
+      "oj": "L 185, 17.7.2010, p. 56",
+      "c": "N2, N3",
+      "n": ""
+    },
+    "94": {
+      "s": "正面碰撞时乘员保护",
+      "sr": "04 series",
+      "oj": "L 392, 5.11.2021, p. 1",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "95": {
+      "s": "侧面碰撞时乘员保护",
+      "sr": "05 series",
+      "oj": "L 392, 5.11.2021, p. 62",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022年7月6日之后的所有M1类车辆、最低座椅R点距离地面高度≤700mm的N1类车辆新车。最低座椅R点距离地面高度＞700mm的N1类车辆：22年7月6日之后的新车型、24年7月6日之后的新车需要满足。"
+    },
+    "97": {
+      "s": "车辆报警系统（VAS）",
+      "sr": "01 series",
+      "oj": "L 122, 8.5.2012, p. 19",
+      "c": "M1, N1",
+      "n": "(e) M₁和N₁类车辆须安装防止未经授权使用的装置；M₁类车辆须安装防盗器系统。"
+    },
+    "98": {
+      "s": "配备气体放电光源的机动车辆前照灯",
+      "sr": "01 series",
+      "oj": "L 176, 14.6.2014, p. 64",
+      "c": "M, N",
+      "n": ""
+    },
+    "99": {
+      "s": "机动车辆认证气体放电灯具用气体放电光源",
+      "sr": "原始版",
+      "oj": "L 320, 17.12.2018, p. 45",
+      "c": "M, N",
+      "n": ""
+    },
+    "100": {
+      "s": "电安全",
+      "sr": "03 series",
+      "oj": "L 2024/1955, 26.7.2024",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "102": {
+      "s": "近距连接装置（CCD）；认证CCD的安装",
+      "sr": "原始版",
+      "oj": "L 351, 30.12.2008, p. 44",
+      "c": "N2, N3, O3, O4",
+      "n": ""
+    },
+    "104": {
+      "s": "反光标志（重型及长型车辆）",
+      "sr": "原始版",
+      "oj": "L 75, 14.3.2014, p. 29",
+      "c": "M2, M3, N, O2, O3, O4",
+      "n": ""
+    },
+    "105": {
+      "s": "运输危险品车辆",
+      "sr": "05 series",
+      "oj": "L 4, 7.1.2012, p. 30",
+      "c": "N, O",
+      "n": ""
+    },
+    "107": {
+      "s": "M₂和类车辆的通用结构",
+      "sr": "07 series",
+      "oj": "L 52, 23.2.2018, p. 1",
+      "c": "M2, M3",
+      "n": ""
+    },
+    "108": {
+      "s": "乘用车及其拖车用翻新充气轮胎",
+      "sr": "原始版",
+      "oj": "L 181, 4.7.2006, p. 1",
+      "c": "M1, O1, O2",
+      "n": ""
+    },
+    "109": {
+      "s": "商用车辆及其拖车用翻新充气轮胎",
+      "sr": "原始版",
+      "oj": "L 181, 4.7.2006, p. 1",
+      "c": "M2, M3, N, O3, O4",
+      "n": ""
+    },
+    "110": {
+      "s": "CNG和LNG专用部件",
+      "sr": "01 series",
+      "oj": "L 166, 30.6.2015, p. 1",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "112": {
+      "s": "配备灯丝灯和/或LED模块的不对称近/远光前照灯",
+      "sr": "01 series",
+      "oj": "L 250, 22.8.2014, p. 67",
+      "c": "M, N",
+      "n": ""
+    },
+    "114": {
+      "s": "替换式安全气囊系统",
+      "sr": "原始版",
+      "oj": "L 373, 27.12.2006, p. 272",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022年7月6日对新车型实施;2024年7月6日起对新车实施"
+    },
+    "115": {
+      "s": "LPG和CNG改装系统",
+      "sr": "原始版",
+      "oj": "L 323, 7.11.2014, p. 91",
+      "c": "M, N",
+      "n": ""
+    },
+    "116": {
+      "s": "机动车辆防盗保护",
+      "sr": "原始版",
+      "oj": "L 45, 16.2.2012, p. 1",
+      "c": "M1, N1",
+      "n": "(e) M₁和N₁类车辆须安装防止未经授权使用的装置；M₁类车辆须安装防盗器系统。"
+    },
+    "117": {
+      "s": "关于滚动噪声、湿地附着力和滚动阻力的轮胎要求（C1、C2和C3类）",
+      "sr": "04 series",
+      "oj": "L 2025/1453, 7.8.2025",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "118": {
+      "s": "客车内饰材料的阻燃性",
+      "sr": "03 series",
+      "oj": "L 48, 21.2.2020, p. 26",
+      "c": "",
+      "n": ""
+    },
+    "119": {
+      "s": "转弯灯",
+      "sr": "01 series",
+      "oj": "L 89, 25.3.2014, p. 101",
+      "c": "M, N",
+      "n": ""
+    },
+    "121": {
+      "s": "手控装置、信号灯和指示器的位置和识别",
+      "sr": "01 series",
+      "oj": "L 5, 8.1.2016, p. 9",
+      "c": "M, N",
+      "n": ""
+    },
+    "122": {
+      "s": "车辆加热系统",
+      "sr": "原始版",
+      "oj": "L 19, 24.1.2020, p. 42",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "123": {
+      "s": "机动车辆自适应前照明系统（AFS）",
+      "sr": "01 series",
+      "oj": "L 49, 20.2.2019, p. 24",
+      "c": "M, N",
+      "n": ""
+    },
+    "124": {
+      "s": "替换车轮",
+      "sr": "原始版",
+      "oj": "L 375, 27.12.2006, p. 568",
+      "c": "M1, N1, O1, O2",
+      "n": ""
+    },
+    "125": {
+      "s": "前方视野",
+      "sr": "01 series",
+      "oj": "L 20, 25.1.2018, p. 16",
+      "c": "M1",
+      "n": "",
+      "im": "2022年7月6日之后的所有M1类新车均需满足；2024年7月6日之后的N1类新车型、2026年7月6日之后的N1类新车需要满足。"
+    },
+    "126": {
+      "s": "隔离系统",
+      "sr": "原始版",
+      "oj": "L 35, 7.2.2020, p. 37",
+      "c": "M1",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "127": {
+      "s": "行人安全",
+      "sr": "04 series",
+      "oj": "L 2025/460, 17.3.2025",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022年7月6日之后的所有M1类、N1类新车均需满足"
+    },
+    "128": {
+      "s": "发光二极管（LED）光源",
+      "sr": "原始版",
+      "oj": "L 320, 17.12.2018, p. 63",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "129": {
+      "s": "增强型儿童约束系统",
+      "sr": "原始版",
+      "oj": "L 97, 29.3.2014, p. 21",
+      "c": "M, N",
+      "n": "",
+      "im": "2022年7月6日对新车型实施; 2024年7月6日起对新车实施"
+    },
+    "130": {
+      "s": "车道偏离报警系统",
+      "sr": "原始版",
+      "oj": "L 178, 18.6.2014, p. 29",
+      "c": "M2, M3, N2, N3",
+      "n": "(f) 参见附件II表格说明注4。",
+      "im": "A类：2022/7/6起拒绝不符合要求的新车型型式认证； 2024/7/7起禁止不符合要求的新车注册"
+    },
+    "131": {
+      "s": "高级紧急制动系统",
+      "sr": "01 series",
+      "oj": "L 214, 19.7.2014, p. 47",
+      "c": "M2, M3, N2, N3",
+      "n": "(f) 参见附件II表格说明注4。",
+      "im": "A类：2022/7/6起拒绝不符合要求的新车型型式认证； 2024/7/7起禁止不符合要求的新车注册"
+    },
+    "134": {
+      "s": "氢气安全",
+      "sr": "原始版",
+      "oj": "L 129, 17.5.2019, p. 43",
+      "c": "M, N",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "135": {
+      "s": "侧面柱碰撞",
+      "sr": "01 series",
+      "oj": "L 103, 3.4.2020, p. 12",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022年7月6日对新车型实施;2024年7月6日起对新车实施"
+    },
+    "137": {
+      "s": "正面全宽碰撞",
+      "sr": "02 series",
+      "oj": "L 392, 5.11.2021, p. 130",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022年7月6日对新车型实施;2024年7月6日起对新车实施"
+    },
+    "138": {
+      "im": "2019年7月1日对新车型实施;2021年7月1日起对新车实施。"
+    },
+    "139": {
+      "s": "制动辅助系统",
+      "sr": "原始版",
+      "oj": "L 269, 26.10.2018, p. 1",
+      "c": "M1, N1",
+      "n": ""
+    },
+    "140": {
+      "s": "电子稳定性控制系统",
+      "sr": "原始版",
+      "oj": "L 269, 26.10.2018, p. 17",
+      "c": "M1, N1",
+      "n": ""
+    },
+    "141": {
+      "s": "胎压监测系统",
+      "sr": "01 series",
+      "oj": "L 323, 13.9.2021, p. 1",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "142": {
+      "s": "轮胎安装",
+      "sr": "01 series",
+      "oj": "L 293, 16.8.2021, p. 34",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "145": {
+      "s": "儿童约束固定装置",
+      "sr": "原始版",
+      "oj": "L 324, 13.12.2019, p. 47",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022/7/6 起对所有新车实施"
+    },
+    "148": {
+      "s": "光信号装置（LSD）",
+      "sr": "原始版",
+      "oj": "L 347, 30.9.2021, p. 123",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "149": {
+      "s": "道路照明装置",
+      "sr": "原始版",
+      "oj": "L 347, 30.9.2021, p. 173",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "150": {
+      "s": "反光装置（RRD）",
+      "sr": "原始版",
+      "oj": "L 347, 30.9.2021, p. 297",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "151": {
+      "s": "自行车盲区信息系统",
+      "sr": "原始版",
+      "oj": "L 360, 30.10.2020, p. 48",
+      "c": "M2, M3, N2, N3",
+      "n": ""
+    },
+    "152": {
+      "s": "高级紧急制动系统（AEBS）",
+      "sr": "02 series",
+      "oj": "L 2024/2497, 27.9.2024",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2024年7月6日之后的M1、N1类新车型、2026年7月6日之后的M1、N1类新车需要满足。"
+    },
+    "153": {
+      "s": "追尾碰撞时电动动力总成的安全",
+      "sr": "原始版",
+      "oj": "L 82, 9.3.2021, p. 1",
+      "c": "M1, N1",
+      "n": "",
+      "im": "2022年7月6日对新车型实施;2024年7月6日起对新车实施"
+    },
+    "155": {
+      "s": "网络安全和网络安全管理系统",
+      "sr": "原始版",
+      "oj": "L 82, 9.3.2021, p. 30",
+      "c": "M, N, O",
+      "n": ""
+    },
+    "157": {
+      "s": "自动车道保持系统（ALKS）",
+      "sr": "原始版",
+      "oj": "L 82, 9.3.2021, p. 75",
+      "c": "M1",
+      "n": ""
+    },
+    "158": {
+      "s": "后方视野或探测装置",
+      "sr": "原始版",
+      "oj": "L 184, 25.5.2021, p. 20",
+      "c": "M, N",
+      "n": "",
+      "im": "2022年7月6日之后的M、N类新车型和新型倒车检测系统（STU）、24年7月6日之后的M、N类新车和倒车检测系统（STU）需要满足。"
+    },
+    "159": {
+      "s": "起步信息系统（MOIS）",
+      "sr": "原始版",
+      "oj": "L 184, 25.5.2021, p. 62",
+      "c": "M2, M3, N2, N3",
+      "n": ""
+    },
+    "160": {
+      "s": "事件数据记录仪（EDR）",
+      "sr": "01 series",
+      "oj": "L 265, 26.7.2021, p. 3",
+      "c": "M1, N1",
+      "n": ""
+    },
+    "161": {
+      "s": "锁闭系统",
+      "sr": "原始版",
+      "oj": "L 470, 30.12.2021, p. 1",
+      "c": "M1, N1",
+      "n": "(e) M₁和N₁类车辆须安装防止未经授权使用的装置；M₁类车辆须安装防盗器系统。"
+    },
+    "162": {
+      "s": "防盗器系统",
+      "sr": "原始版",
+      "oj": "L 470, 30.12.2021, p. 23",
+      "c": "M1, N1",
+      "n": "(e) M₁和N₁类车辆须安装防止未经授权使用的装置；M₁类车辆须安装防盗器系统。"
+    },
+    "163": {
+      "s": "车辆报警系统",
+      "sr": "原始版",
+      "oj": "L 470, 30.12.2021, p. 48",
+      "c": "M1, N1",
+      "n": ""
+    },
+    "167": {
+      "s": "重型车辆直接视野",
+      "sr": "原始版",
+      "oj": "L 2024/1065, 17.5.2024",
+      "c": "M2, M3, N2, N3",
+      "n": ""
+    },
+    "169": {
+      "s": "重型车辆事件数据记录仪",
+      "sr": "原始版",
+      "oj": "L 2024/1218, 23.5.2024",
+      "c": "M2, M3, N2, N3",
+      "n": ""
+    },
+    "171": {
+      "s": "驾驶员控制辅助系统（DCAS）",
+      "sr": "原始版",
+      "oj": "L 2024/2689, 4.11.2024",
+      "c": "M, N",
+      "n": ""
+    },
+    "13-H": {
+      "s": "乘用车与轻型商用车的制动",
+      "sr": "原始版 (00 series)",
+      "oj": "L 335, 22.12.2015, p. 1",
+      "c": "M1, N1",
+      "n": ""
+    }
+  },
+  "certEstimate": {
+    "_note": "参考估算，实际费用以技术服务机构/公告机构对具体产品评估报价为准。币种 RMB，含税参考。",
+    "_source": "基于欧洲主要技术服务机构（TÜV SÜD/Rheinland/DEKRA/SGS/Bureau Veritas）2024-2026 公开报价区间及项目经验整理；汇率按 1 EUR ≈ 7.8 RMB 折算",
+    "categories": [
+      {
+        "id": "wvta_authority",
+        "category": "型式批准机关费",
+        "items": "申请费 + 证书签发费（按机关不同）",
+        "regulation": "(EU) 2018/858",
+        "costMin": 30000,
+        "costMax": 80000,
+        "timeline": "随申请流程",
+        "nbInvolvement": "—",
+        "scenario": "OE",
+        "notes": "KBA/RDW/Transportstyrelsen 等费用各异；含首次申请+签发，不含扩展",
+        "conditions": {
+          "role": [
+            "OEM"
+          ]
+        }
+      },
+      {
+        "id": "wvta_ts_testing",
+        "category": "技术服务测试费（整车）",
+        "items": "全系统测试：安全(R94/R95/R137)、制动(R13-H)、转向(R79)、灯光(R48)、EMC(R10)、噪声(R51)等",
+        "regulation": "UN R 系列（按适用法规清单）",
+        "costMin": 2000000,
+        "costMax": 5000000,
+        "timeline": "4~12 周（视法规项数与排期）",
+        "nbInvolvement": "技术服务机构执行",
+        "scenario": "OE",
+        "notes": "核心成本项；费用随车型复杂度、适用法规数量大幅浮动；含预测试建议另计 15~25%",
+        "conditions": {
+          "role": [
+            "OEM"
+          ]
+        }
+      },
+      {
+        "id": "wvta_doc",
+        "category": "技术文档编制",
+        "items": "信息文件夹(Information Document) + 图纸 + BOM + 试验方案",
+        "regulation": "(EU) 2020/683 Annex I",
+        "costMin": 100000,
+        "costMax": 300000,
+        "timeline": "2~4 周",
+        "nbInvolvement": "—",
+        "scenario": "OE",
+        "notes": "自行编制=工时成本；委外编制=咨询费；首次申请复杂度最高",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ]
+        }
+      },
+      {
+        "id": "comp_brake",
+        "category": "制动摩擦件",
+        "items": "刹车片/刹车蹄（替换用）",
+        "regulation": "UN R90",
+        "costMin": 80000,
+        "costMax": 150000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "售后",
+        "notes": "按材料配方数计费；含衰退/恢复/AK-Master 对标",
+        "conditions": {
+          "role": [
+            "AFTER"
+          ],
+          "parts": [
+            "brake_pad"
+          ]
+        }
+      },
+      {
+        "id": "comp_tyre",
+        "category": "轮胎",
+        "items": "新轮胎（乘用/商用）",
+        "regulation": "UN R30 + R117",
+        "costMin": 60000,
+        "costMax": 120000,
+        "timeline": "4~6 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "R30 强度/耐久 + R117 滚阻/噪声/湿抓；按规格数计",
+        "conditions": {
+          "parts": [
+            "tyre"
+          ]
+        }
+      },
+      {
+        "id": "comp_glass",
+        "category": "安全玻璃",
+        "items": "风挡/侧窗/后窗/天窗",
+        "regulation": "UN R43",
+        "costMin": 100000,
+        "costMax": 250000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "含碎裂试验/光学/耐磨/耐候；HUD 风挡另计",
+        "conditions": {
+          "parts": [
+            "glass"
+          ]
+        }
+      },
+      {
+        "id": "comp_mirror",
+        "category": "后视镜/间接视野",
+        "items": "外后视镜 + CMS（摄像监视系统）",
+        "regulation": "UN R46",
+        "costMin": 80000,
+        "costMax": 180000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "含视野范围/调节/振动；CMS 认证复杂度高于光学镜",
+        "conditions": {
+          "parts": [
+            "mirror"
+          ]
+        }
+      },
+      {
+        "id": "comp_lamp",
+        "category": "光信号灯具",
+        "items": "尾灯/制动灯/转向灯/前后位置灯/倒车灯/雾灯等",
+        "regulation": "UN R4/R6/R7/R148 等",
+        "costMin": 40000,
+        "costMax": 100000,
+        "timeline": "3~6 周（每款）",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "按灯具类型和款数分别测试；含光度/色度/耐热",
+        "conditions": {
+          "parts": [
+            "siglamp"
+          ]
+        }
+      },
+      {
+        "id": "comp_headlamp",
+        "category": "前照灯/道路照明",
+        "items": "近光/远光/AFS/前雾灯/弯道辅助灯",
+        "regulation": "UN R98/R112/R149",
+        "costMin": 80000,
+        "costMax": 200000,
+        "timeline": "4~8 周（每款）",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "AFS 各模式切换增加测试复杂度；LED/矩阵大灯费用较高",
+        "conditions": {
+          "parts": [
+            "headlamp"
+          ]
+        }
+      },
+      {
+        "id": "comp_seatbelt",
+        "category": "安全带",
+        "items": "三点式安全带（含预紧器、限力器）",
+        "regulation": "UN R16",
+        "costMin": 100000,
+        "costMax": 200000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "含动态滑车碰撞试验；预紧器含烟火件的需同步 2013/29/EU",
+        "conditions": {
+          "parts": [
+            "seatbelt"
+          ]
+        }
+      },
+      {
+        "id": "comp_emc",
+        "category": "车载电子件 EMC",
+        "items": "ECU/传感器/控制器/车载充电机/DC-DC 等",
+        "regulation": "UN R10",
+        "costMin": 60000,
+        "costMax": 150000,
+        "timeline": "3~6 周（每款）",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "含辐射/传导发射、抗扰度；按测试项(零部件/系统级)计费",
+        "conditions": {
+          "parts": [
+            "emc"
+          ]
+        }
+      },
+      {
+        "id": "ce_battery",
+        "category": "电池",
+        "items": "12V 铅酸蓄电池 + 动力电池包总成",
+        "regulation": "(EU) 2023/1542 电池法规",
+        "costMin": 400000,
+        "costMax": 600000,
+        "timeline": "约 6 个月",
+        "nbInvolvement": "电池包需 NB（公告机构）",
+        "scenario": "OE+售后",
+        "notes": "含性能/安全/耐久+碳足迹声明+尽职调查(2027-08起)+数字产品护照(DPP)",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "powers": [
+            "BEV",
+            "HEV",
+            "FCEV"
+          ]
+        }
+      },
+      {
+        "id": "ce_red",
+        "category": "RED（无线设备指令）",
+        "items": "TPMS 传感器 + 控制器 + 后视镜 BSD 雷达 × 4",
+        "regulation": "2014/53/EU",
+        "costMin": 120000,
+        "costMax": 200000,
+        "timeline": "3~8 周",
+        "nbInvolvement": "雷达建议 NB",
+        "scenario": "OE+售后",
+        "notes": "频率>1GHz 的雷达模块建议走 NB 路径；低功率蓝牙/NFC 可自我声明",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ]
+        }
+      },
+      {
+        "id": "ce_red_cond",
+        "category": "RED（条件项）",
+        "items": "摄像头 / 钥匙 / PEPS / 蓝牙喇叭",
+        "regulation": "2014/53/EU",
+        "costMin": 100000,
+        "costMax": 200000,
+        "timeline": "3~5 周",
+        "nbInvolvement": "可自我声明",
+        "scenario": "视配置",
+        "notes": "需确认产品配置，低功率模块多走自我声明+NB 通知模式",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ]
+        }
+      },
+      {
+        "id": "ce_pyro",
+        "category": "烟火制品",
+        "items": "气囊 × 3 型号 + 安全带预紧器 × 2",
+        "regulation": "2013/29/EU",
+        "costMin": 350000,
+        "costMax": 530000,
+        "timeline": "12~20 周",
+        "nbInvolvement": "必须 NB",
+        "scenario": "OE+售后",
+        "notes": "按气囊型号分别认证；含运输分类+储存稳定性测试",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "airbag",
+            "seatbelt"
+          ]
+        }
+      },
+      {
+        "id": "ce_ped",
+        "category": "售后 PED（压力设备指令）",
+        "items": "AC 压缩机 / 热管理压力件 共 11 项",
+        "regulation": "2014/68/EU",
+        "costMin": 40000,
+        "costMax": 200000,
+        "costUnit": "/件",
+        "timeline": "6~16 周/件",
+        "nbInvolvement": "视类别（Cat I 可自评，II+ 需 NB）",
+        "scenario": "仅售后",
+        "notes": "压力>0.5bar 的零部件按 PED 分类评估；OE 件随整车豁免",
+        "conditions": {
+          "role": [
+            "AFTER"
+          ]
+        }
+      },
+      {
+        "id": "ce_md",
+        "category": "售后 MD（机械指令）",
+        "items": "EHB/ESC/EPS/驱动电桥/雨刮电机/洗涤液壶/玻璃升降器/转向管柱 共 9 项",
+        "regulation": "2006/42/EC",
+        "costMin": 60000,
+        "costMax": 100000,
+        "costUnit": "/件",
+        "timeline": "6~10 周/件",
+        "nbInvolvement": "不需 NB（自我声明+技术文件）",
+        "scenario": "仅售后",
+        "notes": "随整车型批豁免；仅售后独立销售件需 CE",
+        "conditions": {
+          "role": [
+            "AFTER"
+          ]
+        }
+      },
+      {
+        "id": "cop_initial",
+        "category": "CoP 初次评估",
+        "items": "生产一致性体系建立 + 首次现场审核",
+        "regulation": "(EU) 2018/858 Art 31-38",
+        "costMin": 80000,
+        "costMax": 200000,
+        "timeline": "2~4 周（审核本身）",
+        "nbInvolvement": "机关/指定技术服务",
+        "scenario": "OE",
+        "notes": "含体系文件编制+工厂审核；远程+现场组合",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ]
+        }
+      },
+      {
+        "id": "cop_annual",
+        "category": "CoP 年度监督",
+        "items": "年度产品一致性抽检 + 监督审核",
+        "regulation": "(EU) 2018/858 Art 31-38",
+        "costMin": 50000,
+        "costMax": 120000,
+        "costUnit": "/年",
+        "timeline": "持续",
+        "nbInvolvement": "机关/指定技术服务",
+        "scenario": "OE",
+        "notes": "拿证后每年；不通过可致批准暂停/撤销",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ]
+        }
+      }
+    ],
+    "reportConfig": {
+      "title": "认证费用与周期估算",
+      "subtitle": "基于所选产品范围自动筛选，参考估算仅供内部预算，以技术服务机构正式报价为准",
+      "columns": [
+        "类别",
+        "项目",
+        "法规依据",
+        "费用 (RMB)",
+        "周期",
+        "NB 介入",
+        "适用场景",
+        "备注"
+      ],
+      "showTotal": true,
+      "totalNote": "以上为参考估算区间，实际费用以技术服务机构/公告机构对具体产品评估报价为准",
+      "disclaimer": "费用数据基于 2024-2026 主要技术服务机构公开报价区间整理，因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考，不构成报价承诺。"
+    }
+  }
+}

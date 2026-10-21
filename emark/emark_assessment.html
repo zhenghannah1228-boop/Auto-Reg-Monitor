@@ -202,6 +202,12 @@ table.rtab{width:100%;border-collapse:collapse;font-size:13px}
 .rtab td.ovn{width:26px;text-align:center;color:var(--greyl)}
 .rtab td.ovhi{width:40px;text-align:center;font-weight:800;color:var(--red)}
 .rtab td.ovmid{width:40px;text-align:center;font-weight:800;color:var(--amber)}
+table.ctab{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}
+.ctab th{background:var(--ink);color:var(--cream);font-weight:700;text-align:left;padding:8px 10px;font-size:10.5px;letter-spacing:.3px;white-space:nowrap}
+.ctab td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top;line-height:1.5}
+.ctab td.r{text-align:right;white-space:nowrap;font-weight:700;color:var(--ink)}
+.ctab tr.ctot td{background:var(--cream);border-top:2px solid var(--o);font-size:11.5px}
+.ctab tr.ctot td.r{color:var(--o);font-size:13px}
 .subchips{padding:14px 18px;display:flex;flex-wrap:wrap;gap:8px}
 .subchip{font-size:12px;font-weight:700;color:var(--od);background:var(--ol);padding:4px 11px;border-radius:12px}
 .concl{font-size:13px;line-height:1.75;background:var(--cream);border-left:4px solid var(--o);border-radius:0 8px 8px 0;padding:12px 16px;margin:0 18px 12px}
@@ -2199,6 +2205,54 @@ const DELIV={
   {t:'设计变更 → 扩展申请流程', b:'变更未申报可致证书失效',mand:true},
   {t:'版本时效台账（各系列生效日 / 法定失效日）', b:'数据见顶栏「速查工具 → 版本时效自查表」',mand:false}]
 };
+// ===== 认证费用与周期估算（参考数据，以技术服务机构正式报价为准）=====
+const CERT_ESTIMATE=[
+ {id:'wvta_authority',cat:'型式批准机关费',items:'申请费 + 证书签发费（按机关不同）',reg:'(EU) 2018/858',cMin:30000,cMax:80000,tl:'随申请流程',nb:'—',sc:'OE',note:'KBA/RDW/Transportstyrelsen 等费用各异；含首次申请+签发，不含扩展',cond:{role:['OEM']}},
+ {id:'wvta_ts_testing',cat:'技术服务测试费（整车）',items:'全系统测试：安全/制动/转向/灯光/EMC/噪声等',reg:'UN R 系列（按适用法规清单）',cMin:2000000,cMax:5000000,tl:'4~12 周（视法规项数与排期）',nb:'技术服务机构执行',sc:'OE',note:'核心成本项；费用随车型复杂度、适用法规数量大幅浮动；含预测试建议另计 15~25%',cond:{role:['OEM']}},
+ {id:'wvta_doc',cat:'技术文档编制',items:'信息文件夹 + 图纸 + BOM + 试验方案',reg:'(EU) 2020/683 Annex I',cMin:100000,cMax:300000,tl:'2~4 周',nb:'—',sc:'OE',note:'自行编制=工时成本；委外编制=咨询费；首次申请复杂度最高',cond:{role:['OEM','STU']}},
+ {id:'comp_brake',cat:'制动摩擦件',items:'刹车片/刹车蹄（替换用）',reg:'UN R90',cMin:80000,cMax:150000,tl:'4~8 周',nb:'技术服务执行',sc:'售后',note:'按材料配方数计费；含衰退/恢复/AK-Master 对标',cond:{role:['AFTER'],parts:['brake_pad']}},
+ {id:'comp_tyre',cat:'轮胎',items:'新轮胎（乘用/商用）',reg:'UN R30 + R117',cMin:60000,cMax:120000,tl:'4~6 周',nb:'技术服务执行',sc:'OE+售后',note:'R30 强度/耐久 + R117 滚阻/噪声/湿抓；按规格数计',cond:{parts:['tyre']}},
+ {id:'comp_glass',cat:'安全玻璃',items:'风挡/侧窗/后窗/天窗',reg:'UN R43',cMin:100000,cMax:250000,tl:'6~10 周',nb:'技术服务执行',sc:'OE+售后',note:'含碎裂试验/光学/耐磨/耐候；HUD 风挡另计',cond:{parts:['glass']}},
+ {id:'comp_mirror',cat:'后视镜/间接视野',items:'外后视镜 + CMS（摄像监视系统）',reg:'UN R46',cMin:80000,cMax:180000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'含视野范围/调节/振动；CMS 认证复杂度高于光学镜',cond:{parts:['mirror']}},
+ {id:'comp_lamp',cat:'光信号灯具',items:'尾灯/制动灯/转向灯/前后位置灯/倒车灯/雾灯等',reg:'UN R4/R6/R7/R148 等',cMin:40000,cMax:100000,tl:'3~6 周（每款）',nb:'技术服务执行',sc:'OE+售后',note:'按灯具类型和款数分别测试；含光度/色度/耐热',cond:{parts:['siglamp']}},
+ {id:'comp_headlamp',cat:'前照灯/道路照明',items:'近光/远光/AFS/前雾灯/弯道辅助灯',reg:'UN R98/R112/R149',cMin:80000,cMax:200000,tl:'4~8 周（每款）',nb:'技术服务执行',sc:'OE+售后',note:'AFS 各模式切换增加测试复杂度；LED/矩阵大灯费用较高',cond:{parts:['headlamp']}},
+ {id:'comp_seatbelt',cat:'安全带',items:'三点式安全带（含预紧器、限力器）',reg:'UN R16',cMin:100000,cMax:200000,tl:'6~10 周',nb:'技术服务执行',sc:'OE+售后',note:'含动态滑车碰撞试验；预紧器含烟火件需同步 2013/29/EU',cond:{parts:['seatbelt']}},
+ {id:'comp_emc',cat:'车载电子件 EMC',items:'ECU/传感器/控制器/车载充电机/DC-DC 等',reg:'UN R10',cMin:60000,cMax:150000,tl:'3~6 周（每款）',nb:'技术服务执行',sc:'OE+售后',note:'含辐射/传导发射、抗扰度；按测试项(零部件/系统级)计费',cond:{parts:['emc']}},
+ {id:'ce_battery',cat:'电池',items:'12V 铅酸蓄电池 + 动力电池包总成',reg:'(EU) 2023/1542 电池法规',cMin:400000,cMax:600000,tl:'约 6 个月',nb:'电池包需 NB（公告机构）',sc:'OE+售后',note:'含性能/安全/耐久+碳足迹声明+尽职调查(2027-08起)+数字产品护照(DPP)',cond:{role:['OEM','STU'],powers:['BEV','HEV','FCEV']}},
+ {id:'ce_red',cat:'RED（无线设备指令）',items:'TPMS 传感器 + 控制器 + 后视镜 BSD 雷达 × 4',reg:'2014/53/EU',cMin:120000,cMax:200000,tl:'3~8 周',nb:'雷达建议 NB',sc:'OE+售后',note:'频率>1GHz 的雷达模块建议走 NB 路径；低功率蓝牙/NFC 可自我声明',cond:{role:['OEM','STU']}},
+ {id:'ce_red_cond',cat:'RED（条件项）',items:'摄像头/钥匙/PEPS/蓝牙喇叭',reg:'2014/53/EU',cMin:100000,cMax:200000,tl:'3~5 周',nb:'可自我声明',sc:'视配置',note:'需确认产品配置，低功率模块多走自我声明+NB 通知模式',cond:{role:['OEM','STU']}},
+ {id:'ce_pyro',cat:'烟火制品',items:'气囊 × 3 型号 + 安全带预紧器 × 2',reg:'2013/29/EU',cMin:350000,cMax:530000,tl:'12~20 周',nb:'必须 NB',sc:'OE+售后',note:'按气囊型号分别认证；含运输分类+储存稳定性测试',cond:{role:['OEM','STU'],parts:['airbag','seatbelt']}},
+ {id:'ce_ped',cat:'售后 PED（压力设备指令）',items:'AC 压缩机/热管理压力件 共 11 项',reg:'2014/68/EU',cMin:40000,cMax:200000,cUnit:'/件',tl:'6~16 周/件',nb:'视类别（Cat I 可自评，II+ 需 NB）',sc:'仅售后',note:'压力>0.5bar 的零部件按 PED 分类评估；OE 件随整车豁免',cond:{role:['AFTER']}},
+ {id:'ce_md',cat:'售后 MD（机械指令）',items:'EHB/ESC/EPS/驱动电桥/雨刮电机等 共 9 项',reg:'2006/42/EC',cMin:60000,cMax:100000,cUnit:'/件',tl:'6~10 周/件',nb:'不需 NB（自我声明+技术文件）',sc:'仅售后',note:'随整车型批豁免；仅售后独立销售件需 CE',cond:{role:['AFTER']}},
+ {id:'cop_initial',cat:'CoP 初次评估',items:'生产一致性体系建立 + 首次现场审核',reg:'(EU) 2018/858 Art 31-38',cMin:80000,cMax:200000,tl:'2~4 周（审核本身）',nb:'机关/指定技术服务',sc:'OE',note:'含体系文件编制+工厂审核；远程+现场组合',cond:{role:['OEM','STU']}},
+ {id:'cop_annual',cat:'CoP 年度监督',items:'年度产品一致性抽检 + 监督审核',reg:'(EU) 2018/858 Art 31-38',cMin:50000,cMax:120000,cUnit:'/年',tl:'持续',nb:'机关/指定技术服务',sc:'OE',note:'拿证后每年；不通过可致批准暂停/撤销',cond:{role:['OEM','STU']}}
+];
+function filterCertEstimate(){
+  return CERT_ESTIMATE.filter(c=>{
+    const cd=c.cond||{};
+    if(cd.role&&cd.role.length&&!cd.role.includes(sel.role)) return false;
+    if(cd.parts&&cd.parts.length&&!cd.parts.some(p=>sel.parts.includes(p))) return false;
+    if(cd.powers&&cd.powers.length&&!cd.powers.some(p=>sel.powers.includes(p))) return false;
+    return true;
+  });
+}
+function fmtCost(v,unit){return v>=10000?(v/10000).toFixed(v%10000?1:0)+'万'+(unit||''):v.toLocaleString()+(unit||'');}
+function certEstimateHTML(escFn){
+  const esc=escFn||(s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'));
+  const rows=filterCertEstimate();
+  if(!rows.length) return '<p class="rtnote">按当前角色与产品选择，暂无适用的费用估算项。</p>';
+  let totalMin=0,totalMax=0;
+  const trs=rows.map(r=>{
+    totalMin+=r.cMin; totalMax+=r.cMax;
+    const cost=r.cMin===r.cMax?fmtCost(r.cMin,r.cUnit||''):`${fmtCost(r.cMin)}~${fmtCost(r.cMax,r.cUnit||'')}`;
+    return `<tr><td>${esc(r.cat)}</td><td>${esc(r.items)}</td><td>${esc(r.reg)}</td><td class="r">${cost}</td><td>${esc(r.tl)}</td><td>${esc(r.nb)}</td><td>${esc(r.sc)}</td><td>${esc(r.note)}</td></tr>`;
+  }).join('');
+  const totalCost=totalMin===totalMax?fmtCost(totalMin):`${fmtCost(totalMin)}~${fmtCost(totalMax)}`;
+  return `<table class="ctab"><thead><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用 (RMB)</th><th>周期</th><th>NB 介入</th><th>适用场景</th><th>备注</th></tr></thead>
+<tbody>${trs}</tbody>
+<tfoot><tr class="ctot"><td colspan="3"><b>合计估算区间</b></td><td class="r"><b>${totalCost}</b></td><td colspan="4">以上为参考估算，实际以技术服务机构/公告机构对具体产品评估报价为准</td></tr></tfoot></table>
+<p class="rtnote">费用数据基于 2024–2026 主要技术服务机构公开报价区间整理，因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考。</p>`;
+}
 let stnChk={}; // 历史字段（旧版交付物勾选状态）：不再驱动 UI，仅为兼容旧档案数据结构而保留，读写不影响新逻辑
 // 强制/建议 标签徽标 + 官方模板外链按钮
 function mandBadge(m){return m?'<span class="mand-tag mand-req">认证强制必备</span>':'<span class="mand-tag mand-rec">建议企业自备</span>';}
@@ -2661,6 +2715,11 @@ table.rtab td.lv.lvmid{background:#FBEEDA;color:#8A6510}
 .mx-calc b{color:#C44E1E}
 .chip{display:inline-block;font-size:11.5px;font-weight:700;color:#C44E1E;background:#FBE4D7;padding:3px 11px;border-radius:11px;margin:2px 4px 2px 0}
 .chips{margin:6px 0}
+table.ctab{font-size:11.5px}
+table.ctab th{font-size:10.5px;white-space:nowrap}
+table.ctab td.r{text-align:right;white-space:nowrap;font-weight:600;color:#1A1D21}
+table.ctab tr.ctot td{background:#FBF3EC;border-top:2px solid #C6502A;font-size:11px}
+table.ctab tr.ctot td.r{color:#C6502A;font-size:12px}
 `;
 }
 // 报告正文（导读/总览…免责声明）：PDF 打印与 DOCX 导出共用同一份内容，避免两处各写一份、越改越不一致。
@@ -2678,7 +2737,7 @@ function reportBodyHTML(chartHTML){
   const rtabRows=rows=>rows.map(g=>`<tr><td class="lv ${g.sev==='red'?'lvhi':'lvmid'}">${g.lvl}</td><td>${esc(g.txt)}${dueTxt(g)}</td><td><b>${esc(g.svc)}</b> — ${esc(g.action)}</td></tr>`).join('');
   const ovRows=ov.map(o=>`<tr><td class="ovn">${o.n}</td><td>${esc(o.label)}</td><td class="ovhi">${o.hi||''}</td><td class="ovmid">${o.mid||''}</td><td>${esc(o.note)}</td></tr>`).join('');
   const objLine=objName?`评估对象：<b>${esc(objName)}</b> · `:'';
-  const subSec=subs.length?`<h2>六、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
+  const subSec=subs.length?`<h2>七、已订阅法规动态</h2><p class="chips">${subs.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</p>`:'';
   const {X:cX,Y:cY}=computeScores(), cq=quadrant(cX,cY);
   const roleLabel={OEM:'OEM 整车厂',STU:'系统集成商',AFTER:'售后件供应商'}[sel.role]||'贵司';
   const journey=journeyStatus();
@@ -2705,8 +2764,10 @@ ${maturityBlock(chartHTML)}
 ${regGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(regGaps)}</tbody></table>`:'<p class="rtnote">适用法规均已启动或完成认证，无缺口。</p>'}
 <h2>五、体系成熟度缺口 <small style="font-weight:400;color:#6B7280;font-size:11px">高 ${sysGaps.filter(g=>g.sev==='red').length} · 中 ${sysGaps.filter(g=>g.sev==='amber').length}</small></h2>
 ${sysGaps.length?`<table class="rtab"><thead><tr><th>等级</th><th>事项</th><th>建议行动 / 支持服务</th></tr></thead><tbody>${rtabRows(sysGaps)}</tbody></table>`:'<p class="rtnote">体系四维度要求均已满足，无缺口。</p>'}
+<h2>六、认证费用与周期估算 <small style="font-weight:400;color:#6B7280;font-size:11px">基于所选产品范围自动筛选</small></h2>
+${certEstimateHTML(esc)}
 ${subSec}
-<h2>七、总结</h2>
+<h2>八、总结</h2>
 ${buildSummaryText(esc).map(p=>`<p>${p}</p>`).join('')}
 <div class="disc"><b>免责声明：</b>本评估为初步合规导航，不构成正式合规意见，最终以认可技术服务机构 / 型式批准机关为准。生效日期以 UNECE WP.29 官方公报及主管型式批准机关最新版本为准。</div>`;
 }
@@ -2772,6 +2833,10 @@ function step6(){
     <div class="mfold-b">${maturityBlock()}</div>
     ${gapTable(regGaps,'法规认证缺口','①')}
     ${gapTable(sysGaps,'体系成熟度缺口','②')}
+    <div class="rtab-wrap">
+      <div class="rtab-hd"><span class="rt-t">③ 认证费用与周期估算</span><span class="rt-n">基于所选角色与产品范围自动筛选 · 参考预算</span></div>
+      ${certEstimateHTML()}
+    </div>
     ${subHTML}
     ${painHTML?`<div class="gaplist"><div class="gaphd"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></svg>您标记的痛点 → 对应服务</div>${painHTML}</div>`:''}
     <div class="rcard-g">

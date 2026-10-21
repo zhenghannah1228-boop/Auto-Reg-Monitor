@@ -1,0 +1,584 @@
+{
+  "flowCode": "COP_CONFORMITY_OF_PRODUCTION",
+  "flowName": "CoP 生产一致性合规评估",
+  "flowVersion": "1.0.0",
+  "regulation": "Regulation (EU) 2018/858 Article 31-38",
+  "summary": "生产一致性(CoP)体系准备度评估与认证流程指引",
+  "sections": [
+    {
+      "id": "s3",
+      "t": "申请与认证流程",
+      "s": "初评 → 授批确认 → 周期核查 → 撤证"
+    },
+    {
+      "id": "s4",
+      "t": "申请准备材料清单",
+      "s": "可交互勾选 · 进度 · 打印"
+    }
+  ],
+  "checklist": [
+    {
+      "items": [
+        {
+          "id": "a1",
+          "text": "合格的质量管理体系，且范围覆盖待批产品、并涵盖生产一致性",
+          "subject": "可用 ISO 9001:2015 / IATF 16949 认证佐证；认证须涵盖 CoP，且不替代机关审核",
+          "qmsCover": true
+        },
+        {
+          "id": "a2",
+          "text": "书面的生产一致性控制计划（documented control plan）",
+          "subject": "列明按约定间隔执行的试验 / 检查项目、方法、频次与判定准则",
+          "qmsCover": null
+        },
+        {
+          "id": "a3",
+          "text": "产品符合性安排：确保量产持续符合已批准型式的技术要求",
+          "subject": "逐条对应各适用 UN Regulation / EU 法案的技术项",
+          "qmsCover": null
+        },
+        {
+          "id": "a4",
+          "text": "CoP 试验与检查记录的建立、保存与随时可获取",
+          "subject": "供型批机关周期核查时调阅",
+          "qmsCover": null
+        },
+        {
+          "id": "a5",
+          "text": "每条适用法规的专属 CoP 频次已落实",
+          "subject": "欧盟至少每 3 年一次（ISO 31000）；UN 侧按 Schedule 1 及各法规自设（如 R118 每 2 年）",
+          "qmsCover": null
+        }
+      ]
+    },
+    {
+      "items": [
+        {
+          "id": "b1",
+          "text": "经济运营者可追溯性与记录留存",
+          "subject": "Art.21：整车产后留存 10 年、部件 5 年",
+          "qmsCover": null
+        },
+        {
+          "id": "b2",
+          "text": "投诉与不符合处理程序",
+          "subject": "Art.13(7)",
+          "qmsCover": null
+        },
+        {
+          "id": "b3",
+          "text": "（欧盟境外制造商）授权代表 / 市场监督代表的书面授权",
+          "subject": "Art.13(4) / Art.15",
+          "qmsCover": null
+        },
+        {
+          "id": "b4",
+          "text": "制造商 / 进口商标识信息",
+          "subject": "Art.13(8) / Art.16(5)",
+          "qmsCover": null
+        },
+        {
+          "id": "b5",
+          "text": "型批撤销 / 停产的通知程序",
+          "subject": "Art.35",
+          "qmsCover": null
+        }
+      ]
+    },
+    {
+      "items": [
+        {
+          "id": "c1",
+          "text": "质量手册、组织架构与质量职责",
+          "subject": "",
+          "qmsCover": true
+        },
+        {
+          "id": "c2",
+          "text": "进货 / 过程 / 最终检验与试验计划",
+          "subject": "",
+          "qmsCover": true
+        },
+        {
+          "id": "c3",
+          "text": "量具与试验设备校准记录（量值可溯源）",
+          "subject": "",
+          "qmsCover": true
+        },
+        {
+          "id": "c4",
+          "text": "供应商 / 外协件管控",
+          "subject": "",
+          "qmsCover": true
+        },
+        {
+          "id": "c5",
+          "text": "不合格品管控与纠正措施",
+          "subject": "",
+          "qmsCover": true
+        },
+        {
+          "id": "c6",
+          "text": "工程 / 设计变更管理（确保变更不偏离已批准型式）",
+          "subject": "",
+          "qmsCover": true
+        },
+        {
+          "id": "c7",
+          "text": "定期产品审核 / 拆检记录",
+          "subject": "",
+          "qmsCover": true
+        }
+      ]
+    }
+  ],
+  "flowDiagram": [
+    {
+      "number": "",
+      "title": "",
+      "description": ""
+    },
+    {
+      "number": "",
+      "title": "",
+      "description": ""
+    },
+    {
+      "number": "",
+      "title": "",
+      "description": ""
+    },
+    {
+      "number": "",
+      "title": "",
+      "description": ""
+    },
+    {
+      "number": "",
+      "title": "",
+      "description": ""
+    }
+  ],
+  "regulationReference": [
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "E/ECE/TRANS/505/Rev.3",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=cd42c502c36e2182f9f00fa8c2bc724c",
+            "lawUuid": "cd42c502c36e2182f9f00fa8c2bc724c",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "E/ECE/TRANS/505/Rev.3",
+            "lawUuid": "cd42c502c36e2182f9f00fa8c2bc724c",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=cd42c502c36e2182f9f00fa8c2bc724c"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": null
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "(EU) 2018/858",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+            "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "(EU) 2018/858",
+            "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "(EU) 2018/858",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+            "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "(EU) 2018/858",
+            "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "Part 567",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=7e961ba357f44db7846520608d3e0c85",
+            "lawUuid": "7e961ba357f44db7846520608d3e0c85",
+            "linked": true
+          },
+          {
+            "type": "law",
+            "title": "Part 568",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=f22056866457424ab58010d61c470070",
+            "lawUuid": "f22056866457424ab58010d61c470070",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "Part 567",
+            "lawUuid": "7e961ba357f44db7846520608d3e0c85",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=7e961ba357f44db7846520608d3e0c85"
+          },
+          {
+            "title": "Part 568",
+            "lawUuid": "f22056866457424ab58010d61c470070",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=f22056866457424ab58010d61c470070"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "MVSA",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=a0e3bc5531d8447b90df2d37dc56d08a",
+            "lawUuid": "a0e3bc5531d8447b90df2d37dc56d08a",
+            "linked": true
+          },
+          {
+            "type": "law",
+            "title": "MVSR",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=055c728ac5554658a361007c63f6f121",
+            "lawUuid": "055c728ac5554658a361007c63f6f121",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "MVSA",
+            "lawUuid": "a0e3bc5531d8447b90df2d37dc56d08a",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=a0e3bc5531d8447b90df2d37dc56d08a"
+          },
+          {
+            "title": "MVSR",
+            "lawUuid": "055c728ac5554658a361007c63f6f121",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=055c728ac5554658a361007c63f6f121"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "자동차관리법 §30",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b4aa76591ce44facb2853d1e7f0b6740",
+            "lawUuid": "b4aa76591ce44facb2853d1e7f0b6740",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "자동차관리법 §30",
+            "lawUuid": "b4aa76591ce44facb2853d1e7f0b6740",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b4aa76591ce44facb2853d1e7f0b6740"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "CNCA-C11-01:2020",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=23102693411864474983001586671013",
+            "lawUuid": "23102693411864474983001586671013",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "CNCA-C11-01:2020",
+            "lawUuid": "23102693411864474983001586671013",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=23102693411864474983001586671013"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "ISO 9001",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=bf3cf379706261ad37ac4ab459ca7cb5",
+            "lawUuid": "bf3cf379706261ad37ac4ab459ca7cb5",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "ISO 9001",
+            "lawUuid": "bf3cf379706261ad37ac4ab459ca7cb5",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=bf3cf379706261ad37ac4ab459ca7cb5"
+          }
+        ]
+      }
+    },
+    {
+      "title": "",
+      "description": "",
+      "lawRefs": {
+        "segments": [
+          {
+            "type": "law",
+            "title": "IATF 16949",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=9238fa185de64db38941582785012c4a",
+            "lawUuid": "9238fa185de64db38941582785012c4a",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "IATF 16949",
+            "lawUuid": "9238fa185de64db38941582785012c4a",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=9238fa185de64db38941582785012c4a"
+          }
+        ]
+      }
+    }
+  ],
+  "glossary": [
+    {
+      "t": "CoP（生产一致性）",
+      "d": "Conformity of Production——保证量产的每一辆车 / 每一件系统或部件都与已获批准的型式保持一致，是型式批准的强制组成部分，不是可单独获得的产品证书。"
+    },
+    {
+      "t": "型式批准 Type Approval",
+      "d": "由型批机关对代表性样品做一次性符合性认定，是 CoP 得以持续维系的对象（已批准的「型式」）。"
+    },
+    {
+      "t": "ISO 9001",
+      "d": "通用质量管理体系国际标准；范围覆盖待批产品且涵盖生产一致性时，可用作 CoP 初评的支撑证据。"
+    },
+    {
+      "t": "IATF 16949",
+      "d": "汽车行业专属质量管理体系标准，基于 ISO 9001 增加行业专属要求；同样可支撑 CoP 初评，但不替代机关审核。"
+    },
+    {
+      "t": "ISO 31000:2018",
+      "d": "风险管理国际标准；欧盟 (EU) 2018/858 附件 IV 据此确定 CoP 核查强度与频次。"
+    },
+    {
+      "t": "CoC 合格证书",
+      "d": "Certificate of Conformity，随车文件，声明整车与已批准型式一致；欧盟侧机关核查时会抽样核对。"
+    },
+    {
+      "t": "VCA",
+      "d": "Vehicle Certification Agency，英国车辆认证机构，核实 CoP 后可出具留有记录的确认文件。"
+    },
+    {
+      "t": "自我认证 Self-Certification",
+      "d": "美 / 加 / 韩模式：无政府事前型批与事前 CoP 审核，制造商自证，政府靠事后抽检与召回执法。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "CoP 和 IATF 16949 认证是一回事吗？",
+      "a": "不是。CoP 是<b>型批机关</b>针对<b>某一已批准型式</b>执行的、法定的持续符合性监管（不符合可撤销型批）；IATF 16949 是<b>行业自愿 / 客户驱动的 QMS 认证</b>，由 IATF 认可的认证机构颁发，面向组织的质量体系而非某个型式。IATF / ISO 9001 证书可作为 CoP 初评证据，但<b>不替代</b>机关的 CoP 审核与抽检。"
+    },
+    {
+      "q": "CoP 和型式试验（type test）有什么区别？",
+      "a": "型式试验是<b>一次性</b>证明代表性样品满足技术要求（拿证时做）；CoP 是<b>授批后持续</b>保证批量生产与已批准型式一致。前者管「样品达标」，后者管「批量不跑偏」。"
+    },
+    {
+      "q": "做完 CoP 会拿到一张「CoP 证书」吗？",
+      "a": "CoP 本身<b>不是</b>替代型式批准、单独赋予上市资格的产品证书；它是型批的<b>组成 / 前提</b>。不过部分机关（如英国 VCA，Vehicle Certification Agency）会在核实 CoP 后，出具留有记录的确认文件或用于清关的文件。所以「完全没有任何 CoP 文件」的说法不准确，准确理解是「CoP 不是独立产品证书」。"
+    },
+    {
+      "q": "已经有 ISO 9001 / IATF 16949，初评能免吗？",
+      "a": "不能自动免，但可<b>大幅简化</b>。欧盟附件 IV 允许机关采信 EN ISO 9001:2015 或 IATF 16949 认证，条件是：①认证范围覆盖待批产品；②生产一致性被该体系涵盖；③制造商提供认证细节，并在有效性 / 范围变动时通知机关。认证是「支撑初评」，不等于 CoP 自动通过。"
+    },
+    {
+      "q": "E-mark 标志上会显示 CoP 状态吗？",
+      "a": "不会。E-mark（认证标志）编码的是「型式已获批准」，本身<b>不单独显示</b> CoP 状态或核查频次；CoP 是签发该型批的前提，型批体系预设 CoP 已核实。"
+    },
+    {
+      "q": "CoP 核查多久一次？",
+      "a": "<b>分体系不同</b>：欧盟附件 IV 为<b>至少每 3 年一次</b>（ISO 31000:2018 风险法）；UN 1958 由 Schedule 1 及各 UN Regulation 自设——例如 UN R118 §8 为<b>每 2 年</b>。别把「每 3 年」当成 UN 的口径（那是欧盟默认）。而<b>自我认证制</b>国家（美 / 加 / 韩）<b>没有政府事前 CoP 审核</b>，改由事后抽检与召回，详见「各体系 CoP 差异」板块。具体以适用法规为准。"
+    },
+    {
+      "q": "CoP 不达标会怎样？",
+      "a": "机关先要求整改；批量持续偏离已批准型式的，可<b>暂停或撤销型式批准</b>（欧盟依 (EU) 2018/858 §31 / §35）。此外型式持续停产也会导致型批失效。"
+    }
+  ],
+  "regLinks": {
+    "UN R118": "https://www.1clicktong.com/law/lawDetail?lawUuid=84be42a25e51460dbe62ed2ef692eee5",
+    "(EU) 2018/858": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+    "(EU) 2020/683": "https://new.1clicktong.com/law/lawDetail?lawUuid=640657b7882358125bc64d288497bdae",
+    "ISO 31000": "https://new.1clicktong.com/law/lawDetail?lawUuid=4f1f8b5e05ef2f5051f39981cf6afc31",
+    "ISO 9001": "https://new.1clicktong.com/law/lawDetail?lawUuid=bf3cf379706261ad37ac4ab459ca7cb5",
+    "ISO 16949 (IATF 16949)": "https://new.1clicktong.com/law/lawDetail?lawUuid=9238fa185de64db38941582785012c4a",
+    "E/ECE/TRANS/505/Rev.3 (Schedule 1)": "https://new.1clicktong.com/law/lawDetail?lawUuid=cd42c502c36e2182f9f00fa8c2bc724c",
+    "49 CFR Part 567": "https://new.1clicktong.com/law/lawDetail?lawUuid=7e961ba357f44db7846520608d3e0c85",
+    "49 CFR Part 568": "https://new.1clicktong.com/law/lawDetail?lawUuid=f22056866457424ab58010d61c470070",
+    "Motor Vehicle Safety Act": "https://new.1clicktong.com/law/lawDetail?lawUuid=a0e3bc5531d8447b90df2d37dc56d08a",
+    "Motor Vehicle Safety Regulations": "https://new.1clicktong.com/law/lawDetail?lawUuid=055c728ac5554658a361007c63f6f121",
+    "자동차관리법 §30": "https://new.1clicktong.com/law/lawDetail?lawUuid=b4aa76591ce44facb2853d1e7f0b6740",
+    "CNCA-C11-01：2020": "https://new.1clicktong.com/law/lawDetail?lawUuid=23102693411864474983001586671013"
+  },
+  "exportTemplate": {
+    "title": "生产一致性（CoP）申请材料清单",
+    "legend": "类别：A=法规明确要求（UN Schedule 1 / (EU) 2018/858 附件Ⅳ 可溯源）　B=欧盟制度性文件（(EU) 2018/858 追加）　C=体系惯例/支撑（经合格 QMS 间接要求）",
+    "disclaimer": "说明：本模板仅作准备引导，不产生法律结论；精确条款、频次与提交格式以型式批准机关的现行官方文件与法规原文为准。法律依据：UN 1958 协定 Schedule 1（E/ECE/TRANS/505/Rev.3）；(EU) 2018/858 第 31 条 + 附件Ⅳ。"
+  },
+  "categoryShortNames": {
+    "reg": "A 法规明确要求",
+    "eu": "B 欧盟制度性文件",
+    "qms": "C 体系惯例/支撑"
+  },
+  "certEstimate": {
+    "_note": "参考估算，实际费用以型式批准机关/技术服务机构报价为准",
+    "_source": "基于欧洲主要型式批准机关和技术服务机构 2024-2026 公开费率",
+    "categories": [
+      {
+        "id": "cop_gap",
+        "category": "CoP 差距分析与咨询",
+        "items": "现有 QMS 对标 (EU) 2018/858 附件Ⅳ 差距评估 + 整改建议",
+        "regulation": "(EU) 2018/858 Art 31, Annex IV",
+        "costMin": 50000,
+        "costMax": 150000,
+        "timeline": "2~4 周",
+        "nbInvolvement": "外部咨询（推荐）",
+        "scenario": "首次申请",
+        "notes": "识别现有 ISO 9001/IATF 16949 与 CoP 法规要求的差距",
+        "conditions": {}
+      },
+      {
+        "id": "cop_system",
+        "category": "CoP 体系建设",
+        "items": "控制计划编制 + 例行试验方案 + 不合格品处理流程",
+        "regulation": "(EU) 2018/858 Annex IV §3",
+        "costMin": 100000,
+        "costMax": 300000,
+        "timeline": "1~3 个月",
+        "nbInvolvement": "—",
+        "scenario": "首次申请",
+        "notes": "含控制计划(检验项/频次/判定标准)、量产件管理流程、变更管理",
+        "conditions": {}
+      },
+      {
+        "id": "cop_initial_audit",
+        "category": "CoP 初次审核",
+        "items": "型式批准机关/指定技术服务初次 CoP 评估",
+        "regulation": "(EU) 2018/858 Art 31-33",
+        "costMin": 80000,
+        "costMax": 200000,
+        "timeline": "3~5 天现场 + 2~4 周报告",
+        "nbInvolvement": "机关/指定技术服务",
+        "scenario": "首次认证必须",
+        "notes": "机关可接受等效安排（如 IATF 16949 认证+产品专项补充）",
+        "conditions": {}
+      },
+      {
+        "id": "cop_surveillance",
+        "category": "年度监督审核",
+        "items": "年度产品一致性抽检 + 现场监督审核",
+        "regulation": "(EU) 2018/858 Art 34-35",
+        "costMin": 50000,
+        "costMax": 120000,
+        "costUnit": "/年",
+        "timeline": "1~3 天现场/年",
+        "nbInvolvement": "机关/指定技术服务",
+        "scenario": "持证期间每年",
+        "notes": "不通过可导致批准暂停/撤销；产品抽检+体系文件审查",
+        "conditions": {}
+      },
+      {
+        "id": "cop_testing",
+        "category": "CoP 例行产品测试",
+        "items": "量产件抽样 + 法规符合性复测",
+        "regulation": "各 UN R CoP 附件",
+        "costMin": 30000,
+        "costMax": 100000,
+        "costUnit": "/批次",
+        "timeline": "1~4 周/批次",
+        "nbInvolvement": "内部实验室或外部技术服务",
+        "scenario": "持续",
+        "notes": "频次按控制计划约定；某些法规项允许统计方法替代全项复测",
+        "conditions": {}
+      },
+      {
+        "id": "cop_extension",
+        "category": "扩展/变更管理",
+        "items": "设计变更评估 + 扩展申请 + 必要的补充测试",
+        "regulation": "(EU) 2018/858 Art 36-38",
+        "costMin": 30000,
+        "costMax": 150000,
+        "costUnit": "/次",
+        "timeline": "2~8 周",
+        "nbInvolvement": "机关+技术服务",
+        "scenario": "设计变更时",
+        "notes": "变更未申报可致证书失效；小改走通知(notification)，大改走扩展(extension)",
+        "conditions": {}
+      }
+    ],
+    "reportConfig": {
+      "title": "CoP 生产一致性认证费用估算",
+      "subtitle": "含首次认证全流程及持续运营成本",
+      "columns": [
+        "类别",
+        "项目",
+        "法规依据",
+        "费用 (RMB)",
+        "周期",
+        "机关/技服介入",
+        "适用场景",
+        "备注"
+      ],
+      "showTotal": true,
+      "totalNote": "首次认证总费用 + 每年持续运营费用需分别预算",
+      "disclaimer": "费用数据基于 2024-2026 主要机关和技术服务机构公开费率整理，因企业规模、产品种类数量等因素浮动。"
+    }
+  }
+}
