@@ -210,6 +210,11 @@ a{color:var(--od)}
 .report .rst{text-align:center;font-weight:700;white-space:nowrap}
 .report .rst.s2{color:#1F7A4D}.report .rst.s1{color:#B45309}.report .rst.s0{color:#C0392B}
 .report .rfoot{font-size:10px;color:#666;margin-top:14px;border-top:1px solid #ccc;padding-top:6px;line-height:1.6}
+.report .ctab{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:8px}
+.report .ctab th{background:#f0f0f0;border:1px solid #ccc;padding:4px 6px;text-align:left;font-weight:700}
+.report .ctab td{border:1px solid #ddd;padding:4px 6px;vertical-align:top}
+.report .ctot{font-weight:800;background:#fdf6f0}
+.report .ctnote{font-size:9.5px;color:#888;margin-top:6px;line-height:1.5}
 @media print{
   body.printing>*{display:none !important}
   body.printing>#report{display:block !important}
@@ -499,6 +504,25 @@ const STANDARDS=[
 let _glosQ='';
 let ans={}, quiz={}, evid={}, itemMeta={}, active='home'; // active: 'home'/'ready'/'level'/'evid'
 let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
+// ===== 认证费用与周期估算 =====
+const CERT_ESTIMATE=[
+ {id:'r157_alks',cat:'R157 ALKS(L3)认证',items:'ALKS 系统安全论证+CEL 安全审核+型式批准试验(附件5)+DSSAD 数据记录',reg:'UN R157',cMin:2000000,cMax:5000000,tl:'12~24 个月',nb:'型式批准机关+技术服务',sc:'每车型(L3)',note:'01 系列扩至 130 km/h+系统发起换道;须先取得 R155/R156 认证;需道路交通法允许 L3'},
+ {id:'r79_steering',cat:'R79 转向/ACSF 认证',items:'ACSF B1/C 类功能评估+附件6 CEL 安全审核+试验',reg:'UN R79',cMin:200000,cMax:600000,tl:'2~6 个月',nb:'型式批准机关+技术服务',sc:'每车型·每 ACSF 类别',note:'B1 车道内辅助/C 确认式换道;超出边界走 R171'},
+ {id:'gsr_adas',cat:'GSR ADAS 强制要求',items:'AEB(R152)+LDW(R130)+BSIS(R151)+MOIS(R159)+ISA+DDR+EDR(R160) 整包型批',reg:'(EU) 2019/2144 + 实施细则',cMin:500000,cMax:1500000,tl:'4~12 个月',nb:'型式批准机关+技术服务',sc:'每车型',note:'轻型/重型法规包不同;DVS(R167)重型 2026-01 新型批'},
+ {id:'aiact_assess',cat:'AI 法案合规评估',items:'高风险 AI 判定(Art.6)+QMS+技术文档+风险管理+人工监督+数据治理',reg:'(EU) 2024/1689',cMin:100000,cMax:500000,tl:'3~12 个月',nb:'第三方评估(推荐)',sc:'每 AI 系统',note:'附件I B节产品(含车辆)经 2026/1744 推迟至 2028-08-02;Art.8-15 核心义务不直接适用于型批产品'},
+ {id:'sim_validation',cat:'仿真验证平台',items:'场景库建设+SiL/HiL/ViL 仿真环境+实车验证',reg:'R157 附件4/5 · ISO 21448',cMin:300000,cMax:2000000,tl:'6~18 个月',nb:'技术服务(认可仿真)',sc:'每平台/每车型',note:'R157/2022/1426 要求仿真作为合规证据之一;费用随场景库规模浮动大'}
+];
+function fmtCost(v){return v>=10000?(v/10000)+'万':v.toLocaleString();}
+function certEstimateHTML(){
+ let h='<table class="ctab"><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用(RMB)</th><th>周期</th><th>NB/机构介入</th><th>适用场景</th><th>备注</th></tr>';
+ let tMin=0,tMax=0;
+ CERT_ESTIMATE.forEach(function(c){tMin+=c.cMin;tMax+=c.cMax;
+  h+='<tr><td style="white-space:nowrap;font-weight:700">'+esc(c.cat)+'</td><td>'+esc(c.items)+'</td><td style="white-space:nowrap">'+esc(c.reg)+'</td><td style="white-space:nowrap;text-align:right">'+fmtCost(c.cMin)+' ~ '+fmtCost(c.cMax)+(c.cUnit?esc(c.cUnit):'')+'</td><td style="white-space:nowrap">'+esc(c.tl)+'</td><td>'+esc(c.nb)+'</td><td style="white-space:nowrap">'+esc(c.sc)+'</td><td>'+esc(c.note)+'</td></tr>';
+ });
+ h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算区间</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+' ~ '+fmtCost(tMax)+'</td><td colspan="4">以上为单车型首次认证参考;仿真平台为一次性建设+持续运维</td></tr></table>';
+ h+='<div class="ctnote">费用为市场均价区间(含测试+认证+基本咨询),实际随系统复杂度、自动化级别及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。</div>';
+ return h;
+}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 const REG_LINKS={
@@ -854,6 +878,7 @@ function exportReport(){
   html+='<h2>③ 测试与证据清单</h2>'+EVID.groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:56%">交付物</th><th>依据</th><th>状态</th></tr>'+
     g.items.map(it=>{const on=!!evid[it.k];return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst '+(on?'s2':'s0')+'">'+(on?'已备':'缺')+'</td></tr>';}).join('')+'</table>').join('');
   html+='<h2>④ AI 法案高风险合规</h2>'+chk(AIACT.groups);
+  html+='<h2>⑤ 认证费用与周期估算</h2>'+certEstimateHTML();
   html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448、(EU) 2024/1689(AI 法案)经 (EU) 2026/1744 修订。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');

@@ -1,0 +1,2115 @@
+{
+  "flowCode": "AD_ADAS_COMPLIANCE",
+  "flowName": "智能驾驶合规评估",
+  "flowVersion": "1.0.0",
+  "regulation": "UN R157 / UN R79 / EU 2019/2144 (GSR) / EU 2024/1689 (AI Act)",
+  "summary": "ADAS与自动驾驶法规就绪度、SAE分级与AI法案自评工具",
+  "answerLabels": null,
+  "modules": [
+    {
+      "id": "home",
+      "title": "总览仪表盘",
+      "moduleType": "dashboard"
+    },
+    {
+      "id": "ready",
+      "title": "ADAS 就绪度自评",
+      "moduleType": "checklist"
+    },
+    {
+      "id": "level",
+      "title": "自动驾驶等级判定",
+      "moduleType": "quiz"
+    },
+    {
+      "id": "evid",
+      "title": "证据清单",
+      "moduleType": "checklist"
+    },
+    {
+      "id": "aiact",
+      "title": "AI 法案自评",
+      "moduleType": "checklist"
+    }
+  ],
+  "standards": [
+    {
+      "name": "(EU) 2019/2144 通用安全法规(GSR)",
+      "id": "GSR",
+      "rl": [
+        "(EU) 2019/2144"
+      ],
+      "region": "欧盟",
+      "scope": "按附件 II 给各车类分派强制安全/ADAS 项目与适用日期,并授权委员会出实施/授权细则(ELKS 2021/646、ISA 2021/1958、DDAW 2021/1341、ADDW 2023/2590 等)。",
+      "points": [
+        "第一阶段:新车型 2022-07-06 / 全部新车 2024-07-07(ISA、DDAW、ELKS、EDR、倒车探测等)",
+        "第二阶段项(如 ADDW):新车型 2024-07-07 / 全部新车 2026-07-07",
+        "大量引用 UN 法规(R152/R130/R151/R159/R160 等)作为技术要求",
+        "Art.11 授权对全自动车辆 ADS 定型批细则 → (EU) 2022/1426"
+      ],
+      "timeline": "2019 发布,2022-07 起分阶段强制。",
+      "lawRefs": {
+        "text": "(EU) 2019/2144",
+        "segments": [
+          {
+            "type": "law",
+            "title": "(EU) 2019/2144",
+            "text": "(EU) 2019/2144",
+            "lawUuid": "ed4b377cb152b428cdf84730aea098d4",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "(EU) 2019/2144",
+            "lawUuid": "ed4b377cb152b428cdf84730aea098d4",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UN R152 — 轻型车 AEBS",
+      "id": "UN R152",
+      "rl": [
+        "UN R152"
+      ],
+      "region": "UNECE 1958 协定",
+      "scope": "M1/N1 自动紧急制动系统:车对车、行人、自行车探测场景与性能要求;GSR 引用其为轻型 AEBS 技术基准。",
+      "points": [
+        "分阶段场景:车对车 → 行人 → 自行车",
+        "速度区间内避撞/减轻碰撞性能要求",
+        "误触发抑制与驾驶员超控",
+        "重型车 AEBS 走 UN R131"
+      ],
+      "timeline": "2020 生效;欧盟按 GSR 时间表强制。",
+      "lawRefs": {
+        "text": "UN R152",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R152",
+            "text": "UN R152",
+            "lawUuid": "dcdc0bca828d441091fcce4ae9275ba9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdc0bca828d441091fcce4ae9275ba9",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R152",
+            "lawUuid": "dcdc0bca828d441091fcce4ae9275ba9",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdc0bca828d441091fcce4ae9275ba9"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UN R157 — ALKS(L3 有条件自动)",
+      "id": "UN R157",
+      "rl": [
+        "UN R157"
+      ],
+      "region": "UNECE 1958 协定",
+      "scope": "自动车道保持系统:激活期间系统执行动态驾驶任务;限高速公路等物理隔离 ODD;含接管请求、MRM、DSSAD、驾驶员可用性识别要求。",
+      "points": [
+        "00 系列限 60 km/h;01 系列(2023-01 生效)扩至 130 km/h + 系统发起换道",
+        "附件4:CEL 口径安全审核;附件5:试验规范;附录:交通干扰场景",
+        "R155/R156 为批准前置",
+        "需国内道路交通法允许 L3 上路(德国、日本已落地)"
+      ],
+      "timeline": "2021-01 生效;01 系列 2023-01 生效。",
+      "lawRefs": {
+        "text": "UN R157",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R157",
+            "text": "UN R157",
+            "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R157",
+            "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UN R171 — DCAS(L2 组合辅助)",
+      "id": "UN R171",
+      "rl": [
+        "UN R171"
+      ],
+      "region": "UNECE 1958 协定",
+      "scope": "驾驶员控制辅助系统:持续同时辅助纵向+横向控制、不接管全部驾驶任务;驾驶员始终监控并负责;适用 M/N 类。",
+      "points": [
+        "2024-03 WP.29 通过,2024-09-22 生效",
+        "核心:驾驶员参与度监测与警告升级、防滥用",
+        "为超出 R79 ACSF B1 边界的组合辅助提供批准路径",
+        "可选新技术法规:不强制安装"
+      ],
+      "timeline": "2024-09-22 生效;后续系列修订演进中。",
+      "lawRefs": {
+        "text": "UN R171",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R171",
+            "text": "UN R171",
+            "lawUuid": "e9c28a4445a3437d9cec799dfc16ab65",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=e9c28a4445a3437d9cec799dfc16ab65",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R171",
+            "lawUuid": "e9c28a4445a3437d9cec799dfc16ab65",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=e9c28a4445a3437d9cec799dfc16ab65"
+          }
+        ]
+      }
+    },
+    {
+      "name": "(EU) 2022/1426 — ADS 实施细则(全自动车辆)",
+      "id": "(EU) 2022/1426",
+      "rl": [
+        "(EU) 2022/1426"
+      ],
+      "region": "欧盟",
+      "scope": "依 2019/2144 Art.11,对全自动车辆(无驾驶员兜底)的自动驾驶系统 ADS 做型式批准:预定义区域载人/载货(含 AVP、摆渡)等使用场景。",
+      "points": [
+        "Annex II 性能要求;Annex III 合规评估(审核+仿真+测试)",
+        "Annex V AVP 技术规范(由 (EU) 2026/481 新增:定义/性能要求/合规评估三部分)",
+        "MRM 与远程监督/运营者机制",
+        "事件数据记录与在役监控义务",
+        "预定义区域使用场景,另需成员国运营许可"
+      ],
+      "timeline": "2022-09-15 生效;经 (EU) 2026/481(2026-03-24 生效)修订,新增 Annex V AVP 技术规范并取消原每年 1,500 辆小系列上限。",
+      "lawRefs": {
+        "text": "(EU) 2022/1426",
+        "segments": [
+          {
+            "type": "law",
+            "title": "(EU) 2022/1426",
+            "text": "(EU) 2022/1426",
+            "lawUuid": "debaaf5c5d91d74e2d22f228b060427c",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "(EU) 2022/1426",
+            "lawUuid": "debaaf5c5d91d74e2d22f228b060427c",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UN R79 — 转向设备(ACSF)",
+      "id": "UN R79",
+      "rl": [
+        "UN R79"
+      ],
+      "region": "UNECE 1958 协定",
+      "scope": "转向系统法规:定义自动指令转向功能 ACSF 类别与边界——A 类低速泊车、B1 类车道内持续辅助、C 类确认式自动换道;附件6 为 CEL 安全审核。",
+      "points": [
+        "B1:横向加速度限值、手离检测、边界提示",
+        "C:驾驶员触发确认、后方接近车辆探测",
+        "附件6 CEL 审核是 R157/R171 安全评估的源头",
+        "超出边界的组合辅助走 R171"
+      ],
+      "timeline": "现行版持续修订;ACSF 条款 2017 年起引入。",
+      "lawRefs": {
+        "text": "UN R79",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R79",
+            "text": "UN R79",
+            "lawUuid": "eb21e785c9c94d198041a4439caed430",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R79",
+            "lawUuid": "eb21e785c9c94d198041a4439caed430",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430"
+          }
+        ]
+      }
+    },
+    {
+      "name": "重型车专属包 — R131/R151/R159/R167/R169",
+      "id": "HDV 包",
+      "rl": [
+        "UN R131",
+        "UN R151",
+        "UN R159",
+        "UN R167",
+        "UN R169"
+      ],
+      "region": "UNECE 1958 协定 / 欧盟 GSR",
+      "scope": "M2/M3/N2/N3 专属:R131 AEBS、R151 盲区 BSIS、R159 起步 MOIS、R167 直接视野 DVS、R169 重型 EDR。",
+      "points": [
+        "BSIS/MOIS 针对城市弱势道路使用者事故",
+        "R167 DVS:驾驶室直接视野量化分级(欧盟新车型 2026-01 起)",
+        "R169:重型 EDR 数据要素与防篡改",
+        "伦敦 DVS 许可制早于 UN 法规,出口英国需另核"
+      ],
+      "timeline": "R151/R159 欧盟 2022/2024 强制;R167/R169 按 GSR 后续时间表。",
+      "lawRefs": {
+        "text": "UN R131\nUN R151\nUN R159\nUN R167\nUN R169",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R131",
+            "text": "UN R131",
+            "lawUuid": "d768e0b5a5074df780f9bc793eed9744",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d768e0b5a5074df780f9bc793eed9744",
+            "linked": true
+          },
+          {
+            "type": "law",
+            "title": "UN R151",
+            "text": "UN R151",
+            "lawUuid": "90d69d1d1ae1407aa424e7e4e140dada",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=90d69d1d1ae1407aa424e7e4e140dada",
+            "linked": true
+          },
+          {
+            "type": "law",
+            "title": "UN R159",
+            "text": "UN R159",
+            "lawUuid": "2b478abfa63c45bea4dac9fa60a50c6a",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b478abfa63c45bea4dac9fa60a50c6a",
+            "linked": true
+          },
+          {
+            "type": "law",
+            "title": "UN R167",
+            "text": "UN R167",
+            "lawUuid": "b2aca53cc4614a6b92caca31b4999f2b",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b2aca53cc4614a6b92caca31b4999f2b",
+            "linked": true
+          },
+          {
+            "type": "law",
+            "title": "UN R169",
+            "text": "UN R169",
+            "lawUuid": "13f070223243473581f11a1204c0fa54",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=13f070223243473581f11a1204c0fa54",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R131",
+            "lawUuid": "d768e0b5a5074df780f9bc793eed9744",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d768e0b5a5074df780f9bc793eed9744"
+          },
+          {
+            "title": "UN R151",
+            "lawUuid": "90d69d1d1ae1407aa424e7e4e140dada",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=90d69d1d1ae1407aa424e7e4e140dada"
+          },
+          {
+            "title": "UN R159",
+            "lawUuid": "2b478abfa63c45bea4dac9fa60a50c6a",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b478abfa63c45bea4dac9fa60a50c6a"
+          },
+          {
+            "title": "UN R167",
+            "lawUuid": "b2aca53cc4614a6b92caca31b4999f2b",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b2aca53cc4614a6b92caca31b4999f2b"
+          },
+          {
+            "title": "UN R169",
+            "lawUuid": "13f070223243473581f11a1204c0fa54",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=13f070223243473581f11a1204c0fa54"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ISO 21448 — SOTIF 预期功能安全",
+      "id": "ISO 21448",
+      "rl": [
+        "ISO 21448 (SOTIF)"
+      ],
+      "region": "国际标准",
+      "scope": "处理\"无故障也不安全\":传感器性能限制、算法不足、可预见误用;通过场景分析把未知不安全区持续压缩为已知并验证。",
+      "points": [
+        "与 ISO 26262(E/E 故障)互补,ADAS/AD 双证据线",
+        "触发条件(triggering conditions)库与场景覆盖论证",
+        "残余风险接受准则",
+        "是 R157/2022/1426 安全论证的支撑方法学"
+      ],
+      "timeline": "2022 正式版发布。",
+      "lawRefs": {
+        "text": "ISO 21448 (SOTIF)",
+        "segments": [
+          {
+            "type": "law",
+            "title": "ISO 21448 (SOTIF)",
+            "text": "ISO 21448 (SOTIF)",
+            "lawUuid": "9ff73195e428613508a9e2b293ff9826",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=9ff73195e428613508a9e2b293ff9826",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "ISO 21448 (SOTIF)",
+            "lawUuid": "9ff73195e428613508a9e2b293ff9826",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=9ff73195e428613508a9e2b293ff9826"
+          }
+        ]
+      }
+    },
+    {
+      "name": "欧盟人工智能法案(AI Act)· 高风险机制",
+      "id": "(EU) 2024/1689",
+      "rl": [
+        "(EU) 2024/1689"
+      ],
+      "region": "欧盟(CE 体系,横向法)",
+      "scope": "AI 系统若①是附件I所列产品法规管辖产品的安全部件、且②该产品须完成第三方合规评估,构成\"高风险AI系统\"(Art.6(1))。车辆型批框架(2018/858、2019/2144等)属附件I<b>B节</b>,按 Art.2(2) 只有部分条款直接适用(Art.6(1)/Art.60a/Art.102-112),Chapter III§2 核心义务(Art.8-15)本身不直接适用——是与附件I<b>A节</b>产品(如医疗器械、玩具等,核心义务全套直接适用)完全不同的合规路径。经 (EU) 2026/1744(数字统一简化法案·AI篇)修订时间线、扩大 Art.2(2) 直接适用范围、新增 Art.60a,并收窄\"安全部件\"定义。",
+      "points": [
+        "判定机制:Art.6(1)(a)+(b) 双条件 + 附件I B节 14/15/18/19 项(车辆型批框架均属B节,非A节)",
+        "B节产品适用方式(Art.2(2)):仅 Art.6(1)/Art.60a(新增)/Art.102-112 直接适用;Art.57-59 视是否\"整合进\"型批立法而定;Art.8-15 核心义务本身不直接适用",
+        "附件I嵌入式高风险(含车辆):原定 2027-08-02,经 2026/1744 推迟至 2028-08-02",
+        "附件III独立高风险场景:原定 2026-08-02,经 2026/1744 推迟至 2027-12-02",
+        "\"安全部件\"定义经新增 Art.6(1a)-(1c) 收窄:排除纯非安全用途 AI,但失效危及健康安全的仍收回;排除唯一合规触发点为非健康安全风险的产品",
+        "机械(2023/1230)经 2026/1744 获委员会 2028-08-02 前<b>强制</b>整合授权(修订机械法规附件III纳入 Chapter III§2);车辆型批法规的整合入口是原文自带的 <b>Art.107</b>((EU) 2018/858 Art.5(4)),为委员会<b>裁量性</b>条款、不设截止日期,两者强度不同"
+      ],
+      "timeline": "AI 法案 2024-08-01 生效;2026/1744 于 2026-07-24 公布、2026-07-27 生效。本条目已据 AI 法案原文(OJ L 202401689)与 (EU) 2026/1744 原文逐条核对 Art.2(2)/Art.6/Art.60a/附件I 修订内容。",
+      "lawRefs": {
+        "text": "(EU) 2024/1689",
+        "segments": [
+          {
+            "type": "law",
+            "title": "(EU) 2024/1689",
+            "text": "(EU) 2024/1689",
+            "lawUuid": "b18a4206acba7ce087f17782f9fa5dec",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b18a4206acba7ce087f17782f9fa5dec",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "(EU) 2024/1689",
+            "lawUuid": "b18a4206acba7ce087f17782f9fa5dec",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b18a4206acba7ce087f17782f9fa5dec"
+          }
+        ]
+      }
+    }
+  ],
+  "readyChecklist": [
+    {
+      "name": "M1/N1 GSR 强制组 · 主动安全",
+      "items": [
+        {
+          "key": "ad.a1",
+          "text": "已对照 GSR 附件 II 识别本车型(M1/N1)全部强制 ADAS 项目与适用日期(新车型/全部新车两档)",
+          "regulationRef": "(EU) 2019/2144 Annex II",
+          "lawRefs": {
+            "text": "(EU) 2019/2144",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2019/2144",
+                "text": "(EU) 2019/2144",
+                "lawUuid": "ed4b377cb152b428cdf84730aea098d4",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2019/2144",
+                "lawUuid": "ed4b377cb152b428cdf84730aea098d4",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.a2",
+          "text": "AEBS 自动紧急制动已按 UN R152 获批或在测(车对车,及行人/自行车探测阶段)",
+          "regulationRef": "UN R152 / GSR Art.7",
+          "lawRefs": {
+            "text": "UN R152",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R152",
+                "text": "UN R152",
+                "lawUuid": "dcdc0bca828d441091fcce4ae9275ba9",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdc0bca828d441091fcce4ae9275ba9",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R152",
+                "lawUuid": "dcdc0bca828d441091fcce4ae9275ba9",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdc0bca828d441091fcce4ae9275ba9"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.a3",
+          "text": "紧急车道保持 ELKS 已按 (EU) 2021/646 获批(R130 车道偏离预警 LDWS + 纠偏控制功能 CDCF)",
+          "regulationRef": "(EU) 2021/646",
+          "lawRefs": {
+            "text": "(EU) 2021/646",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2021/646",
+                "text": "(EU) 2021/646",
+                "lawUuid": "f6c7b7276a0c3d2f79e86eec4f191ebb",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=f6c7b7276a0c3d2f79e86eec4f191ebb",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2021/646",
+                "lawUuid": "f6c7b7276a0c3d2f79e86eec4f191ebb",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=f6c7b7276a0c3d2f79e86eec4f191ebb"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.a4",
+          "text": "智能限速辅助 ISA 已按 (EU) 2021/1958 获批(限速信息获取、提示方式与准确率要求)",
+          "regulationRef": "(EU) 2021/1958",
+          "lawRefs": {
+            "text": "(EU) 2021/1958",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2021/1958",
+                "text": "(EU) 2021/1958",
+                "lawUuid": "0f914f61496d3c7f570cef29a6dc5198",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=0f914f61496d3c7f570cef29a6dc5198",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2021/1958",
+                "lawUuid": "0f914f61496d3c7f570cef29a6dc5198",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=0f914f61496d3c7f570cef29a6dc5198"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.a5",
+          "text": "本组以上各项(AEBS/ELKS/ISA 等)的批准证书/试验报告已归档,与整车型批文档一致(证据归档)",
+          "regulationRef": "GSR 型批文档 / COC",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "M1/N1 GSR 强制组 · 驾驶员监测与记录",
+      "items": [
+        {
+          "key": "ad.b1",
+          "text": "DDAW 驾驶员疲劳/困倦预警已按 (EU) 2021/1341 获批(基于驾驶行为的困倦监测)",
+          "regulationRef": "(EU) 2021/1341",
+          "lawRefs": {
+            "text": "(EU) 2021/1341",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2021/1341",
+                "text": "(EU) 2021/1341",
+                "lawUuid": "c3376db405aee15ca094c76dd9564963",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=c3376db405aee15ca094c76dd9564963",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2021/1341",
+                "lawUuid": "c3376db405aee15ca094c76dd9564963",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=c3376db405aee15ca094c76dd9564963"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.b2",
+          "text": "ADDW 高级驾驶员分心预警已评估适用日期(新车型 2024-07-07 / 全部新车 2026-07-07)并获批或在测",
+          "regulationRef": "(EU) 2023/2590",
+          "lawRefs": {
+            "text": "(EU) 2023/2590",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2023/2590",
+                "text": "(EU) 2023/2590",
+                "lawUuid": "5a0d8f53d653346d7c5b42c019eba7d7",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=5a0d8f53d653346d7c5b42c019eba7d7",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2023/2590",
+                "lawUuid": "5a0d8f53d653346d7c5b42c019eba7d7",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=5a0d8f53d653346d7c5b42c019eba7d7"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.b3",
+          "text": "倒车探测(影像/传感)已按 UN R158 获批",
+          "regulationRef": "UN R158",
+          "lawRefs": {
+            "text": "UN R158",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R158",
+                "text": "UN R158",
+                "lawUuid": "22f446ff0e604b74addbb7875f02424c",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=22f446ff0e604b74addbb7875f02424c",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R158",
+                "lawUuid": "22f446ff0e604b74addbb7875f02424c",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=22f446ff0e604b74addbb7875f02424c"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.b4",
+          "text": "EDR 事件数据记录器已按 UN R160 获批,记录要素/留存/防篡改合规",
+          "regulationRef": "UN R160",
+          "lawRefs": {
+            "text": "UN R160",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R160",
+                "text": "UN R160",
+                "lawUuid": "0f07b51aa18544ef9f948faf15645491",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f07b51aa18544ef9f948faf15645491",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R160",
+                "lawUuid": "0f07b51aa18544ef9f948faf15645491",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f07b51aa18544ef9f948faf15645491"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.b5",
+          "text": "DMS(驾驶员监测系统)摄像头等监测数据的隐私合规已评估(闭环处理、默认不外传)",
+          "regulationRef": "(EU) 2023/2590 / GDPR",
+          "lawRefs": {
+            "text": "(EU) 2023/2590",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2023/2590",
+                "text": "(EU) 2023/2590",
+                "lawUuid": "5a0d8f53d653346d7c5b42c019eba7d7",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=5a0d8f53d653346d7c5b42c019eba7d7",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2023/2590",
+                "lawUuid": "5a0d8f53d653346d7c5b42c019eba7d7",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=5a0d8f53d653346d7c5b42c019eba7d7"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "重型组(M2/M3/N2/N3)",
+      "items": [
+        {
+          "key": "ad.c1",
+          "text": "重型 AEBS 已按 UN R131 获批",
+          "regulationRef": "UN R131",
+          "lawRefs": {
+            "text": "UN R131",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R131",
+                "text": "UN R131",
+                "lawUuid": "d768e0b5a5074df780f9bc793eed9744",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d768e0b5a5074df780f9bc793eed9744",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R131",
+                "lawUuid": "d768e0b5a5074df780f9bc793eed9744",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d768e0b5a5074df780f9bc793eed9744"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.c2",
+          "text": "车道偏离预警 LDWS 已按 UN R130 获批",
+          "regulationRef": "UN R130",
+          "lawRefs": {
+            "text": "UN R130",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R130",
+                "text": "UN R130",
+                "lawUuid": "7f09f5d405344bef9bcf1ed56a9cc4af",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=7f09f5d405344bef9bcf1ed56a9cc4af",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R130",
+                "lawUuid": "7f09f5d405344bef9bcf1ed56a9cc4af",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=7f09f5d405344bef9bcf1ed56a9cc4af"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.c3",
+          "text": "盲区信息系统 BSIS 已按 UN R151 获批(近侧自行车/行人探测)",
+          "regulationRef": "UN R151",
+          "lawRefs": {
+            "text": "UN R151",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R151",
+                "text": "UN R151",
+                "lawUuid": "90d69d1d1ae1407aa424e7e4e140dada",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=90d69d1d1ae1407aa424e7e4e140dada",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R151",
+                "lawUuid": "90d69d1d1ae1407aa424e7e4e140dada",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=90d69d1d1ae1407aa424e7e4e140dada"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.c4",
+          "text": "起步信息系统 MOIS 已按 UN R159 获批(车前近距行人/骑行者探测)",
+          "regulationRef": "UN R159",
+          "lawRefs": {
+            "text": "UN R159",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R159",
+                "text": "UN R159",
+                "lawUuid": "2b478abfa63c45bea4dac9fa60a50c6a",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b478abfa63c45bea4dac9fa60a50c6a",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R159",
+                "lawUuid": "2b478abfa63c45bea4dac9fa60a50c6a",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b478abfa63c45bea4dac9fa60a50c6a"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.c5",
+          "text": "直接视野 DVS 已按 UN R167 评估驾驶室视野(欧盟新车型 2026-01 起适用)",
+          "regulationRef": "UN R167 / GSR Art.9",
+          "lawRefs": {
+            "text": "UN R167",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R167",
+                "text": "UN R167",
+                "lawUuid": "b2aca53cc4614a6b92caca31b4999f2b",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b2aca53cc4614a6b92caca31b4999f2b",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R167",
+                "lawUuid": "b2aca53cc4614a6b92caca31b4999f2b",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=b2aca53cc4614a6b92caca31b4999f2b"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.c6",
+          "text": "重型 EDR 已按 UN R169 评估适用性与数据要素(M2/M3/N2/N3)",
+          "regulationRef": "UN R169",
+          "lawRefs": {
+            "text": "UN R169",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R169",
+                "text": "UN R169",
+                "lawUuid": "13f070223243473581f11a1204c0fa54",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=13f070223243473581f11a1204c0fa54",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R169",
+                "lawUuid": "13f070223243473581f11a1204c0fa54",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=13f070223243473581f11a1204c0fa54"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "转向与基础组",
+      "items": [
+        {
+          "key": "ad.d1",
+          "text": "车道保持辅助(持续横向控制)按 UN R79 ACSF B1 边界设计(手离检测、最大横向加速度、系统边界提示)",
+          "regulationRef": "UN R79 §5.6.2 (ACSF B1)",
+          "lawRefs": {
+            "text": "UN R79",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R79",
+                "text": "UN R79",
+                "lawUuid": "eb21e785c9c94d198041a4439caed430",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R79",
+                "lawUuid": "eb21e785c9c94d198041a4439caed430",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.d2",
+          "text": "自动换道功能按 UN R79 ACSF C 类要求获批(驾驶员触发确认、后方接近车辆探测)",
+          "regulationRef": "UN R79 §5.6.4 (ACSF C)",
+          "lawRefs": {
+            "text": "UN R79",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R79",
+                "text": "UN R79",
+                "lawUuid": "eb21e785c9c94d198041a4439caed430",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R79",
+                "lawUuid": "eb21e785c9c94d198041a4439caed430",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.d3",
+          "text": "ADAS 开关、指示器与信号符号按 UN R121 标识,状态显示无歧义",
+          "regulationRef": "UN R121",
+          "lawRefs": {
+            "text": "UN R121",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R121",
+                "text": "UN R121",
+                "lawUuid": "05df660f6deb4888be0b57f6939f7378",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=05df660f6deb4888be0b57f6939f7378",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R121",
+                "lawUuid": "05df660f6deb4888be0b57f6939f7378",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=05df660f6deb4888be0b57f6939f7378"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.d4",
+          "text": "间接视野装置/摄像监控系统 CMS 已按 UN R46 获批(替代外后视镜时)",
+          "regulationRef": "UN R46",
+          "lawRefs": {
+            "text": "UN R46",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R46",
+                "text": "UN R46",
+                "lawUuid": "06eb822b1de14b2e97747b2a63db0651",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=06eb822b1de14b2e97747b2a63db0651",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R46",
+                "lawUuid": "06eb822b1de14b2e97747b2a63db0651",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=06eb822b1de14b2e97747b2a63db0651"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ad.d5",
+          "text": "各 ADAS 功能的用户手册/HMI 描述与批准范围一致,不夸大能力(证据归档)",
+          "regulationRef": "R79/R121 附随文档",
+          "lawRefs": null
+        }
+      ]
+    }
+  ],
+  "evidChecklist": [
+    {
+      "name": "① 安全论证 Safety Case",
+      "items": [
+        {
+          "key": "ev.a1",
+          "text": "已编制安全论证:系统安全概念、危害分析与「无不合理风险」论证链",
+          "regulationRef": "UN R157 附件4(电子控制系统安全要求与审核)",
+          "lawRefs": {
+            "text": "UN R157",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R157",
+                "text": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.a2",
+          "text": "安全需求可追溯(需求 → 设计 → 验证),追溯矩阵受版本控制",
+          "regulationRef": "ISO 26262-3/-4",
+          "lawRefs": {
+            "text": "ISO 26262-3",
+            "segments": [
+              {
+                "type": "law",
+                "title": "ISO 26262-3",
+                "text": "ISO 26262-3",
+                "lawUuid": "24070479275059233600002020845910",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479275059233600002020845910",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "ISO 26262-3",
+                "lawUuid": "24070479275059233600002020845910",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479275059233600002020845910"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.a3",
+          "text": "安全管理体系与开发流程文档齐备,可支撑机构审核(三支柱之审核/评估)",
+          "regulationRef": "UN R157 附件4(审核) / WP.29 NATM",
+          "lawRefs": {
+            "text": "UN R157",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R157",
+                "text": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "② 仿真与场景库",
+      "items": [
+        {
+          "key": "ev.b1",
+          "text": "已建立 ODD 场景目录(切入/切出、前车急停、弱势道路使用者、隧道/施工等)",
+          "regulationRef": "UN R157 附录(交通干扰场景) / NATM 场景目录",
+          "lawRefs": {
+            "text": "UN R157",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R157",
+                "text": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.b2",
+          "text": "仿真工具链可信度说明:模型验证、与实车测试对标(correlation)",
+          "regulationRef": "WP.29 NATM / (EU) 2022/1426 Annex III",
+          "lawRefs": {
+            "text": "(EU) 2022/1426",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2022/1426",
+                "text": "(EU) 2022/1426",
+                "lawUuid": "debaaf5c5d91d74e2d22f228b060427c",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2022/1426",
+                "lawUuid": "debaaf5c5d91d74e2d22f228b060427c",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.b3",
+          "text": "仿真覆盖率与通过判据文档化,结果可复现、可审计",
+          "regulationRef": "WP.29 NATM",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "③ DSSAD / EDR 数据存储",
+      "items": [
+        {
+          "key": "ev.c1",
+          "text": "DSSAD 按 R157 记录规定事件(激活、接管请求、MRM、严重干预等)并可读取",
+          "regulationRef": "UN R157 §8 DSSAD",
+          "lawRefs": {
+            "text": "UN R157",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R157",
+                "text": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.c2",
+          "text": "EDR 按 R160(重型按 R169)记录要素、留存时长与防篡改合规",
+          "regulationRef": "UN R160 / R169",
+          "lawRefs": {
+            "text": "UN R160",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R160",
+                "text": "UN R160",
+                "lawUuid": "0f07b51aa18544ef9f948faf15645491",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f07b51aa18544ef9f948faf15645491",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R160",
+                "lawUuid": "0f07b51aa18544ef9f948faf15645491",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f07b51aa18544ef9f948faf15645491"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.c3",
+          "text": "数据读取接口与个人数据保护流程明确(事故调查/执法用途)",
+          "regulationRef": "UN R157 / GDPR",
+          "lawRefs": {
+            "text": "UN R157",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R157",
+                "text": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "④ 试验场与实路测试",
+      "items": [
+        {
+          "key": "ev.d1",
+          "text": "试验场测试:接管请求、MRM、切入切出、故障注入等按法规试验矩阵完成并留报告",
+          "regulationRef": "UN R157 附件5(试验规范) / (EU) 2022/1426 Annex II",
+          "lawRefs": {
+            "text": "UN R157\n(EU) 2022/1426",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R157",
+                "text": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+                "linked": true
+              },
+              {
+                "type": "law",
+                "title": "(EU) 2022/1426",
+                "text": "(EU) 2022/1426",
+                "lawUuid": "debaaf5c5d91d74e2d22f228b060427c",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+              },
+              {
+                "title": "(EU) 2022/1426",
+                "lawUuid": "debaaf5c5d91d74e2d22f228b060427c",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.d2",
+          "text": "目标市场实路验证与在役监控/报告计划(ISMR)已建立",
+          "regulationRef": "WP.29 NATM 三支柱 / GRVA ISMR",
+          "lawRefs": null
+        },
+        {
+          "key": "ev.d3",
+          "text": "测试报告与批准文档包完整、版本受控,与申报配置一致",
+          "regulationRef": "型批文档 / IF 文件",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "⑤ 功能安全 / SOTIF 证据",
+      "items": [
+        {
+          "key": "ev.e1",
+          "text": "ISO 26262 功能安全:HARA、ASIL 分配与安全机制验证证据齐备",
+          "regulationRef": "ISO 26262",
+          "lawRefs": null
+        },
+        {
+          "key": "ev.e2",
+          "text": "SOTIF 预期功能安全:已知/未知不安全场景分析、触发条件库与残余风险论证",
+          "regulationRef": "ISO 21448",
+          "lawRefs": null
+        },
+        {
+          "key": "ev.e3",
+          "text": "传感器性能限制(天气/光照/退化)分析与降级策略验证证据",
+          "regulationRef": "ISO 21448 / UN R157",
+          "lawRefs": {
+            "text": "UN R157",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R157",
+                "text": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R157",
+                "lawUuid": "09e72e6dd6274e35b2c9a7cebda3c88e",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "⑥ 网安前置(R155/R156)",
+      "items": [
+        {
+          "key": "ev.f1",
+          "text": "CSMS 证书与车型网络安全批准(R155)已取得——R157/R171 批准的前置条件",
+          "regulationRef": "UN R155",
+          "lawRefs": {
+            "text": "UN R155",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R155",
+                "text": "UN R155",
+                "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R155",
+                "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.f2",
+          "text": "SUMS 证书与软件更新批准(R156)已取得,RXSWIN 覆盖自动驾驶相关软件",
+          "regulationRef": "UN R156",
+          "lawRefs": {
+            "text": "UN R156",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R156",
+                "text": "UN R156",
+                "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R156",
+                "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ev.f3",
+          "text": "OTA 更新对 ADAS/ADS 功能的影响评估流程(更新后与批准状态一致性)",
+          "regulationRef": "UN R156 / R157",
+          "lawRefs": {
+            "text": "UN R156",
+            "segments": [
+              {
+                "type": "law",
+                "title": "UN R156",
+                "text": "UN R156",
+                "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "UN R156",
+                "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "aiActChecklist": [
+    {
+      "name": "判定机制与适用范围(Art.6(1) + 附件I)",
+      "items": [
+        {
+          "key": "ai.a1",
+          "text": "已确认本车型 ADAS/自动驾驶相关 AI 系统落入附件I机制,且明确落在附件I <b>B节</b>(其他协调立法)而非A节(新立法框架产品):B节第14项 (EU) No 168/2013(L类车)、第15项 (EU) No 167/2013(农林车)、第18项 (EU) 2018/858(整车型批框架)、第19项 (EU) 2019/2144(GSR,含 ADAS 强制项)——A/B节的区分直接决定 Chapter III§2 核心义务是否直接适用(见②组),不是无关紧要的分类细节",
+          "regulationRef": "AI 法案 附件I B节(原文核实,2024 原始文本未因 2026/1744 变动)",
+          "lawRefs": null
+        },
+        {
+          "key": "ai.a2",
+          "text": "已确认该 AI 系统所属车辆按上述法规须完成第三方合规评估(即已有型式批准环节)——这是落入高风险分类的第二个必要条件,两条都满足才算数",
+          "regulationRef": "AI 法案 Art.6(1)(b)",
+          "lawRefs": null
+        },
+        {
+          "key": "ai.a3",
+          "text": "附件III独立高风险场景(招聘/信用评分/执法/教育等)与车辆嵌入式 AI 通常是两条不同路径;如车企另有员工监控/征信类 AI 应用,需按附件III单独评估、义务与时间表都不同,不要与本模块混用",
+          "regulationRef": "AI 法案 附件III",
+          "lawRefs": null
+        },
+        {
+          "key": "ai.a4",
+          "text": "\"安全部件\"(safety component)定义经 2026/1744 新增 Art.6(1a)-(1c) 收窄:①原则上不含仅用于非安全类用途(便利性/效率/质量控制)的 AI;②但若该 AI 一旦失效会\"危及健康与安全\"(would endanger health and safety),仍被收回归入安全部件;③若产品唯一的第三方合规评估触发点是非健康/安全类风险(如仅涉及 RED 无线电/电磁兼容),则该产品被排除在外。ADAS/自动驾驶功能通常直接影响行车安全,大概率仍落在\"安全部件\"范围内,但车内舒适性/信息娱乐类 AI 功能可对照此三款重新评估是否豁免",
+          "regulationRef": "AI 法案 Art.6(1a)-(1c)(由 (EU) 2026/1744 Art.1(8) 插入,原文已核实)",
+          "lawRefs": {
+            "text": "(EU) 2026/1744",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2026/1744",
+                "text": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "高风险核心义务如何适用(附件I B节\"从轻\"机制,Art.2(2))",
+      "items": [
+        {
+          "key": "ai.b1",
+          "text": "Art.2(2) 直接适用条款(2026/1744 已扩大范围):仅 <b>Art.6(1)</b>(高风险判定)、新增 <b>Art.60a</b>(实路测试框架,可选)、<b>Art.102-112</b>(治理与市场监督等横向条款)对B节产品直接适用;2026 修订前原文范围更窄(仅 Art.102-109 及 Art.112),本次是扩大而非新设此机制",
+          "regulationRef": "AI 法案 Art.2(2) 第一句(经 (EU) 2026/1744 Art.1(2)(a) 修订)",
+          "lawRefs": {
+            "text": "(EU) 2026/1744",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2026/1744",
+                "text": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ai.b2",
+          "text": "Art.57/58/59(监管沙盒相关条款)对B节产品<b>附条件适用</b>——原文限定\"only in so far as the requirements... have been integrated into that Union harmonisation legislation\"(仅当这些要求已被\"整合进\"该协调立法本身时适用);截至本轮核实,未见车辆型批法规(2018/858、2019/2144等)已完成此类整合的官方确认",
+          "regulationRef": "AI 法案 Art.2(2) 第二句",
+          "lawRefs": null
+        },
+        {
+          "key": "ai.b3",
+          "text": "Chapter III§2 核心义务本身(Art.8/9 风险管理体系、Art.10 数据治理、Art.11 技术文档、Art.12 日志、Art.13 透明度、Art.14 人工监督、Art.15 准确性鲁棒性网络安全)<b>不在</b>上述直接适用范围内——车辆领域目前不能把这七条当作型批之外的强制附加自查项。具体整合入口是 <b>Art.107</b>(详见③组):委员会未来若依 (EU) 2018/858 Art.5(3) 就 AI 安全部件出台授权法案,须将 Chapter III§2 要求纳入考量,但该条款是否/何时被启用取决于委员会裁量,不设截止日期",
+          "regulationRef": "AI 法案 Art.2(2) 反推 + Art.107((EU) 2018/858 Art.5(4))",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ai.b4",
+          "text": "新增 Art.60a:成员国<b>可(非强制)</b>建立监管沙盒之外的\"实际条件测试\"框架,让B节产品(含车辆)在真实使用条件下测试、用以验证是否符合 Art.8-15——是一条自愿参与的验证路径而非强制时间表,截至核实未见成员国已落地此类框架",
+          "regulationRef": "AI 法案 新增 Art.60a(由 (EU) 2026/1744 Art.1(25) 插入)",
+          "lawRefs": {
+            "text": "(EU) 2026/1744",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2026/1744",
+                "text": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "与既有型批/网安体系的整合(机械强制时间表 vs 车辆裁量性条款)",
+      "items": [
+        {
+          "key": "ai.c1",
+          "text": "车辆型批框架<b>并非没有整合条款</b>:AI 法案 <b>Art.107</b>(原始 2024 文本自带,不是 2026/1744 新增)在 (EU) 2018/858 Art.5 新增第4款——\"委员会依 Art.5(3) 就属于本条例安全部件的人工智能系统制定授权法案时,须将 AI 法案 Chapter III§2 的要求纳入考量\"。但 2018/858 Art.5(3) 本身是<b>裁量性条款</b>(委员会\"可以\"制定此类授权法案,非强制),Art.107 只约束\"如果/何时\"委员会真的动用该条款,并<b>未设截止日期</b>——车辆有整合入口,但是否/何时整合仍取决于委员会裁量,不能理解为\"完全没有整合安排\",也不能理解为\"近期确定会整合\"",
+          "regulationRef": "AI 法案 Art.107(修订 (EU) 2018/858 Art.5,新增第4款)",
+          "lawRefs": {
+            "text": "(EU) 2018/858",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2018/858",
+                "text": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2018/858",
+                "lawUuid": "2ba4815526f6ba3562a3dbbbf4dd4cc6",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ai.c2",
+          "text": "机械领域(指令 2006/42/EC → 现行 (EU) 2023/1230)已从附件I<b>A节移至B节</b>(新增B节第21项),且 2026/1744 前言第42段明确委员会<b>须</b>在 <b>2028-08-02</b> 前出台授权法案、修订机械法规自身附件III,把 Chapter III§2 + Art.17/19/72/73 的要求正式整合进机械合规评定体系——这是<b>强制性、有截止日期</b>的整合安排,比车辆 Art.107 的裁量性条款(见 c1)明确得多,两者不是同一强度,不要混为一谈",
+          "regulationRef": "(EU) 2026/1744 前言第42段 + 附件I修订第41点",
+          "lawRefs": {
+            "text": "(EU) 2026/1744",
+            "segments": [
+              {
+                "type": "law",
+                "title": "(EU) 2026/1744",
+                "text": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8",
+                "linked": true
+              }
+            ],
+            "laws": [
+              {
+                "title": "(EU) 2026/1744",
+                "lawUuid": "97b248b2577e41c5a67317b0683c11e8",
+                "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ai.c3",
+          "text": "即使 Art.15(网络安全/鲁棒性)本身当前不直接适用于车辆型批产品,其内容与既有 UN R155(CSMS)/R156(SUMS)在举证方向上高度相似;若未来委员会依 Art.107/2018/858 Art.5(3)(4) 就 AI 安全部件出台授权法案,大概率会优先复用型批体系已有的网安证据链,而非另起一套——可提前留意 R155/R156 证据的可复用性,但不必现在就按 Art.15 全文逐条补证据",
+          "regulationRef": "跨工具提示 · 见本页③模块「网安前置」组;整合前景为推测,非官方确认",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "生效时间线(经 (EU) 2026/1744 修订,日期已据原文核实)",
+      "items": [
+        {
+          "key": "ai.d1",
+          "text": "附件I嵌入式高风险(含车辆):原定 2027-08-02,经 2026/1744 推迟 12 个月至 2028-08-02",
+          "regulationRef": "AI 法案 Art.113 → 经 2026/1744 Art.40 修订",
+          "lawRefs": null
+        },
+        {
+          "key": "ai.d2",
+          "text": "附件III独立高风险场景:原定 2026-08-02,经 2026/1744 推迟 16 个月至 2027-12-02(通常与车辆嵌入式 AI 无直接关系,员工监控类应用需留意)",
+          "regulationRef": "AI 法案 Art.113 → 经 2026/1744 Art.40 修订",
+          "lawRefs": null
+        }
+      ]
+    }
+  ],
+  "quiz": [
+    {
+      "id": "q1",
+      "q": "1. 纵向控制(加减速)在功能激活时由谁执行?",
+      "opts": [
+        [
+          "drv",
+          "驾驶员执行(系统仅预警或瞬时干预,如 AEB)"
+        ],
+        [
+          "sys",
+          "系统持续执行(如 ACC 自适应巡航)"
+        ]
+      ]
+    },
+    {
+      "id": "q2",
+      "q": "2. 横向控制(转向)由谁执行?",
+      "opts": [
+        [
+          "drv",
+          "驾驶员执行(系统仅预警或瞬时纠偏,如 LDW/ELKS)"
+        ],
+        [
+          "sys",
+          "系统持续执行(车道居中保持等)"
+        ]
+      ]
+    },
+    {
+      "id": "q3",
+      "q": "3. 激活期间,驾驶员是否必须持续监控道路环境与系统表现?",
+      "opts": [
+        [
+          "mon",
+          "是,驾驶员始终监控、随时纠正"
+        ],
+        [
+          "nomon",
+          "否,系统监控环境,发出接管请求后驾驶员再接管"
+        ]
+      ]
+    },
+    {
+      "id": "q4",
+      "q": "4. 脱手 / 脱眼策略?",
+      "opts": [
+        [
+          "none",
+          "不允许脱手(hands-on)"
+        ],
+        [
+          "handsoff",
+          "允许脱手,但必须眼在环(注视道路)"
+        ],
+        [
+          "eyesoff",
+          "允许脱眼,驾驶员可从事其他活动"
+        ]
+      ]
+    },
+    {
+      "id": "q5",
+      "q": "5. 设计运行范围(ODD)限制?",
+      "opts": [
+        [
+          "open",
+          "一般道路,不特别限定"
+        ],
+        [
+          "hwy",
+          "限定高速公路/机动车专用道"
+        ],
+        [
+          "park",
+          "限定停车场/泊车场景"
+        ]
+      ]
+    },
+    {
+      "id": "q6",
+      "q": "6. 自动换道能力?",
+      "opts": [
+        [
+          "no",
+          "无"
+        ],
+        [
+          "confirm",
+          "驾驶员确认后执行换道"
+        ],
+        [
+          "auto",
+          "系统自主决策并执行换道"
+        ]
+      ]
+    },
+    {
+      "id": "q7",
+      "q": "7. 是否支持车内无人的自动代客泊车(AVP)?",
+      "opts": [
+        [
+          "no",
+          "否"
+        ],
+        [
+          "yes",
+          "是,车内无人完成泊入/泊出与低速移动"
+        ]
+      ]
+    }
+  ],
+  "saeLadder": [
+    [
+      "L0",
+      "无驾驶自动化 No Driving Automation(预警/瞬时应急干预,如 AEB、LDW)",
+      "单项功能法规:R152/R130 等(模块1)"
+    ],
+    [
+      "L1",
+      "驾驶辅助 Driver Assistance(纵或横其一,如 ACC 或车道居中)",
+      "单项功能法规:R79 ACSF B1 等(模块1)"
+    ],
+    [
+      "L2",
+      "部分驾驶自动化 Partial Driving Automation(纵+横同时,驾驶员始终监控并负责)",
+      "UN R171 DCAS(2024-09-22 生效,可选法规;R171 原文明文按 SAE J3016 视为 level 2)"
+    ],
+    [
+      "L3",
+      "有条件驾驶自动化 Conditional Driving Automation(系统监控环境,接管请求后驾驶员接管)",
+      "UN R157 ALKS(原始系列 60 km/h·限 M1;2022-06 生效的在先修订将适用扩至 M/N 类;01 系列 2023-01 生效,扩至 130 km/h + 自动换道)"
+    ],
+    [
+      "L4",
+      "高度驾驶自动化 High Driving Automation(限定 ODD 内无需驾驶员兜底)",
+      "(EU) 2022/1426 ADS 实施细则:hub-to-hub/预定义区域,AVP 系修订新增用例(Annex V)+ 成员国运营许可;UN 层面法规制定中(FRAV/VMAD)"
+    ],
+    [
+      "L5",
+      "完全驾驶自动化 Full Driving Automation(无 ODD 限制)",
+      "目前全球无型式批准路径"
+    ]
+  ],
+  "paths": {
+    "L1": {
+      "regs": [
+        "UN R152 AEBS",
+        "UN R130 LDWS",
+        "(EU) 2021/646 ELKS",
+        "(EU) 2021/1958 ISA",
+        "UN R79(纠偏/CSF)"
+      ],
+      "obl": [
+        "逐单项功能取得对应法规批准(走模块1 清单)",
+        "UN R121 操纵件与状态标识",
+        "用户手册如实描述功能边界,避免\"自动驾驶\"误导宣传"
+      ],
+      "mkt": "单项辅助无组合系统专门法规义务;GSR 强制项按附件 II 时间表逐项核对即可。"
+    },
+    "L2 · DCAS": {
+      "regs": [
+        "UN R171 DCAS(2024-09-22 生效)",
+        "UN R79 ACSF B1(单项车道保持边界)",
+        "UN R155/R156(批准前置)"
+      ],
+      "obl": [
+        "驾驶员始终监控:参与度监测 + 警告升级策略(检测到脱离参与须警告/降级)",
+        "系统边界与 HMI:明示激活/待命/退出状态,防模式混淆",
+        "与 R79 的边界(R171 §1.2 原文):已按 R79 批准的 ACSF(自动指令转向功能)/RMF(风险缓解功能)不适用 R171——除非制造商申报其属于 DCAS 的一部分;超出 R79 边界的持续组合辅助走 R171",
+        "CSMS/SUMS(R155/R156)为批准前置,安全论证按 CEL 审核口径"
+      ],
+      "mkt": "R171 是可选新技术法规、不强制;缔约方采用仍在推进(以 WP.29 缔约方适用状态为准),欧盟/日本等已可受理。驾驶员责任不转移。"
+    },
+    "L3 · ALKS": {
+      "regs": [
+        "UN R157 ALKS(原始系列 60 km/h·限 M1;2022-06 生效的在先修订将适用扩至 M/N 类;01 系列 2023-01 生效,扩至 130 km/h + 自动换道)",
+        "UN R155/R156(批准前置)",
+        "ISO 26262 / ISO 21448"
+      ],
+      "obl": [
+        "接管请求(Transition Demand):升级式提示,驾驶员不响应则执行 MRM 最小风险策略",
+        "MRM:自动减速停车并开启危险警告灯,达到最小风险状态",
+        "DSSAD 数据存储:记录激活/接管请求/MRM 等状态切换,可供读取",
+        "驾驶员可用性识别(在位、系安全带、可接管)",
+        "高速公路等限定 ODD:物理隔离对向车流、禁行人自行车场景(01 系列适用 M/N 类;原始系列限 M1)"
+      ],
+      "mkt": "仅在已采纳 R157 的缔约方有效(欧盟成员国、日本、韩国、英国等),且需该国道路交通法允许 L3 上路——德国、日本已有量产批准先例;缔约方数量仍有限,以 UN 缔约方适用数据为准。中国非 1958 协定缔约方,走 GB 标准与试点路径。"
+    },
+    "AVP": {
+      "regs": [
+        "(EU) 2022/1426(ADS 实施细则,依 2019/2144 Art.11)",
+        "UN R155/R156(批准前置)",
+        "各国国内法(如德国 AFGBV)"
+      ],
+      "obl": [
+        "全自动车辆 ADS 型批:预定义区域使用场景(含代客泊车/摆渡)",
+        "ODD 内系统执行全部动态驾驶任务(DDT),无驾驶员兜底 → MRM 与远程监督/运营者机制",
+        "AVP 专用要求见 (EU) 2026/481 新增的 Annex V(2026-03-24 生效,三部分:Part 1 定义 / Part 2 性能要求 / Part 3 合规评估与测试),该修订并取消原每年 1,500 辆小系列上限;Annex III 合规评估五部分(①交通场景 ②安全概念评估+制造商安全管理体系审核 ③最相关场景测试 ④虚拟工具链可信度 ⑤在用报告机制)为 ADS 通用框架,仍适用",
+        "事件数据记录与运营监控义务"
+      ],
+      "mkt": "UN 层面 R157 不覆盖泊车场景;欧盟按 (EU) 2022/1426 小批量/预定义区域批准,并行需成员国运营许可。落地市场极少,项目前期务必与批准机关预沟通。"
+    }
+  },
+  "timelineColors": [
+    "#E8622C",
+    "#3A6B8A",
+    "#1F7A4D",
+    "#B45309",
+    "#8A3AA6",
+    "#C0392B",
+    "#0E7C86"
+  ],
+  "glossary": [
+    {
+      "t": "DCAS",
+      "full": "Driver Control Assistance Systems",
+      "d": "驾驶员控制辅助系统。UN R171(2024-03 通过,2024-09-22 生效):持续同时辅助纵向+横向控制但不接管全部驾驶任务(SAE L2),驾驶员始终监控并负责;适用 M/N 类。可选法规,不强制。"
+    },
+    {
+      "t": "ALKS",
+      "full": "Automated Lane Keeping Systems",
+      "d": "自动车道保持系统。UN R157:L3 有条件自动驾驶,限高速公路等 ODD;00 系列限 60 km/h,01 系列扩展至 130 km/h 并允许系统发起换道。激活期间系统执行驾驶任务,驾驶员响应接管请求即可。"
+    },
+    {
+      "t": "ODD",
+      "full": "Operational Design Domain",
+      "d": "设计运行范围。系统被设计为可安全运行的条件集合:道路类型、速度区间、天气、地理围栏等。超出 ODD 系统须请求接管或进入最小风险状态。"
+    },
+    {
+      "t": "DSSAD",
+      "full": "Data Storage System for Automated Driving",
+      "d": "自动驾驶数据存储系统(R157 §8)。记录系统状态切换:激活/退出、接管请求、MRM、严重干预等,用于事后厘清\"谁在开车\"。与 EDR(碰撞数据)互补。"
+    },
+    {
+      "t": "MRM",
+      "full": "Minimum Risk Manoeuvre",
+      "d": "最小风险策略/操纵。驾驶员不响应接管请求或系统严重故障时,系统自动减速停车、开启危险警告灯,把车辆置于最小风险状态(MRC)。"
+    },
+    {
+      "t": "接管请求",
+      "full": "Transition Demand (TD)",
+      "d": "系统向驾驶员发出的接管驾驶任务的升级式请求(视觉+听觉+触觉逐级增强)。R157 要求给驾驶员足够反应时间,不响应则执行 MRM。"
+    },
+    {
+      "t": "SOTIF",
+      "full": "Safety of the Intended Functionality (ISO 21448)",
+      "d": "预期功能安全。处理\"没有故障也可能不安全\"的问题:传感器性能限制、算法误判、可预见误用;方法是把未知不安全场景持续压缩为已知并验证。与 ISO 26262(电子电气故障)互补。"
+    },
+    {
+      "t": "CEL",
+      "full": "Complex Electronic control systems",
+      "d": "复杂电子控制系统安全审核口径,源自 UN R79 附件6,R157 附件4 沿用扩展:审核厂商的安全设计流程、故障安全概念与验证证据,是 ALKS/DCAS 批准的核心评估方式。"
+    },
+    {
+      "t": "AVP",
+      "full": "Automated Valet Parking",
+      "d": "自动代客泊车:车内无人,在停车场等预定义区域自动泊入/泊出。属全自动 ADS 场景,欧盟按 (EU) 2022/1426(依 2019/2144 Art.11)做 ADS 型批;R157 不覆盖泊车场景。"
+    },
+    {
+      "t": "ACSF",
+      "full": "Automatically Commanded Steering Function",
+      "d": "自动指令转向功能(UN R79):A 类=低速泊车转向;B1 类=车道内持续辅助(限横向加速度、手离检测);C 类=驾驶员确认后自动换道。是横向控制的传统单项批准路径。"
+    },
+    {
+      "t": "RMF",
+      "full": "Risk Mitigation Function",
+      "d": "风险缓解功能(UN R79):驾驶员被判定不可用时,系统自动执行的减速停车等安全措施,概念上与 R157 的 MRM(最小风险策略)类似。已按 R79 批准的 RMF 默认不落入 R171(DCAS),除非制造商申报其属于 DCAS 的一部分(与 ACSF 边界规则相同)。"
+    },
+    {
+      "t": "BSIS",
+      "full": "Blind Spot Information System",
+      "d": "盲区信息系统(UN R151)。重型车近侧(副驾侧)自行车/行人探测与信息提示,GSR 对 M2/M3/N2/N3 强制。"
+    },
+    {
+      "t": "MOIS",
+      "full": "Moving Off Information System",
+      "d": "起步信息系统(UN R159)。重型车起步时探测车前近距行人/骑行者并提示,GSR 对重型车强制。"
+    },
+    {
+      "t": "DDAW",
+      "full": "Driver Drowsiness and Attention Warning",
+      "d": "驾驶员困倦与注意力预警,(EU) 2021/1341 细则:基于驾驶行为(如转向模式)监测困倦并预警。GSR 第一阶段强制项。"
+    },
+    {
+      "t": "ADDW",
+      "full": "Advanced Driver Distraction Warning",
+      "d": "高级驾驶员分心预警,(EU) 2023/2590 细则:监测视线方向,注视非驾驶区域超时即预警(原文:≥50 km/h 为 3.5 s,≥20 km/h 为 6 s)。新车型 2024-07-07、全部新车 2026-07-07 起强制。"
+    },
+    {
+      "t": "ISA",
+      "full": "Intelligent Speed Assistance",
+      "d": "智能限速辅助,(EU) 2021/1958 细则:识别限速(摄像头/地图)并提示或柔性抑制超速。GSR 第一阶段强制,可被驾驶员关闭。"
+    },
+    {
+      "t": "ELKS",
+      "full": "Emergency Lane Keeping System",
+      "d": "紧急车道保持系统,(EU) 2021/646 细则:车道偏离预警(基于 R130)+ 纠偏控制功能 CDCF,M1/N1 强制。"
+    },
+    {
+      "t": "EDR",
+      "full": "Event Data Recorder",
+      "d": "事件数据记录器。轻型车按 UN R160、重型车按 UN R169(M2/M3/N2/N3):记录碰撞前后速度、制动等要素,防篡改、可读取。"
+    },
+    {
+      "t": "GSR",
+      "full": "General Safety Regulation (EU) 2019/2144",
+      "d": "欧盟通用安全法规:按附件 II 给各车类分派强制 ADAS/安全项与适用日期(新车型 2022-07-06 起分阶段),并授权委员会制定实施/授权细则。"
+    },
+    {
+      "t": "DVS",
+      "full": "Direct Vision Standard",
+      "d": "直接视野(UN R167):量化重型车驾驶室直接可视范围,减少盲区依赖;欧盟对新车型 2026-01 起适用(伦敦 DVS 许可制早于 UN 法规)。"
+    },
+    {
+      "t": "NATM",
+      "full": "New Assessment/Test Method",
+      "d": "WP.29 GRVA 的自动驾驶多支柱评估方法:审核/评估 + 仿真/虚拟测试 + 试验场 + 实路 + 在役监控(ISMR),R157 与 (EU) 2022/1426 的评估框架同源。"
+    },
+    {
+      "t": "DDT",
+      "full": "Dynamic Driving Task",
+      "d": "动态驾驶任务:感知、决策、纵横向控制的全部实时任务。L3 起激活期间由系统执行 DDT,这是与 L2(驾驶员始终执行/监督 DDT)的法律分水岭。"
+    },
+    {
+      "t": "ADS",
+      "full": "Automated Driving System",
+      "d": "自动驾驶系统(L3+ 的系统总称)。欧盟对全自动车辆(无驾驶员兜底)的 ADS 按 (EU) 2022/1426 型批;UN 层面由 R157(ALKS)与后续法规覆盖。"
+    },
+    {
+      "t": "横向法/横向义务",
+      "full": "EU Horizontal Legislation",
+      "d": "适用所有行业的通用法规(如 AI 法案、GDPR),不是汽车专属法规;区别于型式批准框架这类只管汽车的\"纵向法\"。同一产品可能横向法与纵向法都要满足,二者互不替代、需分别核对。"
+    },
+    {
+      "t": "AI 法案高风险机制",
+      "full": "EU AI Act — High-Risk via Annex I",
+      "d": "(EU) 2024/1689 Art.6(1):AI 系统若①是附件I所列产品法规管辖产品的安全部件,且②该产品须完成第三方合规评估,即构成\"高风险AI系统\"。车辆型批框架(2018/858、2019/2144等)属附件I<b>B节</b>:按 Art.2(2) 只有 Art.6(1)/Art.60a/Art.102-112 直接适用,Chapter III§2 核心义务(Art.8-15)本身不直接适用,是比附件I A节产品(核心义务全套直接适用)更\"轻\"的合规起点,不是\"落入高风险=立刻套用 Art.8-15 全套义务\"。"
+    },
+    {
+      "t": "数字统一简化法案·AI篇",
+      "full": "Digital Omnibus on AI — Regulation (EU) 2026/1744",
+      "d": "2026-07-24 公布、2026-07-27 生效,推迟 AI 法案高风险义务生效日(附件I嵌入式系统 2027-08-02→2028-08-02;附件III独立场景 2026-08-02→2027-12-02),扩大 Art.2(2) 对B节产品的直接适用条款范围并新增 Art.60a(可选实路测试框架),另新增 Art.6(1a)-(1c) 收窄\"安全部件\"定义。机械领域(2023/1230)经 2026/1744 获委员会 2028-08-02 前<b>强制</b>整合授权(修订其附件III纳入 Chapter III§2);车辆领域的整合入口是 AI 法案原文自带的 <b>Art.107</b>((EU) 2018/858 Art.5(4)),但为委员会<b>裁量性</b>条款、不设截止日期,2026/1744 未对车辆这一条作强化或新增授权。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "L2 和 L3 在法规上差在哪?",
+      "a": "责任主体不同。L2(R171 DCAS):驾驶员始终监控环境并负责,系统只是\"辅助\",法规重点是参与度监测与防滥用;L3(R157 ALKS):激活期间系统执行动态驾驶任务,驾驶员只需响应接管请求,因此法规额外要求接管请求机制、MRM、DSSAD 数据存储与驾驶员可用性识别。宣传与 HMI 也须与级别一致,防止\"L2 当 L3 用\"。"
+    },
+    {
+      "q": "R157 证书哪些国家认?",
+      "a": "R157 是 1958 协定法规,仅在已采纳它的缔约方之间互认(欧盟及成员国、日本、韩国、英国、澳大利亚等,以 UN 缔约方适用状态为准)。还需该国道路交通法允许 L3 上路:德国(2021 年起)与日本已有量产批准先例。中国非 1958 协定缔约方,走 GB 标准与准入试点。"
+    },
+    {
+      "q": "DCAS(R171)何时强制?",
+      "a": "不强制。R171 是\"可选的新技术法规\":GSR 等市场准入法从未要求车辆必须装组合驾驶辅助;R171 只是给想装此类系统(如领航辅助)的厂商提供统一的批准路径。强制的是 AEBS、ELKS、ISA 等单项(见模块1)。"
+    },
+    {
+      "q": "R79 和 R171 是什么关系?",
+      "a": "R79 ACSF B1 是车道保持辅助的传统单项路径,带硬边界(横向加速度限值、手离检测等);R171 为超出 B1 边界的持续组合辅助(纵+横向同时、系统建议/发起换道等)提供整套框架,并以驾驶员参与度监测为核心。两条路径并存,按功能范围选用。"
+    },
+    {
+      "q": "自动代客泊车(AVP)走哪条路?",
+      "a": "车内无人的 AVP 属全自动 ADS 场景:UN R157 不覆盖泊车;欧盟按 (EU) 2022/1426(依 2019/2144 Art.11)对全自动车辆的 ADS 做型批(预定义区域使用场景),另需成员国运营许可(如德国 AFGBV)。"
+    },
+    {
+      "q": "DSSAD 和 EDR 有什么区别?",
+      "a": "EDR(R160/R169)围绕碰撞事件记录物理量(速度、制动、加速度等);DSSAD(R157)记录自动驾驶系统的状态切换(激活、接管请求、MRM 等),回答\"事发时谁在开车\"。L3 车辆两者都要。"
+    },
+    {
+      "q": "GSR 的 ADAS 强制项只在欧盟适用吗?",
+      "a": "GSR 是欧盟法,但其引用的 UN 法规(R152/R130/R151/R159/R160 等)被日本、韩国、澳大利亚、英国等缔约方按各自时间表采纳;做多市场车型时应以 UN 法规批准为底座,再核对各市场的强制时间表差异。"
+    },
+    {
+      "q": "为什么模块1 分轻型组/重型组?",
+      "a": "GSR 附件 II 按车辆类别分派义务:M1/N1 与 M2/M3/N2/N3 的强制项和日期不同——BSIS(R151)、MOIS(R159)、DVS(R167)、重型 EDR(R169)仅重型车;AEBS 轻型走 R152、重型走 R131。"
+    },
+    {
+      "q": "R157 现在允许开多快?能换道吗?",
+      "a": "00 系列限 60 km/h、不许自动换道;01 系列修订(2023-01 生效)把上限提高到 130 km/h,并允许系统发起的自动换道,仍限高速公路等物理隔离、禁行人自行车的 ODD。"
+    },
+    {
+      "q": "R155/R156 跟这里有什么关系?",
+      "a": "CSMS(R155)与 SUMS(R156)是 R157/R171 批准的前置条件:没有网络安全与软件更新管理体系认证,ALKS/DCAS 无法获批。所以模块3 把它们列为\"网安前置\"证据组;详评请用网安评估台。"
+    },
+    {
+      "q": "判级结果能直接当申报级别用吗?",
+      "a": "不能。本工具按功能描述做路径指引,正式分级与批准以技术服务/批准机关的评估为准;同一功能在不同 ODD/HMI 设计下可能落入不同法规路径。"
+    },
+    {
+      "q": "中国市场的 L3 怎么办?",
+      "a": "中国非 1958 协定缔约方,R157/R171 证书不直接适用;走 GB 强制标准(如智能网联相关 GB 44495/44496 及在研的自动驾驶标准)与准入/上路试点(工信部等四部委试点)。出口欧盟/日本等则按本工具路径。"
+    },
+    {
+      "q": "ADAS/自动驾驶系统要不要单独按 AI 法案做合规?",
+      "a": "要判定,但义务比想象中\"轻\"。AI 法案 Art.6(1) 附件I机制确实把车辆型批框架((EU) 2018/858、2019/2144 等,属附件I<b>B节</b>)管辖产品里的 AI 安全部件纳入高风险范围,但B节产品按 Art.2(2) 只直接适用 Art.6(1)/新增 Art.60a/Art.102-112,Chapter III§2 的核心义务(风险管理/数据治理/技术文档/日志/透明度/人工监督/准确性鲁棒性网络安全,Art.8-15)本身<b>不直接适用</b>,只有当这些要求被\"整合进\"车辆型批立法本身时才会生效——截至本轮核实未见车辆领域已有此类整合。现阶段不需要在型批之外另建一整套 Art.8-15 证据链,但要留意\"安全部件\"新定义(Art.6(1a)-(1c))与未来整合动态。"
+    },
+    {
+      "q": "AI 法案高风险义务什么时候开始?",
+      "a": "经 (EU) 2026/1744(数字统一简化法案·AI 篇,2026-07-27 生效)推迟:附件I嵌入式高风险(含车辆)原定 2027-08-02,推迟到 2028-08-02;附件III独立高风险场景(与车辆嵌入式 AI 通常无关)原定 2026-08-02,推迟到 2027-12-02。"
+    },
+    {
+      "q": "AI 法案合规跟现有型批/CoP体系是什么关系,要重新走一遍认证吗?",
+      "a": "不是重新走一遍,而是两层义务要分开看:①B节产品(车辆型批)当前只直接适用 Art.6(1)/Art.60a/Art.102-112 这几条治理性条款,Chapter III§2 的核心义务(Art.8-15)本身不直接生效,不需要在型批之外另建一整套证据链;②Art.107(修订 (EU) 2018/858 Art.5,新增第4款)已给车辆预留了整合入口——委员会未来若就 AI 安全部件出台授权法案,须将 Chapter III§2 要求纳入考量,但该条款是<b>裁量性</b>的、不设截止日期,不同于机械领域(2023/1230)经 2026/1744 获得的<b>强制</b> 2028-08-02 期限——车辆合规义务范围\"更窄\"是当前状态,能否/何时收紧仍取决于委员会是否行使 Art.107 裁量权。可提前留意 Art.15(即使当前不直接适用)与既有 R155/R156(CSMS/SUMS)举证内容的相似性,便于未来整合发生时复用证据。"
+    }
+  ],
+  "moduleComparison": [
+    {
+      "m": "① ADAS 法规就绪度",
+      "std": "GSR (EU) 2019/2144 附件II + UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160 + 欧盟细则",
+      "obj": "单项 ADAS 强制项是否齐备",
+      "out": "就绪度 % · 无/部分/已建立",
+      "legal": "型批强制(逐项)",
+      "tone": "red",
+      "how": "逐条条款自查 + 证据/责任人/差距追踪",
+      "use": "上市前逐项核对强制清单"
+    },
+    {
+      "m": "② 自动化级别判定",
+      "std": "UN R157 / UN R171 / (EU) 2022/1426(参考 SAE J3016 分级)",
+      "obj": "系统落在哪一级、走哪条批准路径",
+      "out": "L0–L4(限定场景)+ 法规路径卡(SAE J3016 全阶梯 L0–L5 对照)",
+      "legal": "路径判定(参考)",
+      "tone": "amber",
+      "how": "7 题问卷 → 规则判级 → 路径卡",
+      "use": "立项/功能定义阶段定路线"
+    },
+    {
+      "m": "③ 测试与证据清单",
+      "std": "R157 附件4/5 · WP.29 NATM · ISO 26262 / 21448 · R155/R156",
+      "obj": "批准所需测试与证据是否齐备",
+      "out": "完成 % · 勾选",
+      "legal": "审核前置",
+      "tone": "red",
+      "how": "勾选式自查(带依据)",
+      "use": "送审前的交付物盘点"
+    },
+    {
+      "m": "④ AI 法案高风险合规",
+      "std": "(EU) 2024/1689 Art.6+附件I,经 (EU) 2026/1744 修订",
+      "obj": "ADAS/自动驾驶 AI 系统是否落入高风险合规义务",
+      "out": "就绪度 % · 无/部分/已建立",
+      "legal": "CE 横向法(适用所有行业的通用法规,非汽车专属),与型批并行",
+      "tone": "amber",
+      "how": "逐条自查 + 时间线泳道图",
+      "use": "AI 系统作为车辆安全部件时的合规规划"
+    }
+  ],
+  "regLinks": {
+    "UN R46": "https://www.1clicktong.com/law/lawDetail?lawUuid=06eb822b1de14b2e97747b2a63db0651",
+    "UN R79": "https://www.1clicktong.com/law/lawDetail?lawUuid=eb21e785c9c94d198041a4439caed430",
+    "UN R121": "https://www.1clicktong.com/law/lawDetail?lawUuid=05df660f6deb4888be0b57f6939f7378",
+    "UN R130": "https://www.1clicktong.com/law/lawDetail?lawUuid=7f09f5d405344bef9bcf1ed56a9cc4af",
+    "UN R131": "https://www.1clicktong.com/law/lawDetail?lawUuid=d768e0b5a5074df780f9bc793eed9744",
+    "UN R151": "https://www.1clicktong.com/law/lawDetail?lawUuid=90d69d1d1ae1407aa424e7e4e140dada",
+    "UN R152": "https://www.1clicktong.com/law/lawDetail?lawUuid=dcdc0bca828d441091fcce4ae9275ba9",
+    "UN R155": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+    "UN R156": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+    "UN R157": "https://www.1clicktong.com/law/lawDetail?lawUuid=09e72e6dd6274e35b2c9a7cebda3c88e",
+    "UN R158": "https://www.1clicktong.com/law/lawDetail?lawUuid=22f446ff0e604b74addbb7875f02424c",
+    "UN R159": "https://www.1clicktong.com/law/lawDetail?lawUuid=2b478abfa63c45bea4dac9fa60a50c6a",
+    "UN R160": "https://www.1clicktong.com/law/lawDetail?lawUuid=0f07b51aa18544ef9f948faf15645491",
+    "UN R167": "https://www.1clicktong.com/law/lawDetail?lawUuid=b2aca53cc4614a6b92caca31b4999f2b",
+    "UN R169": "https://www.1clicktong.com/law/lawDetail?lawUuid=13f070223243473581f11a1204c0fa54",
+    "UN R171": "https://www.1clicktong.com/law/lawDetail?lawUuid=e9c28a4445a3437d9cec799dfc16ab65",
+    "(EU) 167/2013": "",
+    "(EU) 168/2013": "",
+    "(EU) 2018/858": "https://new.1clicktong.com/law/lawDetail?lawUuid=2ba4815526f6ba3562a3dbbbf4dd4cc6",
+    "(EU) 2019/2144": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4",
+    "(EU) 2021/646": "https://new.1clicktong.com/law/lawDetail?lawUuid=f6c7b7276a0c3d2f79e86eec4f191ebb",
+    "(EU) 2021/1341": "https://new.1clicktong.com/law/lawDetail?lawUuid=c3376db405aee15ca094c76dd9564963",
+    "(EU) 2021/1958": "https://new.1clicktong.com/law/lawDetail?lawUuid=0f914f61496d3c7f570cef29a6dc5198",
+    "(EU) 2022/1426": "https://new.1clicktong.com/law/lawDetail?lawUuid=debaaf5c5d91d74e2d22f228b060427c",
+    "(EU) 2023/1230": "https://new.1clicktong.com/law/lawDetail?lawUuid=0482e3db8c02e84e25920c2b76706310",
+    "(EU) 2023/2590": "https://new.1clicktong.com/law/lawDetail?lawUuid=5a0d8f53d653346d7c5b42c019eba7d7",
+    "(EU) 2024/1689": "https://new.1clicktong.com/law/lawDetail?lawUuid=b18a4206acba7ce087f17782f9fa5dec",
+    "(EU) 2026/481": "https://new.1clicktong.com/law/lawDetail?lawUuid=8d35651bc7be306974481e3ebaf31d4e",
+    "(EU) 2026/1744": "https://new.1clicktong.com/law/lawDetail?lawUuid=97b248b2577e41c5a67317b0683c11e8",
+    "ISO 21448 (SOTIF)": "https://new.1clicktong.com/law/lawDetail?lawUuid=9ff73195e428613508a9e2b293ff9826",
+    "ISO 26262-9": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479277623927500000310877629",
+    "ISO 26262-3": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479275059233600002020845910",
+    "SAE J3016": "https://new.1clicktong.com/law/lawDetail?lawUuid=196b7df5b15fe58091681ad57cc36be9"
+  },
+  "certEstimate": {
+    "_note": "参考估算，实际费用以认证机构/技术服务机构对具体产品评估报价为准",
+    "_source": "基于欧洲主要认证机构 2024-2026 公开报价区间及项目经验",
+    "categories": [
+      {
+        "id": "r157_alks",
+        "category": "R157 ALKS 认证",
+        "items": "L3 自动车道保持系统型式批准（含虚拟测试+实车测试）",
+        "regulation": "UN R157",
+        "costMin": 2000000,
+        "costMax": 5000000,
+        "timeline": "6~12 个月",
+        "nbInvolvement": "型式批准机关 + 技术服务",
+        "scenario": "OEM（L3 功能）",
+        "notes": "目前全球获批案例极少；含仿真场景库验证+实路测试+审核文档编制",
+        "conditions": {}
+      },
+      {
+        "id": "r79_steering",
+        "category": "R79 转向/ACSF",
+        "items": "自动纠偏(ACSF A)、车道保持(B1)、泊车(B2)、紧急转向(C)",
+        "regulation": "UN R79",
+        "costMin": 200000,
+        "costMax": 600000,
+        "timeline": "4~10 周",
+        "nbInvolvement": "技术服务机构执行",
+        "scenario": "OEM/STU",
+        "notes": "ACSF B1/C 要求更严格的测试矩阵；按功能分类收费",
+        "conditions": {}
+      },
+      {
+        "id": "gsr_adas",
+        "category": "GSR ADAS 强制要求",
+        "items": "ISA/AEB/LDW/DDAW/EDR/BSIS/REV + 网络安全引用",
+        "regulation": "(EU) 2019/2144 + 授权/实施法案",
+        "costMin": 500000,
+        "costMax": 1500000,
+        "timeline": "2~6 个月",
+        "nbInvolvement": "技术服务机构执行",
+        "scenario": "OEM（EU 新车型/所有新车）",
+        "notes": "2024-07 起新车型强制；2026-07 起所有新车强制；费用含全套 ADAS 测试",
+        "conditions": {}
+      },
+      {
+        "id": "aiact_assess",
+        "category": "AI 法案合规评估",
+        "items": "高风险 AI 系统分类 + 合规性评估 + 技术文档",
+        "regulation": "(EU) 2024/1689 (AI Act)",
+        "costMin": 100000,
+        "costMax": 500000,
+        "timeline": "3~6 个月",
+        "nbInvolvement": "公告机构（高风险 AI 需外部评估）",
+        "scenario": "有 AI 功能的系统",
+        "notes": "Art 107 修订 2018/858，高风险 AI 经型批框架落地；2025-08 起分阶段适用",
+        "conditions": {}
+      },
+      {
+        "id": "sim_validation",
+        "category": "仿真验证平台",
+        "items": "ADAS/AD 虚拟测试环境搭建 + 场景库 + V&V 报告",
+        "regulation": "R157/R79/GSR 配套",
+        "costMin": 300000,
+        "costMax": 2000000,
+        "timeline": "3~12 个月",
+        "nbInvolvement": "第三方验证（推荐）",
+        "scenario": "OEM/STU",
+        "notes": "L3+ 强依赖仿真验证；场景库建设为持续投入",
+        "conditions": {}
+      }
+    ],
+    "reportConfig": {
+      "title": "智能驾驶认证费用估算",
+      "subtitle": "按 ADAS/AD 功能等级与适用法规筛选",
+      "columns": [
+        "类别",
+        "项目",
+        "法规依据",
+        "费用 (RMB)",
+        "周期",
+        "NB/技术服务介入",
+        "适用场景",
+        "备注"
+      ],
+      "showTotal": true,
+      "totalNote": "以上为参考估算区间，ADAS/AD 认证因功能复杂度差异极大，务必以正式评估报价为准",
+      "disclaimer": "费用数据基于 2024-2026 项目经验整理，因功能范围、仿真需求、测试场景数量等浮动极大。"
+    }
+  }
+}

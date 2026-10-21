@@ -1,0 +1,1900 @@
+{
+  "flowCode": "CYBER_SECURITY_COMPLIANCE",
+  "flowName": "网络安全与功能安全合规评估",
+  "flowVersion": "1.0.0",
+  "regulation": "UN R155 / UN R156 / ISO/SAE 21434 / ISO 26262",
+  "summary": "汽车网络安全管理体系(CSMS)与功能安全(FuSa)自评工具",
+  "modules": [
+    {
+      "id": "home",
+      "title": "总览仪表盘",
+      "moduleType": "dashboard"
+    },
+    {
+      "id": "tara",
+      "title": "TARA 威胁分析与风险评估",
+      "moduleType": "riskMatrix"
+    },
+    {
+      "id": "csms",
+      "title": "R155 CSMS 就绪度检查",
+      "moduleType": "checklist"
+    },
+    {
+      "id": "r156",
+      "title": "R156 SUMS 就绪度检查",
+      "moduleType": "checklist"
+    },
+    {
+      "id": "hara",
+      "title": "HARA/ASIL 危害分析",
+      "moduleType": "riskMatrix"
+    },
+    {
+      "id": "std",
+      "title": "相关法规/标准",
+      "moduleType": "reference"
+    },
+    {
+      "id": "glos",
+      "title": "术语表",
+      "moduleType": "glossary"
+    },
+    {
+      "id": "faq",
+      "title": "常见问题",
+      "moduleType": "faq"
+    },
+    {
+      "id": "pack",
+      "title": "审核就绪包导出",
+      "moduleType": "export"
+    }
+  ],
+  "assessmentDomains": {
+    "levels": [
+      "临时 Ad Hoc",
+      "可重复 Repeatable",
+      "已管理 Managed",
+      "已优化 Optimized",
+      "韧性 Resilient"
+    ],
+    "answerLabels": [
+      "未开始",
+      "部分达成",
+      "已达成"
+    ],
+    "domains": [
+      {
+        "key": "csms",
+        "name": "治理与 CSMS",
+        "description": "网络安全管理体系、组织职责、政策与生命周期治理(R155 核心)。",
+        "maturityLevels": [
+          "无安全角色或政策",
+          "安全政策文档化、角色已分配",
+          "CSMS 认证、安全指导委员会、有度量",
+          "与企业风险管理集成",
+          "持续改进、行业信息共享"
+        ],
+        "items": [
+          {
+            "key": "csms.1",
+            "text": "已建立书面 CSMS 政策,明确角色/职责/汇报线(CISO 或等效)",
+            "regulationRef": "UN R155 / ISO 21434 Cl.5",
+            "lawRefs": {
+              "text": "UN R155",
+              "segments": [
+                {
+                  "type": "law",
+                  "title": "UN R155",
+                  "text": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+                  "linked": true
+                }
+              ],
+              "laws": [
+                {
+                  "title": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f"
+                }
+              ]
+            }
+          },
+          {
+            "key": "csms.2",
+            "text": "网络安全活动覆盖开发/生产/后生产全生命周期并有阶段门禁",
+            "regulationRef": "UN R155",
+            "lawRefs": {
+              "text": "UN R155",
+              "segments": [
+                {
+                  "type": "law",
+                  "title": "UN R155",
+                  "text": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+                  "linked": true
+                }
+              ],
+              "laws": [
+                {
+                  "title": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f"
+                }
+              ]
+            }
+          },
+          {
+            "key": "csms.3",
+            "text": "持有有效 CSMS 证书,且每个在售车型有 CS 型式批准",
+            "regulationRef": "UN R155",
+            "lawRefs": {
+              "text": "UN R155",
+              "segments": [
+                {
+                  "type": "law",
+                  "title": "UN R155",
+                  "text": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+                  "linked": true
+                }
+              ],
+              "laws": [
+                {
+                  "title": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f"
+                }
+              ]
+            }
+          },
+          {
+            "key": "csms.4",
+            "text": "与供应商签订网络安全责任接口协议(DIA),职责边界清晰",
+            "regulationRef": "ISO 21434 Cl.15",
+            "lawRefs": null
+          },
+          {
+            "key": "csms.5",
+            "text": "把网络安全纳入采购准入与项目里程碑评审",
+            "regulationRef": "Handbook Ch1/Ch15",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "tara",
+        "name": "威胁分析与风险评估(TARA)",
+        "description": "资产识别、威胁建模、攻击路径与风险定级及处置。",
+        "maturityLevels": [
+          "无 TARA、临时风险讨论",
+          "部分条目做了 TARA、无正式方法",
+          "按 21434 全量 TARA、分配 CAL、链接设计",
+          "TARA 自动化、持续更新",
+          "数据驱动、威胁情报回灌"
+        ],
+        "items": [
+          {
+            "key": "tara.1",
+            "text": "对每个项目识别资产与其网络安全属性(C/I/A)",
+            "regulationRef": "ISO 21434 Cl.15",
+            "lawRefs": null
+          },
+          {
+            "key": "tara.2",
+            "text": "用结构化方法(STRIDE/攻击树)枚举威胁场景与攻击路径",
+            "regulationRef": "Handbook Ch6",
+            "lawRefs": null
+          },
+          {
+            "key": "tara.3",
+            "text": "按影响×攻击可行性给出风险值并决定处置(降/避/转/留)",
+            "regulationRef": "ISO 21434",
+            "lawRefs": null
+          },
+          {
+            "key": "tara.4",
+            "text": "TARA 与功能安全 HARA 对齐(安全-安全集成)",
+            "regulationRef": "ISO 26262 / Ch7",
+            "lawRefs": null
+          },
+          {
+            "key": "tara.5",
+            "text": "TARA 随设计变更与新情报定期复评、版本留痕",
+            "regulationRef": "ISO 21434",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "arch",
+        "name": "安全架构与纵深防御",
+        "description": "域隔离、网关防护、最小权限与边界防御。",
+        "maturityLevels": [
+          "无安全架构、信任边界未文档化",
+          "基础分域、部分安全设计模式",
+          "正式信任模型、网关控制、HSM 集成",
+          "零信任(Zero Trust)架构",
+          "运行时验证、SDV 安全栈"
+        ],
+        "items": [
+          {
+            "key": "arch.1",
+            "text": "对外接口(蜂窝/Wi-Fi/蓝牙/USB/OBD)清单化并最小化暴露面",
+            "regulationRef": "Handbook Ch2/Ch8",
+            "lawRefs": null
+          },
+          {
+            "key": "arch.2",
+            "text": "网络分域隔离,中央网关做消息过滤与访问控制",
+            "regulationRef": "Ch8",
+            "lawRefs": null
+          },
+          {
+            "key": "arch.3",
+            "text": "关键总线/域采用消息认证(如 SecOC)防伪造重放",
+            "regulationRef": "Ch8/Ch9",
+            "lawRefs": null
+          },
+          {
+            "key": "arch.4",
+            "text": "落实最小权限与默认拒绝;调试/诊断接口(JTAG/OBD/DoIP)生产态受控",
+            "regulationRef": "Ch8",
+            "lawRefs": null
+          },
+          {
+            "key": "arch.5",
+            "text": "后端/云 API 鉴权与授权严格(防 BOLA 越权枚举)",
+            "regulationRef": "附录C 案例",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "crypto",
+        "name": "安全启动·密码学·身份",
+        "description": "Secure Boot、密钥管理、HSM、身份与后量子准备。",
+        "maturityLevels": [
+          "明文/硬编码密钥、无安全启动",
+          "部分 ECU 启用 Secure Boot、密钥基础管理",
+          "HSM 保护密钥+分级轮换、唯一身份与吊销",
+          "密码敏捷、算法可在线替换",
+          "完成 PQC(ML-KEM/ML-DSA)迁移并试点"
+        ],
+        "items": [
+          {
+            "key": "crypto.1",
+            "text": "关键 ECU 启用 Secure Boot / 信任根校验固件完整性",
+            "regulationRef": "Handbook Ch9",
+            "lawRefs": null
+          },
+          {
+            "key": "crypto.2",
+            "text": "密钥由 HSM/安全存储保护,具备分级与轮换机制",
+            "regulationRef": "Ch9",
+            "lawRefs": null
+          },
+          {
+            "key": "crypto.3",
+            "text": "每车/每件唯一身份与证书(PKI),支持吊销",
+            "regulationRef": "Ch9",
+            "lawRefs": null
+          },
+          {
+            "key": "crypto.4",
+            "text": "采用密码敏捷设计,算法可经更新替换",
+            "regulationRef": "NIST PQC / 附录J",
+            "lawRefs": null
+          },
+          {
+            "key": "crypto.5",
+            "text": "已制定后量子密码(ML-KEM/ML-DSA)迁移路线",
+            "regulationRef": "FIPS 203/204/205",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "ota",
+        "name": "OTA 安全更新(SUMS)",
+        "description": "软件更新管理体系、签名校验、回滚与 RXSWIN。",
+        "maturityLevels": [
+          "无 OTA 或手动刷写、无回滚",
+          "有 OTA 但签名/回滚不完整",
+          "SUMS+端到端签名+A/B 回滚+RXSWIN",
+          "分群灰度+管线 SLSA 溯源",
+          "<24h 关键补丁 OTA、自动化发布门禁"
+        ],
+        "items": [
+          {
+            "key": "ota.1",
+            "text": "已建立 SUMS,更新包端到端签名与完整性校验",
+            "regulationRef": "UN R156 / Ch10",
+            "lawRefs": {
+              "text": "UN R156",
+              "segments": [
+                {
+                  "type": "law",
+                  "title": "UN R156",
+                  "text": "UN R156",
+                  "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+                  "linked": true
+                }
+              ],
+              "laws": [
+                {
+                  "title": "UN R156",
+                  "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976"
+                }
+              ]
+            }
+          },
+          {
+            "key": "ota.2",
+            "text": "更新失败可安全回滚(A/B 分区),具备防变砖保护",
+            "regulationRef": "Ch10",
+            "lawRefs": null
+          },
+          {
+            "key": "ota.3",
+            "text": "维护 RXSWIN/软件物料清单,更新前评估型式批准影响",
+            "regulationRef": "UN R156",
+            "lawRefs": {
+              "text": "UN R156",
+              "segments": [
+                {
+                  "type": "law",
+                  "title": "UN R156",
+                  "text": "UN R156",
+                  "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+                  "linked": true
+                }
+              ],
+              "laws": [
+                {
+                  "title": "UN R156",
+                  "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976"
+                }
+              ]
+            }
+          },
+          {
+            "key": "ota.4",
+            "text": "向用户告知更新内容/影响,记录可追溯",
+            "regulationRef": "UN R156",
+            "lawRefs": {
+              "text": "UN R156",
+              "segments": [
+                {
+                  "type": "law",
+                  "title": "UN R156",
+                  "text": "UN R156",
+                  "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+                  "linked": true
+                }
+              ],
+              "laws": [
+                {
+                  "title": "UN R156",
+                  "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976"
+                }
+              ]
+            }
+          },
+          {
+            "key": "ota.5",
+            "text": "更新后端管线自身受保护(HSM 签名密钥、发布门禁)",
+            "regulationRef": "Ch10",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "devtest",
+        "name": "安全开发与测试",
+        "description": "安全编码、SAST/DAST、模糊测试与渗透测试。",
+        "maturityLevels": [
+          "仅发布前渗透、无回归",
+          "CI 中 SAST+基础 fuzz+SOP 渗透",
+          "完整金字塔:SAST+单元+fuzz+HIL+渗透",
+          "自动化回归+对抗 ML 测试+红队",
+          "持续红队、SOP 前红队演练"
+        ],
+        "items": [
+          {
+            "key": "devtest.1",
+            "text": "安全需求可追溯至 TARA,并纳入验收门禁",
+            "regulationRef": "Handbook Ch11",
+            "lawRefs": null
+          },
+          {
+            "key": "devtest.2",
+            "text": "CI 中集成静态/组成成分分析(SAST/SCA)",
+            "regulationRef": "Ch11",
+            "lawRefs": null
+          },
+          {
+            "key": "devtest.3",
+            "text": "对接口/协议做模糊测试(fuzzing)",
+            "regulationRef": "Ch11",
+            "lawRefs": null
+          },
+          {
+            "key": "devtest.4",
+            "text": "发布前由独立方做渗透测试并闭环整改",
+            "regulationRef": "Ch11",
+            "lawRefs": null
+          },
+          {
+            "key": "devtest.5",
+            "text": "测试证据归档,支撑型式批准审计",
+            "regulationRef": "ISO 21434",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "monitor",
+        "name": "检测·日志·监控(VSOC)",
+        "description": "车端异常检测、安全日志与车队级安全运营中心。",
+        "maturityLevels": [
+          "无监控、手动打补丁",
+          "基础日志与告警",
+          "IDS 部署+基础告警+补丁流程",
+          "车队 SOC+MTTD/MTTR 跟踪+playbook",
+          "AI 异常检测+预测分析"
+        ],
+        "items": [
+          {
+            "key": "monitor.1",
+            "text": "车端记录安全相关事件日志,可上报后端",
+            "regulationRef": "Handbook Ch12",
+            "lawRefs": null
+          },
+          {
+            "key": "monitor.2",
+            "text": "部署入侵检测/异常监控(IDS,规则+行为基线)",
+            "regulationRef": "Ch12",
+            "lawRefs": null
+          },
+          {
+            "key": "monitor.3",
+            "text": "运营 VSOC,对车队遥测做关联分析与告警",
+            "regulationRef": "Ch12",
+            "lawRefs": null
+          },
+          {
+            "key": "monitor.4",
+            "text": "关注新威胁情报(Auto-ISAC)并映射到在产车型",
+            "regulationRef": "UN R155 后生产",
+            "lawRefs": {
+              "text": "UN R155",
+              "segments": [
+                {
+                  "type": "law",
+                  "title": "UN R155",
+                  "text": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+                  "linked": true
+                }
+              ],
+              "laws": [
+                {
+                  "title": "UN R155",
+                  "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+                  "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "key": "ir",
+        "name": "事件响应与漏洞管理",
+        "description": "PSIRT、漏洞披露、应急处置与监管上报。",
+        "maturityLevels": [
+          "无预案、临时应对",
+          "有联系人/基础流程",
+          "PSIRT+playbook+定期演练",
+          "车队级快速响应+取证流程",
+          "<24h OTA 缓解+Auto-ISAC 共享"
+        ],
+        "items": [
+          {
+            "key": "ir.1",
+            "text": "设立 PSIRT/CSIRT 与事件响应预案并定期演练",
+            "regulationRef": "Handbook Ch13",
+            "lawRefs": null
+          },
+          {
+            "key": "ir.2",
+            "text": "有协调式漏洞披露(CVD)渠道与处理 SLA",
+            "regulationRef": "Ch13",
+            "lawRefs": null
+          },
+          {
+            "key": "ir.3",
+            "text": "具备应急 OTA/缓解下发能力",
+            "regulationRef": "Ch10/Ch13",
+            "lawRefs": null
+          },
+          {
+            "key": "ir.4",
+            "text": "明确监管/客户上报流程(含 CRA 24h 早期预警 / 72h 通知)",
+            "regulationRef": "EU CRA",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "supply",
+        "name": "供应链与 SBOM",
+        "description": "软件物料清单、第三方/开源组件与供应商安全。",
+        "maturityLevels": [
+          "假设供应商安全、无 SBOM",
+          "供应商问卷+基础安全条款",
+          "SBOM 必需+21434 Cl.7 审核+TARA 复评",
+          "实时 CVE 监控+供应商评分+SLSA L3+",
+          "全自动 CVE 告警+预测性分析"
+        ],
+        "items": [
+          {
+            "key": "supply.1",
+            "text": "为车载软件维护 SBOM(CycloneDX/SPDX)并随版本更新",
+            "regulationRef": "EU CRA / 附录D",
+            "lawRefs": null
+          },
+          {
+            "key": "supply.2",
+            "text": "持续监测组件已知漏洞(CVE,结合 EPSS+ASIL 加权)",
+            "regulationRef": "附录D",
+            "lawRefs": null
+          },
+          {
+            "key": "supply.3",
+            "text": "对供应商做网络安全能力评估与合同约束",
+            "regulationRef": "ISO 21434 Cl.15",
+            "lawRefs": null
+          },
+          {
+            "key": "supply.4",
+            "text": "构建与发布管线防篡改(SLSA 供应链完整性)",
+            "regulationRef": "附录D",
+            "lawRefs": null
+          }
+        ]
+      },
+      {
+        "key": "diag",
+        "name": "诊断与刷写安全",
+        "description": "OBD-II/UDS-over-DoIP 接口防护、Security Access、Bootloader 签名校验(诊断手册 Ch2/8/19)。",
+        "maturityLevels": [
+          "0x27 明文种子-密钥、无失败锁定、诊断口无防护",
+          "有失败锁定/S3超时,但仍用对称种子-密钥",
+          "关键服务分会话/分安全级管控(访问控制矩阵)",
+          "0x29 证书/HMAC 认证(HSM 支撑)覆盖编程级访问",
+          "DoIP TLS 1.3 双向认证+OEM 签名固件+诊断接口纳入 TARA"
+        ],
+        "items": [
+          {
+            "key": "diag.1",
+            "text": "已制定诊断服务访问控制矩阵(哪些 SID 需哪个会话/安全级/证书)",
+            "regulationRef": "诊断手册 Ch19.5",
+            "lawRefs": null
+          },
+          {
+            "key": "diag.2",
+            "text": "Security Access(0x27)采用 HSM 支撑的种子-密钥,或已升级到 0x29 证书/HMAC 认证",
+            "regulationRef": "诊断手册 Ch2.5/19.2",
+            "lawRefs": null
+          },
+          {
+            "key": "diag.3",
+            "text": "失败尝试触发锁定(NRC 0x37)与强制延时,S3 会话超时兜底",
+            "regulationRef": "诊断手册 Ch19.3",
+            "lawRefs": null
+          },
+          {
+            "key": "diag.4",
+            "text": "DoIP 远程诊断通道启用 TLS 1.3 双向认证(ISO 13400-2:2019)",
+            "regulationRef": "诊断手册 Ch19.3",
+            "lawRefs": null
+          },
+          {
+            "key": "diag.5",
+            "text": "刷写服务(0x34/0x36/0x37)要求 OEM 签名固件,Bootloader 校验签名后才跳转应用",
+            "regulationRef": "诊断手册 Ch8.2/19.5",
+            "lawRefs": null
+          },
+          {
+            "key": "diag.6",
+            "text": "OBD 物理端口对敏感模式(编程/标定)做接入管控或选择性禁用",
+            "regulationRef": "诊断手册 Ch19.3",
+            "lawRefs": null
+          }
+        ]
+      }
+    ]
+  },
+  "standards": [
+    {
+      "name": "UNECE R155 — 网络安全与 CSMS",
+      "id": "UN R155",
+      "rl": [
+        "UN R155"
+      ],
+      "region": "联合国 WP.29(签署国通行)",
+      "scope": "要求 OEM 建立并通过审核的网络安全管理体系(CSMS),并对每个车型做型式批准;覆盖整车生命周期的风险识别与缓解。",
+      "points": [
+        "CSMS 证书 + 逐车型 CS 型式批准,二者缺一不可",
+        "附件5列出威胁与对应缓解措施清单(设计须逐项应对)",
+        "覆盖开发、生产、后生产(运营/事件监测)全周期",
+        "不合规 = 型式批准被拒/吊销 → 签署国市场不得销售"
+      ],
+      "timeline": "2022-07 起新车型强制;2024-07 起所有在产新车强制(欧盟/日/韩/印度等)。",
+      "lawRefs": {
+        "text": "UN R155",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R155",
+            "text": "UN R155",
+            "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R155",
+            "lawUuid": "ddae65081a3143419c85e62d1538a72f",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UNECE R156 — 软件更新与 SUMS",
+      "id": "UN R156",
+      "rl": [
+        "UN R156"
+      ],
+      "region": "联合国 WP.29",
+      "scope": "要求建立软件更新管理体系(SUMS),保障 OTA/线下更新的完整性、真实性与可追溯;管理 RXSWIN 软件标识。",
+      "points": [
+        "SUMS 证书 + 车型批准;每个受管软件配 RXSWIN",
+        "更新前评估对型式批准与安全的影响",
+        "保证更新真实性/完整性(签名),失败可回滚",
+        "向用户告知更新内容与影响,记录可追溯"
+      ],
+      "timeline": "与 R155 同步强制(2022-07 / 2024-07)。",
+      "lawRefs": {
+        "text": "UN R156",
+        "segments": [
+          {
+            "type": "law",
+            "title": "UN R156",
+            "text": "UN R156",
+            "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "UN R156",
+            "lawUuid": "602bd65f8b4b4684a9c892a8f565c976",
+            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ISO/SAE 21434 — 道路车辆网络安全工程",
+      "id": "ISO/SAE 21434",
+      "rl": [
+        "ISO/SAE 21434"
+      ],
+      "region": "国际标准(R155 的事实落地方法)",
+      "scope": "定义从概念、开发到生产运维的网络安全工程流程;TARA 是其核心方法。是证明 R155 符合性的主要技术依据。",
+      "points": [
+        "面向风险的全生命周期工程(概念/开发/生产/运维/退役)",
+        "TARA:资产→威胁→攻击路径→影响→风险值→处置",
+        "要求工作产物与证据链(可审计);用 CAL 分级严苛度",
+        "分布式开发责任划分(OEM↔供应商,DIA 接口协议)"
+      ],
+      "timeline": "2021 发布;当前行业基线。",
+      "lawRefs": {
+        "text": "ISO/SAE 21434",
+        "segments": [
+          {
+            "type": "law",
+            "title": "ISO/SAE 21434",
+            "text": "ISO/SAE 21434",
+            "lawUuid": "24070479239265172600001740329656",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479239265172600001740329656",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "ISO/SAE 21434",
+            "lawUuid": "24070479239265172600001740329656",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479239265172600001740329656"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ISO 26262 — 功能安全(ASIL)",
+      "id": "ISO 26262",
+      "rl": [
+        "ISO 26262-3",
+        "ISO 26262-9"
+      ],
+      "region": "国际标准",
+      "scope": "功能安全标准,与网络安全需协同(安全-安全集成):安全攸关功能须考虑被攻击导致的失效。",
+      "points": [
+        "ASIL A–D 风险分级(严重度×暴露×可控性)",
+        "HARA(危害分析)与 TARA 需对齐",
+        "安全机制不得被网络攻击绕过",
+        "Security 为 Safety 提供完整性前提"
+      ],
+      "timeline": "2018(第二版)。",
+      "lawRefs": {
+        "text": "ISO 26262-3\nISO 26262-9",
+        "segments": [
+          {
+            "type": "law",
+            "title": "ISO 26262-3",
+            "text": "ISO 26262-3",
+            "lawUuid": "24070479275059233600002020845910",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479275059233600002020845910",
+            "linked": true
+          },
+          {
+            "type": "law",
+            "title": "ISO 26262-9",
+            "text": "ISO 26262-9",
+            "lawUuid": "24070479277623927500000310877629",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479277623927500000310877629",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "ISO 26262-3",
+            "lawUuid": "24070479275059233600002020845910",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479275059233600002020845910"
+          },
+          {
+            "title": "ISO 26262-9",
+            "lawUuid": "24070479277623927500000310877629",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479277623927500000310877629"
+          }
+        ]
+      }
+    },
+    {
+      "name": "欧盟网络韧性法案(Cyber Resilience Act, CRA)",
+      "id": "EU CRA",
+      "rl": [
+        "(EU) 2024/2847"
+      ],
+      "region": "欧盟(横向法)",
+      "scope": "面向所有含数字要素的产品的横向网安法。**Art 2 明确:受 (EU) 2019/2144 型批网安规则覆盖的车辆不适用 CRA**(lex specialis 专门法优先)——整车网安走 R155,CRA 让位;真正归 CRA 的是不在整车型批内的车载数字件、售后件、后端/App。",
+      "points": [
+        "默认安全设计 + 全生命周期漏洞管理、提供安全更新支持期",
+        "重要事件分两段上报:知悉后 24h 早期预警 + 72h 正式通知(经各成员国 CSIRT 与 ENISA 的单一报告平台,2026-09 起适用)",
+        "提供 SBOM 与漏洞协调披露",
+        "其网安要求将于 2027-12-11 取代 RED 网安授权法案 (EU) 2022/30;不合规可处全球营业额比例罚款"
+      ],
+      "timeline": "2024-12 生效;主要义务 2026–2027 分阶段适用(核心 2027-12-11 全面适用)。",
+      "lawRefs": {
+        "text": "(EU) 2024/2847",
+        "segments": [
+          {
+            "type": "law",
+            "title": "(EU) 2024/2847",
+            "text": "(EU) 2024/2847",
+            "lawUuid": "8ab3e2d06a9cf76cfa991a042ccd45c5",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=8ab3e2d06a9cf76cfa991a042ccd45c5",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "(EU) 2024/2847",
+            "lawUuid": "8ab3e2d06a9cf76cfa991a042ccd45c5",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=8ab3e2d06a9cf76cfa991a042ccd45c5"
+          }
+        ]
+      }
+    },
+    {
+      "name": "NIST 后量子密码(FIPS 203/204/205)",
+      "id": "NIST PQC",
+      "region": "美国 NIST(全球参考)",
+      "scope": "抗量子算法标准:车辆生命周期长(10–15 年),今日加密数据面临『先窃取后解密』风险,需规划密码敏捷与迁移。",
+      "points": [
+        "FIPS 203 ML-KEM(密钥封装,替代 Kyber/ECDH)",
+        "FIPS 204 ML-DSA(签名,替代 Dilithium)/ 205 SLH-DSA(哈希签名)",
+        "密码敏捷(crypto-agility):可在线升级算法",
+        "OTA/Secure Boot 签名链优先迁移规划"
+      ],
+      "timeline": "2024-08 正式发布;车规迁移规划应即启动。",
+      "lawRefs": null
+    },
+    {
+      "name": "ISO 14229 — UDS 统一诊断服务",
+      "id": "ISO 14229",
+      "rl": [
+        "ISO 14229-1"
+      ],
+      "region": "国际标准(诊断协议基座)",
+      "scope": "定义 ECU 诊断/编程/标定的服务集(SID);OBD-II 端口与 UDS-over-DoIP 是主要汽车攻击向量,ISO 21434 要求对所有诊断接口做 TARA。",
+      "points": [
+        "0x27 Security Access(种子-密钥)已可被 0x29 Authentication(证书/HMAC,HSM 支撑)取代",
+        "0x34/0x36 刷写、0x2E 标定写入等敏感服务须分会话/分安全级管控",
+        "失败锁定 NRC 0x37、S3 会话超时 5 秒兜底",
+        "DoIP(ISO 13400-2:2019)支持 TLS 1.3 双向认证"
+      ],
+      "timeline": "ISO 14229-1:2020(现行);0x29 Authentication 为该版新增服务。",
+      "lawRefs": {
+        "text": "ISO 14229-1",
+        "segments": [
+          {
+            "type": "law",
+            "title": "ISO 14229-1",
+            "text": "ISO 14229-1",
+            "lawUuid": "24070479062227991900000900487966",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479062227991900000900487966",
+            "linked": true
+          }
+        ],
+        "laws": [
+          {
+            "title": "ISO 14229-1",
+            "lawUuid": "24070479062227991900000900487966",
+            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479062227991900000900487966"
+          }
+        ]
+      }
+    }
+  ],
+  "r155Checklist": [
+    {
+      "name": "CSMS 体系与证书",
+      "items": [
+        {
+          "key": "r155.a1",
+          "text": "已建立文件化的网络安全管理体系(CSMS),明确角色/职责/汇报线",
+          "regulationRef": "R155 §7.2.2",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.a2",
+          "text": "持有缔约方批准机关签发的有效 CSMS 合规证书(有效期最长 3 年,届满前复审换发)",
+          "regulationRef": "R155 §7.2 / 附录",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.a3",
+          "text": "每个在售车型已取得网络安全(CS)型式批准",
+          "regulationRef": "R155 §7.3",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "全生命周期风险管理",
+      "items": [
+        {
+          "key": "r155.b1",
+          "text": "对车型识别、评估、分类网络安全风险(TARA),并决定处置",
+          "regulationRef": "R155 §7.2.2 / ISO 21434",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.b2",
+          "text": "网络安全活动覆盖开发/生产/后生产全阶段并有阶段门禁",
+          "regulationRef": "R155 §7.2.2",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.b3",
+          "text": "风险处置与残余风险有记录、经评审接受",
+          "regulationRef": "R155 §7.3.7",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "附件 5 威胁与缓解",
+      "items": [
+        {
+          "key": "r155.c1",
+          "text": "对附件 5(Part A)所列威胁逐项识别其对车型的适用性",
+          "regulationRef": "R155 附件5 Part A",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.c2",
+          "text": "针对适用威胁在设计中落实对应缓解(Part B/C)",
+          "regulationRef": "R155 附件5 Part B/C",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.c3",
+          "text": "验证缓解措施的有效性并留存证据",
+          "regulationRef": "R155 §7.3.7",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "供应链与责任接口",
+      "items": [
+        {
+          "key": "r155.d1",
+          "text": "与供应商签订网络安全责任接口协议(DIA),职责边界清晰",
+          "regulationRef": "R155 §7.2.2 / ISO 21434 Cl.15",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.d2",
+          "text": "向关键供应商传递网安要求并做能力评估/审核",
+          "regulationRef": "R155 §7.2.2",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "后生产监测与响应",
+      "items": [
+        {
+          "key": "r155.e1",
+          "text": "持续监测新威胁/漏洞并映射到在产车型",
+          "regulationRef": "R155 §7.2.2 (后生产)",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.e2",
+          "text": "具备网络安全事件检测、响应与应急处置能力",
+          "regulationRef": "R155 §7.2.2",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.e3",
+          "text": "明确向批准机关的事件上报与信息共享流程",
+          "regulationRef": "R155 §7.2.2",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "记录与审计",
+      "items": [
+        {
+          "key": "r155.f1",
+          "text": "保持可审计的证据链(风险/缓解/验证/决策留痕)",
+          "regulationRef": "R155 §7.3.7",
+          "lawRefs": null
+        },
+        {
+          "key": "r155.f2",
+          "text": "变更管理:设计变更触发风险复评与记录更新",
+          "regulationRef": "R155 §7.2.2",
+          "lawRefs": null
+        }
+      ]
+    }
+  ],
+  "r156Checklist": [
+    {
+      "name": "SUMS 体系与证书",
+      "items": [
+        {
+          "key": "r156.a1",
+          "text": "已建立文件化的软件更新管理体系(SUMS),覆盖流程、职责与记录",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.a2",
+          "text": "持有缔约方批准机关签发的有效 SUMS 合规证书(有效期最长 3 年,届满前复审换发)",
+          "regulationRef": "R156 §6 / 附录1",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.a3",
+          "text": "每个在售车型已取得 R156 型式批准",
+          "regulationRef": "R156 §7",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "软件配置与 RXSWIN 管理",
+      "items": [
+        {
+          "key": "r156.b1",
+          "text": "记录整车相关硬件/软件版本与配置,可追溯",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.b2",
+          "text": "为受监管软件分配并管理 RXSWIN,车辆可读取",
+          "regulationRef": "R156 §7.1.1.3–.4",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.b3",
+          "text": "RXSWIN 与型式批准文件关联;受监管软件变更即更新 RXSWIN",
+          "regulationRef": "R156 §7.1.1.3 / §7.1.2.3",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "更新影响评估",
+      "items": [
+        {
+          "key": "r156.c1",
+          "text": "能识别\"与型式批准相关的软件\",判断某次更新是否影响型式批准",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.c2",
+          "text": "评估更新对车辆安全运行及与其他系统交互的影响",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.c3",
+          "text": "更新若影响型式批准,先取得批准/扩展后再下发",
+          "regulationRef": "R156 §7.1.1 / §7.1.2",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "更新完整性与真实性",
+      "items": [
+        {
+          "key": "r156.d1",
+          "text": "更新包端到端签名,车辆校验完整性与来源真实性",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.d2",
+          "text": "具备防止未授权篡改/伪造更新的机制",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "OTA 无线更新安全执行(附加要求)",
+      "items": [
+        {
+          "key": "r156.e1",
+          "text": "仅在车辆安全状态下执行更新(行驶中不得影响安全)",
+          "regulationRef": "R156 §7.1.2",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.e2",
+          "text": "确保有足够电量/条件使更新可完成",
+          "regulationRef": "R156 §7.1.2",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.e3",
+          "text": "更新失败可恢复到先前版本或安全状态(回滚)",
+          "regulationRef": "R156 §7.1.2",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.e4",
+          "text": "向用户告知更新目的/内容/结果及所需操作",
+          "regulationRef": "R156 §7.1.2",
+          "lawRefs": null
+        }
+      ]
+    },
+    {
+      "name": "记录、追溯与告知",
+      "items": [
+        {
+          "key": "r156.f1",
+          "text": "更新记录归档、可审计,含 RXSWIN 变更历史",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        },
+        {
+          "key": "r156.f2",
+          "text": "明确对用户/机关的告知与文档留存流程",
+          "regulationRef": "R156 §7.1.1",
+          "lawRefs": null
+        }
+      ]
+    }
+  ],
+  "riskMatrices": {
+    "tara": {
+      "impacts": [
+        [
+          "Severe",
+          "严重"
+        ],
+        [
+          "Major",
+          "重大"
+        ],
+        [
+          "Moderate",
+          "中等"
+        ],
+        [
+          "Negligible",
+          "轻微"
+        ]
+      ],
+      "feasibility": [
+        [
+          "VeryLow",
+          "极低"
+        ],
+        [
+          "Low",
+          "低"
+        ],
+        [
+          "Medium",
+          "中"
+        ],
+        [
+          "High",
+          "高"
+        ]
+      ],
+      "riskLevels": {
+        "Severe": [
+          2,
+          3,
+          4,
+          5
+        ],
+        "Major": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "Moderate": [
+          1,
+          2,
+          2,
+          3
+        ],
+        "Negligible": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "calTable": {
+        "Severe": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "Major": [
+          1,
+          1,
+          2,
+          3
+        ],
+        "Moderate": [
+          1,
+          1,
+          1,
+          2
+        ],
+        "Negligible": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "apFactors": [
+        {
+          "k": "et",
+          "name": "耗时",
+          "opts": [
+            [
+              "≤1天",
+              0
+            ],
+            [
+              "≤1周",
+              1
+            ],
+            [
+              "≤1月",
+              4
+            ],
+            [
+              "≤6月",
+              17
+            ],
+            [
+              ">6月",
+              19
+            ]
+          ]
+        },
+        {
+          "k": "ex",
+          "name": "专业能力",
+          "opts": [
+            [
+              "外行",
+              0
+            ],
+            [
+              "熟练",
+              3
+            ],
+            [
+              "专家",
+              6
+            ],
+            [
+              "多专家",
+              8
+            ]
+          ]
+        },
+        {
+          "k": "kn",
+          "name": "对象知识",
+          "opts": [
+            [
+              "公开",
+              0
+            ],
+            [
+              "受限",
+              3
+            ],
+            [
+              "机密",
+              7
+            ],
+            [
+              "严格机密",
+              11
+            ]
+          ]
+        },
+        {
+          "k": "wo",
+          "name": "机会窗口",
+          "opts": [
+            [
+              "无限",
+              0
+            ],
+            [
+              "容易",
+              1
+            ],
+            [
+              "中等",
+              4
+            ],
+            [
+              "困难",
+              10
+            ]
+          ]
+        },
+        {
+          "k": "eq",
+          "name": "装备",
+          "opts": [
+            [
+              "标准",
+              0
+            ],
+            [
+              "专门",
+              4
+            ],
+            [
+              "定制",
+              7
+            ],
+            [
+              "多定制",
+              9
+            ]
+          ]
+        }
+      ],
+      "seedThreats": [
+        {
+          "name": "后端服务器被入侵并被用作攻击车辆的跳板",
+          "asset": "后端/云服务",
+          "ref": "R155 附件5 §4.3.1",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        },
+        {
+          "name": "车辆通信信道被欺骗/篡改(消息注入、重放)",
+          "asset": "V2X / 车内总线",
+          "ref": "R155 附件5 §4.3.2/§4.3.3",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        },
+        {
+          "name": "更新流程被滥用(固件被篡改、回滚到有漏洞版本)",
+          "asset": "OTA / 软件更新",
+          "ref": "R155 附件5 §4.3.4",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        },
+        {
+          "name": "对外接口(OBD/USB/充电)被用于注入恶意代码或提权",
+          "asset": "诊断/外设接口",
+          "ref": "R155 附件5 §4.3.6",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        },
+        {
+          "name": "密钥/凭证管理不当被提取,用于伪造身份或解密",
+          "asset": "密钥 / PKI",
+          "ref": "R155 附件5 §4.3.5",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        },
+        {
+          "name": "拒绝服务(总线泛洪/资源耗尽)导致安全功能失效",
+          "asset": "车内网络 / ECU",
+          "ref": "R155 附件5 §4.3.7",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        },
+        {
+          "name": "个人数据/隐私被越权访问或泄露",
+          "asset": "用户数据",
+          "ref": "R155 附件5 §4.3.8",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        },
+        {
+          "name": "供应链/第三方组件引入的漏洞被利用",
+          "asset": "第三方软硬件",
+          "ref": "R155 附件5 §4.3.7/21434 Cl.15",
+          "imp": {},
+          "feas": "",
+          "ap": {}
+        }
+      ]
+    },
+    "hara": {
+      "severity": [
+        [
+          "S0",
+          "S0 无伤害"
+        ],
+        [
+          "S1",
+          "S1 轻中度伤害"
+        ],
+        [
+          "S2",
+          "S2 严重(可存活)"
+        ],
+        [
+          "S3",
+          "S3 危及生命/致命"
+        ]
+      ],
+      "exposure": [
+        [
+          "E0",
+          "E0 极罕见"
+        ],
+        [
+          "E1",
+          "E1 很低"
+        ],
+        [
+          "E2",
+          "E2 低"
+        ],
+        [
+          "E3",
+          "E3 中"
+        ],
+        [
+          "E4",
+          "E4 高"
+        ]
+      ],
+      "controllability": [
+        [
+          "C0",
+          "C0 一般可控"
+        ],
+        [
+          "C1",
+          "C1 易控"
+        ],
+        [
+          "C2",
+          "C2 通常可控"
+        ],
+        [
+          "C3",
+          "C3 难控/不可控"
+        ]
+      ],
+      "asilColors": {
+        "QM": [
+          "#eef0f2",
+          "#6b7280"
+        ],
+        "A": [
+          "#d9e8d1",
+          "#3d6b2c"
+        ],
+        "B": [
+          "#f4e6bd",
+          "#7a5a10"
+        ],
+        "C": [
+          "#f6ddc9",
+          "#a2531f"
+        ],
+        "D": [
+          "#f3d0d0",
+          "#b02222"
+        ]
+      },
+      "seedHazards": [
+        {
+          "name": "被攻击导致非预期加速或动力丧失",
+          "fn": "动力/驱动",
+          "s": "",
+          "e": "",
+          "c": ""
+        },
+        {
+          "name": "被攻击导致意外制动或制动失效",
+          "fn": "制动系统",
+          "s": "",
+          "e": "",
+          "c": ""
+        },
+        {
+          "name": "被攻击导致转向异常/失控",
+          "fn": "转向系统",
+          "s": "",
+          "e": "",
+          "c": ""
+        },
+        {
+          "name": "被攻击篡改 ADAS 感知/决策 → 误动作",
+          "fn": "ADAS/自动驾驶",
+          "s": "",
+          "e": "",
+          "c": ""
+        },
+        {
+          "name": "被攻击禁用安全气囊/约束系统",
+          "fn": "被动安全",
+          "s": "",
+          "e": "",
+          "c": ""
+        },
+        {
+          "name": "被攻击致仪表/警告信息错误或缺失",
+          "fn": "人机接口",
+          "s": "",
+          "e": "",
+          "c": ""
+        }
+      ]
+    }
+  },
+  "glossary": [
+    {
+      "t": "CSMS",
+      "full": "Cyber Security Management System",
+      "d": "网络安全管理体系。UN R155 要求 OEM 建立并通过审核的组织级体系,覆盖开发/生产/后生产的网安风险管理;缔约方批准机关审核后签发证书。"
+    },
+    {
+      "t": "SUMS",
+      "full": "Software Update Management System",
+      "d": "软件更新管理体系。UN R156 要求;管理软件更新的完整性、真实性、可追溯与 RXSWIN。"
+    },
+    {
+      "t": "RXSWIN",
+      "full": "Regulation X Software Identification Number",
+      "d": "与型式批准要求相关的软件标识。车辆可读、须登记;受监管软件变更时更新,并评估更新是否影响型式批准。"
+    },
+    {
+      "t": "TARA",
+      "full": "Threat Analysis and Risk Assessment",
+      "d": "威胁分析与风险评估。ISO 21434 核心方法:资产 → 威胁场景 → 攻击路径 → 影响 × 攻击可行性 → 风险值 → 处置。"
+    },
+    {
+      "t": "HARA",
+      "full": "Hazard Analysis and Risk Assessment",
+      "d": "危害分析与风险评估。ISO 26262 功能安全方法:严重度 S × 暴露 E × 可控性 C → ASIL。"
+    },
+    {
+      "t": "CAL",
+      "full": "Cybersecurity Assurance Level",
+      "d": "网络安全保障等级 1–4。ISO 21434 附录 E(资料性),由影响 × 攻击可行性推导,决定网安工程的保障严苛度。不是成熟度评分。"
+    },
+    {
+      "t": "ASIL",
+      "full": "Automotive Safety Integrity Level",
+      "d": "汽车安全完整性等级 QM/A/B/C/D。ISO 26262 由 S × E × C 决定,决定功能安全开发严苛度。"
+    },
+    {
+      "t": "S / E / C",
+      "full": "Severity / Exposure / Controllability",
+      "d": "ASIL 三要素:严重度、暴露概率、可控性。任一为 0 类(S0/E0/C0)→ QM。"
+    },
+    {
+      "t": "S / F / O / P",
+      "full": "Safety / Financial / Operational / Privacy",
+      "d": "ISO 21434 影响分级的四个维度:安全 / 财务 / 运营 / 隐私。分别评估,取最严一档作为总影响。"
+    },
+    {
+      "t": "攻击可行性",
+      "full": "Attack Feasibility",
+      "d": "攻击实现的难易程度,分 高/中/低/极低。可用攻击潜力法、CVSS 法或攻击向量法评估(21434 附录 G)。"
+    },
+    {
+      "t": "攻击潜力",
+      "full": "Attack Potential",
+      "d": "21434 附录 G 方法:耗时、专业能力、对象知识、机会窗口、装备 五因子点数求和 → 可行性(0–13 高 / 14–19 中 / 20–24 低 / ≥25 极低)。"
+    },
+    {
+      "t": "风险值",
+      "full": "Risk Value",
+      "d": "1–5。由影响 × 攻击可行性决定(ISO 21434 Cl.15.5,示例矩阵可按组织风险准则裁剪)。"
+    },
+    {
+      "t": "DIA",
+      "full": "Development Interface Agreement",
+      "d": "开发接口协议。划分 OEM 与供应商的网络安全责任边界(ISO 21434 Cl.15)。"
+    },
+    {
+      "t": "UN R155",
+      "full": "UN Regulation No.155",
+      "d": "网络安全与 CSMS 法规(WP.29)。整车型式批准前置,无 L 等级(通过/不通过)。"
+    },
+    {
+      "t": "UN R156",
+      "full": "UN Regulation No.156",
+      "d": "软件更新与 SUMS 法规。与 R155 同为整车型批前置。"
+    },
+    {
+      "t": "ISO/SAE 21434",
+      "full": "Road vehicles — Cybersecurity engineering",
+      "d": "道路车辆网络安全工程标准,是证明 R155 符合性的主要技术依据。"
+    },
+    {
+      "t": "ISO 24089",
+      "full": "Road vehicles — Software update engineering",
+      "d": "软件更新工程标准,R156 的落地方法学。"
+    },
+    {
+      "t": "ISO 26262",
+      "full": "Road vehicles — Functional safety",
+      "d": "道路车辆功能安全标准,定义 ASIL 与安全生命周期。"
+    },
+    {
+      "t": "OTA",
+      "full": "Over-the-Air",
+      "d": "无线软件更新。R156 对 OTA 有附加要求:安全状态执行、失败回滚、用户告知。"
+    },
+    {
+      "t": "Secure Boot",
+      "full": "安全启动",
+      "d": "由信任根逐级校验固件完整性与真实性,防止运行被篡改的软件。"
+    },
+    {
+      "t": "HSM",
+      "full": "Hardware Security Module",
+      "d": "硬件安全模块。安全存储与运算密钥,支撑签名/认证。"
+    },
+    {
+      "t": "SBOM",
+      "full": "Software Bill of Materials",
+      "d": "软件物料清单(CycloneDX/SPDX)。用于追踪组件与已知漏洞(CVE)。"
+    },
+    {
+      "t": "PSIRT",
+      "full": "Product Security Incident Response Team",
+      "d": "产品安全事件响应团队。负责漏洞处置与应急响应。"
+    },
+    {
+      "t": "VSOC",
+      "full": "Vehicle Security Operations Center",
+      "d": "车队级安全运营中心。对遥测做关联分析、检测与告警。"
+    },
+    {
+      "t": "CVD",
+      "full": "Coordinated Vulnerability Disclosure",
+      "d": "协调式漏洞披露。对外接收并处理漏洞报告的渠道与 SLA。"
+    },
+    {
+      "t": "SecOC",
+      "full": "Secure Onboard Communication",
+      "d": "车载安全通信。对关键报文加认证码,防伪造与重放。"
+    },
+    {
+      "t": "QM",
+      "full": "Quality Management",
+      "d": "质量管理级。ASIL 之下,无特定安全完整性要求的档位。"
+    },
+    {
+      "t": "缔约方",
+      "full": "Contracting Party",
+      "d": "1958 协定缔约方。型式批准由缔约方机关签发(如德国 KBA、荷兰 RDW、英国 VCA)。中国非 1958 缔约方。"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "R155 和 R156 有什么区别?",
+      "a": "R155 = 网络安全(CSMS);R156 = 软件更新(SUMS)。两者都是整车型式批准的前置,缺一不可。"
+    },
+    {
+      "q": "CAL 和 ASIL 是一回事吗?",
+      "a": "不是。CAL 是网络安全保障等级(ISO 21434,1–4);ASIL 是功能安全完整性等级(ISO 26262,QM/A/B/C/D)。二者在\"安全-安全集成\"中需对齐,但坐标不同(网安 vs 功能安全)。"
+    },
+    {
+      "q": "R155 / R156 有 L1–L5 等级吗?",
+      "a": "没有。它们是 CSMS/SUMS 认证 + 逐车型型式批准,判定为通过/不通过。唯一的\"等级\"来自 ISO 21434 的 CAL(由风险推导)。"
+    },
+    {
+      "q": "中国是缔约方吗?证书谁签发?",
+      "a": "中国非 1958 协定缔约方。R155/R156 型批证书由缔约方批准机关签发(如德国 KBA、荷兰 RDW、英国 VCA)。中国的 GB 44495(网安)/ GB 44496(OTA)是与之映射的本国强制标准。"
+    },
+    {
+      "q": "零部件厂需要做 R155/R156 吗?",
+      "a": "R155/R156 是整车/OEM 级。零部件供应商通常是配合 OEM 的 CSMS/SUMS(签 DIA、提供证据),而非自己申请型批;除非作为独立技术单元且涉及网安/软件。"
+    },
+    {
+      "q": "RXSWIN 是什么?",
+      "a": "与型式批准要求相关的软件标识。车辆可读、须登记;受监管软件变更时更新,并评估更新是否影响型式批准与安全运行。"
+    },
+    {
+      "q": "攻击可行性怎么评?",
+      "a": "可直接选(高/中/低/极低),或用\"攻击潜力法\"(21434 附录 G):耗时/专业能力/对象知识/机会窗口/装备 五因子点数求和 → 分档(0–13 高、14–19 中、20–24 低、≥25 极低);也可用 CVSS 或攻击向量法。"
+    },
+    {
+      "q": "影响为什么分 S/F/O/P 四类?",
+      "a": "ISO 21434 要求从安全 / 财务 / 运营 / 隐私四个维度评估损害,取最严一档作为总影响,再与攻击可行性组合确定风险值与 CAL。"
+    },
+    {
+      "q": "这个报告能当合规证明吗?",
+      "a": "不能。本工具是团队自查参照;CAL 属附录 E 资料性方法。正式判定以认可技术服务 / 批准机关为准,型式批准为 CSMS/SUMS 认证(通过/不通过)。"
+    },
+    {
+      "q": "为什么去掉了成熟度自查?",
+      "a": "那是仿照 CMM(能力成熟度模型)风格的、非法定的自评,容易与法定等级混淆。现聚焦 R155/R156 认证就绪度 + CAL/ASIL 法定/标准评级。"
+    },
+    {
+      "q": "ISO 21434 / 24089 / 26262 各管什么?",
+      "a": "21434 = 网络安全工程(R155 的落地方法);24089 = 软件更新工程(R156 的落地方法);26262 = 功能安全(ASIL)。"
+    },
+    {
+      "q": "什么时候强制?",
+      "a": "R155/R156:2022-07 起新车型、2024-07 起所有新注册车强制(欧盟、日本、韩国、印度等采纳方)。车辆类别 M、N、O 等。"
+    }
+  ],
+  "moduleComparison": [
+    {
+      "m": "R155 CSMS 就绪度",
+      "std": "UN R155 §7.2/§7.3 + 附件5",
+      "obj": "网络安全管理体系(CSMS)是否到位",
+      "out": "就绪度 % · 无/部分/已建立",
+      "legal": "型批前置(通过/不通过)",
+      "tone": "red",
+      "how": "逐条条款自查 + 证据/责任人/差距追踪",
+      "use": "申请、维持整车网安型式批准"
+    },
+    {
+      "m": "R156 SUMS 就绪度",
+      "std": "UN R156 §7.1 + RXSWIN",
+      "obj": "软件更新管理体系(SUMS)是否到位",
+      "out": "就绪度 %",
+      "legal": "型批前置(通过/不通过)",
+      "tone": "red",
+      "how": "逐条条款自查 + 证据追踪",
+      "use": "申请、维持 OTA/软件更新型批"
+    },
+    {
+      "m": "21434 CAL 风险评级",
+      "std": "ISO/SAE 21434 Cl.15 + 附录E",
+      "obj": "每条网安威胁场景的风险",
+      "out": "风险值 1–5 · CAL 1–4",
+      "legal": "资料性(非强制)",
+      "tone": "amber",
+      "how": "影响(S/F/O/P)× 攻击可行性 → 推导",
+      "use": "定网安工程保障严苛度、排优先级"
+    },
+    {
+      "m": "26262 ASIL 定级",
+      "std": "ISO 26262-3(HARA)",
+      "obj": "每个功能安全危害的风险",
+      "out": "ASIL QM/A/B/C/D",
+      "legal": "功能安全强制分级",
+      "tone": "red",
+      "how": "严重度 S × 暴露 E × 可控性 C → 推导",
+      "use": "定功能安全开发严苛度"
+    }
+  ],
+  "regLinks": {
+    "UN R155": "https://www.1clicktong.com/law/lawDetail?lawUuid=ddae65081a3143419c85e62d1538a72f",
+    "UN R156": "https://www.1clicktong.com/law/lawDetail?lawUuid=602bd65f8b4b4684a9c892a8f565c976",
+    "(EU) 2019/2144": "https://new.1clicktong.com/law/lawDetail?lawUuid=ed4b377cb152b428cdf84730aea098d4",
+    "(EU) 2022/30": "https://new.1clicktong.com/law/lawDetail?lawUuid=06765a9b79356d3274b336b128a06df9",
+    "(EU) 2024/2847": "https://new.1clicktong.com/law/lawDetail?lawUuid=8ab3e2d06a9cf76cfa991a042ccd45c5",
+    "ISO 13400-2": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479058783241900001033932263",
+    "ISO 14229-1": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479062227991900000900487966",
+    "ISO 24089": "https://new.1clicktong.com/law/lawDetail?lawUuid=dbe1ce8372e4c70a5cc9317d315e8230",
+    "ISO 26262-9": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479277623927500000310877629",
+    "ISO 26262-3": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479275059233600002020845910",
+    "ISO/SAE 21434": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479239265172600001740329656"
+  },
+  "certEstimate": {
+    "_note": "参考估算，实际费用以审核/认证机构对具体企业评估报价为准",
+    "_source": "基于国际认可认证机构 2024-2026 公开报价区间及项目经验",
+    "categories": [
+      {
+        "id": "r155_csms",
+        "category": "R155 CSMS 认证",
+        "items": "网络安全管理体系(CSMS)审核 + CoC 签发",
+        "regulation": "UN R155",
+        "costMin": 300000,
+        "costMax": 600000,
+        "timeline": "3~6 个月",
+        "nbInvolvement": "型式批准机关+审核机构",
+        "scenario": "OEM 必须",
+        "notes": "含差距分析+体系建设咨询+正式审核；3 年有效，含年度监督",
+        "conditions": {}
+      },
+      {
+        "id": "r155_vta",
+        "category": "R155 车型认证",
+        "items": "单车型网络安全评估 + 型式批准",
+        "regulation": "UN R155",
+        "costMin": 150000,
+        "costMax": 400000,
+        "timeline": "2~4 个月",
+        "nbInvolvement": "型式批准机关",
+        "scenario": "每车型",
+        "notes": "须先取得 CSMS CoC；每个新车型/重大变更需单独申请",
+        "conditions": {}
+      },
+      {
+        "id": "r156_sums",
+        "category": "R156 SUMS 认证",
+        "items": "软件更新管理体系(SUMS)审核 + CoC 签发",
+        "regulation": "UN R156",
+        "costMin": 200000,
+        "costMax": 500000,
+        "timeline": "2~5 个月",
+        "nbInvolvement": "型式批准机关+审核机构",
+        "scenario": "有 OTA 功能必须",
+        "notes": "含 Rx-SWIN 管理、更新验证体系；可与 CSMS 联合审核",
+        "conditions": {}
+      },
+      {
+        "id": "r156_vta",
+        "category": "R156 车型认证",
+        "items": "单车型软件更新评估 + 型式批准",
+        "regulation": "UN R156",
+        "costMin": 100000,
+        "costMax": 250000,
+        "timeline": "1~3 个月",
+        "nbInvolvement": "型式批准机关",
+        "scenario": "有 OTA 功能·每车型",
+        "notes": "须先取得 SUMS CoC",
+        "conditions": {}
+      },
+      {
+        "id": "iso21434",
+        "category": "ISO/SAE 21434 合规",
+        "items": "汽车网络安全工程过程建设 + TARA 方法论",
+        "regulation": "ISO/SAE 21434:2021",
+        "costMin": 200000,
+        "costMax": 800000,
+        "timeline": "6~12 个月",
+        "nbInvolvement": "第三方审核（推荐）",
+        "scenario": "供应链要求",
+        "notes": "R155 CSMS 审核会验证 21434 实施；范围覆盖全生命周期",
+        "conditions": {}
+      },
+      {
+        "id": "pentest",
+        "category": "渗透测试",
+        "items": "车辆级 + ECU 级渗透测试",
+        "regulation": "UN R155 Annex 5 参照",
+        "costMin": 150000,
+        "costMax": 500000,
+        "timeline": "2~6 周",
+        "nbInvolvement": "第三方安全测试机构",
+        "scenario": "每车型/每产品",
+        "notes": "含无线/有线攻击面+OBD+充电通信+OTA 通道；报告支持 VTA 提交",
+        "conditions": {}
+      },
+      {
+        "id": "iso26262",
+        "category": "ISO 26262 功能安全",
+        "items": "功能安全管理+HARA+安全概念+验证确认",
+        "regulation": "ISO 26262:2018",
+        "costMin": 300000,
+        "costMax": 1500000,
+        "timeline": "6~18 个月",
+        "nbInvolvement": "第三方评估（ASIL C/D 推荐）",
+        "scenario": "安全相关系统",
+        "notes": "费用随 ASIL 等级和系统复杂度大幅浮动",
+        "conditions": {}
+      }
+    ],
+    "reportConfig": {
+      "title": "网络安全与功能安全认证费用估算",
+      "subtitle": "按评估结果自动筛选适用认证项，参考区间仅供预算",
+      "columns": [
+        "类别",
+        "项目",
+        "法规依据",
+        "费用 (RMB)",
+        "周期",
+        "NB/审核介入",
+        "适用场景",
+        "备注"
+      ],
+      "showTotal": true,
+      "totalNote": "以上为参考估算区间，实际费用以审核/认证机构对具体产品与企业评估报价为准",
+      "disclaimer": "费用数据基于 2024-2026 主要认证审核机构公开报价区间整理，因企业规模、体系成熟度、产品复杂度等因素浮动。"
+    }
+  }
+}
