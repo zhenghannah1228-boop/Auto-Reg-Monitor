@@ -278,6 +278,20 @@ select.cin{font-size:13.5px;padding:6px 7px;cursor:pointer}
 .report .rst{text-align:center;font-weight:700;white-space:nowrap}
 .report .rst.s2{color:#1F7A4D}.report .rst.s1{color:#B45309}.report .rst.s0{color:#C0392B}
 .report .rfoot{font-size:10px;color:#666;margin-top:14px;border-top:1px solid #ccc;padding-top:6px;line-height:1.6}
+.report table.ctab{width:100%;border-collapse:collapse;font-size:11px;margin:6px 0}
+.report .ctab th{background:#1A2420;color:#FDF6F0;font-weight:700;text-align:left;padding:5px 7px;font-size:10px;white-space:nowrap}
+.report .ctab td{border:1px solid #ddd;padding:5px 7px;vertical-align:top}
+.report .ctab td.r{text-align:right;white-space:nowrap;font-weight:700}
+.report .ctab tr.ctot td{background:#FBF3EC;border-top:2px solid #C6502A;font-size:10.5px}
+.report .ctab tr.ctot td.r{color:#C6502A;font-size:11.5px}
+.report .ctnote{font-size:9.5px;color:#999;margin:3px 0 10px}
+table.ctab{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}
+.ctab th{background:var(--ink);color:var(--cream,#FDF6F0);font-weight:700;text-align:left;padding:8px 10px;font-size:10.5px;letter-spacing:.3px;white-space:nowrap}
+.ctab td{border-bottom:1px solid var(--line,#E3E6EA);padding:8px 10px;vertical-align:top;line-height:1.5}
+.ctab td.r{text-align:right;white-space:nowrap;font-weight:700;color:var(--ink,#1A2420)}
+.ctab tr.ctot td{background:var(--cream,#FBF3EC);border-top:2px solid var(--accent,#C6502A);font-size:11.5px}
+.ctab tr.ctot td.r{color:var(--accent,#C6502A);font-size:13px}
+.ctnote{font-size:11px;color:var(--grey,#9AA1AB);margin:3px 0 6px}
 @media print{
   body.printing>*{display:none !important}
   body.printing>#report{display:block !important}
@@ -536,6 +550,32 @@ let _glosQ='';
 let ans={}, tara=null, hara=null, itemMeta={}, active='home'; // active: 'home'/'tara'/'r156'/'csms'/'hara'/'std'/'glos'/'faq'
 let _openItems={}; // 清单条目"证据/责任人"展开态(不持久化)
 let _packGapOnly=false; // 审计就绪包:只看缺口(不持久化)
+// ===== 认证费用与周期估算 =====
+const CERT_ESTIMATE=[
+ {id:'r155_csms',cat:'R155 CSMS 认证',items:'网络安全管理体系(CSMS)审核 + CoC 签发',reg:'UN R155',cMin:300000,cMax:600000,tl:'3~6 个月',nb:'型式批准机关+审核机构',sc:'OEM 必须',note:'含差距分析+体系建设咨询+正式审核；3 年有效，含年度监督'},
+ {id:'r155_vta',cat:'R155 车型认证',items:'单车型网络安全评估 + 型式批准',reg:'UN R155',cMin:150000,cMax:400000,tl:'2~4 个月',nb:'型式批准机关',sc:'每车型',note:'须先取得 CSMS CoC；每个新车型/重大变更需单独申请'},
+ {id:'r156_sums',cat:'R156 SUMS 认证',items:'软件更新管理体系(SUMS)审核 + CoC 签发',reg:'UN R156',cMin:200000,cMax:500000,tl:'2~5 个月',nb:'型式批准机关+审核机构',sc:'有 OTA 功能必须',note:'含 Rx-SWIN 管理、更新验证体系；可与 CSMS 联合审核'},
+ {id:'r156_vta',cat:'R156 车型认证',items:'单车型软件更新评估 + 型式批准',reg:'UN R156',cMin:100000,cMax:250000,tl:'1~3 个月',nb:'型式批准机关',sc:'有 OTA 功能·每车型',note:'须先取得 SUMS CoC'},
+ {id:'iso21434',cat:'ISO/SAE 21434 合规',items:'汽车网络安全工程过程建设 + TARA 方法论',reg:'ISO/SAE 21434:2021',cMin:200000,cMax:800000,tl:'6~12 个月',nb:'第三方审核（推荐）',sc:'供应链要求',note:'R155 CSMS 审核会验证 21434 实施；范围覆盖全生命周期'},
+ {id:'pentest',cat:'渗透测试',items:'车辆级 + ECU 级渗透测试',reg:'UN R155 Annex 5 参照',cMin:150000,cMax:500000,tl:'2~6 周',nb:'第三方安全测试机构',sc:'每车型/每产品',note:'含无线/有线攻击面+OBD+充电通信+OTA 通道；报告支持 VTA 提交'},
+ {id:'iso26262',cat:'ISO 26262 功能安全',items:'功能安全管理+HARA+安全概念+验证确认',reg:'ISO 26262:2018',cMin:300000,cMax:1500000,tl:'6~18 个月',nb:'第三方评估（ASIL C/D 推荐）',sc:'安全相关系统',note:'费用随 ASIL 等级和系统复杂度大幅浮动'}
+];
+function fmtCost(v,unit){return v>=10000?(v/10000).toFixed(v%10000?1:0)+'万'+(unit||''):v.toLocaleString()+(unit||'');}
+function certEstimateHTML(){
+  const rows=CERT_ESTIMATE;
+  if(!rows.length) return '<p class="ctnote">暂无适用的费用估算项。</p>';
+  let totalMin=0,totalMax=0;
+  const trs=rows.map(function(r){
+    totalMin+=r.cMin; totalMax+=r.cMax;
+    const cost=r.cMin===r.cMax?fmtCost(r.cMin,r.cUnit||''):fmtCost(r.cMin)+'~'+fmtCost(r.cMax,r.cUnit||'');
+    return '<tr><td>'+esc(r.cat)+'</td><td>'+esc(r.items)+'</td><td>'+esc(r.reg)+'</td><td class="r">'+cost+'</td><td>'+esc(r.tl)+'</td><td>'+esc(r.nb)+'</td><td>'+esc(r.sc)+'</td><td>'+esc(r.note)+'</td></tr>';
+  }).join('');
+  const totalCost=totalMin===totalMax?fmtCost(totalMin):fmtCost(totalMin)+'~'+fmtCost(totalMax);
+  return '<table class="ctab"><thead><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用 (RMB)</th><th>周期</th><th>NB/审核介入</th><th>适用场景</th><th>备注</th></tr></thead>'+
+    '<tbody>'+trs+'</tbody>'+
+    '<tfoot><tr class="ctot"><td colspan="3"><b>合计估算区间</b></td><td class="r"><b>'+totalCost+'</b></td><td colspan="4">以上为参考估算，实际费用以审核/认证机构对具体产品与企业评估报价为准</td></tr></tfoot></table>'+
+    '<p class="ctnote">费用数据基于 2024–2026 主要认证审核机构公开报价区间整理，因企业规模、体系成熟度、产品复杂度等因素浮动。</p>';
+}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 const REG_LINKS={
@@ -953,6 +993,7 @@ function exportReport(){
     tara.map(t=>{const rv=riskOf(t),c=calOf(t);const di=derivedImpact(t),fe=effFeas(t);return '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.asset||'')+'</td><td>'+(di?esc(impactCn(di)):'—')+'</td><td>'+(fe?esc(feasCn(fe))+(apComplete(t)?'（潜力'+apSum(t)+'）':''):'—')+'</td><td class="rst">'+(rv||'—')+'</td><td class="rst">'+(c!=null?(c>0?'CAL '+c:'无需'):'—')+'</td></tr>';}).join('')+'</table>';
   html+='<h2>④ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
     hara.map(h=>{const a=asilOf(h);return '<tr><td>'+esc(h.name)+'</td><td>'+esc(h.fn||'')+'</td><td class="rst">'+(h.s||'—')+'</td><td class="rst">'+(h.e||'—')+'</td><td class="rst">'+(h.c||'—')+'</td><td class="rst">'+(a!=null?(a==='QM'?'QM':'ASIL '+a):'—')+'</td></tr>';}).join('')+'</table>';
+  html+='<h2>⑤ 认证费用与周期估算</h2>'+certEstimateHTML();
   html+='<div class="rfoot">评级方法依据 ISO/SAE 21434(风险值 / CAL,附录 E 资料性)、ISO 26262-3(ASIL)与 UN R155/R156 条款;R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
@@ -1065,6 +1106,9 @@ function renderPack(m){
       '<td style="white-space:nowrap">'+flagBadge+'</td></tr>';
   });
   s+='</table></div>';
+  // —— 认证费用与周期估算 ——
+  s+='<div style="font-size:13px;font-weight:800;margin:18px 0 6px">认证费用与周期估算 <span style="font-weight:400;color:var(--grey);font-size:11.5px">参考市场均价区间,实际以服务商报价为准</span></div>';
+  s+=certEstimateHTML();
   // —— 风险登记册 ——
   s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
     '<div style="font-size:13px;font-weight:800">风险登记册 <span style="font-weight:400;color:var(--grey);font-size:11.5px">TARA 威胁按风险值 / HARA 危害按 ASIL 降序</span></div>'+

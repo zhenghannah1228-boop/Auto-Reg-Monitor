@@ -174,6 +174,11 @@ a{color:var(--od)}
 #report .rc{width:22px;text-align:center;font-weight:800}
 #report .rs{font-size:10.5px;color:#6B7280;margin-top:2px}
 #report .rfoot{font-size:10px;color:#9AA1AB;margin-top:14px;line-height:1.6}
+#report .ctab{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:8px}
+#report .ctab th{background:#f0f0f0;border:1px solid #ccc;padding:4px 6px;text-align:left;font-weight:700}
+#report .ctab td{border:1px solid #ddd;padding:4px 6px;vertical-align:top}
+#report .ctot{font-weight:800;background:#fdf6f0}
+#report .ctnote{font-size:9.5px;color:#888;margin-top:6px;line-height:1.5}
 @media print{.topbar,.sidebar,.reglist,.ckbtn,.discl{display:none!important}.layout{display:block;max-width:none;padding:0}.card,.faq{break-inside:avoid;box-shadow:none}.faq .a{display:block!important}
 body.printing .layout{display:none!important}
 body.printing #report{display:block!important}}
@@ -421,6 +426,26 @@ const CK=[
 const CKKEY='emark_cop_checklist_v1';
 let ckState={};
 try{ckState=JSON.parse(localStorage.getItem(CKKEY)||'{}');}catch(e){ckState={};}
+// ===== 认证费用与周期估算 =====
+const CERT_ESTIMATE=[
+ {id:'cop_gap',cat:'CoP 差距分析与咨询',items:'现有体系/产线与法规要求对标评估+差距报告+整改路线图',reg:'UN 1958 Schedule 1 / (EU) 2018/858 Art.31',cMin:50000,cMax:150000,tl:'2~4 周',nb:'第三方咨询机构(推荐)',sc:'首次建体系',note:'IATF 16949 已覆盖的可减少工作量;含现场+文件审查'},
+ {id:'cop_system',cat:'CoP 体系建设',items:'CoP 程序文件+生产控制计划+检验/试验方案+追溯体系+变更管理流程',reg:'UN 1958 Schedule 1 / (EU) 2018/858 附件 IV',cMin:100000,cMax:300000,tl:'1~3 个月',nb:'咨询机构辅导',sc:'首次建体系',note:'含模板/SOP 编写+人员培训;有 IATF 基础可缩短'},
+ {id:'cop_initial_audit',cat:'CoP 初次审核',items:'型式批准机关对制造商 CoP 安排的初始评审(文件审查+现场审核)',reg:'UN 1958 Schedule 1 / (EU) 2018/858 Art.31(3)',cMin:80000,cMax:200000,tl:'1~2 个月',nb:'型式批准机关/指定机构',sc:'首次型批申请',note:'通过后方可签发型式批准;费用含机关审核费+差旅'},
+ {id:'cop_surveillance',cat:'年度监督审核',items:'定期符合性核查(文件抽查+产线抽检+产品抽样测试)',reg:'UN 1958 Schedule 1 / (EU) 2018/858 附件 IV §4',cMin:50000,cMax:120000,tl:'1~2 周',nb:'型式批准机关',sc:'每年/每周期',cUnit:'/年',note:'欧盟默认≥每 3 年一次;UN 各法规可自设频次(如 R118 每 2 年)'},
+ {id:'cop_testing',cat:'CoP 例行产品测试',items:'批量产品的符合性抽检测试(关键安全/环保项目)',reg:'各 UN Regulation 附件 CoP 测试条款',cMin:30000,cMax:100000,tl:'1~3 周',nb:'认可实验室',sc:'每批次/每型式',cUnit:'/批次',note:'测试项目由具体法规 CoP 附件规定;可利用制造商自有实验室(需认可)'},
+ {id:'cop_extension',cat:'扩展/变更管理',items:'型式变更后的 CoP 更新评审+必要时补充测试',reg:'UN 1958 Schedule 1 §3 / (EU) 2018/858 Art.33',cMin:30000,cMax:150000,tl:'2~6 周',nb:'型式批准机关',sc:'每次变更',cUnit:'/次',note:'设计/工艺/供应商重大变更须通知机关;小变更可能仅需文件更新'}
+];
+function fmtCost(v){return v>=10000?(v/10000)+'万':v.toLocaleString();}
+function certEstimateHTML(){
+ let h='<table class="ctab"><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用(RMB)</th><th>周期</th><th>NB/机构介入</th><th>适用场景</th><th>备注</th></tr>';
+ let tMin=0,tMax=0;
+ CERT_ESTIMATE.forEach(function(c){tMin+=c.cMin;tMax+=c.cMax;
+  h+='<tr><td style="white-space:nowrap;font-weight:700">'+esc(c.cat)+'</td><td>'+esc(c.items)+'</td><td style="white-space:nowrap">'+esc(c.reg)+'</td><td style="white-space:nowrap;text-align:right">'+fmtCost(c.cMin)+' ~ '+fmtCost(c.cMax)+(c.cUnit?esc(c.cUnit):'')+'</td><td style="white-space:nowrap">'+esc(c.tl)+'</td><td>'+esc(c.nb)+'</td><td style="white-space:nowrap">'+esc(c.sc)+'</td><td>'+esc(c.note)+'</td></tr>';
+ });
+ h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算区间</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+' ~ '+fmtCost(tMax)+'</td><td colspan="4">以上为首次建体系+首年认证参考;后续年度监督、批次测试另计</td></tr></table>';
+ h+='<div class="ctnote">费用为市场均价区间(含审核+测试+基本咨询),实际随产品复杂度、产线数量及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。</div>';
+ return h;
+}
 const pillOf=g=>g==='reg'?'<span class="pill reg">法规明确要求</span>':g==='eu'?'<span class="pill eu">欧盟制度性文件</span>':'<span class="pill qms">体系惯例 / 支撑</span>';
 function buildCk(){
   document.getElementById('cklist').innerHTML=CK.map(grp=>`
@@ -567,6 +592,7 @@ function exportReport(){
     });
     body+='</table></div>';
   });
+  body+=`<div class="rgrp"><div class="rgh">认证费用与周期估算</div>`+certEstimateHTML()+`</div>`;
   body+=`<div class="rfoot">本报告基于当前档案在本工具中的自查勾选状态自动生成，仅作准备引导，不产生法律结论；精确条款、频次与提交格式以型式批准机关的现行官方文件与法规原文为准。</div>`;
   document.getElementById('report').innerHTML=body;
   document.body.classList.add('printing');
