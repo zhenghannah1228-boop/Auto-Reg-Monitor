@@ -437,7 +437,7 @@ const CERT_ESTIMATE=[
 ];
 function fmtCost(v){return v>=10000?(v/10000)+'万':v.toLocaleString();}
 function certEstimateHTML(){
- let h='<table class="ctab"><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用(RMB)</th><th>周期</th><th>NB/机构介入</th><th>适用场景</th><th>备注</th></tr>';
+ let h='<table class="ctab"><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用(RMB)</th><th>周期</th><th>NB（公告机构）介入</th><th>适用场景</th><th>备注</th></tr>';
  let tMin=0,tMax=0;
  CERT_ESTIMATE.forEach(function(c){tMin+=c.cMin;tMax+=c.cMax;
   h+='<tr><td style="white-space:nowrap;font-weight:700">'+esc(c.cat)+'</td><td>'+esc(c.items)+'</td><td style="white-space:nowrap">'+esc(c.reg)+'</td><td style="white-space:nowrap;text-align:right">'+fmtCost(c.cMin)+(c.cUnit?esc(c.cUnit):'')+'</td><td style="white-space:nowrap">'+esc(c.tl)+'</td><td>'+esc(c.nb)+'</td><td style="white-space:nowrap">'+esc(c.sc)+'</td><td>'+esc(c.note)+'</td></tr>';

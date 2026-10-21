@@ -2248,7 +2248,7 @@ function certEstimateHTML(escFn){
     return `<tr><td>${esc(r.cat)}</td><td>${esc(r.items)}</td><td>${esc(r.reg)}</td><td class="r">${cost}</td><td>${esc(r.tl)}</td><td>${esc(r.nb)}</td><td>${esc(r.sc)}</td><td>${esc(r.note)}</td></tr>`;
   }).join('');
   const totalCost=fmtCost(totalMin);
-  return `<table class="ctab"><thead><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用 (RMB)</th><th>周期</th><th>NB 介入</th><th>适用场景</th><th>备注</th></tr></thead>
+  return `<table class="ctab"><thead><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用 (RMB)</th><th>周期</th><th>NB（公告机构）介入</th><th>适用场景</th><th>备注</th></tr></thead>
 <tbody>${trs}</tbody>
 <tfoot><tr class="ctot"><td colspan="3"><b>合计估算</b></td><td class="r"><b>${totalCost}</b></td><td colspan="4">以上取市场低价参考，实际以技术服务机构/公告机构对具体产品评估报价为准</td></tr></tfoot></table>
 <p class="rtnote">费用取 2024–2026 主要技术服务机构报价区间低值，实际因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考。</p>`;
