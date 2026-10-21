@@ -593,6 +593,7 @@ function exportReport(){
     });
     body+='</table></div>';
   });
+  body+=`<div class="rgrp"><div class="rgh">认证费用与周期估算</div>`+certEstimateHTML()+`</div>`;
   body+=`<div class="rfoot">本报告基于当前档案在本工具中的自查勾选状态自动生成，仅作准备引导，不产生法律结论；精确条款、频次与提交格式以型式批准机关的现行官方文件与法规原文为准。</div>`;
   document.getElementById('report').innerHTML=body;
   document.body.classList.add('printing');

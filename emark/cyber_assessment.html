@@ -994,6 +994,7 @@ function exportReport(){
     tara.map(t=>{const rv=riskOf(t),c=calOf(t);const di=derivedImpact(t),fe=effFeas(t);return '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.asset||'')+'</td><td>'+(di?esc(impactCn(di)):'—')+'</td><td>'+(fe?esc(feasCn(fe))+(apComplete(t)?'（潜力'+apSum(t)+'）':''):'—')+'</td><td class="rst">'+(rv||'—')+'</td><td class="rst">'+(c!=null?(c>0?'CAL '+c:'无需'):'—')+'</td></tr>';}).join('')+'</table>';
   html+='<h2>⑤ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
     hara.map(h=>{const a=asilOf(h);return '<tr><td>'+esc(h.name)+'</td><td>'+esc(h.fn||'')+'</td><td class="rst">'+(h.s||'—')+'</td><td class="rst">'+(h.e||'—')+'</td><td class="rst">'+(h.c||'—')+'</td><td class="rst">'+(a!=null?(a==='QM'?'QM':'ASIL '+a):'—')+'</td></tr>';}).join('')+'</table>';
+  html+='<h2>⑤ 认证费用与周期估算</h2>'+certEstimateHTML();
   html+='<div class="rfoot">评级方法依据 ISO/SAE 21434(风险值 / CAL,附录 E 资料性)、ISO 26262-3(ASIL)与 UN R155/R156 条款;R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
@@ -1109,6 +1110,9 @@ function renderPack(m){
       '<td style="white-space:nowrap">'+flagBadge+'</td></tr>';
   });
   s+='</table></div>';
+  // —— 认证费用与周期估算 ——
+  s+='<div style="font-size:13px;font-weight:800;margin:18px 0 6px">认证费用与周期估算 <span style="font-weight:400;color:var(--grey);font-size:11.5px">参考市场均价区间,实际以服务商报价为准</span></div>';
+  s+=certEstimateHTML();
   // —— 风险登记册 ——
   s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
     '<div style="font-size:13px;font-weight:800">风险登记册 <span style="font-weight:400;color:var(--grey);font-size:11.5px">TARA 威胁按风险值 / HARA 危害按 ASIL 降序</span></div>'+
