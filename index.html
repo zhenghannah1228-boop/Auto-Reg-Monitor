@@ -1145,11 +1145,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
         <span id="rd-rpt-tip" style="font-size:11px;color:var(--accent)"></span>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
-        <span style="font-size:11px;color:var(--accent);font-weight:700">🚧 待确认草稿(内容基于法规雷达已确认情报生成,尚未定稿,勿对外发送):</span>
-        <a class="btn light" href="./reports/radar-monthly-2026-09.html" target="_blank" rel="noopener" style="text-decoration:none;border-color:var(--accent)" title="在新标签打开查看">📄 2026 年 9 月刊(草稿)</a>
-        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-09.html','html')" title="下载该月报草稿的 HTML 文件">⬇ 导出 HTML</button>
-        <button class="btn light" onclick="rdExportReport('reports/radar-monthly-2026-09.html','pdf')" title="打开打印视图(仅月报卡片),在打印对话框选择「另存为 PDF」">⬇ 导出 PDF</button>
-        <button class="btn light" onclick="window.open('reports/radar-monthly-2026-09.html','_blank','noopener')" title="在新标签打开该月报草稿的 HTML 页面">🌐 打开 HTML</button>
+        <span style="font-size:11px;color:var(--muted);font-weight:700">🚧 待确认草稿:暂无进行中草稿(9月刊已定稿归档,10月数据到齐后在此更新)</span>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px">
         <span style="font-size:11px;color:var(--muted)">📚 已归档月报(定稿存档,查看/导出/打印):</span>
@@ -5508,6 +5504,7 @@ function radarClearSel(){
    下拉选项/查看/导出 HTML·PDF·PNG 按钮全部自动跟随选中项,无需再改其余代码或加新 DOM 块。
    最新一期排最前(unshift 顺序 = 数组顺序倒序写,故此列表已按月份倒序排列)。 */
 const RD_ARCHIVED_REPORTS=[
+  {label:"2026 年 9 月刊",path:"reports/radar-monthly-2026-09.html"},
   {label:"2026 年 8 月刊",path:"reports/radar-monthly-2026-08.html"},
   {label:"2026 年 7 月刊",path:"reports/radar-monthly-2026-07.html"},
   {label:"2026 年 6 月刊",path:"reports/radar-monthly-2026-06.html"},
