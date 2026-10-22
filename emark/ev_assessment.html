@@ -229,7 +229,8 @@ a{color:var(--od)}
 .sp-scope{flex:1;min-width:200px}
 .sp-price{flex:none;min-width:160px;background:var(--paper);border-radius:8px;padding:12px 16px}
 .sp-sh{font-size:12px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.sp-si{font-size:13px;color:var(--ink);padding:3px 0}
+.sp-si{font-size:13px;color:var(--ink);padding:5px 0}
+.sp-sd{font-size:11.5px;color:var(--grey);margin-top:1px;padding-left:18px;line-height:1.5}
 .sp-pr{margin-bottom:8px}
 .sp-big{font-size:22px;font-weight:800;color:var(--accent)}
 .sp-lab{font-size:11.5px;color:var(--grey);margin-left:6px}
@@ -636,13 +637,18 @@ function certEstimateHTML(){
  return h;
 }
 const SVC_PKG={name:'电动化合规全包',tag:'EV Package',accent:'#1F7A4D',
-  scope:['R100 高压电安全认证','R10 电磁兼容认证','充电接口与通信认证','电池法规合规（CE）','ELV 循环设计与报废车管理'],
+  scope:[
+    {n:'R100 高压电安全认证',d:'高压电气系统安全测试,含绝缘电阻、IPXXB 防护等级、过充/过放保护验证 → 交付: R100 E-mark 证书 + 测试报告'},
+    {n:'R10 电磁兼容认证',d:'整车及零部件电磁兼容(EMC)测试,含辐射/传导发射与抗扰度 → 交付: R10 E-mark 证书 + EMC 测试报告'},
+    {n:'充电接口与通信认证',d:'CCS/Type 2 充电接口物理兼容性 + ISO 15118 通信协议一致性测试 → 交付: 充电兼容性测试报告 + 认证文件'},
+    {n:'电池法规合规（CE）',d:'按欧盟电池法规(2023/1542)进行碳足迹声明、尽职调查、电池护照准备 → 交付: 碳足迹计算报告 + 合规差距评估 + 电池护照数据模板'},
+    {n:'ELV 循环设计与报废车管理',d:'按新版报废车法规评估可回收率、材料声明与拆解信息 → 交付: 可回收率计算报告 + 材料数据表(MDS) + 拆解手册'}],
   first:95,add:71,firstLabel:'首车型',addLabel:'加车型',timeline:'6–14 个月',
   note:'电池法规为 CE 侧并行义务,与 E-mark 型批不冲突;ELV 循环设计 2028-09 起适用'};
 function servicePackageHTML(){
   var p=SVC_PKG,h='<div class="svc-pkg"><div class="sp-head"><span class="sp-tag" style="background:'+p.accent+'">'+esc(p.tag)+'</span><div class="sp-title">推荐服务包:'+esc(p.name)+'</div><div class="sp-sub">本评估台涵盖的法规合规工作,可由专业团队一站式代理完成。以下为打包服务参考报价。</div></div>';
   h+='<div class="sp-body"><div class="sp-scope"><div class="sp-sh">服务范围</div>';
-  p.scope.forEach(function(s){h+='<div class="sp-si">✓ '+esc(s)+'</div>';});
+  p.scope.forEach(function(s){h+='<div class="sp-si"><div>✓ '+esc(s.n)+'</div><div class="sp-sd">'+esc(s.d)+'</div></div>';});
   h+='</div><div class="sp-price"><div class="sp-sh">参考报价</div>';
   h+='<div class="sp-pr"><span class="sp-big">¥'+p.first+'万</span><span class="sp-lab">'+esc(p.firstLabel)+'</span></div>';
   if(p.add!==undefined) h+='<div class="sp-pr"><span class="sp-big">¥'+p.add+'万</span><span class="sp-lab">'+esc(p.addLabel)+'</span></div>';

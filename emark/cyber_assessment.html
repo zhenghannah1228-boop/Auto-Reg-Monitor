@@ -307,7 +307,8 @@ table.ctab{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}
 .sp-scope{flex:1;min-width:200px}
 .sp-price{flex:none;min-width:160px;background:var(--paper);border-radius:8px;padding:12px 16px}
 .sp-sh{font-size:12px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.sp-si{font-size:13px;color:var(--ink);padding:3px 0}
+.sp-si{font-size:13px;color:var(--ink);padding:5px 0}
+.sp-sd{font-size:11.5px;color:var(--grey);margin-top:1px;padding-left:18px;line-height:1.5}
 .sp-pr{margin-bottom:8px}
 .sp-big{font-size:22px;font-weight:800;color:var(--accent)}
 .sp-lab{font-size:11.5px;color:var(--grey);margin-left:6px}
@@ -595,13 +596,19 @@ function certEstimateHTML(){
     '<p class="ctnote">费用取 2024–2026 主要认证审核机构报价区间低值，实际因企业规模、体系成熟度、产品复杂度等因素浮动。</p>';
 }
 const SVC_PKG={name:'网安合规全包',tag:'Cyber Package',accent:'#3a6b8a',
-  scope:['CSMS 体系咨询 + 正式审核（R155）','SUMS 体系咨询 + 正式审核（R156）','ISO 21434 合规建设','R155 车型认证（含渗透测试）','R156 车型认证','渗透测试（车辆级 + ECU 级）'],
+  scope:[
+    {n:'CSMS 体系咨询 + 正式审核（R155）',d:'建立网络安全管理体系,覆盖风险评估、安全开发、事件响应、持续监控全流程 → 交付: CSMS 体系文件 + R155 合规证书'},
+    {n:'SUMS 体系咨询 + 正式审核（R156）',d:'建立软件升级管理体系,覆盖 OTA 策略、版本管理、回滚机制、用户通知 → 交付: SUMS 体系文件 + R156 合规证书'},
+    {n:'ISO 21434 合规建设',d:'按 ISO/SAE 21434 建立车辆全生命周期网络安全工程流程 → 交付: TARA 威胁分析报告 + 网安工程规范文件'},
+    {n:'R155 车型认证（含渗透测试）',d:'单车型网络安全型批申请,含整车级渗透测试 → 交付: R155 车型证书 + 渗透测试报告'},
+    {n:'R156 车型认证',d:'单车型软件升级型批申请,含 RXSWIN 管理方案审核 → 交付: R156 车型证书'},
+    {n:'渗透测试（车辆级 + ECU 级）',d:'整车通信链路 + 关键 ECU（T-Box/IVI/GW 等）安全渗透测试 → 交付: 漏洞清单 + 风险评级 + 修复建议报告'}],
   first:130,add:48,firstLabel:'首车型',addLabel:'加车型',timeline:'4–10 个月',
   note:'体系级认证（CSMS/SUMS）为一次性投入,后续加车型仅需车型级认证'};
 function servicePackageHTML(){
   var p=SVC_PKG,h='<div class="svc-pkg"><div class="sp-head"><span class="sp-tag" style="background:'+p.accent+'">'+esc(p.tag)+'</span><div class="sp-title">推荐服务包:'+esc(p.name)+'</div><div class="sp-sub">本评估台涵盖的法规合规工作,可由专业团队一站式代理完成。以下为打包服务参考报价。</div></div>';
   h+='<div class="sp-body"><div class="sp-scope"><div class="sp-sh">服务范围</div>';
-  p.scope.forEach(function(s){h+='<div class="sp-si">✓ '+esc(s)+'</div>';});
+  p.scope.forEach(function(s){h+='<div class="sp-si"><div>✓ '+esc(s.n)+'</div><div class="sp-sd">'+esc(s.d)+'</div></div>';});
   h+='</div><div class="sp-price"><div class="sp-sh">参考报价</div>';
   h+='<div class="sp-pr"><span class="sp-big">¥'+p.first+'万</span><span class="sp-lab">'+esc(p.firstLabel)+'</span></div>';
   if(p.add!==undefined) h+='<div class="sp-pr"><span class="sp-big">¥'+p.add+'万</span><span class="sp-lab">'+esc(p.addLabel)+'</span></div>';
