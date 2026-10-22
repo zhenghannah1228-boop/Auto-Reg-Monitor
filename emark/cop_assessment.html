@@ -191,7 +191,8 @@ body.printing #report{display:block!important}}
 .sp-scope{flex:1;min-width:200px}
 .sp-price{flex:none;min-width:160px;background:var(--bg);border-radius:8px;padding:12px 16px}
 .sp-sh{font-size:12px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.sp-si{font-size:13px;color:var(--ink);padding:3px 0}
+.sp-si{font-size:13px;color:var(--ink);padding:5px 0}
+.sp-sd{font-size:11.5px;color:var(--grey);margin-top:1px;padding-left:18px;line-height:1.5}
 .sp-pr{margin-bottom:8px}
 .sp-big{font-size:22px;font-weight:800;color:var(--o)}
 .sp-lab{font-size:11.5px;color:var(--grey);margin-left:6px}
@@ -647,13 +648,18 @@ function dl(name,mime,html){
   a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},120);
 }
 const SVC_PKG={name:'生产一致性全包',tag:'CoP Package',accent:'#B45309',
-  scope:['CoP 差距分析与咨询','体系建设（程序文件+控制计划+追溯体系）','初次审核辅导与陪审','年度监督审核支持','例行产品测试管理'],
+  scope:[
+    {n:'CoP 差距分析与咨询',d:'对照 UN 1958 协定及技术机构 CoP 审核清单,评估现有生产质量体系差距 → 交付: 差距分析报告 + 整改优先级清单'},
+    {n:'体系建设（程序文件+控制计划+追溯体系）',d:'编制 CoP 程序文件(来料/过程/成品检验+不符合品管理),制定关键认证项控制计划,建立 VIN 级追溯链 → 交付: 全套程序文件 + 控制计划 + 追溯系统方案'},
+    {n:'初次审核辅导与陪审',d:'模拟审核(预审) + 正式审核现场陪同,协助答辩与证据准备 → 交付: 预审报告 + 审核陪同服务'},
+    {n:'年度监督审核支持',d:'每年度技术机构监督审核前的体系维护、文件更新与预审 → 交付: 年度预审报告 + 整改跟踪'},
+    {n:'例行产品测试管理',d:'按型批证书要求的频次,协调安排例行测试(COP test)及样品抽取 → 交付: 测试计划 + 测试报告归档管理'}],
   first:28,annual:10,firstLabel:'首次建体系',annualLabel:'年度维护',timeline:'3–6 个月',
   note:'年度监督+例行测试为持续性支出,首年含在首次费用中'};
 function servicePackageHTML(){
   var p=SVC_PKG,h='<div class="svc-pkg"><div class="sp-head"><span class="sp-tag" style="background:'+p.accent+'">'+esc(p.tag)+'</span><div class="sp-title">推荐服务包:'+esc(p.name)+'</div><div class="sp-sub">本工具涵盖的 CoP 合规工作,可由专业团队一站式代理完成。以下为打包服务参考报价。</div></div>';
   h+='<div class="sp-body"><div class="sp-scope"><div class="sp-sh">服务范围</div>';
-  p.scope.forEach(function(s){h+='<div class="sp-si">✓ '+esc(s)+'</div>';});
+  p.scope.forEach(function(s){h+='<div class="sp-si"><div>✓ '+esc(s.n)+'</div><div class="sp-sd">'+esc(s.d)+'</div></div>';});
   h+='</div><div class="sp-price"><div class="sp-sh">参考报价</div>';
   h+='<div class="sp-pr"><span class="sp-big">¥'+p.first+'万</span><span class="sp-lab">'+esc(p.firstLabel)+'</span></div>';
   if(p.annual!==undefined) h+='<div class="sp-pr"><span class="sp-big">¥'+p.annual+'万</span><span class="sp-lab">'+esc(p.annualLabel)+'</span></div>';

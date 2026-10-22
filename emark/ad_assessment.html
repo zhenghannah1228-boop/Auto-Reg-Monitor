@@ -230,7 +230,8 @@ a{color:var(--od)}
 .sp-scope{flex:1;min-width:200px}
 .sp-price{flex:none;min-width:160px;background:var(--paper);border-radius:8px;padding:12px 16px}
 .sp-sh{font-size:12px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.sp-si{font-size:13px;color:var(--ink);padding:3px 0}
+.sp-si{font-size:13px;color:var(--ink);padding:5px 0}
+.sp-sd{font-size:11.5px;color:var(--grey);margin-top:1px;padding-left:18px;line-height:1.5}
 .sp-pr{margin-bottom:8px}
 .sp-big{font-size:22px;font-weight:800;color:var(--accent)}
 .sp-lab{font-size:11.5px;color:var(--grey);margin-left:6px}
@@ -542,13 +543,17 @@ function certEstimateHTML(){
  return h;
 }
 const SVC_PKG={name:'智驾合规全包',tag:'AD Package',accent:'#8A3AA6',
-  scope:['GSR ADAS 强制项全包型批','R79 转向/ACSF 认证','AI 法案高风险合规评估','仿真验证平台建设'],
+  scope:[
+    {n:'GSR ADAS 强制项全包型批',d:'含 AEB、LDW、ISA、DDR、EDR、TPMS 等 GSR 附件清单全部强制项型批申请与测试协调 → 交付: 各项 E-mark 型批证书 + 测试报告'},
+    {n:'R79 转向/ACSF 认证',d:'涵盖电动助力转向(EPS)及 ACSF A/B1/C 类自动转向功能认证 → 交付: R79 E-mark 证书 + ACSF 功能安全评估报告'},
+    {n:'AI 法案高风险合规评估',d:'按 EU AI Act (2024/1689) 高风险 AI 系统要求,评估 ADAS/ADS 算法的风险管理、数据治理、透明度与人为监督 → 交付: 合规差距报告 + 整改路线图'},
+    {n:'仿真验证平台建设',d:'搭建虚拟测试场景库(含中国/欧洲典型道路工况),支持 ADAS 功能 SIL/HIL 仿真验证,满足型批中仿真替代实车测试要求 → 交付: 场景库 + 仿真工具链 + 验证报告模板'}],
   first:130,add:95,firstLabel:'首车型',addLabel:'加车型',timeline:'8–18 个月',
   note:'仿真平台为一次性建设投入,后续加车型复用平台与场景库'};
 function servicePackageHTML(){
   var p=SVC_PKG,h='<div class="svc-pkg"><div class="sp-head"><span class="sp-tag" style="background:'+p.accent+'">'+esc(p.tag)+'</span><div class="sp-title">推荐服务包:'+esc(p.name)+'</div><div class="sp-sub">本评估台涵盖的法规合规工作,可由专业团队一站式代理完成。以下为打包服务参考报价。</div></div>';
   h+='<div class="sp-body"><div class="sp-scope"><div class="sp-sh">服务范围</div>';
-  p.scope.forEach(function(s){h+='<div class="sp-si">✓ '+esc(s)+'</div>';});
+  p.scope.forEach(function(s){h+='<div class="sp-si"><div>✓ '+esc(s.n)+'</div><div class="sp-sd">'+esc(s.d)+'</div></div>';});
   h+='</div><div class="sp-price"><div class="sp-sh">参考报价</div>';
   h+='<div class="sp-pr"><span class="sp-big">¥'+p.first+'万</span><span class="sp-lab">'+esc(p.firstLabel)+'</span></div>';
   if(p.add!==undefined) h+='<div class="sp-pr"><span class="sp-big">¥'+p.add+'万</span><span class="sp-lab">'+esc(p.addLabel)+'</span></div>';
