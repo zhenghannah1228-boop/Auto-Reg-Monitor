@@ -221,6 +221,26 @@ a{color:var(--od)}
   .report h2{page-break-after:avoid}
   .report .rt tr{page-break-inside:avoid}
 }
+.svc-pkg{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:18px 20px;margin:16px 0}
+.sp-head{margin-bottom:14px}
+.sp-tag{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-bottom:6px}
+.sp-title{font-size:17px;font-weight:800;color:var(--ink);margin-top:4px}
+.sp-sub{font-size:12.5px;color:var(--grey);margin-top:2px}
+.sp-body{display:flex;gap:20px;flex-wrap:wrap}
+.sp-scope{flex:1;min-width:200px}
+.sp-price{flex:none;min-width:160px;background:var(--paper);border-radius:8px;padding:12px 16px}
+.sp-sh{font-size:12px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.sp-si{font-size:13px;color:var(--ink);padding:3px 0}
+.sp-pr{margin-bottom:8px}
+.sp-big{font-size:22px;font-weight:800;color:var(--accent)}
+.sp-lab{font-size:11.5px;color:var(--grey);margin-left:6px}
+.sp-tl{font-size:12px;color:var(--ink);margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
+.sp-foot{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+.sp-combo{font-size:12.5px;color:var(--ink);margin-bottom:4px}
+.sp-note{font-size:11.5px;color:var(--grey)}
+@media print{.svc-pkg{break-inside:avoid;border:1px solid #ccc}}
+.report .svc-pkg{border:1px solid #ccc;padding:12px 14px;margin:10px 0;page-break-inside:avoid}
+.report .sp-big{font-size:18px}
 </style>
 </head>
 <body>
@@ -523,6 +543,21 @@ function certEstimateHTML(){
  h+='<div class="ctnote">费用取市场报价区间低值(含测试+认证+基本咨询),实际随系统复杂度、自动化级别及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。</div>';
  return h;
 }
+const SVC_PKG={name:'智驾合规全包',tag:'AD Package',accent:'#8A3AA6',
+  scope:['GSR ADAS 强制项全包型批','R79 转向/ACSF 认证','AI 法案高风险合规评估','仿真验证平台建设'],
+  first:130,add:95,firstLabel:'首车型',addLabel:'加车型',timeline:'8–18 个月',
+  note:'仿真平台为一次性建设投入,后续加车型复用平台与场景库'};
+function servicePackageHTML(){
+  var p=SVC_PKG,h='<div class="svc-pkg"><div class="sp-head"><span class="sp-tag" style="background:'+p.accent+'">'+esc(p.tag)+'</span><div class="sp-title">推荐服务包:'+esc(p.name)+'</div><div class="sp-sub">本评估台涵盖的法规合规工作,可由专业团队一站式代理完成。以下为打包服务参考报价。</div></div>';
+  h+='<div class="sp-body"><div class="sp-scope"><div class="sp-sh">服务范围</div>';
+  p.scope.forEach(function(s){h+='<div class="sp-si">✓ '+esc(s)+'</div>';});
+  h+='</div><div class="sp-price"><div class="sp-sh">参考报价</div>';
+  h+='<div class="sp-pr"><span class="sp-big">¥'+p.first+'万</span><span class="sp-lab">'+esc(p.firstLabel)+'</span></div>';
+  if(p.add!==undefined) h+='<div class="sp-pr"><span class="sp-big">¥'+p.add+'万</span><span class="sp-lab">'+esc(p.addLabel)+'</span></div>';
+  h+='<div class="sp-tl">⏱ 预计周期: '+esc(p.timeline)+'</div></div></div>';
+  h+='<div class="sp-foot"><div class="sp-combo">💡 组合优惠:与其他合规包(网安/电动化/CoP/整车型批)组合享折扣 — 2包95折 · 3包92折 · 4包88折 · 5包85折</div><div class="sp-note">'+esc(p.note)+'</div></div></div>';
+  return h;
+}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 const REG_LINKS={
@@ -712,6 +747,7 @@ function renderHome(m){
     dashCard('④ AI 法案高风险合规', ai.pct+'%', '已建立 '+ai.done+'/'+ai.total+' 项', pc(ai.pct), "pick('aiact')")+
     '</div>';
   s+='<div class="ckleg">四项均按当前档案本地保存。点卡片进入对应模块;「导出评估报告」把四项现状生成一份可打印/存 PDF 的报告。就绪度 % 与级别判定均为自查参照,非型式批准结论。</div>';
+  s+=servicePackageHTML();
   m.innerHTML=s;
 }
 /* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
@@ -879,6 +915,7 @@ function exportReport(){
   html+='<h2>④ 测试与证据清单</h2>'+EVID.groups.map(g=>'<h3>'+esc(g.name)+'</h3><table class="rt"><tr><th style="width:56%">交付物</th><th>依据</th><th>状态</th></tr>'+
     g.items.map(it=>{const on=!!evid[it.k];return '<tr><td>'+esc(it.t)+'</td><td class="rref">'+esc(it.r||'')+'</td><td class="rst '+(on?'s2':'s0')+'">'+(on?'已备':'缺')+'</td></tr>';}).join('')+'</table>').join('');
   html+='<h2>⑤ AI 法案高风险合规</h2>'+chk(AIACT.groups);
+  html+='<h2>⑥ 推荐服务包</h2>'+servicePackageHTML();
   html+='<div class="rfoot">口径依据 (EU) 2019/2144(GSR)及其实施/授权细则、UN R152/R130/R151/R159/R167/R169/R79/R121/R46/R158/R160、UN R157(ALKS)/R171(DCAS)、(EU) 2022/1426(ADS)、ISO 26262 / ISO 21448、(EU) 2024/1689(AI 法案)经 (EU) 2026/1744 修订。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;级别判定为路径指引,正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
