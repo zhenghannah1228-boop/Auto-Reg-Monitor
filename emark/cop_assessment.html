@@ -182,6 +182,23 @@ a{color:var(--od)}
 @media print{.topbar,.sidebar,.reglist,.ckbtn,.discl{display:none!important}.layout{display:block;max-width:none;padding:0}.card,.faq{break-inside:avoid;box-shadow:none}.faq .a{display:block!important}
 body.printing .layout{display:none!important}
 body.printing #report{display:block!important}}
+.svc-pkg{background:var(--cream);border:1.5px solid var(--line);border-radius:10px;padding:18px 20px;margin:16px 0}
+.sp-head{margin-bottom:14px}
+.sp-tag{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-bottom:6px}
+.sp-title{font-size:17px;font-weight:800;color:var(--ink);margin-top:4px}
+.sp-sub{font-size:12.5px;color:var(--grey);margin-top:2px}
+.sp-body{display:flex;gap:20px;flex-wrap:wrap}
+.sp-scope{flex:1;min-width:200px}
+.sp-price{flex:none;min-width:160px;background:var(--bg);border-radius:8px;padding:12px 16px}
+.sp-sh{font-size:12px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.sp-si{font-size:13px;color:var(--ink);padding:3px 0}
+.sp-pr{margin-bottom:8px}
+.sp-big{font-size:22px;font-weight:800;color:var(--o)}
+.sp-lab{font-size:11.5px;color:var(--grey);margin-left:6px}
+.sp-tl{font-size:12px;color:var(--ink);margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
+.sp-note{font-size:11.5px;color:var(--grey);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+#report .svc-pkg{border:1px solid #ccc;padding:12px 14px;margin:10px 0;page-break-inside:avoid}
+#report .sp-big{font-size:18px}
 </style>
 </head>
 <body>
@@ -253,6 +270,8 @@ body.printing #report{display:block!important}}
       <div id="cklist"></div>
       <p class="note">口径依据 UN 1958 协定 Schedule 1（E/ECE/TRANS/505/Rev.3）与 (EU) 2018/858 第 31 条 + 附件 IV 整理，用于团队自查参照，<b>非型式批准结论</b>；精确条款、频次与提交格式以型批机关现行官方文件为准。勾选状态按<b>档案</b>保存在本浏览器。</p>
     </section>
+
+    <div id="svcpkg"></div>
 
   </div>
 
@@ -594,6 +613,7 @@ function exportReport(){
     body+='</table></div>';
   });
   body+=`<div class="rgrp"><div class="rgh">认证费用与周期估算</div>`+certEstimateHTML()+`</div>`;
+  body+=`<div class="rgrp"><div class="rgh">推荐服务包</div>`+servicePackageHTML()+`</div>`;
   body+=`<div class="rfoot">本报告基于当前档案在本工具中的自查勾选状态自动生成，仅作准备引导，不产生法律结论；精确条款、频次与提交格式以型式批准机关的现行官方文件与法规原文为准。</div>`;
   document.getElementById('report').innerHTML=body;
   document.body.classList.add('printing');
@@ -625,6 +645,21 @@ function dl(name,mime,html){
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);
   a.click();setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},120);
+}
+const SVC_PKG={name:'生产一致性全包',tag:'CoP Package',accent:'#B45309',
+  scope:['CoP 差距分析与咨询','体系建设（程序文件+控制计划+追溯体系）','初次审核辅导与陪审','年度监督审核支持','例行产品测试管理'],
+  first:28,annual:10,firstLabel:'首次建体系',annualLabel:'年度维护',timeline:'3–6 个月',
+  note:'年度监督+例行测试为持续性支出,首年含在首次费用中'};
+function servicePackageHTML(){
+  var p=SVC_PKG,h='<div class="svc-pkg"><div class="sp-head"><span class="sp-tag" style="background:'+p.accent+'">'+esc(p.tag)+'</span><div class="sp-title">推荐服务包:'+esc(p.name)+'</div><div class="sp-sub">本工具涵盖的 CoP 合规工作,可由专业团队一站式代理完成。以下为打包服务参考报价。</div></div>';
+  h+='<div class="sp-body"><div class="sp-scope"><div class="sp-sh">服务范围</div>';
+  p.scope.forEach(function(s){h+='<div class="sp-si">✓ '+esc(s)+'</div>';});
+  h+='</div><div class="sp-price"><div class="sp-sh">参考报价</div>';
+  h+='<div class="sp-pr"><span class="sp-big">¥'+p.first+'万</span><span class="sp-lab">'+esc(p.firstLabel)+'</span></div>';
+  if(p.annual!==undefined) h+='<div class="sp-pr"><span class="sp-big">¥'+p.annual+'万</span><span class="sp-lab">'+esc(p.annualLabel)+'</span></div>';
+  h+='<div class="sp-tl">⏱ 预计周期: '+esc(p.timeline)+'</div></div></div>';
+  h+='<div class="sp-note">'+esc(p.note)+'</div></div>';
+  return h;
 }
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 const REG_LINKS={
@@ -788,6 +823,7 @@ ${tplRows()}
 /* ============ init ============ */
 renderNav();renderSections();buildFaq();
 buildCk();updatePBar();
+document.getElementById('svcpkg').innerHTML=servicePackageHTML();
 </script>
 </body>
 </html>

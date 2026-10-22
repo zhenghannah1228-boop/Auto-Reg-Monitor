@@ -298,6 +298,24 @@ table.ctab{width:100%;border-collapse:collapse;font-size:12px;margin:6px 0}
   .report h2{page-break-after:avoid}
   .report .rt tr{page-break-inside:avoid}
 }
+.svc-pkg{background:var(--panel);border:1.5px solid var(--line);border-radius:10px;padding:18px 20px;margin:16px 0}
+.sp-head{margin-bottom:14px}
+.sp-tag{display:inline-block;color:#fff;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-bottom:6px}
+.sp-title{font-size:17px;font-weight:800;color:var(--ink);margin-top:4px}
+.sp-sub{font-size:12.5px;color:var(--grey);margin-top:2px}
+.sp-body{display:flex;gap:20px;flex-wrap:wrap}
+.sp-scope{flex:1;min-width:200px}
+.sp-price{flex:none;min-width:160px;background:var(--paper);border-radius:8px;padding:12px 16px}
+.sp-sh{font-size:12px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.sp-si{font-size:13px;color:var(--ink);padding:3px 0}
+.sp-pr{margin-bottom:8px}
+.sp-big{font-size:22px;font-weight:800;color:var(--accent)}
+.sp-lab{font-size:11.5px;color:var(--grey);margin-left:6px}
+.sp-tl{font-size:12px;color:var(--ink);margin-top:6px;padding-top:6px;border-top:1px solid var(--line)}
+.sp-note{font-size:11.5px;color:var(--grey);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+@media print{.svc-pkg{break-inside:avoid;border:1px solid #ccc}}
+.report .svc-pkg{border:1px solid #ccc;padding:12px 14px;margin:10px 0;page-break-inside:avoid}
+.report .sp-big{font-size:18px}
 </style>
 </head>
 <body>
@@ -576,6 +594,21 @@ function certEstimateHTML(){
     '<tfoot><tr class="ctot"><td colspan="3"><b>合计估算</b></td><td class="r"><b>'+totalCost+'</b></td><td colspan="4">以上取市场低价参考，实际费用以审核/认证机构对具体产品与企业评估报价为准</td></tr></tfoot></table>'+
     '<p class="ctnote">费用取 2024–2026 主要认证审核机构报价区间低值，实际因企业规模、体系成熟度、产品复杂度等因素浮动。</p>';
 }
+const SVC_PKG={name:'网安合规全包',tag:'Cyber Package',accent:'#3a6b8a',
+  scope:['CSMS 体系咨询 + 正式审核（R155）','SUMS 体系咨询 + 正式审核（R156）','ISO 21434 合规建设','R155 车型认证（含渗透测试）','R156 车型认证','渗透测试（车辆级 + ECU 级）'],
+  first:130,add:48,firstLabel:'首车型',addLabel:'加车型',timeline:'4–10 个月',
+  note:'体系级认证（CSMS/SUMS）为一次性投入,后续加车型仅需车型级认证'};
+function servicePackageHTML(){
+  var p=SVC_PKG,h='<div class="svc-pkg"><div class="sp-head"><span class="sp-tag" style="background:'+p.accent+'">'+esc(p.tag)+'</span><div class="sp-title">推荐服务包:'+esc(p.name)+'</div><div class="sp-sub">本评估台涵盖的法规合规工作,可由专业团队一站式代理完成。以下为打包服务参考报价。</div></div>';
+  h+='<div class="sp-body"><div class="sp-scope"><div class="sp-sh">服务范围</div>';
+  p.scope.forEach(function(s){h+='<div class="sp-si">✓ '+esc(s)+'</div>';});
+  h+='</div><div class="sp-price"><div class="sp-sh">参考报价</div>';
+  h+='<div class="sp-pr"><span class="sp-big">¥'+p.first+'万</span><span class="sp-lab">'+esc(p.firstLabel)+'</span></div>';
+  if(p.add!==undefined) h+='<div class="sp-pr"><span class="sp-big">¥'+p.add+'万</span><span class="sp-lab">'+esc(p.addLabel)+'</span></div>';
+  h+='<div class="sp-tl">⏱ 预计周期: '+esc(p.timeline)+'</div></div></div>';
+  h+='<div class="sp-note">'+esc(p.note)+'</div></div>';
+  return h;
+}
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function escA(s){return esc(s).replace(/"/g,'&quot;');}
 const REG_LINKS={
@@ -826,6 +859,7 @@ function renderHome(m){
     dashCard('④ 26262 最高 ASIL', (ha.maxA==='—'?'—':'ASIL '+ha.maxA), '已评 '+ha.rated+'/'+ha.total+' 项危害', (ha.maxA==='—'?'var(--greyl)':(ASIL_COL[ha.maxA]||[])[1]), "pick('hara')")+
     '</div>';
   s+='<div class="ckleg">四项均按当前档案本地保存。点卡片进入对应模块评估;「导出评估报告」把四项现状生成一份可打印/存 PDF 的报告。就绪度 % 与 CAL/ASIL 均为自查参照,非型式批准结论。</div>';
+  s+=servicePackageHTML();
   m.innerHTML=s;
 }
 /* ===== 清单条目:三档 + 证据/责任人/差距/整改(可展开)===== */
@@ -995,6 +1029,7 @@ function exportReport(){
   html+='<h2>⑤ ISO 26262 · ASIL 定级(HARA)</h2><table class="rt"><tr><th>危害事件</th><th>功能/系统</th><th>S</th><th>E</th><th>C</th><th>ASIL</th></tr>'+
     hara.map(h=>{const a=asilOf(h);return '<tr><td>'+esc(h.name)+'</td><td>'+esc(h.fn||'')+'</td><td class="rst">'+(h.s||'—')+'</td><td class="rst">'+(h.e||'—')+'</td><td class="rst">'+(h.c||'—')+'</td><td class="rst">'+(a!=null?(a==='QM'?'QM':'ASIL '+a):'—')+'</td></tr>';}).join('')+'</table>';
   html+='<h2>⑤ 认证费用与周期估算</h2>'+certEstimateHTML();
+  html+='<h2>⑥ 推荐服务包</h2>'+servicePackageHTML();
   html+='<div class="rfoot">评级方法依据 ISO/SAE 21434(风险值 / CAL,附录 E 资料性)、ISO 26262-3(ASIL)与 UN R155/R156 条款;R155/R156 型式批准为 CSMS/SUMS 认证(通过/不通过)。本报告由团队自查生成,供内部参照,<b>不构成型式批准或合规结论</b>;正式判定以认可技术服务 / 批准机关为准。</div>';
   const rep=document.getElementById('report'); if(!rep)return; rep.innerHTML=html;
   document.body.classList.add('printing');
