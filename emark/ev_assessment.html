@@ -952,9 +952,6 @@ function renderPack(m){
       (noEvList.length>8?'<div class="actmore">…另 '+(noEvList.length-8)+' 条</div>':'')+'</div>'; }
     s+='</div>';
   }
-  // —— 认证费用与周期估算 ——
-  s+='<div style="font-size:13px;font-weight:800;margin:18px 0 6px">认证费用与周期估算 <span style="font-weight:400;color:var(--grey);font-size:11.5px">参考市场均价区间,实际以服务商报价为准</span></div>';
-  s+=certEstimateHTML();
   // —— 条款证据台账 ——
   const stCol=['#f3d0d0','#f4e6bd','#d9e8d1'], stFg=['#b02222','#7a5a10','#3d6b2c'];
   const scopeName=_packScope?(modById(_packScope)||{}).name:'全部模块';

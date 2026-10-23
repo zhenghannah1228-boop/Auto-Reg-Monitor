@@ -1126,9 +1126,6 @@ function renderPack(m){
       hiHazard.slice(0,6).map(o=>{const a=asilOf(o.h);return '<button class="actrow" onclick="pick(\'hara\')">'+chip('ASIL '+a,(ASIL_COL[a]||['#eee','#555']))+' <span>'+esc(o.h.name||'(未命名危害)')+'</span><small>'+esc(o.h.fn||'')+'</small></button>';}).join('')+'</div>'; }
     s+='</div>';
   }
-  // —— 认证费用与周期估算 ——
-  s+='<div style="font-size:13px;font-weight:800;margin:18px 0 6px">认证费用与周期估算 <span style="font-weight:400;color:var(--grey);font-size:11.5px">参考市场均价区间,实际以服务商报价为准</span></div>';
-  s+=certEstimateHTML();
   // —— 条款证据台账 ——
   const labs=['无','部分','已建立'], stCol=['#f3d0d0','#f4e6bd','#d9e8d1'], stFg=['#b02222','#7a5a10','#3d6b2c'];
   s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
@@ -1152,9 +1149,6 @@ function renderPack(m){
       '<td style="white-space:nowrap">'+flagBadge+'</td></tr>';
   });
   s+='</table></div>';
-  // —— 认证费用与周期估算 ——
-  s+='<div style="font-size:13px;font-weight:800;margin:18px 0 6px">认证费用与周期估算 <span style="font-weight:400;color:var(--grey);font-size:11.5px">参考市场均价区间,实际以服务商报价为准</span></div>';
-  s+=certEstimateHTML();
   // —— 风险登记册 ——
   s+='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 6px">'+
     '<div style="font-size:13px;font-weight:800">风险登记册 <span style="font-weight:400;color:var(--grey);font-size:11.5px">TARA 威胁按风险值 / HARA 危害按 ASIL 降序</span></div>'+
