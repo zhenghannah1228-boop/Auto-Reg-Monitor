@@ -1978,83 +1978,67 @@
     "categories": [
       {
         "id": "r100_hv",
-        "category": "R100 高压电安全",
-        "items": "REESS（动力电池）安全测试 + 高压系统绝缘/防护",
+        "category": "R100 高压电安全认证",
+        "items": "整车电安全(Part I)+REESS 十项试验(Part II)+碰后电安全",
         "regulation": "UN R100.03",
         "costMin": 300000,
         "costMax": 800000,
-        "timeline": "6~12 周",
-        "nbInvolvement": "技术服务机构执行",
-        "scenario": "OE（BEV/PHEV/FCEV 必须）",
-        "notes": "Part I（车辆级）+ Part II（REESS 级）；含热扩散§6.15（2025-09 起强制）",
-        "conditions": {
-          "powers": [
-            "BEV",
-            "HEV",
-            "FCEV"
-          ]
-        }
+        "timeline": "3~6 个月",
+        "nbInvolvement": "型式批准机关+技术服务",
+        "scenario": "每车型",
+        "notes": "03 系列;EU 2023-09 新型批强制、2025-09 全车型强制;含热扩散 §6.15",
+        "conditions": {}
       },
       {
         "id": "r10_emc",
-        "category": "R10 电磁兼容",
-        "items": "整车 EMC + 零部件 ESA（电子子组件）",
-        "regulation": "UN R10.07",
+        "category": "R10 电磁兼容认证",
+        "items": "整车 EMC(辐射/传导/瞬态/ESD)+ESA 部件试验",
+        "regulation": "UN R10.06→07",
         "costMin": 150000,
         "costMax": 400000,
-        "timeline": "4~8 周",
-        "nbInvolvement": "技术服务机构执行",
-        "scenario": "OE+售后",
-        "notes": "07 系列（2025-06 生效）含充电模式 EMC；按测试项(附件 4-22)计费",
+        "timeline": "2~4 个月",
+        "nbInvolvement": "型式批准机关+技术服务",
+        "scenario": "每车型+关键 ESA",
+        "notes": "07 系列 2025-06 生效;充电模式 EMC 附件 11-22",
         "conditions": {}
       },
       {
         "id": "battery_reg",
-        "category": "电池法规合规",
-        "items": "碳足迹声明 + 尽职调查 + 数字产品护照(DPP) + 回收标识",
+        "category": "电池法规合规(CE)",
+        "items": "CE 合规评定+碳足迹声明+尽职调查+标签/QR+电池护照",
         "regulation": "(EU) 2023/1542",
         "costMin": 200000,
         "costMax": 500000,
-        "timeline": "3~6 个月（体系建设）",
-        "nbInvolvement": "公告机构（电池安全）+第三方验证",
-        "scenario": "OE+售后（电池相关产品）",
-        "notes": "尽职调查 2027-08 起强制（经(EU)2025/1561推迟）；DPP 注册库 2027 起运行",
-        "conditions": {
-          "powers": [
-            "BEV",
-            "HEV"
-          ]
-        }
+        "timeline": "6~12 个月",
+        "nbInvolvement": "公告机构(NB)",
+        "scenario": "每电池型号",
+        "notes": "尽职调查经 (EU) 2025/1561 推迟至 2027-08-18;碳足迹/标签/护照分阶段",
+        "conditions": {}
       },
       {
         "id": "charging_cert",
         "category": "充电接口与通信认证",
-        "items": "CCS/NACS 充电接口 + ISO 15118 V2G 通信 + AFIR 合规",
-        "regulation": "EN 62196 / IEC 61851 / ISO 15118 / (EU) 2023/1804",
+        "items": "Type 2/CCS2 接口+ISO 15118 通信协议一致性+AFIR 互操作",
+        "regulation": "EN 62196/IEC 61851/ISO 15118",
         "costMin": 100000,
         "costMax": 300000,
-        "timeline": "4~8 周",
-        "nbInvolvement": "CE 公告机构 / 第三方认证",
-        "scenario": "OE（BEV/PHEV）",
-        "notes": "AFIR 2025-04 起要求公共充电桩 CCS 强制+非接触支付；V2G 协议栈认证另计",
-        "conditions": {
-          "powers": [
-            "BEV",
-            "HEV"
-          ]
-        }
+        "timeline": "2~4 个月",
+        "nbInvolvement": "认证测试实验室",
+        "scenario": "每充电配置",
+        "notes": "AFIR (EU) 2023/1804 要求公共桩 CCS2;V2G 需 ISO 15118-20",
+        "conditions": {}
       },
       {
-        "id": "elv_circular",
-        "category": "循环设计与报废车管理",
-        "items": "可回收率/可再利用率计算 + 材料声明 + 4R 策略",
-        "regulation": "(EU) 2026/1738",
-        "costMin": 50000,
-        "costMax": 150000,
-        "timeline": "2~4 个月",
-        "nbInvolvement": "—",
-        "scenario": "OE",
-        "notes": "2028-09 起废止 2000/53/EC 与 2005/64/EC；含限用物质(Annex III)合规",
+        "id": "r136_ev",
+        "category": "R136 电动汽车专项安全认证",
+        "items": "REESS 安装安全+碰撞后高压电安全+FCEV 氢系统(如适用)+电动力总成标识",
+        "regulation": "UN R136",
+        "costMin": 200000,
+        "costMax": 500000,
+        "timeline": "3~5 个月",
+        "nbInvolvement": "型式批准机关+技术服务",
+        "scenario": "每车型",
+        "notes": "与 R100 并行;FCEV 额外含氢系统测试",
         "conditions": {}
       }
     ],
@@ -2075,5 +2059,41 @@
       "totalNote": "以上为单车型/单电池型号首次认证参考;年度监督、变更扩展另计",
       "disclaimer": "费用取市场报价区间低值(含测试+认证+基本咨询),实际随车型复杂度、供应商选择及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。"
     }
+  },
+  "servicePackage": {
+    "name": "电动化合规全包",
+    "tag": "EV Package",
+    "accent": "#1F7A4D",
+    "scope": [
+      {
+        "name": "R100 高压电安全认证",
+        "description": "高压电气系统安全测试,含绝缘电阻、IPXXB 防护等级、过充/过放保护验证 → 交付: R100 E-mark 证书 + 测试报告"
+      },
+      {
+        "name": "R10 电磁兼容认证",
+        "description": "整车及零部件电磁兼容(EMC)测试,含辐射/传导发射与抗扰度 → 交付: R10 E-mark 证书 + EMC 测试报告"
+      },
+      {
+        "name": "充电接口与通信认证",
+        "description": "CCS/Type 2 充电接口物理兼容性 + ISO 15118 通信协议一致性测试 → 交付: IEC 62196/61851 一致性测试证书 + ISO 15118 测试报告"
+      },
+      {
+        "name": "电池法规合规（CE）",
+        "description": "按欧盟电池法规(2023/1542)进行碳足迹声明、尽职调查、电池护照准备 → 交付: 碳足迹计算报告 + 合规差距评估 + 电池护照数据模板"
+      },
+      {
+        "name": "R136 电动汽车专项安全认证",
+        "description": "电动汽车碰撞后高压安全、REESS 安装要求、氢系统安全等专项测试 → 交付: R136 E-mark 证书 + 测试报告"
+      }
+    ],
+    "pricing": {
+      "first": 95,
+      "firstLabel": "首车型",
+      "add": 71,
+      "addLabel": "加车型",
+      "unit": "万"
+    },
+    "timeline": "6–14 个月",
+    "note": "电池法规为 CE 侧并行义务,与 E-mark 型批不冲突"
   }
 }

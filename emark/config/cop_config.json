@@ -484,82 +484,95 @@
       {
         "id": "cop_gap",
         "category": "CoP 差距分析与咨询",
-        "items": "现有 QMS 对标 (EU) 2018/858 附件Ⅳ 差距评估 + 整改建议",
-        "regulation": "(EU) 2018/858 Art 31, Annex IV",
+        "items": "现有体系/产线与法规要求对标评估+差距报告+整改路线图",
+        "regulation": "UN 1958 Schedule 1 / (EU) 2018/858 Art.31",
         "costMin": 50000,
         "costMax": 150000,
         "timeline": "2~4 周",
-        "nbInvolvement": "外部咨询（推荐）",
-        "scenario": "首次申请",
-        "notes": "识别现有 ISO 9001/IATF 16949 与 CoP 法规要求的差距",
+        "nbInvolvement": "第三方咨询机构(推荐)",
+        "scenario": "首次建体系",
+        "notes": "IATF 16949 已覆盖的可减少工作量;含现场+文件审查",
         "conditions": {}
       },
       {
         "id": "cop_system",
         "category": "CoP 体系建设",
-        "items": "控制计划编制 + 例行试验方案 + 不合格品处理流程",
-        "regulation": "(EU) 2018/858 Annex IV §3",
+        "items": "CoP 程序文件+生产控制计划+检验/试验方案+追溯体系+变更管理流程",
+        "regulation": "UN 1958 Schedule 1 / (EU) 2018/858 附件 IV",
         "costMin": 100000,
         "costMax": 300000,
         "timeline": "1~3 个月",
-        "nbInvolvement": "—",
-        "scenario": "首次申请",
-        "notes": "含控制计划(检验项/频次/判定标准)、量产件管理流程、变更管理",
+        "nbInvolvement": "咨询机构辅导",
+        "scenario": "首次建体系",
+        "notes": "含模板/SOP 编写+人员培训;有 IATF 基础可缩短",
         "conditions": {}
       },
       {
         "id": "cop_initial_audit",
         "category": "CoP 初次审核",
-        "items": "型式批准机关/指定技术服务初次 CoP 评估",
-        "regulation": "(EU) 2018/858 Art 31-33",
+        "items": "型式批准机关对制造商 CoP 安排的初始评审(文件审查+现场审核)",
+        "regulation": "UN 1958 Schedule 1 / (EU) 2018/858 Art.31(3)",
         "costMin": 80000,
         "costMax": 200000,
-        "timeline": "3~5 天现场 + 2~4 周报告",
-        "nbInvolvement": "机关/指定技术服务",
-        "scenario": "首次认证必须",
-        "notes": "机关可接受等效安排（如 IATF 16949 认证+产品专项补充）",
+        "timeline": "1~2 个月",
+        "nbInvolvement": "型式批准机关/指定机构",
+        "scenario": "首次型批申请",
+        "notes": "通过后方可签发型式批准;费用含机关审核费+差旅",
         "conditions": {}
       },
       {
         "id": "cop_surveillance",
         "category": "年度监督审核",
-        "items": "年度产品一致性抽检 + 现场监督审核",
-        "regulation": "(EU) 2018/858 Art 34-35",
+        "items": "定期符合性核查(文件抽查+产线抽检+产品抽样测试)",
+        "regulation": "UN 1958 Schedule 1 / (EU) 2018/858 附件 IV §4",
         "costMin": 50000,
         "costMax": 120000,
+        "timeline": "1~2 周",
+        "nbInvolvement": "型式批准机关",
+        "scenario": "每年/每周期",
         "costUnit": "/年",
-        "timeline": "1~3 天现场/年",
-        "nbInvolvement": "机关/指定技术服务",
-        "scenario": "持证期间每年",
-        "notes": "不通过可导致批准暂停/撤销；产品抽检+体系文件审查",
+        "notes": "欧盟默认≥每 3 年一次;UN 各法规可自设频次(如 R118 每 2 年)",
         "conditions": {}
       },
       {
         "id": "cop_testing",
         "category": "CoP 例行产品测试",
-        "items": "量产件抽样 + 法规符合性复测",
-        "regulation": "各 UN R CoP 附件",
+        "items": "批量产品的符合性抽检测试(关键安全/环保项目)",
+        "regulation": "各 UN Regulation 附件 CoP 测试条款",
         "costMin": 30000,
         "costMax": 100000,
+        "timeline": "1~3 周",
+        "nbInvolvement": "认可实验室",
+        "scenario": "每批次/每型式",
         "costUnit": "/批次",
-        "timeline": "1~4 周/批次",
-        "nbInvolvement": "内部实验室或外部技术服务",
-        "scenario": "持续",
-        "notes": "频次按控制计划约定；某些法规项允许统计方法替代全项复测",
+        "notes": "测试项目由具体法规 CoP 附件规定;可利用制造商自有实验室(需认可)",
         "conditions": {}
       },
       {
         "id": "cop_extension",
         "category": "扩展/变更管理",
-        "items": "设计变更评估 + 扩展申请 + 必要的补充测试",
-        "regulation": "(EU) 2018/858 Art 36-38",
+        "items": "型式变更后的 CoP 更新评审+必要时补充测试",
+        "regulation": "UN 1958 Schedule 1 §3 / (EU) 2018/858 Art.33",
         "costMin": 30000,
         "costMax": 150000,
+        "timeline": "2~6 周",
+        "nbInvolvement": "型式批准机关",
+        "scenario": "每次变更",
         "costUnit": "/次",
-        "timeline": "2~8 周",
-        "nbInvolvement": "机关+技术服务",
-        "scenario": "设计变更时",
-        "notes": "变更未申报可致证书失效；小改走通知(notification)，大改走扩展(extension)",
+        "notes": "设计/工艺/供应商重大变更须通知机关;小变更可能仅需文件更新",
+        "conditions": {}
+      },
+      {
+        "id": "elv_circular",
+        "category": "循环设计与报废车管理",
+        "items": "循环设计策略+生产者登记+拆解信息公开+数字循环护照+报废车处理目标",
+        "regulation": "(EU) 2026/1738",
+        "costMin": 50000,
+        "costMax": 150000,
+        "timeline": "3~6 个月",
+        "nbInvolvement": "型式批准机关",
+        "scenario": "每车型",
+        "notes": "M1/N1 类 2028-09-01 起;塑料再生 2032-09≥15%、2036-09≥25%",
         "conditions": {}
       }
     ],
@@ -580,5 +593,45 @@
       "totalNote": "以上为首次建体系+首年认证参考;后续年度监督、批次测试另计",
       "disclaimer": "费用取市场报价区间低值(含审核+测试+基本咨询),实际随产品复杂度、产线数量及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。"
     }
+  },
+  "servicePackage": {
+    "name": "生产与循环合规全包",
+    "tag": "CoP + ELV Package",
+    "accent": "#B45309",
+    "scope": [
+      {
+        "name": "CoP 差距分析与咨询",
+        "description": "对照 UN 1958 协定及技术机构 CoP 审核清单,评估现有生产质量体系差距 → 交付: 差距分析报告 + 整改优先级清单"
+      },
+      {
+        "name": "体系建设（程序文件+控制计划+追溯体系）",
+        "description": "编制 CoP 程序文件(来料/过程/成品检验+不符合品管理),制定关键认证项控制计划,建立 VIN 级追溯链 → 交付: 全套程序文件 + 控制计划 + 追溯系统方案"
+      },
+      {
+        "name": "初次审核辅导与陪审",
+        "description": "模拟审核(预审) + 正式审核现场陪同,协助答辩与证据准备 → 交付: 预审报告 + 审核陪同服务"
+      },
+      {
+        "name": "年度监督审核支持",
+        "description": "每年度技术机构监督审核前的体系维护、文件更新与预审 → 交付: 年度预审报告 + 整改跟踪"
+      },
+      {
+        "name": "例行产品测试管理",
+        "description": "按型批证书要求的频次,协调安排例行测试(COP test)及样品抽取 → 交付: 测试计划 + 测试报告归档管理"
+      },
+      {
+        "name": "(EU) 2026/1738 循环合规辅导",
+        "description": "生产者责任层义务梳理(循环设计策略/生产者登记/拆解信息公开/数字循环护照/报废车处理目标),配合型批侧 GA13 准备 → 交付: 循环合规差距报告 + 义务时间线 + 数字循环护照准备方案"
+      }
+    ],
+    "pricing": {
+      "first": 32,
+      "firstLabel": "首次建体系",
+      "annual": 12,
+      "annualLabel": "年度维护",
+      "unit": "万"
+    },
+    "timeline": "3–6 个月",
+    "note": "年度监督+例行测试+循环合规维护为持续性支出,首年含在首次费用中"
   }
 }
