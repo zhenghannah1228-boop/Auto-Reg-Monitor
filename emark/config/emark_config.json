@@ -3667,7 +3667,7 @@
       {
         "id": "wvta_ts_testing",
         "category": "技术服务测试费（整车）",
-        "items": "全系统测试：安全(R94/R95/R137)、制动(R13-H)、转向(R79)、灯光(R48)、EMC(R10)、噪声(R51)等",
+        "items": "全系统测试：安全/制动/转向/灯光/EMC/噪声等",
         "regulation": "UN R 系列（按适用法规清单）",
         "costMin": 2000000,
         "costMax": 5000000,
@@ -3684,7 +3684,7 @@
       {
         "id": "wvta_doc",
         "category": "技术文档编制",
-        "items": "信息文件夹(Information Document) + 图纸 + BOM + 试验方案",
+        "items": "信息文件夹 + 图纸 + BOM + 试验方案",
         "regulation": "(EU) 2020/683 Annex I",
         "costMin": 100000,
         "costMax": 300000,
@@ -3814,7 +3814,7 @@
         "timeline": "6~10 周",
         "nbInvolvement": "技术服务执行",
         "scenario": "OE+售后",
-        "notes": "含动态滑车碰撞试验；预紧器含烟火件的需同步 2013/29/EU",
+        "notes": "含动态滑车碰撞试验；预紧器含烟火件需同步 2013/29/EU",
         "conditions": {
           "parts": [
             "seatbelt"
@@ -3882,7 +3882,7 @@
       {
         "id": "ce_red_cond",
         "category": "RED（条件项）",
-        "items": "摄像头 / 钥匙 / PEPS / 蓝牙喇叭",
+        "items": "摄像头/钥匙/PEPS/蓝牙喇叭",
         "regulation": "2014/53/EU",
         "costMin": 100000,
         "costMax": 200000,
@@ -3922,7 +3922,7 @@
       {
         "id": "ce_ped",
         "category": "售后 PED（压力设备指令）",
-        "items": "AC 压缩机 / 热管理压力件 共 11 项",
+        "items": "AC 压缩机/热管理压力件 共 11 项",
         "regulation": "2014/68/EU",
         "costMin": 40000,
         "costMax": 200000,
@@ -3940,7 +3940,7 @@
       {
         "id": "ce_md",
         "category": "售后 MD（机械指令）",
-        "items": "EHB/ESC/EPS/驱动电桥/雨刮电机/洗涤液壶/玻璃升降器/转向管柱 共 9 项",
+        "items": "EHB/ESC/EPS/驱动电桥/雨刮电机等 共 9 项",
         "regulation": "2006/42/EC",
         "costMin": 60000,
         "costMax": 100000,
