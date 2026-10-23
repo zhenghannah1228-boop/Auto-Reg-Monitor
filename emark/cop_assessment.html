@@ -460,6 +460,7 @@ function renderNav(){
 }
 function renderSections(){
   SECTIONS.forEach(x=>{const el=document.getElementById(x.id);if(el)el.style.display=(active===x.id)?'':'none';});
+  const sp=document.getElementById('svcpkg');if(sp)sp.style.display=(active===SECTIONS[0].id)?'':'none';
 }
 function toggleQuick(){document.getElementById('qk-dd').classList.toggle('on');}
 function closeQuick(){document.getElementById('qk-dd').classList.remove('on');}
