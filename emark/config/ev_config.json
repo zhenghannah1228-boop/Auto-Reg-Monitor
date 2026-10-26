@@ -1258,27 +1258,7 @@
         "热扩散(§6.15):单电芯热失控不得危及乘员,危险情形前 ≥5 min 预警",
         "Rev.3 新增:防水要求、SOC≥95%、「无排气」判据、LPG 燃烧法、低温保护与气体管理文档"
       ],
-      "timeline": "03 系列 2021 生效;EU 2023-09-01 起新型批 / 2025-09-01 起全部强制。R100.04 加标识要求(2026/2027);R100.05 草案拟加热扩散物理试验 9K(预计 2028/2030)。",
-      "lawRefs": {
-        "text": "UN R100",
-        "segments": [
-          {
-            "type": "law",
-            "title": "UN R100",
-            "text": "UN R100",
-            "lawUuid": "d7fb08f4dd384a18a0989ba3570fbe1b",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d7fb08f4dd384a18a0989ba3570fbe1b",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "UN R100",
-            "lawUuid": "d7fb08f4dd384a18a0989ba3570fbe1b",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=d7fb08f4dd384a18a0989ba3570fbe1b"
-          }
-        ]
-      }
+      "timeline": "03 系列 2021 生效;EU 2023-09-01 起新型批 / 2025-09-01 起全部强制。R100.04 加标识要求(2026/2027);R100.05 草案拟加热扩散物理试验 9K(预计 2028/2030)。"
     },
     {
       "name": "UNECE R10 — 电磁兼容(EMC)",
@@ -1294,27 +1274,7 @@
         "充电模式(整车 11–16 / ESA 17–22):谐波(IEC 61000-3-2/-12)、闪变(-3-3/-11)、传导骚扰、EFT/浪涌抗扰",
         "「抗扰相关功能」不得因骚扰降级;CoP 生产一致性"
       ],
-      "timeline": "06 系列(Rev.6)2019 起现行。",
-      "lawRefs": {
-        "text": "UN R10",
-        "segments": [
-          {
-            "type": "law",
-            "title": "UN R10",
-            "text": "UN R10",
-            "lawUuid": "986edecfcbc14d378867e0c1d40c78f1",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=986edecfcbc14d378867e0c1d40c78f1",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "UN R10",
-            "lawUuid": "986edecfcbc14d378867e0c1d40c78f1",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=986edecfcbc14d378867e0c1d40c78f1"
-          }
-        ]
-      }
+      "timeline": "06 系列(Rev.6)2019 起现行。"
     },
     {
       "name": "IEC 61851 / EN 62196 — 传导充电系统与接口",
@@ -1338,131 +1298,7 @@
         "IEC 61851-21-1:车载充电机 EMC(与 R10 充电模式协调)",
         "桩与非车载充电器走 CE(LVD/EMCD/RED),不做 E-mark"
       ],
-      "timeline": "IEC 61851-1:2017 现行;61851-23 2023 年新版。",
-      "lawRefs": {
-        "text": "IEC 61851-1\nIEC 61851-21-1\nIEC 61851-21-2\nIEC 61851-23\nIEC 61851-24\nIEC 61851-25\nIEC 62196-1\nIEC 62196-2\nIEC 62196-3",
-        "segments": [
-          {
-            "type": "law",
-            "title": "IEC 61851-1",
-            "text": "IEC 61851-1",
-            "lawUuid": "8339a8f445687cd1a113cea6c9cfe76e",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=8339a8f445687cd1a113cea6c9cfe76e",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 61851-21-1",
-            "text": "IEC 61851-21-1",
-            "lawUuid": "b731aca10cad9212dbda1e5af55aa5eb",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b731aca10cad9212dbda1e5af55aa5eb",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 61851-21-2",
-            "text": "IEC 61851-21-2",
-            "lawUuid": "284f4db6df85eb460d64991b98dabce3",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=284f4db6df85eb460d64991b98dabce3",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 61851-23",
-            "text": "IEC 61851-23",
-            "lawUuid": "24072014331046510400000761164122",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24072014331046510400000761164122",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 61851-24",
-            "text": "IEC 61851-24",
-            "lawUuid": "24072014332732982100000199650540",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24072014332732982100000199650540",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 61851-25",
-            "text": "IEC 61851-25",
-            "lawUuid": "24071845949122081100001078658157",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24071845949122081100001078658157",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 62196-1",
-            "text": "IEC 62196-1",
-            "lawUuid": "f150a715b3d6c38678ede59a81690f02",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=f150a715b3d6c38678ede59a81690f02",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 62196-2",
-            "text": "IEC 62196-2",
-            "lawUuid": "0b878525e7f91e847eeeecd3140c5dc6",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=0b878525e7f91e847eeeecd3140c5dc6",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "IEC 62196-3",
-            "text": "IEC 62196-3",
-            "lawUuid": "9de3f3128be16ed47eccb6f9f89ee6b5",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=9de3f3128be16ed47eccb6f9f89ee6b5",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "IEC 61851-1",
-            "lawUuid": "8339a8f445687cd1a113cea6c9cfe76e",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=8339a8f445687cd1a113cea6c9cfe76e"
-          },
-          {
-            "title": "IEC 61851-21-1",
-            "lawUuid": "b731aca10cad9212dbda1e5af55aa5eb",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b731aca10cad9212dbda1e5af55aa5eb"
-          },
-          {
-            "title": "IEC 61851-21-2",
-            "lawUuid": "284f4db6df85eb460d64991b98dabce3",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=284f4db6df85eb460d64991b98dabce3"
-          },
-          {
-            "title": "IEC 61851-23",
-            "lawUuid": "24072014331046510400000761164122",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24072014331046510400000761164122"
-          },
-          {
-            "title": "IEC 61851-24",
-            "lawUuid": "24072014332732982100000199650540",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24072014332732982100000199650540"
-          },
-          {
-            "title": "IEC 61851-25",
-            "lawUuid": "24071845949122081100001078658157",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24071845949122081100001078658157"
-          },
-          {
-            "title": "IEC 62196-1",
-            "lawUuid": "f150a715b3d6c38678ede59a81690f02",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=f150a715b3d6c38678ede59a81690f02"
-          },
-          {
-            "title": "IEC 62196-2",
-            "lawUuid": "0b878525e7f91e847eeeecd3140c5dc6",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=0b878525e7f91e847eeeecd3140c5dc6"
-          },
-          {
-            "title": "IEC 62196-3",
-            "lawUuid": "9de3f3128be16ed47eccb6f9f89ee6b5",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=9de3f3128be16ed47eccb6f9f89ee6b5"
-          }
-        ]
-      }
+      "timeline": "IEC 61851-1:2017 现行;61851-23 2023 年新版。"
     },
     {
       "name": "ISO 15118 — 车桩高层通信与 Plug & Charge",
@@ -1479,40 +1315,7 @@
         "-20 支持双向能量传输(V2G),配合各国并网要求",
         "互操作以 CharIN 等测试活动验证"
       ],
-      "timeline": "-2:2014 现行;-20:2022 发布,产业导入中。",
-      "lawRefs": {
-        "text": "ISO 15118-2\nISO 15118-20",
-        "segments": [
-          {
-            "type": "law",
-            "title": "ISO 15118-2",
-            "text": "ISO 15118-2",
-            "lawUuid": "24070479082344527900000750854174",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479082344527900000750854174",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "ISO 15118-20",
-            "text": "ISO 15118-20",
-            "lawUuid": "24070479087408355000000880786492",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479087408355000000880786492",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "ISO 15118-2",
-            "lawUuid": "24070479082344527900000750854174",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479082344527900000750854174"
-          },
-          {
-            "title": "ISO 15118-20",
-            "lawUuid": "24070479087408355000000880786492",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=24070479087408355000000880786492"
-          }
-        ]
-      }
+      "timeline": "-2:2014 现行;-20:2022 发布,产业导入中。"
     },
     {
       "name": "欧盟电池法规(Batteries Regulation)",
@@ -1528,27 +1331,7 @@
         "尽职调查:经 (EU) 2025/1561 推迟至 2027-08-18",
         "标签 2026-08-18 / QR 2027-02-18;电池护照 2027-02-18 起;再生材料申报 2028-08-18 起"
       ],
-      "timeline": "2023-08-17 生效,2024-02-18 起适用,义务分阶段至 2036。",
-      "lawRefs": {
-        "text": "(EU) 2023/1542",
-        "segments": [
-          {
-            "type": "law",
-            "title": "(EU) 2023/1542",
-            "text": "(EU) 2023/1542",
-            "lawUuid": "b9aec867093a95007f4f338af6831cc8",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b9aec867093a95007f4f338af6831cc8",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "(EU) 2023/1542",
-            "lawUuid": "b9aec867093a95007f4f338af6831cc8",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=b9aec867093a95007f4f338af6831cc8"
-          }
-        ]
-      }
+      "timeline": "2023-08-17 生效,2024-02-18 起适用,义务分阶段至 2036。"
     },
     {
       "name": "AFIR — 替代燃料基础设施法规",
@@ -1564,27 +1347,7 @@
         "TEN-T 核心网每 60 km 布充电站等覆盖目标(2025 起分阶段)",
         "数据开放:位置/价格/可用性"
       ],
-      "timeline": "2024-04-13 起适用。",
-      "lawRefs": {
-        "text": "(EU) 2023/1804",
-        "segments": [
-          {
-            "type": "law",
-            "title": "(EU) 2023/1804",
-            "text": "(EU) 2023/1804",
-            "lawUuid": "4515f2a8b7d104f057b52938fd756c73",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=4515f2a8b7d104f057b52938fd756c73",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "(EU) 2023/1804",
-            "lawUuid": "4515f2a8b7d104f057b52938fd756c73",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=4515f2a8b7d104f057b52938fd756c73"
-          }
-        ]
-      }
+      "timeline": "2024-04-13 起适用。"
     },
     {
       "name": "碰撞后电安全(与 R100 衔接)",
@@ -1602,91 +1365,23 @@
         "REESS 保持固定(不得侵入乘员舱)",
         "试验时 REESS 处于规定 SOC"
       ],
-      "timeline": "现行系列;电安全条款自各法规相应系列引入。",
-      "lawRefs": {
-        "text": "UN R94\nUN R95\nUN R137",
-        "segments": [
-          {
-            "type": "law",
-            "title": "UN R94",
-            "text": "UN R94",
-            "lawUuid": "6fcd836a739e447083a92f2c1ef50980",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6fcd836a739e447083a92f2c1ef50980",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "UN R95",
-            "text": "UN R95",
-            "lawUuid": "418bcca4cfbf44f3a07112073c5b8083",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=418bcca4cfbf44f3a07112073c5b8083",
-            "linked": true
-          },
-          {
-            "type": "law",
-            "title": "UN R137",
-            "text": "UN R137",
-            "lawUuid": "99bfc0b8f94f4fb08eff002ae4c9af24",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=99bfc0b8f94f4fb08eff002ae4c9af24",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "UN R94",
-            "lawUuid": "6fcd836a739e447083a92f2c1ef50980",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=6fcd836a739e447083a92f2c1ef50980"
-          },
-          {
-            "title": "UN R95",
-            "lawUuid": "418bcca4cfbf44f3a07112073c5b8083",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=418bcca4cfbf44f3a07112073c5b8083"
-          },
-          {
-            "title": "UN R137",
-            "lawUuid": "99bfc0b8f94f4fb08eff002ae4c9af24",
-            "url": "https://www.1clicktong.com/law/lawDetail?lawUuid=99bfc0b8f94f4fb08eff002ae4c9af24"
-          }
-        ]
-      }
+      "timeline": "现行系列;电安全条款自各法规相应系列引入。"
     },
     {
-      "name": "循环设计与报废车管理规定(ELV Regulation)",
-      "id": "(EU) 2026/1738",
+      "name": "UNECE R136 — 电动汽车专项安全",
+      "id": "UN R136",
       "rl": [
-        "(EU) 2026/1738"
+        "UN R136"
       ],
-      "region": "欧盟(混合结构:型批 + CE/生产者责任)",
-      "scope": "分两批取代 Directive 2000/53/EC(报废车指令,2028-09-01 废止、部分条款延续)与 Directive 2005/64/EC(整车可回收利用率型批指令,2032-08-31 废止);型批相关可回收利用率/物质限制/再生材料/拆解设计要求(Art.4-7)并入 (EU) 2018/858(见 E-mark 评估台 GA13 项,2032-09-01 起对新申请型批车型生效),本法规同时新增循环设计策略、生产者登记、拆解信息公开、数字循环护照、报废车处理目标与二手车境内转让/出口管理等生产者责任层义务。",
+      "region": "联合国 WP.29(1958 协定)",
+      "scope": "规定带电动力总成的 M/N 类车辆(BEV/PHEV/FCEV)的整车级电安全要求,与 R100 互补:R100 管 REESS 部件试验与车内电安全,R136 管 REESS 安装安全、碰撞后高压电安全与 FCEV 氢系统安全。",
       "points": [
-        "适用范围分档:M1/N1 类 2028-09-01 起、其特种用途车 2029-09-01 起;M2/M3/N2/N3/O 类与 L 类统一 2031-09-01 起(Art.2)",
-        "型批侧:可回收利用率≥85%/可回收恢复率≥95%按重量(Art.4);塑料再生占比 2032-09 起≥15%、2036-09 起≥25%(Art.6);钢/铝目标待欧委会 2028-09-30 前另行设定",
-        "循环设计策略(Art.9)+ 拆解信息公开(Art.11):2029-09-01 起;生产者登记(Art.19):成员国 2029-08-31 前建立",
-        "回收利用率目标(Art.33):2030-01-01 起 95% 重用回收/85% 重用循环(不含电池),2032-01-01 起追加塑料循环 30% 目标",
-        "境内转让所有权文件(Art.36):随主体适用日 2028-09-01 起;出口第三国管制(Art.38-46):2031-09-01 起",
-        "数字循环车辆护照(Art.13):2032-09-01 起"
+        "REESS 安装安全:固定(承受规定加速度)/通风(防可燃气体积聚)/热管理/防水防尘",
+        "碰撞后高压电安全:四选一路径(低电压/低电能/绝缘达标/物理防护);REESS 不得侵入乘员舱;电解液泄漏限值",
+        "氢燃料电池系统(FCEV):储氢瓶安装与 PRD 配置(衔接 R134/GTR 13)、氢泄漏检测与自动关阀、燃料电池堆电安全",
+        "电动力总成标识:高压部件橙色标识、维修断电机构标识"
       ],
-      "timeline": "2026-07-24 公布,2026-08-13 生效;主体规定 2028-09-01 起适用于 M1/N1 类,M2/M3/N2/N3/O 及 L 类延后至 2031-09-01。",
-      "lawRefs": {
-        "text": "(EU) 2026/1738",
-        "segments": [
-          {
-            "type": "law",
-            "title": "(EU) 2026/1738",
-            "text": "(EU) 2026/1738",
-            "lawUuid": "97e2340a9ea7445b8f286db31a45e25f",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97e2340a9ea7445b8f286db31a45e25f",
-            "linked": true
-          }
-        ],
-        "laws": [
-          {
-            "title": "(EU) 2026/1738",
-            "lawUuid": "97e2340a9ea7445b8f286db31a45e25f",
-            "url": "https://new.1clicktong.com/law/lawDetail?lawUuid=97e2340a9ea7445b8f286db31a45e25f"
-          }
-        ]
-      }
+      "timeline": "现行 E-mark 型批法规;与 R100.03 系列协调。"
     }
   ],
   "glossary": [
@@ -1816,14 +1511,14 @@
       "d": "E-mark = 1958 协定型式批准(整车/系统/部件,批准机关签发);CE = 欧盟产品合规自我声明/公告机构评定(横向法)。电池法规、充电桩、LVD/EMCD/RED 属 CE;R100/R10 属 E-mark。同一产品可能两套都要满足。"
     },
     {
-      "t": "数字循环护照",
-      "full": "Digital Circularity Vehicle Passport",
-      "d": "(EU) 2026/1738 Art.13 规定,2032-09-01 起每辆上市车辆须建立,内容含拆解信息(Art.11)、有害物质豁免部件信息(Art.5(5))、再生含量申报(Art.10)、官方备件目录。与电池护照(Battery Passport,(EU) 2023/1542 Art.77)是两套独立护照,数据范围不同(整车材料/拆解 vs 电池本体),须对齐互通但不重复填报。"
+      "t": "R136",
+      "full": "UN Regulation No. 136 — 电动汽车专项安全",
+      "d": "联合国 WP.29 框架下的 E-mark 型批法规,规定带电动力总成的 M/N 类车辆(BEV/PHEV/FCEV)的整车级电安全:REESS 安装安全(固定/通风/热管理/防水)、碰撞后高压电安全判据(衔接 R94/R95/R137)、氢燃料电池系统安全(储氢/管路/泄漏检测),以及电动力总成标识。与 R100 互补(R100 管部件试验与车内电安全,R136 管装车后的整车层面安全),两份 E-mark 证书各自独立。"
     },
     {
-      "t": "ELV Regulation",
-      "full": "(EU) 2026/1738 循环设计与报废车管理规定",
-      "d": "混合结构法规,分两批取代 Directive 2000/53/EC(报废车指令,2028-09-01 废止、部分条款延续至 2032)与 Directive 2005/64/EC(整车可回收利用率型批指令,2032-08-31 废止,两者废止日不同)。型批相关可回收利用率/物质限制/再生材料/拆解设计要求(Art.4-7)并入 (EU) 2018/858(见 E-mark 评估台 GA13 项,2032-09-01 起对新申请型批车型生效);循环设计策略/生产者登记/拆解信息公开/数字循环护照/报废车处理目标/二手车境内转让与出口管理等生产者责任层义务见本工具⑤模块。适用范围按车辆类别分档:M1/N1 类 2028-09-01 起、M2/M3/N2/N3/O 类及 L 类 2031-09-01 起才适用。"
+      "t": "碰撞后电安全",
+      "full": "Post-crash Electrical Safety",
+      "d": "碰撞法规(R94 正碰/R95 侧碰/R137 正碰替代)中针对电动车的附加判据:碰撞后须满足低电压(≤60 V DC / 30 V AC)、低电能(≤0.2 J)、绝缘电阻达标、物理防护完好(IPXXB)四条路径之一;REESS 不得侵入乘员舱、电解液不得进入乘员舱。R136 在整车层面规定碰后高压隔离与告警要求。"
     }
   ],
   "faqs": [
@@ -1872,20 +1567,20 @@
       "a": "不能。本工具是团队自查参照,帮助梳理条款覆盖与证据缺口;型式批准以认可技术服务/批准机关为准,CE 合规以符合性评定程序(必要时公告机构)为准。"
     },
     {
-      "q": "(EU) 2026/1738 和 E-mark 型批的 GA13 项是什么关系?会不会重复自查?",
-      "a": "不会重复,是同一法规的两个层面:型批相关的可回收利用率/物质限制/再生材料/拆解设计要求(Art.4-7)已并入 (EU) 2018/858 型式批准框架、2032-09-01 起对新申请型批车型生效,对应 E-mark 评估台 EU_ITEMS 表 GA13 项;本工具⑤模块管的是型批之外的生产者责任层——循环设计策略、生产者登记、拆解信息公开、数字循环护照、报废车处理目标与二手车境内转让/出口管理。两处各自查一次即可,互不重复。"
+      "q": "R136 和 R100 什么关系?会不会重复?",
+      "a": "不重复,互补:R100 Part I 管整车电安全(防触电/绝缘/电位均衡)、Part II 管 REESS 部件安全试验(十项:振动/热冲击/机械冲击/挤压/防火/外短路/过充/过放/过温/过流);R136 管 REESS 装到车上之后的安装安全(固定/通风/热管理/防水)、碰撞后高压电安全(衔接 R94/R95/R137)、氢燃料电池系统安全。两份 E-mark 证书各自独立——同一辆电动车出口需同时持有。"
     },
     {
-      "q": "2000/53/EC 和 2005/64/EC 这两项旧指令现在还有效吗?",
-      "a": "两项旧指令的废止日不同,不要混为一谈:2000/53/EC(报废车指令)2028-09-01 废止,但其中多条条款延续至 2029–2032 年不等;2005/64/EC(整车可回收利用率型批指令)废止生效日为 2032-08-31,比 2000/53/EC 晚将近 4 年。截至目前(2026-08-13 (EU) 2026/1738 已生效但主体规定尚未适用)两项旧指令均仍现行有效,不要提前按新规单独执行、也不要按\"已废止\"处理旧指令下的既有义务。"
+      "q": "R136 适用于哪些车型?混动车要不要做?",
+      "a": "R136 适用于带电动力总成的 M 类(乘用车/客车)和 N 类(货车)车辆:纯电(BEV)、插电混动(PHEV)和氢燃料电池(FCEV)均在范围内;最大设计车速须 >25 km/h。非插电式混动(轻混 48V)若工作电压不超过 60 V DC / 30 V AC,通常不在 R136 强制范围,但建议按车型具体电压确认。"
     },
     {
-      "q": "数字循环护照和电池护照是一回事吗?",
-      "a": "不是,两套独立护照。电池护照((EU) 2023/1542 Art.77)管电池本体,2027-02-18 起生效;数字循环护照((EU) 2026/1738 Art.13)管整车材料构成/可回收性/拆解信息,2032-09-01 起生效,内容含拆解信息、有害物质豁免部件信息、再生含量申报、官方备件目录。数据范围、生效时间都不同,须对齐互通但不重复填报同一数据结构。"
+      "q": "碰撞后电安全的\"四选一路径\"哪条最常用?",
+      "a": "实务中最常用路径③绝缘电阻达标(DC ≥100 Ω/V、AC ≥500 Ω/V):它不要求碰后电压瞬间降至 60 V 以下,允许高压系统保持一定残余电压,只要绝缘完好即可。路径①(电压 ≤60 V)要求接触器在 1 s 内断开,对断电速度要求高;路径④(物理防护 IPXXB)要求碰后外壳完整性,实测难度较大。四条路径满足任一即可,建议以③为主线设计,同时将①作为冗余方案。"
     },
     {
-      "q": "我们主要做客车/货车/挂车(M2/M3/N2/N3/O)或摩托车(L 类),这个法规现在要不要管?",
-      "a": "现阶段(2026-08)还不用按此法规展开设计变更。(EU) 2026/1738 Art.2 对车辆类别分档适用:M1/N1 乘用车与轻型商用车 2028-09-01 起适用,但 M2/M3/N2/N3/O 类(客车/货车/挂车)及其特种用途车、L 类(摩托车/轻便摩托车等)统一延后到 2031-09-01 才适用,比 M1/N1 晚 3 年——建议按车型类别分别规划合规时间表,不要按统一日期误判。"
+      "q": "没有氢燃料电池的纯电 BEV 需要管 R136 里的 FCEV 部分吗?",
+      "a": "不需要。R136 中的氢燃料电池系统安全条款(储氢/管路/泄漏检测)仅对装备氢燃料电池系统的 FCEV 适用;纯电 BEV 和 PHEV 只需自查 REESS 安装安全与碰撞后电安全部分,FCEV 相关条目标注「如适用」,非 FCEV 车型可标注「不适用」并跳过。"
     }
   ],
   "moduleComparison": [
@@ -1930,14 +1625,14 @@
       "use": "电池投放欧盟市场(装车电池同样适用)"
     },
     {
-      "m": "⑤ 循环/ELV",
-      "std": "(EU) 2026/1738(替代 2000/53/EC + 2005/64/EC)",
-      "obj": "循环设计策略、生产者登记、拆解信息公开、数字循环护照、报废车处理目标与二手车境内转让/出口管理",
+      "m": "⑤ R136 电动车专项安全",
+      "std": "UN R136(与 R100 互补)",
+      "obj": "REESS 安装安全 + 碰撞后高压电安全 + FCEV 氢系统安全 + 电动力总成标识",
       "out": "就绪度 %",
-      "legal": "型批侧并入 2018/858(见 GA13);本模块为生产者责任层,CE 侧强制",
-      "tone": "amber",
-      "how": "按时间线逐项自查",
-      "use": "M1/N1 类 2028-09 起、M2/M3/N2/N3/O 及 L 类 2031-09 起投放欧盟市场"
+      "legal": "型批强制(E-mark)",
+      "tone": "red",
+      "how": "逐条条款自查 + 证据追踪",
+      "use": "M/N 类 BEV/PHEV/FCEV 整车型式批准"
     }
   ],
   "regLinks": {
