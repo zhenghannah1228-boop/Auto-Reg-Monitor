@@ -2030,67 +2030,67 @@
     "categories": [
       {
         "id": "r157_alks",
-        "category": "R157 ALKS 认证",
-        "items": "L3 自动车道保持系统型式批准（含虚拟测试+实车测试）",
+        "category": "R157 ALKS(L3)认证",
+        "items": "ALKS 系统安全论证+CEL 安全审核+型式批准试验(附件5)+DSSAD 数据记录",
         "regulation": "UN R157",
         "costMin": 2000000,
         "costMax": 5000000,
-        "timeline": "6~12 个月",
-        "nbInvolvement": "型式批准机关 + 技术服务",
-        "scenario": "OEM（L3 功能）",
-        "notes": "目前全球获批案例极少；含仿真场景库验证+实路测试+审核文档编制",
+        "timeline": "12~24 个月",
+        "nbInvolvement": "型式批准机关+技术服务",
+        "scenario": "每车型(L3)",
+        "notes": "01 系列扩至 130 km/h+系统发起换道;须先取得 R155/R156 认证;需道路交通法允许 L3",
         "conditions": {}
       },
       {
         "id": "r79_steering",
-        "category": "R79 转向/ACSF",
-        "items": "自动纠偏(ACSF A)、车道保持(B1)、泊车(B2)、紧急转向(C)",
+        "category": "R79 转向/ACSF 认证",
+        "items": "ACSF B1/C 类功能评估+附件6 CEL 安全审核+试验",
         "regulation": "UN R79",
         "costMin": 200000,
         "costMax": 600000,
-        "timeline": "4~10 周",
-        "nbInvolvement": "技术服务机构执行",
-        "scenario": "OEM/STU",
-        "notes": "ACSF B1/C 要求更严格的测试矩阵；按功能分类收费",
+        "timeline": "2~6 个月",
+        "nbInvolvement": "型式批准机关+技术服务",
+        "scenario": "每车型·每 ACSF 类别",
+        "notes": "B1 车道内辅助/C 确认式换道;超出边界走 R171",
         "conditions": {}
       },
       {
         "id": "gsr_adas",
         "category": "GSR ADAS 强制要求",
-        "items": "ISA/AEB/LDW/DDAW/EDR/BSIS/REV + 网络安全引用",
-        "regulation": "(EU) 2019/2144 + 授权/实施法案",
+        "items": "AEB(R152)+LDW(R130)+BSIS(R151)+MOIS(R159)+ISA+DDR+EDR(R160) 整包型批",
+        "regulation": "(EU) 2019/2144 + 实施细则",
         "costMin": 500000,
         "costMax": 1500000,
-        "timeline": "2~6 个月",
-        "nbInvolvement": "技术服务机构执行",
-        "scenario": "OEM（EU 新车型/所有新车）",
-        "notes": "2024-07 起新车型强制；2026-07 起所有新车强制；费用含全套 ADAS 测试",
+        "timeline": "4~12 个月",
+        "nbInvolvement": "型式批准机关+技术服务",
+        "scenario": "每车型",
+        "notes": "轻型/重型法规包不同;DVS(R167)重型 2026-01 新型批",
         "conditions": {}
       },
       {
         "id": "aiact_assess",
         "category": "AI 法案合规评估",
-        "items": "高风险 AI 系统分类 + 合规性评估 + 技术文档",
-        "regulation": "(EU) 2024/1689 (AI Act)",
+        "items": "高风险 AI 判定(Art.6)+QMS+技术文档+风险管理+人工监督+数据治理",
+        "regulation": "(EU) 2024/1689",
         "costMin": 100000,
         "costMax": 500000,
-        "timeline": "3~6 个月",
-        "nbInvolvement": "公告机构（高风险 AI 需外部评估）",
-        "scenario": "有 AI 功能的系统",
-        "notes": "Art 107 修订 2018/858，高风险 AI 经型批框架落地；2025-08 起分阶段适用",
+        "timeline": "3~12 个月",
+        "nbInvolvement": "第三方评估(推荐)",
+        "scenario": "每 AI 系统",
+        "notes": "附件I B节产品(含车辆)经 2026/1744 推迟至 2028-08-02;Art.8-15 核心义务不直接适用于型批产品",
         "conditions": {}
       },
       {
         "id": "sim_validation",
         "category": "仿真验证平台",
-        "items": "ADAS/AD 虚拟测试环境搭建 + 场景库 + V&V 报告",
-        "regulation": "R157/R79/GSR 配套",
+        "items": "场景库建设+SiL/HiL/ViL 仿真环境+实车验证",
+        "regulation": "R157 附件4/5 · ISO 21448",
         "costMin": 300000,
         "costMax": 2000000,
-        "timeline": "3~12 个月",
-        "nbInvolvement": "第三方验证（推荐）",
-        "scenario": "OEM/STU",
-        "notes": "L3+ 强依赖仿真验证；场景库建设为持续投入",
+        "timeline": "6~18 个月",
+        "nbInvolvement": "技术服务(认可仿真)",
+        "scenario": "每平台/每车型",
+        "notes": "R157/2022/1426 要求仿真作为合规证据之一;费用随场景库规模浮动大",
         "conditions": {}
       }
     ],
@@ -2111,5 +2111,37 @@
       "totalNote": "以上为单车型首次认证参考;仿真平台为一次性建设+持续运维",
       "disclaimer": "费用取市场报价区间低值(含测试+认证+基本咨询),实际随系统复杂度、自动化级别及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。"
     }
+  },
+  "servicePackage": {
+    "name": "智驾合规全包",
+    "tag": "AD Package",
+    "accent": "#8A3AA6",
+    "scope": [
+      {
+        "name": "GSR ADAS 强制项全包型批",
+        "description": "含 AEB、LDW、ISA、DDR、EDR、TPMS 等 GSR 附件清单全部强制项型批申请与测试协调 → 交付: 各项 E-mark 型批证书 + 测试报告"
+      },
+      {
+        "name": "R79 转向/ACSF 认证",
+        "description": "涵盖电动助力转向(EPS)及 ACSF A/B1/C 类自动转向功能认证 → 交付: R79 E-mark 证书 + ACSF 功能安全评估报告"
+      },
+      {
+        "name": "AI 法案高风险合规评估",
+        "description": "按 EU AI Act (2024/1689) 高风险 AI 系统要求,评估 ADAS/ADS 算法的风险管理、数据治理、透明度与人为监督 → 交付: 合规差距报告 + 整改路线图"
+      },
+      {
+        "name": "仿真验证平台建设",
+        "description": "搭建虚拟测试场景库(含中国/欧洲典型道路工况),支持 ADAS 功能 SIL/HIL 仿真验证,满足型批中仿真替代实车测试要求 → 交付: 场景库 + 仿真工具链 + 验证报告模板"
+      }
+    ],
+    "pricing": {
+      "first": 130,
+      "firstLabel": "首车型",
+      "add": 95,
+      "addLabel": "加车型",
+      "unit": "万"
+    },
+    "timeline": "8–18 个月",
+    "note": "仿真平台为一次性建设投入,后续加车型复用平台与场景库"
   }
 }

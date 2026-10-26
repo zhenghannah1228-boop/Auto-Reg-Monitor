@@ -3667,7 +3667,7 @@
       {
         "id": "wvta_ts_testing",
         "category": "技术服务测试费（整车）",
-        "items": "全系统测试：安全(R94/R95/R137)、制动(R13-H)、转向(R79)、灯光(R48)、EMC(R10)、噪声(R51)等",
+        "items": "全系统测试：安全/制动/转向/灯光/EMC/噪声等",
         "regulation": "UN R 系列（按适用法规清单）",
         "costMin": 2000000,
         "costMax": 5000000,
@@ -3684,7 +3684,7 @@
       {
         "id": "wvta_doc",
         "category": "技术文档编制",
-        "items": "信息文件夹(Information Document) + 图纸 + BOM + 试验方案",
+        "items": "信息文件夹 + 图纸 + BOM + 试验方案",
         "regulation": "(EU) 2020/683 Annex I",
         "costMin": 100000,
         "costMax": 300000,
@@ -3814,7 +3814,7 @@
         "timeline": "6~10 周",
         "nbInvolvement": "技术服务执行",
         "scenario": "OE+售后",
-        "notes": "含动态滑车碰撞试验；预紧器含烟火件的需同步 2013/29/EU",
+        "notes": "含动态滑车碰撞试验；预紧器含烟火件需同步 2013/29/EU",
         "conditions": {
           "parts": [
             "seatbelt"
@@ -3882,7 +3882,7 @@
       {
         "id": "ce_red_cond",
         "category": "RED（条件项）",
-        "items": "摄像头 / 钥匙 / PEPS / 蓝牙喇叭",
+        "items": "摄像头/钥匙/PEPS/蓝牙喇叭",
         "regulation": "2014/53/EU",
         "costMin": 100000,
         "costMax": 200000,
@@ -3922,7 +3922,7 @@
       {
         "id": "ce_ped",
         "category": "售后 PED（压力设备指令）",
-        "items": "AC 压缩机 / 热管理压力件 共 11 项",
+        "items": "AC 压缩机/热管理压力件 共 11 项",
         "regulation": "2014/68/EU",
         "costMin": 40000,
         "costMax": 200000,
@@ -3940,7 +3940,7 @@
       {
         "id": "ce_md",
         "category": "售后 MD（机械指令）",
-        "items": "EHB/ESC/EPS/驱动电桥/雨刮电机/洗涤液壶/玻璃升降器/转向管柱 共 9 项",
+        "items": "EHB/ESC/EPS/驱动电桥/雨刮电机等 共 9 项",
         "regulation": "2006/42/EC",
         "costMin": 60000,
         "costMax": 100000,
@@ -4009,6 +4009,1358 @@
       "showTotal": true,
       "totalNote": "以上取市场低价参考，实际以技术服务机构/公告机构对具体产品评估报价为准",
       "disclaimer": "费用取 2024–2026 主要技术服务机构报价区间低值，实际因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考。"
+    }
+  },
+  "faqs": [
+    {
+      "q": "国内有哪些实验室可以做 E-mark 测试？",
+      "a": "（网络检索整理·非官方·非最全名单）<br><b>① 检测实验室</b>（在华设汽车检测实验室、公开提供 E-mark/ECE 测试）：<b>TÜV 莱茵</b>、<b>TÜV 南德</b>、<b>SGS 通标</b>、<b>DEKRA 德凯</b>、<b>Bureau Veritas 必维</b>、<b>Applus IDIADA</b>、<b>CATARC 中汽研（中汽中心）</b>。这些大实验室基本全品类通做。<br><b>② 认证代理/咨询机构</b>（协调办证、多结合欧洲实验室，<b>不一定自有检测资质</b>）：荣仪达、江苏中正检测、中联检、ATIC 泰测、赛特…等（数量众多，此处仅举例）。<br>要点：<b>具体某条法规的测试资质/范围以各机构现行认可为准</b>；<b>E-mark 型式批准证书仍由 1958 缔约方机关（KBA/RDW/VCA…）签发</b>，实验室出具的是测试报告。选代理时务必甄别——<b>代理 ≠ 官方指定技术服务</b>（核验方法见下方「代理机构给我看『机关授权书/合作协议』，怎么核验真伪与效力？」一条：以 WP.29/343 Add.1 官方名录为准、核指定范围与文件有效期）。"
+    },
+    {
+      "q": "我的部件到底打大 E 还是小 e？",
+      "a": "<b>部件/STU 层面</b>：有对应 UN 法规的项打<b>大 E</b>——依 (EU) 2018/858 <b>Art 57/58</b>，Annex II 所列 UN 法规与 EU 法规等效、成员国须接受 E 标替代 EU 标，且大 E 在 1958 协定缔约方间互认。仅 EU 条例覆盖、无对应 UN 法规的项（eCall、前防护系统、氢系统材料、酒精锁安装）才打<b>小 e</b>，只在欧盟内有效。不确定就查「标志速查」对照表。<br>注意别与<b>整车层面</b>混淆：EU 整车型批（EU-WVTA）证书号以 e 开头、属 EU 框架，但它的技术要求大量引用 UN 法规、以部件大 E 批准为组成部分——「整车 e 证 + 部件大 E 标」并存是常态。"
+    },
+    {
+      "q": "一张 E-mark 证书能在多少个国家用？",
+      "a": "按<b>法规逐条</b>看：盘点页每条法规的「N 国互认」徽标给出适用该法规的缔约方数量与完整国家名单（数据：WP.29/343 Add.1）。互认不是一揽子的——不同法规的适用缔约方集合不同。"
+    },
+    {
+      "q": "法规出了新系列，我的老证书作废吗？",
+      "a": "不会自动作废。据 <b>WP.29/1044/Rev.3 §25</b>，法规出新系列后<b>既有批准持续有效</b>；仅当 UNECE 对该系列公布「法定失效日」时才有接受截止（见「版本时效自查表」红标，属少数个例）。新申请须按新系列。"
+    },
+    {
+      "q": "小批量 / 售后件也要做 CoP 吗？",
+      "a": "要。生产一致性是型式批准的组成部分（(EU) 2018/858 <b>Art 31</b> 及各 UN 法规 CoP 条款），监督不通过可导致批准被暂停乃至撤销，与批量大小无关。"
+    },
+    {
+      "q": "部件带蓝牙 / Wi-Fi，拿了 E-mark 就够了吗？",
+      "a": "不够。无线模块另按 <b>RED 2014/53/EU</b> 打 CE，与 E-mark 并行、互不替代——两条独立的评定路径（型式批准机关 vs RED 公告机构）。"
+    },
+    {
+      "q": "气囊、安全带预紧器为什么还要 CE？",
+      "a": "内含气体发生器 / 点火药属<b>车用烟火制品</b>：按 (EU) 2013/29 <b>第 6 条</b>归 P1 类、<b>第 8 条</b>须加贴 CE，与 UN 型批（替换气囊 R114、安全带 R16）并行，两证不互相替代。"
+    },
+    {
+      "q": "网络安全 R155 跟我做机械件有关系吗？",
+      "a": "R155/R156 是<b>整车级</b>型式批准要求。除非您的申报范围本身含这两条、或您是涉及电子/智能网联的系统集成商，否则不适用——本工具也不会因此扣您的体系分。"
+    },
+    {
+      "q": "证书上的 E4、E1 数字是什么意思？标志外框有讲究吗？",
+      "a": "数字是签发批准的缔约方<b>国别代号</b>（E1=德国、E4=荷兰、E8=捷克、E11=英国、E13=卢森堡、E50=马耳他…），由您选择的批准机关决定，与产品销往哪国无关。外框有讲究：<b>圆形外框＝UNECE 大 E</b>，<b>长方形外框＝EU 小 e</b>——看外框即知认证路线（示意图见「标志速查」）。证书在共同适用该法规的缔约方间互认。"
+    },
+    {
+      "q": "英国脱欧后 VCA 的证书还能用吗？",
+      "a": "VCA 仍是 1958 协定缔约方机关，可正常签发 <b>UNECE E 标（大 E）</b>；但不能再签发 EU e 标（小 e）——若产品必须满足仅 EU 条例覆盖的项，需另选欧盟成员国机关。"
+    },
+    {
+      "q": "整车层面能拿大 E（UN 整车批准）吗？",
+      "a": "能——<b>UN R0 IWVTA</b>（1958 协定的国际整车型式批准）就是整车的「大 E 体系」批准，但有三个限制：① 仅限 <b>M1 乘用车</b>量产完成车（R0 ¶1.1），卡车/客车/挂车/多阶段不覆盖；② 分 <b>U-IWVTA</b>（43 项 UN 法规全满足，适用 R0 的缔约方须接受）与 <b>L-IWVTA</b>（部分满足，认可有限）；③ IWVTA 只覆盖安全类 UN 法规，<b>不含排放、CO₂、质量尺寸</b>等——进欧盟市场整车证仍是 EU-WVTA（e 证），U-IWVTA 在其中作为 UN 法规部分的证据被接受。整车 IWVTA 也要贴标——注意<b>不是单独的「U 圈」</b>：外框仍是圆形 E+国别号，字母 U/L 出现在批准号里（如 <b>0R00U-1234/01</b>：0＝R0/00＝系列/U＝universal/1234＝class/01＝type，字高 ≥8mm，R0 ¶4.5-4.9 + Annex 2）；IWVTA 引用的车辆系统免贴标，部件仍按各自 UN 法规打标（¶4.7）。所以整车层面实为三者并存：<b>R0 IWVTA（U）/ EU-WVTA（e）/ 部件大 E</b>。43 项必备清单见法规盘点页「IWVTA」按钮，标志样式见「标志速查」示意。"
+    },
+    {
+      "q": "代理机构给我看「机关授权书 / 合作协议」，怎么核验真伪与效力？",
+      "a": "三步：① 分清性质——机关签的<b>商业合作函/代理协议</b>不等于「政府指定技术服务机构」的法定地位，前者只是业务安排，后者才是 1958 协定下由缔约国政府正式指定、对外公示的资质；② 查官方名录——各国指定的批准机关与技术服务机构以 <b>WP.29/343 Add.1</b>（Annex 1）为准，本工具「缔约方名录」即此数据，机构不在名录就只是中介；③ 核对<b>指定范围是否覆盖您的法规项</b>、文件是否在<b>有效期内</b>（此类合作函常见一年一签，过期即失效）。"
+    },
+    {
+      "q": "认证到底要多久、多少钱？",
+      "a": "差异极大：取决于法规项数量、实验室排期与整改轮次。本工具在「认证旅程」各站给出<b>档位</b>（工时 / 机关费 / 测试费主体 / 年度费用），精确周期与报价以技术服务机构按具体产品评估为准——工具不臆造数字。"
+    }
+  ],
+  "glossary": {
+    "bigE": {
+      "t": "大 E（E-mark）",
+      "d": "按 UN 法规（1958 协定）取得的型式批准标志——<b>圆形外框</b> E + 国别号（如 E4＝荷兰、E1＝德国）。在所有适用该法规的缔约方之间<b>互认</b>：一次认证、多国通行。<br>依据：(EU) 2018/858 <b>Art 57(1)</b>（Annex II 所列 UN 法规为 EU 型式批准要求的组成部分）、<b>Art 58(1)-(2)</b>（这些 UN 法规与对应 EU 法规<b>等效</b>，成员国机关须接受其批准及 E 标以替代 EU 标）。标志外观见「标志速查」示意图。"
+    },
+    "smalle": {
+      "t": "小 e（e-mark）",
+      "d": "按<b>EU 框架</b>取得的型式批准标志——<b>长方形外框</b> e + 国别号（区别于大 E 的圆形外框），仅在欧盟内有效。分两个层级：<b>① 部件/STU 层面</b>（本工具赛道）：仅用于<b>无对应 UN 法规、只有 EU 条例覆盖</b>的项——有 UN 法规的项 EU 直接采用该 UN 法规（Art 57/58 等效），部件拿的是大 E；<b>② 整车层面</b>：EU 整车型式批准（EU-WVTA，2018/858）本身就是 EU 框架批准，证书号以 e+国别 开头（如 e1*2018/858*…）——但其 Annex II 要求大量为 UN 法规，以部件的大 E 批准作为组成部分。所以「整车 e 证 + 部件大 E 标」并存是常态。<br>标志与铭牌依据：(EU) 2018/858 <b>Art 38</b>。标志外观见「标志速查」示意图。"
+    },
+    "ce": {
+      "t": "CE 标志",
+      "d": "欧盟对<b>非车用型式批准范畴</b>产品的合规标志（如无线走 RED 2014/53/EU、机械走机械指令）。与 E/e 是不同体系；含无线/机械的车用电子件可能需<b>多标并存</b>（E-mark + CE）。"
+    },
+    "cop": {
+      "t": "生产一致性 CoP",
+      "d": "Conformity of Production——确保<b>量产件持续与批准样品一致</b>的质量控制机制。需制定 CoP 控制计划并纳入质量管理体系；批准机关<b>发证前核查、发证后周期性监督/工厂审计</b>。拿证只是起点，CoP 不达标证书会被暂停乃至撤销。<br>依据：(EU) 2018/858 <b>Art 31</b>（Conformity of production arrangements，机关可据此<b>撤销型式批准</b>）。"
+    },
+    "party": {
+      "t": "缔约方（Contracting Party）",
+      "d": "加入 1958 协定、承诺<b>相互承认型式批准</b>的国家/地区（欧盟、日本、韩国、俄罗斯、土耳其等 60+ 方，各有 E 号）。您的 E-mark 证书在共同适用该法规的缔约方之间互认。"
+    },
+    "ta": {
+      "t": "型式批准（Type Approval）",
+      "d": "由官方机关确认某<b>\"型号\"</b>产品符合法规、准许量产上市的制度。区别于逐台检验：批准一个型号，量产件靠 CoP 保持一致即可。"
+    },
+    "authority": {
+      "t": "型式批准机关（Approval Authority）",
+      "d": "缔约方政府指定、有权<b>签发型式批准证书</b>的机构（如荷兰 RDW、德国 KBA、英国 VCA、卢森堡 SNCH）。"
+    },
+    "ts": {
+      "t": "技术服务机构（Technical Service）",
+      "d": "获批准机关<b>认可、执行法规规定测试</b>的实验室（SGS 即为其一）。出具测试报告供机关审批。与\"批准机关\"是两个角色。"
+    },
+    "esa": {
+      "t": "电子子组件 ESA",
+      "d": "Electronic Sub-Assembly——可<b>独立于整车</b>单独型式批准的车载电子装置（控制器、灯具电子模块等）。UN R10 允许 ESA 独立认证。"
+    },
+    "wvta": {
+      "t": "整车型式批准 WVTA / IWVTA",
+      "d": "Whole Vehicle Type Approval——对<b>整车</b>（而非单个部件）的型式批准。整车层面三种批准并存：<b>① UN R0 IWVTA</b>（1958 协定的整车批准，即「整车的大 E 体系」）：仅限 <b>M1 乘用车</b>量产完成车（R0 ¶1.1）；分 <b>U-IWVTA</b>（Annex 4 全部 43 项 UN 法规按规定或更新版本全满足，适用 R0 的缔约方须接受，¶2.3.1）与 <b>L-IWVTA</b>（未全满足/按旧版，认可有限，¶2.3.2）；整车须贴 IWVTA 型批标志（含字母 <b>U</b>，¶4.5 + Annex 2）。<b>② EU-WVTA</b>（2018/858）：进入欧盟市场的整车证（e+国别 编号），覆盖排放/尺寸等 IWVTA 不含的要求，U-IWVTA 在其中作为 UN 法规部分的合规证据。<b>③ 部件大 E</b>：两种整车证共同的组成部分。整车必备 43 项见「IWVTA 清单」按钮。"
+    },
+    "stu": {
+      "t": "独立技术单元 STU",
+      "d": "Separate Technical Unit——可单独型式批准的装置，但仅针对一种或多种指定车型、且相关法规明文允许时。<br>定义原文：(EU) 2018/858 <b>Art 3(20)</b>。"
+    },
+    "eif": {
+      "t": "生效日期 vs 强制适用日",
+      "d": "两者不同、勿混：<b>UNECE 增补生效日</b>＝某 UN 法规该系列/增补自此可获批准并在缔约方间互认（本工具版本标注用此，源自 WP.29/343 Add.2）；<b>EU 强制适用日</b>＝欧盟自此拒绝对不合规新型式批准（(EU) 2019/2144 <b>Art 16</b> + Annex II 所列日期）。"
+    }
+  },
+  "authorityDirectory": [
+    {
+      "e": 1,
+      "cn": "德国",
+      "a": "Kraftfahrt-Bundesamt",
+      "w": "",
+      "ts": 63,
+      "sgs": 1
+    },
+    {
+      "e": 2,
+      "cn": "法国",
+      "a": "Ministère de la Transition Ecologique et de la Cohésion des territoire",
+      "w": "https://www.ecologie.gouv.fr/politiques/vehicules",
+      "ts": 10,
+      "sgs": 0
+    },
+    {
+      "e": 3,
+      "cn": "意大利",
+      "a": "Ministero delle Infrastrutture e dei Trasporti Dipartimento per i tras",
+      "w": "",
+      "ts": 7,
+      "sgs": 0
+    },
+    {
+      "e": 4,
+      "cn": "荷兰",
+      "a": "RDW（荷兰陆路交通署）",
+      "w": "",
+      "ts": 35,
+      "sgs": 1
+    },
+    {
+      "e": 5,
+      "cn": "瑞典",
+      "a": "Transportstyrelsen (Swedish Transport Agency)",
+      "w": "https://transportstyrelsen.se/sv/vagtrafik/",
+      "ts": 19,
+      "sgs": 1
+    },
+    {
+      "e": 6,
+      "cn": "比利时",
+      "a": "Service Public fédéral (SPF) Mobilité et Transports",
+      "w": "http://www.mobilit.fgov.be",
+      "ts": 14,
+      "sgs": 0
+    },
+    {
+      "e": 7,
+      "cn": "匈牙利",
+      "a": "Innovációs és Technológiai Minisztérium (Ministry of Innovation and Te",
+      "w": "http://www.nkh.gov.hu",
+      "ts": 10,
+      "sgs": 0
+    },
+    {
+      "e": 8,
+      "cn": "捷克",
+      "a": "Ministerstvo dopravy(Ministry of Transport)Nábrezí Ludvíka Svobody 12C",
+      "w": "http://www.mdcr.cz",
+      "ts": 6,
+      "sgs": 0
+    },
+    {
+      "e": 9,
+      "cn": "西班牙",
+      "a": "Subdirección General de Calidad y Seguridad Industrial Ministerio de I",
+      "w": "",
+      "ts": 5,
+      "sgs": 0
+    },
+    {
+      "e": 10,
+      "cn": "塞尔维亚",
+      "a": "Road Traffic Safety Agency",
+      "w": "",
+      "ts": 9,
+      "sgs": 0
+    },
+    {
+      "e": 11,
+      "cn": "英国",
+      "a": "Vehicle Certification Agency",
+      "w": "",
+      "ts": 13,
+      "sgs": 1
+    },
+    {
+      "e": 12,
+      "cn": "奥地利",
+      "a": "Bundesministerium für Innovation, Mobilität und Infrastruktur, Radetzk",
+      "w": "www.bmimi.gv.at",
+      "ts": 20,
+      "sgs": 0
+    },
+    {
+      "e": 13,
+      "cn": "卢森堡",
+      "a": "Ministère de la Mobilité et des Travaux publics",
+      "w": "",
+      "ts": 15,
+      "sgs": 0
+    },
+    {
+      "e": 14,
+      "cn": "瑞士",
+      "a": "OFROU",
+      "w": "http://www.astra.admin.ch",
+      "ts": 7,
+      "sgs": 0
+    },
+    {
+      "e": 16,
+      "cn": "挪威",
+      "a": "Vegdirektoratet",
+      "w": "",
+      "ts": 4,
+      "sgs": 0
+    },
+    {
+      "e": 17,
+      "cn": "芬兰",
+      "a": "Finnish Transport and Communications Agency",
+      "w": "http://www.traficom.fi",
+      "ts": 16,
+      "sgs": 1
+    },
+    {
+      "e": 18,
+      "cn": "丹麦",
+      "a": "Danish Road Traffic Authority",
+      "w": "http://fstyr.dk",
+      "ts": 4,
+      "sgs": 0
+    },
+    {
+      "e": 19,
+      "cn": "罗马尼亚",
+      "a": "Ministerul Transporturilor si Infrastructurii",
+      "w": "",
+      "ts": 4,
+      "sgs": 0
+    },
+    {
+      "e": 20,
+      "cn": "波兰",
+      "a": "Transportowy Dozór Techniczny (Transportation Technical Supervision)",
+      "w": "www.tdt.gov.pl",
+      "ts": 17,
+      "sgs": 0
+    },
+    {
+      "e": 21,
+      "cn": "葡萄牙",
+      "a": "Instituto da Mobilidade e dos Transportes, I.P.",
+      "w": "www.imt-ip.pt",
+      "ts": 10,
+      "sgs": 0
+    },
+    {
+      "e": 22,
+      "cn": "俄罗斯",
+      "a": "Federal Agency on Technical Regulating",
+      "w": "http://www.gost.ru",
+      "ts": 11,
+      "sgs": 0
+    },
+    {
+      "e": 23,
+      "cn": "希腊",
+      "a": "Ministry of Transport and Communications",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 24,
+      "cn": "爱尔兰",
+      "a": "National Standards Authority of Ireland 1 Swift Square, Northwood, San",
+      "w": "",
+      "ts": 18,
+      "sgs": 1
+    },
+    {
+      "e": 25,
+      "cn": "克罗地亚",
+      "a": "State Office for Metrology Independent Service for Type Approval of Mo",
+      "w": "",
+      "ts": 2,
+      "sgs": 0
+    },
+    {
+      "e": 26,
+      "cn": "斯洛文尼亚",
+      "a": "Javna agencija Republike Slovenije",
+      "w": "http://www.avp-gov.si",
+      "ts": 3,
+      "sgs": 0
+    },
+    {
+      "e": 27,
+      "cn": "斯洛伐克",
+      "a": "Ministry of Transport of Slovak Republic, Nám. Slobody 6, SK-810 05 Br",
+      "w": "http://www.mindop.sk",
+      "ts": 10,
+      "sgs": 0
+    },
+    {
+      "e": 28,
+      "cn": "白俄罗斯",
+      "a": "State Committee for Standardization",
+      "w": "",
+      "ts": 19,
+      "sgs": 0
+    },
+    {
+      "e": 29,
+      "cn": "爱沙尼亚",
+      "a": "Estonian Transport Administration",
+      "w": "",
+      "ts": 5,
+      "sgs": 0
+    },
+    {
+      "e": 30,
+      "cn": "摩尔多瓦",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 31,
+      "cn": "波黑",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 32,
+      "cn": "拉脱维亚",
+      "a": "Road Traffic Safety Directorate",
+      "w": "http://www.csdd.lv",
+      "ts": 8,
+      "sgs": 0
+    },
+    {
+      "e": 34,
+      "cn": "保加利亚",
+      "a": "Ministry of Transport",
+      "w": "http://www.rta.government.bg",
+      "ts": 2,
+      "sgs": 0
+    },
+    {
+      "e": 35,
+      "cn": "哈萨克斯坦",
+      "a": "Committee of Technical Regulation and Metrology of the Ministry of Inv",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 36,
+      "cn": "立陶宛",
+      "a": "Lithuanian Transport Safety Administration, Street Švitrigailos 42 LT-",
+      "w": "",
+      "ts": 3,
+      "sgs": 0
+    },
+    {
+      "e": 37,
+      "cn": "土耳其",
+      "a": "Ministry of Industry and Technology of the Republic of Turkey Director",
+      "w": "http://www.sanayi.gov.tr",
+      "ts": 11,
+      "sgs": 0
+    },
+    {
+      "e": 39,
+      "cn": "阿塞拜疆",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 40,
+      "cn": "北马其顿",
+      "a": "Ministry of Economy",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 41,
+      "cn": "安道尔",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 42,
+      "cn": "欧盟",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 43,
+      "cn": "日本",
+      "a": "Ministry of Land, Infrastructure, Transport and Tourism2-1-3, Kasumiga",
+      "w": "",
+      "ts": 2,
+      "sgs": 0
+    },
+    {
+      "e": 44,
+      "cn": "乌兹别克斯坦",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 45,
+      "cn": "澳大利亚",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 46,
+      "cn": "乌克兰",
+      "a": "Ministry of Infrastructure",
+      "w": "http://mtu.gov.ua",
+      "ts": 4,
+      "sgs": 0
+    },
+    {
+      "e": 47,
+      "cn": "南非",
+      "a": "National Regulator forCompulsory SpecificationsAutomotive DivisionPriv",
+      "w": "http://www.nrcs.org.za",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 48,
+      "cn": "新西兰",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 49,
+      "cn": "塞浦路斯",
+      "a": "Road Transport Department",
+      "w": "",
+      "ts": 3,
+      "sgs": 0
+    },
+    {
+      "e": 50,
+      "cn": "马耳他",
+      "a": "Malta Competition and Consumer Affairs Authority; Mizzi House, Nationa",
+      "w": "www.mccaa.org.mt",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 51,
+      "cn": "韩国",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 52,
+      "cn": "马来西亚",
+      "a": "Road Transport Department (JPJ), Level 3-5, No. 26, Jalan Tun Hussein,",
+      "w": "www.jpj.gov.my",
+      "ts": 5,
+      "sgs": 0
+    },
+    {
+      "e": 53,
+      "cn": "泰国",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 54,
+      "cn": "阿尔巴尼亚",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 55,
+      "cn": "亚美尼亚",
+      "a": "«National Body for Standards and Metrology» CJSC",
+      "w": "https://www.armstandard.am/",
+      "ts": 2,
+      "sgs": 0
+    },
+    {
+      "e": 56,
+      "cn": "黑山",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 57,
+      "cn": "圣马力诺",
+      "a": "Autorità per l'Omologazione - Via Consiglio dei Sessanta",
+      "w": "http://www.smao.smMr",
+      "ts": 2,
+      "sgs": 0
+    },
+    {
+      "e": 58,
+      "cn": "突尼斯",
+      "a": "Agence Techique des Transports Terrestres",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 60,
+      "cn": "格鲁吉亚",
+      "a": "LEPL Land Transport Agency",
+      "w": "https://lta.gov.ge",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 62,
+      "cn": "埃及",
+      "a": "Ministry of Trade and Industry",
+      "w": "http://www.eos.org.eg/ar",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 63,
+      "cn": "尼日利亚",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 64,
+      "cn": "巴基斯坦",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 65,
+      "cn": "乌干达",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 66,
+      "cn": "菲律宾",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    },
+    {
+      "e": 67,
+      "cn": "越南",
+      "a": "",
+      "w": "",
+      "ts": 0,
+      "sgs": 0
+    },
+    {
+      "e": 68,
+      "cn": "吉尔吉斯斯坦",
+      "a": "Waiting for data",
+      "w": "",
+      "ts": 1,
+      "sgs": 0
+    }
+  ],
+  "markApplicabilityMatrix": [
+    {
+      "subject": "整车 · M1 乘用车",
+      "bigE": {
+        "applicable": "yes",
+        "detail": "R0 IWVTA·U 标"
+      },
+      "smallE": {
+        "applicable": "yes",
+        "detail": "EU-WVTA·e 证"
+      },
+      "ce": {
+        "applicable": "no"
+      },
+      "note": "进欧盟以 EU-WVTA 为准；U-IWVTA 作为其中 UN 部分证据"
+    },
+    {
+      "subject": "整车 · 其他类别（M2/M3/N/O）",
+      "bigE": {
+        "applicable": "no",
+        "detail": "R0 仅限 M1"
+      },
+      "smallE": {
+        "applicable": "yes",
+        "detail": "EU-WVTA"
+      },
+      "ce": {
+        "applicable": "no"
+      },
+      "note": ""
+    },
+    {
+      "subject": "部件/STU · 有对应 UN 法规（灯具/玻璃/R90…）",
+      "bigE": {
+        "applicable": "yes"
+      },
+      "smallE": {
+        "applicable": "no"
+      },
+      "ce": {
+        "applicable": "no"
+      },
+      "note": "Art 57/58：EU 直接采用 UN 法规，不走小 e"
+    },
+    {
+      "subject": "部件/STU · 仅 EU 条例覆盖（eCall/前防护/氢材料/酒精锁）",
+      "bigE": {
+        "applicable": "no",
+        "detail": "无 UN 法规"
+      },
+      "smallE": {
+        "applicable": "yes"
+      },
+      "ce": {
+        "applicable": "no"
+      },
+      "note": ""
+    },
+    {
+      "subject": "部件 + 无线/射频模块",
+      "bigE": {
+        "applicable": "depends",
+        "detail": "视部件本身（有对应 UN 法规→打大 E）"
+      },
+      "smallE": {
+        "applicable": "depends",
+        "detail": "视部件本身（无对应 UN 法规、仅 EU 条例覆盖→打小 e）"
+      },
+      "ce": {
+        "applicable": "yes",
+        "detail": "追加·RED 2014/53"
+      },
+      "note": "E/e 判定不变，CE 是叠加要求，多标并存各走各的评定"
+    },
+    {
+      "subject": "部件 + 机械动力（液压/举升）",
+      "bigE": {
+        "applicable": "depends",
+        "detail": "视部件本身（有对应 UN 法规→打大 E）"
+      },
+      "smallE": {
+        "applicable": "depends",
+        "detail": "视部件本身（无对应 UN 法规、仅 EU 条例覆盖→打小 e）"
+      },
+      "ce": {
+        "applicable": "yes",
+        "detail": "追加·2006/42→2023/1230（2027-01-20起）"
+      },
+      "note": "E/e 判定不变，CE 是叠加要求"
+    },
+    {
+      "subject": "部件 + 烟火件（气囊气发/预紧器）",
+      "bigE": {
+        "applicable": "yes",
+        "detail": "R114/R16"
+      },
+      "smallE": {
+        "applicable": "no"
+      },
+      "ce": {
+        "applicable": "yes",
+        "detail": "追加·2013/29"
+      },
+      "note": "两证并行不互替"
+    }
+  ],
+  "versionTimeline": {
+    "_note": "VERDB（各系列生效日主数据）为独立文件 data/unece_status.json，不在此处重复；以下三项为支撑「版本时效自查表」的小型参考常量。",
+    "euReferenceSeries": {
+      "1": "02",
+      "3": "02",
+      "4": "00",
+      "6": "01",
+      "7": "02",
+      "8": "05",
+      "10": "05",
+      "11": "04",
+      "12": "04",
+      "13": "11",
+      "14": "09",
+      "16": "07",
+      "17": "09",
+      "18": "03",
+      "19": "04",
+      "20": "03",
+      "21": "01",
+      "23": "00",
+      "26": "03",
+      "28": "00",
+      "29": "03",
+      "30": "02",
+      "31": "02",
+      "34": "04",
+      "37": "03",
+      "38": "00",
+      "39": "01",
+      "43": "01",
+      "44": "04",
+      "45": "01",
+      "46": "04",
+      "48": "07",
+      "54": "00",
+      "55": "01",
+      "58": "03",
+      "61": "00",
+      "64": "02",
+      "66": "02",
+      "67": "01",
+      "73": "01",
+      "77": "00",
+      "79": "04",
+      "80": "03",
+      "87": "00",
+      "89": "00",
+      "90": "02",
+      "91": "00",
+      "93": "00",
+      "94": "04",
+      "95": "05",
+      "97": "01",
+      "98": "01",
+      "99": "00",
+      "100": "03",
+      "102": "00",
+      "104": "00",
+      "105": "05",
+      "107": "07",
+      "108": "00",
+      "109": "00",
+      "110": "01",
+      "112": "01",
+      "114": "00",
+      "115": "00",
+      "116": "00",
+      "117": "04",
+      "118": "03",
+      "119": "01",
+      "121": "01",
+      "122": "00",
+      "123": "01",
+      "124": "00",
+      "125": "01",
+      "126": "00",
+      "127": "04",
+      "128": "00",
+      "129": "00",
+      "130": "00",
+      "131": "01",
+      "134": "00",
+      "135": "01",
+      "137": "02",
+      "139": "00",
+      "140": "00",
+      "141": "01",
+      "142": "01",
+      "145": "00",
+      "148": "00",
+      "149": "00",
+      "150": "00",
+      "151": "00",
+      "152": "02",
+      "153": "00",
+      "155": "00",
+      "157": "00",
+      "158": "00",
+      "159": "00",
+      "160": "01",
+      "161": "00",
+      "162": "00",
+      "163": "00",
+      "167": "00",
+      "169": "00",
+      "171": "00",
+      "13-H": "00"
+    },
+    "euExpiryNotes": {
+      "44": "附注12：2023-09-01 前投放市场的 R44 儿童座椅可继续供货至 <b>2024-09-01</b>（此后失效）。",
+      "117": "附注19：按 R117 02/03 系列批准、2026-07-07 前制造的轮胎，可装配在用车至 <b>2029-01-06</b>。",
+      "127": "附注18：R127 04 系列——WAD2-100 边界条款受理至 <b>2029-09-01</b>；发动机罩后缘条款至 <b>2031-09-01</b>。"
+    },
+    "unTransitionDates": {
+      "10": {
+        "02": {
+          "c4n": "01-01-1998 (footnote 12)"
+        },
+        "03": {
+          "c4": "11-07-2009"
+        },
+        "04": {
+          "c4": "28-10-2014"
+        }
+      },
+      "11": {
+        "02": {
+          "c5": "15-03-1983"
+        },
+        "03": {
+          "c4": "12-08-2012"
+        },
+        "04": {
+          "c4": "01-09-2016"
+        }
+      },
+      "12": {
+        "03": {
+          "c4n": "24-08-1996 (footnote 14)"
+        },
+        "04": {
+          "c4n": "two per-category dates: 23-06-2013 (footnote 18), 23-06-2014 (footnote 19)"
+        }
+      },
+      "14": {
+        "03": {
+          "c4": "01-07-1992"
+        },
+        "04": {
+          "c4n": "two per-category dates: 19-03-1999 (footnote 32), 01-10-1999 (footnote 33)"
+        },
+        "05": {
+          "c4": "04-10-2000"
+        },
+        "06": {
+          "c4n": "26-02-2006 (footnote 36)"
+        },
+        "07": {
+          "c4": "22-07-2011"
+        }
+      },
+      "16": {
+        "05": {
+          "c4": "03-08-2009",
+          "c5n": "03-02-2014 (footnote 37)"
+        },
+        "06": {
+          "c4": "22-07-2011"
+        }
+      },
+      "17": {
+        "04": {
+          "c4": "28-01-1994"
+        },
+        "05": {
+          "c4": "26-12-1998",
+          "c5": "26-12-2000"
+        },
+        "06": {
+          "c4": "01-10-1999"
+        },
+        "07": {
+          "c4": "06-08-2000",
+          "c5": "06-08-2002"
+        },
+        "08": {
+          "c4": "22-07-2011"
+        }
+      },
+      "26": {
+        "02": {
+          "c4": "13-12-1998",
+          "c5": "13-12-1999"
+        },
+        "03": {
+          "c4": "23-06-2007"
+        }
+      },
+      "30": {
+        "02": {
+          "c5n": "01-10-1995 (footnote 44) - carried on Sup.4 to 02 series (that supplement also shows col4 01-03-1994, footnote 43)"
+        }
+      },
+      "34": {
+        "02": {
+          "c4": "16-07-2004"
+        },
+        "03": {
+          "c4": "01-09-2018"
+        }
+      },
+      "39": {
+        "01": {
+          "c4": "01-09-2017"
+        }
+      },
+      "43": {
+        "01": {
+          "c4": "28-10-2013"
+        }
+      },
+      "44": {
+        "03": {
+          "c4": "12-09-1996"
+        },
+        "04": {
+          "c4": "23-06-2006",
+          "c5n": "10-06-2008 (footnote 49) - carried on Sup.4(rev.2) to 04 series"
+        }
+      },
+      "45": {
+        "01": {
+          "c4": "09-02-1990"
+        }
+      },
+      "46": {
+        "02": {
+          "c4n": "26-01-2006 (footnote 50); per-category (p) date"
+        },
+        "03": {
+          "c4n": "two per-category dates: 26-07-2013, 26-03-2014"
+        },
+        "04": {
+          "c4n": "two per-category dates: 30-06-2014, 30-06-2014"
+        }
+      },
+      "48": {
+        "01": {
+          "c4": "09-02-1998"
+        },
+        "02": {
+          "c4": "01-10-2002"
+        },
+        "03": {
+          "c4": "10-10-2007",
+          "c5n": "10-10-2011 (footnote 52)"
+        },
+        "04": {
+          "c4n": "two per-category dates: 07-02-2011 (footnote 53), 07-08-2012 (footnote 54)"
+        },
+        "05": {
+          "c4n": "30-07-2016 (footnote 55)"
+        },
+        "06": {
+          "c4": "18-11-2017"
+        }
+      },
+      "51": {
+        "02": {
+          "c4": "01-10-1995"
+        },
+        "03": {
+          "c4n": "01-07-2022 (footnote 73)"
+        }
+      },
+      "58": {
+        "02": {
+          "c4n": "two per-category dates: 11-01-2010, 11-07-2012"
+        },
+        "03": {
+          "c4": "01-09-2019"
+        }
+      },
+      "64": {
+        "01": {
+          "c4": "03-02-2011"
+        },
+        "03": {
+          "c4": "01-09-2018"
+        }
+      },
+      "67": {
+        "01": {
+          "c4n": "two per-category dates: 13-02-2000, 13-11-2000"
+        }
+      },
+      "90": {
+        "01": {
+          "c4": "01-01-1995"
+        }
+      },
+      "94": {
+        "01": {
+          "c4": "01-10-1998"
+        },
+        "02": {
+          "c4n": "two per-category dates: 23-06-2013 (footnote 118), 23-06-2014 (footnote 119)"
+        },
+        "03": {
+          "c4": "01-09-2018"
+        }
+      },
+      "95": {
+        "01": {
+          "c4": "01-10-1998"
+        },
+        "02": {
+          "c4": "16-07-2004"
+        },
+        "03": {
+          "c4n": "two per-category dates: 23-06-2013, 23-03-2014 (footnote 120)"
+        }
+      },
+      "97": {
+        "01": {
+          "c4n": "two per-category dates: 13-01-2001, 13-01-2002"
+        }
+      },
+      "100": {
+        "01": {
+          "c4": "04-12-2012"
+        },
+        "02": {
+          "c4": "15-07-2016"
+        }
+      },
+      "110": {
+        "01": {
+          "c4n": "two per-category dates: 15-07-2014, 15-01-2015"
+        },
+        "02": {
+          "c4n": "two per-category dates: 01-09-2017, 01-09-2018"
+        }
+      },
+      "121": {
+        "01": {
+          "c4": "15-06-2017"
+        }
+      },
+      "125": {
+        "01": {
+          "c4": "15-07-2015"
+        }
+      },
+      "127": {
+        "01": {
+          "c4": "01-09-2017"
+        },
+        "02": {
+          "c4": "31-12-2017"
+        }
+      },
+      "129": {
+        "01": {
+          "c4": "01-09-2018"
+        },
+        "02": {
+          "c4": "01-09-2022"
+        }
+      },
+      "13-H": {
+        "01": {
+          "c4": "01-09-2018"
+        }
+      }
+    }
+  },
+  "deliverables": {
+    "stations": [
+      {
+        "id": "scope",
+        "n": "① 定标的与适用法规"
+      },
+      {
+        "id": "authority",
+        "n": "② 选型式批准机关"
+      },
+      {
+        "id": "ts",
+        "n": "③ 委托技术服务机构"
+      },
+      {
+        "id": "doc",
+        "n": "④ 编制技术文档"
+      },
+      {
+        "id": "test",
+        "n": "⑤ 送样与测试"
+      },
+      {
+        "id": "apply",
+        "n": "⑥ 递交批准申请"
+      },
+      {
+        "id": "grant",
+        "n": "⑦ 获证与打标"
+      },
+      {
+        "id": "cop",
+        "n": "⑧ 生产一致性 CoP"
+      },
+      {
+        "id": "life",
+        "n": "⑨ 持证运营"
+      }
+    ],
+    "byStation": {
+      "scope": [
+        {
+          "t": "产品技术定义书",
+          "b": "部件 / 独立技术单元（STU，2018/858 Art 3(20)）属性判定、适用车型类别（M/N/O/L）",
+          "mand": false
+        },
+        {
+          "t": "适用法规清单（含现行系列/增补版本）",
+          "b": "对照 WP.29/343 现行状态（盘点页右上版本标注）",
+          "mand": false
+        }
+      ],
+      "authority": [
+        {
+          "t": "批准机关申请表",
+          "b": "各机关申请入口不同——已核实：德国 KBA、瑞典 Transportstyrelsen 均有可下载表格（后者含英文版）；荷兰 RDW 首次申请从发邮件开始；英国 VCA 走自助门户（链接见⑥「递交批准申请」站）",
+          "mand": true
+        },
+        {
+          "t": "制造商注册资料",
+          "b": "企业资质、地址、联系人；部分机关要求境内代表信息",
+          "mand": true
+        },
+        {
+          "t": "申请语言要求确认",
+          "b": "各机关接受语言不同（EN/DE/NL…），译文成本计入预算",
+          "mand": false
+        }
+      ],
+      "ts": [
+        {
+          "t": "技术服务机构委托合同 / 报价单",
+          "b": "（精确报价以技服按产品评估为准）",
+          "mand": false
+        },
+        {
+          "t": "技服资质范围核对记录",
+          "b": "确认其指定范围（designation）覆盖您的全部法规项",
+          "mand": false
+        },
+        {
+          "t": "测试排期确认单",
+          "b": "排期是全周期最大变量，尽早锁定",
+          "mand": false
+        }
+      ],
+      "doc": [
+        {
+          "t": "信息文档 Information Document",
+          "b": "",
+          "mand": true,
+          "tpl": {
+            "url": "../data/templates/eu-2020-683-annex-I-information-document.pdf",
+            "label": "EU 信息文件模板 (EU)2020/683 Annex I · 65页逐项填空清单"
+          }
+        },
+        {
+          "t": "总装图 / 零件图纸（带版本号）",
+          "b": "图纸版本与送样实物一致",
+          "mand": true
+        },
+        {
+          "t": "技术参数表与材料清单（BOM）",
+          "b": "企业自身工程文档，法规仅要求随信息文档提交图纸/参数、不规定固定表格版式",
+          "mand": true
+        },
+        {
+          "t": "试验方案 / 内部预测试记录",
+          "b": "预测试可大幅降低正式测试不通过风险",
+          "mand": false
+        },
+        {
+          "t": "商标与打标位置图",
+          "b": "E 标位置、尺寸预先设计；各 UN 法规自身附件均含官方版式示意图（标注尺寸/示例批准号）",
+          "mand": false
+        },
+        {
+          "t": "文档-实物一致性核查记录",
+          "b": "机关审核最高频退回点，交前自查",
+          "mand": false
+        }
+      ],
+      "test": [
+        {
+          "t": "送样清单（数量按各法规规定）",
+          "b": "样品状态必须代表量产件",
+          "mand": true
+        },
+        {
+          "t": "样品标识与追溯记录",
+          "b": "",
+          "mand": false
+        },
+        {
+          "t": "技服出具的测试报告",
+          "b": "核对报告引用的法规系列/增补版本",
+          "mand": true
+        },
+        {
+          "t": "不符合项整改与复测记录（如有）",
+          "b": "",
+          "mand": false
+        }
+      ],
+      "apply": [
+        {
+          "t": "完整申请包（申请函 + 信息文件夹 + 测试报告）",
+          "b": "2018/858 Art 24 / 各 UN R 申请条款；以下是四大常用机关的申请门户",
+          "mand": true,
+          "links": [
+            {
+              "url": "https://www.rdw.nl/zakelijke-partners/fabrikant/typegoedkeuring-aanvragen/toelating-voor-uw-bedrijf-aanvragen",
+              "label": "荷兰 RDW 申请入口",
+              "kind": "portal"
+            },
+            {
+              "url": "https://www.kba.de/DE/Themen/Typgenehmigung/Typgenehmigungserteilung/typgenehmigungserteilung_node.html",
+              "label": "德国 KBA 申请入口",
+              "kind": "portal"
+            },
+            {
+              "url": "https://www.kba.de/DE/Themen/Typgenehmigung/Zum_Herunterladen/ErteilungTypgenehmigungen/mab_deutsch_nur_antrag_9_1.pdf",
+              "label": "德国 KBA 申请表示例",
+              "kind": "download"
+            },
+            {
+              "url": "https://www.transportstyrelsen.se/en/road/vehicles/type-approval/type-approval-process/",
+              "label": "瑞典 Transportstyrelsen 申请入口",
+              "kind": "portal"
+            },
+            {
+              "url": "https://www.transportstyrelsen.se/globalassets/global/blanketter/vag/english/application-for-type-approval-2024-02-19t.pdf",
+              "label": "瑞典 Transportstyrelsen 申请表 TSV7102",
+              "kind": "download"
+            },
+            {
+              "url": "https://www.vehicle-certification-agency.gov.uk/vca-portal/",
+              "label": "英国 VCA 申请门户",
+              "kind": "portal"
+            }
+          ]
+        },
+        {
+          "t": "CoP 初次评估安排",
+          "b": "生产一致性安排是批准前提（2018/858 Art 31 及各 UN R CoP 条款）",
+          "mand": true
+        },
+        {
+          "t": "机关往来问题答复记录",
+          "b": "指定专人跟进",
+          "mand": false
+        }
+      ],
+      "grant": [
+        {
+          "t": "型式批准证书原件归档",
+          "b": "建立证书台账（编号/系列/签发机关）；证书固定格式：UN 法规侧见各法规自身 Annex 1「Communication」模板（因法规而异，不逐条链接）",
+          "mand": true,
+          "example": "cert"
+        },
+        {
+          "t": "E 标打标版面图（圈 E + 国别号 + 批准号）",
+          "b": "按对应 UN 法规打标条款核对位置/尺寸/信息；各法规自身附件均含官方版式示意图，因法规而异、无跨法规通用的单一模板可链接，需按批准依据的具体 UN 法规版本查取其自身附件，右侧为 UN R10（电磁兼容）Annex 1 官方原图节选，供打标版式参照",
+          "mand": true,
+          "example": "mark"
+        },
+        {
+          "t": "打标合规自查照片记录",
+          "b": "打标不符规定本身构成不合规",
+          "mand": false
+        }
+      ],
+      "cop": [
+        {
+          "t": "CoP 控制计划（检验项 / 频次 / 判定标准）",
+          "b": "2018/858 Art 31；各 UN R CoP 附件",
+          "mand": true
+        },
+        {
+          "t": "例行试验记录",
+          "b": "按控制计划留痕，监督审核必查",
+          "mand": true
+        },
+        {
+          "t": "年度监督审核安排",
+          "b": "",
+          "mand": true
+        },
+        {
+          "t": "不合格品处理与纠正措施流程",
+          "b": "",
+          "mand": false
+        }
+      ],
+      "life": [
+        {
+          "t": "证书台账与换版提醒机制",
+          "b": "编号 / 系列 / 各缔约方适用状态",
+          "mand": false
+        },
+        {
+          "t": "法规版本追踪机制（订阅/负责人）",
+          "b": "跟踪 UN R 新系列/增补生效（数据源 WP.29/343）",
+          "mand": false
+        },
+        {
+          "t": "设计变更 → 扩展申请流程",
+          "b": "变更未申报可致证书失效",
+          "mand": true
+        },
+        {
+          "t": "版本时效台账（各系列生效日 / 法定失效日）",
+          "b": "数据见顶栏「速查工具 → 版本时效自查表」",
+          "mand": false
+        }
+      ]
     }
   }
 }
