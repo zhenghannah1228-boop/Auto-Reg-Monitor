@@ -4129,6 +4129,317 @@
         }
       },
       {
+        "id": "A7",
+        "category": "行李箱隔离系统",
+        "items": "行李箱/货舱隔离网或隔板系统(保护乘员舱免受碰撞中行李位移冲击)",
+        "regulation": "UN R126.00",
+        "costMin": 35000,
+        "costMax": 80000,
+        "timeline": "4~6 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "主要为台架/滑车碰撞模拟下的行李位移约束测试,单一测试矩阵相对简单;公开费用表未披露,此为参考区间,以检测机构报价为准",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "A7"
+          ]
+        }
+      },
+      {
+        "id": "A14",
+        "category": "燃油箱安全",
+        "items": "燃油箱总成及燃油系统耐火/耐压测试(含金属/塑料油箱附加项)",
+        "regulation": "UN R34.04",
+        "costMin": 80000,
+        "costMax": 180000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "含液压耐压、翻滚、明火耐火等多项测试,塑料油箱需额外提交多只样品(渗透/耐磨/低温冲击等);公开费用表未披露,按测试项目数量区间估算",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "A14"
+          ]
+        }
+      },
+      {
+        "id": "A17",
+        "category": "氢系统安全",
+        "items": "氢燃料系统安全(储氢罐、管路、泄漏检测,整车级,仅FCEV)",
+        "regulation": "UN R134.00",
+        "costMin": 350000,
+        "costMax": 600000,
+        "timeline": "4~6 个月",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "含储氢罐爆破/压力循环/跌落/耐火等破坏性测试及整车泄漏检测,具备资质的实验室少、排期长,复杂度与成本量级接近或高于动力电池法规;公开费用表未披露,按同类高压储氢测试复杂度估算",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "A17"
+          ],
+          "powers": [
+            "FCEV"
+          ]
+        }
+      },
+      {
+        "id": "A18",
+        "category": "氢系统材料",
+        "items": "氢系统材料兼容性(金属/高分子材料与氢环境相容性,仅FCEV)",
+        "regulation": "(EU) 2021/535 Annex XIV",
+        "costMin": 150000,
+        "costMax": 300000,
+        "timeline": "8~12 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "范围小于整系统安全测试,聚焦材料氢脆/渗透等相容性验证,仍属小众专业实验室项目;公开费用表未披露,按材料级测试复杂度估算",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "A18"
+          ],
+          "powers": [
+            "FCEV"
+          ]
+        }
+      },
+      {
+        "id": "A19",
+        "category": "电气安全（含动力电池）",
+        "items": "电驱动系统高压安全与REESS整车级测试(适用BEV/HEV/FCEV)",
+        "regulation": "UN R100.03",
+        "costMin": 200000,
+        "costMax": 400000,
+        "timeline": "3~5 个月",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "含REESS机械完整性/耐火/过充过放/热扩散及整车高压安全等测试;与(EU)2023/1542电池法规部分交叉但不含碳足迹/DPP等附加要求,成本区间低于后者;详细R100 Part I/II测试矩阵参见ev_assessment.html,此处为摘要级估算",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "A19"
+          ],
+          "powers": [
+            "BEV",
+            "HEV",
+            "FCEV"
+          ]
+        }
+      },
+      {
+        "id": "A28",
+        "category": "eCall 紧急呼叫",
+        "items": "自动紧急呼叫系统(GSM/GNSS模块、碰撞触发逻辑、PSAP通信)",
+        "regulation": "(EU) 2017/79",
+        "costMin": 70000,
+        "costMax": 160000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "以电子/通信一致性与碰撞触发逻辑验证为主,复杂度与成本量级接近车载电子件EMC测试;公开费用表未披露,按通信模块认证项目估算",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "A28"
+          ]
+        }
+      },
+      {
+        "id": "B3",
+        "category": "前防护系统（保杠）",
+        "items": "前防护系统/保险杠总成(腿型碰撞测试,行人保护合规)",
+        "regulation": "(EU) 2021/535 Annex XII",
+        "costMin": 60000,
+        "costMax": 150000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "含下腿型/上腿型冲击测试;前防护系统(牛角杠/护板)在重卡/皮卡/SUV改装市场有真实独立售后商品属性,故纳入售后角色",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU",
+            "AFTER"
+          ],
+          "parts": [
+            "front_guard"
+          ]
+        }
+      },
+      {
+        "id": "avas",
+        "category": "AVAS 行人警报",
+        "items": "纯电/混动车低速声响警示系统（含整车安装）",
+        "regulation": "UN R138.01",
+        "costMin": 80000,
+        "costMax": 160000,
+        "timeline": "5~9 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "仅适用 BEV/HEV/FCEV；按 ISO 16256（≈SAE J2889-1）测试匀速/加速/倒车等多工况声压级与频谱，工况矩阵规模与R158倒车探测相近；车辆安装型系统基本无成熟售后改装市场，以OE/Tier1申请为主",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "avas"
+          ],
+          "powers": [
+            "BEV",
+            "HEV",
+            "FCEV"
+          ]
+        }
+      },
+      {
+        "id": "steering",
+        "category": "转向装置",
+        "items": "动力转向系统 + ACSF 驾驶员辅助转向功能（基础型式认证）",
+        "regulation": "UN R79.04",
+        "costMin": 100000,
+        "costMax": 220000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "含转向操纵力/几何/失效保护等基础机电测试及技术文件审查；不含ACSF各细分辅助功能（如车道居中）的专项验证测试，后者另计（见ADAS相关条目）",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "C1"
+          ]
+        }
+      },
+      {
+        "id": "spare_runflat",
+        "category": "备胎和欠压行驶系统",
+        "items": "临时备胎 / 泄气保用轮胎系统 / 欠压报警(TPMS)整车功能要求",
+        "regulation": "UN R64.02",
+        "costMin": 60000,
+        "costMax": 140000,
+        "timeline": "4~7 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "核查备胎空间几何、泄气保用限速/标识提示、欠压报警功能逻辑（TPMS传感器硬件另见C13/RED相关条目，不重复计费）；售后泄气保用轮胎作为轮胎产品已归入comp_tyre（R30+R117）条目计费，此条目不单列售后",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "C11"
+          ]
+        }
+      },
+      {
+        "id": "speedlimiter",
+        "category": "里程表精度与限速器",
+        "items": "里程表/车速表精度 + 限速器（选装）功能验证",
+        "regulation": "UN R39.01",
+        "costMin": 50000,
+        "costMax": 120000,
+        "timeline": "4~7 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "里程表多速度点精度台架/路试 + 限速器触发阈值与响应验证；未选装限速器则仅测里程表部分，费用取区间下段",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "D5"
+          ]
+        }
+      },
+      {
+        "id": "alcolock_iface",
+        "category": "酒精锁安装便利化接口",
+        "items": "车辆预留标准化接口以便后装酒精锁（接口符合性，非锁本体）",
+        "regulation": "(EU) 2021/1243",
+        "costMin": 20000,
+        "costMax": 50000,
+        "timeline": "2~4 周",
+        "nbInvolvement": "多为文件审查，技术服务复核接口符合性",
+        "scenario": "OE",
+        "notes": "仅核查整车按Annex I预留的标准化安装接口是否合规，不测试酒精锁装置本体；复杂度与成本显著低于本表其余功能性测试项目",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "E1"
+          ]
+        }
+      },
+      {
+        "id": "noise_r51",
+        "category": "整车噪声排放",
+        "items": "整车外部噪声排放型式试验（匀速/加速/驻车 + ASEP 附加声排放工况）",
+        "regulation": "UN R51.03",
+        "costMin": 150000,
+        "costMax": 350000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行（室外试验场或室内声学实验室）",
+        "scenario": "OE",
+        "notes": "含室外或室内（Annex 7）通过噪声测量、ASEP随机工况核查；多配置/多动力版本需分别测试，费用随版本数增加；替换消声器(NORESS)另见exhaust_r59条目",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "G1"
+          ]
+        }
+      },
+      {
+        "id": "exhaust_r59",
+        "category": "替换用排气消声系统",
+        "items": "非原厂替换消声器/排气总成（NORESS）",
+        "regulation": "UN R59.03（含原R92 NORESS条款并入）",
+        "costMin": 60000,
+        "costMax": 150000,
+        "costUnit": "/型号",
+        "timeline": "4~8 周（每型号）",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "仅售后",
+        "notes": "含静态/行驶噪声声压级、背压(功率)损失、结构耐久及标识核查；性能排气/改装消声器是成熟独立售后产品类别，按适配车型/排量分别申请",
+        "conditions": {
+          "role": [
+            "AFTER"
+          ],
+          "parts": [
+            "exhaust"
+          ]
+        }
+      },
+      {
         "id": "ce_battery",
         "category": "电池",
         "items": "12V 铅酸蓄电池 + 动力电池包总成",

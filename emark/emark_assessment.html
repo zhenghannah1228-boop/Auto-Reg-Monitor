@@ -1662,7 +1662,9 @@ const PARTS=[
  {id:'red_camera',n:'无线摄像头模块',items:[],r:'2014/53/EU(RED)'},
  {id:'red_key',n:'遥控钥匙/无钥匙进入',items:[],r:'2014/53/EU(RED)'},
  {id:'red_peps',n:'PEPS 无钥匙启动',items:[],r:'2014/53/EU(RED)'},
- {id:'red_btspeaker',n:'蓝牙喇叭/音响模块',items:[],r:'2014/53/EU(RED)'}
+ {id:'red_btspeaker',n:'蓝牙喇叭/音响模块',items:[],r:'2014/53/EU(RED)'},
+ {id:'front_guard',n:'前防护系统/保险杠(牛角杠)',items:['B3'],r:'(EU) 2021/535 Annex XII'},
+ {id:'exhaust',n:'替换用排气消声系统(NORESS)',items:[],r:'UN R59.03'}
 ];
 // 动力类型标注（只标不删）：项按所选动力类型是否适用；不适用→返回灰标，适用/通用→空
 function powNA(i){ if(!sel.powers||!sel.powers.length) return false; const ps=POWER_SPEC[i.item]; return !!ps && !ps.some(p=>sel.powers.includes(p)); }
@@ -2241,6 +2243,20 @@ const CERT_ESTIMATE=[
  {id:'reversing',cat:'倒车探测装置',items:'超声波/摄像头倒车探测系统（含整车安装）',reg:'UN R158',cMin:90000,cMax:200000,tl:'6~10 周',nb:'技术服务执行',sc:'OE',note:'多场景下对VRU探测区域的性能验证，测试矩阵较大；目前以OE/Tier1申请为主，尚无成熟售后改装市场',cond:{role:['OEM','STU'],parts:['reversing']}},
  {id:'edr',cat:'事件数据记录(EDR)',items:'事件数据记录器(EDR)，通常集成于气囊控制器',reg:'UN R160',cMin:60000,cMax:150000,tl:'4~8 周',nb:'技术服务执行',sc:'OE',note:'侧重触发逻辑、时间零点判定与数据防覆盖/防篡改验证；通常内置于气囊ECU由供应商/主机厂申请，非售后件',cond:{role:['OEM','STU'],parts:['edr']}},
  {id:'doorlock',cat:'车门锁与铰链',items:'车门锁扣机构 + 门铰链',reg:'UN R11',cMin:50000,cMax:120000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'车门锁扣与铰链静态负荷及疲劳试验；碰撞维修替换件市场常见',cond:{parts:['doorlock']}},
+ {id:'A7',cat:'行李箱隔离系统',items:'行李箱/货舱隔离网或隔板系统(保护乘员舱免受碰撞中行李位移冲击)',reg:'UN R126.00',cMin:35000,cMax:80000,tl:'4~6 周',nb:'技术服务执行',sc:'OE',note:'主要为台架/滑车碰撞模拟下的行李位移约束测试,单一测试矩阵相对简单;公开费用表未披露,此为参考区间,以检测机构报价为准',cond:{role:['OEM','STU'],parts:['A7']}},
+ {id:'A14',cat:'燃油箱安全',items:'燃油箱总成及燃油系统耐火/耐压测试(含金属/塑料油箱附加项)',reg:'UN R34.04',cMin:80000,cMax:180000,tl:'6~10 周',nb:'技术服务执行',sc:'OE',note:'含液压耐压、翻滚、明火耐火等多项测试,塑料油箱需额外提交多只样品(渗透/耐磨/低温冲击等);公开费用表未披露,按测试项目数量区间估算',cond:{role:['OEM','STU'],parts:['A14']}},
+ {id:'A17',cat:'氢系统安全',items:'氢燃料系统安全(储氢罐、管路、泄漏检测,整车级,仅FCEV)',reg:'UN R134.00',cMin:350000,cMax:600000,tl:'4~6 个月',nb:'技术服务执行',sc:'OE',note:'含储氢罐爆破/压力循环/跌落/耐火等破坏性测试及整车泄漏检测,具备资质的实验室少、排期长,复杂度与成本量级接近或高于动力电池法规;公开费用表未披露,按同类高压储氢测试复杂度估算',cond:{role:['OEM','STU'],parts:['A17'],powers:['FCEV']}},
+ {id:'A18',cat:'氢系统材料',items:'氢系统材料兼容性(金属/高分子材料与氢环境相容性,仅FCEV)',reg:'(EU) 2021/535 Annex XIV',cMin:150000,cMax:300000,tl:'8~12 周',nb:'技术服务执行',sc:'OE',note:'范围小于整系统安全测试,聚焦材料氢脆/渗透等相容性验证,仍属小众专业实验室项目;公开费用表未披露,按材料级测试复杂度估算',cond:{role:['OEM','STU'],parts:['A18'],powers:['FCEV']}},
+ {id:'A19',cat:'电气安全（含动力电池）',items:'电驱动系统高压安全与REESS整车级测试(适用BEV/HEV/FCEV)',reg:'UN R100.03',cMin:200000,cMax:400000,tl:'3~5 个月',nb:'技术服务执行',sc:'OE',note:'含REESS机械完整性/耐火/过充过放/热扩散及整车高压安全等测试;与(EU)2023/1542电池法规部分交叉但不含碳足迹/DPP等附加要求,成本区间低于后者;详细R100 Part I/II测试矩阵参见ev_assessment.html,此处为摘要级估算',cond:{role:['OEM','STU'],parts:['A19'],powers:['BEV','HEV','FCEV']}},
+ {id:'A28',cat:'eCall 紧急呼叫',items:'自动紧急呼叫系统(GSM/GNSS模块、碰撞触发逻辑、PSAP通信)',reg:'(EU) 2017/79',cMin:70000,cMax:160000,tl:'4~8 周',nb:'技术服务执行',sc:'OE',note:'以电子/通信一致性与碰撞触发逻辑验证为主,复杂度与成本量级接近车载电子件EMC测试;公开费用表未披露,按通信模块认证项目估算',cond:{role:['OEM','STU'],parts:['A28']}},
+ {id:'B3',cat:'前防护系统（保杠）',items:'前防护系统/保险杠总成(腿型碰撞测试,行人保护合规)',reg:'(EU) 2021/535 Annex XII',cMin:60000,cMax:150000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'含下腿型/上腿型冲击测试;前防护系统(牛角杠/护板)在重卡/皮卡/SUV改装市场有真实独立售后商品属性,故纳入售后角色',cond:{role:['OEM','STU','AFTER'],parts:['front_guard']}},
+ {id:'avas',cat:'AVAS 行人警报',items:'纯电/混动车低速声响警示系统（含整车安装）',reg:'UN R138.01',cMin:80000,cMax:160000,tl:'5~9 周',nb:'技术服务执行',sc:'OE',note:'仅适用 BEV/HEV/FCEV；按 ISO 16256（≈SAE J2889-1）测试匀速/加速/倒车等多工况声压级与频谱，工况矩阵规模与R158倒车探测相近；车辆安装型系统基本无成熟售后改装市场，以OE/Tier1申请为主',cond:{role:['OEM','STU'],parts:['avas'],powers:['BEV','HEV','FCEV']}},
+ {id:'steering',cat:'转向装置',items:'动力转向系统 + ACSF 驾驶员辅助转向功能（基础型式认证）',reg:'UN R79.04',cMin:100000,cMax:220000,tl:'6~10 周',nb:'技术服务执行',sc:'OE',note:'含转向操纵力/几何/失效保护等基础机电测试及技术文件审查；不含ACSF各细分辅助功能（如车道居中）的专项验证测试，后者另计（见ADAS相关条目）',cond:{role:['OEM','STU'],parts:['C1']}},
+ {id:'spare_runflat',cat:'备胎和欠压行驶系统',items:'临时备胎 / 泄气保用轮胎系统 / 欠压报警(TPMS)整车功能要求',reg:'UN R64.02',cMin:60000,cMax:140000,tl:'4~7 周',nb:'技术服务执行',sc:'OE',note:'核查备胎空间几何、泄气保用限速/标识提示、欠压报警功能逻辑（TPMS传感器硬件另见C13/RED相关条目，不重复计费）；售后泄气保用轮胎作为轮胎产品已归入comp_tyre（R30+R117）条目计费，此条目不单列售后',cond:{role:['OEM','STU'],parts:['C11']}},
+ {id:'speedlimiter',cat:'里程表精度与限速器',items:'里程表/车速表精度 + 限速器（选装）功能验证',reg:'UN R39.01',cMin:50000,cMax:120000,tl:'4~7 周',nb:'技术服务执行',sc:'OE',note:'里程表多速度点精度台架/路试 + 限速器触发阈值与响应验证；未选装限速器则仅测里程表部分，费用取区间下段',cond:{role:['OEM','STU'],parts:['D5']}},
+ {id:'alcolock_iface',cat:'酒精锁安装便利化接口',items:'车辆预留标准化接口以便后装酒精锁（接口符合性，非锁本体）',reg:'(EU) 2021/1243',cMin:20000,cMax:50000,tl:'2~4 周',nb:'多为文件审查，技术服务复核接口符合性',sc:'OE',note:'仅核查整车按Annex I预留的标准化安装接口是否合规，不测试酒精锁装置本体；复杂度与成本显著低于本表其余功能性测试项目',cond:{role:['OEM','STU'],parts:['E1']}},
+ {id:'noise_r51',cat:'整车噪声排放',items:'整车外部噪声排放型式试验（匀速/加速/驻车 + ASEP 附加声排放工况）',reg:'UN R51.03',cMin:150000,cMax:350000,tl:'6~10 周',nb:'技术服务执行（室外试验场或室内声学实验室）',sc:'OE',note:'含室外或室内（Annex 7）通过噪声测量、ASEP随机工况核查；多配置/多动力版本需分别测试，费用随版本数增加；替换消声器(NORESS)另见exhaust_r59条目',cond:{role:['OEM','STU'],parts:['G1']}},
+ {id:'exhaust_r59',cat:'替换用排气消声系统',items:'非原厂替换消声器/排气总成（NORESS）',reg:'UN R59.03（含原R92 NORESS条款并入）',cMin:60000,cMax:150000,cUnit:'/型号',tl:'4~8 周（每型号）',nb:'技术服务执行',sc:'仅售后',note:'含静态/行驶噪声声压级、背压(功率)损失、结构耐久及标识核查；性能排气/改装消声器是成熟独立售后产品类别，按适配车型/排量分别申请',cond:{role:['AFTER'],parts:['exhaust']}},
  {id:'ce_battery',cat:'电池',items:'12V 铅酸蓄电池 + 动力电池包总成',reg:'(EU) 2023/1542 电池法规',cMin:400000,cMax:600000,tl:'约 6 个月',nb:'电池包需 NB（公告机构）',sc:'OE+售后',note:'含性能/安全/耐久+碳足迹声明+尽职调查(2027-08起)+数字产品护照(DPP)',cond:{role:['OEM','STU'],powers:['BEV','HEV','FCEV']}},
  {id:'ce_red',cat:'RED（无线设备指令）',items:'TPMS 传感器 + 控制器 + 后视镜 BSD 雷达 × 4',reg:'2014/53/EU',cMin:120000,cMax:200000,tl:'3~8 周',nb:'雷达建议 NB',sc:'OE+售后',note:'频率>1GHz 的雷达模块建议走 NB 路径；低功率蓝牙/NFC 可自我声明；费用按TPMS传感器定价，控制器/后视镜BSD雷达等其余无线部件未单独列选项，实际范围可能更广',cond:{role:['OEM','STU','AFTER'],parts:['tpms']}},
  {id:'ce_red_cond',cat:'RED（条件项）',items:'摄像头/钥匙/PEPS/蓝牙喇叭',reg:'2014/53/EU',cMin:100000,cMax:200000,tl:'3~5 周',nb:'可自我声明',sc:'视配置',note:'需确认产品配置，低功率模块多走自我声明+NB 通知模式',cond:{role:['OEM','STU','AFTER'],parts:['red_camera','red_key','red_peps','red_btspeaker']}},
