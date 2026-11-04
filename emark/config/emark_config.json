@@ -4161,11 +4161,15 @@
         "timeline": "3~8 周",
         "nbInvolvement": "雷达建议 NB",
         "scenario": "OE+售后",
-        "notes": "频率>1GHz 的雷达模块建议走 NB 路径；低功率蓝牙/NFC 可自我声明",
+        "notes": "频率>1GHz 的雷达模块建议走 NB 路径；低功率蓝牙/NFC 可自我声明；费用按TPMS传感器定价，控制器/后视镜BSD雷达等其余无线部件未单独列选项，实际范围可能更广",
         "conditions": {
           "role": [
             "OEM",
-            "STU"
+            "STU",
+            "AFTER"
+          ],
+          "parts": [
+            "tpms"
           ]
         }
       },
@@ -4183,7 +4187,14 @@
         "conditions": {
           "role": [
             "OEM",
-            "STU"
+            "STU",
+            "AFTER"
+          ],
+          "parts": [
+            "red_camera",
+            "red_key",
+            "red_peps",
+            "red_btspeaker"
           ]
         }
       },
