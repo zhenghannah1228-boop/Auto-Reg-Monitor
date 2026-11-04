@@ -1655,7 +1655,9 @@ const PARTS=[
  {id:'reversing',n:'倒车探测装置',items:['B7'],r:'R158'},
  {id:'edr',n:'事件数据记录 EDR',items:['E5'],r:'R160'},
  {id:'doorlock',n:'门锁与铰链',items:['F3'],r:'R11'},
- {id:'avas',n:'AVAS 行人警报',items:['B14'],r:'R138'}
+ {id:'avas',n:'AVAS 行人警报',items:['B14'],r:'R138'},
+ {id:'ac_compressor',n:'AC 压缩机/热管理压力件',items:[],r:'2014/68/EU(PED)'},
+ {id:'ehb_esc_eps',n:'EHB/ESC/EPS/驱动电桥/雨刮电机',items:[],r:'2006/42/EC(MD)'}
 ];
 // 动力类型标注（只标不删）：项按所选动力类型是否适用；不适用→返回灰标，适用/通用→空
 function powNA(i){ if(!sel.powers||!sel.powers.length) return false; const ps=POWER_SPEC[i.item]; return !!ps && !ps.some(p=>sel.powers.includes(p)); }
@@ -2218,12 +2220,28 @@ const CERT_ESTIMATE=[
  {id:'comp_headlamp',cat:'前照灯/道路照明',items:'近光/远光/AFS/前雾灯/弯道辅助灯',reg:'UN R98/R112/R149',cMin:80000,cMax:200000,tl:'4~8 周（每款）',nb:'技术服务执行',sc:'OE+售后',note:'AFS 各模式切换增加测试复杂度；LED/矩阵大灯费用较高',cond:{parts:['headlamp']}},
  {id:'comp_seatbelt',cat:'安全带',items:'三点式安全带（含预紧器、限力器）',reg:'UN R16',cMin:100000,cMax:200000,tl:'6~10 周',nb:'技术服务执行',sc:'OE+售后',note:'含动态滑车碰撞试验；预紧器含烟火件需同步 2013/29/EU',cond:{parts:['seatbelt']}},
  {id:'comp_emc',cat:'车载电子件 EMC',items:'ECU/传感器/控制器/车载充电机/DC-DC 等',reg:'UN R10',cMin:60000,cMax:150000,tl:'3~6 周（每款）',nb:'技术服务执行',sc:'OE+售后',note:'含辐射/传导发射、抗扰度；按测试项(零部件/系统级)计费',cond:{parts:['emc']}},
+ {id:'retread',cat:'翻新轮胎',items:'翻新充气轮胎（M1/N1/O1/O2）',reg:'UN R108',cMin:40000,cMax:90000,tl:'3~6 周',nb:'技术服务执行',sc:'仅售后',note:'负荷/速度耐久、几何尺寸、胎面粘合强度；测试项少于新胎 R30+R117，但翻新厂通常按批次/工艺线逐一申请',cond:{role:['AFTER'],parts:['retread']}},
+ {id:'wheel',cat:'车轮/轮毂',items:'替换用车轮/轮毂（钢制/铝合金）',reg:'UN R124',cMin:90000,cMax:200000,tl:'6~10 周',nb:'技术服务执行',sc:'仅售后',note:'含旋转弯曲疲劳、径向疲劳、冲击、滚动腐蚀等；铝合金轮毂疲劳测试耗时长，按规格/花纹分别申请',cond:{role:['AFTER'],parts:['wheel']}},
+ {id:'reflector',cat:'回复反射器/反光标识',items:'反射器 + 反光标识 + 长车反射标识板',reg:'UN R3/R104/R150',cMin:30000,cMax:70000,tl:'3~5 周',nb:'技术服务执行',sc:'OE+售后',note:'无源光学件：反射系数/色度/耐候/耐久；成本显著低于主动灯具，按类别(IA/IB/IIIA等)分别申请',cond:{parts:['reflector']}},
+ {id:'bulb',cat:'灯泡/光源',items:'灯丝灯泡/HID气体放电光源/LED光源',reg:'UN R37/R99/R128',cMin:30000,cMax:80000,tl:'3~6 周（每型号）',nb:'技术服务执行',sc:'OE+售后',note:'光通量/色温/电气特性/寿命耐久；R37/R99/R128 三族各自独立申请，按灯泡/光源型号分别计费',cond:{parts:['bulb']}},
+ {id:'hlclean',cat:'大灯清洗器',items:'前照灯清洗/喷洗系统',reg:'UN R45',cMin:50000,cMax:110000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'清洗效能（标定污染物）、机械耐久循环、低温功能；不含光学/碰撞试验，复杂度低于灯具本体',cond:{parts:['hlclean']}},
+ {id:'horn',cat:'喇叭',items:'电子/气动喇叭（音响警示装置）',reg:'UN R28',cMin:30000,cMax:70000,tl:'2~5 周',nb:'技术服务执行',sc:'OE+售后',note:'半消声室声压级/频谱 + 耐久循环；纯声学测试，复杂度低于后视镜等光学/机械件',cond:{parts:['horn']}},
+ {id:'crs',cat:'儿童座椅',items:'儿童约束系统（含 i-Size 增强型）',reg:'UN R44/R129',cMin:150000,cMax:300000,tl:'8~14 周',nb:'技术服务执行',sc:'仅售后',note:'动态滑车正撞(+R129 侧撞)+多尺寸假人组测试；覆盖身高/体重组别越多费用越高，高于单项安全带滑车测试',cond:{role:['AFTER'],parts:['crs']}},
+ {id:'seat',cat:'座椅及头枕',items:'车辆座椅总成 + 头枕',reg:'UN R17',cMin:100000,cMax:220000,tl:'6~10 周',nb:'技术服务执行',sc:'OE+售后',note:'座椅骨架静态强度、锁止机构、头枕后移/鞭甩防护试验；按座椅排数/型号分别申请',cond:{parts:['seat']}},
+ {id:'towbar',cat:'牵引装置(拖车钩)',items:'牵引钩/牵引杆/球头座等机械挂接件',reg:'UN R55',cMin:50000,cMax:120000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'静态强度+约200万次台架疲劳循环试验（耗时数十小时）；常见售后挂车钩改装件',cond:{parts:['towbar']}},
+ {id:'rup',cat:'后下部防护装置(RUPD)',items:'货车及挂车后下防护梁总成',reg:'UN R58',cMin:50000,cMax:130000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'按车辆类别做后部静态推力与强度试验；商用车身改装厂常作外购合格部件安装',cond:{parts:['rup']}},
+ {id:'gas',cat:'LPG/CNG 气路部件',items:'气瓶/储气罐 + 阀门/调压器/加气口等附件',reg:'UN R67/R110',cMin:150000,cMax:350000,cUnit:'/种部件',tl:'8~16 周（每种部件）',nb:'技术服务执行',sc:'OE+售后',note:'含爆破、2万次压力循环、明火(bonfire)等破坏性测试，瓶体/阀门/调压器可分别计费；LPG/CNG改装套件常见售后加装',cond:{parts:['gas']}},
+ {id:'antitheft',cat:'防盗报警与挂车锁',items:'车辆报警系统(VAS) + 防盗装置/机械锁 + 挂车锁',reg:'UN R97/R116',cMin:70000,cMax:160000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'R97报警侧重环境(温湿振动/EMC)+防拆解功能，R116防盗装置/挂钩锁侧重机电防撬；常见售后安防改装',cond:{parts:['antitheft']}},
+ {id:'heater',cat:'独立式加热器',items:'燃油/燃气驻车加热器总成',reg:'UN R122',cMin:50000,cMax:120000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'重点评估明火风险、安装部位耐热与燃油/燃气供给安全；独立暖风机售后加装常见',cond:{parts:['heater']}},
+ {id:'reversing',cat:'倒车探测装置',items:'超声波/摄像头倒车探测系统（含整车安装）',reg:'UN R158',cMin:90000,cMax:200000,tl:'6~10 周',nb:'技术服务执行',sc:'OE',note:'多场景下对VRU探测区域的性能验证，测试矩阵较大；目前以OE/Tier1申请为主，尚无成熟售后改装市场',cond:{role:['OEM','STU'],parts:['reversing']}},
+ {id:'edr',cat:'事件数据记录(EDR)',items:'事件数据记录器(EDR)，通常集成于气囊控制器',reg:'UN R160',cMin:60000,cMax:150000,tl:'4~8 周',nb:'技术服务执行',sc:'OE',note:'侧重触发逻辑、时间零点判定与数据防覆盖/防篡改验证；通常内置于气囊ECU由供应商/主机厂申请，非售后件',cond:{role:['OEM','STU'],parts:['edr']}},
+ {id:'doorlock',cat:'车门锁与铰链',items:'车门锁扣机构 + 门铰链',reg:'UN R11',cMin:50000,cMax:120000,tl:'4~8 周',nb:'技术服务执行',sc:'OE+售后',note:'车门锁扣与铰链静态负荷及疲劳试验；碰撞维修替换件市场常见',cond:{parts:['doorlock']}},
  {id:'ce_battery',cat:'电池',items:'12V 铅酸蓄电池 + 动力电池包总成',reg:'(EU) 2023/1542 电池法规',cMin:400000,cMax:600000,tl:'约 6 个月',nb:'电池包需 NB（公告机构）',sc:'OE+售后',note:'含性能/安全/耐久+碳足迹声明+尽职调查(2027-08起)+数字产品护照(DPP)',cond:{role:['OEM','STU'],powers:['BEV','HEV','FCEV']}},
  {id:'ce_red',cat:'RED（无线设备指令）',items:'TPMS 传感器 + 控制器 + 后视镜 BSD 雷达 × 4',reg:'2014/53/EU',cMin:120000,cMax:200000,tl:'3~8 周',nb:'雷达建议 NB',sc:'OE+售后',note:'频率>1GHz 的雷达模块建议走 NB 路径；低功率蓝牙/NFC 可自我声明',cond:{role:['OEM','STU']}},
  {id:'ce_red_cond',cat:'RED（条件项）',items:'摄像头/钥匙/PEPS/蓝牙喇叭',reg:'2014/53/EU',cMin:100000,cMax:200000,tl:'3~5 周',nb:'可自我声明',sc:'视配置',note:'需确认产品配置，低功率模块多走自我声明+NB 通知模式',cond:{role:['OEM','STU']}},
  {id:'ce_pyro',cat:'烟火制品',items:'气囊 × 3 型号 + 安全带预紧器 × 2',reg:'2013/29/EU',cMin:350000,cMax:530000,tl:'12~20 周',nb:'必须 NB',sc:'OE+售后',note:'按气囊型号分别认证；含运输分类+储存稳定性测试',cond:{role:['OEM','STU'],parts:['airbag','seatbelt']}},
- {id:'ce_ped',cat:'售后 PED（压力设备指令）',items:'AC 压缩机/热管理压力件 共 11 项',reg:'2014/68/EU',cMin:40000,cMax:200000,cUnit:'/件',tl:'6~16 周/件',nb:'视类别（Cat I 可自评，II+ 需 NB）',sc:'仅售后',note:'压力>0.5bar 的零部件按 PED 分类评估；OE 件随整车豁免',cond:{role:['AFTER']}},
- {id:'ce_md',cat:'售后 MD（机械指令）',items:'EHB/ESC/EPS/驱动电桥/雨刮电机等 共 9 项',reg:'2006/42/EC',cMin:60000,cMax:100000,cUnit:'/件',tl:'6~10 周/件',nb:'不需 NB（自我声明+技术文件）',sc:'仅售后',note:'随整车型批豁免；仅售后独立销售件需 CE',cond:{role:['AFTER']}},
+ {id:'ce_ped',cat:'售后 PED（压力设备指令）',items:'AC 压缩机/热管理压力件 共 11 项',reg:'2014/68/EU',cMin:40000,cMax:200000,cUnit:'/件',tl:'6~16 周/件',nb:'视类别（Cat I 可自评，II+ 需 NB）',sc:'仅售后',note:'压力>0.5bar 的零部件按 PED 分类评估；OE 件随整车豁免',cond:{role:['AFTER'],parts:['ac_compressor']}},
+ {id:'ce_md',cat:'售后 MD（机械指令）',items:'EHB/ESC/EPS/驱动电桥/雨刮电机等 共 9 项',reg:'2006/42/EC',cMin:60000,cMax:100000,cUnit:'/件',tl:'6~10 周/件',nb:'不需 NB（自我声明+技术文件）',sc:'仅售后',note:'随整车型批豁免；仅售后独立销售件需 CE',cond:{role:['AFTER'],parts:['ehb_esc_eps']}},
  {id:'cop_initial',cat:'CoP 初次评估',items:'生产一致性体系建立 + 首次现场审核',reg:'(EU) 2018/858 Art 31-38',cMin:80000,cMax:200000,tl:'2~4 周（审核本身）',nb:'机关/指定技术服务',sc:'OE',note:'含体系文件编制+工厂审核；远程+现场组合',cond:{role:['OEM','STU']}},
  {id:'cop_annual',cat:'CoP 年度监督',items:'年度产品一致性抽检 + 监督审核',reg:'(EU) 2018/858 Art 31-38',cMin:50000,cMax:120000,cUnit:'/年',tl:'持续',nb:'机关/指定技术服务',sc:'OE',note:'拿证后每年；不通过可致批准暂停/撤销',cond:{role:['OEM','STU']}}
 ];
