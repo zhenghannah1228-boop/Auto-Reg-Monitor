@@ -538,8 +538,7 @@ function certEstimateHTML(){
  CERT_ESTIMATE.forEach(function(c){tMin+=c.cMin;tMax+=c.cMax;
   h+='<tr><td style="white-space:nowrap;font-weight:700">'+esc(c.cat)+'</td><td>'+esc(c.items)+'</td><td style="white-space:nowrap">'+esc(c.reg)+'</td><td style="white-space:nowrap;text-align:right">'+fmtCost(c.cMin)+(c.cUnit?esc(c.cUnit):'')+'</td><td style="white-space:nowrap">'+esc(c.tl)+'</td><td>'+esc(c.nb)+'</td><td style="white-space:nowrap">'+esc(c.sc)+'</td><td>'+esc(c.note)+'</td></tr>';
  });
- h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+'</td><td colspan="4">以上为单车型首次认证参考;仿真平台为一次性建设+持续运维</td></tr></table>';
- h+='<div class="ctnote">费用取市场报价区间低值(含测试+认证+基本咨询),实际随系统复杂度、自动化级别及认证机关差异浮动;周期为并行推进下的典型值。仅供决策参考,以服务商正式报价为准。</div>';
+ h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+'</td><td colspan="4"></td></tr></table>';
  return h;
 }
 const SVC_PKG={name:'智驾合规全包',tag:'AD Package',accent:'#8A3AA6',
