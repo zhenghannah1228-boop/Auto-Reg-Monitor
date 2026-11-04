@@ -514,7 +514,7 @@ function certEstimateHTML(){
  CERT_ESTIMATE.forEach(function(c){tMin+=c.cMin;tMax+=c.cMax;
   h+='<tr><td style="white-space:nowrap;font-weight:700">'+esc(c.cat)+'</td><td>'+esc(c.items)+'</td><td style="white-space:nowrap">'+esc(c.reg)+'</td><td style="white-space:nowrap;text-align:right">'+fmtCost(c.cMin)+(c.cUnit?esc(c.cUnit):'')+'</td><td style="white-space:nowrap">'+esc(c.tl)+'</td><td>'+esc(c.nb)+'</td><td style="white-space:nowrap">'+esc(c.sc)+'</td><td>'+esc(c.note)+'</td></tr>';
  });
- h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+'</td><td colspan="4"></td></tr></table>';
+ h+='<tr class="ctot"><td colspan="3" style="text-align:right">合计估算</td><td style="white-space:nowrap;text-align:right">'+fmtCost(tMin)+'</td><td colspan="4">实际费用因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考</td></tr></table>';
  return h;
 }
 const pillOf=g=>g==='reg'?'<span class="pill reg">法规明确要求</span>':g==='eu'?'<span class="pill eu">欧盟制度性文件</span>':'<span class="pill qms">体系惯例 / 支撑</span>';

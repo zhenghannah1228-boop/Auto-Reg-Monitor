@@ -2278,7 +2278,7 @@ function certEstimateHTML(escFn){
   const totalCost=fmtCost(totalMin);
   return `<table class="ctab"><thead><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用 (RMB)</th><th>周期</th><th>NB（公告机构）介入</th><th>适用场景</th><th>备注</th></tr></thead>
 <tbody>${trs}</tbody>
-<tfoot><tr class="ctot"><td colspan="3"><b>合计估算</b></td><td class="r"><b>${totalCost}</b></td><td colspan="4"></td></tr></tfoot></table>`;
+<tfoot><tr class="ctot"><td colspan="3"><b>合计估算</b></td><td class="r"><b>${totalCost}</b></td><td colspan="4">实际费用因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考</td></tr></tfoot></table>`;
 }
 let stnChk={}; // 历史字段（旧版交付物勾选状态）：不再驱动 UI，仅为兼容旧档案数据结构而保留，读写不影响新逻辑
 // 强制/建议 标签徽标 + 官方模板外链按钮
