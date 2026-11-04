@@ -2245,11 +2245,16 @@ const CERT_ESTIMATE=[
  {id:'cop_initial',cat:'CoP 初次评估',items:'生产一致性体系建立 + 首次现场审核',reg:'(EU) 2018/858 Art 31-38',cMin:80000,cMax:200000,tl:'2~4 周（审核本身）',nb:'机关/指定技术服务',sc:'OE',note:'含体系文件编制+工厂审核；远程+现场组合',cond:{role:['OEM','STU']}},
  {id:'cop_annual',cat:'CoP 年度监督',items:'年度产品一致性抽检 + 监督审核',reg:'(EU) 2018/858 Art 31-38',cMin:50000,cMax:120000,cUnit:'/年',tl:'持续',nb:'机关/指定技术服务',sc:'OE',note:'拿证后每年；不通过可致批准暂停/撤销',cond:{role:['OEM','STU']}}
 ];
+// STU 角色「按系统选」存的是原始法规项编码（如 'B13'），而非 PARTS 的 id（如 'mirror'）；
+// CERT_ESTIMATE 的 cond.parts 统一按 PARTS id 书写，这里建反查表把两种口径归一，否则 STU 角色下
+// 费用表的 parts 条件永远匹配不上，只剩不带 parts 限制的条目（如 RED/CoP）误顶上来。
+const ITEM2PART={}; PARTS.forEach(p=>(p.items||[]).forEach(it=>{ITEM2PART[it]=p.id;}));
 function filterCertEstimate(){
+  const selPartIds=new Set(sel.parts.map(p=>ITEM2PART[p]||p));
   return CERT_ESTIMATE.filter(c=>{
     const cd=c.cond||{};
     if(cd.role&&cd.role.length&&!cd.role.includes(sel.role)) return false;
-    if(cd.parts&&cd.parts.length&&!cd.parts.some(p=>sel.parts.includes(p))) return false;
+    if(cd.parts&&cd.parts.length&&!cd.parts.some(p=>selPartIds.has(p))) return false;
     if(cd.powers&&cd.powers.length&&!cd.powers.some(p=>sel.powers.includes(p))) return false;
     return true;
   });
