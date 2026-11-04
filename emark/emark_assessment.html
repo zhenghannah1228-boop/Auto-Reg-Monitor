@@ -1655,7 +1655,9 @@ const PARTS=[
  {id:'reversing',n:'倒车探测装置',items:['B7'],r:'R158'},
  {id:'edr',n:'事件数据记录 EDR',items:['E5'],r:'R160'},
  {id:'doorlock',n:'门锁与铰链',items:['F3'],r:'R11'},
- {id:'avas',n:'AVAS 行人警报',items:['B14'],r:'R138'}
+ {id:'avas',n:'AVAS 行人警报',items:['B14'],r:'R138'},
+ {id:'ac_compressor',n:'AC 压缩机/热管理压力件',items:[],r:'2014/68/EU(PED)'},
+ {id:'ehb_esc_eps',n:'EHB/ESC/EPS/驱动电桥/雨刮电机',items:[],r:'2006/42/EC(MD)'}
 ];
 // 动力类型标注（只标不删）：项按所选动力类型是否适用；不适用→返回灰标，适用/通用→空
 function powNA(i){ if(!sel.powers||!sel.powers.length) return false; const ps=POWER_SPEC[i.item]; return !!ps && !ps.some(p=>sel.powers.includes(p)); }
@@ -2222,8 +2224,8 @@ const CERT_ESTIMATE=[
  {id:'ce_red',cat:'RED（无线设备指令）',items:'TPMS 传感器 + 控制器 + 后视镜 BSD 雷达 × 4',reg:'2014/53/EU',cMin:120000,cMax:200000,tl:'3~8 周',nb:'雷达建议 NB',sc:'OE+售后',note:'频率>1GHz 的雷达模块建议走 NB 路径；低功率蓝牙/NFC 可自我声明',cond:{role:['OEM','STU']}},
  {id:'ce_red_cond',cat:'RED（条件项）',items:'摄像头/钥匙/PEPS/蓝牙喇叭',reg:'2014/53/EU',cMin:100000,cMax:200000,tl:'3~5 周',nb:'可自我声明',sc:'视配置',note:'需确认产品配置，低功率模块多走自我声明+NB 通知模式',cond:{role:['OEM','STU']}},
  {id:'ce_pyro',cat:'烟火制品',items:'气囊 × 3 型号 + 安全带预紧器 × 2',reg:'2013/29/EU',cMin:350000,cMax:530000,tl:'12~20 周',nb:'必须 NB',sc:'OE+售后',note:'按气囊型号分别认证；含运输分类+储存稳定性测试',cond:{role:['OEM','STU'],parts:['airbag','seatbelt']}},
- {id:'ce_ped',cat:'售后 PED（压力设备指令）',items:'AC 压缩机/热管理压力件 共 11 项',reg:'2014/68/EU',cMin:40000,cMax:200000,cUnit:'/件',tl:'6~16 周/件',nb:'视类别（Cat I 可自评，II+ 需 NB）',sc:'仅售后',note:'压力>0.5bar 的零部件按 PED 分类评估；OE 件随整车豁免',cond:{role:['AFTER']}},
- {id:'ce_md',cat:'售后 MD（机械指令）',items:'EHB/ESC/EPS/驱动电桥/雨刮电机等 共 9 项',reg:'2006/42/EC',cMin:60000,cMax:100000,cUnit:'/件',tl:'6~10 周/件',nb:'不需 NB（自我声明+技术文件）',sc:'仅售后',note:'随整车型批豁免；仅售后独立销售件需 CE',cond:{role:['AFTER']}},
+ {id:'ce_ped',cat:'售后 PED（压力设备指令）',items:'AC 压缩机/热管理压力件 共 11 项',reg:'2014/68/EU',cMin:40000,cMax:200000,cUnit:'/件',tl:'6~16 周/件',nb:'视类别（Cat I 可自评，II+ 需 NB）',sc:'仅售后',note:'压力>0.5bar 的零部件按 PED 分类评估；OE 件随整车豁免',cond:{role:['AFTER'],parts:['ac_compressor']}},
+ {id:'ce_md',cat:'售后 MD（机械指令）',items:'EHB/ESC/EPS/驱动电桥/雨刮电机等 共 9 项',reg:'2006/42/EC',cMin:60000,cMax:100000,cUnit:'/件',tl:'6~10 周/件',nb:'不需 NB（自我声明+技术文件）',sc:'仅售后',note:'随整车型批豁免；仅售后独立销售件需 CE',cond:{role:['AFTER'],parts:['ehb_esc_eps']}},
  {id:'cop_initial',cat:'CoP 初次评估',items:'生产一致性体系建立 + 首次现场审核',reg:'(EU) 2018/858 Art 31-38',cMin:80000,cMax:200000,tl:'2~4 周（审核本身）',nb:'机关/指定技术服务',sc:'OE',note:'含体系文件编制+工厂审核；远程+现场组合',cond:{role:['OEM','STU']}},
  {id:'cop_annual',cat:'CoP 年度监督',items:'年度产品一致性抽检 + 监督审核',reg:'(EU) 2018/858 Art 31-38',cMin:50000,cMax:120000,cUnit:'/年',tl:'持续',nb:'机关/指定技术服务',sc:'OE',note:'拿证后每年；不通过可致批准暂停/撤销',cond:{role:['OEM','STU']}}
 ];
