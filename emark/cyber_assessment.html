@@ -592,7 +592,7 @@ function certEstimateHTML(){
   const totalCost=fmtCost(totalMin);
   return '<table class="ctab"><thead><tr><th>类别</th><th>项目</th><th>法规依据</th><th>费用 (RMB)</th><th>周期</th><th>NB（公告机构）/审核介入</th><th>适用场景</th><th>备注</th></tr></thead>'+
     '<tbody>'+trs+'</tbody>'+
-    '<tfoot><tr class="ctot"><td colspan="3"><b>合计估算</b></td><td class="r"><b>'+totalCost+'</b></td><td colspan="4"></td></tr></tfoot></table>';
+    '<tfoot><tr class="ctot"><td colspan="3"><b>合计估算</b></td><td class="r"><b>'+totalCost+'</b></td><td colspan="4">实际费用因产品复杂度、测试项数量、排期紧急程度等因素浮动，仅供内部预算参考</td></tr></tfoot></table>';
 }
 const SVC_PKG={name:'网安合规全包',tag:'Cyber Package',accent:'#3a6b8a',
   scope:[
