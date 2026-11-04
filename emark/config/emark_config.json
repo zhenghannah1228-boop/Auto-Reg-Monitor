@@ -3839,6 +3839,296 @@
         }
       },
       {
+        "id": "retread",
+        "category": "翻新轮胎",
+        "items": "翻新充气轮胎（M1/N1/O1/O2）",
+        "regulation": "UN R108",
+        "costMin": 40000,
+        "costMax": 90000,
+        "timeline": "3~6 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "仅售后",
+        "notes": "负荷/速度耐久、几何尺寸、胎面粘合强度；测试项少于新胎 R30+R117，但翻新厂通常按批次/工艺线逐一申请",
+        "conditions": {
+          "role": [
+            "AFTER"
+          ],
+          "parts": [
+            "retread"
+          ]
+        }
+      },
+      {
+        "id": "wheel",
+        "category": "车轮/轮毂",
+        "items": "替换用车轮/轮毂（钢制/铝合金）",
+        "regulation": "UN R124",
+        "costMin": 90000,
+        "costMax": 200000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "仅售后",
+        "notes": "含旋转弯曲疲劳、径向疲劳、冲击、滚动腐蚀等；铝合金轮毂疲劳测试耗时长，按规格/花纹分别申请",
+        "conditions": {
+          "role": [
+            "AFTER"
+          ],
+          "parts": [
+            "wheel"
+          ]
+        }
+      },
+      {
+        "id": "reflector",
+        "category": "回复反射器/反光标识",
+        "items": "反射器 + 反光标识 + 长车反射标识板",
+        "regulation": "UN R3/R104/R150",
+        "costMin": 30000,
+        "costMax": 70000,
+        "timeline": "3~5 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "无源光学件：反射系数/色度/耐候/耐久；成本显著低于主动灯具，按类别(IA/IB/IIIA等)分别申请",
+        "conditions": {
+          "parts": [
+            "reflector"
+          ]
+        }
+      },
+      {
+        "id": "bulb",
+        "category": "灯泡/光源",
+        "items": "灯丝灯泡/HID气体放电光源/LED光源",
+        "regulation": "UN R37/R99/R128",
+        "costMin": 30000,
+        "costMax": 80000,
+        "timeline": "3~6 周（每型号）",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "光通量/色温/电气特性/寿命耐久；R37/R99/R128 三族各自独立申请，按灯泡/光源型号分别计费",
+        "conditions": {
+          "parts": [
+            "bulb"
+          ]
+        }
+      },
+      {
+        "id": "hlclean",
+        "category": "大灯清洗器",
+        "items": "前照灯清洗/喷洗系统",
+        "regulation": "UN R45",
+        "costMin": 50000,
+        "costMax": 110000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "清洗效能（标定污染物）、机械耐久循环、低温功能；不含光学/碰撞试验，复杂度低于灯具本体",
+        "conditions": {
+          "parts": [
+            "hlclean"
+          ]
+        }
+      },
+      {
+        "id": "horn",
+        "category": "喇叭",
+        "items": "电子/气动喇叭（音响警示装置）",
+        "regulation": "UN R28",
+        "costMin": 30000,
+        "costMax": 70000,
+        "timeline": "2~5 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "半消声室声压级/频谱 + 耐久循环；纯声学测试，复杂度低于后视镜等光学/机械件",
+        "conditions": {
+          "parts": [
+            "horn"
+          ]
+        }
+      },
+      {
+        "id": "crs",
+        "category": "儿童座椅",
+        "items": "儿童约束系统（含 i-Size 增强型）",
+        "regulation": "UN R44/R129",
+        "costMin": 150000,
+        "costMax": 300000,
+        "timeline": "8~14 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "仅售后",
+        "notes": "动态滑车正撞(+R129 侧撞)+多尺寸假人组测试；覆盖身高/体重组别越多费用越高，高于单项安全带滑车测试",
+        "conditions": {
+          "role": [
+            "AFTER"
+          ],
+          "parts": [
+            "crs"
+          ]
+        }
+      },
+      {
+        "id": "seat",
+        "category": "座椅及头枕",
+        "items": "车辆座椅总成 + 头枕",
+        "regulation": "UN R17",
+        "costMin": 100000,
+        "costMax": 220000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "座椅骨架静态强度、锁止机构、头枕后移/鞭甩防护试验；按座椅排数/型号分别申请",
+        "conditions": {
+          "parts": [
+            "seat"
+          ]
+        }
+      },
+      {
+        "id": "towbar",
+        "category": "牵引装置(拖车钩)",
+        "items": "牵引钩/牵引杆/球头座等机械挂接件",
+        "regulation": "UN R55",
+        "costMin": 50000,
+        "costMax": 120000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "静态强度+约200万次台架疲劳循环试验（耗时数十小时）；常见售后挂车钩改装件",
+        "conditions": {
+          "parts": [
+            "towbar"
+          ]
+        }
+      },
+      {
+        "id": "rup",
+        "category": "后下部防护装置(RUPD)",
+        "items": "货车及挂车后下防护梁总成",
+        "regulation": "UN R58",
+        "costMin": 50000,
+        "costMax": 130000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "按车辆类别做后部静态推力与强度试验；商用车身改装厂常作外购合格部件安装",
+        "conditions": {
+          "parts": [
+            "rup"
+          ]
+        }
+      },
+      {
+        "id": "gas",
+        "category": "LPG/CNG 气路部件",
+        "items": "气瓶/储气罐 + 阀门/调压器/加气口等附件",
+        "regulation": "UN R67/R110",
+        "costMin": 150000,
+        "costMax": 350000,
+        "costUnit": "/种部件",
+        "timeline": "8~16 周（每种部件）",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "含爆破、2万次压力循环、明火(bonfire)等破坏性测试，瓶体/阀门/调压器可分别计费；LPG/CNG改装套件常见售后加装",
+        "conditions": {
+          "parts": [
+            "gas"
+          ]
+        }
+      },
+      {
+        "id": "antitheft",
+        "category": "防盗报警与挂车锁",
+        "items": "车辆报警系统(VAS) + 防盗装置/机械锁 + 挂车锁",
+        "regulation": "UN R97/R116",
+        "costMin": 70000,
+        "costMax": 160000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "R97报警侧重环境(温湿振动/EMC)+防拆解功能，R116防盗装置/挂钩锁侧重机电防撬；常见售后安防改装",
+        "conditions": {
+          "parts": [
+            "antitheft"
+          ]
+        }
+      },
+      {
+        "id": "heater",
+        "category": "独立式加热器",
+        "items": "燃油/燃气驻车加热器总成",
+        "regulation": "UN R122",
+        "costMin": 50000,
+        "costMax": 120000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "重点评估明火风险、安装部位耐热与燃油/燃气供给安全；独立暖风机售后加装常见",
+        "conditions": {
+          "parts": [
+            "heater"
+          ]
+        }
+      },
+      {
+        "id": "reversing",
+        "category": "倒车探测装置",
+        "items": "超声波/摄像头倒车探测系统（含整车安装）",
+        "regulation": "UN R158",
+        "costMin": 90000,
+        "costMax": 200000,
+        "timeline": "6~10 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "多场景下对VRU探测区域的性能验证，测试矩阵较大；目前以OE/Tier1申请为主，尚无成熟售后改装市场",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "reversing"
+          ]
+        }
+      },
+      {
+        "id": "edr",
+        "category": "事件数据记录(EDR)",
+        "items": "事件数据记录器(EDR)，通常集成于气囊控制器",
+        "regulation": "UN R160",
+        "costMin": 60000,
+        "costMax": 150000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE",
+        "notes": "侧重触发逻辑、时间零点判定与数据防覆盖/防篡改验证；通常内置于气囊ECU由供应商/主机厂申请，非售后件",
+        "conditions": {
+          "role": [
+            "OEM",
+            "STU"
+          ],
+          "parts": [
+            "edr"
+          ]
+        }
+      },
+      {
+        "id": "doorlock",
+        "category": "车门锁与铰链",
+        "items": "车门锁扣机构 + 门铰链",
+        "regulation": "UN R11",
+        "costMin": 50000,
+        "costMax": 120000,
+        "timeline": "4~8 周",
+        "nbInvolvement": "技术服务执行",
+        "scenario": "OE+售后",
+        "notes": "车门锁扣与铰链静态负荷及疲劳试验；碰撞维修替换件市场常见",
+        "conditions": {
+          "parts": [
+            "doorlock"
+          ]
+        }
+      },
+      {
         "id": "ce_battery",
         "category": "电池",
         "items": "12V 铅酸蓄电池 + 动力电池包总成",
@@ -3934,6 +4224,9 @@
         "conditions": {
           "role": [
             "AFTER"
+          ],
+          "parts": [
+            "ac_compressor"
           ]
         }
       },
@@ -3952,6 +4245,9 @@
         "conditions": {
           "role": [
             "AFTER"
+          ],
+          "parts": [
+            "ehb_esc_eps"
           ]
         }
       },
