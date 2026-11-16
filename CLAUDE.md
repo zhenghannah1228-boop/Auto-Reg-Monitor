@@ -272,7 +272,9 @@
   "investment vehicle"、印度兵营建筑细则里的停车位术语等)。
 - `BACKUP_KW`(tariff/关税/补贴/incentive/召回 recall 等外围相关但非法规文本本身)
   命中 → **备查**,不算纳入。
-- 永久排除:域名 `dominica.gov.dm`、`motl.gov.et`;链接含 `DocDate=`。
+- 永久排除:域名 `dominica.gov.dm`、`motl.gov.et`;链接含 `DocDate=`(**2026-11 业主确认例外**:
+  `sso.agc.gov.sg`(新加坡法规在线)每条正式法规链接都带 `DocDate=` 参数,此前被
+  整站误杀,现放行该域名,`DocDate=` 规则对其余域名继续生效)。
 
 **输出格式**:按"纳入/备查/剔除说明"三段,纳入与备查内部按国家分组,每条给
 日期+标题+完整链接;剔除段只需汇总说明误触发原因,不用逐条列。**不确定的项

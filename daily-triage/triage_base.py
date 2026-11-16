@@ -24,6 +24,12 @@ DATA_DIR = "/home/user/Auto-Reg-Monitor/daily-triage/data"
 # ---- Permanent exclude: known noisy domains / link patterns ----
 PERMANENT_EXCLUDE_DOMAINS = ["dominica.gov.dm", "motl.gov.et"]
 PERMANENT_EXCLUDE_LINK_SUBSTR = ["DocDate="]
+# 2026-11-16: "DocDate=" is sso.agc.gov.sg's standard URL param for EVERY
+# official Singapore regulation link (confirmed: 100% of historical DocDate=
+# hits were from this one domain), so the blanket substring rule was silently
+# dropping the entire Singapore source. Exempt it; keep the substring rule as
+# a guard against any other domain that might reuse this noisy pattern.
+PERMANENT_EXCLUDE_LINK_SUBSTR_ALLOWLIST_DOMAINS = ["sso.agc.gov.sg"]
 
 # ---- KW: admission-related regex (word-boundaried for short acronyms) ----
 KW_PATTERNS = [
@@ -109,6 +115,8 @@ def is_permanent_excluded(link):
     for d in PERMANENT_EXCLUDE_DOMAINS:
         if d in link:
             return True
+    if any(d in link for d in PERMANENT_EXCLUDE_LINK_SUBSTR_ALLOWLIST_DOMAINS):
+        return False
     for s in PERMANENT_EXCLUDE_LINK_SUBSTR:
         if s in link:
             return True
