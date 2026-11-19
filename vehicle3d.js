@@ -285,6 +285,62 @@ function buildGroupBar() {
   });
 }
 
+/* 座舱视角(2026-11 业主指示):固定机位的示意线稿(自绘 SVG,不是车辆照片/渲染图,避免
+   素材版权问题),标注几个驾驶位视野内能看到、且在 data/vehicle_zones.json 里已有定义的内饰
+   区域——方向盘/安全气囊/仪表板/空调/中控屏背后的 ECU-OTA 域/门饰板。只标这张示意图里画得出来
+   的部件,不把座椅、脚垫这类此视角看不到的区域也塞进来虚构点位。点击标签直接复用
+   showZoneDetail(),和整车视角共享同一套合规匹配与详情面板,不是另一套逻辑。
+   坐标是 SVG viewBox(900×500)里的像素位置换算成百分比,和整车视角的 hotspot_pos 比例坐标
+   是两套独立的定位方式(整车视角按加载模型的真实包围盒换算,座舱视角这里是固定二维示意图,
+   没有可换算的"包围盒")。 */
+const COCKPIT_ZONES = [
+  { id: "dashboard", x: 30.6, y: 39 },
+  { id: "steering_wheel", x: 18.9, y: 86 },
+  { id: "airbag", x: 38.3, y: 60 },
+  { id: "ac_system", x: 78.4, y: 28 },
+  { id: "ecu_ota", x: 60.6, y: 32 },
+  { id: "door_trim", x: 91.1, y: 84 },
+];
+function buildCockpitLabels() {
+  const layer = $("#veh3d-cockpit-labels");
+  if (!layer) return;
+  layer.innerHTML = "";
+  COCKPIT_ZONES.forEach(cz => {
+    const zone = zoneById(cz.id);
+    if (!zone) return;
+    const card = document.createElement("div");
+    card.className = "veh3d-cockpit-label";
+    card.style.left = cz.x + "%";
+    card.style.top = cz.y + "%";
+    card.textContent = zone.label_cn;
+    card.addEventListener("click", () => showZoneDetail(zone.id));
+    layer.appendChild(card);
+  });
+}
+
+/* 整车视角/座舱视角切换:X-Ray、分组筛选条都是整车 3D 场景专属的控件,座舱视角下隐藏,
+   避免用户以为座舱示意图也能透视/分组。 */
+window.veh3dSetView = function (mode) {
+  const isCockpit = mode === "cockpit";
+  const extBtn = $("#veh3d-view-ext"), cpBtn = $("#veh3d-view-cockpit");
+  if (extBtn) extBtn.classList.toggle("on", !isCockpit);
+  if (cpBtn) cpBtn.classList.toggle("on", isCockpit);
+  const canvas = $("#veh3d-canvas"), cockpit = $("#veh3d-cockpit");
+  if (canvas) canvas.style.display = isCockpit ? "none" : "";
+  if (cockpit) cockpit.style.display = isCockpit ? "" : "none";
+  const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar");
+  if (xrayBtn) xrayBtn.style.display = isCockpit ? "none" : "";
+  if (groupBar) groupBar.style.display = isCockpit ? "none" : "";
+  const hint = $("#veh3d-hint");
+  if (hint) hint.textContent = isCockpit
+    ? "座舱示意图(自绘线稿,非实车渲染)· 点击标签查看该区域合规范围"
+    : "拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围";
+  const foot = $("#veh3d-footnote");
+  if (foot) foot.textContent = isCockpit
+    ? "座舱视角仅标注此固定机位视野内可见、且已在区域数据中定义的内饰部件(方向盘/安全气囊/仪表板/空调/ECU-OTA域/门饰板);座椅、脚垫等此视角看不到的区域仍请到「整车视角」X-Ray 透视下查看"
+    : "模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示(未买机械分件付费模型,详见区域数据 note)· 其余维度见「维度矩阵」「国家详情」";
+};
+
 const _hsVec = new THREE.Vector3();
 /* 18 个 hotspot 里同一分组常常在车身上物理位置很近(比如动力总成 4 个都挤在机舱区域),
    投影到屏幕后位置也会很近——早期"按下标交替偏移 34px"的写法只够分开 2 个,分组功能上线后
@@ -487,6 +543,7 @@ async function initVeh3D() {
   const xrayBtn = $("#veh3d-xray-btn");
   if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
   buildGroupBar();
+  buildCockpitLabels();
 
   fillCountrySelect();
   renderVeh3DKPIs();

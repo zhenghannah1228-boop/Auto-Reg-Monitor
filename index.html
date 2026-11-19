@@ -566,7 +566,14 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   background:var(--panel);border:1px solid var(--gold);border-radius:6px;padding:4px 10px;
   font-size:11px;font-weight:600;color:var(--ink);white-space:nowrap;box-shadow:var(--shadow)}
 .veh3d-hs-card:hover{background:var(--panel2)}
-@media(max-width:980px){.veh3d-wrap{flex-direction:column}.veh3d-side{width:100%}.veh3d-canvas{height:420px}}
+.veh3d-cockpit{position:relative;width:100%;height:560px;border:1px solid var(--line);
+  border-radius:8px;overflow:hidden;background:var(--panel2);box-shadow:var(--shadow)}
+.veh3d-cockpit svg{width:100%;height:100%;display:block}
+.veh3d-cockpit-label{position:absolute;transform:translate(-50%,-50%);cursor:pointer;pointer-events:auto;
+  background:var(--panel);border:1px solid var(--gold);border-radius:6px;padding:4px 10px;
+  font-size:11px;font-weight:600;color:var(--ink);white-space:nowrap;box-shadow:var(--shadow)}
+.veh3d-cockpit-label:hover{background:var(--panel2);border-color:var(--accent)}
+@media(max-width:980px){.veh3d-wrap{flex-direction:column}.veh3d-side{width:100%}.veh3d-canvas{height:420px}.veh3d-cockpit{height:420px}}
 
 @media(max-width:980px){
   .kpis{grid-template-columns:repeat(2,1fr)}
@@ -707,13 +714,38 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
           <h3>整车合规孪生
             <select id="veh3d-cty" class="csel" style="font-size:12px;padding:5px 10px;min-width:0"></select>
             <span class="btn light" id="veh3d-xray-btn" style="cursor:pointer">◈ X-Ray 透视</span>
-            <span class="hint">拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围</span></h3>
+            <span class="hint" id="veh3d-hint">拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围</span></h3>
+          <div class="seg" id="veh3d-viewmode" style="margin:0 0 9px">
+            <button class="on" id="veh3d-view-ext" onclick="veh3dSetView('ext')">整车视角</button>
+            <button id="veh3d-view-cockpit" onclick="veh3dSetView('cockpit')">座舱视角</button>
+          </div>
           <div class="veh3d-group-bar" id="veh3d-group-bar"></div>
           <div class="veh3d-canvas" id="veh3d-canvas">
             <div class="veh3d-loading" id="veh3d-loading">[ 正在载入车辆模型… ]</div>
             <div class="veh3d-hotspot-layer" id="veh3d-hotspot-layer" style="display:none"></div>
           </div>
-          <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono)">
+          <div class="veh3d-cockpit" id="veh3d-cockpit" style="display:none">
+            <svg viewBox="0 0 900 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"
+                 fill="none" stroke="#1a2420" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="40" y1="55" x2="150" y2="175"/>
+              <line x1="860" y1="55" x2="750" y2="175"/>
+              <path d="M150,175 Q450,105 750,175"/>
+              <path d="M30,500 L30,300 Q40,200 160,185 L700,160 Q830,150 870,260 L870,500 Z" fill="#e5efdd" opacity="0.55"/>
+              <rect x="190" y="212" width="170" height="95" rx="14" fill="#fcfbf6"/>
+              <rect x="430" y="188" width="230" height="135" rx="10" fill="#fcfbf6"/>
+              <rect x="452" y="208" width="186" height="92" rx="4"/>
+              <rect x="358" y="172" width="52" height="16" rx="3"/>
+              <rect x="680" y="172" width="52" height="16" rx="3"/>
+              <circle cx="270" cy="335" r="82"/>
+              <circle cx="270" cy="335" r="25" fill="#fcfbf6"/>
+              <line x1="270" y1="310" x2="270" y2="262"/>
+              <line x1="250" y1="351" x2="196" y2="388"/>
+              <line x1="290" y1="351" x2="344" y2="388"/>
+              <path d="M870,180 L896,202 L896,480 L870,500 Z" fill="#e5efdd" opacity="0.55"/>
+            </svg>
+            <div class="veh3d-hotspot-layer" id="veh3d-cockpit-labels"></div>
+          </div>
+          <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono)" id="veh3d-footnote">
             模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示(未买机械分件付费模型,详见区域数据 note)· 其余维度见「维度矩阵」「国家详情」
           </div>
         </div>
