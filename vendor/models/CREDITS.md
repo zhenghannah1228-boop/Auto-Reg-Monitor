@@ -25,7 +25,12 @@
   名称/数量(仍是 33 个,`data/vehicle_zones.json` 的 `gltf_nodes` 映射不用改),文件从约 1.27MB
   增至约 1.97MB。
 
-## 座舱内饰(现用模型,座舱视角)
+## 座舱内饰(座舱视角)
+
+> **2026-11 已改回原始单一模型,以下拼装记录(仪表板/座椅/门板/脚垫/出风口/仪表盘总成/9 个装饰
+> 零件等)已作废,仅作历史存档——拼装多个独立零件先后引出方向盘镜像装反、装饰件比例朝向靠猜等
+> 一连串问题,业主权衡后决定直接用最初评估的 modern-car-interior.glb 原始模型,不再拼装。
+> 当前实际状态见本节末尾的"2026-11 简化"条目,下方三条历史记录仅说明"为什么不这么做了"。**
 
 - 来源: [grab3d.com](https://grab3d.com) 的 CC0 1.0 Universal(公共领域,无需署名)素材,业主自行找到并
   提供链接(2026-11):基础舱体 [modern-car-interior](https://grab3d.com/models/vehicles/modern-car-interior/)
@@ -71,6 +76,23 @@
   的 `frameCockpitCamera()`)角度偏水平,方向盘即使位置对了也会被前排头枕挡住——截图 before/after
   对照确认这与方向盘位置无关,纯粹是取景角度问题,一并调陡(抬高俯视角度)修正,方向盘与仪表台
   现在默认机位下就能看到,不需要用户自己转到特定角度才能找到。
+
+### 2026-11 简化:改回原始单一模型(现用,业主决定)
+
+- `vendor/models/CockpitInterior/cockpit.glb` 现在就是 grab3d.com 的
+  [modern-car-interior](https://grab3d.com/models/vehicles/modern-car-interior/) 原始下载文件,
+  **未经任何拼装/删改**(约 5.9MB)。CC0 1.0,通用款式,无品牌标识;license 见该模型自带的
+  `LICENSE.txt`。
+- 节点:`modern-car-interior_steering_wheel`(方向盘,真实几何,`steering_wheel` 分区据此可直接
+  点选)、`modern-car-interior_windshield_glass`(挡风玻璃)、`modern-car-interior_body`(车身主壳,
+  座椅/仪表板/门板等均已并入这一个网格,不可单独拆分/点选)、以及若干 `*_ambient_glow`/
+  `*_cluster_glow`/`*_screen_glow` 装饰性发光贴面(车门氛围灯、仪表台光效、中控屏光效,均为
+  未映射的视觉背景)。方向盘与仪表台光效(`dash_cluster_glow_*`)在这个原始文件里本就在同一侧
+  (正 X,驾驶位),不存在上面记录的镜像问题。
+- `dashboard`/`ac_system`/`ecu_ota`/`seats`/`floor_mat`/`door_trim`/`airbag` 这 7 个分区回到
+  "悬浮标签示意位置"的状态(`data/vehicle_zones.json` 的 `cockpit_hotspot_pos` 字段,运行时按座舱
+  模型实际包围盒换算世界坐标,和整车视角的 `hotspot_pos` 同一思路),不再声称有对应的可点选真实
+  几何体。
 
 ## 机械零件(现用模型,整车视角 X-Ray 透视)
 
