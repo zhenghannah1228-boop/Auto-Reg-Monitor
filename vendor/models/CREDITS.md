@@ -51,6 +51,27 @@
 - 已知局限:素材包内没有独立的安全气囊(airbag)部件,`airbag` 分区在座舱视角里仍为示意热点标注,
   不编造几何体。
 
+## 机械零件(现用模型,整车视角 X-Ray 透视)
+
+- 来源: [grab3d.com](https://grab3d.com) 的 CC0 1.0 Universal 素材,来自
+  [Cozy Car Parts & Garage Kit](https://grab3d.com/kits/cozy-car-parts/)(与座舱素材同一许可家族,
+  2026-11):V8 Engine、Manual Gearbox(手动变速箱)、Brake Disc(制动盘,含卡钳)、Shock Absorber
+  (减震器)、Car Radiator(散热器)。均为通用款式,无品牌标识,license 条款见各下载包自带的
+  `LICENSE.txt`(CC0,公共领域放弃版权,可自由使用/修改/商用、无需署名)。实测这些模型本身就是
+  按真实世界米制单位建模(如 V8 发动机约 0.69×0.76×0.81m、制动盘直径约 0.32m),不是随意缩放的
+  游戏资产比例。
+- 技术处理(`vendor/models/MechanicalParts/mechanical.glb`,约 5.2MB):5 个零件的节点名本就互不
+  冲突(`v8-engine_body`/`gearbox_body`/`brake-disc_body`/`shock-absorber_body`/
+  `car-radiator_body`),用 trimesh 原样合并进一个文件,不在导出阶段做任何平移/缩放/旋转——减震器
+  要分别用在前悬架和后悬架两个分区,运行时各自 `clone()` 一份摆到不同位置更合理,不必在文件里
+  存两份重复几何。位置/缩放/旋转统一在 `vehicle3d.js` 运行时按各分区的 `hotspot_pos` 现算(与
+  AudiR8 车身自身单位 ≈2 单位/米 的实测换算比例一致),制动盘与减震器各加了一个固定的 90°
+  修正旋转(素材默认朝向分别是"平放"和"横放",不加这个旋转摆到车上会看起来像倒地的轮子/
+  横躺的减震器,这个旋转是通过渲染截图肉眼核对过的,不是凭空猜的角度)。
+- 已知局限:这套零件没有半轴/传动轴/转向系统/离合器对应的单独模型,这几个分区仍是占位方块,
+  不拿别的零件凑数;摆放位置复用整车视角既有的 hotspot_pos 比例坐标,本来就是示意性的,不是
+  精确到螺栓孔位的装配图。
+
 ## Three.js
 
 - 来源: [mrdoob/three.js](https://github.com/mrdoob/three.js)(r186),含 `OrbitControls`/`GLTFLoader` 附加模块

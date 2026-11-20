@@ -10,7 +10,19 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
 const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb";
+const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 const ZONES_URL = "./data/vehicle_zones.json";
+
+// 实测 AudiR8.glb 整车包围盒(约 4.22×2.45×9.13)与真实 Audi R8 车身尺寸(约 1.94×1.24×4.43m)的
+// 比例均值——机械零件素材本身是按真实米制建模的(见 CREDITS.md),用这一个比例统一换算成车身
+// 模型自己的单位系统,不是瞎猜的缩放数。
+const CAR_UNITS_PER_METER = 2.08;
+// 两个零件的素材默认朝向摆到车上会显得不对(制动盘默认平放、转轴朝上,减震器默认横放)——
+// 这两个修正角度是渲染截图肉眼核对过的,不是凭空猜的。
+const MECH_ROT_FIX = {
+  "brake-disc_body": [0, 0, Math.PI / 2],
+  "shock-absorber_body": [0, 0, Math.PI / 2],
+};
 
 let ZONES = [];            // 合并静态种子 + 团队覆盖层后的区域定义数组
 let nodeToZone = new Map();// gltf 节点名(小写) -> zoneId,整车视角(AudiR8.glb)用
@@ -26,6 +38,10 @@ let xrayOn = false;
 let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域、
                     // 2026-09 新增的动力总成/底盘/空调/内饰等 18 个区域),用简易占位几何体 +
                     // 虚线标签展示,不冒充精细建模
+let carCleanBox = null; // 整车模型刚加载完、还没加任何占位/机械零件时的包围盒缓存——hotspotWorldPos()
+                         // 用这份"干净"的包围盒算比例坐标,避免大体积机械零件加入 carRoot 后
+                         // Box3.setFromObject(carRoot) 把它们自己算进包围盒、污染后续区域的定位
+let mechRoot = null, mechLoaded = false, mechLoading = false; // 机械零件模型(懒加载,见 loadMechanicalParts)
 
 /* 18 个 hotspot 区域按 group 字段分 6 组,X-Ray 下按组切换显示——不然 18 张标签卡片同屏堆叠
    会完全看不清。ev/connectivity 是一期就有的默认展示组,其余 4 组默认收起,用户按需勾选。 */
@@ -239,8 +255,8 @@ function frameCamera(object3d) {
    三轴上的比例(0~1,如 X 方向 0=最左 1=最右),运行时按当前模型的真实包围盒换算成世界坐标——
    占位盒体因此始终落在这具体模型的真实体量范围之内,不会因为手估数值偏差而钻出车身包络。 */
 function hotspotWorldPos(fracPos) {
-  if (!carRoot) return fracPos;
-  const box = new THREE.Box3().setFromObject(carRoot);
+  const box = carCleanBox || (carRoot && new THREE.Box3().setFromObject(carRoot));
+  if (!box) return fracPos;
   const [fx, fy, fz] = fracPos;
   return [
     box.min.x + fx * (box.max.x - box.min.x),
@@ -262,6 +278,7 @@ function buildHotspots() {
       new THREE.BoxGeometry(0.42, 0.28, 0.55),
       new THREE.MeshStandardMaterial({ color: 0xc79a2e, emissive: 0x3a2c08, roughness: 0.4 })
     );
+    mesh.userData.hotspotEl = true; // setXray() 据此跳过透视材质替换,可见性统一交给 refreshHotspotVisibility()
     mesh.position.fromArray(hotspotWorldPos(zone.hotspot_pos));
     mesh.visible = xrayOn && activeGroups.has(zone.group);
     carRoot.add(mesh);
@@ -272,6 +289,54 @@ function buildHotspots() {
     if (layer) layer.appendChild(card);
     hotspots.push({ zone, mesh, card });
   });
+  if (mechRoot) applyMechanicalHotspots(); // 若机械零件模型已经先加载完(用户之前开过 X-Ray),直接复用,不用重新拉取
+}
+
+/* 2026-11 第二批:engine/transmission/radiator_fan/front_suspension/rear_suspension/brakes 这
+   6 个区域用 grab3d.com CC0 的真实零件模型替换占位 Box(素材/摆放方法见 CREDITS.md);
+   clutch/steering_system/axle_driveshaft 等套件里没有对应零件的区域,仍保留占位 Box,不拿别的
+   零件凑数。懒加载,只在用户第一次打开 X-Ray 透视时才去拉这个 ~5MB 的模型(见 loadMechanicalParts
+   的调用处)。 */
+function applyMechanicalHotspots() {
+  if (!mechRoot || !carRoot) return;
+  hotspots.forEach(hs => {
+    const nodeName = hs.zone.mech_node;
+    if (!nodeName) return;
+    let src = null;
+    mechRoot.traverse(o => { if (o.name === nodeName) src = o; });
+    if (!src) return;
+    const inst = src.clone();
+    inst.traverse(o => { if (o.isMesh) o.userData.hotspotEl = true; });
+    inst.scale.setScalar(CAR_UNITS_PER_METER);
+    const rot = MECH_ROT_FIX[nodeName];
+    if (rot) inst.rotation.set(rot[0], rot[1], rot[2]);
+    inst.position.fromArray(hotspotWorldPos(hs.zone.hotspot_pos));
+    if (hs.mesh && hs.mesh.parent) hs.mesh.parent.remove(hs.mesh);
+    carRoot.add(inst);
+    hs.mesh = inst;
+  });
+  refreshHotspotVisibility();
+}
+
+function loadMechanicalParts() {
+  if (mechLoaded || mechLoading) return;
+  mechLoading = true;
+  new GLTFLoader().load(
+    MECH_MODEL_URL,
+    gltf => {
+      mechRoot = gltf.scene;
+      mechRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
+      mechRoot.updateMatrixWorld(true);
+      mechLoaded = true;
+      mechLoading = false;
+      applyMechanicalHotspots();
+    },
+    undefined,
+    err => {
+      console.error("机械零件模型加载失败(不影响占位方块继续显示):", err);
+      mechLoading = false;
+    }
+  );
 }
 
 /* group 勾选变化 / X-Ray 开关变化都走这一个函数,保持 mesh.visible 是唯一状态源——
@@ -521,7 +586,7 @@ window.veh3dSetView = function (mode) {
   const foot = $("#veh3d-footnote");
   if (foot) foot.textContent = isCockpit
     ? "模型:grab3d.com CC0 座舱素材拼装(通用款式,无品牌标识,见 vendor/models/CREDITS.md)· 仪表板/方向盘/出风口/仪表盘总成/座椅/门饰板/脚垫为真实模型节点,可直接点击;安全气囊素材包无对应部件,仍用悬浮标签占位(锚定在方向盘轮毂实际位置)· 该素材只有舱内部件、没有包裹的外观车身,转到较极端角度会看到部件边缘悬空,正常浏览角度不受影响"
-    : "模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示(未买机械分件付费模型,详见区域数据 note)· 其余维度见「维度矩阵」「国家详情」";
+    : "模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示——其中发动机/变速器/散热器/前后悬架/制动盘 6 项已换成 grab3d.com CC0 真实零件模型(首次开 X-Ray 时加载),其余(离合器/转向系统/半轴传动轴等)仍是占位方块,详见区域数据 note · 其余维度见「维度矩阵」「国家详情」";
 };
 
 const _hsVec = new THREE.Vector3();
@@ -591,8 +656,9 @@ function setXray(on) {
   if (carRoot) {
     carRoot.traverse(o => {
       if (!o.isMesh || !o.material) return;
-      const hs = hotspots.find(h => h.mesh === o);
-      if (hs) { hs.mesh.visible = on && activeGroups.has(hs.zone.group); return; }
+      // 占位 Box 和机械零件(可能是多网格的真实模型,子网格本身不等于 hotspots[].mesh 这个容器
+      // 对象)统一用这个标记跳过透视材质替换,可见性交给下面的 refreshHotspotVisibility() 统一处理
+      if (o.userData.hotspotEl) return;
       if (!o.userData.opaqueMat) o.userData.opaqueMat = o.material;
       if (!o.userData.xrayMat) o.userData.xrayMat = buildXrayMaterial(o.userData.opaqueMat);
       if (!o.userData.edgeLine) o.userData.edgeLine = buildEdgeLines(o);
@@ -600,6 +666,7 @@ function setXray(on) {
       o.userData.edgeLine.visible = on;
     });
   }
+  refreshHotspotVisibility();
   const layer = $("#veh3d-hotspot-layer");
   if (layer) layer.style.display = on ? "block" : "none";
   const btn = $("#veh3d-xray-btn");
@@ -724,7 +791,11 @@ async function initVeh3D() {
   });
 
   const xrayBtn = $("#veh3d-xray-btn");
-  if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
+  if (xrayBtn) xrayBtn.addEventListener("click", () => {
+    const turningOn = !xrayOn;
+    setXray(turningOn);
+    if (turningOn) loadMechanicalParts(); // 懒加载:用户第一次真的打开 X-Ray 才去拉这个模型
+  });
   buildGroupBar();
 
   fillCountrySelect();
@@ -744,6 +815,7 @@ async function initVeh3D() {
       // 以下(见 frameCamera 里 minPolarAngle/maxPolarAngle 处的说明),和背面剔除无关。
       carRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
       carRoot.updateMatrixWorld(true);
+      carCleanBox = new THREE.Box3().setFromObject(carRoot); // 占位/机械零件还没加进来之前的"干净"包围盒
       frameCamera(carRoot);
       buildHotspots();
       setLoadingProgress(100, true, false);
