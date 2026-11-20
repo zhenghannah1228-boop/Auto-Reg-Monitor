@@ -568,7 +568,9 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 .veh3d-hs-card:hover{background:var(--panel2)}
 .veh3d-cockpit{position:relative;width:100%;height:560px;border:1px solid #1a2a3a;
   border-radius:8px;overflow:hidden;background:#070b11;box-shadow:var(--shadow)}
-.veh3d-cockpit svg{width:100%;height:100%;display:block}
+.veh3d-cockpit canvas{display:block;width:100%;height:100%;cursor:grab}
+.veh3d-cockpit canvas:active{cursor:grabbing}
+.veh3d-cockpit .veh3d-loading{background:#070b11;color:#7fb8cf}
 .veh3d-cockpit-label{position:absolute;transform:translate(-50%,-50%);cursor:pointer;pointer-events:auto;
   background:rgba(8,16,24,.88);border:1px solid #2dd4ff;border-radius:6px;padding:4px 10px;
   font-size:11px;font-weight:600;color:#bfeeff;white-space:nowrap;box-shadow:0 0 8px rgba(45,212,255,.25)}
@@ -725,49 +727,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
             <div class="veh3d-hotspot-layer" id="veh3d-hotspot-layer" style="display:none"></div>
           </div>
           <div class="veh3d-cockpit" id="veh3d-cockpit" style="display:none">
-            <svg viewBox="0 0 900 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="veh3dGlow" x="-60%" y="-60%" width="220%" height="220%">
-                  <feGaussianBlur stdDeviation="3" result="b"/>
-                  <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-                <linearGradient id="veh3dDashGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#17232f"/>
-                  <stop offset="1" stop-color="#0a1016"/>
-                </linearGradient>
-              </defs>
-              <path d="M55,48 Q450,-6 845,48" fill="none" stroke="#223447" stroke-width="2"/>
-              <path d="M18,500 L18,315 Q28,205 175,190 Q420,155 685,182 Q825,198 882,300 L882,500 Z"
-                    fill="url(#veh3dDashGrad)" stroke="#2a4a66" stroke-width="2" stroke-linejoin="round"/>
-              <path d="M60,232 Q420,190 840,228" fill="none" stroke="#2dd4ff" stroke-width="2.5"
-                    opacity="0.85" filter="url(#veh3dGlow)"/>
-              <path d="M172,228 Q270,202 362,233 L362,308 Q270,328 172,308 Z"
-                    fill="#0c1520" stroke="#3a6a8a" stroke-width="1.5"/>
-              <circle cx="232" cy="268" r="28" fill="none" stroke="#2dd4ff" stroke-width="2" opacity="0.85" filter="url(#veh3dGlow)"/>
-              <circle cx="300" cy="268" r="28" fill="none" stroke="#2dd4ff" stroke-width="1.5" opacity="0.45"/>
-              <rect x="430" y="192" width="240" height="140" rx="14" fill="#0a131c" stroke="#2dd4ff"
-                    stroke-width="2" filter="url(#veh3dGlow)"/>
-              <line x1="455" y1="222" x2="632" y2="222" stroke="#4dd2ff" stroke-width="1.5" opacity="0.6"/>
-              <line x1="455" y1="242" x2="588" y2="242" stroke="#4dd2ff" stroke-width="1.5" opacity="0.4"/>
-              <rect x="455" y="262" width="192" height="55" rx="6" fill="none" stroke="#2a4a66" stroke-width="1.5"/>
-              <g stroke="#3a6a8a" stroke-width="2.5" stroke-linecap="round">
-                <line x1="368" y1="178" x2="398" y2="193"/>
-                <line x1="378" y1="175" x2="408" y2="190"/>
-                <line x1="388" y1="172" x2="418" y2="187"/>
-              </g>
-              <g stroke="#3a6a8a" stroke-width="2.5" stroke-linecap="round">
-                <line x1="690" y1="193" x2="720" y2="178"/>
-                <line x1="700" y1="190" x2="730" y2="175"/>
-                <line x1="710" y1="187" x2="740" y2="172"/>
-              </g>
-              <circle cx="270" cy="345" r="86" fill="none" stroke="#3a6a8a" stroke-width="3"/>
-              <circle cx="270" cy="345" r="86" fill="none" stroke="#2dd4ff" stroke-width="1" opacity="0.55" filter="url(#veh3dGlow)"/>
-              <circle cx="270" cy="345" r="27" fill="#0c1520" stroke="#2dd4ff" stroke-width="2"/>
-              <path d="M270,318 L270,272" stroke="#3a6a8a" stroke-width="5" stroke-linecap="round"/>
-              <path d="M248,363 L192,402" stroke="#3a6a8a" stroke-width="5" stroke-linecap="round"/>
-              <path d="M292,363 L348,402" stroke="#3a6a8a" stroke-width="5" stroke-linecap="round"/>
-              <path d="M875,188 L900,212 L900,480 L875,500 Z" fill="#0c1520" stroke="#2a4a66" stroke-width="1.5"/>
-            </svg>
+            <div class="veh3d-loading" id="veh3d-cockpit-loading">[ 正在载入座舱模型… ]</div>
             <div class="veh3d-hotspot-layer" id="veh3d-cockpit-labels"></div>
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono)" id="veh3d-footnote">
@@ -6522,6 +6482,6 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
 <!-- ?v= 是手动缓存破坏:静态站点没有构建步骤/文件哈希,vehicle3d.js 改动后浏览器可能继续用
      磁盘缓存里的旧版本(HTML 本身刷新了、但这个独立加载的模块文件没刷新,导致页面上按钮都在但
      点击没反应——2026-11 实测复现过)。每次改 vehicle3d.js 的可见行为后手动把这个版本号往后挪。 -->
-<script type="module" src="./vehicle3d.js?v=20261120a"></script>
+<script type="module" src="./vehicle3d.js?v=20261120b"></script>
 </body>
 </html>
