@@ -9,7 +9,10 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
-const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb";
+// 2026-11 座舱素材第二批(新增 9 个纯装饰零件)复用了同一个文件名,手动加 ?v= 破缓存——
+// 和 index.html 里 vehicle3d.js 的 ?v= 是同一类问题(浏览器可能继续用磁盘缓存里的旧 12MB
+// 版本,看不到新加的收音机/导航屏/儿童座椅等),同样约定:每次换 cockpit.glb 内容就手动往后挪。
+const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=20261120a";
 const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 const ZONES_URL = "./data/vehicle_zones.json";
 
