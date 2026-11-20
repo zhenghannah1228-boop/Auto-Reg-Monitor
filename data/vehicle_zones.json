@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,2026-11 已做左右镜像修复,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘、发动机舱、悬架/制动/转向等底盘机械件,也没有座椅/仪表板/安全气囊等内饰几何(underside 是空的,只有一层外观壳体)。2026-09 业主要求展示动力总成/底盘/空调/内饰共 16 个新系统(发动机、变速器、离合器、散热风扇、前后悬架、制动、转向系统、半轴传动轴、空调、座椅、仪表板、方向盘、安全气囊、脚垫、门饰板)——已就是否购买带真实机械分件的付费模型(如 DOSCH 3D Car Details)征询过业主,业主选择不付费,故这 16 个区域与既有的电池包/ECU-OTA 域一样,用简易占位几何体(标注为 hotspot)放在车内/机舱大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模;唯一找到的免费候选(Sketchfab CC-BY「Engine Exploded View」)因平台要求登录账号才能下载,当前会话环境内无法直接获取,如后续业主自行下载并提供该文件,可将 engine 区域从占位升级为真实网格,替换方式与奥迪 R8 素材相同。全部 18 个 hotspot 区域现按 group 字段分为 6 组(ev/connectivity/powertrain/chassis/hvac/interior),前端「X-Ray」下按组切换显示,避免 18 个标签同屏堆叠——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。2026-11 业主自行找到 grab3d.com 的 CC0 座舱素材(通用款,无品牌标识,详见 vendor/models/CREDITS.md),据此拼装出 vendor/models/CockpitInterior/cockpit.glb,新增「座舱视角」(独立于整车视角的第二个 3D 场景)——dashboard/steering_wheel/ac_system/ecu_ota/seats/door_trim/floor_mat 这 7 个区域在座舱视角里有了真实可点选几何体(cockpit_nodes 字段),仍保留整车视角下的 hotspot 占位标注不变(奥迪 R8 外观壳体本身依旧没有内饰建模);airbag 区域该素材包里没有对应单独部件,仍为纯占位,不编造。2026-11 第二批:grab3d.com CC0 的「Cozy Car Parts」零件套件(与座舱素材同一许可家族),据此拼出 vendor/models/MechanicalParts/mechanical.glb(V8 发动机/手动变速箱/制动盘(含卡钳)/减震器/散热器 5 个零件)——engine/transmission/radiator_fan/front_suspension/rear_suspension/brakes 这 6 个整车视角 hotspot 区域(mech_node 字段)现在在 X-Ray 透视下显示这些真实零件模型(按各自 hotspot_pos 比例位置 + 运行时缩放/旋转摆放,非精确装配,替代原先的金色占位方块),其余 10 个 hotspot 区域(clutch/steering_system/axle_driveshaft 等,套件里没有对应零件)仍是占位方块,如实保留,不编造。",
+  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,2026-11 已做左右镜像修复,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘、发动机舱、悬架/制动/转向等底盘机械件,也没有座椅/仪表板/安全气囊等内饰几何(underside 是空的,只有一层外观壳体)。2026-09 业主要求展示动力总成/底盘/空调/内饰共 16 个新系统(发动机、变速器、离合器、散热风扇、前后悬架、制动、转向系统、半轴传动轴、空调、座椅、仪表板、方向盘、安全气囊、脚垫、门饰板)——已就是否购买带真实机械分件的付费模型(如 DOSCH 3D Car Details)征询过业主,业主选择不付费,故这 16 个区域与既有的电池包/ECU-OTA 域一样,用简易占位几何体(标注为 hotspot)放在车内/机舱大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模;唯一找到的免费候选(Sketchfab CC-BY「Engine Exploded View」)因平台要求登录账号才能下载,当前会话环境内无法直接获取,如后续业主自行下载并提供该文件,可将 engine 区域从占位升级为真实网格,替换方式与奥迪 R8 素材相同。全部 18 个 hotspot 区域现按 group 字段分为 6 组(ev/connectivity/powertrain/chassis/hvac/interior),前端「X-Ray」下按组切换显示,避免 18 个标签同屏堆叠——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。2026-11 业主自行找到 grab3d.com 的 CC0 座舱素材(通用款,无品牌标识,详见 vendor/models/CREDITS.md),据此拼装出 vendor/models/CockpitInterior/cockpit.glb,新增「座舱视角」(独立于整车视角的第二个 3D 场景)——dashboard/steering_wheel/ac_system/ecu_ota/seats/door_trim/floor_mat 这 7 个区域在座舱视角里有了真实可点选几何体(cockpit_nodes 字段),仍保留整车视角下的 hotspot 占位标注不变(奥迪 R8 外观壳体本身依旧没有内饰建模);airbag 区域该素材包里没有对应单独部件,仍为纯占位,不编造。2026-11 第二批:grab3d.com CC0 的「Cozy Car Parts」零件套件(与座舱素材同一许可家族),据此拼出 vendor/models/MechanicalParts/mechanical.glb(V8 发动机/手动变速箱/制动盘(含卡钳)/减震器/散热器 5 个零件)——engine/transmission/radiator_fan/front_suspension/rear_suspension/brakes 这 6 个整车视角 hotspot 区域(mech_node 字段)现在在 X-Ray 透视下显示这些真实零件模型(按各自 hotspot_pos 比例位置 + 运行时缩放/旋转摆放,非精确装配,替代原先的金色占位方块),其余 10 个 hotspot 区域(clutch/steering_system/axle_driveshaft 等,套件里没有对应零件)仍是占位方块,如实保留,不编造。2026-11 座舱视角改回原始单一模型(业主决定,权衡拼装复杂度后的简化):拼装多个独立 CC0 零件(仪表板/座椅/门板/脚垫/出风口/仪表盘总成等)先后引出方向盘镜像装反(和驾驶座不同侧,表现为「看起来有两个仪表盘、找不到方向盘」)、新增装饰零件比例/朝向靠猜等一连串问题,业主权衡后选择直接用 grab3d.com 最初评估的单一 modern-car-interior.glb 原始模型(未拼装、未删改任何节点),换掉 dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim 这 6 个区域的 cockpit_nodes 映射,改用新的 cockpit_hotspot_pos 比例坐标字段(与整车视角的 hotspot_pos 同一思路,运行时按座舱模型实际包围盒换算世界坐标)渲染悬浮标签,和 airbag 一样回到「示意占位、不可直接点选具体网格」的状态;steering_wheel 是唯一例外,因为这个原始模型本身就自带独立方向盘节点(modern-car-interior_steering_wheel),继续保留为真实可点选分区。vendor/models/MechanicalParts/mechanical.glb(整车视角 X-Ray 用)不受影响,与座舱视角是完全独立的两个模型/两套数据。",
   "zones": [
     {
       "id": "body_shell",
@@ -83,10 +83,10 @@
       "hotspot": true,
       "group": "connectivity",
       "hotspot_pos": [0.5, 0.55, 0.7],
-      "cockpit_nodes": ["asm_cluster_instrument-cluster_body"],
+      "cockpit_hotspot_pos": [0.5, 0.71, 0.82],
       "dims": [5, 6],
       "domain_keywords": ["网络安全", "OTA", "cybersecurity", "SUMS", "CSMS", "ADAS", "智能网联"],
-      "desc": "整车电子控制与远程升级,相关维度为网络安全与 ADAS(与「智能网联」领域映射一致)。整车视角(奥迪R8外观壳体)无对应实体建模,仍用示意占位标注;座舱视角(CC0 座舱素材,详见 vendor/models/CREDITS.md)里映射到独立仪表盘实体,可直接点选。"
+      "desc": "整车电子控制与远程升级,相关维度为网络安全与 ADAS(与「智能网联」领域映射一致)。整车视角(奥迪R8外观壳体)与座舱视角均无对应实体建模,仍用示意占位标注(2026-11 座舱视角改回 grab3d.com 原始单一座舱模型,不再拼装额外零件,详见 vendor/models/CREDITS.md)。"
     },
     {
       "id": "engine",
@@ -200,10 +200,10 @@
       "hotspot": true,
       "group": "hvac",
       "hotspot_pos": [0.5, 0.5, 0.6],
-      "cockpit_nodes": ["asm_vent_l_car-air-vent_body", "asm_vent_r_car-air-vent_body"],
+      "cockpit_hotspot_pos": [0.72, 0.47, 0.80],
       "dims": [1],
       "domain_keywords": ["空调", "制冷剂", "能效", "节能", "环保"],
-      "desc": "空调系统合规范围,相关维度为环保全链条(制冷剂/能效)。整车视角无对应实体建模,仍用示意占位;座舱视角里映射到左右出风口实体,可直接点选。"
+      "desc": "空调系统合规范围,相关维度为环保全链条(制冷剂/能效)。整车视角与座舱视角均无对应实体建模,仍用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     },
     {
       "id": "seats",
@@ -212,10 +212,10 @@
       "hotspot": true,
       "group": "interior",
       "hotspot_pos": [0.35, 0.35, 0.45],
-      "cockpit_nodes": ["asm_seat_driver_car-seat_body", "asm_seat_pax_car-seat_body"],
+      "cockpit_hotspot_pos": [0.75, 0.22, 0.47],
       "dims": [0],
       "domain_keywords": ["座椅", "安全带", "约束系统", "碰撞", "安全"],
-      "desc": "座椅(含安全带固定点)合规范围。整车视角无内饰几何,仍用示意占位;座舱视角里映射到主副驾驶座椅实体,可直接点选。"
+      "desc": "座椅(含安全带固定点)合规范围。整车视角与座舱视角均无独立座椅网格(座舱素材的座椅已并入舱体主壳),仍用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     },
     {
       "id": "dashboard",
@@ -224,10 +224,10 @@
       "hotspot": true,
       "group": "interior",
       "hotspot_pos": [0.5, 0.55, 0.65],
-      "cockpit_nodes": ["asm_dash_car-dashboard_body"],
+      "cockpit_hotspot_pos": [0.5, 0.54, 0.79],
       "dims": [0],
       "domain_keywords": ["仪表板", "仪表台", "内饰", "安全"],
-      "desc": "仪表板合规范围。整车视角无内饰几何,仍用示意占位;座舱视角里映射到独立仪表板实体,可直接点选。"
+      "desc": "仪表板合规范围。整车视角与座舱视角均无独立仪表板网格(座舱素材的仪表板已并入舱体主壳),仍用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     },
     {
       "id": "steering_wheel",
@@ -236,10 +236,10 @@
       "hotspot": true,
       "group": "interior",
       "hotspot_pos": [0.3, 0.5, 0.62],
-      "cockpit_nodes": ["asm_dash_car-dashboard_steering_wheel"],
+      "cockpit_nodes": ["modern-car-interior_steering_wheel"],
       "dims": [0],
       "domain_keywords": ["方向盘", "转向盘", "碰撞", "安全"],
-      "desc": "方向盘合规范围。整车视角无内饰几何,仍用示意占位;座舱视角里映射到独立方向盘实体,可直接点选。"
+      "desc": "方向盘合规范围。整车视角无内饰几何,仍用示意占位;座舱视角里映射到座舱素材自带的方向盘实体,可直接点选(2026-11 座舱视角改回原始单一座舱模型后,这是舱内唯一一个仍有真实可点选几何的区域,详见 vendor/models/CREDITS.md)。"
     },
     {
       "id": "airbag",
@@ -248,9 +248,10 @@
       "hotspot": true,
       "group": "interior",
       "hotspot_pos": [0.3, 0.52, 0.64],
+      "cockpit_hotspot_pos": [0.70, 0.47, 0.71],
       "dims": [0],
       "domain_keywords": ["安全气囊", "气囊", "乘员保护", "碰撞", "安全"],
-      "desc": "安全气囊系统合规范围的示意占位(源模型无内饰几何,位置紧邻方向盘大致区域)。"
+      "desc": "安全气囊系统合规范围的示意占位(整车视角与座舱视角源模型均无对应几何,座舱视角位置紧邻方向盘实体,驾驶员气囊本来就装在方向盘轮毂里)。"
     },
     {
       "id": "floor_mat",
@@ -259,10 +260,10 @@
       "hotspot": true,
       "group": "interior",
       "hotspot_pos": [0.4, 0.13, 0.5],
-      "cockpit_nodes": ["asm_mat_car-floor-mat_body"],
+      "cockpit_hotspot_pos": [0.72, 0.01, 0.66],
       "dims": [0],
       "domain_keywords": ["脚垫", "地毯", "阻燃", "内饰", "安全"],
-      "desc": "脚垫与地毯(阻燃性要求)合规范围。整车视角无内饰几何,仍用示意占位;座舱视角里映射到驾驶侧脚垫实体,可直接点选。"
+      "desc": "脚垫与地毯(阻燃性要求)合规范围。整车视角与座舱视角均无独立脚垫网格,仍用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     },
     {
       "id": "door_trim",
@@ -271,10 +272,10 @@
       "hotspot": true,
       "group": "interior",
       "hotspot_pos": [0.15, 0.35, 0.45],
-      "cockpit_nodes": ["asm_door_l_car-door-panel_body", "asm_door_r_car-door-panel_body"],
+      "cockpit_hotspot_pos": [0.92, 0.29, 0.60],
       "dims": [0],
       "domain_keywords": ["门饰板", "车门内饰", "阻燃", "安全"],
-      "desc": "车门内饰板合规范围。整车视角车门几何已并入车身主壳外观、无独立内饰板网格,仍用示意占位;座舱视角里映射到左右车门饰板实体,可直接点选。"
+      "desc": "车门内饰板合规范围。整车视角车门几何已并入车身主壳外观、座舱视角的舱体同样没有独立门饰板网格,均用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     }
   ]
 }
