@@ -34,6 +34,9 @@ let curZoneId = null;
 let curCountry = "";       // "" = 全部国家(聚合)
 let viewMode = "ext";      // "ext" | "cockpit" —— veh3dSetView() 维护,showZoneDetail() 等需要据此区分当前在哪个 3D 场景里
 let scene, camera, renderer, controls, carRoot, raycaster, hoverObj, hoverOrigEmissive;
+let normalBgColor = null; // X-Ray 关闭时的纸面背景色缓存,setXray() 据此在蓝色 HUD 背景和它之间切换
+const XRAY_BG_COLOR = 0x070b11; // 和座舱视角暗色 HUD 主题(#070b11)同一个底色,两处视觉语言统一
+const XRAY_GLOW_COLOR = 0x2dd4ff; // 棱线/热点统一用这个蓝,和 .veh3d-cockpit-label 的 #2dd4ff 一致
 let cockpitScene, cockpitCamera, cockpitRenderer, cockpitControls, cockpitRoot, cockpitRaycaster, cockpitHoverObj, cockpitHoverOrigEmissive;
 let cockpitInited = false; // 懒加载:只在用户第一次切到座舱视角时才去拉 12MB 的 cockpit.glb
 let cockpitHotspots = []; // 座舱视角悬浮标签(dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim/airbag 共 7 项,
@@ -280,7 +283,7 @@ function buildHotspots() {
   ZONES.filter(z => z.hotspot && Array.isArray(z.hotspot_pos)).forEach(zone => {
     const mesh = new THREE.Mesh(
       new THREE.BoxGeometry(0.42, 0.28, 0.55),
-      new THREE.MeshStandardMaterial({ color: 0xc79a2e, emissive: 0x3a2c08, roughness: 0.4 })
+      new THREE.MeshStandardMaterial({ color: XRAY_GLOW_COLOR, emissive: XRAY_GLOW_COLOR, emissiveIntensity: 0.6, roughness: 0.35 })
     );
     mesh.userData.hotspotEl = true; // setXray() 据此跳过透视材质替换,可见性统一交给 refreshHotspotVisibility()
     mesh.position.fromArray(hotspotWorldPos(zone.hotspot_pos));
@@ -662,9 +665,16 @@ function buildXrayMaterial(mat) {
   m.depthWrite = false;
   return m;
 }
+/* 2026-11 业主要求 X-Ray 透视改成蓝色全息/HUD 风格(参考图:黑底+发光蓝色棱线+悬浮面板)——
+   棱线从原来的深墨色工程图配色改成亮蓝 + 叠加混合(AdditiveBlending),线条互相重叠的地方
+   (车身转折密集处)会自然叠加得更亮,对着纯黑背景有种"发光"的观感;没有真正接入 bloom
+   后处理管线(项目目前没有 vendor 进 EffectComposer/UnrealBloomPass,这类后处理 shader 会
+   明显增加复杂度和渲染开销),这个颜色+混合模式的组合是性价比更高的近似做法。 */
 function buildEdgeLines(mesh) {
   const edges = new THREE.EdgesGeometry(mesh.geometry, 32); // 32°阈值:只留有意义的棱线,滤掉高多边形噪点
-  const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({ color: 0x1a2420, transparent: true, opacity: 0.55 }));
+  const line = new THREE.LineSegments(edges, new THREE.LineBasicMaterial({
+    color: XRAY_GLOW_COLOR, transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false,
+  }));
   line.visible = false;
   mesh.add(line); // 作为 mesh 的子节点,自动继承其局部变换
   return line;
@@ -690,6 +700,9 @@ function setXray(on) {
   if (layer) layer.style.display = on ? "block" : "none";
   const btn = $("#veh3d-xray-btn");
   if (btn) btn.classList.toggle("on", on);
+  const card = $("#veh3d-ext-card");
+  if (card) card.classList.toggle("xray-on", on); // 驱动 index.html 里那一整套蓝色 HUD 配色
+  if (scene && normalBgColor) scene.background = on ? new THREE.Color(XRAY_BG_COLOR) : normalBgColor;
 }
 
 function resolveZoneFromObject(obj) {
@@ -771,8 +784,9 @@ async function initVeh3D() {
   await loadZones();
 
   const panelBg = getComputedStyle(document.documentElement).getPropertyValue("--panel2").trim() || "#e5efdd";
+  normalBgColor = new THREE.Color(panelBg);
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(panelBg);
+  scene.background = normalBgColor;
 
   camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100); // 真实边界在 frameCamera() 里按模型算
   camera.position.set(4, 2.4, 5);
