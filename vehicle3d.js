@@ -12,7 +12,7 @@ const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
 // 2026-11 座舱素材第二批(新增 9 个纯装饰零件)复用了同一个文件名,手动加 ?v= 破缓存——
 // 和 index.html 里 vehicle3d.js 的 ?v= 是同一类问题(浏览器可能继续用磁盘缓存里的旧 12MB
 // 版本,看不到新加的收音机/导航屏/儿童座椅等),同样约定:每次换 cockpit.glb 内容就手动往后挪。
-const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=20261120a";
+const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=20261120b";
 const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 const ZONES_URL = "./data/vehicle_zones.json";
 
@@ -435,17 +435,21 @@ function sizeCockpitRenderer() {
 
 /* 这套素材只有舱内部件(仪表板/座椅/门板/脚垫等),没有包裹它们的外观车身壳体——装配脚本里用
    modern-car-interior.glb 自带的 windshield_glass/steering_wheel 两个既有物体的实测世界坐标做
-   拼装基准(见 CREDITS.md),"前方"是 +Z。这里取透视相机斜前方视角(与装配阶段用来验收拼装效果、
-   确认过渲染正常的角度一致),让用户一进来就能看到仪表板正面,而不是从舱体背面开始看。
+   拼装基准(见 CREDITS.md),"前方"是 +Z。相机取斜前方俯视角度,让用户一进来就能同时看到仪表板
+   正面(含方向盘)和前排座椅,不被头枕挡住视线(见下方角度注释),也不是从舱体背面开始看。
    如实记录一处局限:因为没有外观车身包着,拖到比较极端的角度能看到部件边缘悬空/背面裸露,
-   正常浏览角度(斜前方 45°左右)不受影响,footnote 里也会提示。 */
+   正常浏览角度(斜前方俯视)不受影响,footnote 里也会提示。 */
 function frameCockpitCamera(object3d) {
   const box = new THREE.Box3().setFromObject(object3d);
   const size = box.getSize(new THREE.Vector3());
   const center = box.getCenter(new THREE.Vector3());
   const radius = size.length() * 0.5 || 1;
-  const dir = new THREE.Vector3(0.6, 0.55, -1).normalize();
-  cockpitCamera.position.copy(center).addScaledVector(dir, radius * 1.3);
+  // 2026-11 业主反馈"座舱视角看起来没有方向盘"排查后改过这个默认角度:原来 dir=(0.6,0.55,-1)
+  // 偏水平,从这个角度看方向盘正好被前排座椅头枕挡住(实测 before/after 对照截图确认,和方向盘
+  // 位置对不对无关,纯粹是头枕挡住了视线)。改成更陡的俯视角(Y 分量从 0.55 提到 0.9),从头枕
+  // 上方往下看,方向盘和仪表台能露出来;distance 倍数从 1.3 提到 1.5,配合更陡的角度留够取景范围。
+  const dir = new THREE.Vector3(0.5, 0.9, -0.6).normalize();
+  cockpitCamera.position.copy(center).addScaledVector(dir, radius * 1.5);
   cockpitCamera.near = radius / 50;
   cockpitCamera.far = radius * 20;
   sizeCockpitRenderer();
