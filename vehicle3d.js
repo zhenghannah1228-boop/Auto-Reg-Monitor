@@ -9,13 +9,19 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
+const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb";
 const ZONES_URL = "./data/vehicle_zones.json";
 
 let ZONES = [];            // 合并静态种子 + 团队覆盖层后的区域定义数组
-let nodeToZone = new Map();// gltf 节点名(小写) -> zoneId
+let nodeToZone = new Map();// gltf 节点名(小写) -> zoneId,整车视角(AudiR8.glb)用
+let cockpitNodeToZone = new Map(); // gltf 节点名(小写) -> zoneId,座舱视角(cockpit.glb)用,两套模型各自独立命名空间
 let curZoneId = null;
 let curCountry = "";       // "" = 全部国家(聚合)
+let viewMode = "ext";      // "ext" | "cockpit" —— veh3dSetView() 维护,showZoneDetail() 等需要据此区分当前在哪个 3D 场景里
 let scene, camera, renderer, controls, carRoot, raycaster, hoverObj, hoverOrigEmissive;
+let cockpitScene, cockpitCamera, cockpitRenderer, cockpitControls, cockpitRoot, cockpitRaycaster, cockpitHoverObj, cockpitHoverOrigEmissive;
+let cockpitInited = false; // 懒加载:只在用户第一次切到座舱视角时才去拉 12MB 的 cockpit.glb
+let cockpitHotspots = []; // 目前只有 airbag 一项(素材包没有对应部件),复用整车视角"虚线标签"的思路但没有占位 Box 网格
 let xrayOn = false;
 let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域、
                     // 2026-09 新增的动力总成/底盘/空调/内饰等 18 个区域),用简易占位几何体 +
@@ -46,7 +52,11 @@ async function loadZones() {
   const ovrMap = new Map(overrides.filter(o => o.data && typeof o.data === "object").map(o => [o.zone_id, o.data]));
   ZONES = base.map(z => ovrMap.has(z.id) ? Object.assign({}, z, ovrMap.get(z.id)) : z);
   nodeToZone = new Map();
-  ZONES.forEach(z => (z.gltf_nodes || []).forEach(n => nodeToZone.set(String(n).toLowerCase(), z.id)));
+  cockpitNodeToZone = new Map();
+  ZONES.forEach(z => {
+    (z.gltf_nodes || []).forEach(n => nodeToZone.set(String(n).toLowerCase(), z.id));
+    (z.cockpit_nodes || []).forEach(n => cockpitNodeToZone.set(String(n).toLowerCase(), z.id));
+  });
 }
 
 function zoneById(id) { return ZONES.find(z => z.id === id) || null; }
@@ -135,7 +145,9 @@ function showZoneDetail(zoneId) {
   const dimsRow = zone.dims.map(i =>
     `<div class="vd-row" data-dim="${i}">${esc((typeof DIMS !== "undefined" ? DIMS[i] : "维度" + i))}</div>`
   ).join("");
-  const nodeInfo = zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`;
+  const nodeInfo = viewMode === "cockpit"
+    ? ((zone.cockpit_nodes || []).length ? `${zone.cockpit_nodes.length} 个座舱模型节点` : "占位标注 · 座舱素材无对应部件")
+    : (zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`);
   host.innerHTML = `
     <div class="pd-lbl">${esc(zoneId)} · ${nodeInfo}</div>
     <div class="pd-title">${esc(zone.label_cn)}</div>
@@ -285,59 +297,230 @@ function buildGroupBar() {
   });
 }
 
-/* 座舱视角(2026-11 业主指示):固定机位的示意线稿(自绘 SVG,不是车辆照片/渲染图,避免
-   素材版权问题),标注几个驾驶位视野内能看到、且在 data/vehicle_zones.json 里已有定义的内饰
-   区域——方向盘/安全气囊/仪表板/空调/中控屏背后的 ECU-OTA 域/门饰板。只标这张示意图里画得出来
-   的部件,不把座椅、脚垫这类此视角看不到的区域也塞进来虚构点位。点击标签直接复用
-   showZoneDetail(),和整车视角共享同一套合规匹配与详情面板,不是另一套逻辑。
-   坐标是 SVG viewBox(900×500)里的像素位置换算成百分比,和整车视角的 hotspot_pos 比例坐标
-   是两套独立的定位方式(整车视角按加载模型的真实包围盒换算,座舱视角这里是固定二维示意图,
-   没有可换算的"包围盒")。 */
-const COCKPIT_ZONES = [
-  { id: "dashboard", x: 30.6, y: 39 },
-  { id: "steering_wheel", x: 18.9, y: 86 },
-  { id: "airbag", x: 38.3, y: 60 },
-  { id: "ac_system", x: 78.4, y: 28 },
-  { id: "ecu_ota", x: 60.6, y: 32 },
-  { id: "door_trim", x: 91.1, y: 84 },
-];
-function buildCockpitLabels() {
-  const layer = $("#veh3d-cockpit-labels");
-  if (!layer) return;
-  layer.innerHTML = "";
-  COCKPIT_ZONES.forEach(cz => {
-    const zone = zoneById(cz.id);
-    if (!zone) return;
-    const card = document.createElement("div");
-    card.className = "veh3d-cockpit-label";
-    card.style.left = cz.x + "%";
-    card.style.top = cz.y + "%";
-    card.textContent = zone.label_cn;
-    card.addEventListener("click", () => showZoneDetail(zone.id));
-    layer.appendChild(card);
+/* 座舱视角(2026-11 业主指示,替代此前固定机位的自绘 SVG 示意图):真实可拖动旋转/缩放的第二个
+   Three.js 场景,加载 vendor/models/CockpitInterior/cockpit.glb(grab3d.com CC0 素材拼装,见
+   vendor/models/CREDITS.md)。方向盘/仪表板/空调出风口/仪表盘总成(ECU-OTA 域锚点)/座椅/门饰板/
+   脚垫这 7 个区域现在是真实几何节点,点击方式与整车视角完全一致(cockpit_nodes 字段,与整车视角
+   的 gltf_nodes 是两套独立命名空间,见 loadZones());安全气囊素材包里没有对应部件,仍用下面的
+   悬浮标签占位,不编造几何体。懒加载:只在用户第一次点"座舱视角"时才去拉这个 12MB 的模型,避免
+   没人看这个视角时白白加载。 */
+function resolveCockpitZoneFromObject(obj) {
+  let o = obj;
+  while (o) {
+    const zid = cockpitNodeToZone.get(String(o.name || "").toLowerCase());
+    if (zid) return zid;
+    o = o.parent;
+  }
+  return null;
+}
+
+function setCockpitHover(obj) {
+  if (cockpitHoverObj === obj) return;
+  if (cockpitHoverObj && cockpitHoverObj.material && cockpitHoverOrigEmissive !== undefined) {
+    try { cockpitHoverObj.material.emissive && cockpitHoverObj.material.emissive.copy(cockpitHoverOrigEmissive); } catch (e) {}
+  }
+  cockpitHoverObj = obj;
+  if (obj && obj.material && obj.material.emissive) {
+    cockpitHoverOrigEmissive = obj.material.emissive.clone();
+    obj.material.emissive.setHex(0x1a5a7a); // 蓝色高光,呼应座舱视角的黑蓝 HUD 配色,不沿用整车视角的绿色
+  } else {
+    cockpitHoverOrigEmissive = undefined;
+  }
+}
+
+function wireCockpitInteraction(canvasEl) {
+  let downPos = null;
+  canvasEl.addEventListener("pointerdown", e => { downPos = { x: e.clientX, y: e.clientY }; });
+  canvasEl.addEventListener("pointerup", e => {
+    if (!downPos) return;
+    const moved = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
+    downPos = null;
+    if (moved > 6 || !cockpitRoot) return; // 拖拽旋转不算点击
+    cockpitRaycaster.setFromCamera(pointerToNDC(e, canvasEl), cockpitCamera);
+    const hits = cockpitRaycaster.intersectObject(cockpitRoot, true);
+    if (!hits.length) return;
+    showZoneDetail(resolveCockpitZoneFromObject(hits[0].object));
   });
+  canvasEl.addEventListener("pointermove", e => {
+    if (!cockpitRoot) return;
+    cockpitRaycaster.setFromCamera(pointerToNDC(e, canvasEl), cockpitCamera);
+    const hits = cockpitRaycaster.intersectObject(cockpitRoot, true);
+    if (hits.length && resolveCockpitZoneFromObject(hits[0].object)) {
+      setCockpitHover(hits[0].object);
+      canvasEl.style.cursor = "pointer";
+    } else {
+      setCockpitHover(null);
+      canvasEl.style.cursor = "grab";
+    }
+  });
+  canvasEl.addEventListener("pointerleave", () => setCockpitHover(null));
+}
+
+function sizeCockpitRenderer() {
+  const host = $("#veh3d-cockpit");
+  if (!host || !cockpitRenderer || !cockpitCamera) return;
+  const w = host.clientWidth || 1, h = host.clientHeight || 1;
+  cockpitRenderer.setSize(w, h, false);
+  cockpitCamera.aspect = w / h;
+  cockpitCamera.updateProjectionMatrix();
+}
+
+/* 这套素材只有舱内部件(仪表板/座椅/门板/脚垫等),没有包裹它们的外观车身壳体——装配脚本里用
+   modern-car-interior.glb 自带的 windshield_glass/steering_wheel 两个既有物体的实测世界坐标做
+   拼装基准(见 CREDITS.md),"前方"是 +Z。这里取透视相机斜前方视角(与装配阶段用来验收拼装效果、
+   确认过渲染正常的角度一致),让用户一进来就能看到仪表板正面,而不是从舱体背面开始看。
+   如实记录一处局限:因为没有外观车身包着,拖到比较极端的角度能看到部件边缘悬空/背面裸露,
+   正常浏览角度(斜前方 45°左右)不受影响,footnote 里也会提示。 */
+function frameCockpitCamera(object3d) {
+  const box = new THREE.Box3().setFromObject(object3d);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+  const radius = size.length() * 0.5 || 1;
+  const dir = new THREE.Vector3(0.6, 0.55, -1).normalize();
+  cockpitCamera.position.copy(center).addScaledVector(dir, radius * 1.3);
+  cockpitCamera.near = radius / 50;
+  cockpitCamera.far = radius * 20;
+  sizeCockpitRenderer();
+  cockpitControls.target.copy(center);
+  cockpitControls.minDistance = radius * 0.25;
+  cockpitControls.maxDistance = radius * 3;
+  cockpitControls.update();
+}
+
+/* 安全气囊在素材包里没有独立部件,位置锚点取方向盘节点(asm_dash_car-dashboard_steering_wheel)
+   的真实世界坐标包围盒中心——驾驶员气囊本来就装在方向盘轮毂里,这个锚点不是凑数据,只是没有
+   单独的气囊几何体可供点选,所以仍用悬浮标签而不是可点击网格。 */
+function buildCockpitHotspots() {
+  cockpitHotspots.forEach(h => h.card.remove());
+  cockpitHotspots = [];
+  const layer = $("#veh3d-cockpit-labels");
+  if (layer) layer.innerHTML = "";
+  const zone = zoneById("airbag");
+  if (!zone || !cockpitRoot) return;
+  let wheelObj = null;
+  cockpitRoot.traverse(o => { if (o.name === "asm_dash_car-dashboard_steering_wheel") wheelObj = o; });
+  if (!wheelObj) return;
+  const worldPos = new THREE.Box3().setFromObject(wheelObj).getCenter(new THREE.Vector3());
+  const card = document.createElement("div");
+  card.className = "veh3d-cockpit-label";
+  card.textContent = zone.label_cn;
+  card.addEventListener("click", () => showZoneDetail(zone.id));
+  layer.appendChild(card);
+  cockpitHotspots.push({ zone, worldPos, card });
+}
+
+const _cpVec = new THREE.Vector3();
+function updateCockpitHotspotLayer() {
+  if (!cockpitHotspots.length) return;
+  const host = $("#veh3d-cockpit");
+  if (!host) return;
+  const w = host.clientWidth, h = host.clientHeight;
+  cockpitHotspots.forEach(hs => {
+    _cpVec.copy(hs.worldPos).project(cockpitCamera);
+    if (_cpVec.z > 1 || _cpVec.z < -1) { hs.card.style.display = "none"; return; }
+    hs.card.style.display = "block";
+    hs.card.style.left = ((_cpVec.x * 0.5 + 0.5) * w) + "px";
+    hs.card.style.top = ((-_cpVec.y * 0.5 + 0.5) * h) + "px";
+  });
+}
+
+function setCockpitLoadingProgress(pct, done, error) {
+  const el = $("#veh3d-cockpit-loading");
+  if (!el) return;
+  if (error) { el.textContent = "[ 座舱模型加载失败,请刷新重试 ]"; return; }
+  if (done) { el.textContent = "[ 已加载 ]"; el.classList.add("hide"); return; }
+  el.textContent = "[ 正在载入座舱模型… " + pct + "% ]";
+}
+
+function initCockpitScene() {
+  if (cockpitInited) return;
+  cockpitInited = true;
+  const host = $("#veh3d-cockpit");
+  if (!host) return;
+
+  cockpitScene = new THREE.Scene();
+  cockpitScene.background = new THREE.Color(0x070b11);
+
+  cockpitCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+
+  cockpitRenderer = new THREE.WebGLRenderer({ antialias: true });
+  cockpitRenderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  host.insertBefore(cockpitRenderer.domElement, host.firstChild);
+  sizeCockpitRenderer();
+
+  cockpitScene.add(new THREE.HemisphereLight(0xffffff, 0x16202c, 1.1));
+  const key = new THREE.DirectionalLight(0xffffff, 1.6);
+  key.position.set(1.5, 3, 1.2);
+  cockpitScene.add(key);
+  const fill = new THREE.DirectionalLight(0xbfe6ff, 0.5);
+  fill.position.set(-1.5, 1, -1);
+  cockpitScene.add(fill);
+
+  cockpitControls = new OrbitControls(cockpitCamera, cockpitRenderer.domElement);
+  cockpitControls.enableDamping = true;
+  cockpitControls.dampingFactor = 0.08;
+
+  cockpitRaycaster = new THREE.Raycaster();
+  wireCockpitInteraction(cockpitRenderer.domElement);
+
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(() => sizeCockpitRenderer()).observe(host);
+  } else {
+    window.addEventListener("resize", sizeCockpitRenderer);
+  }
+
+  // 只在座舱视角可见时才渲染/更新 controls,避免切回整车视角后这个场景还在后台空转占用 GPU。
+  cockpitRenderer.setAnimationLoop(() => {
+    if (viewMode !== "cockpit") return;
+    cockpitControls.update();
+    cockpitRenderer.render(cockpitScene, cockpitCamera);
+    updateCockpitHotspotLayer();
+  });
+
+  new GLTFLoader().load(
+    COCKPIT_MODEL_URL,
+    gltf => {
+      cockpitRoot = gltf.scene;
+      cockpitScene.add(cockpitRoot);
+      cockpitRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
+      cockpitRoot.updateMatrixWorld(true);
+      frameCockpitCamera(cockpitRoot);
+      buildCockpitHotspots();
+      setCockpitLoadingProgress(100, true, false);
+    },
+    evt => {
+      const pct = evt.total ? Math.round((evt.loaded / evt.total) * 100) : Math.round(evt.loaded / 1e5);
+      setCockpitLoadingProgress(Math.min(99, pct), false, false);
+    },
+    err => {
+      console.error("座舱模型加载失败:", err);
+      setCockpitLoadingProgress(0, false, true);
+    }
+  );
 }
 
 /* 整车视角/座舱视角切换:X-Ray、分组筛选条都是整车 3D 场景专属的控件,座舱视角下隐藏,
    避免用户以为座舱示意图也能透视/分组。 */
 window.veh3dSetView = function (mode) {
   const isCockpit = mode === "cockpit";
+  viewMode = isCockpit ? "cockpit" : "ext";
   const extBtn = $("#veh3d-view-ext"), cpBtn = $("#veh3d-view-cockpit");
   if (extBtn) extBtn.classList.toggle("on", !isCockpit);
   if (cpBtn) cpBtn.classList.toggle("on", isCockpit);
   const canvas = $("#veh3d-canvas"), cockpit = $("#veh3d-cockpit");
   if (canvas) canvas.style.display = isCockpit ? "none" : "";
   if (cockpit) cockpit.style.display = isCockpit ? "" : "none";
+  if (isCockpit) { initCockpitScene(); sizeCockpitRenderer(); } // 懒加载;display:none 时宽高为 0,切回来后要重算一次
   const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar");
   if (xrayBtn) xrayBtn.style.display = isCockpit ? "none" : "";
   if (groupBar) groupBar.style.display = isCockpit ? "none" : "";
   const hint = $("#veh3d-hint");
   if (hint) hint.textContent = isCockpit
-    ? "座舱示意图(自绘线稿,非实车渲染)· 点击标签查看该区域合规范围"
+    ? "拖动旋转 · 滚轮缩放 · 点击内饰部件/标签查看该区域合规范围"
     : "拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围";
   const foot = $("#veh3d-footnote");
   if (foot) foot.textContent = isCockpit
-    ? "座舱视角仅标注此固定机位视野内可见、且已在区域数据中定义的内饰部件(方向盘/安全气囊/仪表板/空调/ECU-OTA域/门饰板);座椅、脚垫等此视角看不到的区域仍请到「整车视角」X-Ray 透视下查看"
+    ? "模型:grab3d.com CC0 座舱素材拼装(通用款式,无品牌标识,见 vendor/models/CREDITS.md)· 仪表板/方向盘/出风口/仪表盘总成/座椅/门饰板/脚垫为真实模型节点,可直接点击;安全气囊素材包无对应部件,仍用悬浮标签占位(锚定在方向盘轮毂实际位置)· 该素材只有舱内部件、没有包裹的外观车身,转到较极端角度会看到部件边缘悬空,正常浏览角度不受影响"
     : "模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示(未买机械分件付费模型,详见区域数据 note)· 其余维度见「维度矩阵」「国家详情」";
 };
 
@@ -543,7 +726,6 @@ async function initVeh3D() {
   const xrayBtn = $("#veh3d-xray-btn");
   if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
   buildGroupBar();
-  buildCockpitLabels();
 
   fillCountrySelect();
   renderVeh3DKPIs();
