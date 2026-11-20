@@ -12,7 +12,7 @@ const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
 // 2026-11 座舱素材第二批(新增 9 个纯装饰零件)复用了同一个文件名,手动加 ?v= 破缓存——
 // 和 index.html 里 vehicle3d.js 的 ?v= 是同一类问题(浏览器可能继续用磁盘缓存里的旧 12MB
 // 版本,看不到新加的收音机/导航屏/儿童座椅等),同样约定:每次换 cockpit.glb 内容就手动往后挪。
-const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=20261120d";
+const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=20261120e";
 const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 const ZONES_URL = "./data/vehicle_zones.json";
 
@@ -36,8 +36,8 @@ let viewMode = "ext";      // "ext" | "cockpit" —— veh3dSetView() 维护,sho
 let scene, camera, renderer, controls, carRoot, raycaster, hoverObj, hoverOrigEmissive;
 let cockpitScene, cockpitCamera, cockpitRenderer, cockpitControls, cockpitRoot, cockpitRaycaster, cockpitHoverObj, cockpitHoverOrigEmissive;
 let cockpitInited = false; // 懒加载:只在用户第一次切到座舱视角时才去拉 12MB 的 cockpit.glb
-let cockpitHotspots = []; // 座舱视角悬浮标签,目前只有 airbag 一项(素材包没有对应部件),复用
-                           // 整车视角"虚线标签"的思路但没有占位 Box 网格,见 buildCockpitHotspots()
+let cockpitHotspots = []; // 座舱视角悬浮标签(dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim/airbag 共 7 项,
+                           // 均无真实几何),复用整车视角"虚线标签"的思路但没有占位 Box 网格,见 buildCockpitHotspots()
 let xrayOn = false;
 let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域、
                     // 2026-09 新增的动力总成/底盘/空调/内饰等 18 个区域),用简易占位几何体 +
@@ -460,11 +460,12 @@ function frameCockpitCamera(object3d) {
   cockpitControls.update();
 }
 
-/* cockpit_hotspot_pos 用于座舱素材里没有对应几何体的区域(目前只有 airbag——这套 CC0 零件
-   没有单独的气囊部件),悬浮标签示意位置,和整车视角的 hotspot 占位系统同一思路:存的是座舱
-   模型当前真实包围盒三轴上的比例(0~1),不是写死的绝对坐标。方向盘/仪表板/出风口/仪表盘
-   总成/座椅/门饰板/脚垫这 7 个区域都有真实几何(cockpit_nodes 字段),走 cockpitNodeToZone
-   的真实点选路径,不会出现在这里。 */
+/* 2026-11 座舱视角改回 grab3d.com 原始单一座舱模型(业主决定,见 data/vehicle_zones.json 的
+   note 字段与 vendor/models/CREDITS.md):不再拼装仪表板/座椅/门板/脚垫/出风口/仪表盘总成这些
+   独立零件,这些区域(连同 airbag)统一用悬浮标签示意,和整车视角的 hotspot 占位系统同一思路——
+   cockpit_hotspot_pos 是座舱模型当前真实包围盒三轴上的比例(0~1),不是写死的绝对坐标。
+   steering_wheel 是例外:这个原始模型本身自带独立方向盘节点,继续走 cockpitNodeToZone 的
+   真实点选路径,不在这里出现。 */
 function cockpitHotspotWorldPos(fracPos) {
   if (!cockpitRoot) return fracPos;
   const box = new THREE.Box3().setFromObject(cockpitRoot);
@@ -603,7 +604,7 @@ window.veh3dSetView = function (mode) {
     : "拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围";
   const foot = $("#veh3d-footnote");
   if (foot) foot.textContent = isCockpit
-    ? "模型:grab3d.com CC0 座舱素材拼装(通用款式,无品牌标识,见 vendor/models/CREDITS.md)· 方向盘/仪表板/出风口/仪表盘总成/座椅/门饰板/脚垫为真实模型节点,可直接点击;安全气囊素材包无对应部件,仍用悬浮标签占位(锚定在方向盘实际位置附近)· 该素材只有舱内部件、没有包裹的外观车身,转到较极端角度会看到部件边缘悬空,正常浏览角度不受影响"
+    ? "模型:grab3d.com CC0 原始座舱模型(通用款式,无品牌标识,见 vendor/models/CREDITS.md)· 方向盘为真实模型节点,可直接点击;仪表板/空调/ECU-OTA域/座椅/脚垫/门饰板/安全气囊素材无对应独立几何,仍用悬浮标签示意位置(2026-11 简化为单一模型,不再拼装额外零件)· 该素材只有舱内部件、没有包裹的外观车身,转到较极端角度会看到部件边缘悬空,正常浏览角度不受影响"
     : "模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示——其中发动机/变速器/散热器/前后悬架/制动盘 6 项已换成 grab3d.com CC0 真实零件模型(首次开 X-Ray 时加载),其余(离合器/转向系统/半轴传动轴等)仍是占位方块,详见区域数据 note · 其余维度见「维度矩阵」「国家详情」";
 };
 
