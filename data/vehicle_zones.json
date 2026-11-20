@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,2026-11 已做左右镜像修复,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘、发动机舱、悬架/制动/转向等底盘机械件,也没有座椅/仪表板/安全气囊等内饰几何(underside 是空的,只有一层外观壳体)。2026-09 业主要求展示动力总成/底盘/空调/内饰共 16 个新系统(发动机、变速器、离合器、散热风扇、前后悬架、制动、转向系统、半轴传动轴、空调、座椅、仪表板、方向盘、安全气囊、脚垫、门饰板)——已就是否购买带真实机械分件的付费模型(如 DOSCH 3D Car Details)征询过业主,业主选择不付费,故这 16 个区域与既有的电池包/ECU-OTA 域一样,用简易占位几何体(标注为 hotspot)放在车内/机舱大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模;唯一找到的免费候选(Sketchfab CC-BY「Engine Exploded View」)因平台要求登录账号才能下载,当前会话环境内无法直接获取,如后续业主自行下载并提供该文件,可将 engine 区域从占位升级为真实网格,替换方式与奥迪 R8 素材相同。全部 18 个 hotspot 区域现按 group 字段分为 6 组(ev/connectivity/powertrain/chassis/hvac/interior),前端「X-Ray」下按组切换显示,避免 18 个标签同屏堆叠——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。2026-11 业主自行找到 grab3d.com 的 CC0 座舱素材(通用款,无品牌标识,详见 vendor/models/CREDITS.md),据此拼装出 vendor/models/CockpitInterior/cockpit.glb,新增「座舱视角」(独立于整车视角的第二个 3D 场景)——dashboard/steering_wheel/ac_system/ecu_ota/seats/door_trim/floor_mat 这 7 个区域在座舱视角里有了真实可点选几何体(cockpit_nodes 字段),仍保留整车视角下的 hotspot 占位标注不变(奥迪 R8 外观壳体本身依旧没有内饰建模);airbag 区域该素材包里没有对应单独部件,仍为纯占位,不编造。",
+  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,2026-11 已做左右镜像修复,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘、发动机舱、悬架/制动/转向等底盘机械件,也没有座椅/仪表板/安全气囊等内饰几何(underside 是空的,只有一层外观壳体)。2026-09 业主要求展示动力总成/底盘/空调/内饰共 16 个新系统(发动机、变速器、离合器、散热风扇、前后悬架、制动、转向系统、半轴传动轴、空调、座椅、仪表板、方向盘、安全气囊、脚垫、门饰板)——已就是否购买带真实机械分件的付费模型(如 DOSCH 3D Car Details)征询过业主,业主选择不付费,故这 16 个区域与既有的电池包/ECU-OTA 域一样,用简易占位几何体(标注为 hotspot)放在车内/机舱大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模;唯一找到的免费候选(Sketchfab CC-BY「Engine Exploded View」)因平台要求登录账号才能下载,当前会话环境内无法直接获取,如后续业主自行下载并提供该文件,可将 engine 区域从占位升级为真实网格,替换方式与奥迪 R8 素材相同。全部 18 个 hotspot 区域现按 group 字段分为 6 组(ev/connectivity/powertrain/chassis/hvac/interior),前端「X-Ray」下按组切换显示,避免 18 个标签同屏堆叠——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。2026-11 业主自行找到 grab3d.com 的 CC0 座舱素材(通用款,无品牌标识,详见 vendor/models/CREDITS.md),据此拼装出 vendor/models/CockpitInterior/cockpit.glb,新增「座舱视角」(独立于整车视角的第二个 3D 场景)——dashboard/steering_wheel/ac_system/ecu_ota/seats/door_trim/floor_mat 这 7 个区域在座舱视角里有了真实可点选几何体(cockpit_nodes 字段),仍保留整车视角下的 hotspot 占位标注不变(奥迪 R8 外观壳体本身依旧没有内饰建模);airbag 区域该素材包里没有对应单独部件,仍为纯占位,不编造。2026-11 第二批:grab3d.com CC0 的「Cozy Car Parts」零件套件(与座舱素材同一许可家族),据此拼出 vendor/models/MechanicalParts/mechanical.glb(V8 发动机/手动变速箱/制动盘(含卡钳)/减震器/散热器 5 个零件)——engine/transmission/radiator_fan/front_suspension/rear_suspension/brakes 这 6 个整车视角 hotspot 区域(mech_node 字段)现在在 X-Ray 透视下显示这些真实零件模型(按各自 hotspot_pos 比例位置 + 运行时缩放/旋转摆放,非精确装配,替代原先的金色占位方块),其余 10 个 hotspot 区域(clutch/steering_system/axle_driveshaft 等,套件里没有对应零件)仍是占位方块,如实保留,不编造。",
   "zones": [
     {
       "id": "body_shell",
@@ -95,9 +95,10 @@
       "hotspot": true,
       "group": "powertrain",
       "hotspot_pos": [0.5, 0.22, 0.25],
+      "mech_node": "v8-engine_body",
       "dims": [0, 1],
       "domain_keywords": ["发动机", "动力总成", "排放", "油耗", "整车", "安全", "节能环保"],
-      "desc": "发动机(动力总成)合规范围的示意占位(源模型无发动机舱几何,位置为座舱后方机舱大致区域,与该车中置后驱的实际布局一致),相关维度为整车准入与环保全链条。"
+      "desc": "发动机(动力总成)合规范围。2026-11 起用 grab3d.com CC0 的 V8 发动机模型替代占位 Box(源模型本身仍无发动机舱几何,这是另借的真实零件模型按比例摆放在座舱后方机舱大致位置,与该车中置后驱的实际布局一致,非精确装配位),相关维度为整车准入与环保全链条。"
     },
     {
       "id": "transmission",
@@ -106,9 +107,10 @@
       "hotspot": true,
       "group": "powertrain",
       "hotspot_pos": [0.5, 0.18, 0.15],
+      "mech_node": "gearbox_body",
       "dims": [0],
       "domain_keywords": ["变速器", "变速箱", "传动系统", "整车", "安全"],
-      "desc": "变速器合规范围的示意占位(源模型无对应实体建模,位置紧邻发动机区域大致区域)。"
+      "desc": "变速器合规范围。2026-11 起用 grab3d.com CC0 的手动变速箱模型替代占位 Box,摆放在紧邻发动机区域的大致位置,非精确装配位。"
     },
     {
       "id": "clutch",
@@ -128,9 +130,10 @@
       "hotspot": true,
       "group": "powertrain",
       "hotspot_pos": [0.5, 0.15, 0.85],
+      "mech_node": "car-radiator_body",
       "dims": [1],
       "domain_keywords": ["散热", "冷却", "制冷剂", "节能", "环保"],
-      "desc": "散热系统合规范围的示意占位(源模型无对应实体建模,位置为前舱进气格栅后方大致区域),相关维度为环保全链条(能耗/制冷剂)。"
+      "desc": "散热系统合规范围。2026-11 起用 grab3d.com CC0 的散热器模型替代占位 Box,摆放在前舱进气格栅后方大致位置(素材包无独立风扇部件,仍只代表散热器本体);相关维度为环保全链条(能耗/制冷剂)。"
     },
     {
       "id": "front_suspension",
@@ -139,9 +142,10 @@
       "hotspot": true,
       "group": "chassis",
       "hotspot_pos": [0.5, 0.15, 0.72],
+      "mech_node": "shock-absorber_body",
       "dims": [0],
       "domain_keywords": ["悬架", "底盘", "操稳", "整车", "安全"],
-      "desc": "前悬架合规范围的示意占位(源模型无底盘机械几何,位置为前轮轴大致区域)。"
+      "desc": "前悬架合规范围。2026-11 起用 grab3d.com CC0 的减震器模型替代占位 Box(只代表减震支柱,不含摆臂/弹簧座等其余悬架部件),摆放在前轮轴大致位置。"
     },
     {
       "id": "rear_suspension",
@@ -150,9 +154,10 @@
       "hotspot": true,
       "group": "chassis",
       "hotspot_pos": [0.5, 0.15, 0.12],
+      "mech_node": "shock-absorber_body",
       "dims": [0],
       "domain_keywords": ["悬架", "底盘", "操稳", "整车", "安全"],
-      "desc": "后悬架合规范围的示意占位(源模型无底盘机械几何,位置为后轮轴大致区域)。"
+      "desc": "后悬架合规范围。2026-11 起用 grab3d.com CC0 的减震器模型替代占位 Box(与前悬架同一个素材模型,各自独立摆放,只代表减震支柱),摆放在后轮轴大致位置。"
     },
     {
       "id": "brakes",
@@ -161,9 +166,10 @@
       "hotspot": true,
       "group": "chassis",
       "hotspot_pos": [0.16, 0.15, 0.68],
+      "mech_node": "brake-disc_body",
       "dims": [0],
       "domain_keywords": ["制动", "刹车", "制动系统", "安全", "整车"],
-      "desc": "制动系统合规范围的示意占位(源模型车轮几何已与车身主壳合并,无独立制动盘/卡钳网格,位置为前左轮大致区域)。"
+      "desc": "制动系统合规范围。2026-11 起用 grab3d.com CC0 的制动盘(含卡钳)模型替代占位 Box(源模型车轮几何仍与车身主壳合并、无法单独换成真实轮毂内部件,这是另借的真实零件摆放在前左轮大致位置示意,非该车轮自身的几何)。"
     },
     {
       "id": "steering_system",

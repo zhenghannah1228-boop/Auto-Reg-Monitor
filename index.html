@@ -731,7 +731,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
             <div class="veh3d-hotspot-layer" id="veh3d-cockpit-labels"></div>
           </div>
           <div style="font-size:11px;color:var(--muted);margin-top:8px;font-family:var(--mono)" id="veh3d-footnote">
-            模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示(未买机械分件付费模型,详见区域数据 note)· 其余维度见「维度矩阵」「国家详情」
+            模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示——其中发动机/变速器/散热器/前后悬架/制动盘 6 项已换成 grab3d.com CC0 真实零件模型(首次开 X-Ray 时加载),其余(离合器/转向系统/半轴传动轴等)仍是占位方块,详见区域数据 note · 其余维度见「维度矩阵」「国家详情」
           </div>
         </div>
       </div>
@@ -6482,6 +6482,6 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
 <!-- ?v= 是手动缓存破坏:静态站点没有构建步骤/文件哈希,vehicle3d.js 改动后浏览器可能继续用
      磁盘缓存里的旧版本(HTML 本身刷新了、但这个独立加载的模块文件没刷新,导致页面上按钮都在但
      点击没反应——2026-11 实测复现过)。每次改 vehicle3d.js 的可见行为后手动把这个版本号往后挪。 -->
-<script type="module" src="./vehicle3d.js?v=20261120b"></script>
+<script type="module" src="./vehicle3d.js?v=20261120c"></script>
 </body>
 </html>
