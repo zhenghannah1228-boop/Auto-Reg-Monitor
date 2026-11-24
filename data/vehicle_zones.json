@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,2026-11 已做左右镜像修复,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘、发动机舱、悬架/制动/转向等底盘机械件,也没有座椅/仪表板/安全气囊等内饰几何(underside 是空的,只有一层外观壳体)。2026-09 业主要求展示动力总成/底盘/空调/内饰共 16 个新系统(发动机、变速器、离合器、散热风扇、前后悬架、制动、转向系统、半轴传动轴、空调、座椅、仪表板、方向盘、安全气囊、脚垫、门饰板)——已就是否购买带真实机械分件的付费模型(如 DOSCH 3D Car Details)征询过业主,业主选择不付费,故这 16 个区域与既有的电池包/ECU-OTA 域一样,用简易占位几何体(标注为 hotspot)放在车内/机舱大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模;唯一找到的免费候选(Sketchfab CC-BY「Engine Exploded View」)因平台要求登录账号才能下载,当前会话环境内无法直接获取,如后续业主自行下载并提供该文件,可将 engine 区域从占位升级为真实网格,替换方式与奥迪 R8 素材相同。全部 18 个 hotspot 区域现按 group 字段分为 6 组(ev/connectivity/powertrain/chassis/hvac/interior),前端「X-Ray」下按组切换显示,避免 18 个标签同屏堆叠——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。2026-11 业主自行找到 grab3d.com 的 CC0 座舱素材(通用款,无品牌标识,详见 vendor/models/CREDITS.md),据此拼装出 vendor/models/CockpitInterior/cockpit.glb,新增「座舱视角」(独立于整车视角的第二个 3D 场景)——dashboard/steering_wheel/ac_system/ecu_ota/seats/door_trim/floor_mat 这 7 个区域在座舱视角里有了真实可点选几何体(cockpit_nodes 字段),仍保留整车视角下的 hotspot 占位标注不变(奥迪 R8 外观壳体本身依旧没有内饰建模);airbag 区域该素材包里没有对应单独部件,仍为纯占位,不编造。2026-11 第二批:grab3d.com CC0 的「Cozy Car Parts」零件套件(与座舱素材同一许可家族),据此拼出 vendor/models/MechanicalParts/mechanical.glb(V8 发动机/手动变速箱/制动盘(含卡钳)/减震器/散热器 5 个零件)——engine/transmission/radiator_fan/front_suspension/rear_suspension/brakes 这 6 个整车视角 hotspot 区域(mech_node 字段)现在在 X-Ray 透视下显示这些真实零件模型(按各自 hotspot_pos 比例位置 + 运行时缩放/旋转摆放,非精确装配,替代原先的金色占位方块),其余 10 个 hotspot 区域(clutch/steering_system/axle_driveshaft 等,套件里没有对应零件)仍是占位方块,如实保留,不编造。2026-11 座舱视角改回原始单一模型(业主决定,权衡拼装复杂度后的简化):拼装多个独立 CC0 零件(仪表板/座椅/门板/脚垫/出风口/仪表盘总成等)先后引出方向盘镜像装反(和驾驶座不同侧,表现为「看起来有两个仪表盘、找不到方向盘」)、新增装饰零件比例/朝向靠猜等一连串问题,业主权衡后选择直接用 grab3d.com 最初评估的单一 modern-car-interior.glb 原始模型(未拼装、未删改任何节点),换掉 dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim 这 6 个区域的 cockpit_nodes 映射,改用新的 cockpit_hotspot_pos 比例坐标字段(与整车视角的 hotspot_pos 同一思路,运行时按座舱模型实际包围盒换算世界坐标)渲染悬浮标签,和 airbag 一样回到「示意占位、不可直接点选具体网格」的状态;steering_wheel 是唯一例外,因为这个原始模型本身就自带独立方向盘节点(modern-car-interior_steering_wheel),继续保留为真实可点选分区。vendor/models/MechanicalParts/mechanical.glb(整车视角 X-Ray 用)不受影响,与座舱视角是完全独立的两个模型/两套数据。2026-11 业主随后又要求「车内每个部件都要有交互效果」,短暂重做过一版多零件拼装(方向盘/仪表板/空调出风口/仪表盘总成/座椅/门饰板/脚垫全部真实可点选),但业主看过后要求撤销、回到这版单一模型简化状态——因此当前仍是本条目描述的单一模型 + 7 区域悬浮标签状态,多零件拼装的方法本身记录在 vendor/models/CREDITS.md,以后如果业主再次要求全交互,可参考该记录重做,但同样的镜像教训不要再踩。2026-11 阶段一(「车辆浏览器」四阶段计划的第一步,业主确认按序推进):原「ECU / OTA 域」区域的 ADAS 维度(dims 原含 5 和 6 两个维度)拆分为三个独立传感器分区——adas_front_sensor(前向雷达/摄像头,整车+座舱均有占位点)、adas_corner_sensor(角雷达/盲区监测,仅整车视角,四角实际均有布设、取后角代表位置)、adas_rear_sensor(后向摄像头/雷达,仅整车视角);ecu_ota 区域保留,dims 收窄为仅网络安全(5)。三个新分区位置均按真实车型通用传感器物理布局(前保险杠/挡风玻璃上沿/车身四角/后保险杠)估算,不是精确装配位,与既有占位区域同一性质;三者的法规匹配目前都落在同一个 ADAS 维度上(数据模型暂无更细的传感器类型级别法规分类),这是有意的简化——拆分解决的是「位置/视觉呈现粒度」,不是编造数据层面不存在的法规颗粒度。2026-11 阶段二:新增 EPC 风格左侧部件导航侧栏(vehicle3d.js 的 NAV_GROUPS/renderNavSidebar/navGoToZone),按分组列出全部 28 个区域,点击条目会让相机飞向该区域(整车视角用 camera.zoom 实现「拉近」——正投影下相机距离不影响视觉大小;座舱视角透视相机则是缩短相机到目标的距离)。为此给原本没有 group 字段的 7 个车身外观真实几何分区(body_shell/front_end/rear_end/exhaust/glazing/mirrors/roof)补了 group:body,仅供导航侧栏分类用,不影响 HOTSPOT_GROUPS 那套 X-Ray 占位组勾选逻辑(两者是独立的两份分组列表)。",
+  "note": "区域划分基于 vendor/models/AudiR8/AudiR8.glb(业主提供并确认可用的奥迪 R8 素材,已删除车标节点,2026-11 已做左右镜像修复,详见 vendor/models/CREDITS.md)转换后的实际网格节点,按包围盒位置归入车身前/后/主体等区域。源模型车轮几何已与车身主壳合并导出,无法作为独立分区拆分;车窗在源模型中无独立于车身壳体的透明网格;源模型只建了看得见的外观壳体,没有地板/底盘、发动机舱、悬架/制动/转向等底盘机械件,也没有座椅/仪表板/安全气囊等内饰几何(underside 是空的,只有一层外观壳体)。2026-09 业主要求展示动力总成/底盘/空调/内饰共 16 个新系统(发动机、变速器、离合器、散热风扇、前后悬架、制动、转向系统、半轴传动轴、空调、座椅、仪表板、方向盘、安全气囊、脚垫、门饰板)——已就是否购买带真实机械分件的付费模型(如 DOSCH 3D Car Details)征询过业主,业主选择不付费,故这 16 个区域与既有的电池包/ECU-OTA 域一样,用简易占位几何体(标注为 hotspot)放在车内/机舱大致位置,配合「X-Ray 透视」显示与虚线标签,不冒充精细建模;唯一找到的免费候选(Sketchfab CC-BY「Engine Exploded View」)因平台要求登录账号才能下载,当前会话环境内无法直接获取,如后续业主自行下载并提供该文件,可将 engine 区域从占位升级为真实网格,替换方式与奥迪 R8 素材相同。全部 18 个 hotspot 区域现按 group 字段分为 6 组(ev/connectivity/powertrain/chassis/hvac/interior),前端「X-Ray」下按组切换显示,避免 18 个标签同屏堆叠——hotspot_pos 存的是车身当前真实包围盒三轴上的比例(0~1),运行时按加载模型的实际包围盒换算世界坐标,不是写死的绝对坐标(换模型也不会钻出车身包络);射频认证/标签标识/注册监管/随车工具等维度仍无对应可点选3D部件,可通过「维度矩阵」「国家详情」标签页查看,不在此虚构点选热区。2026-11 业主自行找到 grab3d.com 的 CC0 座舱素材(通用款,无品牌标识,详见 vendor/models/CREDITS.md),据此拼装出 vendor/models/CockpitInterior/cockpit.glb,新增「座舱视角」(独立于整车视角的第二个 3D 场景)——dashboard/steering_wheel/ac_system/ecu_ota/seats/door_trim/floor_mat 这 7 个区域在座舱视角里有了真实可点选几何体(cockpit_nodes 字段),仍保留整车视角下的 hotspot 占位标注不变(奥迪 R8 外观壳体本身依旧没有内饰建模);airbag 区域该素材包里没有对应单独部件,仍为纯占位,不编造。2026-11 第二批:grab3d.com CC0 的「Cozy Car Parts」零件套件(与座舱素材同一许可家族),据此拼出 vendor/models/MechanicalParts/mechanical.glb(V8 发动机/手动变速箱/制动盘(含卡钳)/减震器/散热器 5 个零件)——engine/transmission/radiator_fan/front_suspension/rear_suspension/brakes 这 6 个整车视角 hotspot 区域(mech_node 字段)现在在 X-Ray 透视下显示这些真实零件模型(按各自 hotspot_pos 比例位置 + 运行时缩放/旋转摆放,非精确装配,替代原先的金色占位方块),其余 10 个 hotspot 区域(clutch/steering_system/axle_driveshaft 等,套件里没有对应零件)仍是占位方块,如实保留,不编造。2026-11 座舱视角改回原始单一模型(业主决定,权衡拼装复杂度后的简化):拼装多个独立 CC0 零件(仪表板/座椅/门板/脚垫/出风口/仪表盘总成等)先后引出方向盘镜像装反(和驾驶座不同侧,表现为「看起来有两个仪表盘、找不到方向盘」)、新增装饰零件比例/朝向靠猜等一连串问题,业主权衡后选择直接用 grab3d.com 最初评估的单一 modern-car-interior.glb 原始模型(未拼装、未删改任何节点),换掉 dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim 这 6 个区域的 cockpit_nodes 映射,改用新的 cockpit_hotspot_pos 比例坐标字段(与整车视角的 hotspot_pos 同一思路,运行时按座舱模型实际包围盒换算世界坐标)渲染悬浮标签,和 airbag 一样回到「示意占位、不可直接点选具体网格」的状态;steering_wheel 是唯一例外,因为这个原始模型本身就自带独立方向盘节点(modern-car-interior_steering_wheel),继续保留为真实可点选分区。vendor/models/MechanicalParts/mechanical.glb(整车视角 X-Ray 用)不受影响,与座舱视角是完全独立的两个模型/两套数据。2026-11 业主随后又要求「车内每个部件都要有交互效果」,短暂重做过一版多零件拼装(方向盘/仪表板/空调出风口/仪表盘总成/座椅/门饰板/脚垫全部真实可点选),但业主看过后要求撤销、回到这版单一模型简化状态——因此当前仍是本条目描述的单一模型 + 7 区域悬浮标签状态,多零件拼装的方法本身记录在 vendor/models/CREDITS.md,以后如果业主再次要求全交互,可参考该记录重做,但同样的镜像教训不要再踩。2026-11 阶段一(「车辆浏览器」四阶段计划的第一步,业主确认按序推进):原「ECU / OTA 域」区域的 ADAS 维度(dims 原含 5 和 6 两个维度)拆分为三个独立传感器分区——adas_front_sensor(前向雷达/摄像头,整车+座舱均有占位点)、adas_corner_sensor(角雷达/盲区监测,仅整车视角,四角实际均有布设、取后角代表位置)、adas_rear_sensor(后向摄像头/雷达,仅整车视角);ecu_ota 区域保留,dims 收窄为仅网络安全(5)。三个新分区位置均按真实车型通用传感器物理布局(前保险杠/挡风玻璃上沿/车身四角/后保险杠)估算,不是精确装配位,与既有占位区域同一性质;三者的法规匹配目前都落在同一个 ADAS 维度上(数据模型暂无更细的传感器类型级别法规分类),这是有意的简化——拆分解决的是「位置/视觉呈现粒度」,不是编造数据层面不存在的法规颗粒度。2026-11 阶段二:新增 EPC 风格左侧部件导航侧栏(vehicle3d.js 的 NAV_GROUPS/renderNavSidebar/navGoToZone),按分组列出全部 28 个区域,点击条目会让相机飞向该区域(整车视角用 camera.zoom 实现「拉近」——正投影下相机距离不影响视觉大小;座舱视角透视相机则是缩短相机到目标的距离)。为此给原本没有 group 字段的 7 个车身外观真实几何分区(body_shell/front_end/rear_end/exhaust/glazing/mirrors/roof)补了 group:body,仅供导航侧栏分类用,不影响 HOTSPOT_GROUPS 那套 X-Ray 占位组勾选逻辑(两者是独立的两份分组列表)。2026-11 新增 un_regs 字段(业主提供两张按车辆子系统分类的 UN 法规清单截图,据此逐区域核对填入):数组存该区域对应的具体 UN R 编号(如座椅区域 un_regs 为「UN R17/UN R16/UN R44/UN R129」),字符串格式与 index.html extractRefs() 从法规文本里提取的 r.refs 完全一致(如「UN R17」),vehicle3d.js 据此在详情面板标注「相关 UN 法规」标签、并在命中法规列表里给 r.refs 命中这些编号的条目加「精确引用」角标——纯展示/标注层面的增强,不改变 zoneMatch()/zoneStats() 的维度匹配与覆盖计数口径(CLAUDE.md §3.5 的 ≥3/1-2/0 判定规则不受影响)。仅收录两张截图里明确出现的 UN R 号(UN R{n} 格式),截图里同时出现的 EU 指令编号(如 2021/535、2017/79、2014/53/EU、2021/1243)因为不在 extractRefs() 的提取范围内、无法可靠匹配 r.refs,这一轮未收录,留空不代表「没有相关法规」只代表「暂未纳入标注」;11 个区域(roof/adas_front_sensor/adas_corner_sensor/transmission/clutch/radiator_fan/front_suspension/rear_suspension/axle_driveshaft/floor_mat/door_trim)在两张截图里找不到能对应上的具体编号,如实留空,不替它们编一个凑数。",
   "zones": [
     {
       "id": "body_shell",
@@ -10,6 +10,7 @@
       "gltf_nodes": ["body_shell", "body_shell_1", "body_shell_2", "body_shell_3", "body_shell_4"],
       "dims": [0],
       "domain_keywords": ["安全", "车身", "整车", "碰撞"],
+      "un_regs": ["UN R11", "UN R30", "UN R117", "UN R108", "UN R124", "UN R64", "UN R141"],
       "desc": "车身主壳(含车轮,源模型未单独拆分)相关的整车准入合规范围。"
     },
     {
@@ -20,6 +21,7 @@
       "gltf_nodes": ["front_end", "front_end_1", "front_end_2", "front_end_3", "front_end_4", "front_end_5", "front_end_6", "front_end_7", "front_end_8", "front_end_9", "front_end_10"],
       "dims": [0],
       "domain_keywords": ["照明", "大灯", "保险杠", "安全", "整车"],
+      "un_regs": ["UN R98", "UN R112", "UN R149", "UN R45", "UN R4", "UN R6", "UN R7", "UN R148", "UN R3", "UN R104", "UN R150"],
       "desc": "前进气格栅、大灯与前保险杠相关的整车准入合规范围(含照明,CLAUDE.md 规则:照明归入维度1)。"
     },
     {
@@ -30,6 +32,7 @@
       "gltf_nodes": ["rear_end", "rear_end_1", "rear_end_2", "rear_end_3", "rear_end_4", "rear_end_5", "rear_end_6", "rear_end_7", "rear_end_8", "rear_end_9"],
       "dims": [0],
       "domain_keywords": ["照明", "尾灯", "保险杠", "安全", "整车"],
+      "un_regs": ["UN R4", "UN R6", "UN R7", "UN R148", "UN R58", "UN R3", "UN R104", "UN R150"],
       "desc": "尾灯与后保险杠相关的整车准入合规范围。"
     },
     {
@@ -40,6 +43,7 @@
       "gltf_nodes": ["exhaust"],
       "dims": [1],
       "domain_keywords": ["排放", "油耗", "节能", "环保", "噪声"],
+      "un_regs": ["UN R51", "UN R59"],
       "desc": "排气系统相关的环保全链条合规范围(排放、噪声等)。"
     },
     {
@@ -50,6 +54,7 @@
       "gltf_nodes": ["glazing", "glazing_1"],
       "dims": [0],
       "domain_keywords": ["安全玻璃", "风挡", "视野"],
+      "un_regs": ["UN R43"],
       "desc": "车窗开口相关的安全玻璃/视野合规范围(源模型无独立玻璃网格,此区域为车身壳体上对应的窗口开口部分)。"
     },
     {
@@ -60,6 +65,7 @@
       "gltf_nodes": ["mirrors", "mirrors_1"],
       "dims": [0],
       "domain_keywords": ["后视镜", "视野", "安全"],
+      "un_regs": ["UN R46"],
       "desc": "后视镜相关的整车准入合规范围。"
     },
     {
@@ -81,6 +87,7 @@
       "hotspot_pos": [0.5, 0.12, 0.45],
       "dims": [3, 4],
       "domain_keywords": ["电池", "充电", "REESS", "补贴", "battery", "charging"],
+      "un_regs": ["UN R100"],
       "desc": "动力电池系统的示意占位(源模型无对应实体建模,位置为地板下方大致区域),相关维度为充电电池与 EV 补贴(与「电动汽车」领域映射一致)。"
     },
     {
@@ -93,6 +100,7 @@
       "cockpit_hotspot_pos": [0.5, 0.71, 0.82],
       "dims": [5],
       "domain_keywords": ["网络安全", "OTA", "cybersecurity", "SUMS", "CSMS"],
+      "un_regs": ["UN R10", "UN R97", "UN R116", "UN R161", "UN R160", "UN R138"],
       "desc": "整车电子控制与远程升级,相关维度为网络安全(与「智能网联」领域映射一致)。整车视角(奥迪R8外观壳体)与座舱视角均无对应实体建模,仍用示意占位标注(2026-11 座舱视角改回 grab3d.com 原始单一座舱模型,不再拼装额外零件,详见 vendor/models/CREDITS.md)。2026-11 阶段一:原 ADAS 维度已拆分为下方三个传感器分区,本区域专注网络安全/OTA。"
     },
     {
@@ -127,6 +135,7 @@
       "hotspot_pos": [0.5, 0.18, 0.06],
       "dims": [6],
       "domain_keywords": ["ADAS", "智能网联", "倒车影像", "倒车雷达", "泊车辅助"],
+      "un_regs": ["UN R158"],
       "desc": "尾部摄像头+倒车雷达的示意占位,对应倒车影像/泊车辅助等 ADAS 功能,相关维度为 ADAS(与「智能网联」领域映射一致)。源模型无对应实体建模,按真实车型通用传感器布局(后保险杠/尾门)估算位置,非精确装配位。2026-11 阶段一新增,拆分自原「ECU / OTA 域」区域;座舱视角无对应布设点,不设座舱标注。"
     },
     {
@@ -139,6 +148,7 @@
       "mech_node": "v8-engine_body",
       "dims": [0, 1],
       "domain_keywords": ["发动机", "动力总成", "排放", "油耗", "整车", "安全", "节能环保"],
+      "un_regs": ["UN R34", "UN R67", "UN R110", "UN R51"],
       "desc": "发动机(动力总成)合规范围。2026-11 起用 grab3d.com CC0 的 V8 发动机模型替代占位 Box(源模型本身仍无发动机舱几何,这是另借的真实零件模型按比例摆放在座舱后方机舱大致位置,与该车中置后驱的实际布局一致,非精确装配位),相关维度为整车准入与环保全链条。"
     },
     {
@@ -210,6 +220,7 @@
       "mech_node": "brake-disc_body",
       "dims": [0],
       "domain_keywords": ["制动", "刹车", "制动系统", "安全", "整车"],
+      "un_regs": ["UN R90"],
       "desc": "制动系统合规范围。2026-11 起用 grab3d.com CC0 的制动盘(含卡钳)模型替代占位 Box(源模型车轮几何仍与车身主壳合并、无法单独换成真实轮毂内部件,这是另借的真实零件摆放在前左轮大致位置示意,非该车轮自身的几何)。"
     },
     {
@@ -221,6 +232,7 @@
       "hotspot_pos": [0.35, 0.28, 0.58],
       "dims": [0],
       "domain_keywords": ["转向", "转向系统", "安全", "整车"],
+      "un_regs": ["UN R79"],
       "desc": "转向系统(转向器/转向柱)合规范围的示意占位(源模型无对应实体建模,位置为前舱脚部空间大致区域)。"
     },
     {
@@ -244,6 +256,7 @@
       "cockpit_hotspot_pos": [0.72, 0.47, 0.80],
       "dims": [1],
       "domain_keywords": ["空调", "制冷剂", "能效", "节能", "环保"],
+      "un_regs": ["UN R122"],
       "desc": "空调系统合规范围,相关维度为环保全链条(制冷剂/能效)。整车视角与座舱视角均无对应实体建模,仍用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     },
     {
@@ -256,6 +269,7 @@
       "cockpit_hotspot_pos": [0.75, 0.22, 0.47],
       "dims": [0],
       "domain_keywords": ["座椅", "安全带", "约束系统", "碰撞", "安全"],
+      "un_regs": ["UN R17", "UN R16", "UN R44", "UN R129"],
       "desc": "座椅(含安全带固定点)合规范围。整车视角与座舱视角均无独立座椅网格(座舱素材的座椅已并入舱体主壳),仍用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     },
     {
@@ -268,6 +282,7 @@
       "cockpit_hotspot_pos": [0.5, 0.54, 0.79],
       "dims": [0],
       "domain_keywords": ["仪表板", "仪表台", "内饰", "安全"],
+      "un_regs": ["UN R39"],
       "desc": "仪表板合规范围。整车视角与座舱视角均无独立仪表板网格(座舱素材的仪表板已并入舱体主壳),仍用示意占位(2026-11 座舱视角改回原始单一座舱模型,详见 vendor/models/CREDITS.md)。"
     },
     {
@@ -280,6 +295,7 @@
       "cockpit_nodes": ["modern-car-interior_steering_wheel"],
       "dims": [0],
       "domain_keywords": ["方向盘", "转向盘", "碰撞", "安全"],
+      "un_regs": ["UN R28"],
       "desc": "方向盘合规范围。整车视角无内饰几何,仍用示意占位;座舱视角里映射到座舱素材自带的方向盘实体,可直接点选(2026-11 座舱视角改回原始单一座舱模型后,这是舱内唯一一个仍有真实可点选几何的区域,详见 vendor/models/CREDITS.md)。"
     },
     {
@@ -292,6 +308,7 @@
       "cockpit_hotspot_pos": [0.70, 0.47, 0.71],
       "dims": [0],
       "domain_keywords": ["安全气囊", "气囊", "乘员保护", "碰撞", "安全"],
+      "un_regs": ["UN R114"],
       "desc": "安全气囊系统合规范围的示意占位(整车视角与座舱视角源模型均无对应几何,座舱视角位置紧邻方向盘实体,驾驶员气囊本来就装在方向盘轮毂里)。"
     },
     {

@@ -219,13 +219,21 @@ function showZoneDetail(zoneId) {
     ? ((zone.cockpit_nodes || []).length ? `${zone.cockpit_nodes.length} 个座舱模型节点` : "占位标注 · 座舱素材无对应部件")
     : (zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`);
   const regMatched = zoneRecords(zoneId, curCountry);
+  const unRegs = Array.isArray(zone.un_regs) ? zone.un_regs : [];
   const regDated = regMatched.filter(r => r.date).sort((a, b) => b.date.localeCompare(a.date));
-  const regShow = (regDated.length ? regDated : regMatched).slice(0, 8);
+  // 精确引用(r.refs 命中该区域标注的具体 UN R 号)排在前面,同为精确引用/同为普通命中时各自维持原日期倒序——
+  // 纯展示优先级调整,不改变 regMatched 本身的集合与数量(覆盖计数口径见 zoneStats(),不受此影响)。
+  const isExactRef = r => unRegs.length > 0 && Array.isArray(r.refs) && r.refs.some(f => unRegs.includes(f));
+  const regSorted = (regDated.length ? regDated : regMatched).slice().sort((a, b) => (isExactRef(b) - isExactRef(a)));
+  const regShow = regSorted.slice(0, 8);
+  const unRegsRow = unRegs.length ? `
+    <div class="pd-lbl" style="margin-top:8px;margin-bottom:4px">相关 UN 法规</div>
+    <div>${unRegs.map(u => `<span class="rtag parent" style="margin:0 4px 4px 0">${esc(u)}</span>`).join("")}</div>` : "";
   const regListHtml = regShow.length ? `
     <div class="pd-lbl" style="margin-top:12px;margin-bottom:4px">命中法规条目(点击跳转详情${regMatched.length > regShow.length ? `,共 ${regMatched.length} 条,示前 ${regShow.length}` : ""})</div>
     <div class="revlist" id="veh3d-reglist">
       ${regShow.map(r => `<div class="ri" data-country="${esc(r.country || "")}" data-key="${esc(regKey(r))}" style="cursor:pointer">
-        <div class="top"><span class="rid">${esc(r.regId || "—")}${r.amend ? `<span class="rtag amd">${esc(r.amend)}</span>` : ""}${(typeof isDraft === "function" && isDraft(r)) ? '<span class="rtag">草案</span>' : ""}</span>
+        <div class="top"><span class="rid">${esc(r.regId || "—")}${r.amend ? `<span class="rtag amd">${esc(r.amend)}</span>` : ""}${(typeof isDraft === "function" && isDraft(r)) ? '<span class="rtag">草案</span>' : ""}${isExactRef(r) ? `<span class="rtag" style="background:#deead5;color:#3d6630" title="该条法规文本引用了本区域标注的 UN R 号">精确引用</span>` : ""}</span>
         ${r.date ? `<span class="rdate">${esc(r.date)}</span>` : ""}</div>
         <div class="rnm">${!curCountry ? `${esc(r.country || "")} · ` : ""}${esc(r.cnName || r.origName || "")}</div></div>`).join("")}
     </div>` : `<div class="pd-desc veh3d-empty" style="margin-top:12px">暂无命中的法规条目</div>`;
@@ -233,6 +241,7 @@ function showZoneDetail(zoneId) {
     <div class="pd-lbl">${esc(zoneId)} · ${nodeInfo}</div>
     <div class="pd-title">${esc(zone.label_cn)}</div>
     <div class="pd-local">${esc(zone.label_en)}</div>
+    ${unRegsRow}
     <div class="veh3d-status">${statusText}</div>
     <div class="veh3d-badge">适用法规数 ${st ? st.count : "—"} 条</div>
     <div class="pd-desc" style="margin-top:10px">${esc(zone.desc || "")}</div>
