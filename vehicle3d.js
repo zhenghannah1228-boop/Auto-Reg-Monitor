@@ -15,6 +15,9 @@ const MODEL_URL = "./vendor/models/AudiR8/AudiR8.glb";
 // 版本,看不到新加的收音机/导航屏/儿童座椅等),同样约定:每次换 cockpit.glb 内容就手动往后挪。
 const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=20261120e";
 const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
+// 2026-11 第三个独立场景(安全结构视角):业主提供的 AI 生成安全结构剖视模型,经减面+左右
+// 对称化修正后接入,见 vendor/models/CREDITS.md「安全结构剖视模型」一节。
+const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261124a";
 const ZONES_URL = "./data/vehicle_zones.json";
 
 // 实测 AudiR8.glb 整车包围盒(约 4.22×2.45×9.13)与真实 Audi R8 车身尺寸(约 1.94×1.24×4.43m)的
@@ -31,9 +34,10 @@ const MECH_ROT_FIX = {
 let ZONES = [];            // 合并静态种子 + 团队覆盖层后的区域定义数组
 let nodeToZone = new Map();// gltf 节点名(小写) -> zoneId,整车视角(AudiR8.glb)用
 let cockpitNodeToZone = new Map(); // gltf 节点名(小写) -> zoneId,座舱视角(cockpit.glb)用,两套模型各自独立命名空间
+let safetyNodeToZone = new Map(); // gltf 节点名(小写) -> zoneId,安全结构视角(safety_structure.glb)用,第三套独立命名空间
 let curZoneId = null;
 let curCountry = "";       // "" = 全部国家(聚合)
-let viewMode = "ext";      // "ext" | "cockpit" —— veh3dSetView() 维护,showZoneDetail() 等需要据此区分当前在哪个 3D 场景里
+let viewMode = "ext";      // "ext" | "cockpit" | "safety" —— veh3dSetView() 维护,showZoneDetail() 等需要据此区分当前在哪个 3D 场景里
 let scene, camera, renderer, controls, carRoot, raycaster, hoverObj, hoverOrigEmissive;
 let normalBgColor = null; // X-Ray 关闭时的纸面背景色缓存,setXray() 据此在蓝色 HUD 背景和它之间切换
 const XRAY_BG_COLOR = 0x070b11; // 和座舱视角暗色 HUD 主题(#070b11)同一个底色,两处视觉语言统一
@@ -43,6 +47,8 @@ let cockpitInited = false; // 懒加载:只在用户第一次切到座舱视角�
 let cockpitHotspots = []; // 座舱视角悬浮标签(dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim/airbag/
                            // adas_front_sensor 共 8 项,均无真实几何),复用整车视角"虚线标签"的思路但没有
                            // 占位 Box 网格,见 buildCockpitHotspots()
+let safetyScene, safetyCamera, safetyRenderer, safetyControls, safetyRoot, safetyRaycaster, safetyHoverObj, safetyHoverOrigEmissive;
+let safetyInited = false; // 懒加载:只在用户第一次切到安全结构视角时才去拉这个 9.3MB 的模型
 let xrayOn = false;
 let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域、
                     // 2026-09 新增的动力总成/底盘/空调/内饰、2026-11 阶段一拆分出的三个 ADAS 传感器
@@ -117,8 +123,9 @@ const NAV_GROUPS = [
   { id: "chassis", label: "底盘/制动转向" },
   { id: "hvac", label: "空调" },
   { id: "interior", label: "内饰与乘员防护" },
+  { id: "safety", label: "整车安全(结构剖视)" },
 ];
-let navOpenGroups = new Set(["body"]); // 默认只展开车身外观,其余折叠,避免 28 项一次性铺开
+let navOpenGroups = new Set(["body"]); // 默认只展开车身外观,其余折叠,避免 30 项一次性铺开
 
 async function loadZones() {
   const seedResp = await fetch(ZONES_URL);
@@ -134,9 +141,11 @@ async function loadZones() {
   ZONES = base.map(z => ovrMap.has(z.id) ? Object.assign({}, z, ovrMap.get(z.id)) : z);
   nodeToZone = new Map();
   cockpitNodeToZone = new Map();
+  safetyNodeToZone = new Map();
   ZONES.forEach(z => {
     (z.gltf_nodes || []).forEach(n => nodeToZone.set(String(n).toLowerCase(), z.id));
     (z.cockpit_nodes || []).forEach(n => cockpitNodeToZone.set(String(n).toLowerCase(), z.id));
+    (z.safety_nodes || []).forEach(n => safetyNodeToZone.set(String(n).toLowerCase(), z.id));
   });
 }
 
@@ -247,6 +256,8 @@ function showZoneDetail(zoneId) {
   ).join("");
   const nodeInfo = viewMode === "cockpit"
     ? ((zone.cockpit_nodes || []).length ? `${zone.cockpit_nodes.length} 个座舱模型节点` : "占位标注 · 座舱素材无对应部件")
+    : viewMode === "safety"
+    ? ((zone.safety_nodes || []).length ? `${zone.safety_nodes.length} 个安全结构模型节点` : "该区域在安全结构视角无对应部件")
     : (zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`);
   const regMatched = zoneRecords(zoneId, curCountry);
   const unRegs = Array.isArray(zone.un_regs) ? zone.un_regs : [];
@@ -629,6 +640,17 @@ function navFlyToCockpitZone(zone) {
   flyCameraTo(cockpitCamera, cockpitControls, center, radius, null);
 }
 
+/* 安全结构视角:两个区域(safety_cage/safety_body)都是真实几何节点,没有占位坐标 fallback
+   (不像座舱视角还有 cockpit_hotspot_pos 兜底)——这套模型天生就只有这两块,无需占位示意。 */
+function navFlyToSafetyZone(zone) {
+  if (!safetyRoot || !safetyCamera || !safetyControls) return;
+  const box = (zone.safety_nodes && zone.safety_nodes.length) ? zoneWorldBox(zone, safetyRoot, safetyNodeToZone) : null;
+  if (!box) return;
+  const center = box.getCenter(new THREE.Vector3());
+  const radius = box.getSize(new THREE.Vector3()).length() * 0.5 || 0.1;
+  flyCameraTo(safetyCamera, safetyControls, center, radius, null);
+}
+
 /* 导航侧栏点击入口:尊重用户当前视角,只有该区域在当前视角里完全没有对应点位(既无真实几何
    也无占位坐标)时才自动切到另一视角;座舱模型是懒加载的,首次切过去那一刻 cockpitRoot 可能
    还没下载完,此时跳过飞行动画(只切视角 + 开详情面板),不强行飞向一个还不存在的坐标系。 */
@@ -637,13 +659,17 @@ function navGoToZone(zoneId) {
   if (!zone) return;
   const hasExt = !!(zone.gltf_nodes || zone.hotspot_pos);
   const hasCockpit = !!(zone.cockpit_nodes || zone.cockpit_hotspot_pos);
-  const hasInCurrent = viewMode === "cockpit" ? hasCockpit : hasExt;
+  const hasSafety = !!(zone.safety_nodes && zone.safety_nodes.length);
+  const hasInCurrent = viewMode === "cockpit" ? hasCockpit : viewMode === "safety" ? hasSafety : hasExt;
   if (!hasInCurrent) {
-    if (hasCockpit) { veh3dSetView("cockpit"); }
-    else if (hasExt) { veh3dSetView("ext"); }
+    if (hasExt) { veh3dSetView("ext"); }
+    else if (hasCockpit) { veh3dSetView("cockpit"); }
+    else if (hasSafety) { veh3dSetView("safety"); }
   }
   if (viewMode === "cockpit") {
     navFlyToCockpitZone(zone);
+  } else if (viewMode === "safety") {
+    navFlyToSafetyZone(zone);
   } else {
     if (zone.hotspot && !xrayOn) setXray(true);
     if (zone.group && !activeGroups.has(zone.group)) {
@@ -878,32 +904,203 @@ function initCockpitScene() {
   );
 }
 
-/* 整车视角/座舱视角切换:X-Ray、分组筛选条都是整车 3D 场景专属的控件,座舱视角下隐藏,
-   避免用户以为座舱示意图也能透视/分组。 */
+/* 2026-11 第三个独立场景:安全结构视角(业主提供 AI 生成安全结构剖视模型,接入时要求"关联
+   整车安全维度的区域映射",见 vendor/models/CREDITS.md「安全结构剖视模型」一节)。这套模型
+   只有两个真实几何节点(safety_cage/safety_body),没有座舱视角那种"占位标签兜底"的需要——
+   功能范围与座舱视角对齐(真实几何点选 + 详情面板 + 导航侧栏飞向),不包含 X-Ray/炸开视图/
+   流程动画(那三者是整车视角占位区域专属的可视化手段,这里两个区域都是实体几何,用不上)。 */
+function resolveSafetyZoneFromObject(obj) {
+  let o = obj;
+  while (o) {
+    const zid = safetyNodeToZone.get(String(o.name || "").toLowerCase());
+    if (zid) return zid;
+    o = o.parent;
+  }
+  return null;
+}
+
+function setSafetyHover(obj) {
+  if (safetyHoverObj === obj) return;
+  if (safetyHoverObj && safetyHoverObj.material && safetyHoverOrigEmissive !== undefined) {
+    try { safetyHoverObj.material.emissive && safetyHoverObj.material.emissive.copy(safetyHoverOrigEmissive); } catch (e) {}
+  }
+  safetyHoverObj = obj;
+  if (obj && obj.material && obj.material.emissive) {
+    safetyHoverOrigEmissive = obj.material.emissive.clone();
+    obj.material.emissive.setHex(0x1a5a7a); // 与座舱视角同一蓝色高光,三个视角的交互反馈语言统一
+  } else {
+    safetyHoverOrigEmissive = undefined;
+  }
+}
+
+function wireSafetyInteraction(canvasEl) {
+  let downPos = null;
+  canvasEl.addEventListener("pointerdown", e => { downPos = { x: e.clientX, y: e.clientY }; });
+  canvasEl.addEventListener("pointerup", e => {
+    if (!downPos) return;
+    const moved = Math.hypot(e.clientX - downPos.x, e.clientY - downPos.y);
+    downPos = null;
+    if (moved > 6 || !safetyRoot) return;
+    safetyRaycaster.setFromCamera(pointerToNDC(e, canvasEl), safetyCamera);
+    const hits = safetyRaycaster.intersectObject(safetyRoot, true);
+    if (!hits.length) return;
+    const zid = resolveSafetyZoneFromObject(hits[0].object);
+    if (zid) showZoneDetail(zid);
+  });
+  canvasEl.addEventListener("pointermove", e => {
+    if (!safetyRoot) return;
+    safetyRaycaster.setFromCamera(pointerToNDC(e, canvasEl), safetyCamera);
+    const hits = safetyRaycaster.intersectObject(safetyRoot, true);
+    if (hits.length && resolveSafetyZoneFromObject(hits[0].object)) {
+      setSafetyHover(hits[0].object);
+      canvasEl.style.cursor = "pointer";
+    } else {
+      setSafetyHover(null);
+      canvasEl.style.cursor = "grab";
+    }
+  });
+  canvasEl.addEventListener("pointerleave", () => setSafetyHover(null));
+}
+
+function sizeSafetyRenderer() {
+  const host = $("#veh3d-safety");
+  if (!host || !safetyRenderer || !safetyCamera) return;
+  const w = host.clientWidth || 1, h = host.clientHeight || 1;
+  safetyRenderer.setSize(w, h, false);
+  safetyCamera.aspect = w / h;
+  safetyCamera.updateProjectionMatrix();
+}
+
+/* 修复后的模型几何在自身局部坐标系里就是"干净"的单位(导出时没有额外的节点级缩放变换,
+   不像源 GLB 那样有个 4.66x 的父节点缩放),包围盒框取物体本身即可,不需要换算比例。
+   3/4 侧前方俯视角度,同时能看到结构笼的侧面纵深与车头防撞梁,和诊断阶段截图核对过的
+   取景角度一致。 */
+function frameSafetyCamera(object3d) {
+  const box = new THREE.Box3().setFromObject(object3d);
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+  const radius = size.length() * 0.5 || 1;
+  const dir = new THREE.Vector3(0.65, 0.45, 0.9).normalize();
+  safetyCamera.position.copy(center).addScaledVector(dir, radius * 1.6);
+  safetyCamera.near = radius / 50;
+  safetyCamera.far = radius * 20;
+  sizeSafetyRenderer();
+  safetyControls.target.copy(center);
+  safetyControls.minDistance = radius * 0.3;
+  safetyControls.maxDistance = radius * 3.5;
+  safetyControls.update();
+}
+
+function setSafetyLoadingProgress(pct, done, error) {
+  const el = $("#veh3d-safety-loading");
+  if (!el) return;
+  if (error) { el.textContent = "[ 安全结构模型加载失败,请刷新重试 ]"; return; }
+  if (done) { el.textContent = "[ 已加载 ]"; el.classList.add("hide"); return; }
+  el.textContent = "[ 正在载入安全结构模型… " + pct + "% ]";
+}
+
+function initSafetyScene() {
+  if (safetyInited) return;
+  safetyInited = true;
+  const host = $("#veh3d-safety");
+  if (!host) return;
+
+  safetyScene = new THREE.Scene();
+  safetyScene.background = new THREE.Color(0x070b11); // 与座舱视角同一套暗色 HUD 主题,三个视角视觉语言统一
+
+  safetyCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+
+  safetyRenderer = new THREE.WebGLRenderer({ antialias: true });
+  safetyRenderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  host.insertBefore(safetyRenderer.domElement, host.firstChild);
+  sizeSafetyRenderer();
+
+  safetyScene.add(new THREE.HemisphereLight(0xffffff, 0x16202c, 1.2));
+  const key = new THREE.DirectionalLight(0xffffff, 1.8);
+  key.position.set(2, 3, 2.4);
+  safetyScene.add(key);
+  const fill = new THREE.DirectionalLight(0xbfe6ff, 0.6);
+  fill.position.set(-2, 1, -1.6);
+  safetyScene.add(fill);
+
+  safetyControls = new OrbitControls(safetyCamera, safetyRenderer.domElement);
+  safetyControls.enableDamping = true;
+  safetyControls.dampingFactor = 0.08;
+
+  safetyRaycaster = new THREE.Raycaster();
+  wireSafetyInteraction(safetyRenderer.domElement);
+
+  if (typeof ResizeObserver !== "undefined") {
+    new ResizeObserver(() => sizeSafetyRenderer()).observe(host);
+  } else {
+    window.addEventListener("resize", sizeSafetyRenderer);
+  }
+
+  safetyRenderer.setAnimationLoop(() => {
+    if (viewMode !== "safety") return;
+    if (camTween && camTween.cam === safetyCamera && camTween.step(performance.now())) camTween = null;
+    safetyControls.update();
+    safetyRenderer.render(safetyScene, safetyCamera);
+  });
+
+  new GLTFLoader().load(
+    SAFETY_MODEL_URL,
+    gltf => {
+      safetyRoot = gltf.scene;
+      safetyScene.add(safetyRoot);
+      // 导出脚本把 safety_cage/safety_body 两个节点的材质设成同一个 PBRMaterial 实例(共享同一张
+      // 贴图,导出器会自动去重),不逐 mesh 克隆的话悬停高亮一个节点的 emissive 会连带染另一个。
+      safetyRoot.traverse(o => { if (o.isMesh && o.material) o.material = o.material.clone(); });
+      safetyRoot.updateMatrixWorld(true);
+      frameSafetyCamera(safetyRoot);
+      setSafetyLoadingProgress(100, true, false);
+    },
+    evt => {
+      const pct = evt.total ? Math.round((evt.loaded / evt.total) * 100) : Math.round(evt.loaded / 1e5);
+      setSafetyLoadingProgress(Math.min(99, pct), false, false);
+    },
+    err => {
+      console.error("安全结构模型加载失败:", err);
+      setSafetyLoadingProgress(0, false, true);
+    }
+  );
+}
+
+/* 整车/座舱/安全结构三视角切换:X-Ray、分组筛选条都是整车 3D 场景专属的控件,其余两个视角下隐藏,
+   避免用户以为示意图/结构模型也能透视/分组。 */
 window.veh3dSetView = function (mode) {
   const isCockpit = mode === "cockpit";
-  viewMode = isCockpit ? "cockpit" : "ext";
-  const extBtn = $("#veh3d-view-ext"), cpBtn = $("#veh3d-view-cockpit");
-  if (extBtn) extBtn.classList.toggle("on", !isCockpit);
+  const isSafety = mode === "safety";
+  const isExt = !isCockpit && !isSafety;
+  viewMode = isCockpit ? "cockpit" : isSafety ? "safety" : "ext";
+  const extBtn = $("#veh3d-view-ext"), cpBtn = $("#veh3d-view-cockpit"), sfBtn = $("#veh3d-view-safety");
+  if (extBtn) extBtn.classList.toggle("on", isExt);
   if (cpBtn) cpBtn.classList.toggle("on", isCockpit);
-  const canvas = $("#veh3d-canvas"), cockpit = $("#veh3d-cockpit");
-  if (canvas) canvas.style.display = isCockpit ? "none" : "";
+  if (sfBtn) sfBtn.classList.toggle("on", isSafety);
+  const canvas = $("#veh3d-canvas"), cockpit = $("#veh3d-cockpit"), safety = $("#veh3d-safety");
+  if (canvas) canvas.style.display = isExt ? "" : "none";
   if (cockpit) cockpit.style.display = isCockpit ? "" : "none";
+  if (safety) safety.style.display = isSafety ? "" : "none";
   if (isCockpit) { initCockpitScene(); sizeCockpitRenderer(); } // 懒加载;display:none 时宽高为 0,切回来后要重算一次
+  if (isSafety) { initSafetyScene(); sizeSafetyRenderer(); }
   const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar"), explodeBtn = $("#veh3d-explode-btn"), flowBtn = $("#veh3d-flow-btn");
-  if (xrayBtn) xrayBtn.style.display = isCockpit ? "none" : "";
-  if (groupBar) groupBar.style.display = isCockpit ? "none" : "";
-  if (explodeBtn) explodeBtn.style.display = isCockpit ? "none" : "";
-  if (flowBtn) flowBtn.style.display = isCockpit ? "none" : "";
-  if (isCockpit && explodedOn) setExploded(false); // 炸开视图是整车视角专属效果,切到座舱视角前先还原,避免下次切回来状态对不上按钮
-  if (isCockpit && flowOn) setFlow(false); // 流程动画同理,仅整车视角
+  if (xrayBtn) xrayBtn.style.display = isExt ? "" : "none";
+  if (groupBar) groupBar.style.display = isExt ? "" : "none";
+  if (explodeBtn) explodeBtn.style.display = isExt ? "" : "none";
+  if (flowBtn) flowBtn.style.display = isExt ? "" : "none";
+  if (!isExt && explodedOn) setExploded(false); // 炸开视图/流程动画是整车视角专属效果,离开前先还原,避免下次切回来状态对不上按钮
+  if (!isExt && flowOn) setFlow(false);
   const hint = $("#veh3d-hint");
   if (hint) hint.textContent = isCockpit
     ? "拖动旋转 · 滚轮缩放 · 点击内饰部件/标签查看该区域合规范围"
+    : isSafety
+    ? "拖动旋转 · 滚轮缩放 · 点击安全笼/车身结构查看碰撞保护合规范围"
     : "拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围";
   const foot = $("#veh3d-footnote");
   if (foot) foot.textContent = isCockpit
     ? "模型:grab3d.com CC0 原始座舱模型(通用款式,无品牌标识,见 vendor/models/CREDITS.md)· 方向盘为真实模型节点,可直接点击;仪表板/空调/ECU-OTA域/座椅/脚垫/门饰板/安全气囊素材无对应独立几何,仍用悬浮标签示意位置(2026-11 简化为单一模型,不再拼装额外零件)· 该素材只有舱内部件、没有包裹的外观车身,转到较极端角度会看到部件边缘悬空,正常浏览角度不受影响"
+    : isSafety
+    ? "模型:业主提供的 AI 生成安全结构剖视模型(Tripo AI 按四视图生成,经减面+左右对称化修正,原始模型来源与修正方法见 vendor/models/CREDITS.md)· 安全笼/防撞梁等结构件(红黄绿三色,对称化处理)与车身外壳/座椅/假人(保留真实左右不对称)均为真实模型节点,可直接点击,关联「整车安全」维度碰撞保护类法规 · 已知局限:极少数假人表面因颜色分类阈值被误判为结构件、随结构件一起镜像,如实保留不作掩饰"
     : "模型:Audi R8(业主提供并确认可用,已去除车标,见 vendor/models/CREDITS.md)· 车身外观部件为真实模型节点,可直接点击,覆盖整车准入/环保全链条;动力总成/底盘/空调/内饰/三电/智能网联共 18 个系统源模型无实体建模,开启 X-Ray 后按系统分组以占位标注展示——其中发动机/变速器/散热器/前后悬架/制动盘 6 项已换成 grab3d.com CC0 真实零件模型(首次开 X-Ray 时加载),其余(离合器/转向系统/半轴传动轴等)仍是占位方块,详见区域数据 note · 其余维度见「维度矩阵」「国家详情」";
 };
 
