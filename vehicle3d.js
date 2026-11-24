@@ -52,6 +52,13 @@ let carCleanBox = null; // 整车模型刚加载完、还没加任何占位/机�
                          // Box3.setFromObject(carRoot) 把它们自己算进包围盒、污染后续区域的定位
 let mechRoot = null, mechLoaded = false, mechLoading = false; // 机械零件模型(懒加载,见 loadMechanicalParts)
 let explodedOn = false; // 阶段三:炸开视图(仅整车视角),见 setExploded()
+/* 导航侧栏飞向某个占位区域后,相机会贴近放大该区域——这时其余分组里还显示着标签的区域
+   (比如默认同时勾选的三电+智能网联共 5 个)在屏幕上的投影点大概率落在放大后的画面边缘甚至
+   画面外,防重叠布局又会把它们的卡片继续往外推,看起来就像"一堆部件飞到车外面了"(业主反馈
+   过这个问题)——其实 3D 坐标本身没问题,问题是放大聚焦到一个区域时还硬要挤下其余所有标签。
+   聚焦某个区域时只留它自己的标签,其余暂时隐藏(3D 发光方块本身仍然显示,只是不挂文字卡片),
+   手动切换分组勾选、或进入炸开视图(本意就是要同时看清楚所有部件)时解除聚焦。 */
+let hotspotFocusId = null;
 let preExplodeGroups = null, preExplodeXray = null; // 炸开时临时强开 X-Ray + 全部分组,关闭时还原成用户原先的勾选状态
 const bodyZoneOrigLocalPos = new Map(); // 车身真实几何节点(Object3D)→ 炸开前的原始 local position,关闭炸开时精确还原
 const hotspotOrigLocalPos = new Map();  // hotspots[].mesh(含被机械零件替换后的新对象)→ 炸开前的原始 local position
@@ -435,6 +442,7 @@ function buildGroupBar() {
       const g = btn.dataset.g;
       if (activeGroups.has(g)) activeGroups.delete(g); else activeGroups.add(g);
       btn.classList.toggle("on");
+      hotspotFocusId = null; // 用户手动勾选分组=明确想看一整类部件,解除导航飞向时留下的单点聚焦
       refreshHotspotVisibility();
     });
   });
@@ -591,6 +599,10 @@ function navGoToZone(zoneId) {
       buildGroupBar();
       refreshHotspotVisibility();
     }
+    // 不管飞向的是 hotspot 占位区域还是车身真实几何面板,都把焦点设成这个 zone.id——如果它
+    // 不在 hotspots[] 里(车身面板),天然没有任何标签能匹配上,等效于"隐藏全部标签",同样避免
+    // 放大车身某一块时背景还挂着一堆不相关的占位标签。
+    hotspotFocusId = zone.id;
     navFlyToExtZone(zone);
   }
   showZoneDetail(zoneId);
@@ -854,6 +866,7 @@ function updateHotspotLayer() {
   const visible = [];
   hotspots.forEach(hs => {
     if (!hs.mesh.visible) { hs.card.style.display = "none"; return; } // 未勾选该分组,或未开 X-Ray
+    if (hotspotFocusId && hs.zone.id !== hotspotFocusId) { hs.card.style.display = "none"; return; } // 聚焦单个区域时隐藏其余标签,见 hotspotFocusId 注释
     _hsVec.setFromMatrixPosition(hs.mesh.matrixWorld);
     _hsVec.project(camera);
     if (_hsVec.z > 1) { hs.card.style.display = "none"; return; } // 在相机背面
@@ -863,9 +876,15 @@ function updateHotspotLayer() {
   const CARD_H = 28;
   let lastCardY = -Infinity;
   let lines = "";
-  visible.forEach(v => {
+  visible.forEach((v, i) => {
     const cardX = Math.min(w - 12, Math.max(12, v.x + 60));
-    const cardY = Math.max(20, Math.max(v.y - 40, lastCardY + CARD_H));
+    // 贪心下推到这里为止只保证"不和上一张重叠",不保证不超出画布——分组全开时最多 21 张卡片
+    // 挤在同一竖排,早期版本在这里只夹了下限(20),没夹上限,多出来的卡片会被硬推到画布底部
+    // 以下、甚至看起来"飞出车身外",这不是 3D 坐标错,是卡片防重叠布局本身没有边界(业主反馈
+    // 过"部件跑到车外面了"排查到这里)。按剩余卡片数反向预留空间,让最后一张卡片正好不超出
+    // 画布底边,挤不下时宁可轻微重叠也不超出可视区域。
+    const maxY = h - 20 - (visible.length - 1 - i) * CARD_H;
+    const cardY = Math.min(maxY, Math.max(20, Math.max(v.y - 40, lastCardY + CARD_H)));
     lastCardY = cardY;
     v.hs.card.style.display = "block";
     v.hs.card.style.left = cardX + "px";
@@ -980,9 +999,11 @@ function setExploded(on) {
 
   if (on) {
     // 炸开时强开 X-Ray + 全部分组,否则电池包/ECU-OTA域等占位区域飞出去也看不见,失去意义;
-    // 关闭时还原用户原先的勾选状态,不替用户做永久选择。
+    // 关闭时还原用户原先的勾选状态,不替用户做永久选择。炸开视图本来就是要同时看清楚全部
+    // 部件,解除导航飞向可能留下的单点聚焦状态。
     preExplodeXray = xrayOn;
     preExplodeGroups = new Set(activeGroups);
+    hotspotFocusId = null;
     if (!xrayOn) setXray(true);
     activeGroups = new Set(HOTSPOT_GROUPS.map(g => g.id));
     buildGroupBar();
