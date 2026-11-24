@@ -1,7 +1,8 @@
 /* ================= 00 合规孪生(3D) =================
    独立 ES module,加载 vendor/three/ 本地化 Three.js。
    依赖 index.html 内联 classic <script> 中已定义的全局:
-   DIMS, recs(), byCountry(), sbFetchAll, esc, $, $$, enhanceCountrySelect, refreshSelFilter, switchTab
+   DIMS, recs(), byCountry(), sbFetchAll, esc, $, $$, enhanceCountrySelect, refreshSelFilter, switchTab,
+   keyOf(), isDraft(), advGo()
    本模块通过 window.veh3dOnData 暴露一个钩子,供 index.html 的 renderAll() 在法规数据就绪后调用,
    以刷新详情面板里依赖真实数据的数字(不阻塞 3D 场景本身的加载)。 */
 import * as THREE from "three";
@@ -39,18 +40,19 @@ const XRAY_BG_COLOR = 0x070b11; // 和座舱视角暗色 HUD 主题(#070b11)同�
 const XRAY_GLOW_COLOR = 0x2dd4ff; // 棱线/热点统一用这个蓝,和 .veh3d-cockpit-label 的 #2dd4ff 一致
 let cockpitScene, cockpitCamera, cockpitRenderer, cockpitControls, cockpitRoot, cockpitRaycaster, cockpitHoverObj, cockpitHoverOrigEmissive;
 let cockpitInited = false; // 懒加载:只在用户第一次切到座舱视角时才去拉 12MB 的 cockpit.glb
-let cockpitHotspots = []; // 座舱视角悬浮标签(dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim/airbag 共 7 项,
-                           // 均无真实几何),复用整车视角"虚线标签"的思路但没有占位 Box 网格,见 buildCockpitHotspots()
+let cockpitHotspots = []; // 座舱视角悬浮标签(dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim/airbag/
+                           // adas_front_sensor 共 8 项,均无真实几何),复用整车视角"虚线标签"的思路但没有
+                           // 占位 Box 网格,见 buildCockpitHotspots()
 let xrayOn = false;
 let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域、
-                    // 2026-09 新增的动力总成/底盘/空调/内饰等 18 个区域),用简易占位几何体 +
-                    // 虚线标签展示,不冒充精细建模
+                    // 2026-09 新增的动力总成/底盘/空调/内饰、2026-11 阶段一拆分出的三个 ADAS 传感器
+                    // 分区等共 21 个区域),用简易占位几何体 + 虚线标签展示,不冒充精细建模
 let carCleanBox = null; // 整车模型刚加载完、还没加任何占位/机械零件时的包围盒缓存——hotspotWorldPos()
                          // 用这份"干净"的包围盒算比例坐标,避免大体积机械零件加入 carRoot 后
                          // Box3.setFromObject(carRoot) 把它们自己算进包围盒、污染后续区域的定位
 let mechRoot = null, mechLoaded = false, mechLoading = false; // 机械零件模型(懒加载,见 loadMechanicalParts)
 
-/* 18 个 hotspot 区域按 group 字段分 6 组,X-Ray 下按组切换显示——不然 18 张标签卡片同屏堆叠
+/* 21 个 hotspot 区域按 group 字段分 6 组,X-Ray 下按组切换显示——不然 21 张标签卡片同屏堆叠
    会完全看不清。ev/connectivity 是一期就有的默认展示组,其余 4 组默认收起,用户按需勾选。 */
 const HOTSPOT_GROUPS = [
   { id: "ev", label: "三电系统" },
@@ -120,6 +122,24 @@ function stateLabel(s) {
   return { g: "✓ 覆盖良好", a: "⚠ 弱覆盖", r: "✗ 空白" }[s] || "—";
 }
 
+/* 2026-11 阶段一:详情面板从"只显示覆盖统计数字"升级为"列出实际命中的法规条目"(参照 Renault
+   编号+条目列表参考图),复用 zoneMatch 不重新发明匹配逻辑。country 为空时聚合全部国家,
+   此时每行加国家名前缀区分。 */
+function zoneRecords(zoneId, country) {
+  const zone = zoneById(zoneId);
+  if (!zone) return [];
+  const all = (typeof recs === "function") ? recs() : [];
+  return all.filter(r => zoneMatch(r, zone) && (!country || r.country === country));
+}
+
+/* keyOf/norm/isDraft/advGo 与 recs/byCountry 同理:index.html 顶层 const/function 在同一文档的
+   全局词法环境里对模块脚本可见(不是 window 属性,但仍是裸标识符可读),按本文件既有约定统一
+   加 typeof 守卫,避免任一方先加载时报错。 */
+function regKey(r) {
+  if (typeof keyOf === "function") return keyOf(r);
+  return r.country + "|" + String(r.regId || r.cnName || "").replace(/\s+/g, "").toUpperCase();
+}
+
 function fillCountrySelect() {
   const sel = $("#veh3d-cty");
   if (!sel) return;
@@ -171,6 +191,17 @@ function showZoneDetail(zoneId) {
   const nodeInfo = viewMode === "cockpit"
     ? ((zone.cockpit_nodes || []).length ? `${zone.cockpit_nodes.length} 个座舱模型节点` : "占位标注 · 座舱素材无对应部件")
     : (zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`);
+  const regMatched = zoneRecords(zoneId, curCountry);
+  const regDated = regMatched.filter(r => r.date).sort((a, b) => b.date.localeCompare(a.date));
+  const regShow = (regDated.length ? regDated : regMatched).slice(0, 8);
+  const regListHtml = regShow.length ? `
+    <div class="pd-lbl" style="margin-top:12px;margin-bottom:4px">命中法规条目(点击跳转详情${regMatched.length > regShow.length ? `,共 ${regMatched.length} 条,示前 ${regShow.length}` : ""})</div>
+    <div class="revlist" id="veh3d-reglist">
+      ${regShow.map(r => `<div class="ri" data-country="${esc(r.country || "")}" data-key="${esc(regKey(r))}" style="cursor:pointer">
+        <div class="top"><span class="rid">${esc(r.regId || "—")}${r.amend ? `<span class="rtag amd">${esc(r.amend)}</span>` : ""}${(typeof isDraft === "function" && isDraft(r)) ? '<span class="rtag">草案</span>' : ""}</span>
+        ${r.date ? `<span class="rdate">${esc(r.date)}</span>` : ""}</div>
+        <div class="rnm">${!curCountry ? `${esc(r.country || "")} · ` : ""}${esc(r.cnName || r.origName || "")}</div></div>`).join("")}
+    </div>` : `<div class="pd-desc veh3d-empty" style="margin-top:12px">暂无命中的法规条目</div>`;
   host.innerHTML = `
     <div class="pd-lbl">${esc(zoneId)} · ${nodeInfo}</div>
     <div class="pd-title">${esc(zone.label_cn)}</div>
@@ -178,6 +209,7 @@ function showZoneDetail(zoneId) {
     <div class="veh3d-status">${statusText}</div>
     <div class="veh3d-badge">适用法规数 ${st ? st.count : "—"} 条</div>
     <div class="pd-desc" style="margin-top:10px">${esc(zone.desc || "")}</div>
+    ${regListHtml}
     <div class="veh3d-dims">
       <div class="pd-lbl" style="margin-bottom:4px">涉及维度(点击跳转维度矩阵)</div>
       ${dimsRow}
@@ -186,6 +218,11 @@ function showZoneDetail(zoneId) {
   host.querySelectorAll(".vd-row").forEach(row => {
     row.addEventListener("click", () => {
       if (typeof switchTab === "function") switchTab("p-dim");
+    });
+  });
+  host.querySelectorAll("#veh3d-reglist .ri").forEach(row => {
+    row.addEventListener("click", () => {
+      if (typeof advGo === "function") advGo(row.dataset.country, row.dataset.key);
     });
   });
   const emarkLink = host.querySelector("#veh3d-emark-link");
