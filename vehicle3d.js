@@ -59,7 +59,37 @@ let explodedOn = false; // 阶段三:炸开视图(仅整车视角),见 setExplod
    聚焦某个区域时只留它自己的标签,其余暂时隐藏(3D 发光方块本身仍然显示,只是不挂文字卡片),
    手动切换分组勾选、或进入炸开视图(本意就是要同时看清楚所有部件)时解除聚焦。 */
 let hotspotFocusId = null;
-let preExplodeGroups = null, preExplodeXray = null; // 炸开时临时强开 X-Ray + 全部分组,关闭时还原成用户原先的勾选状态
+/* 炸开视图和流程动画都要临时强开 X-Ray + 一组分组,关闭时还原用户原先的勾选状态——两者共用
+   这一份快照(而不是各自存一份),是因为直接从一个模式切到另一个模式时(比如炸开视图开着,
+   点了流程动画,流程动画内部会调用 setExploded(false) 来关掉炸开)各自独立的快照会互相踩踏:
+   后开启的模式会把前一个模式保存的、更早的原始状态当成快照来源,导致关闭时还原到错误的状态。
+   只在"两个模式都未开启"时才真正记录/还原,期间无论切换多少次都不会丢失最初的原始状态
+   (Codex 审查发现的问题,见 PR #313 合并后的 review comment)。 */
+let preModeGroups = null, preModeXray = null;
+function enterXrayOverride(groups) {
+  // 用"是否已经有快照在生效"而不是 explodedOn/flowOn 两个标志位来判断是不是第一个开启的模式——
+  // 调用这个函数时,调用方(setExploded/setFlow)自己的那个标志位早就先被置成 true 了,这时候
+  // 再去判断"两者都没开"永远不成立,快照条件必须和两个模式各自的标志位解耦。
+  if (preModeGroups === null) {
+    preModeXray = xrayOn;
+    preModeGroups = new Set(activeGroups);
+  }
+  if (!xrayOn) setXray(true);
+  activeGroups = new Set(groups);
+  buildGroupBar();
+  refreshHotspotVisibility();
+}
+function exitXrayOverride() {
+  if (explodedOn || flowOn) return; // 另一个模式还开着,继续保持覆盖状态,不还原
+  if (preModeGroups) {
+    activeGroups = preModeGroups;
+    buildGroupBar();
+    refreshHotspotVisibility();
+    if (preModeXray === false) setXray(false);
+    preModeGroups = null;
+    preModeXray = null;
+  }
+}
 const bodyZoneOrigLocalPos = new Map(); // 车身真实几何节点(Object3D)→ 炸开前的原始 local position,关闭炸开时精确还原
 const hotspotOrigLocalPos = new Map();  // hotspots[].mesh(含被机械零件替换后的新对象)→ 炸开前的原始 local position
 
@@ -220,11 +250,19 @@ function showZoneDetail(zoneId) {
     : (zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`);
   const regMatched = zoneRecords(zoneId, curCountry);
   const unRegs = Array.isArray(zone.un_regs) ? zone.un_regs : [];
-  const regDated = regMatched.filter(r => r.date).sort((a, b) => b.date.localeCompare(a.date));
-  // 精确引用(r.refs 命中该区域标注的具体 UN R 号)排在前面,同为精确引用/同为普通命中时各自维持原日期倒序——
-  // 纯展示优先级调整,不改变 regMatched 本身的集合与数量(覆盖计数口径见 zoneStats(),不受此影响)。
+  // 精确引用(r.refs 命中该区域标注的具体 UN R 号)排在最前,其余按日期倒序,无日期的记录排在
+  // 最后(不是丢弃——之前的写法在既有有日期又有无日期记录时只对有日期的排序、把无日期的整批
+  // 丢掉,但面板标题「共 N 条」的计数包含它们,导致列表和计数对不上,这里改成对完整的 regMatched
+  // 排序,同一优先级内保留各自的相对顺序)。纯展示优先级调整,不改变 regMatched 本身的集合与
+  // 数量(覆盖计数口径见 zoneStats(),不受此影响)。
   const isExactRef = r => unRegs.length > 0 && Array.isArray(r.refs) && r.refs.some(f => unRegs.includes(f));
-  const regSorted = (regDated.length ? regDated : regMatched).slice().sort((a, b) => (isExactRef(b) - isExactRef(a)));
+  const regSorted = regMatched.slice().sort((a, b) => {
+    const exactDiff = isExactRef(b) - isExactRef(a);
+    if (exactDiff) return exactDiff;
+    if (a.date && b.date) return b.date.localeCompare(a.date);
+    if (!!a.date !== !!b.date) return a.date ? -1 : 1; // 有日期的排在没日期的前面
+    return 0;
+  });
   const regShow = regSorted.slice(0, 8);
   const unRegsRow = unRegs.length ? `
     <div class="pd-lbl" style="margin-top:8px;margin-bottom:4px">相关 UN 法规</div>
@@ -1017,13 +1055,8 @@ function setExploded(on) {
     // 炸开时强开 X-Ray + 全部分组,否则电池包/ECU-OTA域等占位区域飞出去也看不见,失去意义;
     // 关闭时还原用户原先的勾选状态,不替用户做永久选择。炸开视图本来就是要同时看清楚全部
     // 部件,解除导航飞向可能留下的单点聚焦状态。
-    preExplodeXray = xrayOn;
-    preExplodeGroups = new Set(activeGroups);
     hotspotFocusId = null;
-    if (!xrayOn) setXray(true);
-    activeGroups = new Set(HOTSPOT_GROUPS.map(g => g.id));
-    buildGroupBar();
-    refreshHotspotVisibility();
+    enterXrayOverride(HOTSPOT_GROUPS.map(g => g.id));
   }
 
   const items = [];
@@ -1062,14 +1095,7 @@ function setExploded(on) {
   });
   explodeTween = { t0: performance.now(), dur: 700, items };
 
-  if (!on && preExplodeGroups) {
-    activeGroups = preExplodeGroups;
-    buildGroupBar();
-    refreshHotspotVisibility();
-    if (preExplodeXray === false) setXray(false);
-    preExplodeGroups = null;
-    preExplodeXray = null;
-  }
+  if (!on) exitXrayOverride();
 
   const btn = $("#veh3d-explode-btn");
   if (btn) btn.classList.toggle("on", on);
@@ -1091,7 +1117,6 @@ const FLOW_PATHS = [
 let flowOn = false;
 let flowObjects = []; // 场景里新增的 tube/粒子网格,关闭时逐个移除,不留垃圾
 let flowParticles = []; // [{mesh, curve, t, speed}]
-let preFlowGroups = null, preFlowXray = null;
 
 function buildFlowPath(path) {
   const pts = [];
@@ -1158,25 +1183,13 @@ function setFlow(on) {
   if (on) {
     // 流程动画要同时看清楚涉及的两条路径上的区域,和炸开视图同理:强开 X-Ray + 相关分组,
     // 关闭时还原用户原先的勾选状态;也和炸开视图互斥(见 setExploded 里的对称处理)。
-    preFlowXray = xrayOn;
-    preFlowGroups = new Set(activeGroups);
     hotspotFocusId = null;
-    if (!xrayOn) setXray(true);
-    activeGroups = new Set(["powertrain", "chassis", "body", "connectivity", "interior"]);
-    buildGroupBar();
-    refreshHotspotVisibility();
+    enterXrayOverride(["powertrain", "chassis", "body", "connectivity", "interior"]);
     if (explodedOn) setExploded(false);
     FLOW_PATHS.forEach(buildFlowPath);
   } else {
     clearFlowObjects();
-    if (preFlowGroups) {
-      activeGroups = preFlowGroups;
-      buildGroupBar();
-      refreshHotspotVisibility();
-      if (preFlowXray === false) setXray(false);
-      preFlowGroups = null;
-      preFlowXray = null;
-    }
+    exitXrayOverride();
   }
   const btn = $("#veh3d-flow-btn");
   if (btn) btn.classList.toggle("on", on);
