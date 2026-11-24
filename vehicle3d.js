@@ -550,24 +550,29 @@ function flyCameraTo(cam, ctrls, targetCenter, radius, wholeHalfHeight) {
   };
 }
 
+/* 整车视角下某个区域当前的世界坐标中心(+半径,用于相机取景/流程动画画线都要用到)——真实
+   几何区域用实际包围盒,占位区域优先用 hotspots[] 里当前的实际位置(炸开视图下真实飞出去的
+   位置),不是重新按静态比例坐标算一遍"原始位置",否则炸开时两者会对不上。 */
+function zoneExtWorldCenter(zone) {
+  if (!carRoot) return null;
+  const box = (zone.gltf_nodes && zone.gltf_nodes.length) ? zoneWorldBox(zone, carRoot, nodeToZone) : null;
+  if (box) {
+    return { center: box.getCenter(new THREE.Vector3()), radius: box.getSize(new THREE.Vector3()).length() * 0.5 || 0.6 };
+  }
+  if (Array.isArray(zone.hotspot_pos)) {
+    const hs = hotspots.find(h => h.zone.id === zone.id);
+    const center = hs ? new THREE.Vector3().setFromMatrixPosition(hs.mesh.matrixWorld)
+      : new THREE.Vector3().fromArray(hotspotWorldPos(zone.hotspot_pos));
+    return { center, radius: 0.6 }; // 占位区域无真实体量,给一个适中的默认取景半径
+  }
+  return null;
+}
+
 function navFlyToExtZone(zone) {
   if (!carRoot || !camera || !controls) return;
-  const box = (zone.gltf_nodes && zone.gltf_nodes.length) ? zoneWorldBox(zone, carRoot, nodeToZone) : null;
-  let center, radius;
-  if (box) {
-    center = box.getCenter(new THREE.Vector3());
-    radius = box.getSize(new THREE.Vector3()).length() * 0.5 || 0.6;
-  } else if (Array.isArray(zone.hotspot_pos)) {
-    // 优先用 hotspots[] 里该区域当前的实际世界坐标(炸开视图下真实飞出去的位置),而不是重新
-    // 按静态比例坐标算一遍"原始位置"——炸开时两者会对不上,飞过去会落在空地上而不是部件所在处。
-    const hs = hotspots.find(h => h.zone.id === zone.id);
-    center = hs ? new THREE.Vector3().setFromMatrixPosition(hs.mesh.matrixWorld)
-      : new THREE.Vector3().fromArray(hotspotWorldPos(zone.hotspot_pos));
-    radius = 0.6; // 占位区域无真实体量,给一个适中的默认取景半径
-  } else {
-    return;
-  }
-  flyCameraTo(camera, controls, center, radius, _orthoHalfHeight);
+  const r = zoneExtWorldCenter(zone);
+  if (!r) return;
+  flyCameraTo(camera, controls, r.center, r.radius, _orthoHalfHeight);
 }
 
 function navFlyToCockpitZone(zone) {
@@ -847,11 +852,13 @@ window.veh3dSetView = function (mode) {
   if (canvas) canvas.style.display = isCockpit ? "none" : "";
   if (cockpit) cockpit.style.display = isCockpit ? "" : "none";
   if (isCockpit) { initCockpitScene(); sizeCockpitRenderer(); } // 懒加载;display:none 时宽高为 0,切回来后要重算一次
-  const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar"), explodeBtn = $("#veh3d-explode-btn");
+  const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar"), explodeBtn = $("#veh3d-explode-btn"), flowBtn = $("#veh3d-flow-btn");
   if (xrayBtn) xrayBtn.style.display = isCockpit ? "none" : "";
   if (groupBar) groupBar.style.display = isCockpit ? "none" : "";
   if (explodeBtn) explodeBtn.style.display = isCockpit ? "none" : "";
+  if (flowBtn) flowBtn.style.display = isCockpit ? "none" : "";
   if (isCockpit && explodedOn) setExploded(false); // 炸开视图是整车视角专属效果,切到座舱视角前先还原,避免下次切回来状态对不上按钮
+  if (isCockpit && flowOn) setFlow(false); // 流程动画同理,仅整车视角
   const hint = $("#veh3d-hint");
   if (hint) hint.textContent = isCockpit
     ? "拖动旋转 · 滚轮缩放 · 点击内饰部件/标签查看该区域合规范围"
@@ -1067,6 +1074,113 @@ function setExploded(on) {
   const btn = $("#veh3d-explode-btn");
   if (btn) btn.classList.toggle("on", on);
   if (on && camera && controls) flyCameraTo(camera, controls, center, carRadius * 1.5, _orthoHalfHeight); // 留够空间看炸开后的轮廓,不被裁掉
+  if (on && flowOn) setFlow(false); // 和流程动画互斥——炸开后各部件位置会动,流程线段没法跟着实时重算,索性二选一
+}
+
+/* ============ 阶段四:流程动画(仅整车视角) ============
+   参考 Toyota Mirai 的流程可视化 WebGL 示例,但这台车(奥迪 R8,燃油 V8)没有氢燃料电池那套
+   物理管路,不能照搬"氢气流动"这个具体场景——改为画这台车真实具备、且和本应用的"合规"主题
+   相关的两条路径:① 动力传递路径(发动机→离合器→变速器→半轴传动轴→车轮,纯机械动力流,
+   对应整车准入/环保全链条维度)② ADAS 感知数据流(三个传感器分区→ECU/OTA 域→仪表板,
+   对应 ADAS/网络安全维度)。沿路径画发光细管 + 若干沿管道循环移动的光点模拟"流动"观感,
+   不接 bloom 后处理(和 X-Ray 棱线发光同样的性价比考量,见 buildEdgeLines 注释)。 */
+const FLOW_PATHS = [
+  { id: "power", label: "⚡ 动力传递路径", color: 0x2dd4ff, zones: ["engine", "clutch", "transmission", "axle_driveshaft", "body_shell"] },
+  { id: "adas", label: "📡 ADAS 感知数据流", color: 0xffb020, zones: ["adas_front_sensor", "adas_corner_sensor", "adas_rear_sensor", "ecu_ota", "dashboard"] },
+];
+let flowOn = false;
+let flowObjects = []; // 场景里新增的 tube/粒子网格,关闭时逐个移除,不留垃圾
+let flowParticles = []; // [{mesh, curve, t, speed}]
+let preFlowGroups = null, preFlowXray = null;
+
+function buildFlowPath(path) {
+  const pts = [];
+  path.zones.forEach(zid => {
+    const z = zoneById(zid);
+    if (!z) return;
+    const r = zoneExtWorldCenter(z);
+    if (r) pts.push(r.center);
+  });
+  if (pts.length < 2) return; // 该视角下这条路径上的区域凑不够两个有效点位,画不出线,跳过
+  const curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.15);
+  const tubeGeo = new THREE.TubeGeometry(curve, Math.max(32, pts.length * 16), 0.065, 8, false);
+  const tubeMat = new THREE.MeshBasicMaterial({
+    color: path.color, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false,
+  });
+  const tube = new THREE.Mesh(tubeGeo, tubeMat);
+  tube.userData.hotspotEl = true; // 复用 setXray() 的跳过标记,避免被 X-Ray 材质替换逻辑误处理
+  tube.renderOrder = 10; // depthTest 关了之后靠 renderOrder 定层级,确保光点画在管道上面而不是被管道盖住
+  carRoot.add(tube);
+  flowObjects.push(tube);
+
+  const N_PARTICLES = 3;
+  for (let i = 0; i < N_PARTICLES; i++) {
+    const mesh = new THREE.Mesh(
+      new THREE.SphereGeometry(0.12, 12, 12),
+      new THREE.MeshBasicMaterial({ color: path.color, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false })
+    );
+    mesh.userData.hotspotEl = true;
+    mesh.renderOrder = 11;
+    carRoot.add(mesh);
+    flowObjects.push(mesh);
+    flowParticles.push({ mesh, curve, t: i / N_PARTICLES, speed: 0.22 }); // 约 4.5 秒跑完整条路径
+  }
+}
+
+const _flowTimer = new THREE.Timer(); // THREE.Clock 在这个版本已标记废弃,改用替代的 Timer
+function stepFlowAnimation() {
+  _flowTimer.update();
+  const dt = _flowTimer.getDelta(); // 秒
+  if (!flowOn || !flowParticles.length) return;
+  flowParticles.forEach(p => {
+    p.t = (p.t + p.speed * dt) % 1;
+    p.mesh.position.copy(p.curve.getPointAt(p.t));
+  });
+}
+
+function clearFlowObjects() {
+  flowObjects.forEach(o => { if (o.parent) o.parent.remove(o); o.geometry && o.geometry.dispose(); o.material && o.material.dispose(); });
+  flowObjects = [];
+  flowParticles = [];
+}
+
+function buildFlowLegend() {
+  const host = $("#veh3d-flow-legend");
+  if (!host) return;
+  host.innerHTML = flowOn ? FLOW_PATHS.map(p =>
+    `<span class="veh3d-flow-chip" style="--c:#${p.color.toString(16).padStart(6, "0")}">${esc(p.label)}</span>`
+  ).join("") : "";
+}
+
+function setFlow(on) {
+  if (flowOn === on || !carRoot) return;
+  flowOn = on;
+  if (on) {
+    // 流程动画要同时看清楚涉及的两条路径上的区域,和炸开视图同理:强开 X-Ray + 相关分组,
+    // 关闭时还原用户原先的勾选状态;也和炸开视图互斥(见 setExploded 里的对称处理)。
+    preFlowXray = xrayOn;
+    preFlowGroups = new Set(activeGroups);
+    hotspotFocusId = null;
+    if (!xrayOn) setXray(true);
+    activeGroups = new Set(["powertrain", "chassis", "body", "connectivity", "interior"]);
+    buildGroupBar();
+    refreshHotspotVisibility();
+    if (explodedOn) setExploded(false);
+    FLOW_PATHS.forEach(buildFlowPath);
+  } else {
+    clearFlowObjects();
+    if (preFlowGroups) {
+      activeGroups = preFlowGroups;
+      buildGroupBar();
+      refreshHotspotVisibility();
+      if (preFlowXray === false) setXray(false);
+      preFlowGroups = null;
+      preFlowXray = null;
+    }
+  }
+  const btn = $("#veh3d-flow-btn");
+  if (btn) btn.classList.toggle("on", on);
+  buildFlowLegend();
 }
 
 function resolveZoneFromObject(obj) {
@@ -1185,6 +1299,7 @@ async function initVeh3D() {
   renderer.setAnimationLoop(() => {
     if (camTween && camTween.cam === camera && camTween.step(performance.now())) camTween = null;
     stepExplodeTween(performance.now());
+    stepFlowAnimation();
     controls.update();
     renderer.render(scene, camera);
     updateHotspotLayer();
@@ -1194,6 +1309,8 @@ async function initVeh3D() {
   if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
   const explodeBtn = $("#veh3d-explode-btn");
   if (explodeBtn) explodeBtn.addEventListener("click", () => setExploded(!explodedOn));
+  const flowBtn = $("#veh3d-flow-btn");
+  if (flowBtn) flowBtn.addEventListener("click", () => setFlow(!flowOn));
   buildGroupBar();
 
   fillCountrySelect();

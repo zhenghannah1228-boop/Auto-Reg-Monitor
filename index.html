@@ -569,6 +569,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 #veh3d-xray-btn.on{background:var(--accent);border-color:var(--accent);color:#fff}
 #veh3d-explode-btn{margin-left:8px;font-size:11px;padding:5px 12px}
 #veh3d-explode-btn.on{background:var(--gold);border-color:var(--gold);color:#3a2c08;font-weight:600}
+#veh3d-flow-btn{margin-left:8px;font-size:11px;padding:5px 12px}
+#veh3d-flow-btn.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.veh3d-flow-legend{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.veh3d-flow-chip{font-size:11px;font-family:var(--mono);padding:3px 9px;border-radius:10px;
+  background:var(--panel2);border:1px solid var(--line);color:var(--ink2)}
+.veh3d-flow-chip::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:var(--c);margin-right:5px;vertical-align:middle}
 .veh3d-group-bar{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:9px 0 2px}
 .veh3d-group-hint{font-size:10.5px;color:var(--muted);font-family:var(--mono);margin-right:2px}
 .veh3d-group-chip{font-size:11px;padding:4px 11px;border:1px solid var(--line);border-radius:12px;
@@ -601,6 +608,8 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 #veh3d-ext-card.xray-on .veh3d-hint{background:rgba(7,11,17,.85);color:#7fb8cf}
 #veh3d-ext-card.xray-on #veh3d-xray-btn.on{background:#2dd4ff;border-color:#2dd4ff;color:#021018}
 #veh3d-ext-card.xray-on #veh3d-explode-btn.on{background:#2dd4ff;border-color:#2dd4ff;color:#021018}
+#veh3d-ext-card.xray-on #veh3d-flow-btn.on{background:#2dd4ff;border-color:#2dd4ff;color:#021018}
+#veh3d-ext-card.xray-on .veh3d-flow-chip{background:rgba(10,19,28,.7);border-color:#1a3a4a;color:#8fd4ee}
 #veh3d-ext-card.xray-on .veh3d-group-hint{color:#5a8aa8}
 #veh3d-ext-card.xray-on .veh3d-group-chip{background:rgba(10,19,28,.7);border-color:#1a3a4a;color:#8fd4ee}
 #veh3d-ext-card.xray-on .veh3d-group-chip:hover{border-color:#2dd4ff}
@@ -759,11 +768,13 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
             <select id="veh3d-cty" class="csel" style="font-size:12px;padding:5px 10px;min-width:0"></select>
             <span class="btn light" id="veh3d-xray-btn" style="cursor:pointer">◈ X-Ray 透视</span>
             <span class="btn light" id="veh3d-explode-btn" style="cursor:pointer">✴ 炸开视图</span>
+            <span class="btn light" id="veh3d-flow-btn" style="cursor:pointer">⚡ 流程动画</span>
             <span class="hint" id="veh3d-hint">拖动旋转 · 滚轮缩放 · 点击部件/标签查看该区域合规范围</span></h3>
           <div class="seg" id="veh3d-viewmode" style="margin:0 0 9px">
             <button class="on" id="veh3d-view-ext" onclick="veh3dSetView('ext')">整车视角</button>
             <button id="veh3d-view-cockpit" onclick="veh3dSetView('cockpit')">座舱视角</button>
           </div>
+          <div class="veh3d-flow-legend" id="veh3d-flow-legend"></div>
           <div class="veh3d-group-bar" id="veh3d-group-bar"></div>
           <div class="veh3d-canvas" id="veh3d-canvas">
             <div class="veh3d-loading" id="veh3d-loading">[ 正在载入车辆模型… ]</div>
@@ -6525,6 +6536,6 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
 <!-- ?v= 是手动缓存破坏:静态站点没有构建步骤/文件哈希,vehicle3d.js 改动后浏览器可能继续用
      磁盘缓存里的旧版本(HTML 本身刷新了、但这个独立加载的模块文件没刷新,导致页面上按钮都在但
      点击没反应——2026-11 实测复现过)。每次改 vehicle3d.js 的可见行为后手动把这个版本号往后挪。 -->
-<script type="module" src="./vehicle3d.js?v=20261124e"></script>
+<script type="module" src="./vehicle3d.js?v=20261124g"></script>
 </body>
 </html>
