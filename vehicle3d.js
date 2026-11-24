@@ -51,6 +51,10 @@ let carCleanBox = null; // 整车模型刚加载完、还没加任何占位/机�
                          // 用这份"干净"的包围盒算比例坐标,避免大体积机械零件加入 carRoot 后
                          // Box3.setFromObject(carRoot) 把它们自己算进包围盒、污染后续区域的定位
 let mechRoot = null, mechLoaded = false, mechLoading = false; // 机械零件模型(懒加载,见 loadMechanicalParts)
+let explodedOn = false; // 阶段三:炸开视图(仅整车视角),见 setExploded()
+let preExplodeGroups = null, preExplodeXray = null; // 炸开时临时强开 X-Ray + 全部分组,关闭时还原成用户原先的勾选状态
+const bodyZoneOrigLocalPos = new Map(); // 车身真实几何节点(Object3D)→ 炸开前的原始 local position,关闭炸开时精确还原
+const hotspotOrigLocalPos = new Map();  // hotspots[].mesh(含被机械零件替换后的新对象)→ 炸开前的原始 local position
 
 /* 21 个 hotspot 区域按 group 字段分 6 组,X-Ray 下按组切换显示——不然 21 张标签卡片同屏堆叠
    会完全看不清。ev/connectivity 是一期就有的默认展示组,其余 4 组默认收起,用户按需勾选。 */
@@ -375,6 +379,19 @@ function applyMechanicalHotspots() {
     if (hs.mesh && hs.mesh.parent) hs.mesh.parent.remove(hs.mesh);
     carRoot.add(inst);
     hs.mesh = inst;
+    // 机械零件是异步加载的,可能在用户已经打开炸开视图之后才替换到位——此时直接按炸开视图的
+    // 同一套逻辑把新对象瞬间摆到爆炸位置(不再播动画,只是补齐状态),而不是让它先出现在原位
+    // 等下一次开关炸开才归位,那样会有一瞬间"看起来没炸开"的错觉。
+    if (explodedOn && carRoot) {
+      const box = carCleanBox || new THREE.Box3().setFromObject(carRoot);
+      const center = box.getCenter(new THREE.Vector3());
+      const carRadius = box.getSize(new THREE.Vector3()).length() * 0.5 || 1;
+      const dir = inst.position.clone().sub(center);
+      if (dir.lengthSq() < 1e-6) dir.set(0, 1, 0);
+      dir.normalize();
+      hotspotOrigLocalPos.set(inst, inst.position.clone());
+      inst.position.addScaledVector(dir, carRadius * 0.55);
+    }
   });
   refreshHotspotVisibility();
 }
@@ -524,7 +541,11 @@ function navFlyToExtZone(zone) {
     center = box.getCenter(new THREE.Vector3());
     radius = box.getSize(new THREE.Vector3()).length() * 0.5 || 0.6;
   } else if (Array.isArray(zone.hotspot_pos)) {
-    center = new THREE.Vector3().fromArray(hotspotWorldPos(zone.hotspot_pos));
+    // 优先用 hotspots[] 里该区域当前的实际世界坐标(炸开视图下真实飞出去的位置),而不是重新
+    // 按静态比例坐标算一遍"原始位置"——炸开时两者会对不上,飞过去会落在空地上而不是部件所在处。
+    const hs = hotspots.find(h => h.zone.id === zone.id);
+    center = hs ? new THREE.Vector3().setFromMatrixPosition(hs.mesh.matrixWorld)
+      : new THREE.Vector3().fromArray(hotspotWorldPos(zone.hotspot_pos));
     radius = 0.6; // 占位区域无真实体量,给一个适中的默认取景半径
   } else {
     return;
@@ -805,9 +826,11 @@ window.veh3dSetView = function (mode) {
   if (canvas) canvas.style.display = isCockpit ? "none" : "";
   if (cockpit) cockpit.style.display = isCockpit ? "" : "none";
   if (isCockpit) { initCockpitScene(); sizeCockpitRenderer(); } // 懒加载;display:none 时宽高为 0,切回来后要重算一次
-  const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar");
+  const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar"), explodeBtn = $("#veh3d-explode-btn");
   if (xrayBtn) xrayBtn.style.display = isCockpit ? "none" : "";
   if (groupBar) groupBar.style.display = isCockpit ? "none" : "";
+  if (explodeBtn) explodeBtn.style.display = isCockpit ? "none" : "";
+  if (isCockpit && explodedOn) setExploded(false); // 炸开视图是整车视角专属效果,切到座舱视角前先还原,避免下次切回来状态对不上按钮
   const hint = $("#veh3d-hint");
   if (hint) hint.textContent = isCockpit
     ? "拖动旋转 · 滚轮缩放 · 点击内饰部件/标签查看该区域合规范围"
@@ -889,6 +912,7 @@ function buildEdgeLines(mesh) {
 
 function setXray(on) {
   xrayOn = on;
+  if (on) loadMechanicalParts(); // 懒加载:不管是手动点按钮还是程序化开启(导航侧栏/炸开视图),第一次打开都要去拉这个模型
   if (carRoot) {
     carRoot.traverse(o => {
       if (!o.isMesh || !o.material) return;
@@ -910,6 +934,109 @@ function setXray(on) {
   const card = $("#veh3d-ext-card");
   if (card) card.classList.toggle("xray-on", on); // 驱动 index.html 里那一整套蓝色 HUD 配色
   if (scene && normalBgColor) scene.background = on ? new THREE.Color(XRAY_BG_COLOR) : normalBgColor;
+}
+
+/* ============ 阶段三:炸开视图(仅整车视角) ============ */
+/* 车身真实几何(body_shell/front_end/rear_end/exhaust/glazing/mirrors/roof 这 7 个 zone,
+   hotspot:false)按 zone 分组收集对应的 Object3D——和 zoneWorldBox() 用的是同一份 nodeToZone
+   查表逻辑,这里要保留对象引用本身(用来改 position),不只是算一次包围盒。 */
+function collectBodyZoneGroups() {
+  const map = new Map();
+  if (!carRoot) return map;
+  carRoot.traverse(o => {
+    if (!o.isMesh) return;
+    const zid = nodeToZone.get(String(o.name || "").toLowerCase());
+    if (!zid) return;
+    const z = zoneById(zid);
+    if (!z || z.hotspot) return; // hotspot 占位盒子/机械零件走 hotspots[] 那条路径,这里只管真实车身节点
+    if (!map.has(zid)) map.set(zid, []);
+    map.get(zid).push(o);
+  });
+  return map;
+}
+
+let explodeTween = null; // {t0, dur, items:[{obj,from,to}]} —— 和 camTween 同一思路,外部渲染循环每帧推进
+function stepExplodeTween(now) {
+  if (!explodeTween) return;
+  const { t0, dur, items } = explodeTween;
+  const t = Math.min(1, (now - t0) / dur);
+  const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
+  items.forEach(it => it.obj.position.lerpVectors(it.from, it.to, e));
+  if (t >= 1) explodeTween = null;
+}
+
+/* 炸开方向 = 该部件世界坐标相对整车中心的方向——车身主体(body_shell 含车轮、源模型未拆分)
+   世界中心本身就接近整车中心,位移量天然很小,效果上正好是"车身主壳不动、其余部件向外飞开",
+   不需要为它特殊处理。炸开距离按整车体量(carCleanBox 对角线长度的一半)按比例换算,换模型也
+   不会出现距离离谱的问题。 */
+function setExploded(on) {
+  if (explodedOn === on || !carRoot) return;
+  explodedOn = on;
+  const box = carCleanBox || new THREE.Box3().setFromObject(carRoot);
+  const center = box.getCenter(new THREE.Vector3());
+  const carRadius = box.getSize(new THREE.Vector3()).length() * 0.5 || 1;
+  const DIST_BODY = carRadius * 0.35;
+  const DIST_HOTSPOT = carRadius * 0.55;
+
+  if (on) {
+    // 炸开时强开 X-Ray + 全部分组,否则电池包/ECU-OTA域等占位区域飞出去也看不见,失去意义;
+    // 关闭时还原用户原先的勾选状态,不替用户做永久选择。
+    preExplodeXray = xrayOn;
+    preExplodeGroups = new Set(activeGroups);
+    if (!xrayOn) setXray(true);
+    activeGroups = new Set(HOTSPOT_GROUPS.map(g => g.id));
+    buildGroupBar();
+    refreshHotspotVisibility();
+  }
+
+  const items = [];
+  collectBodyZoneGroups().forEach(objs => {
+    objs.forEach(o => {
+      if (!bodyZoneOrigLocalPos.has(o)) bodyZoneOrigLocalPos.set(o, o.position.clone());
+      const orig = bodyZoneOrigLocalPos.get(o);
+      const from = o.position.clone();
+      let to;
+      if (on) {
+        const worldPos = new THREE.Vector3().setFromMatrixPosition(o.matrixWorld);
+        const dir = worldPos.sub(center);
+        if (dir.lengthSq() < 1e-6) dir.set(0, 1, 0);
+        dir.normalize();
+        to = orig.clone().addScaledVector(dir, DIST_BODY);
+      } else {
+        to = orig.clone();
+      }
+      items.push({ obj: o, from, to });
+    });
+  });
+  hotspots.forEach(hs => {
+    if (!hotspotOrigLocalPos.has(hs.mesh)) hotspotOrigLocalPos.set(hs.mesh, hs.mesh.position.clone());
+    const orig = hotspotOrigLocalPos.get(hs.mesh);
+    const from = hs.mesh.position.clone();
+    let to;
+    if (on) {
+      const dir = orig.clone().sub(center);
+      if (dir.lengthSq() < 1e-6) dir.set(0, 1, 0);
+      dir.normalize();
+      to = orig.clone().addScaledVector(dir, DIST_HOTSPOT);
+    } else {
+      to = orig.clone();
+    }
+    items.push({ obj: hs.mesh, from, to });
+  });
+  explodeTween = { t0: performance.now(), dur: 700, items };
+
+  if (!on && preExplodeGroups) {
+    activeGroups = preExplodeGroups;
+    buildGroupBar();
+    refreshHotspotVisibility();
+    if (preExplodeXray === false) setXray(false);
+    preExplodeGroups = null;
+    preExplodeXray = null;
+  }
+
+  const btn = $("#veh3d-explode-btn");
+  if (btn) btn.classList.toggle("on", on);
+  if (on && camera && controls) flyCameraTo(camera, controls, center, carRadius * 1.5, _orthoHalfHeight); // 留够空间看炸开后的轮廓,不被裁掉
 }
 
 function resolveZoneFromObject(obj) {
@@ -1027,17 +1154,16 @@ async function initVeh3D() {
 
   renderer.setAnimationLoop(() => {
     if (camTween && camTween.cam === camera && camTween.step(performance.now())) camTween = null;
+    stepExplodeTween(performance.now());
     controls.update();
     renderer.render(scene, camera);
     updateHotspotLayer();
   });
 
   const xrayBtn = $("#veh3d-xray-btn");
-  if (xrayBtn) xrayBtn.addEventListener("click", () => {
-    const turningOn = !xrayOn;
-    setXray(turningOn);
-    if (turningOn) loadMechanicalParts(); // 懒加载:用户第一次真的打开 X-Ray 才去拉这个模型
-  });
+  if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
+  const explodeBtn = $("#veh3d-explode-btn");
+  if (explodeBtn) explodeBtn.addEventListener("click", () => setExploded(!explodedOn));
   buildGroupBar();
 
   fillCountrySelect();
