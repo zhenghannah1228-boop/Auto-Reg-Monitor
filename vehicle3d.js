@@ -64,6 +64,21 @@ const HOTSPOT_GROUPS = [
 ];
 let activeGroups = new Set(["ev", "connectivity"]);
 
+/* 2026-11 阶段二(「车辆浏览器」四阶段计划):EPC 风格左侧部件导航侧栏,按分组列出全部 28 个区域
+   (含车身外观这 7 个真实几何分区,HOTSPOT_GROUPS 没覆盖它们,因为那个列表专门对应 X-Ray 占位组
+   勾选,和这里"目录导航"是两码事,故另开一份)。点击条目=相机飞向该区域 + 打开详情面板,不是
+   简单的 showZoneDetail 快捷方式。 */
+const NAV_GROUPS = [
+  { id: "body", label: "车身外观" },
+  { id: "ev", label: "三电系统" },
+  { id: "connectivity", label: "智能网联" },
+  { id: "powertrain", label: "动力总成" },
+  { id: "chassis", label: "底盘/制动转向" },
+  { id: "hvac", label: "空调" },
+  { id: "interior", label: "内饰与乘员防护" },
+];
+let navOpenGroups = new Set(["body"]); // 默认只展开车身外观,其余折叠,避免 28 项一次性铺开
+
 async function loadZones() {
   const seedResp = await fetch(ZONES_URL);
   const seed = await seedResp.json();
@@ -178,6 +193,7 @@ function showZoneDetail(zoneId) {
   if (!zone) {
     host.innerHTML = `<div class="pd-lbl">车辆区域</div><div class="pd-title">未识别部件</div>
       <div class="pd-desc veh3d-empty">该部件尚未纳入区域划分,或不在当前合规监控范围内。</div>`;
+    updateNavActive();
     return;
   }
   const st = zoneStats(zoneId, curCountry);
@@ -227,6 +243,7 @@ function showZoneDetail(zoneId) {
   });
   const emarkLink = host.querySelector("#veh3d-emark-link");
   if (emarkLink) emarkLink.addEventListener("click", goToEmark);
+  updateNavActive();
 }
 
 /* 浅联动:跳转 23 E-mark 评估标签页,并触发其惰性加载(与 index.html 主 tab-click 链一致,
@@ -404,6 +421,158 @@ function buildGroupBar() {
       refreshHotspotVisibility();
     });
   });
+}
+
+/* ============ 阶段二:EPC 风格部件导航侧栏(列表 + 相机飞向) ============ */
+function renderNavSidebar() {
+  const list = $("#veh3d-nav-list");
+  if (!list || !ZONES.length) return;
+  list.innerHTML = NAV_GROUPS.map(g => {
+    const zs = ZONES.filter(z => (z.group || "") === g.id);
+    if (!zs.length) return "";
+    const open = navOpenGroups.has(g.id);
+    return `<div class="veh3d-nav-group${open ? " open" : ""}" data-g="${esc(g.id)}">
+      <div class="veh3d-nav-group-hd"><span>${esc(g.label)}(${zs.length})</span><span class="chev">▶</span></div>
+      <div class="veh3d-nav-items">
+        ${zs.map(z => `<button type="button" class="veh3d-nav-item${z.id === curZoneId ? " active" : ""}" data-z="${esc(z.id)}">${esc(z.label_cn)}</button>`).join("")}
+      </div>
+    </div>`;
+  }).join("");
+  list.querySelectorAll(".veh3d-nav-group-hd").forEach(hd => {
+    hd.addEventListener("click", () => {
+      const grp = hd.closest(".veh3d-nav-group");
+      const gid = grp.dataset.g;
+      if (navOpenGroups.has(gid)) navOpenGroups.delete(gid); else navOpenGroups.add(gid);
+      grp.classList.toggle("open");
+    });
+  });
+  list.querySelectorAll(".veh3d-nav-item").forEach(btn => {
+    btn.addEventListener("click", () => navGoToZone(btn.dataset.z));
+  });
+}
+
+function updateNavActive() {
+  const list = $("#veh3d-nav-list");
+  if (!list) return;
+  list.querySelectorAll(".veh3d-nav-item").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.z === curZoneId);
+  });
+}
+
+/* 收集某区域在指定场景里对应的全部真实网格节点的世界包围盒(整车视角传 nodeToZone,座舱视角传
+   cockpitNodeToZone)——没有真实几何(纯 hotspot 占位)的区域调用方会 fall back 到对应的
+   *_pos 比例坐标单点,不强求这里返回结果。 */
+function zoneWorldBox(zone, root, nameToZoneMap) {
+  if (!root) return null;
+  const box = new THREE.Box3();
+  let found = false;
+  root.traverse(o => {
+    if (o.isMesh && nameToZoneMap.get(String(o.name || "").toLowerCase()) === zone.id) {
+      box.expandByObject(o);
+      found = true;
+    }
+  });
+  return found ? box : null;
+}
+
+/* 正投影(整车视角)下物体视觉大小只由 camera.zoom 决定、与相机距离无关,所以"飞向"=
+   保持当前相机相对 target 的方向与距离不变、把 target 平移到目标区域中心,再按区域体量把
+   zoom 调高;透视相机(座舱视角)则相反——物体大小只由距离决定,"飞向"=把相机沿同一方向
+   移近到与区域体量匹配的距离,zoom 不参与。统一用一个 tween 对象,外部渲染循环每帧推进一次。 */
+let camTween = null;
+function flyCameraTo(cam, ctrls, targetCenter, radius, wholeHalfHeight) {
+  if (!cam || !ctrls) return;
+  const fromTarget = ctrls.target.clone();
+  const fromPos = cam.position.clone();
+  const offsetDir = fromPos.clone().sub(fromTarget);
+  const baseLen = offsetDir.length() || 1;
+  offsetDir.normalize();
+  const toTarget = targetCenter.clone();
+  const fromZoom = cam.zoom;
+  let toPos, toZoom = fromZoom;
+  if (cam.isOrthographicCamera) {
+    toPos = toTarget.clone().addScaledVector(offsetDir, baseLen);
+    const refHalf = wholeHalfHeight || 1;
+    toZoom = Math.min(3.5, Math.max(1, refHalf / Math.max(radius * 1.6, 0.12)));
+  } else {
+    const desiredLen = Math.max(Math.min(baseLen, radius * 3.2), radius * 1.4, 0.35);
+    toPos = toTarget.clone().addScaledVector(offsetDir, desiredLen);
+  }
+  const t0 = (typeof performance !== "undefined" ? performance.now() : Date.now());
+  const dur = 650;
+  camTween = {
+    cam,
+    step(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      ctrls.target.lerpVectors(fromTarget, toTarget, e);
+      cam.position.lerpVectors(fromPos, toPos, e);
+      if (cam.isOrthographicCamera) {
+        cam.zoom = fromZoom + (toZoom - fromZoom) * e;
+        cam.updateProjectionMatrix();
+      }
+      return t >= 1;
+    },
+  };
+}
+
+function navFlyToExtZone(zone) {
+  if (!carRoot || !camera || !controls) return;
+  const box = (zone.gltf_nodes && zone.gltf_nodes.length) ? zoneWorldBox(zone, carRoot, nodeToZone) : null;
+  let center, radius;
+  if (box) {
+    center = box.getCenter(new THREE.Vector3());
+    radius = box.getSize(new THREE.Vector3()).length() * 0.5 || 0.6;
+  } else if (Array.isArray(zone.hotspot_pos)) {
+    center = new THREE.Vector3().fromArray(hotspotWorldPos(zone.hotspot_pos));
+    radius = 0.6; // 占位区域无真实体量,给一个适中的默认取景半径
+  } else {
+    return;
+  }
+  flyCameraTo(camera, controls, center, radius, _orthoHalfHeight);
+}
+
+function navFlyToCockpitZone(zone) {
+  if (!cockpitRoot || !cockpitCamera || !cockpitControls) return;
+  const box = (zone.cockpit_nodes && zone.cockpit_nodes.length) ? zoneWorldBox(zone, cockpitRoot, cockpitNodeToZone) : null;
+  let center, radius;
+  if (box) {
+    center = box.getCenter(new THREE.Vector3());
+    radius = box.getSize(new THREE.Vector3()).length() * 0.5 || 0.4;
+  } else if (Array.isArray(zone.cockpit_hotspot_pos)) {
+    center = new THREE.Vector3().fromArray(cockpitHotspotWorldPos(zone.cockpit_hotspot_pos));
+    radius = 0.35;
+  } else {
+    return;
+  }
+  flyCameraTo(cockpitCamera, cockpitControls, center, radius, null);
+}
+
+/* 导航侧栏点击入口:尊重用户当前视角,只有该区域在当前视角里完全没有对应点位(既无真实几何
+   也无占位坐标)时才自动切到另一视角;座舱模型是懒加载的,首次切过去那一刻 cockpitRoot 可能
+   还没下载完,此时跳过飞行动画(只切视角 + 开详情面板),不强行飞向一个还不存在的坐标系。 */
+function navGoToZone(zoneId) {
+  const zone = zoneById(zoneId);
+  if (!zone) return;
+  const hasExt = !!(zone.gltf_nodes || zone.hotspot_pos);
+  const hasCockpit = !!(zone.cockpit_nodes || zone.cockpit_hotspot_pos);
+  const hasInCurrent = viewMode === "cockpit" ? hasCockpit : hasExt;
+  if (!hasInCurrent) {
+    if (hasCockpit) { veh3dSetView("cockpit"); }
+    else if (hasExt) { veh3dSetView("ext"); }
+  }
+  if (viewMode === "cockpit") {
+    navFlyToCockpitZone(zone);
+  } else {
+    if (zone.hotspot && !xrayOn) setXray(true);
+    if (zone.group && !activeGroups.has(zone.group)) {
+      activeGroups.add(zone.group);
+      buildGroupBar();
+      refreshHotspotVisibility();
+    }
+    navFlyToExtZone(zone);
+  }
+  showZoneDetail(zoneId);
 }
 
 /* 座舱视角(2026-11 业主指示,替代此前固定机位的自绘 SVG 示意图):真实可拖动旋转/缩放的第二个
@@ -596,6 +765,7 @@ function initCockpitScene() {
   // 只在座舱视角可见时才渲染/更新 controls,避免切回整车视角后这个场景还在后台空转占用 GPU。
   cockpitRenderer.setAnimationLoop(() => {
     if (viewMode !== "cockpit") return;
+    if (camTween && camTween.cam === cockpitCamera && camTween.step(performance.now())) camTween = null;
     cockpitControls.update();
     cockpitRenderer.render(cockpitScene, cockpitCamera);
     updateCockpitHotspotLayer();
@@ -819,6 +989,7 @@ async function initVeh3D() {
   _inited = true;
 
   await loadZones();
+  renderNavSidebar();
 
   const panelBg = getComputedStyle(document.documentElement).getPropertyValue("--panel2").trim() || "#e5efdd";
   normalBgColor = new THREE.Color(panelBg);
@@ -855,6 +1026,7 @@ async function initVeh3D() {
   }
 
   renderer.setAnimationLoop(() => {
+    if (camTween && camTween.cam === camera && camTween.step(performance.now())) camTween = null;
     controls.update();
     renderer.render(scene, camera);
     updateHotspotLayer();
