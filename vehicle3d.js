@@ -1,7 +1,8 @@
 /* ================= 00 合规孪生(3D) =================
    独立 ES module,加载 vendor/three/ 本地化 Three.js。
    依赖 index.html 内联 classic <script> 中已定义的全局:
-   DIMS, recs(), byCountry(), sbFetchAll, esc, $, $$, enhanceCountrySelect, refreshSelFilter, switchTab
+   DIMS, recs(), byCountry(), sbFetchAll, esc, $, $$, enhanceCountrySelect, refreshSelFilter, switchTab,
+   keyOf(), isDraft(), advGo()
    本模块通过 window.veh3dOnData 暴露一个钩子,供 index.html 的 renderAll() 在法规数据就绪后调用,
    以刷新详情面板里依赖真实数据的数字(不阻塞 3D 场景本身的加载)。 */
 import * as THREE from "three";
@@ -39,18 +40,30 @@ const XRAY_BG_COLOR = 0x070b11; // 和座舱视角暗色 HUD 主题(#070b11)同�
 const XRAY_GLOW_COLOR = 0x2dd4ff; // 棱线/热点统一用这个蓝,和 .veh3d-cockpit-label 的 #2dd4ff 一致
 let cockpitScene, cockpitCamera, cockpitRenderer, cockpitControls, cockpitRoot, cockpitRaycaster, cockpitHoverObj, cockpitHoverOrigEmissive;
 let cockpitInited = false; // 懒加载:只在用户第一次切到座舱视角时才去拉 12MB 的 cockpit.glb
-let cockpitHotspots = []; // 座舱视角悬浮标签(dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim/airbag 共 7 项,
-                           // 均无真实几何),复用整车视角"虚线标签"的思路但没有占位 Box 网格,见 buildCockpitHotspots()
+let cockpitHotspots = []; // 座舱视角悬浮标签(dashboard/ac_system/ecu_ota/seats/floor_mat/door_trim/airbag/
+                           // adas_front_sensor 共 8 项,均无真实几何),复用整车视角"虚线标签"的思路但没有
+                           // 占位 Box 网格,见 buildCockpitHotspots()
 let xrayOn = false;
 let hotspots = []; // [{zone, mesh, card}] —— 源模型无实体建模的维度(电池包/ECU-OTA域、
-                    // 2026-09 新增的动力总成/底盘/空调/内饰等 18 个区域),用简易占位几何体 +
-                    // 虚线标签展示,不冒充精细建模
+                    // 2026-09 新增的动力总成/底盘/空调/内饰、2026-11 阶段一拆分出的三个 ADAS 传感器
+                    // 分区等共 21 个区域),用简易占位几何体 + 虚线标签展示,不冒充精细建模
 let carCleanBox = null; // 整车模型刚加载完、还没加任何占位/机械零件时的包围盒缓存——hotspotWorldPos()
                          // 用这份"干净"的包围盒算比例坐标,避免大体积机械零件加入 carRoot 后
                          // Box3.setFromObject(carRoot) 把它们自己算进包围盒、污染后续区域的定位
 let mechRoot = null, mechLoaded = false, mechLoading = false; // 机械零件模型(懒加载,见 loadMechanicalParts)
+let explodedOn = false; // 阶段三:炸开视图(仅整车视角),见 setExploded()
+/* 导航侧栏飞向某个占位区域后,相机会贴近放大该区域——这时其余分组里还显示着标签的区域
+   (比如默认同时勾选的三电+智能网联共 5 个)在屏幕上的投影点大概率落在放大后的画面边缘甚至
+   画面外,防重叠布局又会把它们的卡片继续往外推,看起来就像"一堆部件飞到车外面了"(业主反馈
+   过这个问题)——其实 3D 坐标本身没问题,问题是放大聚焦到一个区域时还硬要挤下其余所有标签。
+   聚焦某个区域时只留它自己的标签,其余暂时隐藏(3D 发光方块本身仍然显示,只是不挂文字卡片),
+   手动切换分组勾选、或进入炸开视图(本意就是要同时看清楚所有部件)时解除聚焦。 */
+let hotspotFocusId = null;
+let preExplodeGroups = null, preExplodeXray = null; // 炸开时临时强开 X-Ray + 全部分组,关闭时还原成用户原先的勾选状态
+const bodyZoneOrigLocalPos = new Map(); // 车身真实几何节点(Object3D)→ 炸开前的原始 local position,关闭炸开时精确还原
+const hotspotOrigLocalPos = new Map();  // hotspots[].mesh(含被机械零件替换后的新对象)→ 炸开前的原始 local position
 
-/* 18 个 hotspot 区域按 group 字段分 6 组,X-Ray 下按组切换显示——不然 18 张标签卡片同屏堆叠
+/* 21 个 hotspot 区域按 group 字段分 6 组,X-Ray 下按组切换显示——不然 21 张标签卡片同屏堆叠
    会完全看不清。ev/connectivity 是一期就有的默认展示组,其余 4 组默认收起,用户按需勾选。 */
 const HOTSPOT_GROUPS = [
   { id: "ev", label: "三电系统" },
@@ -61,6 +74,21 @@ const HOTSPOT_GROUPS = [
   { id: "interior", label: "内饰与乘员防护" },
 ];
 let activeGroups = new Set(["ev", "connectivity"]);
+
+/* 2026-11 阶段二(「车辆浏览器」四阶段计划):EPC 风格左侧部件导航侧栏,按分组列出全部 28 个区域
+   (含车身外观这 7 个真实几何分区,HOTSPOT_GROUPS 没覆盖它们,因为那个列表专门对应 X-Ray 占位组
+   勾选,和这里"目录导航"是两码事,故另开一份)。点击条目=相机飞向该区域 + 打开详情面板,不是
+   简单的 showZoneDetail 快捷方式。 */
+const NAV_GROUPS = [
+  { id: "body", label: "车身外观" },
+  { id: "ev", label: "三电系统" },
+  { id: "connectivity", label: "智能网联" },
+  { id: "powertrain", label: "动力总成" },
+  { id: "chassis", label: "底盘/制动转向" },
+  { id: "hvac", label: "空调" },
+  { id: "interior", label: "内饰与乘员防护" },
+];
+let navOpenGroups = new Set(["body"]); // 默认只展开车身外观,其余折叠,避免 28 项一次性铺开
 
 async function loadZones() {
   const seedResp = await fetch(ZONES_URL);
@@ -120,6 +148,24 @@ function stateLabel(s) {
   return { g: "✓ 覆盖良好", a: "⚠ 弱覆盖", r: "✗ 空白" }[s] || "—";
 }
 
+/* 2026-11 阶段一:详情面板从"只显示覆盖统计数字"升级为"列出实际命中的法规条目"(参照 Renault
+   编号+条目列表参考图),复用 zoneMatch 不重新发明匹配逻辑。country 为空时聚合全部国家,
+   此时每行加国家名前缀区分。 */
+function zoneRecords(zoneId, country) {
+  const zone = zoneById(zoneId);
+  if (!zone) return [];
+  const all = (typeof recs === "function") ? recs() : [];
+  return all.filter(r => zoneMatch(r, zone) && (!country || r.country === country));
+}
+
+/* keyOf/norm/isDraft/advGo 与 recs/byCountry 同理:index.html 顶层 const/function 在同一文档的
+   全局词法环境里对模块脚本可见(不是 window 属性,但仍是裸标识符可读),按本文件既有约定统一
+   加 typeof 守卫,避免任一方先加载时报错。 */
+function regKey(r) {
+  if (typeof keyOf === "function") return keyOf(r);
+  return r.country + "|" + String(r.regId || r.cnName || "").replace(/\s+/g, "").toUpperCase();
+}
+
 function fillCountrySelect() {
   const sel = $("#veh3d-cty");
   if (!sel) return;
@@ -158,6 +204,7 @@ function showZoneDetail(zoneId) {
   if (!zone) {
     host.innerHTML = `<div class="pd-lbl">车辆区域</div><div class="pd-title">未识别部件</div>
       <div class="pd-desc veh3d-empty">该部件尚未纳入区域划分,或不在当前合规监控范围内。</div>`;
+    updateNavActive();
     return;
   }
   const st = zoneStats(zoneId, curCountry);
@@ -171,13 +218,34 @@ function showZoneDetail(zoneId) {
   const nodeInfo = viewMode === "cockpit"
     ? ((zone.cockpit_nodes || []).length ? `${zone.cockpit_nodes.length} 个座舱模型节点` : "占位标注 · 座舱素材无对应部件")
     : (zone.hotspot ? "占位标注 · 源模型无对应实体建模" : `${(zone.gltf_nodes || []).length} 个模型节点`);
+  const regMatched = zoneRecords(zoneId, curCountry);
+  const unRegs = Array.isArray(zone.un_regs) ? zone.un_regs : [];
+  const regDated = regMatched.filter(r => r.date).sort((a, b) => b.date.localeCompare(a.date));
+  // 精确引用(r.refs 命中该区域标注的具体 UN R 号)排在前面,同为精确引用/同为普通命中时各自维持原日期倒序——
+  // 纯展示优先级调整,不改变 regMatched 本身的集合与数量(覆盖计数口径见 zoneStats(),不受此影响)。
+  const isExactRef = r => unRegs.length > 0 && Array.isArray(r.refs) && r.refs.some(f => unRegs.includes(f));
+  const regSorted = (regDated.length ? regDated : regMatched).slice().sort((a, b) => (isExactRef(b) - isExactRef(a)));
+  const regShow = regSorted.slice(0, 8);
+  const unRegsRow = unRegs.length ? `
+    <div class="pd-lbl" style="margin-top:8px;margin-bottom:4px">相关 UN 法规</div>
+    <div>${unRegs.map(u => `<span class="rtag parent" style="margin:0 4px 4px 0">${esc(u)}</span>`).join("")}</div>` : "";
+  const regListHtml = regShow.length ? `
+    <div class="pd-lbl" style="margin-top:12px;margin-bottom:4px">命中法规条目(点击跳转详情${regMatched.length > regShow.length ? `,共 ${regMatched.length} 条,示前 ${regShow.length}` : ""})</div>
+    <div class="revlist" id="veh3d-reglist">
+      ${regShow.map(r => `<div class="ri" data-country="${esc(r.country || "")}" data-key="${esc(regKey(r))}" style="cursor:pointer">
+        <div class="top"><span class="rid">${esc(r.regId || "—")}${r.amend ? `<span class="rtag amd">${esc(r.amend)}</span>` : ""}${(typeof isDraft === "function" && isDraft(r)) ? '<span class="rtag">草案</span>' : ""}${isExactRef(r) ? `<span class="rtag" style="background:#deead5;color:#3d6630" title="该条法规文本引用了本区域标注的 UN R 号">精确引用</span>` : ""}</span>
+        ${r.date ? `<span class="rdate">${esc(r.date)}</span>` : ""}</div>
+        <div class="rnm">${!curCountry ? `${esc(r.country || "")} · ` : ""}${esc(r.cnName || r.origName || "")}</div></div>`).join("")}
+    </div>` : `<div class="pd-desc veh3d-empty" style="margin-top:12px">暂无命中的法规条目</div>`;
   host.innerHTML = `
     <div class="pd-lbl">${esc(zoneId)} · ${nodeInfo}</div>
     <div class="pd-title">${esc(zone.label_cn)}</div>
     <div class="pd-local">${esc(zone.label_en)}</div>
+    ${unRegsRow}
     <div class="veh3d-status">${statusText}</div>
     <div class="veh3d-badge">适用法规数 ${st ? st.count : "—"} 条</div>
     <div class="pd-desc" style="margin-top:10px">${esc(zone.desc || "")}</div>
+    ${regListHtml}
     <div class="veh3d-dims">
       <div class="pd-lbl" style="margin-bottom:4px">涉及维度(点击跳转维度矩阵)</div>
       ${dimsRow}
@@ -188,8 +256,14 @@ function showZoneDetail(zoneId) {
       if (typeof switchTab === "function") switchTab("p-dim");
     });
   });
+  host.querySelectorAll("#veh3d-reglist .ri").forEach(row => {
+    row.addEventListener("click", () => {
+      if (typeof advGo === "function") advGo(row.dataset.country, row.dataset.key);
+    });
+  });
   const emarkLink = host.querySelector("#veh3d-emark-link");
   if (emarkLink) emarkLink.addEventListener("click", goToEmark);
+  updateNavActive();
 }
 
 /* 浅联动:跳转 23 E-mark 评估标签页,并触发其惰性加载(与 index.html 主 tab-click 链一致,
@@ -321,6 +395,19 @@ function applyMechanicalHotspots() {
     if (hs.mesh && hs.mesh.parent) hs.mesh.parent.remove(hs.mesh);
     carRoot.add(inst);
     hs.mesh = inst;
+    // 机械零件是异步加载的,可能在用户已经打开炸开视图之后才替换到位——此时直接按炸开视图的
+    // 同一套逻辑把新对象瞬间摆到爆炸位置(不再播动画,只是补齐状态),而不是让它先出现在原位
+    // 等下一次开关炸开才归位,那样会有一瞬间"看起来没炸开"的错觉。
+    if (explodedOn && carRoot) {
+      const box = carCleanBox || new THREE.Box3().setFromObject(carRoot);
+      const center = box.getCenter(new THREE.Vector3());
+      const carRadius = box.getSize(new THREE.Vector3()).length() * 0.5 || 1;
+      const dir = inst.position.clone().sub(center);
+      if (dir.lengthSq() < 1e-6) dir.set(0, 1, 0);
+      dir.normalize();
+      hotspotOrigLocalPos.set(inst, inst.position.clone());
+      inst.position.addScaledVector(dir, carRadius * 0.55);
+    }
   });
   refreshHotspotVisibility();
 }
@@ -364,9 +451,175 @@ function buildGroupBar() {
       const g = btn.dataset.g;
       if (activeGroups.has(g)) activeGroups.delete(g); else activeGroups.add(g);
       btn.classList.toggle("on");
+      hotspotFocusId = null; // 用户手动勾选分组=明确想看一整类部件,解除导航飞向时留下的单点聚焦
       refreshHotspotVisibility();
     });
   });
+}
+
+/* ============ 阶段二:EPC 风格部件导航侧栏(列表 + 相机飞向) ============ */
+function renderNavSidebar() {
+  const list = $("#veh3d-nav-list");
+  if (!list || !ZONES.length) return;
+  list.innerHTML = NAV_GROUPS.map(g => {
+    const zs = ZONES.filter(z => (z.group || "") === g.id);
+    if (!zs.length) return "";
+    const open = navOpenGroups.has(g.id);
+    return `<div class="veh3d-nav-group${open ? " open" : ""}" data-g="${esc(g.id)}">
+      <div class="veh3d-nav-group-hd"><span>${esc(g.label)}(${zs.length})</span><span class="chev">▶</span></div>
+      <div class="veh3d-nav-items">
+        ${zs.map(z => `<button type="button" class="veh3d-nav-item${z.id === curZoneId ? " active" : ""}" data-z="${esc(z.id)}">${esc(z.label_cn)}</button>`).join("")}
+      </div>
+    </div>`;
+  }).join("");
+  list.querySelectorAll(".veh3d-nav-group-hd").forEach(hd => {
+    hd.addEventListener("click", () => {
+      const grp = hd.closest(".veh3d-nav-group");
+      const gid = grp.dataset.g;
+      if (navOpenGroups.has(gid)) navOpenGroups.delete(gid); else navOpenGroups.add(gid);
+      grp.classList.toggle("open");
+    });
+  });
+  list.querySelectorAll(".veh3d-nav-item").forEach(btn => {
+    btn.addEventListener("click", () => navGoToZone(btn.dataset.z));
+  });
+}
+
+function updateNavActive() {
+  const list = $("#veh3d-nav-list");
+  if (!list) return;
+  list.querySelectorAll(".veh3d-nav-item").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.z === curZoneId);
+  });
+}
+
+/* 收集某区域在指定场景里对应的全部真实网格节点的世界包围盒(整车视角传 nodeToZone,座舱视角传
+   cockpitNodeToZone)——没有真实几何(纯 hotspot 占位)的区域调用方会 fall back 到对应的
+   *_pos 比例坐标单点,不强求这里返回结果。 */
+function zoneWorldBox(zone, root, nameToZoneMap) {
+  if (!root) return null;
+  const box = new THREE.Box3();
+  let found = false;
+  root.traverse(o => {
+    if (o.isMesh && nameToZoneMap.get(String(o.name || "").toLowerCase()) === zone.id) {
+      box.expandByObject(o);
+      found = true;
+    }
+  });
+  return found ? box : null;
+}
+
+/* 正投影(整车视角)下物体视觉大小只由 camera.zoom 决定、与相机距离无关,所以"飞向"=
+   保持当前相机相对 target 的方向与距离不变、把 target 平移到目标区域中心,再按区域体量把
+   zoom 调高;透视相机(座舱视角)则相反——物体大小只由距离决定,"飞向"=把相机沿同一方向
+   移近到与区域体量匹配的距离,zoom 不参与。统一用一个 tween 对象,外部渲染循环每帧推进一次。 */
+let camTween = null;
+function flyCameraTo(cam, ctrls, targetCenter, radius, wholeHalfHeight) {
+  if (!cam || !ctrls) return;
+  const fromTarget = ctrls.target.clone();
+  const fromPos = cam.position.clone();
+  const offsetDir = fromPos.clone().sub(fromTarget);
+  const baseLen = offsetDir.length() || 1;
+  offsetDir.normalize();
+  const toTarget = targetCenter.clone();
+  const fromZoom = cam.zoom;
+  let toPos, toZoom = fromZoom;
+  if (cam.isOrthographicCamera) {
+    toPos = toTarget.clone().addScaledVector(offsetDir, baseLen);
+    const refHalf = wholeHalfHeight || 1;
+    toZoom = Math.min(3.5, Math.max(1, refHalf / Math.max(radius * 1.6, 0.12)));
+  } else {
+    const desiredLen = Math.max(Math.min(baseLen, radius * 3.2), radius * 1.4, 0.35);
+    toPos = toTarget.clone().addScaledVector(offsetDir, desiredLen);
+  }
+  const t0 = (typeof performance !== "undefined" ? performance.now() : Date.now());
+  const dur = 650;
+  camTween = {
+    cam,
+    step(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      ctrls.target.lerpVectors(fromTarget, toTarget, e);
+      cam.position.lerpVectors(fromPos, toPos, e);
+      if (cam.isOrthographicCamera) {
+        cam.zoom = fromZoom + (toZoom - fromZoom) * e;
+        cam.updateProjectionMatrix();
+      }
+      return t >= 1;
+    },
+  };
+}
+
+/* 整车视角下某个区域当前的世界坐标中心(+半径,用于相机取景/流程动画画线都要用到)——真实
+   几何区域用实际包围盒,占位区域优先用 hotspots[] 里当前的实际位置(炸开视图下真实飞出去的
+   位置),不是重新按静态比例坐标算一遍"原始位置",否则炸开时两者会对不上。 */
+function zoneExtWorldCenter(zone) {
+  if (!carRoot) return null;
+  const box = (zone.gltf_nodes && zone.gltf_nodes.length) ? zoneWorldBox(zone, carRoot, nodeToZone) : null;
+  if (box) {
+    return { center: box.getCenter(new THREE.Vector3()), radius: box.getSize(new THREE.Vector3()).length() * 0.5 || 0.6 };
+  }
+  if (Array.isArray(zone.hotspot_pos)) {
+    const hs = hotspots.find(h => h.zone.id === zone.id);
+    const center = hs ? new THREE.Vector3().setFromMatrixPosition(hs.mesh.matrixWorld)
+      : new THREE.Vector3().fromArray(hotspotWorldPos(zone.hotspot_pos));
+    return { center, radius: 0.6 }; // 占位区域无真实体量,给一个适中的默认取景半径
+  }
+  return null;
+}
+
+function navFlyToExtZone(zone) {
+  if (!carRoot || !camera || !controls) return;
+  const r = zoneExtWorldCenter(zone);
+  if (!r) return;
+  flyCameraTo(camera, controls, r.center, r.radius, _orthoHalfHeight);
+}
+
+function navFlyToCockpitZone(zone) {
+  if (!cockpitRoot || !cockpitCamera || !cockpitControls) return;
+  const box = (zone.cockpit_nodes && zone.cockpit_nodes.length) ? zoneWorldBox(zone, cockpitRoot, cockpitNodeToZone) : null;
+  let center, radius;
+  if (box) {
+    center = box.getCenter(new THREE.Vector3());
+    radius = box.getSize(new THREE.Vector3()).length() * 0.5 || 0.4;
+  } else if (Array.isArray(zone.cockpit_hotspot_pos)) {
+    center = new THREE.Vector3().fromArray(cockpitHotspotWorldPos(zone.cockpit_hotspot_pos));
+    radius = 0.35;
+  } else {
+    return;
+  }
+  flyCameraTo(cockpitCamera, cockpitControls, center, radius, null);
+}
+
+/* 导航侧栏点击入口:尊重用户当前视角,只有该区域在当前视角里完全没有对应点位(既无真实几何
+   也无占位坐标)时才自动切到另一视角;座舱模型是懒加载的,首次切过去那一刻 cockpitRoot 可能
+   还没下载完,此时跳过飞行动画(只切视角 + 开详情面板),不强行飞向一个还不存在的坐标系。 */
+function navGoToZone(zoneId) {
+  const zone = zoneById(zoneId);
+  if (!zone) return;
+  const hasExt = !!(zone.gltf_nodes || zone.hotspot_pos);
+  const hasCockpit = !!(zone.cockpit_nodes || zone.cockpit_hotspot_pos);
+  const hasInCurrent = viewMode === "cockpit" ? hasCockpit : hasExt;
+  if (!hasInCurrent) {
+    if (hasCockpit) { veh3dSetView("cockpit"); }
+    else if (hasExt) { veh3dSetView("ext"); }
+  }
+  if (viewMode === "cockpit") {
+    navFlyToCockpitZone(zone);
+  } else {
+    if (zone.hotspot && !xrayOn) setXray(true);
+    if (zone.group && !activeGroups.has(zone.group)) {
+      activeGroups.add(zone.group);
+      buildGroupBar();
+      refreshHotspotVisibility();
+    }
+    // 不管飞向的是 hotspot 占位区域还是车身真实几何面板,都把焦点设成这个 zone.id——如果它
+    // 不在 hotspots[] 里(车身面板),天然没有任何标签能匹配上,等效于"隐藏全部标签",同样避免
+    // 放大车身某一块时背景还挂着一堆不相关的占位标签。
+    hotspotFocusId = zone.id;
+    navFlyToExtZone(zone);
+  }
+  showZoneDetail(zoneId);
 }
 
 /* 座舱视角(2026-11 业主指示,替代此前固定机位的自绘 SVG 示意图):真实可拖动旋转/缩放的第二个
@@ -559,6 +812,7 @@ function initCockpitScene() {
   // 只在座舱视角可见时才渲染/更新 controls,避免切回整车视角后这个场景还在后台空转占用 GPU。
   cockpitRenderer.setAnimationLoop(() => {
     if (viewMode !== "cockpit") return;
+    if (camTween && camTween.cam === cockpitCamera && camTween.step(performance.now())) camTween = null;
     cockpitControls.update();
     cockpitRenderer.render(cockpitScene, cockpitCamera);
     updateCockpitHotspotLayer();
@@ -598,9 +852,13 @@ window.veh3dSetView = function (mode) {
   if (canvas) canvas.style.display = isCockpit ? "none" : "";
   if (cockpit) cockpit.style.display = isCockpit ? "" : "none";
   if (isCockpit) { initCockpitScene(); sizeCockpitRenderer(); } // 懒加载;display:none 时宽高为 0,切回来后要重算一次
-  const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar");
+  const xrayBtn = $("#veh3d-xray-btn"), groupBar = $("#veh3d-group-bar"), explodeBtn = $("#veh3d-explode-btn"), flowBtn = $("#veh3d-flow-btn");
   if (xrayBtn) xrayBtn.style.display = isCockpit ? "none" : "";
   if (groupBar) groupBar.style.display = isCockpit ? "none" : "";
+  if (explodeBtn) explodeBtn.style.display = isCockpit ? "none" : "";
+  if (flowBtn) flowBtn.style.display = isCockpit ? "none" : "";
+  if (isCockpit && explodedOn) setExploded(false); // 炸开视图是整车视角专属效果,切到座舱视角前先还原,避免下次切回来状态对不上按钮
+  if (isCockpit && flowOn) setFlow(false); // 流程动画同理,仅整车视角
   const hint = $("#veh3d-hint");
   if (hint) hint.textContent = isCockpit
     ? "拖动旋转 · 滚轮缩放 · 点击内饰部件/标签查看该区域合规范围"
@@ -624,6 +882,7 @@ function updateHotspotLayer() {
   const visible = [];
   hotspots.forEach(hs => {
     if (!hs.mesh.visible) { hs.card.style.display = "none"; return; } // 未勾选该分组,或未开 X-Ray
+    if (hotspotFocusId && hs.zone.id !== hotspotFocusId) { hs.card.style.display = "none"; return; } // 聚焦单个区域时隐藏其余标签,见 hotspotFocusId 注释
     _hsVec.setFromMatrixPosition(hs.mesh.matrixWorld);
     _hsVec.project(camera);
     if (_hsVec.z > 1) { hs.card.style.display = "none"; return; } // 在相机背面
@@ -633,9 +892,15 @@ function updateHotspotLayer() {
   const CARD_H = 28;
   let lastCardY = -Infinity;
   let lines = "";
-  visible.forEach(v => {
+  visible.forEach((v, i) => {
     const cardX = Math.min(w - 12, Math.max(12, v.x + 60));
-    const cardY = Math.max(20, Math.max(v.y - 40, lastCardY + CARD_H));
+    // 贪心下推到这里为止只保证"不和上一张重叠",不保证不超出画布——分组全开时最多 21 张卡片
+    // 挤在同一竖排,早期版本在这里只夹了下限(20),没夹上限,多出来的卡片会被硬推到画布底部
+    // 以下、甚至看起来"飞出车身外",这不是 3D 坐标错,是卡片防重叠布局本身没有边界(业主反馈
+    // 过"部件跑到车外面了"排查到这里)。按剩余卡片数反向预留空间,让最后一张卡片正好不超出
+    // 画布底边,挤不下时宁可轻微重叠也不超出可视区域。
+    const maxY = h - 20 - (visible.length - 1 - i) * CARD_H;
+    const cardY = Math.min(maxY, Math.max(20, Math.max(v.y - 40, lastCardY + CARD_H)));
     lastCardY = cardY;
     v.hs.card.style.display = "block";
     v.hs.card.style.left = cardX + "px";
@@ -682,6 +947,7 @@ function buildEdgeLines(mesh) {
 
 function setXray(on) {
   xrayOn = on;
+  if (on) loadMechanicalParts(); // 懒加载:不管是手动点按钮还是程序化开启(导航侧栏/炸开视图),第一次打开都要去拉这个模型
   if (carRoot) {
     carRoot.traverse(o => {
       if (!o.isMesh || !o.material) return;
@@ -703,6 +969,218 @@ function setXray(on) {
   const card = $("#veh3d-ext-card");
   if (card) card.classList.toggle("xray-on", on); // 驱动 index.html 里那一整套蓝色 HUD 配色
   if (scene && normalBgColor) scene.background = on ? new THREE.Color(XRAY_BG_COLOR) : normalBgColor;
+}
+
+/* ============ 阶段三:炸开视图(仅整车视角) ============ */
+/* 车身真实几何(body_shell/front_end/rear_end/exhaust/glazing/mirrors/roof 这 7 个 zone,
+   hotspot:false)按 zone 分组收集对应的 Object3D——和 zoneWorldBox() 用的是同一份 nodeToZone
+   查表逻辑,这里要保留对象引用本身(用来改 position),不只是算一次包围盒。 */
+function collectBodyZoneGroups() {
+  const map = new Map();
+  if (!carRoot) return map;
+  carRoot.traverse(o => {
+    if (!o.isMesh) return;
+    const zid = nodeToZone.get(String(o.name || "").toLowerCase());
+    if (!zid) return;
+    const z = zoneById(zid);
+    if (!z || z.hotspot) return; // hotspot 占位盒子/机械零件走 hotspots[] 那条路径,这里只管真实车身节点
+    if (!map.has(zid)) map.set(zid, []);
+    map.get(zid).push(o);
+  });
+  return map;
+}
+
+let explodeTween = null; // {t0, dur, items:[{obj,from,to}]} —— 和 camTween 同一思路,外部渲染循环每帧推进
+function stepExplodeTween(now) {
+  if (!explodeTween) return;
+  const { t0, dur, items } = explodeTween;
+  const t = Math.min(1, (now - t0) / dur);
+  const e = 1 - Math.pow(1 - t, 3); // ease-out cubic
+  items.forEach(it => it.obj.position.lerpVectors(it.from, it.to, e));
+  if (t >= 1) explodeTween = null;
+}
+
+/* 炸开方向 = 该部件世界坐标相对整车中心的方向——车身主体(body_shell 含车轮、源模型未拆分)
+   世界中心本身就接近整车中心,位移量天然很小,效果上正好是"车身主壳不动、其余部件向外飞开",
+   不需要为它特殊处理。炸开距离按整车体量(carCleanBox 对角线长度的一半)按比例换算,换模型也
+   不会出现距离离谱的问题。 */
+function setExploded(on) {
+  if (explodedOn === on || !carRoot) return;
+  explodedOn = on;
+  const box = carCleanBox || new THREE.Box3().setFromObject(carRoot);
+  const center = box.getCenter(new THREE.Vector3());
+  const carRadius = box.getSize(new THREE.Vector3()).length() * 0.5 || 1;
+  const DIST_BODY = carRadius * 0.35;
+  const DIST_HOTSPOT = carRadius * 0.55;
+
+  if (on) {
+    // 炸开时强开 X-Ray + 全部分组,否则电池包/ECU-OTA域等占位区域飞出去也看不见,失去意义;
+    // 关闭时还原用户原先的勾选状态,不替用户做永久选择。炸开视图本来就是要同时看清楚全部
+    // 部件,解除导航飞向可能留下的单点聚焦状态。
+    preExplodeXray = xrayOn;
+    preExplodeGroups = new Set(activeGroups);
+    hotspotFocusId = null;
+    if (!xrayOn) setXray(true);
+    activeGroups = new Set(HOTSPOT_GROUPS.map(g => g.id));
+    buildGroupBar();
+    refreshHotspotVisibility();
+  }
+
+  const items = [];
+  collectBodyZoneGroups().forEach(objs => {
+    objs.forEach(o => {
+      if (!bodyZoneOrigLocalPos.has(o)) bodyZoneOrigLocalPos.set(o, o.position.clone());
+      const orig = bodyZoneOrigLocalPos.get(o);
+      const from = o.position.clone();
+      let to;
+      if (on) {
+        const worldPos = new THREE.Vector3().setFromMatrixPosition(o.matrixWorld);
+        const dir = worldPos.sub(center);
+        if (dir.lengthSq() < 1e-6) dir.set(0, 1, 0);
+        dir.normalize();
+        to = orig.clone().addScaledVector(dir, DIST_BODY);
+      } else {
+        to = orig.clone();
+      }
+      items.push({ obj: o, from, to });
+    });
+  });
+  hotspots.forEach(hs => {
+    if (!hotspotOrigLocalPos.has(hs.mesh)) hotspotOrigLocalPos.set(hs.mesh, hs.mesh.position.clone());
+    const orig = hotspotOrigLocalPos.get(hs.mesh);
+    const from = hs.mesh.position.clone();
+    let to;
+    if (on) {
+      const dir = orig.clone().sub(center);
+      if (dir.lengthSq() < 1e-6) dir.set(0, 1, 0);
+      dir.normalize();
+      to = orig.clone().addScaledVector(dir, DIST_HOTSPOT);
+    } else {
+      to = orig.clone();
+    }
+    items.push({ obj: hs.mesh, from, to });
+  });
+  explodeTween = { t0: performance.now(), dur: 700, items };
+
+  if (!on && preExplodeGroups) {
+    activeGroups = preExplodeGroups;
+    buildGroupBar();
+    refreshHotspotVisibility();
+    if (preExplodeXray === false) setXray(false);
+    preExplodeGroups = null;
+    preExplodeXray = null;
+  }
+
+  const btn = $("#veh3d-explode-btn");
+  if (btn) btn.classList.toggle("on", on);
+  if (on && camera && controls) flyCameraTo(camera, controls, center, carRadius * 1.5, _orthoHalfHeight); // 留够空间看炸开后的轮廓,不被裁掉
+  if (on && flowOn) setFlow(false); // 和流程动画互斥——炸开后各部件位置会动,流程线段没法跟着实时重算,索性二选一
+}
+
+/* ============ 阶段四:流程动画(仅整车视角) ============
+   参考 Toyota Mirai 的流程可视化 WebGL 示例,但这台车(奥迪 R8,燃油 V8)没有氢燃料电池那套
+   物理管路,不能照搬"氢气流动"这个具体场景——改为画这台车真实具备、且和本应用的"合规"主题
+   相关的两条路径:① 动力传递路径(发动机→离合器→变速器→半轴传动轴→车轮,纯机械动力流,
+   对应整车准入/环保全链条维度)② ADAS 感知数据流(三个传感器分区→ECU/OTA 域→仪表板,
+   对应 ADAS/网络安全维度)。沿路径画发光细管 + 若干沿管道循环移动的光点模拟"流动"观感,
+   不接 bloom 后处理(和 X-Ray 棱线发光同样的性价比考量,见 buildEdgeLines 注释)。 */
+const FLOW_PATHS = [
+  { id: "power", label: "⚡ 动力传递路径", color: 0x2dd4ff, zones: ["engine", "clutch", "transmission", "axle_driveshaft", "body_shell"] },
+  { id: "adas", label: "📡 ADAS 感知数据流", color: 0xffb020, zones: ["adas_front_sensor", "adas_corner_sensor", "adas_rear_sensor", "ecu_ota", "dashboard"] },
+];
+let flowOn = false;
+let flowObjects = []; // 场景里新增的 tube/粒子网格,关闭时逐个移除,不留垃圾
+let flowParticles = []; // [{mesh, curve, t, speed}]
+let preFlowGroups = null, preFlowXray = null;
+
+function buildFlowPath(path) {
+  const pts = [];
+  path.zones.forEach(zid => {
+    const z = zoneById(zid);
+    if (!z) return;
+    const r = zoneExtWorldCenter(z);
+    if (r) pts.push(r.center);
+  });
+  if (pts.length < 2) return; // 该视角下这条路径上的区域凑不够两个有效点位,画不出线,跳过
+  const curve = new THREE.CatmullRomCurve3(pts, false, "catmullrom", 0.15);
+  const tubeGeo = new THREE.TubeGeometry(curve, Math.max(32, pts.length * 16), 0.065, 8, false);
+  const tubeMat = new THREE.MeshBasicMaterial({
+    color: path.color, transparent: true, opacity: 0.8, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false,
+  });
+  const tube = new THREE.Mesh(tubeGeo, tubeMat);
+  tube.userData.hotspotEl = true; // 复用 setXray() 的跳过标记,避免被 X-Ray 材质替换逻辑误处理
+  tube.renderOrder = 10; // depthTest 关了之后靠 renderOrder 定层级,确保光点画在管道上面而不是被管道盖住
+  carRoot.add(tube);
+  flowObjects.push(tube);
+
+  const N_PARTICLES = 3;
+  for (let i = 0; i < N_PARTICLES; i++) {
+    const mesh = new THREE.Mesh(
+      new THREE.SphereGeometry(0.12, 12, 12),
+      new THREE.MeshBasicMaterial({ color: path.color, transparent: true, opacity: 0.95, blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false })
+    );
+    mesh.userData.hotspotEl = true;
+    mesh.renderOrder = 11;
+    carRoot.add(mesh);
+    flowObjects.push(mesh);
+    flowParticles.push({ mesh, curve, t: i / N_PARTICLES, speed: 0.22 }); // 约 4.5 秒跑完整条路径
+  }
+}
+
+const _flowTimer = new THREE.Timer(); // THREE.Clock 在这个版本已标记废弃,改用替代的 Timer
+function stepFlowAnimation() {
+  _flowTimer.update();
+  const dt = _flowTimer.getDelta(); // 秒
+  if (!flowOn || !flowParticles.length) return;
+  flowParticles.forEach(p => {
+    p.t = (p.t + p.speed * dt) % 1;
+    p.mesh.position.copy(p.curve.getPointAt(p.t));
+  });
+}
+
+function clearFlowObjects() {
+  flowObjects.forEach(o => { if (o.parent) o.parent.remove(o); o.geometry && o.geometry.dispose(); o.material && o.material.dispose(); });
+  flowObjects = [];
+  flowParticles = [];
+}
+
+function buildFlowLegend() {
+  const host = $("#veh3d-flow-legend");
+  if (!host) return;
+  host.innerHTML = flowOn ? FLOW_PATHS.map(p =>
+    `<span class="veh3d-flow-chip" style="--c:#${p.color.toString(16).padStart(6, "0")}">${esc(p.label)}</span>`
+  ).join("") : "";
+}
+
+function setFlow(on) {
+  if (flowOn === on || !carRoot) return;
+  flowOn = on;
+  if (on) {
+    // 流程动画要同时看清楚涉及的两条路径上的区域,和炸开视图同理:强开 X-Ray + 相关分组,
+    // 关闭时还原用户原先的勾选状态;也和炸开视图互斥(见 setExploded 里的对称处理)。
+    preFlowXray = xrayOn;
+    preFlowGroups = new Set(activeGroups);
+    hotspotFocusId = null;
+    if (!xrayOn) setXray(true);
+    activeGroups = new Set(["powertrain", "chassis", "body", "connectivity", "interior"]);
+    buildGroupBar();
+    refreshHotspotVisibility();
+    if (explodedOn) setExploded(false);
+    FLOW_PATHS.forEach(buildFlowPath);
+  } else {
+    clearFlowObjects();
+    if (preFlowGroups) {
+      activeGroups = preFlowGroups;
+      buildGroupBar();
+      refreshHotspotVisibility();
+      if (preFlowXray === false) setXray(false);
+      preFlowGroups = null;
+      preFlowXray = null;
+    }
+  }
+  const btn = $("#veh3d-flow-btn");
+  if (btn) btn.classList.toggle("on", on);
+  buildFlowLegend();
 }
 
 function resolveZoneFromObject(obj) {
@@ -782,6 +1260,7 @@ async function initVeh3D() {
   _inited = true;
 
   await loadZones();
+  renderNavSidebar();
 
   const panelBg = getComputedStyle(document.documentElement).getPropertyValue("--panel2").trim() || "#e5efdd";
   normalBgColor = new THREE.Color(panelBg);
@@ -818,17 +1297,20 @@ async function initVeh3D() {
   }
 
   renderer.setAnimationLoop(() => {
+    if (camTween && camTween.cam === camera && camTween.step(performance.now())) camTween = null;
+    stepExplodeTween(performance.now());
+    stepFlowAnimation();
     controls.update();
     renderer.render(scene, camera);
     updateHotspotLayer();
   });
 
   const xrayBtn = $("#veh3d-xray-btn");
-  if (xrayBtn) xrayBtn.addEventListener("click", () => {
-    const turningOn = !xrayOn;
-    setXray(turningOn);
-    if (turningOn) loadMechanicalParts(); // 懒加载:用户第一次真的打开 X-Ray 才去拉这个模型
-  });
+  if (xrayBtn) xrayBtn.addEventListener("click", () => setXray(!xrayOn));
+  const explodeBtn = $("#veh3d-explode-btn");
+  if (explodeBtn) explodeBtn.addEventListener("click", () => setExploded(!explodedOn));
+  const flowBtn = $("#veh3d-flow-btn");
+  if (flowBtn) flowBtn.addEventListener("click", () => setFlow(!flowOn));
   buildGroupBar();
 
   fillCountrySelect();
