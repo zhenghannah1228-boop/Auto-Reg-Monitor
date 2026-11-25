@@ -17,7 +17,7 @@ const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=2026112
 const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 // 2026-11 第三个独立场景(安全结构视角):业主提供的 AI 生成安全结构剖视模型,经减面+左右
 // 对称化修正后接入,见 vendor/models/CREDITS.md「安全结构剖视模型」一节。
-const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261124a";
+const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261125a";
 const ZONES_URL = "./data/vehicle_zones.json";
 
 // 实测 AudiR8.glb 整车包围盒(约 4.22×2.45×9.13)与真实 Audi R8 车身尺寸(约 1.94×1.24×4.43m)的
