@@ -528,7 +528,7 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
 /* ============ 合规孪生(3D) ============ */
 .veh3d-wrap{display:flex;gap:22px;align-items:flex-start}
 .veh3d-nav{width:200px;flex-shrink:0}
-.veh3d-nav-list{max-height:640px;overflow-y:auto;margin-top:4px}
+.veh3d-nav-list{max-height:760px;overflow-y:auto;margin-top:4px}
 .veh3d-nav-group{border-bottom:1px solid var(--linesoft)}
 .veh3d-nav-group:last-child{border-bottom:none}
 .veh3d-nav-group-hd{display:flex;justify-content:space-between;align-items:center;padding:8px 4px;
@@ -542,6 +542,17 @@ footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-si
   border:none;background:none;cursor:pointer;color:var(--ink2);border-radius:4px;font-family:var(--sans)}
 .veh3d-nav-item:hover{background:var(--panel2);color:var(--ink)}
 .veh3d-nav-item.active{background:var(--accent);color:#fff;font-weight:600}
+/* 2026-11-25 分类浏览条目(renderTaxItem()):两行——三级/二级名称 + 范围关键词原文,
+   与上面纯文字按钮条目(物理部件)共用 .veh3d-nav-item 基础样式,只加这几条覆盖规则 */
+.veh3d-nav-item.tax{padding-top:6px;padding-bottom:6px;line-height:1.4}
+.veh3d-nav-item.tax .tax-label{display:block;font-weight:600}
+.veh3d-nav-item.tax .tax-kw{display:block;font-size:10px;color:var(--muted);font-weight:400;
+  margin-top:1px;white-space:normal;word-break:break-all}
+.veh3d-nav-item.tax.active .tax-kw{color:rgba(255,255,255,.85)}
+.veh3d-nav-item.tax.disabled{cursor:default;opacity:.55}
+.veh3d-nav-item.tax.disabled:hover{background:none;color:var(--ink2)}
+.veh3d-nav-item.tax.top{padding-left:4px;border-top:1px solid var(--linesoft);border-radius:0;
+  margin-top:2px;padding-top:8px}
 .veh3d-main{flex:1 1 0;min-width:0}
 .veh3d-side{width:320px;flex-shrink:0}
 .veh3d-canvas{position:relative;width:100%;height:560px;border:1px solid var(--line);
@@ -6540,6 +6551,6 @@ $$(".tab").forEach(t=>t.addEventListener("click",()=>{
 <!-- ?v= 是手动缓存破坏:静态站点没有构建步骤/文件哈希,vehicle3d.js 改动后浏览器可能继续用
      磁盘缓存里的旧版本(HTML 本身刷新了、但这个独立加载的模块文件没刷新,导致页面上按钮都在但
      点击没反应——2026-11 实测复现过)。每次改 vehicle3d.js 的可见行为后手动把这个版本号往后挪。 -->
-<script type="module" src="./vehicle3d.js?v=20261125a"></script>
+<script type="module" src="./vehicle3d.js?v=20261125b"></script>
 </body>
 </html>

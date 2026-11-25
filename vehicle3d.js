@@ -19,6 +19,7 @@ const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 // 对称化修正后接入,见 vendor/models/CREDITS.md「安全结构剖视模型」一节。
 const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261125a";
 const ZONES_URL = "./data/vehicle_zones.json";
+const TAXONOMY_URL = "./data/reg_taxonomy.json";
 
 // 实测 AudiR8.glb 整车包围盒(约 4.22×2.45×9.13)与真实 Audi R8 车身尺寸(约 1.94×1.24×4.43m)的
 // 比例均值——机械零件素材本身是按真实米制建模的(见 CREDITS.md),用这一个比例统一换算成车身
@@ -126,6 +127,44 @@ const NAV_GROUPS = [
   { id: "safety", label: "整车安全(结构剖视)" },
 ];
 let navOpenGroups = new Set(["body"]); // 默认只展开车身外观,其余折叠,避免 30 项一次性铺开
+
+/* 2026-11-25 业主要求部件导航侧栏"能看到业主提供的三级法规分类表里的所有二级、三级映射及
+   范围关键词"——核对后发现这份表(一级5/二级20/三级51)和上面 NAV_GROUPS 这套"按物理部件
+   分组"的导航树是两套不同的组织逻辑,互相都不能完全替代对方(这份表里框架性准入条例/政策/
+   海关/标签铭牌/召回处罚/禁限用物质/ELV整车回收等 11 个类目在车辆上没有对应的单一可点选
+   部件;反过来 roof/safety_body 两个区域一开始在表里也找不到直接对应类目,后来按"翻滚保护"
+   "座椅安全带"的范围关键词把它们核实补上了)——业主确认"如果没有完全覆盖,则二者结合",
+   做法:在同一个"部件导航"列表里,物理分组之后原样追加这份表按「二级」分组、「三级」
+   (无三级细分的,二级本身就是条目)为条目的浏览结构,条目下附带「范围关键词」原文;条目
+   对应 1 个或多个 3D 区域时点击飞向其中第一个(复用 navGoToZone,不是另一套跳转逻辑),
+   对应 0 个区域时不可点击、仅展示文字(如实标注,不替它硬凑一个部件)。同一个区域完全可能
+   同时出现在物理分组与这套分类分组下,不做去重——这是两种不同的浏览视角,不是重复数据。
+   未使用额外的"按法规分"之类的标题/切换按钮,就是"部件导航"这同一份列表的延伸。 */
+let TAX_LEAVES = []; // 原始行:[{id,l1,l2,l3,keywords,zones}]
+let TAX_GROUPS = []; // 按 l2 分组后的渲染结构,懒计算一次(loadTaxonomy 完成后)
+
+async function loadTaxonomy() {
+  try {
+    const resp = await fetch(TAXONOMY_URL);
+    const data = await resp.json();
+    TAX_LEAVES = Array.isArray(data.leaves) ? data.leaves : [];
+  } catch (e) {
+    console.error("reg_taxonomy.json 读取失败(不阻断导航侧栏其余部分展示):", e);
+    TAX_LEAVES = [];
+  }
+  const byL2 = new Map();
+  TAX_LEAVES.forEach(leaf => {
+    const key = leaf.l2;
+    if (!byL2.has(key)) byL2.set(key, []);
+    byL2.get(key).push(leaf);
+  });
+  TAX_GROUPS = Array.from(byL2.entries()).map(([l2, rows]) => ({
+    id: "tax_" + l2,
+    label: l2,
+    flat: rows.length === 1 && !rows[0].l3, // 单行且无三级细分:不建手风琴,直接当一条平铺条目
+    rows,
+  }));
+}
 
 async function loadZones() {
   const seedResp = await fetch(ZONES_URL);
@@ -510,7 +549,7 @@ function buildGroupBar() {
 function renderNavSidebar() {
   const list = $("#veh3d-nav-list");
   if (!list || !ZONES.length) return;
-  list.innerHTML = NAV_GROUPS.map(g => {
+  const physicalHtml = NAV_GROUPS.map(g => {
     const zs = ZONES.filter(z => (z.group || "") === g.id);
     if (!zs.length) return "";
     const open = navOpenGroups.has(g.id);
@@ -521,6 +560,21 @@ function renderNavSidebar() {
       </div>
     </div>`;
   }).join("");
+  // 分类分组(见 loadTaxonomy 注释):flat=true 的单行类目直接平铺一条,其余按手风琴展开三级条目
+  const taxHtml = TAX_GROUPS.map(g => {
+    if (g.flat) {
+      const row = g.rows[0];
+      return renderTaxItem(row, true);
+    }
+    const open = navOpenGroups.has(g.id);
+    return `<div class="veh3d-nav-group${open ? " open" : ""}" data-g="${esc(g.id)}">
+      <div class="veh3d-nav-group-hd"><span>${esc(g.label)}(${g.rows.length})</span><span class="chev">▶</span></div>
+      <div class="veh3d-nav-items">
+        ${g.rows.map(row => renderTaxItem(row, false)).join("")}
+      </div>
+    </div>`;
+  }).join("");
+  list.innerHTML = physicalHtml + taxHtml;
   list.querySelectorAll(".veh3d-nav-group-hd").forEach(hd => {
     hd.addEventListener("click", () => {
       const grp = hd.closest(".veh3d-nav-group");
@@ -529,16 +583,40 @@ function renderNavSidebar() {
       grp.classList.toggle("open");
     });
   });
-  list.querySelectorAll(".veh3d-nav-item").forEach(btn => {
+  list.querySelectorAll(".veh3d-nav-item[data-z]").forEach(btn => {
     btn.addEventListener("click", () => navGoToZone(btn.dataset.z));
   });
+  list.querySelectorAll(".veh3d-nav-item.tax:not(.disabled)").forEach(btn => {
+    btn.addEventListener("click", () => navGoToZone(btn.dataset.zones.split(",")[0]));
+  });
+}
+
+/* 分类条目:label = 三级名称(无三级细分时用二级本身),下方附一行范围关键词原文;
+   zones 为空时整条禁用(灰态、无点击),非空时点击飞向 zones[0] 并打开详情面板。
+   top=true 用于未分组的单行类目(如"框架法规"),缩进/样式与手风琴内条目区分开。 */
+function renderTaxItem(row, top) {
+  const label = row.l3 || row.l2;
+  const hasZone = Array.isArray(row.zones) && row.zones.length > 0;
+  const cls = "veh3d-nav-item tax" + (top ? " top" : "") + (hasZone ? "" : " disabled") +
+    (hasZone && row.zones[0] === curZoneId ? " active" : "");
+  const tag = hasZone ? "button" : "div";
+  const typeAttr = hasZone ? ` type="button"` : "";
+  const zonesAttr = hasZone ? ` data-zones="${esc(row.zones.join(","))}"` : "";
+  const title = hasZone ? "" : ` title="该类目在当前车辆模型上暂无对应部件"`;
+  return `<${tag}${typeAttr} class="${cls}"${zonesAttr}${title}>
+    <span class="tax-label">${esc(label)}</span>
+    ${row.keywords ? `<span class="tax-kw">${esc(row.keywords)}</span>` : ""}
+  </${tag}>`;
 }
 
 function updateNavActive() {
   const list = $("#veh3d-nav-list");
   if (!list) return;
-  list.querySelectorAll(".veh3d-nav-item").forEach(btn => {
+  list.querySelectorAll(".veh3d-nav-item[data-z]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.z === curZoneId);
+  });
+  list.querySelectorAll(".veh3d-nav-item.tax[data-zones]").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.zones.split(",").includes(curZoneId));
   });
 }
 
@@ -1469,7 +1547,7 @@ async function initVeh3D() {
   if (!host) return;
   _inited = true;
 
-  await loadZones();
+  await Promise.all([loadZones(), loadTaxonomy()]);
   renderNavSidebar();
 
   const panelBg = getComputedStyle(document.documentElement).getPropertyValue("--panel2").trim() || "#e5efdd";
