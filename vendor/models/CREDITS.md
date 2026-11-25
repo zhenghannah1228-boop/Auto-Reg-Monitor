@@ -213,7 +213,22 @@
      位置的两个独立连通块,而不是直接删大面积分量)专门排查。
   4. 产物替换 `safety_structure.glb`,`?v=` 从 `20261125c` 挪到 `20261125d`。
 
-## Three.js
+## 儿童座椅(安全结构视角,新增摆件)
+
+- 来源: [grab3d.com](https://grab3d.com/models/vehicles/child-car-seat/) 的 CC0 1.0 Universal(公共领域,
+  无需署名)素材,"Cozy Car Interior Kit" 套件内的通用款式,无品牌标识。直接下载 `.glb`
+  (无需登录/购买),1.26 万三角面、2K 贴图(Base Color/Roughness/Metallic/Normal),真实尺寸
+  约 0.51×0.57×0.69m(宽×深×高)。license 见 https://grab3d.com/license/。
+- 存放: `vendor/models/SafetyStructure/child-car-seat.glb`(约 1MB,原始文件未改动)。
+- 接入: `vehicle3d.js` 的 `initSafetyScene()` 里独立加载,不挂在 `safetyRoot` 下(不参与区域
+  点选/高亮),按 `CHILD_SEAT_TRANSFORM` 做位置/缩放/绕 Y 轴旋转——缩放系数 0.222 是用这套
+  安全结构模型里已知的几个真实尺寸参照(假人坐姿头高、前后排间距)反推出的"模型单位→米"换算
+  比例(约 1 单位 = 4.5 米),不是精确标定,模型整体比例也因 AI 生成存在变形,仅供示意。
+- 位置:业主明确要求摆在这套安全结构模型里现成的那个空座位上——这套模型只建了一排舱室
+  (左右镜像出两个前排座位,一个有假人、一个空着,没有真正的后排几何),业主用截图圈出的
+  位置严格说是前排乘客座,不是后排,业主确认接受这个妥协(见 2026-11-25 对话记录)。坐标
+  是用独立 Playwright 脚本多轮截图反复试出来的,不是精确工程坐标,改动模型或布局后需要
+  重新核对。
 
 - 来源: [mrdoob/three.js](https://github.com/mrdoob/three.js)(r186),含 `OrbitControls`/`GLTFLoader` 附加模块
 - 许可: MIT(见 `vendor/three/LICENSE`)
