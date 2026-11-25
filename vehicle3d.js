@@ -17,7 +17,7 @@ const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=2026112
 const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 // 2026-11 第三个独立场景(安全结构视角):业主提供的 AI 生成安全结构剖视模型,经减面+左右
 // 对称化修正后接入,见 vendor/models/CREDITS.md「安全结构剖视模型」一节。
-const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261125a";
+const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261125c";
 const ZONES_URL = "./data/vehicle_zones.json";
 const TAXONOMY_URL = "./data/reg_taxonomy.json";
 
