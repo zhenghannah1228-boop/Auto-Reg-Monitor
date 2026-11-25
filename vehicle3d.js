@@ -23,7 +23,7 @@ const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v
 // 用截图圈出的位置是这个现成的空座位(严格说是前排乘客座,不是后排)。数值是用独立
 // Playwright 脚本反复试出来的——改模型或布局后这组数字要重新核对,不是精确工程坐标。
 const CHILD_SEAT_MODEL_URL = "./vendor/models/SafetyStructure/child-car-seat.glb?v=20261125a";
-const CHILD_SEAT_TRANSFORM = { position: [0.15, -0.04, 0.16], scale: 0.222, rotationY: -Math.PI / 2 };
+const CHILD_SEAT_TRANSFORM = { position: [0.15, -0.04, 0.13], scale: 0.222, rotationY: -Math.PI / 2 };
 const ZONES_URL = "./data/vehicle_zones.json";
 const TAXONOMY_URL = "./data/reg_taxonomy.json";
 
