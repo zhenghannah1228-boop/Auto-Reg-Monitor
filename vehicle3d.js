@@ -17,7 +17,7 @@ const COCKPIT_MODEL_URL = "./vendor/models/CockpitInterior/cockpit.glb?v=2026112
 const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 // 2026-11 第三个独立场景(安全结构视角):业主提供的 AI 生成安全结构剖视模型,经减面+左右
 // 对称化修正后接入,见 vendor/models/CREDITS.md「安全结构剖视模型」一节。
-const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261125d";
+const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261126a";
 // 业主要求在安全结构视角里摆一个儿童座椅示意(CC0 素材,见 CREDITS.md)。这套安全结构模型只
 // 建了一排舱室(左右镜像出的两个前排座位),业主用截图圈出的位置是其中一侧现成座位(严格说
 // 是前排乘客座,不是后排)。**已知限制**:核实发现这一排两个座位现在都坐着假人(左右各约
@@ -28,6 +28,21 @@ const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v
 // 的重叠,只保证了"不卡门框、基本在车身内部"这两条。改模型或布局后这组数字要重新核对。
 const CHILD_SEAT_MODEL_URL = "./vendor/models/SafetyStructure/child-car-seat.glb?v=20261125a";
 const CHILD_SEAT_TRANSFORM = { position: [0.19, -0.03, 0.06], scale: 0.165, rotationY: -Math.PI / 2 };
+// 业主反馈安全结构模型自带的方向盘拓扑破碎(轮辋被拆成几十个互不相连的小碎片、颜色也很淡,
+// 见 CREDITS.md 历次修复记录),2026-11-26 业主提供 grab3d.com 的 sports-steering-wheel
+// CC0 素材整体替换(原方向盘的全部面片已从 safety_structure.glb 里删除)。朝向不是凭眼睛
+// 调的:对原方向盘残留几何体的顶点做了 PCA,取方差最小的轴当作转向柱法线方向(约
+// [0.4836, 0.8742, 0.0439]),新模型局部 +Z 轴是其轮面法线(同样用 PCA 在原始 glb 上验证
+// 过,和素材 manifest 文字描述的"局部 Y"对不上,大概率是 Blender→glTF 导出时的轴约定转换
+// 导致的,以实测为准),用 `quaternion.setFromUnitVectors` 把局部 +Z 对齐到这个法线上。
+// 位置取原方向盘残留几何体的顶点质心;缩放按真实尺寸 0.34m 直径换算(项目约定 1 模型单位
+// ≈ 4.5 真实米,见儿童座椅换算记录)。
+const STEERING_WHEEL_MODEL_URL = "./vendor/models/SafetyStructure/sports-steering-wheel.glb?v=20261126a";
+const STEERING_WHEEL_TRANSFORM = {
+  position: [-0.11536751, -0.00977693, 0.08506728],
+  scale: 0.34 / 4.5,
+  normal: [0.48363289, 0.87416905, 0.04390549],
+};
 const ZONES_URL = "./data/vehicle_zones.json";
 const TAXONOMY_URL = "./data/reg_taxonomy.json";
 
@@ -1166,6 +1181,23 @@ function initSafetyScene() {
     },
     undefined,
     err => console.error("儿童座椅模型加载失败:", err)
+  );
+
+  // 同样是独立小模型,不挂在 safetyRoot 下,不参与区域点选。
+  new GLTFLoader().load(
+    STEERING_WHEEL_MODEL_URL,
+    gltf => {
+      const wheel = gltf.scene;
+      wheel.position.fromArray(STEERING_WHEEL_TRANSFORM.position);
+      wheel.scale.setScalar(STEERING_WHEEL_TRANSFORM.scale);
+      wheel.quaternion.setFromUnitVectors(
+        new THREE.Vector3(0, 0, 1),
+        new THREE.Vector3(...STEERING_WHEEL_TRANSFORM.normal).normalize()
+      );
+      safetyScene.add(wheel);
+    },
+    undefined,
+    err => console.error("方向盘模型加载失败:", err)
   );
 }
 
