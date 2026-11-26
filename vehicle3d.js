@@ -19,11 +19,15 @@ const MECH_MODEL_URL = "./vendor/models/MechanicalParts/mechanical.glb";
 // 对称化修正后接入,见 vendor/models/CREDITS.md「安全结构剖视模型」一节。
 const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v=20261125d";
 // 业主要求在安全结构视角里摆一个儿童座椅示意(CC0 素材,见 CREDITS.md)。这套安全结构模型只
-// 建了一排舱室(左右镜像出的两个前排座位,一个有假人、一个空着,没有真正的后排几何),业主
-// 用截图圈出的位置是这个现成的空座位(严格说是前排乘客座,不是后排)。数值是用独立
-// Playwright 脚本反复试出来的——改模型或布局后这组数字要重新核对,不是精确工程坐标。
+// 建了一排舱室(左右镜像出的两个前排座位),业主用截图圈出的位置是其中一侧现成座位(严格说
+// 是前排乘客座,不是后排)。**已知限制**:核实发现这一排两个座位现在都坐着假人(左右各约
+// 5 万面的假人几何体),并不存在真正"空着"的座位——儿童座椅摆件在 z 方向与同侧假人的躯干
+// 宽度范围有重叠,是摆在假人旁边/与假人共享同一张座位,不是独立空位,未来如需彻底解决需要
+// 业主决定是否移除一侧假人或接受这种共存效果。下面这组数值用 trimesh 对车身/结构笼网格做了
+// 射线检测与包围盒数学验证(见 CREDITS.md),确认跟 B 柱零穿模——但没有专门核对跟假人本体
+// 的重叠,只保证了"不卡门框、基本在车身内部"这两条。改模型或布局后这组数字要重新核对。
 const CHILD_SEAT_MODEL_URL = "./vendor/models/SafetyStructure/child-car-seat.glb?v=20261125a";
-const CHILD_SEAT_TRANSFORM = { position: [0.15, -0.04, 0.13], scale: 0.222, rotationY: -Math.PI / 2 };
+const CHILD_SEAT_TRANSFORM = { position: [0.19, -0.03, 0.06], scale: 0.165, rotationY: -Math.PI / 2 };
 const ZONES_URL = "./data/vehicle_zones.json";
 const TAXONOMY_URL = "./data/reg_taxonomy.json";
 
