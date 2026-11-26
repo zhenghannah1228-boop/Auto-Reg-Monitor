@@ -28,11 +28,15 @@ const SAFETY_MODEL_URL = "./vendor/models/SafetyStructure/safety_structure.glb?v
 // 这片区域的真实网格顶点,对 scale/position 做零重叠的网格搜索(同一套 B 柱验证方法,见
 // CREDITS.md),找到从业主标注点往车头方向最多能挪到、且跟 A 柱零重叠的位置；
 // 3) rotationY 由 -90° 改为 +90°,让椅子局部 +Z(儿童面朝一侧)对齐世界 +X(车头方向),
-// 而不是原来朝向车尾。**已知局限**:只验证了跟 A 柱零重叠,没有重新核对跟假人躯干是否
-// 重叠(这片区域离假人较远,目测无重叠,但未像 B 柱那样做严格数学验证)。改模型或布局后
-// 这组数字要重新核对。
+// 而不是原来朝向车尾。2026-11-26 七次修正:业主反馈椅子再往车尾方向挪、且位置偏高。
+// 把 x/y 一起做二维网格搜索(而不是像之前那样固定一个轴单独调另一个轴——固定 y 时
+// x=-0.23 一类的"车尾方向"位置实际会在更低的 y 上跟 A 柱重叠,只调 x 没发现),
+// 确认 `x∈[-0.27,-0.225], y∈[-0.055,-0.035]` 这个区间与 A 柱零重叠,选用
+// `x=-0.24, y=-0.04`(比上一版 `x=-0.12,y=-0.01` 更靠车尾、也更低)。**已知局限**:
+// 只验证了跟 A 柱零重叠,没有重新核对跟假人躯干是否重叠(这片区域离假人较远,目测无
+// 重叠,但未像 B 柱那样做严格数学验证)。改模型或布局后这组数字要重新核对。
 const CHILD_SEAT_MODEL_URL = "./vendor/models/SafetyStructure/child-car-seat.glb?v=20261125a";
-const CHILD_SEAT_TRANSFORM = { position: [-0.08, -0.01, 0.07], scale: 0.165, rotationY: Math.PI / 2 };
+const CHILD_SEAT_TRANSFORM = { position: [-0.24, -0.04, 0.07], scale: 0.165, rotationY: Math.PI / 2 };
 // 业主反馈安全结构模型自带的方向盘拓扑破碎(轮辋被拆成几十个互不相连的小碎片、颜色也很淡,
 // 见 CREDITS.md 历次修复记录),2026-11-26 业主提供 grab3d.com 的 sports-steering-wheel
 // CC0 素材整体替换(原方向盘的全部面片已从 safety_structure.glb 里删除)。朝向不是凭眼睛
@@ -41,12 +45,14 @@ const CHILD_SEAT_TRANSFORM = { position: [-0.08, -0.01, 0.07], scale: 0.165, rot
 // 过,和素材 manifest 文字描述的"局部 Y"对不上,大概率是 Blender→glTF 导出时的轴约定转换
 // 导致的,以实测为准),用 `quaternion.setFromUnitVectors` 把局部 +Z 对齐到这个法线上。
 // 位置取原方向盘残留几何体的顶点质心;缩放按真实尺寸 0.34m 直径换算(项目约定 1 模型单位
-// ≈ 4.5 真实米,见儿童座椅换算记录)。
+// ≈ 4.5 真实米,见儿童座椅换算记录)。2026-11-26 业主截图确认司机是左边(z<0)那位假人,
+// 不是最初 PCA 定出来的 z>0 一侧——原方向盘残留几何体本身就摆错了边(这套 AI 生成模型
+// 的已知毛病),按业主指认把位置/法线整体做 Z 轴镜像挪到正确一侧。
 const STEERING_WHEEL_MODEL_URL = "./vendor/models/SafetyStructure/sports-steering-wheel.glb?v=20261126a";
 const STEERING_WHEEL_TRANSFORM = {
-  position: [-0.11536751, -0.00977693, 0.08506728],
+  position: [-0.11536751, -0.00977693, -0.08506728],
   scale: 0.34 / 4.5,
-  normal: [0.48363289, 0.87416905, 0.04390549],
+  normal: [0.48363289, 0.87416905, -0.04390529],
 };
 const ZONES_URL = "./data/vehicle_zones.json";
 const TAXONOMY_URL = "./data/reg_taxonomy.json";
